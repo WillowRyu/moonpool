@@ -116,3 +116,12 @@ npm run typecheck     # tsc --noEmit
 npm run build
 npm run dev           # serves examples/mock-host
 ```
+
+## Language policy
+
+- All artifacts that live in the repository are in **English**: code,
+  comments, commit messages, SPEC.md, ADRs, READMEs, issues, and PR
+  descriptions. This keeps the project contributable for a global audience.
+- All **conversation with the maintainer is in Korean**: session dialogue,
+  plans, explanations, and questions. When quoting spec text or code, keep
+  the original English inline.

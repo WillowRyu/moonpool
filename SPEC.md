@@ -375,3 +375,8 @@ Tracked here rather than decided prematurely. Each SHOULD become an ADR in
 - **Capability discovery.** Should a mini app be able to query which methods a
   host implements, beyond the scopes it was granted?
 - **Rate limiting.** `-32006` is reserved but no policy is defined.
+- **Lifecycle state for imminent destruction.** `portal.lifecycle` (§6.4)
+  defines only `resumed` and `paused`. Pool eviction (ADR 0002) needs a state
+  meaning "persist now, destruction imminent" (cf. the Page Lifecycle API's
+  `frozen`/`discarded`), giving the mini app a last chance to persist via
+  `storage.*` before the host destroys its Portal.
