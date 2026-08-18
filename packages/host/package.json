@@ -1,0 +1,14 @@
+{
+  "name": "@moonpool/host",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Moonpool kernel host — dispatcher, permission gate, manifest parsing. Pure — no platform APIs.",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@moonpool/protocol": "0.1.0"
+  }
+}

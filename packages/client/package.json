@@ -1,0 +1,14 @@
+{
+  "name": "@moonpool/client",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Moonpool kernel client — JSON-RPC encoding, promise correlation, timeouts. Runs inside the mini app. Pure — no platform APIs.",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@moonpool/protocol": "0.1.0"
+  }
+}

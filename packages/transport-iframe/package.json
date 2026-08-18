@@ -1,0 +1,14 @@
+{
+  "name": "@moonpool/transport-iframe",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Browser development transport for Moonpool: iframe + window.postMessage.",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@moonpool/protocol": "0.1.0"
+  }
+}

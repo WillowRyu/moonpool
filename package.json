@@ -1,0 +1,26 @@
+{
+  "name": "moonpool",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "An open-source runtime for embedding sandboxed web mini apps inside native applications.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "packages/*",
+    "examples/*"
+  ],
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "build": "echo \"build: not wired yet (v0 skeleton)\"",
+    "dev": "npm run dev --workspace examples/mock-host"
+  },
+  "devDependencies": {
+    "typescript": "^7.0.2",
+    "vitest": "^3.2.4"
+  }
+}

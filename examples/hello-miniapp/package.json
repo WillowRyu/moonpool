@@ -1,0 +1,7 @@
+{
+  "name": "moonpool-example-hello-miniapp",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Minimal mini app exercising the Moonpool bridge. Skeleton — not implemented yet."
+}

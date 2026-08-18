@@ -1,0 +1,11 @@
+{
+  "name": "@moonpool/protocol",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared types, error codes, and message validation for the Moonpool bridge. Pure — no platform APIs.",
+  "license": "MIT",
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

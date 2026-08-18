@@ -1,0 +1,10 @@
+{
+  "name": "moonpool-example-mock-host",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Browser dev host embedding the hello mini app. Skeleton — not implemented yet.",
+  "scripts": {
+    "dev": "echo \"mock-host: not implemented yet — see 'v0.1 definition of done' in CLAUDE.md\""
+  }
+}
