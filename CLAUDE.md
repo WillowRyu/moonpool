@@ -125,3 +125,11 @@ npm run dev           # serves examples/mock-host
 - All **conversation with the maintainer is in Korean**: session dialogue,
   plans, explanations, and questions. When quoting spec text or code, keep
   the original English inline.
+
+## Session continuity
+
+Read `HANDOFF.md` at the start of every session and keep it updated as steps
+complete. It records where work stopped, the current roadmap, and open
+decisions. The maintainer learns by typing all meaningful code themselves —
+explain first, hand over one small step, verify what they typed. Do not write
+the meaningful code for them.
