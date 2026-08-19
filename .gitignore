@@ -142,6 +142,9 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
 
+# macOS
+.DS_Store
+
 # Claude Code session state (personal, not project config)
 .claude/study-coding-mode
 
