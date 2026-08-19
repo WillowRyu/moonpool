@@ -9,6 +9,6 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@moonpool/protocol": "0.1.0"
+    "@moonpool/protocol": "workspace:*"
   }
 }

@@ -19,7 +19,9 @@
 
 Done:
 
-- npm workspaces skeleton per the CLAUDE.md repository layout.
+- pnpm workspaces skeleton per the CLAUDE.md repository layout
+  (`packageManager` pinned to pnpm 11; internal deps use `workspace:*`;
+  on a fresh machine run `corepack enable`, then `pnpm install`).
 - TypeScript 7.0.2 (note: TS7 removed `baseUrl`; `paths` are `./`-relative
   now), Vitest 3. `npm run typecheck` passes.
 - `packages/protocol`: real content — `Transport` interface (SPEC §3.1),

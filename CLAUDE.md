@@ -104,17 +104,18 @@ import a platform API. That rule is what keeps the native ports cheap later.
 
 ## Stack
 
-TypeScript (strict), npm workspaces, Vitest, Node 20+.
+TypeScript (strict), pnpm workspaces, Vitest, Biome, Node 20+.
 Prefer zero runtime dependencies in `protocol`, `client`, and `host`.
 
 ## Commands
 
 ```bash
-npm install
-npm test              # vitest
-npm run typecheck     # tsc --noEmit
-npm run build
-npm run dev           # serves examples/mock-host
+pnpm install          # corepack enable first on a fresh machine
+pnpm test             # vitest
+pnpm run typecheck    # tsc --noEmit
+pnpm run lint         # biome check
+pnpm run build
+pnpm run dev          # serves examples/mock-host
 ```
 
 ## Language policy
