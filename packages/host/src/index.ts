@@ -24,6 +24,8 @@ export interface Host {
   connect(transport: Transport): void;
 }
 
-export function createHost(config: HostConfig): Host {
-  throw new Error('Not implemented: createHost — start from the failing tests in packages/host/test');
+export function createHost(_config: HostConfig): Host {
+  throw new Error(
+    'Not implemented: createHost — start from the failing tests in packages/host/test',
+  );
 }

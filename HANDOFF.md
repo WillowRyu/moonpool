@@ -1,7 +1,7 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-08-18.
+> Last updated: 2026-08-19.
 
 ## How we work (do not skip)
 
@@ -28,6 +28,9 @@ Done:
   "Not implemented" so tests fail for the right reason.
 - `npm test` finds no test files yet — deliberate; tests are being written
   by the maintainer, one step at a time.
+- Biome 2.5.9 as the single formatter + linter (`npm run lint`,
+  `npm run lint:fix`); `.vscode/` recommends the Biome extension with
+  format-on-save. Chosen over Prettier+oxlint to keep one tool/one config.
 
 **In progress — STEP 1** of the test-writing roadmap: the maintainer is about
 to type `packages/host/test/handshake.test.ts` (smoke test: `createHost({...})`

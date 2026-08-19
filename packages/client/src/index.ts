@@ -24,6 +24,8 @@ export interface MoonpoolClient {
   close(): void;
 }
 
-export function createClient(config: ClientConfig): MoonpoolClient {
-  throw new Error('Not implemented: createClient — start from the failing tests in packages/client/test');
+export function createClient(_config: ClientConfig): MoonpoolClient {
+  throw new Error(
+    'Not implemented: createClient — start from the failing tests in packages/client/test',
+  );
 }

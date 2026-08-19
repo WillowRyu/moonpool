@@ -5,7 +5,9 @@ import { defineConfig } from 'vitest/config';
 export default defineConfig({
   resolve: {
     alias: {
-      '@moonpool/protocol': fileURLToPath(new URL('./packages/protocol/src/index.ts', import.meta.url)),
+      '@moonpool/protocol': fileURLToPath(
+        new URL('./packages/protocol/src/index.ts', import.meta.url),
+      ),
       '@moonpool/client': fileURLToPath(new URL('./packages/client/src/index.ts', import.meta.url)),
       '@moonpool/host': fileURLToPath(new URL('./packages/host/src/index.ts', import.meta.url)),
       '@moonpool/transport-iframe': fileURLToPath(
