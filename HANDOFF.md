@@ -42,17 +42,18 @@ types the in-memory Transport pair helper in
 (a) `TransportPair` interface + `flush()`, (b) `createLinkedTransports()`
 with async (microtask) delivery mirroring postMessage semantics.
 
-### Current piece to type (STEP 3 — first real SPEC §5 test)
+### Current piece to type (STEP 4 — SPEC §5 happy path)
 
-STEP 2 is done and verified (transport pair helper complete). Now in
-`packages/host/test/handshake.test.ts`: replace the import block, then add
-`RpcResponse` + `setup()` + `request()` below `HELLO_MANIFEST`, then the
--32005 describe block at the bottom. Full code is in the conversation; the
-gist: `setup()` boots a host on one end of a linked transport pair and
-collects everything the mini-app end receives; the test sends `portal.ping`
-before `portal.initialize` and expects exactly one response whose
-`error.code` is `ERROR_CODES.NOT_INITIALIZED`.
-Check: `pnpm test` → 2 tests, both failing with "Not implemented: createHost".
+STEP 3 is done and verified (-32005 gate test in place). Now in
+`packages/host/test/handshake.test.ts`: (1) add an `initialize(id, version)`
+builder right below `request` — it wraps `request(id, 'portal.initialize',
+{ protocolVersion })` with `'0.1'` as the default version; (2) add a
+"SPEC §5 — portal.initialize happy path" describe between the smoke test and
+the -32005 block, asserting with a full `toEqual` that the single response
+carries the complete §5 result shape (protocolVersion, miniApp, host,
+grantedScopes, environment — all derived from the `setup()` config).
+Full code is in the conversation.
+Check: `pnpm test` → 3 tests, all failing with "Not implemented: createHost".
 
 ## Test-writing roadmap (maintainer types, Claude tutors)
 
