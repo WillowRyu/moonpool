@@ -32,16 +32,19 @@ Done:
   `npm run lint:fix`); `.vscode/` recommends the Biome extension with
   format-on-save. Chosen over Prettier+oxlint to keep one tool/one config.
 
-**In progress — STEP 1** of the test-writing roadmap: the maintainer is about
-to type `packages/host/test/handshake.test.ts` (smoke test: `createHost({...})`
-returns a host exposing `connect`). Expected check: `npm test` shows exactly
-1 failing test, failing with "Not implemented: createHost".
+**In progress — STEP 2** of the test-writing roadmap. STEP 1 is done: the
+maintainer typed the `createHost` smoke test; it fails with
+"Not implemented: createHost" as expected (correct red). Next the maintainer
+types the in-memory Transport pair helper in
+`packages/host/test/helpers/memory-transport.ts`, in two pieces:
+(a) `TransportPair` interface + `flush()`, (b) `createLinkedTransports()`
+with async (microtask) delivery mirroring postMessage semantics.
 
 ## Test-writing roadmap (maintainer types, Claude tutors)
 
-1. Smoke test for `createHost` (in progress)
+1. Smoke test for `createHost` (done)
 2. Test helper: in-memory linked Transport pair — delivery must be async
-   (microtask), mirroring postMessage semantics
+   (microtask), mirroring postMessage semantics (in progress)
 3. SPEC §5: every request before `portal.initialize` → `-32005`
 4. SPEC §5 happy path: full `initialize` result shape
 5. `grantedScopes` = intersection of `manifest.permissions` and host grants
