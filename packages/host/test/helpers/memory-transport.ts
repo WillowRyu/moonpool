@@ -9,7 +9,9 @@ export interface TransportPair {
 
 /** Lets queued microtasks (message deliveries, promise chains) settle. */
 export async function flush(turns = 20): Promise<void> {
-  for (let i = 0; i < turns; i += 1) await Promise.resolve();
+  for (let i = 0; i < turns; i += 1) {
+    await Promise.resolve();
+  }
 }
 
 export function createLinkedTransports(): TransportPair {
@@ -22,7 +24,9 @@ export function createLinkedTransports(): TransportPair {
   ): Transport => ({
     send(message) {
       void Promise.resolve().then(() => {
-        for (const handler of peer) handler(message);
+        for (const handler of peer) {
+          handler(message);
+        }
       });
     },
     onMessage(handler) {
