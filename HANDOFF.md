@@ -69,14 +69,76 @@ Implementation roadmap:
 
 ### Current piece to type (STEP A — host gate)
 
-In `packages/host/src/index.ts`: widen the protocol import to include
-`ERROR_CODES` and `JsonValue`, add an `isJsonObject` type guard, and replace
-the throwing `createHost` body with a `connect` that subscribes to the
-transport and answers every identified request with a -32005 error;
-messages that are not objects or carry no numeric `id` are notifications —
-ignored per §4.1. Full code is in the conversation.
-Check: `pnpm test` → 3 passed, 7 failed (assertion failures now, not
-"Not implemented").
+Not typed yet — the maintainer stopped here to switch machines. Everything
+below is self-contained so a fresh session can continue.
+
+**The idea:** `createHost` returns a switchboard operator. `connect(transport)`
+hands it a phone line; from then on it loops: message arrives → read →
+build a reply by the rules → send it back on the same line. Today's operator
+knows only two rules: any request WITH a numeric `id` gets a -32005
+NOT_INITIALIZED error (no handshake has happened); anything without an `id`
+is a notification and MUST NOT be answered (§4.1).
+
+All edits in `packages/host/src/index.ts`:
+
+**(1) Widen the protocol import** (ERROR_CODES is a value, rest are types):
+
+```ts
+import {
+  ERROR_CODES,
+  type HostInfo,
+  type JsonValue,
+  type MiniAppManifest,
+  type PortalEnvironment,
+  type Transport,
+} from '@moonpool/protocol';
+```
+
+**(2) Add a type guard** (a *checked* proof, unlike an `as` stamp — kernel
+code validates for real, in the spirit of §9.6):
+
+```ts
+/** True when the value is a plain JSON object (not null, not an array). */
+function isJsonObject(value: JsonValue): value is { [key: string]: JsonValue } {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+```
+
+**(3) Replace the throwing `createHost` body** (keep `_config` underscored —
+config is still unused until step B):
+
+```ts
+export function createHost(_config: HostConfig): Host {
+  return {
+    connect(transport) {
+      transport.onMessage((message) => {
+        if (!isJsonObject(message)) {
+          return;
+        }
+        const id = message.id;
+        if (typeof id !== 'number') {
+          // SPEC §4.1: a request without an id is a notification — never reply.
+          return;
+        }
+        transport.send({
+          jsonrpc: '2.0',
+          id,
+          error: {
+            code: ERROR_CODES.NOT_INITIALIZED,
+            message: 'portal.initialize must be the first request on the connection',
+          },
+        });
+      });
+    },
+  };
+}
+```
+
+**Check:** `pnpm test` → **3 passed, 7 failed**. Green: smoke test, the
+-32005 gate, and no-service-after--32004 (it only inspects the second
+response). The remaining failures change kind: assertion diffs
+(Expected/Received) instead of "Not implemented" — read the happy-path diff
+together; step B (initialize handling) is exactly the work of erasing it.
 
 ## Test-writing roadmap (maintainer types, Claude tutors)
 
