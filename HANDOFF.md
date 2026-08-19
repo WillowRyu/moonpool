@@ -24,137 +24,143 @@ Done:
   (`packageManager` pinned to pnpm 11; internal deps use `workspace:*`;
   on a fresh machine run `corepack enable`, then `pnpm install`).
 - TypeScript 7.0.2 (note: TS7 removed `baseUrl`; `paths` are `./`-relative
-  now), Vitest 3. `npm run typecheck` passes.
+  now; `noUncheckedIndexedAccess` is ON — indexing gives `T | undefined`),
+  Vitest 3. `npm run typecheck` passes.
 - `packages/protocol`: real content — `Transport` interface (SPEC §3.1),
   `ERROR_CODES` (§4.4), `PROTOCOL_VERSION`, §5/§7 types.
-- `packages/client` / `packages/host`: typed stubs whose bodies throw
-  "Not implemented" so tests fail for the right reason.
-- `npm test` finds no test files yet — deliberate; tests are being written
-  by the maintainer, one step at a time.
 - Biome 2.5.9 as the single formatter + linter (`npm run lint`,
   `npm run lint:fix`); `.vscode/` recommends the Biome extension with
   format-on-save. Chosen over Prettier+oxlint to keep one tool/one config.
+- Test-writing roadmap: complete. All 10 §5 tests exist (7 host + 3 client);
+  the in-memory linked Transport pair helper
+  (`packages/host/test/helpers/memory-transport.ts`) delivers async
+  (microtask), mirroring postMessage semantics.
 
-**In progress — STEP 2** of the test-writing roadmap. STEP 1 is done: the
-maintainer typed the `createHost` smoke test; it fails with
-"Not implemented: createHost" as expected (correct red). Next the maintainer
-types the in-memory Transport pair helper in
-`packages/host/test/helpers/memory-transport.ts`, in two pieces:
-(a) `TransportPair` interface + `flush()`, (b) `createLinkedTransports()`
-with async (microtask) delivery mirroring postMessage semantics.
+### Phase: implementation to green
 
-### Phase change: the red suite is COMPLETE — implementation begins
-
-All 10 §5 tests exist and fail for the right reason: 7 host tests
-("Not implemented: createHost") + 3 client tests ("Not implemented:
-createClient"). Claude wrote the final client tests per the new division of
-labor. From here the maintainer types the implementation and watches reds
-turn green.
+The maintainer types the implementation and watches reds turn green.
 
 Implementation roadmap:
 
-- **A. Host gate** — reply -32005 to every request; ignore notifications
-  (§4.1). Expected: 3 tests green (smoke, -32005 gate, no-service-after
-  -32004).
-- **B. Host initialize** — validate protocolVersion (exact match → else
-  -32004), compute the grantedScopes intersection, reply the full §5 result,
-  flip the per-connection initialized flag. Expected: +3 green (happy path,
-  intersection, -32004 ×2) — actually 4 more, total 7 host tests minus ping.
-- **C. portal.ping** — after initialize, answer { pong: true }. Host suite
-  fully green.
-- **D. Client** — id issuance, pending map (promise correlation), initialize
-  send + result/error mapping. All 10 green.
+- **A. Host gate — DONE 2026-08-19.** Maintainer typed it; Claude verified.
+  Replies -32005 to every request, ignores notifications (§4.1).
+  `pnpm test` → 3 passed / 7 failed exactly as predicted (smoke, -32005
+  gate, no-service-after--32004 green; the rest now fail as assertion
+  diffs, not "Not implemented"). Formatting cleanup pending: run
+  `pnpm run lint:fix` (Biome flagged semicolons/indentation only).
+- **B. Host initialize — DONE 2026-08-19.** Maintainer typed it; Claude
+  verified. All 7 original host tests green; lint and typecheck clean.
+- **C. portal.ping + unknown-method reply — DONE 2026-08-20.** Two tests
+  added by Claude (ping → `{ pong: true }` per §6.2; unknown method →
+  -32601 — §4 forbids silence for id-bearing requests, and §4.4 coverage
+  is in the v0.1 definition of done). Maintainer typed the two branches
+  below the -32005 gate. Suite: 9 passed / 3 failed; lint + typecheck
+  clean. Host suite fully green.
+- **C2. Refactor under green (maintainer-proposed 2026-08-20) —
+  IN PROGRESS** (current piece, below). Typed `JsonRpcRequest` + checked
+  guard and `PORTAL_METHODS` constants in protocol; host reads through
+  them. Tests must stay 9 passed / 3 failed — that invariance is the
+  success criterion.
+- **D. Client** — id issuance, pending map (promise correlation),
+  initialize send + result/error mapping. Expected: all 12 tests green.
+  Claude hands the full typed-piece over once C2 lands.
 - **E. Payoff** — iframe transport + mock-host + hello-miniapp running in a
   real browser (v0.1 definition of done).
 
-### Current piece to type (STEP A — host gate)
+### Commit checkpoint — BEFORE typing the C2 refactor
 
-Not typed yet — the maintainer stopped here to switch machines. Everything
-below is self-contained so a fresh session can continue.
+Three uncommitted changes. Committing first keeps history honest: a green
+feature state, then a pure `refactor:` commit on top of it. (A+B+C share
+one file, so the impl is one commit, not three.)
 
-**The idea:** `createHost` returns a switchboard operator. `connect(transport)`
-hands it a phone line; from then on it loops: message arrives → read →
-build a reply by the rules → send it back on the same line. Today's operator
-knows only two rules: any request WITH a numeric `id` gets a -32005
-NOT_INITIALIZED error (no handshake has happened); anything without an `id`
-is a notification and MUST NOT be answered (§4.1).
+1. `packages/host/test/handshake.test.ts` →
+   `test: portal.ping and unknown-method responses after initialize`
+   (Claude-authored — add trailer
+   `Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>`)
+2. `packages/host/src/index.ts` →
+   `feat: implement host handshake gate, negotiation, and core dispatch`
+3. `HANDOFF.md` → `docs: hand off the C2 refactor`
 
-All edits in `packages/host/src/index.ts`:
+### Current piece to type (C2 — typed request guard + method constants)
 
-**(1) Widen the protocol import** (ERROR_CODES is a value, rest are types):
+Origin: the maintainer's own review of the handler (2026-08-20): can
+`message` get a real type? predefine method names? switch over if-chains?
+Decisions: adopt 1 and 2 in trust-boundary-compatible form (guard proves
+the type at runtime; constants only for the reserved `portal` methods —
+a closed enum of ALL methods would fight the "method name is the scope,
+no registry" invariant). Defer 3: the chain is ordered security
+checkpoints, not peer cases; a dispatch table arrives with real
+capabilities.
 
-```ts
-import {
-  ERROR_CODES,
-  type HostInfo,
-  type JsonValue,
-  type MiniAppManifest,
-  type PortalEnvironment,
-  type Transport,
-} from '@moonpool/protocol';
-```
-
-**(2) Add a type guard** (a *checked* proof, unlike an `as` stamp — kernel
-code validates for real, in the spirit of §9.6):
+**(1) `packages/protocol/src/index.ts`** — move `isJsonObject` here
+(exported) and add:
 
 ```ts
-/** True when the value is a plain JSON object (not null, not an array). */
-function isJsonObject(value: JsonValue): value is { [key: string]: JsonValue } {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
+/**
+ * SPEC §4.2 — a request carrying an id. Deliberately a type alias, not an
+ * interface: aliases get an implicit index signature, so the guard below
+ * may narrow `JsonValue` to it.
+ */
+export type JsonRpcRequest = {
+  jsonrpc: '2.0';
+  id: number;
+  method: string;
+  params?: { [key: string]: JsonValue };
+};
+
+/** Checked proof that a frame is a §4.2 request (notifications excluded). */
+export function isJsonRpcRequest(value: JsonValue | undefined): value is JsonRpcRequest {
+  return (
+    isJsonObject(value) &&
+    value.jsonrpc === '2.0' &&
+    typeof value.id === 'number' &&
+    typeof value.method === 'string' &&
+    (value.params === undefined || isJsonObject(value.params))
+  );
 }
+
+/** SPEC §6.2 — reserved core methods; the `portal` namespace needs no scope. */
+export const PORTAL_METHODS = {
+  INITIALIZE: 'portal.initialize',
+  PING: 'portal.ping',
+  CLOSE: 'portal.close',
+} as const;
 ```
 
-**(3) Replace the throwing `createHost` body** (keep `_config` underscored —
-config is still unused until step B):
+**(2) `packages/host/src/index.ts`** — delete the local guard; import
+`isJsonRpcRequest` and `PORTAL_METHODS` from '@moonpool/protocol' (drop
+`type JsonValue`, now unused). Handler head becomes:
 
 ```ts
-export function createHost(_config: HostConfig): Host {
-  return {
-    connect(transport) {
       transport.onMessage((message) => {
-        if (!isJsonObject(message)) {
+        if (!isJsonRpcRequest(message)) {
+          // SPEC §4.1: notifications (and malformed frames) are never answered.
           return;
         }
-        const id = message.id;
-        if (typeof id !== 'number') {
-          // SPEC §4.1: a request without an id is a notification — never reply.
-          return;
-        }
-        transport.send({
-          jsonrpc: '2.0',
-          id,
-          error: {
-            code: ERROR_CODES.NOT_INITIALIZED,
-            message: 'portal.initialize must be the first request on the connection',
-          },
-        });
-      });
-    },
-  };
-}
+        const { id, method } = message;
+
+        if (!initialized && method === PORTAL_METHODS.INITIALIZE) {
+          const requested = message.params?.protocolVersion;
 ```
 
-**Check:** `pnpm test` → **3 passed, 7 failed**. Green: smoke test, the
--32005 gate, and no-service-after--32004 (it only inspects the second
-response). The remaining failures change kind: assertion diffs
-(Expected/Received) instead of "Not implemented" — read the happy-path diff
-together; step B (initialize handling) is exactly the work of erasing it.
+…and the two string literals below become `PORTAL_METHODS.PING` and
+`${method}`. Known, accepted behavior shift for untested input: an
+id-bearing frame with a bad `jsonrpc`/`method` field is now dropped
+instead of getting -32005; the spec-correct answer is -32600, which lands
+with the §4.4 coverage work.
 
-## Test-writing roadmap (maintainer types, Claude tutors)
+**Check:** `pnpm test` still **9 passed / 3 failed**; lint + typecheck
+clean. Commit as
+`refactor: typed JSON-RPC request guard and portal method constants`.
 
-1. Smoke test for `createHost` (done)
-2. Test helper: in-memory linked Transport pair — delivery must be async
-   (microtask), mirroring postMessage semantics (in progress)
-3. SPEC §5: every request before `portal.initialize` → `-32005`
-4. SPEC §5 happy path: full `initialize` result shape
-5. `grantedScopes` = intersection of `manifest.permissions` and host grants
-6. SPEC §5: unsupported version → `-32004` (exact match in 0.x; further
-   calls after the failure still rejected with `-32005`, never serviced)
-7. Client side: `portal.initialize` is the first request / resolves with the
-   result / rejects with code `-32004`
+### Next piece (STEP D — the client), after C2
 
-Then implementation to green, in this order: host not-initialized gate →
-handshake handling → client promise correlation.
+The client is a receptionist with a numbered-ticket machine: `request()`
+takes a ticket (`nextId++`), files the promise's resolve/reject in a
+`pending` map under that number, sends the JSON-RPC frame; the single
+`onMessage` return-desk looks the id up, deletes the entry, resolves with
+`result` or rejects with `error`; unknown/late ids are ignored (§4.5).
+Claude hands the full typed-piece when C2 is green.
 
 ## Open decisions (maintainer's call, not made yet)
 
@@ -164,5 +170,13 @@ handshake handling → client promise correlation.
   remote URLs are explicitly out: no identity → conflicts with SPEC §8/§9.
 - **Spec ambiguity found:** after a `-32004` response, may the mini app retry
   `portal.initialize` with a supported version? SPEC §5 says the host "MUST
-  NOT service further calls" but does not address a corrected retry. Needs a
-  spec decision (do not resolve by editing SPEC.md without approval).
+  NOT service further calls" but does not address a corrected retry. Related:
+  what should a SECOND `portal.initialize` after a successful one return?
+  Needs a spec decision (do not resolve by editing SPEC.md without approval).
+- **Language question (asked 2026-08-19):** could the kernel be Rust or Go?
+  Discussed in session: the client must be JS — it runs inside the mini
+  app's web view (Rust→WASM still needs a JS shim for postMessage and the
+  bridge is I/O-bound, not compute-bound, so it buys nothing). Rust becomes
+  a real option for a SHARED native core after the protocol stabilizes
+  (post-v0, per the CLAUDE.md ordering); Go does not fit mobile embedding.
+  Possible ADR when native cores start.
