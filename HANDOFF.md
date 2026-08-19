@@ -42,18 +42,29 @@ types the in-memory Transport pair helper in
 (a) `TransportPair` interface + `flush()`, (b) `createLinkedTransports()`
 with async (microtask) delivery mirroring postMessage semantics.
 
-### Current piece to type (STEP 5 — grantedScopes intersection)
+### Current piece to type (STEP 7a — client side begins)
 
-STEP 4 is done and verified (happy-path test asserts the full §5 result
-shape). Lint now enforces `style/useBlockStatements` (braces required —
-maintainer's preference). Next: one more `it` inside the happy-path
-describe. Boot with `setup({ grantedScopes: ['storage', 'camera'] })` while
-the manifest still declares `[profile, storage]`; send `initialize(1)`,
-flush, then expect `bridge.received[0]?.result?.['grantedScopes']` to equal
-`['storage']` — only the overlap of manifest permissions and host grants is
-authoritative (SPEC §5), and the undeclared `camera` grant is dropped.
-Full code is in the conversation.
-Check: `pnpm test` → 4 tests, all failing with "Not implemented: createHost".
+The host-side §5 suite is COMPLETE: 7 tests (smoke, happy path, scope
+intersection, -32005 gate ×1, -32004 ×2 via it.each, no-service-after-32004),
+all failing with "Not implemented: createHost". Roadmap items 1–6 done.
+
+Now the client package. First: copy the transport helper (deliberate
+duplication — test helpers stay package-local so packages remain
+independent):
+
+    mkdir -p packages/client/test/helpers
+    cp packages/host/test/helpers/memory-transport.ts \
+       packages/client/test/helpers/memory-transport.ts
+
+Then type `packages/client/test/handshake.test.ts` with a local `RpcRequest`
+interface and the first test: the test plays the HOST side this time
+(collects what arrives at `hostEnd`), calls
+`createClient({ transport: clientEnd }).initialize()` with a no-op `.catch`,
+flushes, and asserts exactly one outgoing message: `toMatchObject` on
+jsonrpc/method='portal.initialize'/params.protocolVersion='0.1', plus id is
+a positive integer (§4.1). Full code is in the conversation.
+Check: `pnpm test` → 8 tests failing — 7 with "Not implemented: createHost",
+1 with "Not implemented: createClient".
 
 ## Test-writing roadmap (maintainer types, Claude tutors)
 

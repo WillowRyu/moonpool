@@ -92,6 +92,17 @@ describe('SPEC §5 — portal.initialize happy path', () => {
       },
     ]);
   });
+
+  it('reports grantedScopes as the intersection of manifest permissions and host grants', async () => {
+    // Manifest declares [profile, storage]; the host grants [storage, camera].
+    // Only the overlap is authoritative for the connection (SPEC §5).
+    const bridge = setup({ grantedScopes: ['storage', 'camera'] });
+
+    bridge.send(initialize(1));
+    await flush();
+
+    expect(bridge.received[0]?.result?.grantedScopes).toEqual(['storage']);
+  });
 });
 
 describe('SPEC §5 — NOT_INITIALIZED gate (-32005)', () => {
@@ -111,5 +122,44 @@ describe('SPEC §5 — NOT_INITIALIZED gate (-32005)', () => {
         }),
       },
     ]);
+  });
+});
+
+describe('SPEC §5 — version negotiation failure (-32004)', () => {
+  it.each(['9.9', '0.2'])(
+    'rejects protocolVersion "%s" with -32004 (negotiation is exact-match in 0.x)',
+    async (version) => {
+      const bridge = setup();
+
+      bridge.send(initialize(1, version));
+      await flush();
+
+      expect(bridge.received).toEqual([
+        {
+          jsonrpc: '2.0',
+          id: 1,
+          error: expect.objectContaining({
+            code: ERROR_CODES.PROTOCOL_VERSION_UNSUPPORTED,
+            message: expect.any(String),
+          }),
+        },
+      ]);
+    },
+  );
+
+  it('does not service further calls after a failed negotiation', async () => {
+    const bridge = setup();
+
+    bridge.send(initialize(1, '9.9'));
+    await flush();
+    bridge.send(request(2, 'portal.ping'));
+    await flush();
+
+    // §5: after -32004 the host MUST NOT service further calls. The
+    // connection never initialized, so the -32005 gate still applies —
+    // the call must be rejected, never answered with a result.
+    const second = bridge.received[1];
+    expect(second?.result).toBeUndefined();
+    expect(second?.error?.code).toBe(ERROR_CODES.NOT_INITIALIZED);
   });
 });
