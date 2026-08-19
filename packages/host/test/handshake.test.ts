@@ -54,6 +54,10 @@ const request = (
   params,
 });
 
+const initialize = (id: number, protocolVersion = '0.1'): JsonValue => {
+  return request(id, 'portal.initialize', { protocolVersion });
+};
+
 describe('createHost', () => {
   it('returns a host that can accept one bridge connection', () => {
     const host = createHost({
@@ -64,6 +68,29 @@ describe('createHost', () => {
     });
 
     expect(typeof host.connect).toBe('function');
+  });
+});
+
+describe('SPEC §5 — portal.initialize happy path', () => {
+  it('answers with the negotiated version, both identities, granted scopes, and environment', async () => {
+    const bridge = setup();
+
+    bridge.send(initialize(1));
+    await flush();
+
+    expect(bridge.received).toEqual([
+      {
+        jsonrpc: '2.0',
+        id: 1,
+        result: {
+          protocolVersion: '0.1',
+          miniApp: { id: 'com.example.hello', version: '1.0.0' },
+          host: { name: 'test-host', version: '0.0.0', platform: 'browser' },
+          grantedScopes: ['profile', 'storage'],
+          environment: { locale: 'ko-KR', colorScheme: 'light' },
+        },
+      },
+    ]);
   });
 });
 

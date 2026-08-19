@@ -42,18 +42,18 @@ types the in-memory Transport pair helper in
 (a) `TransportPair` interface + `flush()`, (b) `createLinkedTransports()`
 with async (microtask) delivery mirroring postMessage semantics.
 
-### Current piece to type (STEP 4 — SPEC §5 happy path)
+### Current piece to type (STEP 5 — grantedScopes intersection)
 
-STEP 3 is done and verified (-32005 gate test in place). Now in
-`packages/host/test/handshake.test.ts`: (1) add an `initialize(id, version)`
-builder right below `request` — it wraps `request(id, 'portal.initialize',
-{ protocolVersion })` with `'0.1'` as the default version; (2) add a
-"SPEC §5 — portal.initialize happy path" describe between the smoke test and
-the -32005 block, asserting with a full `toEqual` that the single response
-carries the complete §5 result shape (protocolVersion, miniApp, host,
-grantedScopes, environment — all derived from the `setup()` config).
+STEP 4 is done and verified (happy-path test asserts the full §5 result
+shape). Lint now enforces `style/useBlockStatements` (braces required —
+maintainer's preference). Next: one more `it` inside the happy-path
+describe. Boot with `setup({ grantedScopes: ['storage', 'camera'] })` while
+the manifest still declares `[profile, storage]`; send `initialize(1)`,
+flush, then expect `bridge.received[0]?.result?.['grantedScopes']` to equal
+`['storage']` — only the overlap of manifest permissions and host grants is
+authoritative (SPEC §5), and the undeclared `camera` grant is dropped.
 Full code is in the conversation.
-Check: `pnpm test` → 3 tests, all failing with "Not implemented: createHost".
+Check: `pnpm test` → 4 tests, all failing with "Not implemented: createHost".
 
 ## Test-writing roadmap (maintainer types, Claude tutors)
 
