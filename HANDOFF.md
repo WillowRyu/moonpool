@@ -42,40 +42,17 @@ types the in-memory Transport pair helper in
 (a) `TransportPair` interface + `flush()`, (b) `createLinkedTransports()`
 with async (microtask) delivery mirroring postMessage semantics.
 
-### Current piece to type (STEP 2b — piece (a) is done and verified)
+### Current piece to type (STEP 3 — first real SPEC §5 test)
 
-File: `packages/host/test/helpers/memory-transport.ts` (append below `flush`;
-also widen the first line to `import type { JsonValue, Transport } ...`).
-Check: `pnpm run typecheck` and `pnpm run lint` both stay quiet.
-
-```ts
-export function createLinkedTransports(): TransportPair {
-  const handlersA = new Set<(message: JsonValue) => void>();
-  const handlersB = new Set<(message: JsonValue) => void>();
-
-  const makeEnd = (
-    own: Set<(message: JsonValue) => void>,
-    peer: Set<(message: JsonValue) => void>,
-  ): Transport => ({
-    send(message) {
-      void Promise.resolve().then(() => {
-        for (const handler of peer) handler(message);
-      });
-    },
-    onMessage(handler) {
-      own.add(handler);
-      return () => {
-        own.delete(handler);
-      };
-    },
-    close() {
-      own.clear();
-    },
-  });
-
-  return { a: makeEnd(handlersA, handlersB), b: makeEnd(handlersB, handlersA) };
-}
-```
+STEP 2 is done and verified (transport pair helper complete). Now in
+`packages/host/test/handshake.test.ts`: replace the import block, then add
+`RpcResponse` + `setup()` + `request()` below `HELLO_MANIFEST`, then the
+-32005 describe block at the bottom. Full code is in the conversation; the
+gist: `setup()` boots a host on one end of a linked transport pair and
+collects everything the mini-app end receives; the test sends `portal.ping`
+before `portal.initialize` and expects exactly one response whose
+`error.code` is `ERROR_CODES.NOT_INITIALIZED`.
+Check: `pnpm test` → 2 tests, both failing with "Not implemented: createHost".
 
 ## Test-writing roadmap (maintainer types, Claude tutors)
 
