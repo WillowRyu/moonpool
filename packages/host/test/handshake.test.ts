@@ -163,3 +163,40 @@ describe('SPEC §5 — version negotiation failure (-32004)', () => {
     expect(second?.error?.code).toBe(ERROR_CODES.NOT_INITIALIZED);
   });
 });
+
+describe('SPEC §6.2 — portal.ping (core method, no scope required)', () => {
+  it('answers { pong: true } once the connection is initialized', async () => {
+    const bridge = setup();
+
+    bridge.send(initialize(1));
+    await flush();
+    bridge.send(request(2, 'portal.ping'));
+    await flush();
+
+    expect(bridge.received[1]).toEqual({
+      jsonrpc: '2.0',
+      id: 2,
+      result: { pong: true },
+    });
+  });
+});
+
+describe('SPEC §4 — every request gets exactly one response', () => {
+  it('rejects an unknown method after initialize with -32601, never silence', async () => {
+    const bridge = setup();
+
+    bridge.send(initialize(1));
+    await flush();
+    bridge.send(request(2, 'portal.doesNotExist'));
+    await flush();
+
+    expect(bridge.received[1]).toEqual({
+      jsonrpc: '2.0',
+      id: 2,
+      error: expect.objectContaining({
+        code: ERROR_CODES.METHOD_NOT_FOUND,
+        message: expect.any(String),
+      }),
+    });
+  });
+});
