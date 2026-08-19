@@ -42,24 +42,38 @@ types the in-memory Transport pair helper in
 (a) `TransportPair` interface + `flush()`, (b) `createLinkedTransports()`
 with async (microtask) delivery mirroring postMessage semantics.
 
-### Current piece to type (STEP 2a)
+### Current piece to type (STEP 2b — piece (a) is done and verified)
 
-File: `packages/host/test/helpers/memory-transport.ts` (new file).
+File: `packages/host/test/helpers/memory-transport.ts` (append below `flush`;
+also widen the first line to `import type { JsonValue, Transport } ...`).
 Check: `pnpm run typecheck` and `pnpm run lint` both stay quiet.
 
 ```ts
-import type { Transport } from '@moonpool/protocol';
+export function createLinkedTransports(): TransportPair {
+  const handlersA = new Set<(message: JsonValue) => void>();
+  const handlersB = new Set<(message: JsonValue) => void>();
 
-export interface TransportPair {
-  /** The end the mini app (the test) holds. */
-  a: Transport;
-  /** The end the host holds. */
-  b: Transport;
-}
+  const makeEnd = (
+    own: Set<(message: JsonValue) => void>,
+    peer: Set<(message: JsonValue) => void>,
+  ): Transport => ({
+    send(message) {
+      void Promise.resolve().then(() => {
+        for (const handler of peer) handler(message);
+      });
+    },
+    onMessage(handler) {
+      own.add(handler);
+      return () => {
+        own.delete(handler);
+      };
+    },
+    close() {
+      own.clear();
+    },
+  });
 
-/** Lets queued microtasks (message deliveries, promise chains) settle. */
-export async function flush(turns = 20): Promise<void> {
-  for (let i = 0; i < turns; i += 1) await Promise.resolve();
+  return { a: makeEnd(handlersA, handlersB), b: makeEnd(handlersB, handlersA) };
 }
 ```
 
