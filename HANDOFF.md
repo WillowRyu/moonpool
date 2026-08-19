@@ -5,14 +5,15 @@
 
 ## How we work (do not skip)
 
-- **Tutor mode ("study coding mode"), level: junior.** The maintainer is
-  learning by building: they TYPE all meaningful code themselves. Claude
-  explains the why first, hands over ONE small step to type, then reads and
-  verifies the typed code before moving on. Claude fills only pure
-  boilerplate/config, on request. Never write the meaningful code for them,
-  even if a request sounds like "write it".
+- **Tutor mode ("study coding mode"), level: junior — implementation-first
+  (agreed 2026-08-19).** Division of labor: **Claude writes and maintains
+  the tests; the maintainer TYPES the implementation code.** Explanations
+  start from the running code ("what does this thing do"), then point at
+  which tests cover it. Larger steps than before; the reward of each step is
+  red tests turning green. Claude reads and verifies the maintainer's typed
+  code after every step.
 - Explanations at junior level: define every term in plain language with an
-  analogy, one new term at a time.
+  analogy — but don't shrink the steps.
 - Dialogue in Korean, repository artifacts in English (see CLAUDE.md).
 
 ## Where we are (v0.1)
@@ -42,29 +43,40 @@ types the in-memory Transport pair helper in
 (a) `TransportPair` interface + `flush()`, (b) `createLinkedTransports()`
 with async (microtask) delivery mirroring postMessage semantics.
 
-### Current piece to type (STEP 7a — client side begins)
+### Phase change: the red suite is COMPLETE — implementation begins
 
-The host-side §5 suite is COMPLETE: 7 tests (smoke, happy path, scope
-intersection, -32005 gate ×1, -32004 ×2 via it.each, no-service-after-32004),
-all failing with "Not implemented: createHost". Roadmap items 1–6 done.
+All 10 §5 tests exist and fail for the right reason: 7 host tests
+("Not implemented: createHost") + 3 client tests ("Not implemented:
+createClient"). Claude wrote the final client tests per the new division of
+labor. From here the maintainer types the implementation and watches reds
+turn green.
 
-Now the client package. First: copy the transport helper (deliberate
-duplication — test helpers stay package-local so packages remain
-independent):
+Implementation roadmap:
 
-    mkdir -p packages/client/test/helpers
-    cp packages/host/test/helpers/memory-transport.ts \
-       packages/client/test/helpers/memory-transport.ts
+- **A. Host gate** — reply -32005 to every request; ignore notifications
+  (§4.1). Expected: 3 tests green (smoke, -32005 gate, no-service-after
+  -32004).
+- **B. Host initialize** — validate protocolVersion (exact match → else
+  -32004), compute the grantedScopes intersection, reply the full §5 result,
+  flip the per-connection initialized flag. Expected: +3 green (happy path,
+  intersection, -32004 ×2) — actually 4 more, total 7 host tests minus ping.
+- **C. portal.ping** — after initialize, answer { pong: true }. Host suite
+  fully green.
+- **D. Client** — id issuance, pending map (promise correlation), initialize
+  send + result/error mapping. All 10 green.
+- **E. Payoff** — iframe transport + mock-host + hello-miniapp running in a
+  real browser (v0.1 definition of done).
 
-Then type `packages/client/test/handshake.test.ts` with a local `RpcRequest`
-interface and the first test: the test plays the HOST side this time
-(collects what arrives at `hostEnd`), calls
-`createClient({ transport: clientEnd }).initialize()` with a no-op `.catch`,
-flushes, and asserts exactly one outgoing message: `toMatchObject` on
-jsonrpc/method='portal.initialize'/params.protocolVersion='0.1', plus id is
-a positive integer (§4.1). Full code is in the conversation.
-Check: `pnpm test` → 8 tests failing — 7 with "Not implemented: createHost",
-1 with "Not implemented: createClient".
+### Current piece to type (STEP A — host gate)
+
+In `packages/host/src/index.ts`: widen the protocol import to include
+`ERROR_CODES` and `JsonValue`, add an `isJsonObject` type guard, and replace
+the throwing `createHost` body with a `connect` that subscribes to the
+transport and answers every identified request with a -32005 error;
+messages that are not objects or carry no numeric `id` are notifications —
+ignored per §4.1. Full code is in the conversation.
+Check: `pnpm test` → 3 passed, 7 failed (assertion failures now, not
+"Not implemented").
 
 ## Test-writing roadmap (maintainer types, Claude tutors)
 
