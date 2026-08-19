@@ -1,7 +1,7 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-08-19.
+> Last updated: 2026-08-20.
 
 ## How we work (do not skip)
 
@@ -46,8 +46,7 @@ Implementation roadmap:
   Replies -32005 to every request, ignores notifications (§4.1).
   `pnpm test` → 3 passed / 7 failed exactly as predicted (smoke, -32005
   gate, no-service-after--32004 green; the rest now fail as assertion
-  diffs, not "Not implemented"). Formatting cleanup pending: run
-  `pnpm run lint:fix` (Biome flagged semicolons/indentation only).
+  diffs, not "Not implemented").
 - **B. Host initialize — DONE 2026-08-19.** Maintainer typed it; Claude
   verified. All 7 original host tests green; lint and typecheck clean.
 - **C. portal.ping + unknown-method reply — DONE 2026-08-20.** Two tests
@@ -67,19 +66,11 @@ Implementation roadmap:
 - **E. Payoff** — iframe transport + mock-host + hello-miniapp running in a
   real browser (v0.1 definition of done).
 
-### Commit checkpoint — BEFORE typing the C2 refactor
+### Commit checkpoint — DONE 2026-08-20
 
-Three uncommitted changes. Committing first keeps history honest: a green
-feature state, then a pure `refactor:` commit on top of it. (A+B+C share
-one file, so the impl is one commit, not three.)
-
-1. `packages/host/test/handshake.test.ts` →
-   `test: portal.ping and unknown-method responses after initialize`
-   (Claude-authored — add trailer
-   `Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>`)
-2. `packages/host/src/index.ts` →
-   `feat: implement host handshake gate, negotiation, and core dispatch`
-3. `HANDOFF.md` → `docs: hand off the C2 refactor`
+Steps A–C are committed (`04611f4` test, `d226d27` feat, `4b3bb85` docs);
+the working tree is clean. The C2 refactor below goes on top as a pure
+`refactor:` commit — the point of committing the green state first.
 
 ### Current piece to type (C2 — typed request guard + method constants)
 
