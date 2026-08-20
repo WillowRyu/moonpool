@@ -8,16 +8,13 @@
 import {
   ERROR_CODES,
   type HostInfo,
-  type JsonValue,
+  isJsonRpcRequest,
   type MiniAppManifest,
+  PORTAL_METHODS,
   type PortalEnvironment,
   PROTOCOL_VERSION,
   type Transport,
 } from '@moonpool/protocol';
-
-function isJsonObject(value: JsonValue | undefined): value is { [key: string]: JsonValue } {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
-}
 
 export interface HostConfig {
   hostInfo: HostInfo;
@@ -42,18 +39,15 @@ export function createHost(config: HostConfig): Host {
       let initialized = false;
 
       transport.onMessage((message) => {
-        if (!isJsonObject(message)) {
+        if (!isJsonRpcRequest(message)) {
+          // SPEC §4.1: notifications (and malformed frames) are never answered.
           return;
         }
 
-        const id = message.id;
-        if (typeof id !== 'number') {
-          return;
-        }
+        const { id, method } = message;
 
-        if (!initialized && message.method === 'portal.initialize') {
-          const params = message.params;
-          const requested = isJsonObject(params) ? params.protocolVersion : undefined;
+        if (!initialized && method === PORTAL_METHODS.INITIALIZE) {
+          const requested = message.params?.protocolVersion;
 
           if (requested !== PROTOCOL_VERSION) {
             transport.send({
@@ -96,7 +90,7 @@ export function createHost(config: HostConfig): Host {
           return;
         }
 
-        if (message.method === 'portal.ping') {
+        if (method === PORTAL_METHODS.PING) {
           transport.send({ jsonrpc: '2.0', id, result: { pong: true } });
           return;
         }
@@ -106,7 +100,7 @@ export function createHost(config: HostConfig): Host {
           id,
           error: {
             code: ERROR_CODES.METHOD_NOT_FOUND,
-            message: `unknown method: ${message.method}`,
+            message: `unknown method: ${method}`,
           },
         });
       });

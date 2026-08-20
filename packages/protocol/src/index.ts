@@ -84,3 +84,69 @@ export interface MiniAppManifest {
   /** Declared scopes. MAY be empty. */
   permissions: string[];
 }
+
+/** Narrow a JSON value to a plain object (not null, not an array). */
+export function isJsonObject(value: JsonValue | undefined): value is { [key: string]: JsonValue } {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+}
+
+/**
+ * SPEC §4.2 — a request carrying an id. Deliberately a type alias, not an
+ * interface: aliases get an implicit index signature, so the guard below
+ * may narrow `JsonValue` to it.
+ */
+export type JsonRpcRequest = {
+  jsonrpc: '2.0';
+  id: number;
+  method: string;
+  params?: { [key: string]: JsonValue };
+};
+
+/** Checked proof that a frame is a §4.2 request (notifications excluded). */
+export function isJsonRpcRequest(value: JsonValue | undefined): value is JsonRpcRequest {
+  return (
+    isJsonObject(value) &&
+    value.jsonrpc === '2.0' &&
+    typeof value.id === 'number' &&
+    typeof value.method === 'string' &&
+    (value.params === undefined || isJsonObject(value.params))
+  );
+}
+
+/** SPEC §6.2 — reserved core methods; the `portal` namespace needs no scope. */
+export const PORTAL_METHODS = {
+  INITIALIZE: 'portal.initialize',
+  PING: 'portal.ping',
+  CLOSE: 'portal.close',
+} as const;
+
+/**
+ * SPEC §4.3 — a response to a request. Exactly one of `result` / `error`.
+ * A type alias, not an interface, for the same reason as `JsonRpcRequest`.
+ */
+export type JsonRpcResponse = {
+  jsonrpc: '2.0';
+  id: number;
+  result?: JsonValue;
+  error?: { code: number; message: string; data?: JsonValue };
+};
+
+/** Checked proof that a frame is a §4.3 response. */
+export function isJsonRpcResponse(value: JsonValue | undefined): value is JsonRpcResponse {
+  if (!isJsonObject(value) || value.jsonrpc !== '2.0' || typeof value.id !== 'number') {
+    return false;
+  }
+
+  const hasResult = value.result !== undefined;
+  const hasError = value.error !== undefined;
+  // SPEC §4.3: exactly one of the two. Both or neither is a malformed frame.
+  if (hasResult === hasError) {
+    return false;
+  }
+  if (!hasError) {
+    return true;
+  }
+
+  const error = value.error;
+  return isJsonObject(error) && typeof error.code === 'number' && typeof error.message === 'string';
+}

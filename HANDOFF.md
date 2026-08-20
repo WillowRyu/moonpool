@@ -55,103 +55,47 @@ Implementation roadmap:
   is in the v0.1 definition of done). Maintainer typed the two branches
   below the -32005 gate. Suite: 9 passed / 3 failed; lint + typecheck
   clean. Host suite fully green.
-- **C2. Refactor under green (maintainer-proposed 2026-08-20) —
-  IN PROGRESS** (current piece, below). Typed `JsonRpcRequest` + checked
-  guard and `PORTAL_METHODS` constants in protocol; host reads through
-  them. Tests must stay 9 passed / 3 failed — that invariance is the
-  success criterion.
-- **D. Client** — id issuance, pending map (promise correlation),
-  initialize send + result/error mapping. Expected: all 12 tests green.
-  Claude hands the full typed-piece over once C2 lands.
+- **C2. Refactor under green — DONE 2026-08-20.** Typed `JsonRpcRequest` +
+  `isJsonObject`/`isJsonRpcRequest` guards and `PORTAL_METHODS` constants in
+  protocol; host reads through them. Tests stayed 9 passed / 3 failed as
+  required. Committed as `refactor:`.
+- **D. Client — DONE 2026-08-20.** Maintainer typed it; Claude verified.
+  `MoonpoolError` (client-local), `Pending` map keyed by id, `nextId` from 1,
+  one `onMessage` return desk registered at construction, §4.5 unknown-id
+  replies ignored. `isJsonRpcResponse` + `JsonRpcResponse` added to protocol.
+  `call()` params narrowed from `Record<string, unknown>` to
+  `Record<string, JsonValue>` — the bridge carries JSON only. **All 12 tests
+  green.**
+  - Regression caught during this step: `isJsonRpcRequest`'s body was
+    overwritten with the response-checking logic (paste accident), which
+    silently broke 8 host tests while `typecheck` stayed clean. Lesson worth
+    keeping: a type predicate is an *unchecked assertion* — `return true`
+    compiles — so guard bodies must be covered by tests.
+- **D2. Client timeouts (§4.5) — IN PROGRESS** (current piece, below).
+  Tests written by Claude in `packages/client/test/timeout.test.ts`;
+  3 red / 1 vacuously green. Two decisions open, see below.
 - **E. Payoff** — iframe transport + mock-host + hello-miniapp running in a
   real browser (v0.1 definition of done).
 
-### Commit checkpoint — DONE 2026-08-20
+### Current piece to type (D2 — §4.5 timeouts)
 
-Steps A–C are committed (`04611f4` test, `d226d27` feat, `4b3bb85` docs);
-the working tree is clean. The C2 refactor below goes on top as a pure
-`refactor:` commit — the point of committing the green state first.
+Spec text: clients MUST apply a timeout to every request, default 30 000 ms;
+on expiry reject with `-32003` and discard the pending entry; a late response
+for a discarded id MUST be ignored.
 
-### Current piece to type (C2 — typed request guard + method constants)
+Blocked on two decisions (maintainer's call):
 
-Origin: the maintainer's own review of the handler (2026-08-20): can
-`message` get a real type? predefine method names? switch over if-chains?
-Decisions: adopt 1 and 2 in trust-boundary-compatible form (guard proves
-the type at runtime; constants only for the reserved `portal` methods —
-a closed enum of ALL methods would fight the "method name is the scope,
-no registry" invariant). Defer 3: the chain is ordered security
-checkpoints, not peer cases; a dispatch table arrives with real
-capabilities.
-
-**(1) `packages/protocol/src/index.ts`** — move `isJsonObject` here
-(exported) and add:
-
-```ts
-/**
- * SPEC §4.2 — a request carrying an id. Deliberately a type alias, not an
- * interface: aliases get an implicit index signature, so the guard below
- * may narrow `JsonValue` to it.
- */
-export type JsonRpcRequest = {
-  jsonrpc: '2.0';
-  id: number;
-  method: string;
-  params?: { [key: string]: JsonValue };
-};
-
-/** Checked proof that a frame is a §4.2 request (notifications excluded). */
-export function isJsonRpcRequest(value: JsonValue | undefined): value is JsonRpcRequest {
-  return (
-    isJsonObject(value) &&
-    value.jsonrpc === '2.0' &&
-    typeof value.id === 'number' &&
-    typeof value.method === 'string' &&
-    (value.params === undefined || isJsonObject(value.params))
-  );
-}
-
-/** SPEC §6.2 — reserved core methods; the `portal` namespace needs no scope. */
-export const PORTAL_METHODS = {
-  INITIALIZE: 'portal.initialize',
-  PING: 'portal.ping',
-  CLOSE: 'portal.close',
-} as const;
-```
-
-**(2) `packages/host/src/index.ts`** — delete the local guard; import
-`isJsonRpcRequest` and `PORTAL_METHODS` from '@moonpool/protocol' (drop
-`type JsonValue`, now unused). Handler head becomes:
-
-```ts
-      transport.onMessage((message) => {
-        if (!isJsonRpcRequest(message)) {
-          // SPEC §4.1: notifications (and malformed frames) are never answered.
-          return;
-        }
-        const { id, method } = message;
-
-        if (!initialized && method === PORTAL_METHODS.INITIALIZE) {
-          const requested = message.params?.protocolVersion;
-```
-
-…and the two string literals below become `PORTAL_METHODS.PING` and
-`${method}`. Known, accepted behavior shift for untested input: an
-id-bearing frame with a bad `jsonrpc`/`method` field is now dropped
-instead of getting -32005; the spec-correct answer is -32600, which lands
-with the §4.4 coverage work.
-
-**Check:** `pnpm test` still **9 passed / 3 failed**; lint + typecheck
-clean. Commit as
-`refactor: typed JSON-RPC request guard and portal method constants`.
-
-### Next piece (STEP D — the client), after C2
-
-The client is a receptionist with a numbered-ticket machine: `request()`
-takes a ticket (`nextId++`), files the promise's resolve/reject in a
-`pending` map under that number, sends the JSON-RPC frame; the single
-`onMessage` return-desk looks the id up, deletes the entry, resolves with
-`result` or rejects with `error`; unknown/late ids are ignored (§4.5).
-Claude hands the full typed-piece when C2 is green.
+1. **How to type `setTimeout`.** `tsconfig.base.json` has `lib: ["ES2022"]`
+   and `types: []`, so `setTimeout`/`clearTimeout` are not declared. Adding
+   `"DOM"` or `@types/node` would also make `window`/`process` typecheck
+   inside the pure packages, which defeats the purity invariant. Verified
+   working alternative: module-local ambient declarations at the top of
+   `packages/client/src/index.ts` (compiles clean, biome clean).
+2. **Spec gap — `close()` and in-flight requests.** SPEC does not say what
+   happens to pending promises when the client closes. Options: leave them
+   hanging (current), or reject with `-32007 HOST_UNAVAILABLE`. Needs a spec
+   decision before implementing; do not resolve by editing SPEC.md without
+   approval.
 
 ## Open decisions (maintainer's call, not made yet)
 
