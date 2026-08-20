@@ -44,6 +44,7 @@ export const ERROR_CODES = {
   NOT_INITIALIZED: -32005,
   RATE_LIMITED: -32006,
   HOST_UNAVAILABLE: -32007,
+  CONNECTION_CLOSED: -32008,
 } as const;
 
 export type ErrorCode = (typeof ERROR_CODES)[keyof typeof ERROR_CODES];

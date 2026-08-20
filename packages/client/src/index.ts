@@ -7,6 +7,7 @@
  * Skeleton only — the failing tests in `test/` are the contract to implement.
  */
 import {
+  ERROR_CODES,
   type InitializeResult,
   isJsonRpcResponse,
   type JsonValue,
@@ -14,6 +15,17 @@ import {
   PROTOCOL_VERSION,
   type Transport,
 } from '@moonpool/protocol';
+
+/**
+ * The only host-environment globals this package touches. Declared narrowly
+ * on purpose: adding "DOM" or @types/node to typecheck these would also make
+ * `window`/`process` compile inside a package that must stay portable.
+ */
+declare const setTimeout: (handler: () => void, timeoutMs: number) => unknown;
+declare const clearTimeout: (handle: unknown) => void;
+
+/** SPEC §4.5 — every request is on a clock; this is how long it runs by default. */
+const DEFAULT_TIMEOUT_MS = 30_000;
 
 /** What a rejected bridge call hands the mini app: the SPEC §4.4 code survives the trip. */
 export class MoonpoolError extends Error {
@@ -47,6 +59,9 @@ export interface MoonpoolClient {
 interface Pending {
   resolve: (value: unknown) => void;
   reject: (reason: unknown) => void;
+
+  /** Handle of the §4.5 timer, cleared the moment the request settles. */
+  timer: unknown;
 }
 
 export function createClient(config: ClientConfig): MoonpoolClient {
@@ -57,6 +72,7 @@ export function createClient(config: ClientConfig): MoonpoolClient {
   const pending = new Map<number, Pending>();
   /** SPEC §4.1: ids are positive integers, unique per connection. */
   let nextId = 1;
+  const timeoutMs = config.timeoutMs ?? DEFAULT_TIMEOUT_MS;
 
   // One return desk for the whole connection, registered once.
   const unsubscribe = transport.onMessage((message) => {
@@ -70,6 +86,7 @@ export function createClient(config: ClientConfig): MoonpoolClient {
       return;
     }
     pending.delete(message.id);
+    clearTimeout(entry.timer);
 
     const error = message.error;
     if (error !== undefined) {
@@ -84,12 +101,22 @@ export function createClient(config: ClientConfig): MoonpoolClient {
     const id = nextId++;
 
     return new Promise<unknown>((resolve, reject) => {
-      pending.set(id, { resolve, reject });
+      const timer = setTimeout(() => {
+        // SPEC §4.5: discard the entry first, so a late reply for this id
+        // finds nothing to settle and is ignored.
+        pending.delete(id);
+        reject(
+          new MoonpoolError(ERROR_CODES.TIMEOUT, `no response to ${method} within ${timeoutMs} ms`),
+        );
+      }, timeoutMs);
+
+      pending.set(id, { resolve, reject, timer });
 
       const frame: { [key: string]: JsonValue } = { jsonrpc: '2.0', id, method };
       if (params !== undefined) {
         frame.params = params;
       }
+
       transport.send(frame);
     });
   }
@@ -106,6 +133,23 @@ export function createClient(config: ClientConfig): MoonpoolClient {
     },
     close() {
       unsubscribe();
+
+      // SPEC §4.6: nothing may stay pending across a close. Snapshot and clear
+      // before settling — the same discard-then-settle order as the return
+      // desk and the timeout path.
+      const abandoned = [...pending.values()];
+      pending.clear();
+
+      for (const entry of abandoned) {
+        clearTimeout(entry.timer);
+        entry.reject(
+          new MoonpoolError(
+            ERROR_CODES.CONNECTION_CLOSED,
+            'the bridge connection was closed before the host answered',
+          ),
+        );
+      }
+
       transport.close();
     },
   };
