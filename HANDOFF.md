@@ -77,37 +77,57 @@ Implementation roadmap:
   ambient globals in the client rather than pulling in `"DOM"` or
   `@types/node`, which would also make `window`/`process` compile inside the
   pure packages. 16 passed / 0 failed.
-- **D3. Connection teardown (§4.6) — IN PROGRESS** (current piece, below).
-  Spec gap resolved and SPEC.md updated with maintainer approval
-  (2026-08-20): new `-32008 CONNECTION_CLOSED`, new §4.6, new §11 entry.
-  Tests by Claude in `packages/client/test/close.test.ts`; 3 red, 1 already
-  green, plus a red `typecheck` until `CONNECTION_CLOSED` exists.
-- **E. Payoff** — iframe transport + mock-host + hello-miniapp running in a
-  real browser (v0.1 definition of done).
+- **D3. Connection teardown (§4.6) — DONE 2026-08-20.** Spec gap resolved
+  with maintainer approval and SPEC.md updated first (`b7ebde9`): new
+  `-32008 CONNECTION_CLOSED` in §4.4, new §4.6, new §11 entry. Tests by
+  Claude (`packages/client/test/close.test.ts`); maintainer typed
+  `ERROR_CODES.CONNECTION_CLOSED` and the `close()` drain. **20 passed /
+  0 failed.**
 
-### Current piece to type (D3 — §4.6 close)
+### The kernel is complete. Next: STEP E.
 
-1. `packages/protocol/src/index.ts` — add `CONNECTION_CLOSED: -32008` to
-   `ERROR_CODES`.
-2. `packages/client/src/index.ts` — `close()` drains `pending`: snapshot the
-   entries, `pending.clear()`, then per entry `clearTimeout` + reject with
-   `MoonpoolError(CONNECTION_CLOSED, …)`. Discard before settling, same
-   discipline as the return desk and the timeout path.
+`pnpm test` → 20 passed, `typecheck` and `lint` clean, working tree clean,
+`origin/master` up to date at `19819ed`.
 
-**Check:** 20 passed; typecheck and lint clean. Commit as
-`feat: reject in-flight requests on close (SPEC 4.6)` after a `docs:` commit
-for the SPEC.md change.
+v0.1 definition of done, remaining:
 
-### Why -32008 rather than reusing -32007 (decided 2026-08-20)
+- [ ] `packages/transport-iframe` — the first real platform adapter
+      (`iframe` + `window.postMessage`)
+- [ ] `examples/mock-host` + `examples/hello-miniapp` running in a browser
+- [ ] Capabilities `profile.get` and `storage.*` (§6.3)
+- [ ] Remaining §4.4 error-code coverage (notably `-32600` for an id-bearing
+      frame that fails `isJsonRpcRequest`; see the C2 note below)
 
-The maintainer pushed back on an initial recommendation to reuse `-32007`,
-and was right. Test for a new error code: would the receiver *branch* on it?
-`-32006`/`-32007` are transient ("retry later", "in its current state"); a
-closed connection is terminal and MUST NOT be retried — the most consequential
-branch a caller makes. It is also the code a future peer-disconnect resolution
-(§11) will reuse, so introducing it now avoids a breaking change later. Cost
-of a new code rises with adoption; zero mini apps are deployed, so this is the
-cheapest possible moment.
+**Why E is a different kind of work.** Everything so far was verified over an
+in-memory linked Transport pair. Real `postMessage` is the first time §8
+(origin) and §9 (security requirements) actually bite: origin checking on
+every inbound message, the `moonpool://<mini-app-id>/` origin rule, structured
+clone vs JSON serialisation, and iframe sandbox attributes. Agree a roadmap
+before typing — this is not a continuation of the client work, it is the
+first platform adapter, and it is the piece the native ports will be measured
+against.
+
+**Known deferred item from C2:** an id-bearing frame with a bad `jsonrpc` or
+non-string `method` is currently dropped silently instead of answered with
+`-32600`. Spec-correct answer is `-32600`; it lands with the §4.4 coverage
+work above.
+
+### Picking this up on another machine
+
+```bash
+corepack enable          # once per machine
+pnpm install
+pnpm test                # expect 20 passed
+```
+
+The git remote uses a personal SSH host alias
+(`git@github.com-personal:WillowRyu/moonpool.git`) — that alias must exist in
+`~/.ssh/config` on the new machine or the clone/push will fail.
+
+Tutor mode is machine-local and deliberately not committed (this repo is
+meant to ship as MIT open source; nobody cloning it should inherit study
+mode). Turn it on in the new session with `/study-coding-mode:toggle on`.
+The "How we work" section above is the durable record of the agreement.
 
 ## Open decisions (maintainer's call, not made yet)
 
