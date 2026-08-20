@@ -71,31 +71,43 @@ Implementation roadmap:
     silently broke 8 host tests while `typecheck` stayed clean. Lesson worth
     keeping: a type predicate is an *unchecked assertion* — `return true`
     compiles — so guard bodies must be covered by tests.
-- **D2. Client timeouts (§4.5) — IN PROGRESS** (current piece, below).
-  Tests written by Claude in `packages/client/test/timeout.test.ts`;
-  3 red / 1 vacuously green. Two decisions open, see below.
+- **D2. Client timeouts (§4.5) — DONE 2026-08-20.** Tests by Claude
+  (`packages/client/test/timeout.test.ts`); maintainer typed the
+  implementation. `setTimeout`/`clearTimeout` are declared as module-local
+  ambient globals in the client rather than pulling in `"DOM"` or
+  `@types/node`, which would also make `window`/`process` compile inside the
+  pure packages. 16 passed / 0 failed.
+- **D3. Connection teardown (§4.6) — IN PROGRESS** (current piece, below).
+  Spec gap resolved and SPEC.md updated with maintainer approval
+  (2026-08-20): new `-32008 CONNECTION_CLOSED`, new §4.6, new §11 entry.
+  Tests by Claude in `packages/client/test/close.test.ts`; 3 red, 1 already
+  green, plus a red `typecheck` until `CONNECTION_CLOSED` exists.
 - **E. Payoff** — iframe transport + mock-host + hello-miniapp running in a
   real browser (v0.1 definition of done).
 
-### Current piece to type (D2 — §4.5 timeouts)
+### Current piece to type (D3 — §4.6 close)
 
-Spec text: clients MUST apply a timeout to every request, default 30 000 ms;
-on expiry reject with `-32003` and discard the pending entry; a late response
-for a discarded id MUST be ignored.
+1. `packages/protocol/src/index.ts` — add `CONNECTION_CLOSED: -32008` to
+   `ERROR_CODES`.
+2. `packages/client/src/index.ts` — `close()` drains `pending`: snapshot the
+   entries, `pending.clear()`, then per entry `clearTimeout` + reject with
+   `MoonpoolError(CONNECTION_CLOSED, …)`. Discard before settling, same
+   discipline as the return desk and the timeout path.
 
-Blocked on two decisions (maintainer's call):
+**Check:** 20 passed; typecheck and lint clean. Commit as
+`feat: reject in-flight requests on close (SPEC 4.6)` after a `docs:` commit
+for the SPEC.md change.
 
-1. **How to type `setTimeout`.** `tsconfig.base.json` has `lib: ["ES2022"]`
-   and `types: []`, so `setTimeout`/`clearTimeout` are not declared. Adding
-   `"DOM"` or `@types/node` would also make `window`/`process` typecheck
-   inside the pure packages, which defeats the purity invariant. Verified
-   working alternative: module-local ambient declarations at the top of
-   `packages/client/src/index.ts` (compiles clean, biome clean).
-2. **Spec gap — `close()` and in-flight requests.** SPEC does not say what
-   happens to pending promises when the client closes. Options: leave them
-   hanging (current), or reject with `-32007 HOST_UNAVAILABLE`. Needs a spec
-   decision before implementing; do not resolve by editing SPEC.md without
-   approval.
+### Why -32008 rather than reusing -32007 (decided 2026-08-20)
+
+The maintainer pushed back on an initial recommendation to reuse `-32007`,
+and was right. Test for a new error code: would the receiver *branch* on it?
+`-32006`/`-32007` are transient ("retry later", "in its current state"); a
+closed connection is terminal and MUST NOT be retried — the most consequential
+branch a caller makes. It is also the code a future peer-disconnect resolution
+(§11) will reuse, so introducing it now avoids a breaking change later. Cost
+of a new code rises with adoption; zero mini apps are deployed, so this is the
+cheapest possible moment.
 
 ## Open decisions (maintainer's call, not made yet)
 

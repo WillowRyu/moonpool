@@ -156,6 +156,7 @@ Moonpool defines the following in the implementation-defined range:
 | `-32005` | `NOT_INITIALIZED`              | Call made before `portal.initialize` resolved          |
 | `-32006` | `RATE_LIMITED`                 | Too many calls; retry later                            |
 | `-32007` | `HOST_UNAVAILABLE`             | Host cannot service the call in its current state      |
+| `-32008` | `CONNECTION_CLOSED`            | Bridge connection closed before the call completed     |
 
 `error.data` SHOULD carry structured context and MUST NOT contain host
 credentials, tokens, or data belonging to another mini app.
@@ -165,6 +166,17 @@ credentials, tokens, or data belonging to another mini app.
 Clients MUST apply a timeout to every request. Default: 30 000 ms.
 On expiry the client MUST reject with `-32003` and discard the pending entry.
 A late response for a discarded id MUST be ignored.
+
+### 4.6 Connection teardown
+
+Closing a client closes its transport, after which no response can arrive for
+a request already in flight. On close a client MUST discard every pending
+entry, clear its §4.5 timer, and reject the caller with `-32008`.
+A client MUST NOT leave a request pending across a close.
+
+`-32008` is terminal for the connection it is raised on: a caller MUST NOT
+retry the call on that connection. Unlike `-32006` and `-32007` it says
+nothing about host health — the host may be perfectly available.
 
 ---
 
@@ -375,6 +387,14 @@ Tracked here rather than decided prematurely. Each SHOULD become an ADR in
 - **Capability discovery.** Should a mini app be able to query which methods a
   host implements, beyond the scopes it was granted?
 - **Rate limiting.** `-32006` is reserved but no policy is defined.
+- **Peer-initiated disconnect.** `Transport` (§3.1) gives neither side a way to
+  learn that the other is gone, so §4.6 covers only a client-initiated close.
+  This matters only where the mini app's context outlives the bridge — a host
+  that destroys the whole web view leaves nobody to reject. Where it does
+  matter, §4.5 timeouts are the only backstop, and a suspended web view may
+  not run them on schedule. `-32008` is the code a resolution should reuse.
+  Adding `onClose` to the transport contract would widen the platform boundary
+  and needs its own ADR, informed by more than one real transport.
 - **Lifecycle state for imminent destruction.** `portal.lifecycle` (§6.4)
   defines only `resumed` and `paused`. Pool eviction (ADR 0002) needs a state
   meaning "persist now, destruction imminent" (cf. the Page Lifecycle API's
