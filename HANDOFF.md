@@ -89,10 +89,11 @@ Implementation roadmap:
   answers `-32600` (echoing the id) instead of silently dropping id-bearing
   malformed frames. Notifications and non-objects stay silent (§4.1).
   28 passed. See "Why two id checks" below.
-- **E0.5. §4.1 id profile: positive integers — IN PROGRESS** (current piece,
-  below). Tests red in `packages/host/test/invalid-request.test.ts`
-  (id 0 / -5 / 3.7 / NaN → -32600). Scope: the stateless positive-integer
-  check only. Uniqueness/monotonicity is deferred twice over: it needs
+- **E0.5. §4.1 id profile: positive integers — DONE 2026-08-24**
+  (`1fbe68e`). Maintainer typed the guard tightening (`typeof` +
+  `Number.isInteger` + `> 0` in `isJsonRpcRequest`; `hasRequestId`
+  untouched). id 0 / -5 / 3.7 / NaN now answered with -32600, echoing the
+  id. **32 passed.** Uniqueness/monotonicity deferred twice over: needs
   per-connection state (host-level, cannot live in the pure guard), and §4.1
   binds only the SENDER — the receiver's response code for a reused id is a
   genuine spec gap needing a maintainer decision first (tracked in Open
@@ -122,14 +123,6 @@ before typing — this is not a continuation of the client work, it is the
 first platform adapter, and it is the piece the native ports will be measured
 against.
 
-### Current piece to type (E0.5 — §4.1 positive-integer ids)
-
-One edit in `packages/protocol/src/index.ts`: tighten the id clause of
-`isJsonRpcRequest` from `typeof value.id === 'number'` to number + integer +
-positive, and extend its doc comment. `hasRequestId` is deliberately NOT
-touched. **Check:** 32 passed; lint/typecheck clean. Commit as
-`fix: enforce SPEC 4.1 positive-integer request ids`.
-
 ### Why two id checks (decided 2026-08-24)
 
 `hasRequestId` answers the postal question — "is there a numeric id we can
@@ -140,6 +133,35 @@ later) go ONLY on the conformance side: if the envelope check shared them, a
 frame with a non-conformant id would be silently dropped as if it were a
 notification — violating "every id-bearing frame gets exactly one reply".
 They overlap textually today for different reasons; do not merge them.
+
+### §8.1 decision — dev-transport origins (approved 2026-08-24)
+
+Browsers cannot register custom scheme handlers, so the dev transport cannot
+serve `moonpool://`. §8's real invariant is per-app uniqueness + stability,
+not the scheme itself. SPEC now has §8.1: dev transports MAY substitute
+per-mini-app http origins (fixed localhost port per app), the id→origin
+mapping MUST be pinned (drifting ports silently re-key storage), and host
+and Portal MUST be cross-origin even in dev — a same-origin Portal would
+make the §9.1 origin check pass vacuously. Alternatives rejected:
+`*.localhost` subdomains (Safari friction), sandboxed opaque origins
+(isolation without identity — kills the mini app's own storage, which §8
+exists to protect).
+
+### Current piece (E1 — dev plumbing, Claude's to fill)
+
+E-step order: E0 done → E0.5 done → §8.1 decided → **E1 → E2 → E3 → E4**.
+
+E1 is pure config, so per the tutor-mode division of labor Claude fills it
+and the maintainer reviews: wire Vite into `examples/mock-host` and
+`examples/hello-miniapp` with PINNED ports (host 5173, hello 5174,
+`strictPort: true` — §8.1), and a root `pnpm run dev` that starts both.
+
+E2 (after E1, maintainer types): `packages/transport-iframe` — a Transport
+implementation per end (host side wraps the iframe handle, portal side wraps
+`window.parent`), `postMessage` carrying `JsonValue` frames, and §9.1 origin
+pinning on every inbound message: exact-match against the one expected
+origin — never accept `"null"`, never compare with `startsWith`. Tests
+first, as always.
 
 ### Picking this up on another machine
 

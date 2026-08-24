@@ -332,6 +332,27 @@ Consequences, which are load-bearing rather than incidental:
   survives updates.
 - Changing the origin scheme is a breaking change for every deployed mini app.
 
+### 8.1 Development transports
+
+Web browsers provide no way for a page to register a custom scheme handler,
+so a browser development transport cannot serve `moonpool://` origins
+literally. What it MUST still satisfy is the invariant behind the scheme:
+an origin unique to each mini app id, stable across reloads and sessions.
+
+A development transport MAY substitute per-mini-app `http(s)` origins — for
+example, one fixed localhost port per mini app. The mapping from mini app id
+to origin MUST be pinned in configuration: origins are storage keys, so an
+origin that drifts (such as an auto-incremented dev port) silently re-keys
+the mini app's stored data.
+
+The host page and every Portal MUST be served from distinct origins, even in
+development. A same-origin Portal would make the §9.1 origin check pass
+vacuously, leaving the security path untested precisely where it is
+developed.
+
+This subsection applies to development transports only. Production hosts
+remain bound to the custom-scheme requirement above.
+
 ---
 
 ## 9. Security requirements
