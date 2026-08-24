@@ -112,3 +112,48 @@ describe('SPEC §4.1/§4.2 — a frame with an id still gets exactly one reply, 
     expect(bridge.received[0]?.id).toBe(7);
   });
 });
+
+const NON_CONFORMANT_IDS: Array<[label: string, id: number]> = [
+  ['zero', 0],
+  ['a negative integer', -5],
+  ['a fractional number', 3.7],
+];
+
+describe('SPEC §4.1 — id MUST be a positive integer', () => {
+  // These frames are addressable (hasRequestId: a number we can echo), but
+  // non-conformant (§4.1). The reply MUST be -32600, echoing the bad id —
+  // NOT silence, and NOT a session-gate error like -32005: conformance is
+  // checked before session state, because a malformed request is malformed
+  // no matter what state the connection is in.
+  it.each(NON_CONFORMANT_IDS)('rejects id %s with -32600, echoing the id', async (_label, id) => {
+    const bridge = setup();
+
+    bridge.send({ jsonrpc: '2.0', id, method: 'portal.ping' });
+    await flush();
+
+    expect(bridge.received).toEqual([
+      {
+        jsonrpc: '2.0',
+        id,
+        error: expect.objectContaining({
+          code: ERROR_CODES.INVALID_REQUEST,
+          message: expect.any(String),
+        }),
+      },
+    ]);
+  });
+
+  it('rejects NaN — typeof calls it a number, but no JSON document can even carry it', async () => {
+    // NaN only arrives over a structured-clone transport (postMessage without
+    // string serialisation); a JSON-parsing transport would have thrown long
+    // before this layer. Number.isInteger is the check typeof cannot be.
+    const bridge = setup();
+
+    bridge.send({ jsonrpc: '2.0', id: Number.NaN, method: 'portal.ping' });
+    await flush();
+
+    expect(bridge.received).toHaveLength(1);
+    expect(bridge.received[0]?.error?.code).toBe(ERROR_CODES.INVALID_REQUEST);
+    expect(bridge.received[0]?.id).toBeNaN();
+  });
+});

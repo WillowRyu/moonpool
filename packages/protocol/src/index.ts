@@ -109,6 +109,8 @@ export function isJsonRpcRequest(value: JsonValue | undefined): value is JsonRpc
     isJsonObject(value) &&
     value.jsonrpc === '2.0' &&
     typeof value.id === 'number' &&
+    Number.isInteger(value.id) &&
+    value.id > 0 &&
     typeof value.method === 'string' &&
     (value.params === undefined || isJsonObject(value.params))
   );

@@ -1,7 +1,7 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-08-20.
+> Last updated: 2026-08-24.
 
 ## How we work (do not skip)
 
@@ -84,6 +84,20 @@ Implementation roadmap:
   `ERROR_CODES.CONNECTION_CLOSED` and the `close()` drain. **20 passed /
   0 failed.**
 
+- **E0. -32600 for malformed id-bearing frames — DONE 2026-08-24**
+  (`a41bd89`). New `hasRequestId` envelope guard in protocol; the host now
+  answers `-32600` (echoing the id) instead of silently dropping id-bearing
+  malformed frames. Notifications and non-objects stay silent (§4.1).
+  28 passed. See "Why two id checks" below.
+- **E0.5. §4.1 id profile: positive integers — IN PROGRESS** (current piece,
+  below). Tests red in `packages/host/test/invalid-request.test.ts`
+  (id 0 / -5 / 3.7 / NaN → -32600). Scope: the stateless positive-integer
+  check only. Uniqueness/monotonicity is deferred twice over: it needs
+  per-connection state (host-level, cannot live in the pure guard), and §4.1
+  binds only the SENDER — the receiver's response code for a reused id is a
+  genuine spec gap needing a maintainer decision first (tracked in Open
+  decisions).
+
 ### The kernel is complete. Next: STEP E.
 
 `pnpm test` → 20 passed, `typecheck` and `lint` clean, working tree clean,
@@ -95,8 +109,9 @@ v0.1 definition of done, remaining:
       (`iframe` + `window.postMessage`)
 - [ ] `examples/mock-host` + `examples/hello-miniapp` running in a browser
 - [ ] Capabilities `profile.get` and `storage.*` (§6.3)
-- [ ] Remaining §4.4 error-code coverage (notably `-32600` for an id-bearing
-      frame that fails `isJsonRpcRequest`; see the C2 note below)
+- [ ] Remaining §4.4 error-code coverage (`-32600` for malformed id-bearing
+      frames landed in E0; still open: `-32602` for non-object `params`,
+      batch arrays via `id: null`, id uniqueness per connection)
 
 **Why E is a different kind of work.** Everything so far was verified over an
 in-memory linked Transport pair. Real `postMessage` is the first time §8
@@ -107,10 +122,24 @@ before typing — this is not a continuation of the client work, it is the
 first platform adapter, and it is the piece the native ports will be measured
 against.
 
-**Known deferred item from C2:** an id-bearing frame with a bad `jsonrpc` or
-non-string `method` is currently dropped silently instead of answered with
-`-32600`. Spec-correct answer is `-32600`; it lands with the §4.4 coverage
-work above.
+### Current piece to type (E0.5 — §4.1 positive-integer ids)
+
+One edit in `packages/protocol/src/index.ts`: tighten the id clause of
+`isJsonRpcRequest` from `typeof value.id === 'number'` to number + integer +
+positive, and extend its doc comment. `hasRequestId` is deliberately NOT
+touched. **Check:** 32 passed; lint/typecheck clean. Commit as
+`fix: enforce SPEC 4.1 positive-integer request ids`.
+
+### Why two id checks (decided 2026-08-24)
+
+`hasRequestId` answers the postal question — "is there a numeric id we can
+echo a reply to?" (it exists so `-32600` replies can be built at all).
+`isJsonRpcRequest` answers the conformance question — "did the sender follow
+the §4.1/§4.2 profile?". Profile tightenings (positive integer now; anything
+later) go ONLY on the conformance side: if the envelope check shared them, a
+frame with a non-conformant id would be silently dropped as if it were a
+notification — violating "every id-bearing frame gets exactly one reply".
+They overlap textually today for different reasons; do not merge them.
 
 ### Picking this up on another machine
 
@@ -130,6 +159,12 @@ mode). Turn it on in the new session with `/study-coding-mode:toggle on`.
 The "How we work" section above is the durable record of the agreement.
 
 ## Open decisions (maintainer's call, not made yet)
+
+- **Receiver behavior on id reuse (§4.1):** the spec says senders MUST NOT
+  reuse ids (positive, monotonically increasing) but never says what a
+  receiver replies when they do. Needs a spec decision (likely `-32600`, but
+  do not resolve by editing SPEC.md without approval). Enforcement would be
+  host-side per-connection state, not the pure guard.
 
 - **ADR candidate:** Moonpool targets BOTH full-screen mini apps and web
   components embedded inside native screens; the protocol stays
