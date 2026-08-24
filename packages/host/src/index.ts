@@ -9,6 +9,7 @@
 import type { HostInfo, MiniAppManifest, PortalEnvironment, Transport } from '@moonpool/protocol';
 import {
   ERROR_CODES,
+  hasRequestId,
   isJsonRpcRequest,
   PORTAL_METHODS,
   PROTOCOL_VERSION,
@@ -37,12 +38,27 @@ export function createHost(config: HostConfig): Host {
       let initialized = false;
 
       transport.onMessage((message) => {
-        if (!isJsonRpcRequest(message)) {
-          // SPEC §4.1: notifications (and malformed frames) are never answered.
+        if (!hasRequestId(message)) {
+          // SPEC §4.1: no id means a notification (or not a request at
+          // all) — never answered, no matter how malformed the rest is.
           return;
         }
 
-        const { id, method } = message;
+        const { id } = message;
+
+        if (!isJsonRpcRequest(message)) {
+          transport.send({
+            jsonrpc: '2.0',
+            id,
+            error: {
+              code: ERROR_CODES.INVALID_REQUEST,
+              message: 'malformed request: expected { jsonrpc: "2.0", id, method, params? }',
+            },
+          });
+          return;
+        }
+
+        const { method } = message;
 
         if (!initialized && method === PORTAL_METHODS.INITIALIZE) {
           const requested = message.params?.protocolVersion;

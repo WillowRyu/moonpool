@@ -151,3 +151,14 @@ export function isJsonRpcResponse(value: JsonValue | undefined): value is JsonRp
   const error = value.error;
   return isJsonObject(error) && typeof error.code === 'number' && typeof error.message === 'string';
 }
+
+/**
+ * SPEC §4.1 — a frame with a numeric `id` can expect exactly one reply, even
+ * if it turns out to be malformed in some other way. A frame that fails this
+ * MUST NOT be answered: it is a notification (or not a request at all).
+ */
+export function hasRequestId(
+  value: JsonValue | undefined,
+): value is { [key: string]: JsonValue } & { id: number } {
+  return isJsonObject(value) && typeof value.id === 'number';
+}
