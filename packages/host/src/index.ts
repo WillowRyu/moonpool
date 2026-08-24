@@ -5,15 +5,13 @@
  *
  * Skeleton only — the failing tests in `test/` are the contract to implement.
  */
+
+import type { HostInfo, MiniAppManifest, PortalEnvironment, Transport } from '@moonpool/protocol';
 import {
   ERROR_CODES,
-  type HostInfo,
   isJsonRpcRequest,
-  type MiniAppManifest,
   PORTAL_METHODS,
-  type PortalEnvironment,
   PROTOCOL_VERSION,
-  type Transport,
 } from '@moonpool/protocol';
 
 export interface HostConfig {
