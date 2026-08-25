@@ -3,10 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Hello Moonpool</title>
+    <title>Hello mini app</title>
+    <style>
+      body { font: 15px/1.6 system-ui, sans-serif; margin: 0; padding: 1.25rem; }
+      h1 { font-size: 1.1rem; margin: 0 0 0.75rem; }
+      dl { display: grid; grid-template-columns: max-content 1fr; gap: 0.2rem 0.9rem; margin: 0; }
+      dt { color: #666; }
+      dd { margin: 0; }
+      code { font-family: ui-monospace, monospace; font-size: 0.9em; }
+    </style>
   </head>
   <body>
-    <h1>Hello, Moonpool</h1>
-    <!-- Skeleton: this page will use @moonpool/client once the kernel exists. -->
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

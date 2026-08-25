@@ -147,21 +147,48 @@ make the §9.1 origin check pass vacuously. Alternatives rejected:
 (isolation without identity — kills the mini app's own storage, which §8
 exists to protect).
 
-### Current piece (E1 — dev plumbing, Claude's to fill)
+- **E1. Dev plumbing — DONE 2026-08-25.** Claude filled it (pure config, per
+  the tutor-mode division of labor); maintainer chose the stack.
+  - **Vite 8.2.2** in both examples with PINNED ports (`strictPort: true`):
+    mock-host 5173, hello-miniapp 5174 — SPEC §8.1. Verified: a second
+    server on a taken port now fails loudly instead of hopping to 5175.
+  - **vitest upgraded 3.2.7 → 4.1.11** so the workspace holds ONE Vite (8).
+    vitest 3 pinned vite 7 transitively; leaving it would have meant the dev
+    server and the test transform pipeline running different Vite versions.
+    32 tests stayed green across the major bump. biome 2.5.9 → 2.5.10
+    (`biome migrate` applied to biome.json).
+  - **tsconfig split**, and this is load-bearing: root `tsconfig.json` now
+    lists protocol/client/host explicitly and still has no DOM lib, so
+    `window`/`document` do not typecheck there. `tsconfig.browser.json` adds
+    `DOM` + `DOM.Iterable` for transport-iframe and the examples only.
+    `pnpm run typecheck` runs both projects.
+  - Examples are vanilla TS (maintainer's call): a framework would make the
+    reader separate bridge code from framework code, and would signal to
+    mini app authors that one is required.
+  - Verified in a browser: mock-host embeds the hello Portal cross-origin,
+    both render `PROTOCOL_VERSION` from the workspace package, no console
+    errors. Root `pnpm run dev` starts both in parallel.
 
-E-step order: E0 done → E0.5 done → §8.1 decided → **E1 → E2 → E3 → E4**.
+### Current piece (E2 — the iframe transport, maintainer types)
 
-E1 is pure config, so per the tutor-mode division of labor Claude fills it
-and the maintainer reviews: wire Vite into `examples/mock-host` and
-`examples/hello-miniapp` with PINNED ports (host 5173, hello 5174,
-`strictPort: true` — §8.1), and a root `pnpm run dev` that starts both.
+First code in the project allowed to touch a platform API, and the first
+place §9 security requirements bite. `packages/transport-iframe/src/index.ts`
+is still `export {}`.
 
-E2 (after E1, maintainer types): `packages/transport-iframe` — a Transport
-implementation per end (host side wraps the iframe handle, portal side wraps
-`window.parent`), `postMessage` carrying `JsonValue` frames, and §9.1 origin
-pinning on every inbound message: exact-match against the one expected
-origin — never accept `"null"`, never compare with `startsWith`. Tests
-first, as always.
+Shape: TWO Transport implementations, not one, and they are not symmetric.
+The host side holds `iframe.contentWindow` and posts to it; the portal side
+posts to `window.parent`. Both listen on their own `window` for `message`
+events and must pin the peer.
+
+§9.1 origin binding is the security core: exact-match `event.origin` against
+the one expected origin. Never accept `"null"` (any sandboxed iframe on the
+web produces it), never compare with `startsWith` (`https://good.com.evil.com`
+passes that). The host side must also check `event.source === contentWindow`,
+since origin alone does not identify which frame spoke.
+
+Test approach (decided 2026-08-25): pure logic extracted and tested with no
+DOM, plus happy-dom for the thin wiring. `happy-dom` is deliberately NOT
+installed yet — it arrives with the first test that needs it.
 
 ### Picking this up on another machine
 

@@ -3,8 +3,18 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Browser dev host embedding the hello mini app. Skeleton — not implemented yet.",
+  "description": "Browser dev host embedding the hello mini app over an iframe Portal.",
   "scripts": {
-    "dev": "echo \"mock-host: not implemented yet — see 'v0.1 definition of done' in CLAUDE.md\""
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^8.2.2"
+  },
+  "dependencies": {
+    "@moonpool/host": "workspace:*",
+    "@moonpool/protocol": "workspace:*",
+    "@moonpool/transport-iframe": "workspace:*"
   }
 }

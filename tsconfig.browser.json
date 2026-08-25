@@ -1,0 +1,16 @@
+{
+  // Everything that is ALLOWED to touch the DOM. The split is the point:
+  // the root tsconfig omits the DOM lib, so `window` and `document` are not
+  // merely discouraged inside protocol/client/host — they do not typecheck
+  // there (CLAUDE.md: nothing in those packages may import a platform API).
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2022", "DOM", "DOM.Iterable"]
+  },
+  "include": [
+    "packages/transport-iframe/src/**/*.ts",
+    "packages/transport-iframe/test/**/*.ts",
+    "examples/*/src/**/*.ts",
+    "examples/*/vite.config.ts"
+  ]
+}
