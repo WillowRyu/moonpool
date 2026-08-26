@@ -229,6 +229,43 @@ the handler set is snapshotted before iteration because a handler may
 unsubscribe mid-iteration — the same discard-before-settle discipline used in
 `client.close()`.
 
+### E2.1 — handler isolation on throw (agreed 2026-08-26, DO THIS FIRST)
+
+**The defect.** `createIframeTransport` fans out to `handlers` with a plain
+`for` loop inside ONE window listener. If a handler throws, the loop aborts
+and every handler after it is skipped. That is a WEAKER guarantee than the
+platform's own: the browser isolates each registered listener from the
+others.
+
+**Measured, not assumed** (Chrome, 2026-08-26):
+
+| Setup | Ran | Exception escaped `dispatchEvent`? |
+| --- | --- | --- |
+| Three separate `addEventListener` listeners, 2nd throws | L1, L2-throws, **L3** | no — browser reports it as an uncaught error and continues |
+| One listener iterating three handlers, 2nd throws (our shape) | H1, H2-throws — **H3 skipped** | no — caught at the listener boundary |
+
+Note happy-dom let the exception escape `dispatchEvent` where Chrome did not;
+another reason the origin decision lives in a DOM-free module.
+
+**Impact today: none** — exactly one handler is ever registered (the kernel's,
+via `client`/`host`). It bites the moment a second one exists, which is the
+very use case the handler Set is for (attaching a bridge logger without
+touching the kernel). Then correctness starts depending on registration
+order: kernel-then-logger loses the log exactly when a kernel throw makes it
+most needed; logger-then-kernel lets a bad logger silently stop the bridge.
+
+**Decision: fix it, per-handler `try`/`catch` that re-throws asynchronously**
+so the error still surfaces as an uncaught error / `window.onerror`. Isolate
+without swallowing — swallowing would be the silent-callback antipattern, and
+the browser's own semantics (table above) are the target to match.
+
+Rejected: leaving it (the trap outlives the memory of it, and this is the
+cheapest moment to fix); a bare `try`/`catch` that swallows (hides bugs).
+
+**Next session order: Claude writes the tests** — "a throwing handler does not
+stop the others" and "the error is not swallowed" — **then the maintainer
+types the fix**, then E3 below.
+
 ### Current piece (E3 — connect the examples, maintainer types)
 
 Wire the transport into `examples/mock-host` and `examples/hello-miniapp` so
