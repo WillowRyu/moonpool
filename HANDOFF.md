@@ -169,26 +169,84 @@ exists to protect).
     both render `PROTOCOL_VERSION` from the workspace package, no console
     errors. Root `pnpm run dev` starts both in parallel.
 
-### Current piece (E2 — the iframe transport, maintainer types)
+- **E2. iframe transport — DONE 2026-08-26.** Tests by Claude
+  (`peer.test.ts` pure, `iframe-transport.test.ts` under happy-dom);
+  maintainer typed `src/peer.ts` and `src/index.ts`. **52 passed.**
+  `happy-dom` 20.11.6 added at the root for this step.
 
-First code in the project allowed to touch a platform API, and the first
-place §9 security requirements bite. `packages/transport-iframe/src/index.ts`
-is still `export {}`.
+### E2 design rationale — reread this before answering questions on it
 
-Shape: TWO Transport implementations, not one, and they are not symmetric.
-The host side holds `iframe.contentWindow` and posts to it; the portal side
-posts to `window.parent`. Both listen on their own `window` for `message`
-events and must pin the peer.
+**One factory, not two.** The plan said the host side and the Portal side
+would be separate, asymmetric Transport implementations. Writing the tests
+showed the difference collapses to a single argument: both post to a peer
+window, both listen on their own window, both pin one origin. So there is one
+`createIframeTransport({ peerWindow, peerOrigin, localWindow? })`. The
+asymmetry is real but lives at the CALL SITE — the host passes
+`iframe.contentWindow`, the Portal passes `window.parent` — which is where
+"who is my peer" is actually known. Two near-duplicate factories would have
+duplicated mechanism to express a difference in knowledge.
 
-§9.1 origin binding is the security core: exact-match `event.origin` against
-the one expected origin. Never accept `"null"` (any sandboxed iframe on the
-web produces it), never compare with `startsWith` (`https://good.com.evil.com`
-passes that). The host side must also check `event.source === contentWindow`,
-since origin alone does not identify which frame spoke.
+**`PeerWindow` is a one-method structural type**, not `Window`. Depending on
+the narrowest interface makes the package's real platform surface visible in
+the type, and lets test stubs satisfy it without a cast.
 
-Test approach (decided 2026-08-25): pure logic extracted and tested with no
-DOM, plus happy-dom for the thin wiring. `happy-dom` is deliberately NOT
-installed yet — it arrives with the first test that needs it.
+**Why `isFromPeer` is a separate pure module.** It is the entire answer to
+"did this come from the other end?", and `window`'s `message` event is a
+public mailbox — any frame, popup, or embedder on the page can post to it.
+Keeping the decision DOM-free means it is not verified through happy-dom's
+approximation of postMessage. The wiring test then supplies `event.origin`
+and `event.source` synthetically, so a test can pose as a hostile frame —
+something an emulator's own postMessage will never do for you.
+
+**The three checks, and what each one alone would miss:**
+
+| Check | Missing it admits |
+| --- | --- |
+| `event.origin === peer.origin`, exact | `startsWith` accepts `http://localhost:51740` and `http://localhost:5174.evil.com` |
+| `event.source === peer.window` | a second frame on the peer's own origin — origin says which house, never which room |
+| both origins `!== "null"` | every sandboxed iframe on the web reports `"null"`; accepting it admits anonymous senders. Refused on the CONFIG side too, so a misconfiguration cannot opt in |
+
+A peer origin written with a trailing slash matches nothing, by design:
+exact comparison makes a misconfigured origin check fail closed. Normalising
+it would be the kind of helpfulness that grows bypasses.
+
+**`targetOrigin` is pinned, never `'*'`.** The second argument to
+`postMessage` is a browser-enforced delivery condition, and it is the last
+line of defence behind §9.2 navigation containment: if the Portal navigated
+away, the frame is not delivered at all. `'*'` would hand every frame —
+handshake results included — to whoever is there instead.
+
+**`event.data as JsonValue` is a cast, not validation, and that is correct.**
+§3.1 forbids a transport from modifying payloads, and the kernel already
+proves frame shape at its own boundary (`isJsonRpcRequest` /
+`isJsonRpcResponse`). Validating here would duplicate the trust boundary
+instead of respecting "check once, at the door".
+
+**Handler set, one window listener.** Same shape as the client's `pending`
+map: one listener for the connection rather than one per handler (per-handler
+listeners are O(n²) on every inbound message and leak if not detached), and
+the handler set is snapshotted before iteration because a handler may
+unsubscribe mid-iteration — the same discard-before-settle discipline used in
+`client.close()`.
+
+### Current piece (E3 — connect the examples, maintainer types)
+
+Wire the transport into `examples/mock-host` and `examples/hello-miniapp` so
+a real handshake crosses a real origin boundary in a browser. mock-host
+already pins `MINI_APP_ORIGINS` (§8.1) and renders the iframe; hello-miniapp
+already renders its own origin.
+
+**Known problem to solve, not yet solved: the load race.** The host holds
+`iframe.contentWindow` as soon as the element exists, but the mini app's
+listener does not exist until its document has run. Anything the host posts
+before that is delivered to a window with no listener and is simply lost —
+`postMessage` has no delivery receipt. The Portal side does not have the
+mirror problem: its parent is already loaded. Options to weigh in the next
+session: host waits for the iframe's `load` event before connecting; or the
+Portal announces readiness and the host connects on that; or the client
+retries `portal.initialize` under the §4.5 timeout. The third is the only one
+that also survives a Portal reload — which HMR triggers on every save, so the
+next session will hit this repeatedly and can use it as the test case.
 
 ### Picking this up on another machine
 
