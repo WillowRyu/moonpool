@@ -1,7 +1,7 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-08-28.
+> Last updated: 2026-08-28 (E3 complete).
 
 ## How we work (do not skip)
 
@@ -101,20 +101,33 @@ Implementation roadmap:
 
 ### Current status
 
-`pnpm test` → **54 passed**, `typecheck` and `lint` clean, working tree clean.
-The kernel and the first platform adapter are both done; E3 is next.
+`pnpm test` → **57 passed**, `typecheck` and `lint` clean, working tree clean.
+The kernel, the first platform adapter, and a real cross-origin bridge between
+the two examples are all done. **E4 (capabilities + the permission gate) is
+next.**
 
 v0.1 definition of done, remaining:
 
 - [x] `packages/transport-iframe` — the first real platform adapter
       (`iframe` + `window.postMessage`). Landed in E2/E2.1.
-- [ ] `examples/mock-host` + `examples/hello-miniapp` running in a browser
-      — **E3, the current piece.** The two examples exist and render, but no
-      bridge crosses between them yet.
-- [ ] Capabilities `profile.get` and `storage.*` (§6.3)
+- [x] `examples/mock-host` + `examples/hello-miniapp` running in a browser.
+      Landed in E3; a real §5 handshake crosses a real origin boundary and
+      survives Portal reloads.
+- [ ] Capabilities `profile.get` and `storage.*` (§6.3) — **E4, the current
+      piece.**
 - [ ] Remaining §4.4 error-code coverage (`-32600` for malformed id-bearing
       frames landed in E0; still open: `-32602` for non-object `params`,
       batch arrays via `id: null`, id uniqueness per connection)
+
+**Not on the checklist but arguably the biggest gap: scope enforcement has
+never run.** `grantedScopes` is computed in the handshake and rendered by the
+example, but nothing consults it, because no method has a scope yet. There is
+no `-32000 PERMISSION_DENIED` anywhere in the codebase. CLAUDE.md lists the
+host as "dispatcher, permission gate, manifest parsing" and only two of those
+three exist. E4 is where the permission gate gets written and tested — SPEC
+§6.3 calls the v0.1 capability set "deliberately minimal … the goal is to
+exercise the permission model", so the capabilities are the vehicle and the
+gate is the cargo.
 
 **Why E was a different kind of work** (kept as the rationale for how E1–E2
 were sequenced). Everything before it was verified over an in-memory linked
@@ -296,31 +309,85 @@ past a throw) but this harness cannot honestly assert it. Same lesson as the
 happy-dom `dispatchEvent` divergence above: **a fact measured through a fake
 is a fact about the fake.**
 
-### Current piece (E3 — connect the examples, maintainer types)
+### E3 — connect the examples — DONE 2026-08-28
 
-Wire the transport into `examples/mock-host` and `examples/hello-miniapp` so
-a real handshake crosses a real origin boundary in a browser. mock-host
-already pins `MINI_APP_ORIGINS` (§8.1) and renders the iframe; hello-miniapp
-already renders its own origin.
+Maintainer typed both sides; verified in a real browser, not only in tests.
+`3e556ea` (examples), `225fd21` (SPEC §5.1), `71e1262` (host fix).
 
-**Known problem to solve, not yet solved: the load race.** The host holds
-`iframe.contentWindow` as soon as the element exists, but the mini app's
-listener does not exist until its document has run. Anything the host posts
-before that is delivered to a window with no listener and is simply lost —
-`postMessage` has no delivery receipt. The Portal side does not have the
-mirror problem: its parent is already loaded. Options to weigh in the next
-session: host waits for the iframe's `load` event before connecting; or the
-Portal announces readiness and the host connects on that; or the client
-retries `portal.initialize` under the §4.5 timeout. The third is the only one
-that also survives a Portal reload — which HMR triggers on every save, so the
-next session will hit this repeatedly and can use it as the test case.
+**The load race described in the previous handoff does not exist.** SPEC §5
+says "the mini app initiates", so the host never sends first, and the host
+attaches its listener in the same synchronous task that creates the iframe —
+a parent script runs to completion before any script inside the iframe can
+run. The ordering is a guarantee, not luck. It holds only while the host
+attaches synchronously: an `await` before `createIframeTransport` would give
+it away.
+
+The race is real for §6.4 host-initiated notifications (`portal.lifecycle`,
+`portal.environmentChanged`) — no id, no reply, so a lost one is undetectable.
+Not reachable today: `Host` exposes only `connect()`. Revisit when §6.4 lands.
+
+**Measured, correcting a claim made twice in session.** It was asserted that
+an iframe's `load` fires after the new document's first `postMessage`, so a
+`load`-based reload detector would always be too late. Wrong: measured 6/6 in
+Chrome, `load` fires *first*. Calling `postMessage` and delivering the message
+are different events, and delivery is a separate task. The argument against a
+`load`-based detector is not ordering — it is that `load` (DOM manipulation
+task source) and posted messages (posting-message task source) are different
+task sources, and HTML lets the UA choose between them, so the order is
+unspecified either way. See §5.1 for the wording that survived.
+
+**E3.3 — the repeat handshake.** Reproduced in the browser: reloading the
+Portal produced `-32601 unknown method: portal.initialize`, and the bridge
+stayed dead for that document's life. Root cause was a wrong assumption in
+SPEC §5, not in the code — `connection == document`, which `iframe`'s
+WindowProxy makes false. SPEC §5.1 written and approved first, then tests,
+then a one-condition fix (`!initialized &&` deleted). Full rationale lives in
+SPEC §5.1 and the commit messages; the decisions the maintainer made were:
+accept repeat handshakes (over rejecting them, which would break multi-page
+mini apps outright), make the reset list **closed** so a wrong judgement fails
+safe, and forbid re-prompting for consent.
+
+Two things worth carrying forward:
+
+- **A weak test was written and labelled as weak rather than deleted.** "Leaves
+  the connection usable after a repeat handshake" passes both before and after
+  the fix, because the pre-fix host kept serving `portal.ping` — only the
+  handshake broke. Its comment says so. The test that actually catches the
+  defect is the one above it.
+- **§5.1's reset boundary is normative but untested**, and the test file says
+  that in as many words. Rate-limit counters and consent records name state
+  this host does not keep yet. Deliberate: a test that only looks like
+  coverage is worse than an honest note.
+
+### Current piece (E4 — capabilities and the permission gate)
+
+`profile.get` and `storage.*` (§6.3), and with them the first real use of
+`grantedScopes`. Points to settle before typing:
+
+- **Where does the gate live?** `namespace.action` where the namespace *is*
+  the scope (CLAUDE.md invariant — there is no separate scope registry), so
+  the check is `grantedScopes.includes(method.split('.')[0])`. It belongs
+  above per-method dispatch, below the `-32005` gate. `portal.*` is exempt
+  (§6.2, "no scope required").
+- **`-32000 PERMISSION_DENIED` vs `-32601 METHOD_NOT_FOUND`.** A host that
+  answers `-32601` for a scoped method the caller lacks leaks less (the mini
+  app cannot enumerate what exists), but `-32000` is far kinder to debug and
+  is what §4.4 reserves the code for. Needs a decision, and it is a §9
+  question — flag it as such.
+- **Where does `storage.*` actually store?** §6.3 says namespaced per mini app
+  id by the host, and §8 binds data to the origin. For mock-host, an
+  in-memory `Map` keyed by `${miniAppId}:${key}` is enough and avoids
+  implying persistence the spec has not specified.
+- The example should call something and render the result, and should show a
+  denied call too — `storage.*` is ungranted in mock-host on purpose, so the
+  permission model stays visible on screen.
 
 ### Picking this up on another machine
 
 ```bash
 corepack enable          # once per machine
 pnpm install
-pnpm test                # expect 54 passed
+pnpm test                # expect 57 passed
 ```
 
 The git remote uses a personal SSH host alias
@@ -344,11 +411,8 @@ The "How we work" section above is the durable record of the agreement.
   components embedded inside native screens; the protocol stays
   embedding-agnostic (screen size/placement is a host-UI concern). Arbitrary
   remote URLs are explicitly out: no identity → conflicts with SPEC §8/§9.
-- **Spec ambiguity found:** after a `-32004` response, may the mini app retry
-  `portal.initialize` with a supported version? SPEC §5 says the host "MUST
-  NOT service further calls" but does not address a corrected retry. Related:
-  what should a SECOND `portal.initialize` after a successful one return?
-  Needs a spec decision (do not resolve by editing SPEC.md without approval).
+- ~~Retry after `-32004`, and a second `portal.initialize`~~ — **resolved
+  2026-08-28** in SPEC §5 and the new §5.1 (`225fd21`). Both are allowed.
 - **Language question (asked 2026-08-19):** could the kernel be Rust or Go?
   Discussed in session: the client must be JS — it runs inside the mini
   app's web view (Rust→WASM still needs a JS shim for postMessage and the
