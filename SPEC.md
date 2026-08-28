@@ -221,7 +221,12 @@ Rules:
 - Until `portal.initialize` resolves, the host MUST reject every other method
   with `-32005`.
 - If the host cannot speak the requested `protocolVersion`, it MUST respond
-  with `-32004` and MUST NOT service further calls.
+  with `-32004`. The connection does not initialize, so every method other
+  than `portal.initialize` MUST continue to be rejected with `-32005`. A
+  failed negotiation is not terminal: a mini app MAY retry
+  `portal.initialize` with a different version, and a host MUST answer that
+  retry on its merits. `-32004` describes one unsupported version, not a
+  poisoned connection.
 - `grantedScopes` is the authoritative permission set for the connection. It is
   the intersection of the manifest's declared permissions and what the host
   actually granted. Clients SHOULD use it to hide unavailable features.
@@ -229,6 +234,69 @@ Rules:
 
 Version negotiation is exact-match in `0.x`. Semantic compatibility rules will
 be defined at `1.0`.
+
+### 5.1 Repeat handshake
+
+A Portal's document can be replaced while the connection's transport stays
+alive: a reload, an in-place navigation, or a development server's hot reload.
+The replacement is a new client with a fresh id sequence, and the host has to
+learn that it happened.
+
+It cannot learn it from the transport. `Transport` (§3.1) carries frames and
+nothing else; teaching it to report "the peer was replaced" would widen the
+platform boundary every native port must implement, in order to describe an
+event only some transports can observe. Nor can it rely on an embedder-level
+signal — an iframe's `load` event, a web view's navigation callback. Those are
+ordered against an inbound message only by the host's task scheduler, not by
+any specification, so a host built on one would be depending on unspecified
+ordering for a security-relevant boundary.
+
+The handshake is the one signal ordered correctly by construction: it *is* the
+new document's first message.
+
+Therefore:
+
+- A host MUST accept `portal.initialize` on a connection that has already
+  completed one, and MUST answer it exactly as it answers a first handshake.
+- Receiving a repeat handshake means the previous document is gone.
+- `portal.initialize` MUST be the first request a **document** sends. It is
+  first per document, not unique per transport.
+
+On a repeat handshake a host MUST reset exactly the following, and MUST NOT
+reset anything else:
+
+| Reset — scoped to the document                         |
+| ------------------------------------------------------ |
+| Initialization state                                    |
+| Request-id correlation: a new document restarts at `1`  |
+
+Everything a host holds that is not on that list is preserved, including:
+
+| Preserved — scoped to the origin or the user |
+| --------------------------------------------- |
+| Rate-limit counters (`-32006`)                 |
+| Granted permissions, and any record of consent already asked for |
+| `storage.*` contents (§8)                      |
+
+The list is closed on purpose. The underlying rule is that state scoped to a
+document's lifetime is reset while state scoped to the origin's lifetime
+survives — but a host implementer applying that rule by judgement will
+occasionally judge wrong, and an open-ended instruction to "reset what belonged
+to the document" fails open. Reset only what is enumerated; when in doubt,
+preserve.
+
+Two rows carry the security weight:
+
+- **Rate-limit counters.** A mini app able to clear its own counter by
+  re-handshaking would make any future `-32006` policy (§11) unenforceable.
+  The boundary is normative now, before that policy exists.
+- **Consent already asked for.** A repeat handshake MUST NOT re-prompt the
+  user for permission, and MUST NOT reset any record of a prompt already
+  answered. Repeat handshakes are ordinary traffic — a multi-page mini app
+  produces one per navigation — so a host that re-prompted on each would hand
+  any mini app an unlimited supply of permission dialogs, and consent obtained
+  by repetition is not consent. This binds the runtime-consent design still
+  open in §11.
 
 ---
 
@@ -407,7 +475,24 @@ Tracked here rather than decided prematurely. Each SHOULD become an ADR in
   whether a shared broadcast channel exists.
 - **Capability discovery.** Should a mini app be able to query which methods a
   host implements, beyond the scopes it was granted?
-- **Rate limiting.** `-32006` is reserved but no policy is defined.
+- **Rate limiting.** `-32006` is reserved but no policy is defined. §5.1
+  already binds any future policy: a repeat handshake MUST NOT reset counters.
+- **Responses that outlive their document.** §5.1 lets a new Portal document
+  take over a live connection, and every document numbers its requests from
+  `1`. A response the host had already posted for the previous document can be
+  delivered after the swap and matched, by id, against an unrelated request
+  from the new one. The failure mode is not an error: the new document's
+  promise **resolves with the previous document's data, silently**, and neither
+  side can tell. §4.5's ignore-unknown-id rule only covers ids the new document
+  has not reached yet.
+
+  Choosing the §5.1 repeat handshake makes this more frequent, not less: a
+  multi-page mini app swaps documents on every navigation. Accepted knowingly —
+  both documents are the same mini app on the same origin, so this is wrong
+  data within one principal rather than a breach of isolation, and the
+  alternative (refusing repeat handshakes) breaks multi-page mini apps
+  outright. Closing it properly needs a per-document epoch in the envelope,
+  which is a wire change and wants its own ADR.
 - **Peer-initiated disconnect.** `Transport` (§3.1) gives neither side a way to
   learn that the other is gone, so §4.6 covers only a client-initiated close.
   This matters only where the mini app's context outlives the bridge — a host
