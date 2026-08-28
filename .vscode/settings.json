@@ -9,5 +9,5 @@
   "[typescript]": { "editor.defaultFormatter": "biomejs.biome" },
   "[json]": { "editor.defaultFormatter": "biomejs.biome" },
   "[jsonc]": { "editor.defaultFormatter": "biomejs.biome" },
-  "cSpell.words": ["moonpool", "grantedScopes", "antipattern", "serialised"]
+  "cSpell.words": ["moonpool", "grantedScopes", "antipattern", "serialised", "miniapp"]
 }

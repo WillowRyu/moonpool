@@ -147,6 +147,7 @@ vite.config.ts.timestamp-*
 
 # Claude Code session state (personal, not project config)
 .claude/study-coding-mode
+.claude/launch.json
 
 # Personal study notes (Korean) — repository artifacts are English-only
 study/
