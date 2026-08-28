@@ -1,7 +1,7 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-08-24.
+> Last updated: 2026-08-28.
 
 ## How we work (do not skip)
 
@@ -99,29 +99,31 @@ Implementation roadmap:
   genuine spec gap needing a maintainer decision first (tracked in Open
   decisions).
 
-### The kernel is complete. Next: STEP E.
+### Current status
 
-`pnpm test` → 20 passed, `typecheck` and `lint` clean, working tree clean,
-`origin/master` up to date at `19819ed`.
+`pnpm test` → **54 passed**, `typecheck` and `lint` clean, working tree clean.
+The kernel and the first platform adapter are both done; E3 is next.
 
 v0.1 definition of done, remaining:
 
-- [ ] `packages/transport-iframe` — the first real platform adapter
-      (`iframe` + `window.postMessage`)
+- [x] `packages/transport-iframe` — the first real platform adapter
+      (`iframe` + `window.postMessage`). Landed in E2/E2.1.
 - [ ] `examples/mock-host` + `examples/hello-miniapp` running in a browser
+      — **E3, the current piece.** The two examples exist and render, but no
+      bridge crosses between them yet.
 - [ ] Capabilities `profile.get` and `storage.*` (§6.3)
 - [ ] Remaining §4.4 error-code coverage (`-32600` for malformed id-bearing
       frames landed in E0; still open: `-32602` for non-object `params`,
       batch arrays via `id: null`, id uniqueness per connection)
 
-**Why E is a different kind of work.** Everything so far was verified over an
-in-memory linked Transport pair. Real `postMessage` is the first time §8
-(origin) and §9 (security requirements) actually bite: origin checking on
-every inbound message, the `moonpool://<mini-app-id>/` origin rule, structured
-clone vs JSON serialisation, and iframe sandbox attributes. Agree a roadmap
-before typing — this is not a continuation of the client work, it is the
-first platform adapter, and it is the piece the native ports will be measured
-against.
+**Why E was a different kind of work** (kept as the rationale for how E1–E2
+were sequenced). Everything before it was verified over an in-memory linked
+Transport pair. Real `postMessage` is the first time §8 (origin) and §9
+(security requirements) actually bite: origin checking on every inbound
+message, the `moonpool://<mini-app-id>/` origin rule, structured clone vs
+JSON serialisation, and iframe sandbox attributes. E is not a continuation
+of the client work — it is the first platform adapter, and it is the piece
+the native ports will be measured against.
 
 ### Why two id checks (decided 2026-08-24)
 
@@ -229,7 +231,7 @@ the handler set is snapshotted before iteration because a handler may
 unsubscribe mid-iteration — the same discard-before-settle discipline used in
 `client.close()`.
 
-### E2.1 — handler isolation on throw (agreed 2026-08-26, DO THIS FIRST)
+### E2.1 — handler isolation on throw — DONE 2026-08-28
 
 **The defect.** `createIframeTransport` fans out to `handlers` with a plain
 `for` loop inside ONE window listener. If a handler throws, the loop aborts
@@ -262,9 +264,37 @@ the browser's own semantics (table above) are the target to match.
 Rejected: leaving it (the trap outlives the memory of it, and this is the
 cheapest moment to fix); a bare `try`/`catch` that swallows (hides bugs).
 
-**Next session order: Claude writes the tests** — "a throwing handler does not
-stop the others" and "the error is not swallowed" — **then the maintainer
-types the fix**, then E3 below.
+**Shipped.** Tests by Claude (two, appended to `iframe-transport.test.ts`);
+maintainer typed the per-handler `try`/`catch`. **54 passed.**
+
+**Why `queueMicrotask`, decided while writing the tests.** Three candidates
+for "re-throw asynchronously", measured rather than assumed:
+
+| Candidate | Verdict |
+| --- | --- |
+| `reportError(e)` | The exact primitive — WHATWG's "report an exception" as a public API. **Undefined in happy-dom AND in Node 22**, so it cannot be tested here. `lib.dom.d.ts` declares it, so it typechecks and then throws at runtime |
+| `setTimeout(() => { throw e })` | Works, testable via `vi.runAllTimers()`. Rejected: background tabs clamp timers to 1000ms+, so a bridge error could be reported a second late; and `setTimeout` already means *real elapsed time* in the client's §4.5 timeout — reusing it here makes one name carry two intents |
+| `queueMicrotask(() => { throw e })` | **Chosen.** No clamping, reported in the same event loop turn as the frame that caused it, and the name says "get off this stack" and nothing else. Testable via `vi.useFakeTimers({ toFake: ['queueMicrotask'] })` + `vi.runAllTicks()` |
+
+Not `Promise.resolve().then(() => { throw e })`: that produces an
+**unhandled rejection**, not an uncaught error. Different event
+(`unhandledrejection` vs `error`), and error collectors commonly hook only
+the latter.
+
+No `reportError ?? queueMicrotask` fallback: the branch would be untestable
+in one direction here, so production would run a path the tests never touch,
+with different timing (synchronous vs microtask) from the one they prove.
+**Transition trigger:** the day a real-browser test runner (Playwright or
+equivalent) lands, switch to `reportError` with no fallback branch and assert
+via `window.onerror`. That switch is an ADR.
+
+**A third test was written and deliberately dropped:** "two throwing handlers
+are both reported". Under sinon fake timers a second `vi.runAllTicks()`
+re-throws the FIRST error, which is a fake-timer artifact, not browser
+behavior. The property is real (the spec continues the microtask checkpoint
+past a throw) but this harness cannot honestly assert it. Same lesson as the
+happy-dom `dispatchEvent` divergence above: **a fact measured through a fake
+is a fact about the fake.**
 
 ### Current piece (E3 — connect the examples, maintainer types)
 
@@ -290,7 +320,7 @@ next session will hit this repeatedly and can use it as the test case.
 ```bash
 corepack enable          # once per machine
 pnpm install
-pnpm test                # expect 20 passed
+pnpm test                # expect 54 passed
 ```
 
 The git remote uses a personal SSH host alias
