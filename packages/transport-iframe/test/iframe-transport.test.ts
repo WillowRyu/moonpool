@@ -11,7 +11,7 @@
  */
 import type { JsonValue } from '@moonpool/protocol';
 import { createIframeTransport } from '@moonpool/transport-iframe';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 const PEER_ORIGIN = 'http://localhost:5174';
 const PING: JsonValue = { jsonrpc: '2.0', id: 1, method: 'portal.ping' };
@@ -156,5 +156,63 @@ describe('SPEC §3.1 — unsubscribing and closing', () => {
     fromPeer(PING);
 
     expect(received).toEqual([]);
+  });
+});
+
+describe('SPEC §3.1 — one throwing handler must not disable the bridge', () => {
+  // The re-throw is parked on the microtask queue, so these tests own that
+  // queue: one lets it run and inspects what came out, the other never runs
+  // it at all. `useRealTimers` then discards whatever is still parked, so a
+  // deliberate failure here cannot leak into another test file.
+  beforeEach(() => {
+    vi.useFakeTimers({ toFake: ['queueMicrotask'] });
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it('keeps delivering to the handlers registered after the one that threw', () => {
+    // The browser isolates every addEventListener listener from the others.
+    // A transport that fans out from ONE listener must not offer less, or
+    // registration order silently decides correctness: a bad bridge logger
+    // registered first would stop the kernel from seeing another message.
+    const { transport, fromPeer } = setup();
+    const ran: string[] = [];
+
+    transport.onMessage(() => {
+      ran.push('before');
+    });
+    transport.onMessage(() => {
+      ran.push('throwing');
+      throw new Error('handler blew up');
+    });
+    transport.onMessage(() => {
+      ran.push('after');
+    });
+
+    fromPeer(PING);
+
+    expect(ran).toEqual(['before', 'throwing', 'after']);
+  });
+
+  it('does not swallow the error — it resurfaces on an empty stack', () => {
+    // Isolating is only half the job. A try/catch that drops the error is the
+    // silent-callback antipattern: handler bugs vanish without a trace, and
+    // the bridge reports nothing while quietly doing nothing.
+    const { transport, fromPeer } = setup();
+    const boom = new Error('handler blew up');
+
+    transport.onMessage(() => {
+      throw boom;
+    });
+
+    // Nothing escapes the dispatch itself, matching the browser: a listener's
+    // exception never reaches whoever fired the event.
+    expect(() => fromPeer(PING)).not.toThrow();
+
+    // But the error is not gone. Re-thrown with no caller above it, it is what
+    // a real browser turns into an uncaught error / window.onerror.
+    expect(() => vi.runAllTicks()).toThrow(boom);
   });
 });

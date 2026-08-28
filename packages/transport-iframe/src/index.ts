@@ -41,7 +41,17 @@ export function createIframeTransport(config: IframeTransportConfig): Transport 
 
     // Snapshot: a handler may unsubscribe while we are iterating.
     for (const handler of [...handlers]) {
-      handler(event.data as JsonValue);
+      try {
+        handler(event.data as JsonValue);
+      } catch (error) {
+        // Isolate the handlers from each other the way the browser isolates
+        // its listeners — but do not swallow. Re-thrown with no caller above
+        // it, this surfaces as an uncaught error / window.onerror instead of
+        // vanishing into the bridge.
+        queueMicrotask(() => {
+          throw error;
+        });
+      }
     }
   };
 
