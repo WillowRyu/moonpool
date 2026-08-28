@@ -60,7 +60,17 @@ export function createHost(config: HostConfig): Host {
 
         const { method } = message;
 
-        if (!initialized && method === PORTAL_METHODS.INITIALIZE) {
+        // SPEC §5.1: a repeat handshake is ordinary traffic — a reload, a link
+        // in a multi-page mini app, a web view recovering from renderer
+        // termination (ADR 0002). Each one is a new document with no memory,
+        // and this message is the only signal the host gets that it happened.
+        // Answer it the same way every time.
+        //
+        // Document-scoped state is reset here. Today `initialized` is all of
+        // it and the assignment below covers that; anything document-scoped
+        // added later MUST be reset in this branch. Origin-scoped state — rate
+        // limits, consent records, storage — MUST NOT be touched.
+        if (method === PORTAL_METHODS.INITIALIZE) {
           const requested = message.params?.protocolVersion;
 
           if (requested !== PROTOCOL_VERSION) {

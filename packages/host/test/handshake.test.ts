@@ -147,7 +147,7 @@ describe('SPEC §5 — version negotiation failure (-32004)', () => {
     },
   );
 
-  it('does not service further calls after a failed negotiation', async () => {
+  it('still gates every other method with -32005 after a failed negotiation', async () => {
     const bridge = setup();
 
     bridge.send(initialize(1, '9.9'));
@@ -155,13 +155,77 @@ describe('SPEC §5 — version negotiation failure (-32004)', () => {
     bridge.send(request(2, 'portal.ping'));
     await flush();
 
-    // §5: after -32004 the host MUST NOT service further calls. The
-    // connection never initialized, so the -32005 gate still applies —
-    // the call must be rejected, never answered with a result.
+    // §5: a failed negotiation leaves the connection uninitialized, and an
+    // uninitialized connection answers everything but the handshake with
+    // -32005. What it does NOT do is poison the connection — see the retry
+    // test below.
     const second = bridge.received[1];
     expect(second?.result).toBeUndefined();
     expect(second?.error?.code).toBe(ERROR_CODES.NOT_INITIALIZED);
   });
+
+  it('accepts a corrected portal.initialize after -32004', async () => {
+    // §5: `-32004` describes one unsupported version, not a poisoned
+    // connection. A mini app that guessed wrong and guesses right on the
+    // second try MUST be answered on the merits.
+    const bridge = setup();
+
+    bridge.send(initialize(1, '9.9'));
+    await flush();
+    bridge.send(initialize(2, '0.1'));
+    await flush();
+
+    expect(bridge.received[0]?.error?.code).toBe(ERROR_CODES.PROTOCOL_VERSION_UNSUPPORTED);
+    expect(bridge.received[1]?.result).toMatchObject({ protocolVersion: '0.1' });
+  });
+});
+
+describe('SPEC §5.1 — repeat handshake', () => {
+  // A Portal's document can be replaced while its transport stays alive: a
+  // reload, a link in a multi-page mini app, a web view recovering from
+  // renderer termination (ADR 0002). Each replacement is a new client with no
+  // memory, and its handshake is the only signal the host can act on — the
+  // transport carries frames and nothing else.
+
+  it('answers a second portal.initialize exactly as it answered the first', async () => {
+    const bridge = setup();
+
+    bridge.send(initialize(1));
+    await flush();
+    // The new document restarts its ids at 1, the way any fresh client does.
+    bridge.send(initialize(1));
+    await flush();
+
+    expect(bridge.received).toHaveLength(2);
+    expect(bridge.received[1]).toEqual(bridge.received[0]);
+  });
+
+  it('leaves the connection usable after a repeat handshake', async () => {
+    const bridge = setup();
+
+    bridge.send(initialize(1));
+    await flush();
+    bridge.send(initialize(1));
+    await flush();
+    bridge.send(request(2, 'portal.ping'));
+    await flush();
+
+    // Deliberately a weak assertion, and it passes both before and after
+    // §5.1: the pre-§5.1 host answered the repeat handshake with -32601 but
+    // kept serving everything else, because `initialized` was still true. The
+    // test that actually catches the defect is the one above. This one guards
+    // the other direction — that accepting a repeat handshake does not leave
+    // the connection unusable.
+    expect(bridge.received[2]).toEqual({ jsonrpc: '2.0', id: 2, result: { pong: true } });
+  });
+
+  // The rest of §5.1's reset boundary is not observable here yet. "Reset
+  // initialization state" and "re-set it" happen inside one handshake, so no
+  // message can catch the connection in between; and the preserved rows
+  // (rate-limit counters, consent records) name state this host does not keep
+  // yet. Those rows bind the implementations that add them — they are not
+  // covered by a test today, and saying so beats a test that only looks like
+  // coverage.
 });
 
 describe('SPEC §6.2 — portal.ping (core method, no scope required)', () => {
