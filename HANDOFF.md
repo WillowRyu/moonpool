@@ -1,7 +1,7 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-08-28 (E3 complete).
+> Last updated: 2026-09-02 (E4.2 done: permission gate + profile.get; E4.3 storage next).
 
 ## How we work (do not skip)
 
@@ -101,10 +101,11 @@ Implementation roadmap:
 
 ### Current status
 
-`pnpm test` → **57 passed**, `typecheck` and `lint` clean, working tree clean.
-The kernel, the first platform adapter, and a real cross-origin bridge between
-the two examples are all done. **E4 (capabilities + the permission gate) is
-next.**
+`pnpm test` → **73 passed**, `typecheck` and `lint` clean.
+The kernel, the first platform adapter, a real cross-origin bridge between the
+two examples, and now the permission gate with the first scoped method are
+done. **E4.3 (`storage.*`) is next**, then E4.4 (`-32602` params guards), then
+the example update and an ADR.
 
 v0.1 definition of done, remaining:
 
@@ -113,21 +114,20 @@ v0.1 definition of done, remaining:
 - [x] `examples/mock-host` + `examples/hello-miniapp` running in a browser.
       Landed in E3; a real §5 handshake crosses a real origin boundary and
       survives Portal reloads.
-- [ ] Capabilities `profile.get` and `storage.*` (§6.3) — **E4, the current
+- [ ] Capabilities `profile.get` and `storage.*` (§6.3) — `profile.get`
+      landed in E4.2 with the gate; **`storage.*` is E4.3, the current
       piece.**
 - [ ] Remaining §4.4 error-code coverage (`-32600` for malformed id-bearing
       frames landed in E0; still open: `-32602` for non-object `params`,
       batch arrays via `id: null`, id uniqueness per connection)
 
-**Not on the checklist but arguably the biggest gap: scope enforcement has
-never run.** `grantedScopes` is computed in the handshake and rendered by the
-example, but nothing consults it, because no method has a scope yet. There is
-no `-32000 PERMISSION_DENIED` anywhere in the codebase. CLAUDE.md lists the
-host as "dispatcher, permission gate, manifest parsing" and only two of those
-three exist. E4 is where the permission gate gets written and tested — SPEC
-§6.3 calls the v0.1 capability set "deliberately minimal … the goal is to
-exercise the permission model", so the capabilities are the vehicle and the
-gate is the cargo.
+**The permission gate exists and runs as of E4.2 (2026-09-02).** The
+paragraph that stood here recorded that scope enforcement had never run and
+that `-32000` appeared nowhere in the codebase. Both are fixed;
+`packages/host/test/permission-gate.test.ts` is the proof. The framing it
+gave is still the right one for the rest of E4: SPEC §6.3 calls the v0.1
+capability set "deliberately minimal … the goal is to exercise the permission
+model", so the capabilities are the vehicle and the gate is the cargo.
 
 **Why E was a different kind of work** (kept as the rationale for how E1–E2
 were sequenced). Everything before it was verified over an in-memory linked
@@ -382,12 +382,106 @@ Two things worth carrying forward:
   denied call too — `storage.*` is ungranted in mock-host on purpose, so the
   permission model stays visible on screen.
 
+**Decided 2026-09-02** (maintainer's call, after the `study/04` deep-dives
+on fail-closed ordering, error-code leakage, dependency injection, and
+hand-written params guards):
+
+- **Decision 1 — `-32000`, and the scope check runs BEFORE method lookup.**
+  A caller without the scope gets `-32000` for every method in that
+  namespace, existing or not, so an ungranted namespace cannot be
+  enumerated. Within a granted namespace an unknown method is `-32601`.
+  Answering `-32601` for everything ungranted was rejected: the mini app
+  already knows its `grantedScopes` from the handshake, so nothing is hidden
+  and debuggability wins. This is a §9 decision.
+- **Decision 2 — typed capability slots on `HostConfig`**, one per §6.3
+  namespace (`profile`, `storage`), each an interface of async methods the
+  embedding host implements (mock-host: a constant profile and an in-memory
+  `Map`). The kernel validates `params` (`-32602`), answers `-32001` when a
+  slot is absent and `-32603` when a handler throws. A generic
+  method→handler map was rejected: it moves §9.6 validation out of the
+  kernel and is the seed of a plugin system (out of scope for v0).
+- Check order after the `-32005` gate: `portal.*` (exact namespace match,
+  never `startsWith`) → scope (`-32000`) → known method (`-32601`) → params
+  (`-32602`) → handler present (`-32001`) → invoke.
+- Still open, to settle when the step is reached: whether the kernel or the
+  host prefixes storage keys with the mini app id (step 3); unknown extra
+  params fields and value size limits (step 4).
+- **Refactor candidate, under green, after E4:** `InitializeResult`,
+  `HostInfo`, `PortalEnvironment` are `interface`s that cross the wire. They
+  compile only because the host builds the handshake result as an object
+  literal and the client casts (`result as InitializeResult`); an interface
+  has no implicit index signature, so assigning one to `JsonValue` fails
+  (verified 2026-09-02 with tsc 7.0.2). Wire shapes should be `type`
+  aliases, like `JsonRpcRequest` / `JsonRpcResponse` / `ProfileGetResult`.
+  Rule of thumb recorded for contributors: union or alias → `type`; crosses
+  the bridge → `type`; a contract for code (methods, config) → `interface`.
+- **Open decision, raise at the end of E4:** enable `exactOptionalPropertyTypes`.
+  Without it a provider may return `{ avatarUrl: undefined }`, which
+  typechecks against `avatarUrl?: string` and then crosses a structured-clone
+  transport as a non-JSON `undefined`. Tried on the root project
+  2026-09-02: exactly one existing line fails (`packages/client/src/index.ts:39`).
+
+### E4.2 — permission gate + `profile.get` — DONE 2026-09-02
+
+Tests by Claude (`packages/host/test/permission-gate.test.ts`, 16 tests);
+maintainer typed protocol and host. **73 passed.**
+
+What landed:
+
+- protocol: `PORTAL_NAMESPACE`, `PROFILE_METHODS`, `ProfileGetResult` (a
+  `type` alias — see the interface-vs-type note above).
+- host: `HostConfig.capabilities?.profile?: ProfileProvider`, decision 2's
+  typed slot. `grantedScopes` (manifest ∩ host grant) is computed once per
+  connection, OUTSIDE the message handler, and shared by the handshake reply
+  (copied with `[...]`) and the gate — it is origin-scoped consent, so §5.1's
+  reset cannot reach it by construction.
+- The gate: `method.split('.')[0] ?? ''`, exempt only when
+  `=== PORTAL_NAMESPACE`, placed below `portal.ping` and above the `-32601`
+  fallthrough. Replies `-32000` with `data: { scope }`.
+- `profile.get`: `-32001` when the slot is empty; otherwise `invokeProfileGet`
+  awaits the provider inside `try` (catches a sync throw AND a rejection),
+  builds the result from the two §6.3 fields only — allowlist on the way out,
+  because a provider returning `session.user` satisfies `ProfileProvider`
+  structurally and must not leak, and `avatarUrl: undefined` must not cross a
+  structured-clone transport — replies `-32603` with a fixed message on
+  failure, then re-throws the provider's error via `queueMicrotask`
+  (decision 3, same shape and rationale as E2.1). `queueMicrotask` is a
+  module-local ambient declaration in host, like the client's `setTimeout`.
+
+Worth carrying forward:
+
+- **The gate was first typed inside the `portal.ping` branch.** Dead code:
+  typecheck and lint green, tests unchanged at 9 red. The tests caught what
+  the compiler cannot — the same lesson as the D-step guard-body accident.
+- Four gate tests pass before the gate exists and say so in their comments.
+  They pin the gate's PLACE: below `-32005`, below `portal.*`, before the
+  provider call.
+- Provider-failure tests live under
+  `vi.useFakeTimers({ toFake: ['queueMicrotask'] })`; without it the real
+  re-throw fails the run as an unhandled error. `useRealTimers()` discards
+  the parked throw.
+
+### Current piece — E4.3, `storage.*`
+
+`storage.get` / `storage.set` / `storage.delete` (§6.3), a `StorageProvider`
+slot next to `profile`, mock-host backed by an in-memory `Map`. To settle
+before the tests are written:
+
+- **Who builds the wall between mini apps** (§6.3 "namespaced per mini app id
+  by the host"): the kernel prefixes every key with `config.manifest.id`
+  before calling the provider, or the host injects a per-mini-app provider.
+  Kernel-side prefixing lets a pure test prove "cannot read another mini
+  app's key"; host-side pushes that proof onto every host.
+- `-32602` for malformed `params` is E4.4, not here — but `storage.get`
+  cannot even be dispatched without reading `params.key`, so E4.3 will need
+  at least the happy-path guard shape and E4.4 the negative cases.
+
 ### Picking this up on another machine
 
 ```bash
 corepack enable          # once per machine
 pnpm install
-pnpm test                # expect 57 passed
+pnpm test                # expect 73 passed
 ```
 
 The git remote uses a personal SSH host alias
