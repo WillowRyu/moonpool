@@ -72,6 +72,16 @@ export interface InitializeResult {
   environment: PortalEnvironment;
 }
 
+/**
+ * SPEC §6.3 — result of `profile.get`. A type alias, not an interface, for
+ * the same reason as `JsonRpcRequest`: the host sends it as a `JsonValue`,
+ * and only aliases get the implicit index signature that allows that.
+ */
+export type ProfileGetResult = {
+  displayName: string;
+  avatarUrl?: string;
+};
+
 /** SPEC §7 — `moonpool.json`, shipped at every mini app's package root. */
 export interface MiniAppManifest {
   manifestVersion: 1;
@@ -116,11 +126,19 @@ export function isJsonRpcRequest(value: JsonValue | undefined): value is JsonRpc
   );
 }
 
+/** SPEC §6.2 — the one namespace that needs no scope. Compared exactly, never as a prefix. */
+export const PORTAL_NAMESPACE = 'portal';
+
 /** SPEC §6.2 — reserved core methods; the `portal` namespace needs no scope. */
 export const PORTAL_METHODS = {
   INITIALIZE: 'portal.initialize',
   PING: 'portal.ping',
   CLOSE: 'portal.close',
+} as const;
+
+/** SPEC §6.3 — the `profile` namespace; scope `profile`. */
+export const PROFILE_METHODS = {
+  GET: 'profile.get',
 } as const;
 
 /**
