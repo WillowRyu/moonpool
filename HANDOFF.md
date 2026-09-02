@@ -1,7 +1,8 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-09-02 (E4.2 done: permission gate + profile.get; E4.3 storage next).
+> Last updated: 2026-09-02, end of session (E4.2 done; E4.3 not started — resume at
+> "Current piece" below; decision 4 still open).
 
 ## How we work (do not skip)
 
@@ -14,6 +15,16 @@
   code after every step.
 - Explanations at junior level: define every term in plain language with an
   analogy — but don't shrink the steps.
+- **Refined 2026-09-02, after the maintainer asked "이거 스터디 모드 맞아?".**
+  Every handover has, in this order: (1) the design and the why; (2) a
+  glossary table for the step's NEW terms — plain definition plus an analogy;
+  (3) the exact snippet to type, with a why per line (the maintainer asked
+  for the code itself: "don't write the code for them" means don't Edit/Write
+  it into the implementation files, not withhold it); (4) the concrete check
+  with the expected test delta; (5) two to four named deep-dive offers. A
+  handover missing (2) or (5) is the regression they noticed. Deep-dives are
+  answered in prose unless they ask for HTML. `study/*.html` are gitignored
+  personal notes and do NOT travel between machines.
 - Dialogue in Korean, repository artifacts in English (see CLAUDE.md).
 
 ## Where we are (v0.1)
@@ -291,8 +302,13 @@ for "re-throw asynchronously", measured rather than assumed:
 
 Not `Promise.resolve().then(() => { throw e })`: that produces an
 **unhandled rejection**, not an uncaught error. Different event
-(`unhandledrejection` vs `error`), and error collectors commonly hook only
-the latter.
+(`unhandledrejection` vs `error`). Correction 2026-09-02: modern collectors
+(Sentry's `GlobalHandlers`, Datadog RUM) hook BOTH by default, so the
+argument is not "it would be missed" but "it would be reported worse" — a
+rejection is grouped separately and, when its reason is not an `Error`,
+arrives with no stack ("Non-Error promise rejection captured"); a re-thrown
+uncaught error carries the original stack. And Promise jobs cannot be faked
+by `vi.useFakeTimers`, so the `then` form is untestable here.
 
 No `reportError ?? queueMicrotask` fallback: the branch would be untestable
 in one direction here, so production would run a path the tests never touch,
@@ -461,20 +477,62 @@ Worth carrying forward:
   re-throw fails the run as an unhandled error. `useRealTimers()` discards
   the parked throw.
 
-### Current piece — E4.3, `storage.*`
+### Current piece — E4.3, `storage.*` (NOT STARTED — resume here)
 
 `storage.get` / `storage.set` / `storage.delete` (§6.3), a `StorageProvider`
-slot next to `profile`, mock-host backed by an in-memory `Map`. To settle
-before the tests are written:
+slot next to `profile`, mock-host backed by an in-memory `Map`. The gate
+already covers the `storage` namespace; nothing new there. Glossary given on
+2026-09-02: key-value store = 사물함, namespacing = "302호의 3번 사물함",
+isolation = 남의 호수 사물함은 열쇠가 안 맞음, composite key = 호수와 번호를
+한 줄로 쓴 것.
 
-- **Who builds the wall between mini apps** (§6.3 "namespaced per mini app id
-  by the host"): the kernel prefixes every key with `config.manifest.id`
-  before calling the provider, or the host injects a per-mini-app provider.
-  Kernel-side prefixing lets a pure test prove "cannot read another mini
-  app's key"; host-side pushes that proof onto every host.
-- `-32602` for malformed `params` is E4.4, not here — but `storage.get`
-  cannot even be dispatched without reading `params.key`, so E4.3 will need
-  at least the happy-path guard shape and E4.4 the negative cases.
+**Decision 4 — who builds the wall between mini apps — NOT MADE YET.** §6.3:
+"namespaced per mini app id by the host. A mini app MUST NOT be able to read
+another mini app's keys." Options as presented:
+
+| | Shape | For | Against |
+| --- | --- | --- | --- |
+| **A (recommended)** | provider takes the id separately — `get(miniAppId, key)`, `set(miniAppId, key, value)`, `delete(miniAppId, key)`; the kernel always passes `config.manifest.id` | the wall lives in the kernel, so a pure test proves it; the signature makes isolation impossible to forget; native hosts map id → per-app directory / keychain group | one more argument |
+| A' | kernel composes `${id}:${key}` | provider takes one key | delimiter collision (a key containing `:`) — needs a rule to forbid it |
+| B | host injects a per-mini-app provider | kernel stays id-agnostic | the proof moves onto every host; not testable here |
+
+Tests under A: `storage.get { key: 'theme' }` reaches the provider as
+`get('com.example.hello', 'theme')`; a smuggled `params.miniAppId` changes
+nothing — the id comes from the manifest fixed at the handshake, never from
+params. A missing key answers `{ value: null }`. Failure and re-throw
+semantics identical to `profile.get`.
+
+**Spec gap to raise at E4.4 (told the maintainer 2026-09-02):** §6.3 makes
+"absent" `{ value: null }`, but JSON `null` is also a storable value, so
+`set { value: null }` makes the two indistinguishable. Needs a SPEC.md
+decision — likely: reject `null` in `storage.set` with `-32602`, so `null`
+on `get` means absent, unambiguously. Propose the one-line SPEC change and
+wait for approval before coding it (CLAUDE.md: never resolve a spec gap by
+editing code first).
+
+Resume checklist:
+
+1. Ask decision 4 (the table above; recommend A).
+2. Claude writes the tests: a new `packages/host/test/storage.test.ts`
+   mirroring `permission-gate.test.ts` (same `setup`, `callAfterHandshake`,
+   fake `queueMicrotask` for the failure cases). Verify RED for the right
+   reason before handing anything over.
+3. Maintainer types: protocol `STORAGE_METHODS` and the result types (type
+   aliases — they cross the wire); host `StorageProvider` (every method
+   async, §9.5) and `HostCapabilities.storage?`; the three dispatch branches,
+   each through an async invoke helper with the same try/catch, `-32603`,
+   `queueMicrotask` re-throw shape as `invokeProfileGet`. A shared
+   `invoke(id, run)` helper is the obvious refactor — do it UNDER GREEN,
+   after the three branches work, not before.
+4. `-32602` params guards are E4.4, but `storage.get` cannot be dispatched
+   without reading `params.key`, so E4.3 needs the happy-path guard shape
+   (`isJsonObject` + `typeof key === 'string'`, in protocol next to the
+   other guards); E4.4 adds the negative cases, the `null` value decision,
+   unknown extra fields, and value size limits.
+5. E4.5: mock-host gets a `Map`-backed `StorageProvider` and a constant
+   `ProfileProvider`; hello-miniapp calls `profile.get` and renders it, and
+   calls `storage.set` so a `-32000` is visible on screen (mock-host grants
+   only `profile` on purpose). E4.6: ADR for decisions 1–4, HANDOFF, commit.
 
 ### Picking this up on another machine
 
@@ -491,7 +549,9 @@ The git remote uses a personal SSH host alias
 Tutor mode is machine-local and deliberately not committed (this repo is
 meant to ship as MIT open source; nobody cloning it should inherit study
 mode). Turn it on in the new session with `/study-coding-mode:toggle on`.
-The "How we work" section above is the durable record of the agreement.
+The "How we work" section above is the durable record of the agreement —
+Claude's memory files and the `study/` notes (01–04, Korean HTML) exist only
+on the original machine.
 
 ## Open decisions (maintainer's call, not made yet)
 
