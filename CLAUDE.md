@@ -7,6 +7,12 @@ Ionic Portals, rebuilt as open source under MIT.
 Read `SPEC.md` before writing any code. It is the normative document for this
 project; this file is the working agreement.
 
+**One file, three names.** `AGENTS.md` (Codex) and
+`.github/copilot-instructions.md` (Copilot) are symlinks to this file, so every
+coding agent reads the same agreement and it cannot drift. Edit this file. Do
+not replace a symlink with a copy, and never redirect output into one of those
+paths — the write follows the link and truncates this file.
+
 ---
 
 ## Architecture invariants
@@ -87,7 +93,8 @@ implies work beyond what was requested, surface it rather than building it.
 
 ```
 SPEC.md                     protocol specification (normative)
-CLAUDE.md                   this file
+CLAUDE.md                   this file (symlinked as AGENTS.md, copilot-instructions.md)
+HANDOFF.md                  session continuity: where work stopped, open decisions
 packages/
   protocol/                 shared types, error codes, message validation (pure)
   client/                   runs inside the mini app

@@ -548,7 +548,10 @@ The git remote uses a personal SSH host alias
 
 Tutor mode is machine-local and deliberately not committed (this repo is
 meant to ship as MIT open source; nobody cloning it should inherit study
-mode). Turn it on in the new session with `/study-coding-mode:toggle on`.
+mode). In Claude Code, turn it on with `/study-coding-mode:toggle on`; in any
+other agent (Codex reads `AGENTS.md`, a symlink to `CLAUDE.md`) there is no
+such command — say "follow the How we work section of HANDOFF.md" at the start
+of the session instead, since that section is the agreement, not the plugin.
 The "How we work" section above is the durable record of the agreement —
 Claude's memory files and the `study/` notes (01–04, Korean HTML) exist only
 on the original machine.
