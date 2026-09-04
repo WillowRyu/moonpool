@@ -1,17 +1,19 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-09-02, end of session (E4.2 done; E4.3 not started — resume at
-> "Current piece" below; decision 4 still open).
+> Last updated: 2026-09-04, storage.get/set typed by the maintainer and verified
+> GREEN: 106 tests passed, typecheck and lint clean. Null policy is SPEC §6.3 /
+> ADR 0004. Added missing rationale comments at the maintainer's request and
+> recorded the comment standard below. Next: storage.delete. Study mode: junior.
 
 ## How we work (do not skip)
 
 - **Tutor mode ("study coding mode"), level: junior — implementation-first
-  (agreed 2026-08-19).** Division of labor: **Claude writes and maintains
+  (agreed 2026-08-19).** Division of labor: **The coding agent writes and maintains
   the tests; the maintainer TYPES the implementation code.** Explanations
   start from the running code ("what does this thing do"), then point at
   which tests cover it. Larger steps than before; the reward of each step is
-  red tests turning green. Claude reads and verifies the maintainer's typed
+  red tests turning green. The coding agent reads and verifies the maintainer's typed
   code after every step.
 - Explanations at junior level: define every term in plain language with an
   analogy — but don't shrink the steps.
@@ -25,6 +27,17 @@
   handover missing (2) or (5) is the regression they noticed. Deep-dives are
   answered in prose unless they ask for HTML. `study/*.html` are gitignored
   personal notes and do NOT travel between machines.
+- **Refined 2026-09-04 — keep the rationale in the code too.** The maintainer
+  pointed out that the storage handovers had fewer useful comments than the
+  existing code. Include English documentation comments with handover snippets
+  for public contracts, wire types, guards, and invocation helpers where their
+  purpose or constraints need explanation. Cite SPEC/ADRs and explain the
+  security/portability rationale, input/output semantics, and important limits.
+  Add inline comments where ordering or a subtle check matters (for example,
+  identity selection, null versus falsy values, and awaiting write completion).
+  Avoid merely translating syntax into prose. Chat explanations supplement
+  these comments; they do not replace them. The agent can maintain requested
+  comments without changing the maintainer's implementation logic.
 - Dialogue in Korean, repository artifacts in English (see CLAUDE.md).
 
 ## Where we are (v0.1)
@@ -112,10 +125,15 @@ Implementation roadmap:
 
 ### Current status
 
-`pnpm test` → **73 passed**, `typecheck` and `lint` clean.
+Before E4.3: **73 passed**, `typecheck` and `lint` clean.
+After storage.get: **85 passed**, `typecheck` and `lint` clean. The maintainer
+typed the complete read slice and the agent verified it on 2026-09-04.
+Current: `pnpm test` → **106 passed**, `typecheck` and `lint` clean after the
+maintainer typed storage.set. Both get and set are implemented; delete is next.
+The browser example still has no capability providers.
 The kernel, the first platform adapter, a real cross-origin bridge between the
 two examples, and now the permission gate with the first scoped method are
-done. **E4.3 (`storage.*`) is next**, then E4.4 (`-32602` params guards), then
+done. **E4.3 (`storage.*`) is in progress**, then E4.4 (remaining params guards), then
 the example update and an ADR.
 
 v0.1 definition of done, remaining:
@@ -419,9 +437,9 @@ hand-written params guards):
 - Check order after the `-32005` gate: `portal.*` (exact namespace match,
   never `startsWith`) → scope (`-32000`) → known method (`-32601`) → params
   (`-32602`) → handler present (`-32001`) → invoke.
-- Still open, to settle when the step is reached: whether the kernel or the
-  host prefixes storage keys with the mini app id (step 3); unknown extra
-  params fields and value size limits (step 4).
+- Storage identity was settled on 2026-09-04: pass app id and key separately
+  (decision 4 below, ADR 0003). Unknown extra params fields and value size
+  limits remain open for step 4.
 - **Refactor candidate, under green, after E4:** `InitializeResult`,
   `HostInfo`, `PortalEnvironment` are `interface`s that cross the wire. They
   compile only because the host builds the handshake result as an object
@@ -477,7 +495,7 @@ Worth carrying forward:
   re-throw fails the run as an unhandled error. `useRealTimers()` discards
   the parked throw.
 
-### Current piece — E4.3, `storage.*` (NOT STARTED — resume here)
+### Current piece — E4.3, `storage.*` (get/set DONE; delete NEXT)
 
 `storage.get` / `storage.set` / `storage.delete` (§6.3), a `StorageProvider`
 slot next to `profile`, mock-host backed by an in-memory `Map`. The gate
@@ -486,72 +504,159 @@ already covers the `storage` namespace; nothing new there. Glossary given on
 isolation = 남의 호수 사물함은 열쇠가 안 맞음, composite key = 호수와 번호를
 한 줄로 쓴 것.
 
-**Decision 4 — who builds the wall between mini apps — NOT MADE YET.** §6.3:
+**Decision 4 — approved 2026-09-04: app id and key are separate arguments.** §6.3:
 "namespaced per mini app id by the host. A mini app MUST NOT be able to read
-another mini app's keys." Options as presented:
+another mini app's keys." Recorded in
+`docs/adr/0003-pass-storage-app-identity-separately.md`.
+
+The kernel selects the identity from host-held configuration; the provider
+must actually partition its data by that identity. An argument alone does
+not guarantee isolation. Options considered:
 
 | | Shape | For | Against |
 | --- | --- | --- | --- |
-| **A (recommended)** | provider takes the id separately — `get(miniAppId, key)`, `set(miniAppId, key, value)`, `delete(miniAppId, key)`; the kernel always passes `config.manifest.id` | the wall lives in the kernel, so a pure test proves it; the signature makes isolation impossible to forget; native hosts map id → per-app directory / keychain group | one more argument |
-| A' | kernel composes `${id}:${key}` | provider takes one key | delimiter collision (a key containing `:`) — needs a rule to forbid it |
-| B | host injects a per-mini-app provider | kernel stays id-agnostic | the proof moves onto every host; not testable here |
+| **A (accepted)** | provider takes the id separately — `get(miniAppId, key)`, `set(miniAppId, key, value)`, `delete(miniAppId, key)`; the kernel always passes `config.manifest.id` | identity selection can be tested at the kernel boundary; providers choose their own storage layout | one more argument; providers still must enforce separation |
+| A' | kernel composes `${id}:${key}` | provider takes one key | couples the contract to an encoding convention; contrary to the earlier note, a colon in the key alone cannot collide when valid app ids contain no colon |
+| B | host injects a per-mini-app provider | kernel stays id-agnostic | correct binding must be verified separately in each embedding host |
 
-Tests under A: `storage.get { key: 'theme' }` reaches the provider as
-`get('com.example.hello', 'theme')`; a smuggled `params.miniAppId` changes
-nothing — the id comes from the manifest fixed at the handshake, never from
-params. A missing key answers `{ value: null }`. Failure and re-throw
-semantics identical to `profile.get`.
+Tests under A: the provider receives the manifest id and the unmodified key
+separately; two connections using one partitioned provider read their own
+values for the same key. A missing key answers `{ value: null }`. Failure and
+re-throw semantics match `profile.get`. A smuggled `params.miniAppId` must
+never choose another app; its dedicated test is deferred until E4.4 decides
+whether unknown fields are ignored or rejected, so the test does not silently
+settle that open policy.
 
-**Spec gap to raise at E4.4 (told the maintainer 2026-09-02):** §6.3 makes
-"absent" `{ value: null }`, but JSON `null` is also a storable value, so
-`set { value: null }` makes the two indistinguishable. Needs a SPEC.md
-decision — likely: reject `null` in `storage.set` with `-32602`, so `null`
-on `get` means absent, unambiguously. Propose the one-line SPEC change and
-wait for approval before coding it (CLAUDE.md: never resolve a spec gap by
-editing code first).
+**2026-09-04 — storage.get test handover.** Added 12 tests in
+`packages/host/test/storage.test.ts`: id/key forwarding and JSON result,
+missing key, two-app reads, async settlement, denied scope, missing provider,
+three invalid-key cases, validation-before-availability, and two provider
+failure shapes. Verified **74 passed / 11 failed** overall; the existing
+scope gate accounts for the one new green test. Failures are caused by
+`-32601 unknown method: storage.get`, not a test-loading error. Typecheck has
+exactly two expected errors: missing `StorageProvider` export and missing
+`HostCapabilities.storage`. Lint passes.
+
+**2026-09-04 — storage.get implementation DONE.** The maintainer typed the
+complete read slice: protocol
+`STORAGE_METHODS.GET`, `StorageGetParams`, `StorageGetResult`,
+`isStorageGetParams`; host `StorageProvider.get(miniAppId, key):
+Promise<JsonValue>`, optional storage slot, `invokeStorageGet`, and the branch
+below the permission gate. The provider interface has only get for this step;
+set/delete are added with their tests later. Read the diff and ran all checks:
+**85 passed**, both missing-contract type errors resolved, lint clean. The
+implementation matches the handover, including gate placement and error
+handling. No implementation code has been edited by the agent.
+
+The maintainer asked for two deep-dives before moving on: identity forwarding
+versus storage isolation, and whether a provider checks feature availability.
+Explain from their code: the embedding host supplies the executable provider;
+the kernel checks its presence and separately enforces grantedScopes. The
+provider performs the operation and must respect the app id. The first test
+observes the kernel's call arguments; the two-app test uses a deliberately
+partitioned test provider. Neither certifies an arbitrary future provider's
+storage layout. The real example provider needs its own isolation checks when
+it is implemented. Also discussed dependency injection, ports and adapters,
+when a boundary is useful, and passing a concrete notifier object to a caller.
+The maintainer requested proceeding after those examples; do not repeat the
+provider lesson before moving on.
+
+**Null policy — approved 2026-09-04 (ADR 0004).** The maintainer approved the
+proposal to reject a missing or top-level null storage.set value with -32602,
+while permitting null inside objects and arrays. SPEC §6.3 now reserves
+`{ "value": null }` for an absent key. The assistant explicitly restated that
+even an intentional top-level null write gets an error. Allowing null with an
+ambiguous read result was an alternative; it was not the chosen policy.
+SPEC was updated before the tests. CHANGELOG.md records the draft-contract
+tightening, and ADR 0004 records the decision. Do not ask again.
+
+**2026-09-04 — storage.set tests, verified RED before implementation.** Added 21
+tests to storage.test.ts: id/key/value forwarding and an empty result, two-app
+write/read round trips, false/zero/empty-string/nested-null values, waiting for
+write completion, permission and initialization gates, missing provider,
+invalid params, validation-before-availability, preserving an existing value
+on null rejection, and both provider failure shapes. The setup helper accepts
+partial providers and fills unused operations with throwing stubs; this keeps
+the existing read tests focused as the provider contract grows.
+
+Before implementation, verified **88 passed / 18 failed** overall (33 storage
+tests, of which 15 pass). The three newly green cases cover the existing permission and
+initialization gates. All 18 failures are caused by -32601 for storage.set.
+Typecheck reports eight occurrences of the missing set member in test fixtures;
+lint passes. Existing production code has not been changed by the agent.
+
+**2026-09-04 — storage.set implementation DONE.** The maintainer typed
+STORAGE_METHODS.SET; protocol StorageSetValue = Exclude<JsonValue, null>,
+StorageSetParams, and isStorageSetParams (object, string key, value neither
+undefined nor null); StorageProvider.set with Promise<void>; invokeStorageSet
+awaiting the provider before sending an empty result; and the guarded set
+branch after the permission gate. The agent read the diff and verified
+**106 passed**, typecheck and lint clean. No separate type is needed for the
+literal empty success result.
+
+The maintainer then requested richer comments matching the earlier code.
+Added English documentation and inline rationale to the storage contracts,
+guards, invocation helpers, and dispatch branches. Corrected the stale
+"storage read method", "Skeleton only", and single-invocation-location
+comments. These are documentation edits; the implementation remains the
+maintainer's. Carry this comment style into the delete handover.
 
 Resume checklist:
 
-1. Ask decision 4 (the table above; recommend A).
-2. Claude writes the tests: a new `packages/host/test/storage.test.ts`
-   mirroring `permission-gate.test.ts` (same `setup`, `callAfterHandshake`,
-   fake `queueMicrotask` for the failure cases). Verify RED for the right
-   reason before handing anything over.
-3. Maintainer types: protocol `STORAGE_METHODS` and the result types (type
+1. Decision 4 is approved; do not ask again.
+2. storage.get/set are verified GREEN and the provider discussion is finished.
+   Both identity and null policies are approved; do not repeat either decision.
+3. Continue with delete tests and a commented handover. Maintainer types
+   protocol `STORAGE_METHODS` additions and the result types (type
    aliases — they cross the wire); host `StorageProvider` (every method
    async, §9.5) and `HostCapabilities.storage?`; the three dispatch branches,
    each through an async invoke helper with the same try/catch, `-32603`,
    `queueMicrotask` re-throw shape as `invokeProfileGet`. A shared
    `invoke(id, run)` helper is the obvious refactor — do it UNDER GREEN,
    after the three branches work, not before.
-4. `-32602` params guards are E4.4, but `storage.get` cannot be dispatched
-   without reading `params.key`, so E4.3 needs the happy-path guard shape
-   (`isJsonObject` + `typeof key === 'string'`, in protocol next to the
-   other guards); E4.4 adds the negative cases, the `null` value decision,
-   unknown extra fields, and value size limits.
+4. The read slice includes `isJsonObject` + `typeof key === 'string'`, with
+   negative tests for omitted params, a missing key, and a non-string key.
+   E4.4 covers the remaining params cases, unknown fields (including a forged
+   miniAppId), and value size limits. Non-object params still hit the existing
+   request-envelope guard; that known error-code issue is deferred to E4.4.
+   Also validate the actual JSON value tree at the browser ingress boundary:
+   a JsonValue annotation/cast does not prove that a structured-clone payload
+   is JSON. Current method guards check required fields and the null policy;
+   nested undefined, non-finite numbers, non-JSON objects, and cycles are not
+   covered yet. Address this before claiming full §9.6 conformance.
 5. E4.5: mock-host gets a `Map`-backed `StorageProvider` and a constant
    `ProfileProvider`; hello-miniapp calls `profile.get` and renders it, and
    calls `storage.set` so a `-32000` is visible on screen (mock-host grants
-   only `profile` on purpose). E4.6: ADR for decisions 1–4, HANDOFF, commit.
+   only `profile` on purpose). E4.6: ADR for decisions 1–3 (decision 4 is
+   already ADR 0003), HANDOFF, commit.
 
 ### Picking this up on another machine
 
 ```bash
 corepack enable          # once per machine
 pnpm install
-pnpm test                # expect 73 passed
+pnpm test                # expect 106 passed
 ```
 
 The git remote uses a personal SSH host alias
 (`git@github.com-personal:WillowRyu/moonpool.git`) — that alias must exist in
 `~/.ssh/config` on the new machine or the clone/push will fail.
 
-Tutor mode is machine-local and deliberately not committed (this repo is
-meant to ship as MIT open source; nobody cloning it should inherit study
-mode). In Claude Code, turn it on with `/study-coding-mode:toggle on`; in any
-other agent (Codex reads `AGENTS.md`, a symlink to `CLAUDE.md`) there is no
-such command — say "follow the How we work section of HANDOFF.md" at the start
-of the session instead, since that section is the agreement, not the plugin.
+Tutor mode is local to the session working directory and deliberately not
+committed (this repo is meant to ship as MIT open source; nobody cloning it
+should inherit study mode). In Claude Code, resume with
+`/study-coding-mode:toggle on`. With the Codex plugin installed, use
+`$study-coding-mode:study-coding-mode on`; use `status` to inspect without
+changing state. Both hosts share the gitignored `.claude/study-coding-mode`
+marker in the session working directory. An explicit `on` preserves the saved
+level; a bare invocation toggles and could turn an active mode off.
+
+Verified in Codex on 2026-09-04: plugin `study-coding-mode@willow` 0.3.0 is
+enabled and its skill is available; the bundled mode controller returns
+`{"enabled":true,"level":"junior"}` for this workspace. Automatic hook delivery
+was not verified; use the explicit resume command when restoring context.
+If the plugin is unavailable in another agent, ask it to follow the "How we
+work" section of HANDOFF.md. Codex reads `AGENTS.md`, a symlink to `CLAUDE.md`.
 The "How we work" section above is the durable record of the agreement —
 Claude's memory files and the `study/` notes (01–04, Korean HTML) exist only
 on the original machine.
