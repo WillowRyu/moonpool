@@ -141,6 +141,69 @@ export const PROFILE_METHODS = {
   GET: 'profile.get',
 } as const;
 
+/** SPEC §6.3 — storage methods; the namespace itself is the permission scope. */
+export const STORAGE_METHODS = {
+  GET: 'storage.get',
+  SET: 'storage.set',
+} as const;
+
+/**
+ * SPEC §6.3 — the caller selects a key, never the owning mini app.
+ * The host supplies the app identity separately to its provider (ADR 0003).
+ */
+export type StorageGetParams = {
+  key: string;
+};
+
+/**
+ * SPEC §6.3 / ADR 0004 — null means the key is absent. The value envelope
+ * remains present even for null, false, zero, or an empty string.
+ * A wire type alias, like ProfileGetResult, so it is assignable to JsonValue.
+ */
+export type StorageGetResult = {
+  value: JsonValue;
+};
+
+/**
+ * SPEC §9.6 — prove the required read field before the host uses params.key.
+ * Omitted params, a missing key, and a non-string key fail this check.
+ * Additional fields do not participate in selecting the storage owner.
+ */
+export function isStorageGetParams(value: JsonValue | undefined): value is StorageGetParams {
+  return isJsonObject(value) && typeof value.key === 'string';
+}
+
+/**
+ * SPEC §6.3 / ADR 0004 — reserve a top-level null for the missing-key result.
+ * Exclude removes only that union member: objects and arrays may still
+ * contain null. This is a type-level contract; runtime input needs a guard.
+ */
+export type StorageSetValue = Exclude<JsonValue, null>;
+
+/** SPEC §6.3 — a write carries both the caller's key and the value to store. */
+export type StorageSetParams = {
+  key: string;
+  value: StorageSetValue;
+};
+
+/**
+ * SPEC §9.6 / ADR 0004 — check required fields and the null policy before
+ * any storage mutation. The predicate gives dispatch a StorageSetValue.
+ * Nested data relies on the Transport's JsonValue contract: this guard does
+ * not recursively validate value types or cycles. See HANDOFF's remaining
+ * JSON-boundary validation work before claiming full §9.6 conformance.
+ */
+export function isStorageSetParams(params: JsonValue | undefined): params is StorageSetParams {
+  // Test absence explicitly: a truthiness check would also reject false, 0,
+  // and "". Inspect only the outer value so nested null remains valid data.
+  return (
+    isJsonObject(params) &&
+    typeof params.key === 'string' &&
+    params.value !== undefined &&
+    params.value !== null
+  );
+}
+
 /**
  * SPEC §4.3 — a response to a request. Exactly one of `result` / `error`.
  * A type alias, not an interface, for the same reason as `JsonRpcRequest`.

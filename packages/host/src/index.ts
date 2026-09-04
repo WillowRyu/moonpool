@@ -1,26 +1,33 @@
 /**
- * @moonpool/host — kernel host: dispatcher, permission gate, manifest parsing.
+ * @moonpool/host — kernel host: request dispatch and scope enforcement.
  *
  * Pure by design: nothing here may import a platform API (CLAUDE.md, SPEC §3).
  *
- * Skeleton only — the failing tests in `test/` are the contract to implement.
+ * The kernel owns initialization, request routing, and permission checks.
+ * The embedding application supplies the actual capability implementations.
  */
 
 import type {
   HostInfo,
+  JsonValue,
   MiniAppManifest,
   PortalEnvironment,
   ProfileGetResult,
+  StorageGetResult,
+  StorageSetValue,
   Transport,
 } from '@moonpool/protocol';
 import {
   ERROR_CODES,
   hasRequestId,
   isJsonRpcRequest,
+  isStorageGetParams,
+  isStorageSetParams,
   PORTAL_METHODS,
   PORTAL_NAMESPACE,
   PROFILE_METHODS,
   PROTOCOL_VERSION,
+  STORAGE_METHODS,
 } from '@moonpool/protocol';
 
 /**
@@ -41,11 +48,28 @@ export interface ProfileProvider {
 }
 
 /**
+ * SPEC §6.3 — storage supplied by the embedding host, async per §9.5.
+ * The kernel passes its manifest's app id separately from the caller's key
+ * (ADR 0003). The provider MUST partition data by that id; receiving the
+ * argument alone does not enforce isolation. Storage layout and platform
+ * APIs belong in this implementation, outside the pure kernel (SPEC §3).
+ */
+export interface StorageProvider {
+  /** Return the app's stored value, or null only when its key is absent (ADR 0004). */
+  get(miniAppId: string, key: string): Promise<JsonValue>;
+  /** Resolve after the write completes; the kernel then sends the empty success result. */
+  set(miniAppId: string, key: string, value: StorageSetValue): Promise<void>;
+}
+
+/**
  * Capability handlers, one slot per §6.3 namespace — the "Capability
  * handlers" layer of SPEC §3. A slot the host leaves empty answers `-32001`.
+ * These are executable implementations. Their presence does not grant the
+ * caller permission: grantedScopes is checked separately at dispatch (§9.3).
  */
 export interface HostCapabilities {
   profile?: ProfileProvider;
+  storage?: StorageProvider;
 }
 
 export interface HostConfig {
@@ -80,8 +104,8 @@ export function createHost(config: HostConfig): Host {
         return config.grantedScopes.includes(scope);
       });
 
-      // The one place a provider is invoked. Async work lives here so the
-      // dispatcher below stays synchronous: one branch, one reply, `return`.
+      // Provider calls live in async helpers so the dispatcher below stays
+      // synchronous: one branch, one reply, `return`.
       // `await` inside `try` catches a provider that rejects AND one that
       // throws synchronously; either way the mini app gets exactly one reply,
       // and the provider's own error text stays on the host side (§4.4).
@@ -110,6 +134,74 @@ export function createHost(config: HostConfig): Host {
           // handler isolation, E2.1). Re-thrown with no caller above it, the
           // provider's error surfaces as an uncaught error / window.onerror
           // on the HOST side — never in the reply (§4.4).
+          queueMicrotask(() => {
+            throw error;
+          });
+        }
+      }
+
+      /**
+       * SPEC §6.3 — wrap the provider's raw value in the wire result { value }.
+       * Dispatch has already checked scope, key, and provider availability.
+       * Like profile.get, provider failures get one sanitized reply while
+       * the original error remains observable on the host (§4.4).
+       */
+      async function invokeStorageGet(
+        id: number,
+        key: string,
+        provider: StorageProvider,
+      ): Promise<void> {
+        try {
+          // Identity comes from host-held configuration, never from params.
+          // Keep it separate from the key so each provider can choose its
+          // own storage layout without changing the bridge contract (ADR 0003).
+          const value = await provider.get(config.manifest.id, key);
+          const result: StorageGetResult = { value };
+          transport.send({ jsonrpc: '2.0', id, result });
+        } catch (error) {
+          transport.send({
+            jsonrpc: '2.0',
+            id,
+            error: {
+              code: ERROR_CODES.INTERNAL_ERROR,
+              message: `${STORAGE_METHODS.GET} failed inside the host`,
+            },
+          });
+          // Queue the host-side report after sending the error reply, using
+          // the same uncaught-error reporting policy as profile.get.
+          queueMicrotask(() => {
+            throw error;
+          });
+        }
+      }
+
+      /**
+       * SPEC §6.3 — acknowledge the write with {}, only after it completes.
+       * The provider's Promise<void> signals completion; it supplies no wire
+       * result. Input rejection happens before this helper can mutate storage.
+       */
+      async function invokeStorageSet(
+        id: number,
+        key: string,
+        value: StorageSetValue,
+        provider: StorageProvider,
+      ): Promise<void> {
+        try {
+          // Reads and writes must use the same host-selected app identity.
+          // Await completion before telling the mini app its write succeeded.
+          await provider.set(config.manifest.id, key, value);
+          transport.send({ jsonrpc: '2.0', id, result: {} });
+        } catch (error) {
+          transport.send({
+            jsonrpc: '2.0',
+            id,
+            error: {
+              code: ERROR_CODES.INTERNAL_ERROR,
+              message: `${STORAGE_METHODS.SET} failed inside the host`,
+            },
+          });
+          // Keep the original failure visible on the host without exposing
+          // provider error details to the mini app (§4.4, as in the read path).
           queueMicrotask(() => {
             throw error;
           });
@@ -229,6 +321,76 @@ export function createHost(config: HostConfig): Host {
             return;
           }
           void invokeProfileGet(id, provider);
+          return;
+        }
+
+        // SPEC §9.3 / §9.6 — the scope gate above must run first, then
+        // required params are checked before provider availability or access.
+        // The provider receives only the validated key plus the host's id.
+        if (method === STORAGE_METHODS.GET) {
+          const params = message.params;
+
+          if (!isStorageGetParams(params)) {
+            transport.send({
+              jsonrpc: '2.0',
+              id,
+              error: {
+                code: ERROR_CODES.INVALID_PARAMS,
+                message: 'storage.get requires a string key',
+              },
+            });
+            return;
+          }
+
+          const provider = config.capabilities?.storage;
+          if (provider === undefined) {
+            transport.send({
+              jsonrpc: '2.0',
+              id,
+              error: {
+                code: ERROR_CODES.CAPABILITY_UNAVAILABLE,
+                message: `${method} is not available on this host`,
+              },
+            });
+            return;
+          }
+
+          void invokeStorageGet(id, params.key, provider);
+          return;
+        }
+
+        // ADR 0004 — reject a missing/null value before any mutation so a
+        // rejected write leaves existing data intact. Preserve the same
+        // scope → params → availability → invocation order as storage.get.
+        if (method === STORAGE_METHODS.SET) {
+          const params = message.params;
+
+          if (!isStorageSetParams(params)) {
+            transport.send({
+              jsonrpc: '2.0',
+              id,
+              error: {
+                code: ERROR_CODES.INVALID_PARAMS,
+                message: 'storage.set requires a string key and a non-null value',
+              },
+            });
+            return;
+          }
+
+          const provider = config.capabilities?.storage;
+          if (provider === undefined) {
+            transport.send({
+              jsonrpc: '2.0',
+              id,
+              error: {
+                code: ERROR_CODES.CAPABILITY_UNAVAILABLE,
+                message: `${method} is not available on this host`,
+              },
+            });
+            return;
+          }
+
+          void invokeStorageSet(id, params.key, params.value, provider);
           return;
         }
 
