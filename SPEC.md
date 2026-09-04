@@ -334,6 +334,10 @@ useful.
 `storage.*` is namespaced per mini app id by the host. A mini app MUST NOT be
 able to read another mini app's keys.
 
+`storage.set` MUST reject a missing or top-level `null` value with `-32602`.
+Nested `null` values are permitted. `storage.get` returns `{ "value": null }`
+only when the key is absent.
+
 ### 6.4 Host-initiated notifications
 
 Sent host → mini app as JSON-RPC notifications (no `id`). Mini apps MUST
