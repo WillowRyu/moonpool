@@ -1,10 +1,26 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-09-04, storage.get/set typed by the maintainer and verified
-> GREEN: 106 tests passed, typecheck and lint clean. Null policy is SPEC §6.3 /
-> ADR 0004. Added missing rationale comments at the maintainer's request and
-> recorded the comment standard below. Next: storage.delete. Study mode: junior.
+> Last updated: 2026-09-08, session checkpoint on master through E4.4c.
+> 162 tests passed; typecheck, lint, and both example builds passed.
+> All requested deep-dives are complete. Next: remaining E4.4 input
+> validation. The maintainer requested committing and pushing this checkpoint.
+> Null policy is SPEC §6.3 / ADR 0004. Study mode: junior.
+
+## 2026-09-08 checkpoint
+
+The implementation and tests are split into four logical commits:
+
+- `6e75358` — scoped storage deletion (E4.3).
+- `7c0c630` — distinguish invalid params from malformed requests (E4.4a).
+- `2b3aff7` — reject unknown method params, with SPEC §4.2 and ADR 0006 (E4.4b).
+- `716b6c5` — reset initialization before repeat-handshake validation (E4.4c).
+
+Verified the final implementation with `pnpm test --run` (162 passed),
+`pnpm run typecheck`, `pnpm run lint`, and `pnpm run build` (both examples).
+An independent read-only review found no blocking issues in this checkpoint.
+This is incremental progress, not a declaration of full v0.1 conformance;
+remaining validation work and known boundaries are listed below.
 
 ## How we work (do not skip)
 
@@ -128,12 +144,18 @@ Implementation roadmap:
 Before E4.3: **73 passed**, `typecheck` and `lint` clean.
 After storage.get: **85 passed**, `typecheck` and `lint` clean. The maintainer
 typed the complete read slice and the agent verified it on 2026-09-04.
-Current: `pnpm test` → **106 passed**, `typecheck` and `lint` clean after the
-maintainer typed storage.set. Both get and set are implemented; delete is next.
+Baseline: **106 passed**, `typecheck` and `lint` clean after the maintainer
+typed storage.set, reverified on 2026-09-07 before adding delete tests.
+After storage.delete: **119 passed**, typecheck and lint clean.
+After E4.4a: **134 passed**, reverified on 2026-09-08 before E4.4b.
+After E4.4b: **160 passed**, typecheck and lint clean.
+Current: `pnpm test --run` → **162 passed** after the maintainer typed E4.4c.
+Typecheck and lint pass. Initialization resets before method-level rejection
+of a repeat handshake, restoring the existing §5.1 requirement for this path.
 The browser example still has no capability providers.
 The kernel, the first platform adapter, a real cross-origin bridge between the
 two examples, and now the permission gate with the first scoped method are
-done. **E4.3 (`storage.*`) is in progress**, then E4.4 (remaining params guards), then
+done. **E4.3 (`storage.*`) is complete; E4.4 (remaining params guards) is in progress**, then
 the example update and an ADR.
 
 v0.1 definition of done, remaining:
@@ -143,11 +165,12 @@ v0.1 definition of done, remaining:
 - [x] `examples/mock-host` + `examples/hello-miniapp` running in a browser.
       Landed in E3; a real §5 handshake crosses a real origin boundary and
       survives Portal reloads.
-- [ ] Capabilities `profile.get` and `storage.*` (§6.3) — `profile.get`
-      landed in E4.2 with the gate; **`storage.*` is E4.3, the current
-      piece.**
+- [ ] Capabilities `profile.get` and `storage.*` (§6.3) — kernel operations
+      landed in E4.2/E4.3. Remaining input validation (E4.4) and example
+      providers (E4.5) are still open.
 - [ ] Remaining §4.4 error-code coverage (`-32600` for malformed id-bearing
-      frames landed in E0; still open: `-32602` for non-object `params`,
+      frames landed in E0; `-32602` for non-object `params` landed in E4.4a;
+      still open:
       batch arrays via `id: null`, id uniqueness per connection)
 
 **The permission gate exists and runs as of E4.2 (2026-09-02).** The
@@ -388,10 +411,11 @@ Two things worth carrying forward:
   the fix, because the pre-fix host kept serving `portal.ping` — only the
   handshake broke. Its comment says so. The test that actually catches the
   defect is the one above it.
-- **§5.1's reset boundary is normative but untested**, and the test file says
-  that in as many words. Rate-limit counters and consent records name state
-  this host does not keep yet. Deliberate: a test that only looks like
-  coverage is worse than an honest note.
+- **Original §5.1 coverage was incomplete.** Rate-limit counters and consent
+  records name state this host does not keep yet. However, initialization
+  reset is observable when a repeat handshake fails: E4.4c (2026-09-08)
+  adds tests exposing the stale initialized=true value. The previous claim
+  that no message could observe the reset boundary overlooked rejection.
 
 ### Current piece (E4 — capabilities and the permission gate)
 
@@ -495,7 +519,7 @@ Worth carrying forward:
   re-throw fails the run as an unhandled error. `useRealTimers()` discards
   the parked throw.
 
-### Current piece — E4.3, `storage.*` (get/set DONE; delete NEXT)
+### E4.3 — `storage.*` (get/set/delete DONE)
 
 `storage.get` / `storage.set` / `storage.delete` (§6.3), a `StorageProvider`
 slot next to `profile`, mock-host backed by an in-memory `Map`. The gate
@@ -601,24 +625,247 @@ guards, invocation helpers, and dispatch branches. Corrected the stale
 comments. These are documentation edits; the implementation remains the
 maintainer's. Carry this comment style into the delete handover.
 
+**2026-09-07 — storage.delete tests, verified RED before implementation.**
+Added 13 tests to storage.test.ts (46 storage tests total): identity/key
+forwarding and the empty result, deletion from the second of two apps sharing
+one partitioned provider (preserving the first app's same key and the second
+app's unrelated key), waiting for deletion to finish, two permission cases,
+the initialization gate, missing provider, three invalid-key cases,
+validation-before-availability, and both provider failure shapes with
+host-only error reporting. The setup helper now supplies a throwing delete
+stub for tests that exercise only get/set.
+
+Verified **109 passed / 10 failed** overall. The three newly green cases pin
+the existing permission/initialization gates. The remaining cases reach
+`-32601 unknown method: storage.delete`; the completion-order test fails on
+that early reply's presence. Typecheck reports six missing-delete member
+errors in the test fixtures; lint passes. No production code was changed.
+
+Handover: protocol `STORAGE_METHODS.DELETE`, `StorageDeleteParams`, and
+`isStorageDeleteParams`; host import of the guard, async
+`StorageProvider.delete(miniAppId, key): Promise<void>`,
+`invokeStorageDelete`, and a guarded branch after storage.set and before the
+unknown-method fallback. Reuse the agreed scope → params → availability →
+invocation order and get/set's sanitized error / queueMicrotask reporting.
+The helper must await deletion before sending `{}`. This handover was typed
+and verified as recorded below.
+
+**2026-09-07 — storage.delete implementation DONE.** The maintainer typed
+the protocol and host additions above. The agent read both implementation
+diffs and verified **119 passed**, typecheck and lint clean. The delete branch
+is below the permission gate and before the unknown-method fallback; it
+validates before checking provider availability, passes config.manifest.id
+and the key separately, awaits completion before sending {}, and follows
+get/set's sanitized error and host-side rethrow policy. The agent did not
+edit the implementation.
+
+The maintainer asked what the offered deep-dive about combining get/delete
+input guards meant. Both currently check the same object/string-key shape.
+Explain extraction as sharing that rule in one helper while preserving each
+operation's intent. This is an optional refactor, not a missing feature or
+an agreed next task. With a one-line duplication and E4.4 policies still
+open, the current recommendation is to keep the guards separate for now.
+Any later extraction should preserve behavior with all tests staying green.
+
+### E4.4a — distinguish non-object params from invalid requests (DONE)
+
+**2026-09-07 — tests verified RED before implementation.** Added 15 tests
+in `packages/host/test/invalid-params.test.ts`: six non-object JSON params
+shapes on ping, array params on all four scoped methods without invoking a
+provider, invalid initialize params with a valid retry, two valid ping
+forms, a malformed envelope that also carries array params, and an id-less
+array-params frame that must stay silent. Updated the introductory comment
+in invalid-request.test.ts to point to this suite.
+
+Verified **123 passed / 11 failed** overall. All 11 failures receive -32600
+where SPEC §4.2 requires -32602; the four newly green cases preserve the
+surrounding rules. Typecheck and lint pass. Production files were not edited
+by the agent. The root cause is the host mapping every failure of the
+complete isJsonRpcRequest guard to INVALID_REQUEST, although that guard also
+checks the params container.
+
+The implementation handover introduces JsonRpcRequestEnvelope with
+`params?: JsonValue` and isJsonRpcRequestEnvelope for the basic jsonrpc/id/
+method checks. JsonRpcRequest keeps its existing object-or-omitted params
+contract; its guard calls the envelope guard and checks params. The host
+keeps hasRequestId first, then rejects a bad envelope with -32600 and a bad
+params container with -32602. These are the existing general wire-shape
+checks, split in place before the handshake. Per-method field guards remain
+after permission checks. ADR 0005 records why both intermediate and complete
+request shapes are needed and why the complete guard stays independently
+usable.
+
+**2026-09-07 — implementation DONE.** The maintainer typed the intermediate
+type and envelope guard, composed isJsonRpcRequest from envelope + params
+checks, and split the host's rejection into -32600 / -32602 in the existing
+wire-shape gate. The agent read the implementation diff and verified
+**134 passed**, typecheck and lint clean. Added only omitted explanatory
+comments from the handover (including the delete branch's ordering comment);
+the maintainer's implementation logic was not changed. ADR 0005 now records
+implementation verification.
+
+The maintainer requested all four related explanations: why the intermediate
+type says params?: JsonValue; claiming only what was checked; the positions
+of general and per-method validation; and why the complete guard repeats
+the envelope check. Explain with one request progressing through stages:
+params may be an array/null after an envelope-only check, becomes
+object-or-omitted after the complete shape guard, and gets a string key only
+after its method guard. Type predicates are trusted declarations, not
+compiler-verified proofs. The standalone complete guard intentionally checks
+its own premises; the host's first call exists to classify -32600 vs -32602.
+General shape checks are before session state; scoped method-field checks
+remain after permission and method lookup. These explanations were delivered
+in chat before the maintainer paused the session; do not automatically repeat
+them on resume.
+
+Keep the qualification explicit: the envelope guard does not prove that
+arbitrary browser data is JSON. JsonValue is the current Transport input
+contract, and recursive validation remains open. Unknown extra fields,
+recursive JSON checks, size limits, and missing/wrong method-specific fields
+are subsequent steps; no unapproved policy is settled by E4.4a.
+
+### E4.4b — unknown params fields (DONE)
+
+**2026-09-08 — resumed.** Re-read SPEC, ADRs 0003/0005, and the current
+guards. Reverified **134 passed**, typecheck and lint clean. Study mode is
+still junior. The preceding deep-dives are complete.
+
+SPEC originally listed each method's params without specifying whether
+additional members were ignored or rejected. The maintainer approved
+explicit rejection on 2026-09-08: unsupported params should be clearly
+reported, not silently carried along. SPEC §4.2 was updated before tests;
+ADR 0006 and CHANGELOG.md record the contract tightening. Do not ask again.
+
+Known methods reject unknown top-level params members with -32602. This
+does not restrict application-defined keys inside storage.set's value,
+including a nested miniAppId. Permission precedes method-specific checks;
+validation precedes provider availability and invocation. The host still
+selects storage identity from its manifest (ADR 0003). Extra JSON-RPC
+envelope members and unknown method handling are unaffected. A new optional
+param will not be silently tolerated by an older host; that compatibility
+cost was part of the approved proposal.
+
+**2026-09-08 — tests verified RED.** Added 26 tests in
+`packages/host/test/unknown-params.test.ts`: extra fields on all six handled
+methods; forged miniAppId on all storage operations; constructor/toString
+as unsupported names; validation-before-availability and permission-first
+behavior for every scoped method; initialization, unknown method, and
+notification ordering; a write/read round trip preserving arbitrary nested
+value keys; both empty/omitted profile params; and an extra envelope member.
+Updated the related test-file comments and ADR 0003's old open-policy note.
+
+Verified **145 passed / 15 failed**, typecheck and lint clean. The 15 failures
+are ordinary assertion mismatches: unsupported params still succeed, or the
+host answers -32001 before it rejects them. The 11 newly green cases preserve
+existing ordering and accepted data. Production logic has not been changed
+by the agent for E4.4b.
+
+Implementation handover:
+
+- protocol: `hasOnlyParamKeys(params: JsonValue | undefined,
+  allowedKeys: readonly string[]): boolean`, checking omission or an object
+  whose own enumerable names all occur in allowedKeys. No recursion or
+  mutation. Empty/omitted params have no unknown keys; required-field checks
+  remain separate. This boolean does not claim a complete method schema.
+- host: import the helper. Add a local `rejectUnknownParams(id, params,
+  allowedKeys): boolean` inside connect after grantedScopes. Return false
+  when the names pass; otherwise send one -32602 reply with a fixed message
+  and return true. The caller returns immediately when rejection occurred.
+- At the beginning of each existing method branch call that rejection
+  helper: initialize allows ['protocolVersion']; ping/profile.get allow [];
+  storage.get/delete allow ['key']; storage.set allows ['key', 'value'].
+  All scoped branches already follow the permission gate. Keep existing
+  required-field and provider checks after the new call. Do not implement
+  portal.close as part of this step.
+
+**2026-09-08 — implementation DONE.** The maintainer typed
+hasOnlyParamKeys, the local rejection helper, and its calls at the start of
+all six handled method branches. The agent read the implementation diff and
+verified **160 passed**, typecheck and lint clean. Scoped calls follow the
+permission gate and precede provider access. The helper examines top-level
+names only; nested storage values stay intact. Corrected one copied
+storage.set comment that incorrectly said only the key came from the caller;
+the maintainer's implementation logic was not changed.
+
+The maintainer requested all three offered explanations: why every returns
+true on an empty array, how allowed-key checks differ from required-field
+checks, and why the rejection helper's return does not stop its caller.
+Explain every as finding no counterexample: no keys means no forbidden key,
+not that required keys exist. Use a storage.get table for {}, { key: 'theme' },
+{ key: 42 }, and { key: 'theme', extra: true } to separate names, presence,
+and value types. Explain that return exits the function currently executing:
+the helper returns a rejection flag, and the onMessage callback must return
+separately to stop that request before provider access. This ends one
+callback invocation, not the connection or its future message handling.
+These deep-dives are delivered in this turn; do not repeat them by default.
+
+### E4.4c — reset initialization before rejecting a repeat (DONE)
+
+**2026-09-08 — found while reviewing remaining input validation.** The
+initialize branch sets initialized=true on success but never resets it on
+entry. After an earlier success, an unsupported version or an unknown params
+field returns an error while leaving the previous document's success active.
+The next portal.ping incorrectly succeeds. SPEC §5.1 already requires resetting
+initialization state on a repeat handshake; no new policy or SPEC edit is
+needed for this fix.
+
+Added two cases in `packages/host/test/handshake.test.ts`: initialize
+successfully, then send a replacement document's initialize with either
+protocolVersion '9.9' or an unsupported extra params field. Assert its
+existing -32004/-32602 response, then require -32005 for a subsequent ping.
+Each case also requires a valid retry to restore service with the original
+granted scopes. Corrected the test file's old claim that initialization
+reset could not be observed.
+
+Verified **160 passed / 2 failed**, typecheck and lint clean. Both tests
+expect -32005 but receive { pong: true }; the earlier rejection codes are
+already correct. The failure is stale state, not error-code mapping.
+
+Handover: at the beginning of the host's PORTAL_METHODS.INITIALIZE branch,
+before rejectUnknownParams and version comparison, add the commented
+`initialized = false;`. Keep the existing success assignment to true.
+Only document initialization state resets; transport, grantedScopes, and
+stored values are preserved. The agent has not changed production logic.
+**2026-09-08 — implementation DONE.** The maintainer added the commented
+initialized=false assignment at the start of the initialize branch, before
+unknown-field rejection and version comparison. The success assignment to
+true remains in place. The agent read the exact block and verified
+**162 passed**, typecheck and lint clean. No implementation or comment edits
+were needed during verification.
+
+The maintainer requested all three offered deep-dives. Explain why resetting
+on entry covers every method-level rejection path, whereas resetting in
+each failure branch is easy to omit as validation grows. Resetting first
+establishes an uninitialized default; only successful negotiation restores
+true. Explain document-scoped initialization versus app/origin-scoped grants
+and stored values: a reload replaces the page's running context but does not
+revoke the user's grant or erase the app's data. Finally, distinguish tests
+that start with false from a sequence that first establishes true: the old
+first-handshake failure tests could not expose stale success. The new tests
+also require a valid retry to restore service. These explanations were
+completed on 2026-09-08; do not repeat them by default on resume.
+
+These cases reach the initialize branch with a valid general request shape.
+They do not establish handling of malformed-envelope or malformed-container
+repeat messages rejected earlier in the pipeline. Required-field validation,
+recursive JSON validation, and size limits remain separate work.
+
 Resume checklist:
 
 1. Decision 4 is approved; do not ask again.
-2. storage.get/set are verified GREEN and the provider discussion is finished.
+2. storage.get/set/delete are verified GREEN and the provider discussion is finished.
    Both identity and null policies are approved; do not repeat either decision.
-3. Continue with delete tests and a commented handover. Maintainer types
-   protocol `STORAGE_METHODS` additions and the result types (type
-   aliases — they cross the wire); host `StorageProvider` (every method
-   async, §9.5) and `HostCapabilities.storage?`; the three dispatch branches,
-   each through an async invoke helper with the same try/catch, `-32603`,
-   `queueMicrotask` re-throw shape as `invokeProfileGet`. A shared
-   `invoke(id, run)` helper is the obvious refactor — do it UNDER GREEN,
-   after the three branches work, not before.
+3. E4.3, E4.4a, E4.4b, E4.4c, and the requested deep-dives are complete.
+   Continue with remaining method-field validation and JSON-boundary work.
+   The unknown-field policy is settled; do not ask again.
+   Guard extraction and a shared
+   `invoke(id, run)` helper remain optional refactor candidates under green;
+   neither is required before starting E4.4.
 4. The read slice includes `isJsonObject` + `typeof key === 'string'`, with
    negative tests for omitted params, a missing key, and a non-string key.
-   E4.4 covers the remaining params cases, unknown fields (including a forged
-   miniAppId), and value size limits. Non-object params still hit the existing
-   request-envelope guard; that known error-code issue is deferred to E4.4.
+   Remaining E4.4 work covers method-field cases and value size limits.
+   Non-object params now receive -32602 through E4.4a's general wire-shape
+   check; unknown fields (including a forged miniAppId) are rejected by E4.4b.
    Also validate the actual JSON value tree at the browser ingress boundary:
    a JsonValue annotation/cast does not prove that a structured-clone payload
    is JSON. Current method guards check required fields and the null policy;
@@ -635,7 +882,7 @@ Resume checklist:
 ```bash
 corepack enable          # once per machine
 pnpm install
-pnpm test                # expect 106 passed
+pnpm test --run          # expect 162 passed
 ```
 
 The git remote uses a personal SSH host alias
