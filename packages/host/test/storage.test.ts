@@ -2,11 +2,9 @@
  * SPEC §6.3 and ADR 0003 — the kernel supplies the mini app identity; the
  * provider receives that identity and the caller's key as separate arguments.
  *
- * Covers storage.get and storage.set, including ADR 0004's top-level null
- * restriction. Delete and the policy for unknown params fields (including a
- * forged miniAppId) are later steps. No request
- * field may select the storage owner, whether extra fields are ignored or
- * rejected. Tests here do not choose between those two policies.
+ * Covers storage.get, storage.set, and storage.delete, including ADR 0004's
+ * top-level null restriction. Unknown params-field handling is a later step.
+ * No request field may select the storage owner.
  */
 import { createHost, type HostConfig, type StorageProvider } from '@moonpool/host';
 import { ERROR_CODES, type JsonValue, type MiniAppManifest } from '@moonpool/protocol';
@@ -48,6 +46,9 @@ function setup({ storage, ...overrides }: SetupOptions = {}) {
           },
           set: async () => {
             throw new Error('unexpected storage.set in test');
+          },
+          delete: async () => {
+            throw new Error('unexpected storage.delete in test');
           },
           ...storage,
         };
@@ -495,6 +496,192 @@ describe('SPEC §4.4 — storage.set isolates provider failures', () => {
         }),
       });
       expect(JSON.stringify(reply)).not.toContain('host-only-write-detail');
+      expect(() => vi.runAllTicks()).toThrow(boom);
+    },
+  );
+});
+
+describe('SPEC §6.3 — storage.delete with a host-supplied app identity', () => {
+  it('passes the manifest id and unmodified key separately and answers with an empty result', async () => {
+    // Catches a composed key, swapped arguments, or a reply that omits the
+    // required {} result. The spy observes the real kernel's provider call.
+    const remove = vi.fn(async (_miniAppId: string, _key: string) => undefined);
+    const bridge = setup({ storage: { delete: remove } });
+
+    const reply = await callAfterHandshake(bridge, { key: 'settings:theme' }, 'storage.delete');
+
+    expect(reply).toEqual({ jsonrpc: '2.0', id: 2, result: {} });
+    expect(remove).toHaveBeenCalledExactlyOnceWith('com.example.hello', 'settings:theme');
+    expect(bridge.received).toHaveLength(2);
+  });
+
+  it("deletes only the calling app's key through a provider shared by two apps", async () => {
+    // Delete from the second app so hardcoding the default manifest id fails.
+    // This fixture partitions data; the test checks the kernel's identity
+    // selection, not the correctness of an arbitrary future host provider.
+    const contents = new Map<string, Map<string, JsonValue>>([
+      ['com.example.hello', new Map([['theme', 'dark']])],
+      [
+        'com.example.other',
+        new Map([
+          ['theme', 'light'],
+          ['locale', 'en'],
+        ]),
+      ],
+    ]);
+    const storage = {
+      get: async (miniAppId: string, key: string) => contents.get(miniAppId)?.get(key) ?? null,
+      delete: async (miniAppId: string, key: string) => {
+        contents.get(miniAppId)?.delete(key);
+      },
+    };
+    const hello = setup({ storage });
+    const other = setup({ storage, manifest: { ...HELLO_MANIFEST, id: 'com.example.other' } });
+
+    const helloRead = await callAfterHandshake(hello, { key: 'theme' });
+    expect(helloRead?.result).toEqual({ value: 'dark' });
+    const deletion = await callAfterHandshake(other, { key: 'theme' }, 'storage.delete');
+    expect(deletion).toEqual({ jsonrpc: '2.0', id: 2, result: {} });
+
+    hello.send(request(3, 'storage.get', { key: 'theme' }));
+    other.send(request(3, 'storage.get', { key: 'theme' }));
+    other.send(request(4, 'storage.get', { key: 'locale' }));
+    await flush();
+
+    expect(hello.received[2]?.result).toEqual({ value: 'dark' });
+    expect(other.received[2]?.result).toEqual({ value: null });
+    expect(other.received[3]?.result).toEqual({ value: 'en' });
+  });
+
+  it('waits for deletion to finish before acknowledging success', async () => {
+    // Removing await would acknowledge success while deletion is still pending.
+    let completeDelete!: () => void;
+    const pending = new Promise<void>((resolve) => {
+      completeDelete = resolve;
+    });
+    const bridge = setup({ storage: { delete: () => pending } });
+    bridge.send(request(1, 'portal.initialize', { protocolVersion: '0.1' }));
+    await flush();
+    bridge.send(request(2, 'storage.delete', { key: 'theme' }));
+    await flush();
+
+    expect(bridge.received).toHaveLength(1);
+    completeDelete();
+    await flush();
+    expect(bridge.received).toHaveLength(2);
+    expect(bridge.received[1]).toEqual({ jsonrpc: '2.0', id: 2, result: {} });
+  });
+
+  it.each([
+    ['valid params', { key: 'theme' }],
+    ['invalid params', { key: 42 }],
+  ] as const)(
+    'denies an ungranted deletion with %s before reaching the provider',
+    async (_label, params) => {
+      // Already green before delete exists. Pins §9.3: permission denial
+      // precedes both params validation and any destructive provider call.
+      const remove = vi.fn(async () => undefined);
+      const bridge = setup({ storage: { delete: remove }, grantedScopes: [] });
+
+      const reply = await callAfterHandshake(bridge, params, 'storage.delete');
+
+      expect(reply?.error).toEqual(
+        expect.objectContaining({
+          code: ERROR_CODES.PERMISSION_DENIED,
+          data: { scope: 'storage' },
+        }),
+      );
+      expect(remove).not.toHaveBeenCalled();
+    },
+  );
+
+  it('rejects deletion before initialization without calling the provider', async () => {
+    // Already green. A new delete branch must stay below the §5 gate.
+    const remove = vi.fn(async () => undefined);
+    const bridge = setup({ storage: { delete: remove } });
+
+    bridge.send(request(1, 'storage.delete', { key: 'theme' }));
+    await flush();
+
+    expect(bridge.received).toHaveLength(1);
+    expect(bridge.received[0]?.error?.code).toBe(ERROR_CODES.NOT_INITIALIZED);
+    expect(remove).not.toHaveBeenCalled();
+  });
+
+  it('answers -32001 when storage is granted but no provider is installed', async () => {
+    // Catches classifying a known but unavailable operation as unknown.
+    const reply = await callAfterHandshake(setup(), { key: 'theme' }, 'storage.delete');
+
+    expect(reply?.error?.code).toBe(ERROR_CODES.CAPABILITY_UNAVAILABLE);
+  });
+});
+
+describe('SPEC §9.6 — storage.delete validates before changing data', () => {
+  const INVALID_PARAMS: Array<[label: string, params: Record<string, JsonValue> | undefined]> = [
+    ['omitted params', undefined],
+    ['missing key', {}],
+    ['non-string key', { key: 42 }],
+  ];
+
+  it.each(INVALID_PARAMS)(
+    'answers -32602 for %s without calling the provider',
+    async (_label, params) => {
+      // These pass the envelope guard. A method guard must reject them
+      // before a provider can interpret an invalid key and delete data.
+      const remove = vi.fn(async () => undefined);
+      const bridge = setup({ storage: { delete: remove } });
+
+      const reply = await callAfterHandshake(bridge, params, 'storage.delete');
+
+      expect(reply?.error?.code).toBe(ERROR_CODES.INVALID_PARAMS);
+      expect(remove).not.toHaveBeenCalled();
+    },
+  );
+
+  it('checks the key before checking whether a provider is installed', async () => {
+    // Pins the approved params (-32602) before availability (-32001) order.
+    const reply = await callAfterHandshake(setup(), {}, 'storage.delete');
+
+    expect(reply?.error?.code).toBe(ERROR_CODES.INVALID_PARAMS);
+  });
+});
+
+describe('SPEC §4.4 — storage.delete isolates provider failures', () => {
+  beforeEach(() => {
+    vi.useFakeTimers({ toFake: ['queueMicrotask'] });
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it.each(['rejects', 'throws synchronously'] as const)(
+    'answers once with -32603 and reports the original error only on the host when the provider %s',
+    async (failure) => {
+      // Catches a missing await/try boundary, swallowed failure, or leaked
+      // provider error details. Same host-only reporting contract as get/set.
+      const boom = new Error('delete failed: host-only-delete-detail');
+      const remove =
+        failure === 'rejects'
+          ? async () => {
+              throw boom;
+            }
+          : () => {
+              throw boom;
+            };
+      const bridge = setup({ storage: { delete: remove } });
+
+      const reply = await callAfterHandshake(bridge, { key: 'theme' }, 'storage.delete');
+
+      expect(bridge.received).toHaveLength(2);
+      expect(reply).toEqual({
+        jsonrpc: '2.0',
+        id: 2,
+        error: expect.objectContaining({
+          code: ERROR_CODES.INTERNAL_ERROR,
+          message: expect.any(String),
+        }),
+      });
+      expect(JSON.stringify(reply)).not.toContain('host-only-delete-detail');
       expect(() => vi.runAllTicks()).toThrow(boom);
     },
   );

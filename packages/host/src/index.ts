@@ -21,6 +21,7 @@ import {
   ERROR_CODES,
   hasRequestId,
   isJsonRpcRequest,
+  isStorageDeleteParams,
   isStorageGetParams,
   isStorageSetParams,
   PORTAL_METHODS,
@@ -59,6 +60,8 @@ export interface StorageProvider {
   get(miniAppId: string, key: string): Promise<JsonValue>;
   /** Resolve after the write completes; the kernel then sends the empty success result. */
   set(miniAppId: string, key: string, value: StorageSetValue): Promise<void>;
+  /** Resolve after deletion completes; the kernel then sends the empty success result. */
+  delete(miniAppId: string, key: string): Promise<void>;
 }
 
 /**
@@ -202,6 +205,38 @@ export function createHost(config: HostConfig): Host {
           });
           // Keep the original failure visible on the host without exposing
           // provider error details to the mini app (§4.4, as in the read path).
+          queueMicrotask(() => {
+            throw error;
+          });
+        }
+      }
+
+      /**
+       * SPEC §6.3 — acknowledge deletion with {}, only after it completes.
+       * Dispatch has already checked scope, key, and provider availability.
+       * Provider failures follow the same host-only reporting policy as get/set.
+       */
+      async function invokeStorageDelete(
+        id: number,
+        key: string,
+        provider: StorageProvider,
+      ): Promise<void> {
+        try {
+          // Use the same host-selected identity as reads and writes (ADR 0003).
+          // Await completion before telling the mini app deletion succeeded.
+          await provider.delete(config.manifest.id, key);
+          transport.send({ jsonrpc: '2.0', id, result: {} });
+        } catch (error) {
+          transport.send({
+            jsonrpc: '2.0',
+            id,
+            error: {
+              code: ERROR_CODES.INTERNAL_ERROR,
+              message: `${STORAGE_METHODS.DELETE} failed inside the host`,
+            },
+          });
+          // Report the original failure on the host without exposing provider
+          // error details to the mini app (SPEC §4.4).
           queueMicrotask(() => {
             throw error;
           });
@@ -391,6 +426,41 @@ export function createHost(config: HostConfig): Host {
           }
 
           void invokeStorageSet(id, params.key, params.value, provider);
+          return;
+        }
+
+        // SPEC §9.3 / §9.6 — the scope gate above runs first.
+        // Validate the key before checking availability or invoking deletion.
+        if (method === STORAGE_METHODS.DELETE) {
+          const params = message.params;
+
+          if (!isStorageDeleteParams(params)) {
+            transport.send({
+              jsonrpc: '2.0',
+              id,
+              error: {
+                code: ERROR_CODES.INVALID_PARAMS,
+                message: 'storage.delete requires a string key',
+              },
+            });
+            return;
+          }
+
+          const provider = config.capabilities?.storage;
+
+          if (provider === undefined) {
+            transport.send({
+              jsonrpc: '2.0',
+              id,
+              error: {
+                code: ERROR_CODES.CAPABILITY_UNAVAILABLE,
+                message: `${method} is not available on this host`,
+              },
+            });
+            return;
+          }
+
+          void invokeStorageDelete(id, params.key, provider);
           return;
         }
 

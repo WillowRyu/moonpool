@@ -145,6 +145,7 @@ export const PROFILE_METHODS = {
 export const STORAGE_METHODS = {
   GET: 'storage.get',
   SET: 'storage.set',
+  DELETE: 'storage.delete',
 } as const;
 
 /**
@@ -202,6 +203,23 @@ export function isStorageSetParams(params: JsonValue | undefined): params is Sto
     params.value !== undefined &&
     params.value !== null
   );
+}
+
+/**
+ * SPEC §6.3 — deletion carries only the caller's key.
+ * The host supplies the owning app identity separately (ADR 0003).
+ */
+export type StorageDeleteParams = {
+  key: string;
+};
+
+/**
+ * SPEC §9.6 — validate the required key before deletion can reach a provider.
+ * Omitted params, a missing key, and a non-string key fail this check.
+ * App identity is never taken from these params.
+ */
+export function isStorageDeleteParams(value: JsonValue | undefined): value is StorageDeleteParams {
+  return isJsonObject(value) && typeof value.key === 'string';
 }
 
 /**
