@@ -318,6 +318,12 @@ export function createHost(config: HostConfig): Host {
         // added later MUST be reset in this branch. Origin-scoped state — rate
         // limits, consent records, storage — MUST NOT be touched.
         if (method === PORTAL_METHODS.INITIALIZE) {
+          // SPEC §5.1 — a repeat handshake starts a new document's negotiation.
+          // Reset before any method-level rejection so the new document cannot
+          // inherit a previous successful handshake. Origin-scoped grants and
+          // storage remain unchanged.
+          initialized = false;
+
           // SPEC §4.2 — initialization accepts only its declared version input.
           if (rejectUnknownParams(id, message.params, ['protocolVersion'])) {
             return;

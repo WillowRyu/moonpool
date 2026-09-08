@@ -219,13 +219,61 @@ describe('SPEC §5.1 — repeat handshake', () => {
     expect(bridge.received[2]).toEqual({ jsonrpc: '2.0', id: 2, result: { pong: true } });
   });
 
-  // The rest of §5.1's reset boundary is not observable here yet. "Reset
-  // initialization state" and "re-set it" happen inside one handshake, so no
-  // message can catch the connection in between; and the preserved rows
-  // (rate-limit counters, consent records) name state this host does not keep
-  // yet. Those rows bind the implementations that add them — they are not
-  // covered by a test today, and saying so beats a test that only looks like
-  // coverage.
+  it.each([
+    [
+      'an unsupported version',
+      { protocolVersion: '9.9' },
+      ERROR_CODES.PROTOCOL_VERSION_UNSUPPORTED,
+    ],
+    [
+      'an unknown params field',
+      { protocolVersion: '0.1', extra: true },
+      ERROR_CODES.INVALID_PARAMS,
+    ],
+  ] as const)(
+    'clears the previous initialization after a repeat handshake with %s is rejected',
+    async (_label, params, code) => {
+      // SPEC §5.1: the new document must not inherit the previous document's
+      // successful negotiation. Catches resetting only after params/version
+      // validation, where an early rejection would leave initialized true.
+      const bridge = setup();
+      bridge.send(initialize(1));
+      await flush();
+      expect(bridge.received[0]?.result?.protocolVersion).toBe('0.1');
+
+      // A replacement document starts its own id sequence on this transport.
+      bridge.send(request(1, 'portal.initialize', params));
+      await flush();
+      expect(bridge.received[1]?.error?.code).toBe(code);
+
+      bridge.send(request(2, 'portal.ping'));
+      await flush();
+      expect(bridge.received).toHaveLength(3);
+      expect(bridge.received[2]).toEqual({
+        jsonrpc: '2.0',
+        id: 2,
+        error: expect.objectContaining({ code: ERROR_CODES.NOT_INITIALIZED }),
+      });
+
+      // Rejection is recoverable (§5). Reset document state, not the
+      // transport or origin-scoped grants: a valid retry must still work.
+      bridge.send(initialize(3));
+      await flush();
+      expect(bridge.received[3]?.result).toMatchObject({
+        protocolVersion: '0.1',
+        grantedScopes: ['profile', 'storage'],
+      });
+      bridge.send(request(4, 'portal.ping'));
+      await flush();
+      expect(bridge.received).toHaveLength(5);
+      expect(bridge.received[4]).toEqual({ jsonrpc: '2.0', id: 4, result: { pong: true } });
+    },
+  );
+
+  // The initialization reset IS observable when a repeat handshake fails:
+  // the tests above expose a stale true value. Rate-limit counters and
+  // consent records still name state this host does not keep yet; those
+  // preservation requirements are not covered by this suite today.
 });
 
 describe('SPEC §6.2 — portal.ping (core method, no scope required)', () => {
