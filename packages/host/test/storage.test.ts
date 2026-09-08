@@ -3,7 +3,8 @@
  * provider receives that identity and the caller's key as separate arguments.
  *
  * Covers storage.get, storage.set, and storage.delete, including ADR 0004's
- * top-level null restriction. Unknown params-field handling is a later step.
+ * top-level null restriction. Unknown params fields, including a forged
+ * miniAppId, are rejected under ADR 0006 and tested in unknown-params.test.ts.
  * No request field may select the storage owner.
  */
 import { createHost, type HostConfig, type StorageProvider } from '@moonpool/host';

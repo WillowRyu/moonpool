@@ -114,6 +114,12 @@ semantics layered on top.
 `params` MUST be an object or omitted. Positional (array) params are not
 supported; a receiver MUST respond with `-32602`.
 
+For a known method, the host MUST reject any top-level member of `params`
+that is not defined for that method with `-32602`. This restriction applies
+to `params` itself, not to application-defined object keys inside
+`storage.set`'s `value`. For scoped methods, this check MUST follow scope
+enforcement and precede provider availability checks and invocation.
+
 ### 4.3 Response
 
 ```json

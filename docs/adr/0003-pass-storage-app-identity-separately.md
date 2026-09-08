@@ -39,7 +39,6 @@ before invoking the provider (§9.6). The provider methods remain asynchronous
   colon in the caller's key alone does not cause a collision in `id:key`;
   this decision does not introduce a ban on colon-containing keys.
 - This identity decision changes no wire message or SPEC requirement.
-  Storage null semantics were subsequently resolved in ADR 0004. Unknown
-  params fields and any value size limit remain open decisions. An extra
-  miniAppId field must never select another app, whether unknown fields are
-  eventually ignored or rejected.
+  Storage null semantics were subsequently resolved in ADR 0004, and unknown
+  params fields are rejected under ADR 0006. Any value size limit remains an
+  open decision. An extra miniAppId field must never select another app.

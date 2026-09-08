@@ -19,6 +19,7 @@ import type {
 } from '@moonpool/protocol';
 import {
   ERROR_CODES,
+  hasOnlyParamKeys,
   hasRequestId,
   isJsonRpcRequest,
   isJsonRpcRequestEnvelope,
@@ -107,6 +108,31 @@ export function createHost(config: HostConfig): Host {
       const grantedScopes = config.manifest.permissions.filter((scope) => {
         return config.grantedScopes.includes(scope);
       });
+
+      /**
+       * SPEC §4.2 / ADR 0006 — reply once when params contains unsupported names.
+       * Call from a known method's branch, after any required scope check.
+       * Returns true after rejection so the caller can stop before provider access.
+       */
+      function rejectUnknownParams(
+        id: number,
+        params: JsonValue | undefined,
+        allowedKeys: readonly string[],
+      ): boolean {
+        if (hasOnlyParamKeys(params, allowedKeys)) {
+          return false;
+        }
+
+        transport.send({
+          jsonrpc: '2.0',
+          id,
+          error: {
+            code: ERROR_CODES.INVALID_PARAMS,
+            message: 'params contains unsupported fields',
+          },
+        });
+        return true;
+      }
 
       // Provider calls live in async helpers so the dispatcher below stays
       // synchronous: one branch, one reply, `return`.
@@ -292,6 +318,11 @@ export function createHost(config: HostConfig): Host {
         // added later MUST be reset in this branch. Origin-scoped state — rate
         // limits, consent records, storage — MUST NOT be touched.
         if (method === PORTAL_METHODS.INITIALIZE) {
+          // SPEC §4.2 — initialization accepts only its declared version input.
+          if (rejectUnknownParams(id, message.params, ['protocolVersion'])) {
+            return;
+          }
+
           const requested = message.params?.protocolVersion;
 
           if (requested !== PROTOCOL_VERSION) {
@@ -334,6 +365,11 @@ export function createHost(config: HostConfig): Host {
         }
 
         if (method === PORTAL_METHODS.PING) {
+          // SPEC §4.2 — this method defines no params members.
+          if (rejectUnknownParams(id, message.params, [])) {
+            return;
+          }
+
           transport.send({ jsonrpc: '2.0', id, result: { pong: true } });
           return;
         }
@@ -358,6 +394,11 @@ export function createHost(config: HostConfig): Host {
         }
 
         if (method === PROFILE_METHODS.GET) {
+          // SPEC §4.2 — this method defines no params members.
+          if (rejectUnknownParams(id, message.params, [])) {
+            return;
+          }
+
           const provider = config.capabilities?.profile;
           if (provider === undefined) {
             transport.send({
@@ -378,6 +419,11 @@ export function createHost(config: HostConfig): Host {
         // required params are checked before provider availability or access.
         // The provider receives only the validated key plus the host's id.
         if (method === STORAGE_METHODS.GET) {
+          // SPEC §4.2 / ADR 0003 — only the key comes from the caller.
+          if (rejectUnknownParams(id, message.params, ['key'])) {
+            return;
+          }
+
           const params = message.params;
 
           if (!isStorageGetParams(params)) {
@@ -413,6 +459,11 @@ export function createHost(config: HostConfig): Host {
         // rejected write leaves existing data intact. Preserve the same
         // scope → params → availability → invocation order as storage.get.
         if (method === STORAGE_METHODS.SET) {
+          // SPEC §4.2 — check names here; value contents remain application data.
+          if (rejectUnknownParams(id, message.params, ['key', 'value'])) {
+            return;
+          }
+
           const params = message.params;
 
           if (!isStorageSetParams(params)) {
@@ -447,6 +498,11 @@ export function createHost(config: HostConfig): Host {
         // SPEC §9.3 / §9.6 — the scope gate above runs first.
         // Validate the key before checking availability or invoking deletion.
         if (method === STORAGE_METHODS.DELETE) {
+          // SPEC §4.2 / ADR 0003 — only the key comes from the caller.
+          if (rejectUnknownParams(id, message.params, ['key'])) {
+            return;
+          }
+
           const params = message.params;
 
           if (!isStorageDeleteParams(params)) {

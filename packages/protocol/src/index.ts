@@ -102,6 +102,22 @@ export function isJsonObject(value: JsonValue | undefined): value is { [key: str
 }
 
 /**
+ * SPEC §4.2 / ADR 0006 — check only top-level params names.
+ * Omission and an empty object contain no unknown names; required fields
+ * and their value types must still be checked separately.
+ * Inspect only params itself so application-defined storage values survive.
+ */
+export function hasOnlyParamKeys(
+  params: JsonValue | undefined,
+  allowedKeys: readonly string[],
+): boolean {
+  return (
+    params === undefined ||
+    (isJsonObject(params) && Object.keys(params).every((key) => allowedKeys.includes(key)))
+  );
+}
+
+/**
  * SPEC §4.2 — intermediate receive-side shape.
  * The envelope guard proves jsonrpc, id, and method, but does not yet
  * require params to be an object. This is not a complete valid request.

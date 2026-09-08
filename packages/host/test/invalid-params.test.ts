@@ -3,8 +3,9 @@
  * with a non-object params value gets -32602, not -32600.
  *
  * This is the general wire-shape check. Per-method required fields still
- * follow the permission gate (§9.3 / §9.6). Unknown fields, recursive JSON
- * validation, and size limits remain separate E4.4 steps.
+ * follow the permission gate (§9.3 / §9.6). Unknown fields are covered in
+ * unknown-params.test.ts; recursive JSON validation and size limits remain
+ * separate E4.4 steps.
  */
 import { createHost, type HostConfig } from '@moonpool/host';
 import { ERROR_CODES, type JsonValue, type MiniAppManifest } from '@moonpool/protocol';
