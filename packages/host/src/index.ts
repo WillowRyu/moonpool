@@ -21,6 +21,7 @@ import {
   ERROR_CODES,
   hasRequestId,
   isJsonRpcRequest,
+  isJsonRpcRequestEnvelope,
   isStorageDeleteParams,
   isStorageGetParams,
   isStorageSetParams,
@@ -252,13 +253,27 @@ export function createHost(config: HostConfig): Host {
 
         const { id } = message;
 
-        if (!isJsonRpcRequest(message)) {
+        // SPEC §4.2 / ADR 0005 — distinguish a malformed envelope from bad params.
+        // Neither check may reach handshake processing or a capability provider.
+        if (!isJsonRpcRequestEnvelope(message)) {
           transport.send({
             jsonrpc: '2.0',
             id,
             error: {
               code: ERROR_CODES.INVALID_REQUEST,
-              message: 'malformed request: expected { jsonrpc: "2.0", id, method, params? }',
+              message: 'malformed request: expected { jsonrpc: "2.0", id, method }',
+            },
+          });
+          return;
+        }
+
+        if (!isJsonRpcRequest(message)) {
+          transport.send({
+            jsonrpc: '2.0',
+            id,
+            error: {
+              code: ERROR_CODES.INVALID_PARAMS,
+              message: 'params must be an object or omitted',
             },
           });
           return;

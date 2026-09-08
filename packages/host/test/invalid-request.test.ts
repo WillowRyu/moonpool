@@ -10,9 +10,8 @@
  *
  * Deliberately out of scope here: top-level batch arrays (§4.1 also assigns
  * these -32600, but there is no single id to reply to — needs its own
- * id:null handling) and a malformed `params` shape (§4.2 assigns that its
- * own code, -32602). Both are tracked as remaining §4.4 coverage in
- * HANDOFF.md, not folded into this fix.
+ * id:null handling). A malformed `params` shape has its own code, -32602,
+ * and is covered separately in invalid-params.test.ts (E4.4a).
  */
 import { createHost, type HostConfig } from '@moonpool/host';
 import { ERROR_CODES, type JsonValue, type MiniAppManifest } from '@moonpool/protocol';

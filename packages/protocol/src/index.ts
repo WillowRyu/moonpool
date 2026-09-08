@@ -102,6 +102,36 @@ export function isJsonObject(value: JsonValue | undefined): value is { [key: str
 }
 
 /**
+ * SPEC §4.2 — intermediate receive-side shape.
+ * The envelope guard proves jsonrpc, id, and method, but does not yet
+ * require params to be an object. This is not a complete valid request.
+ */
+export type JsonRpcRequestEnvelope = {
+  jsonrpc: '2.0';
+  id: number;
+  method: string;
+  params?: JsonValue;
+};
+
+/**
+ * SPEC §4.1 / §4.2 — validate the envelope independently of params.
+ * Separating these checks lets the host distinguish -32600 from -32602
+ * without claiming that unchecked params is an object (ADR 0005).
+ */
+export function isJsonRpcRequestEnvelope(
+  value: JsonValue | undefined,
+): value is JsonRpcRequestEnvelope {
+  return (
+    isJsonObject(value) &&
+    value.jsonrpc === '2.0' &&
+    typeof value.id === 'number' &&
+    Number.isInteger(value.id) &&
+    value.id > 0 &&
+    typeof value.method === 'string'
+  );
+}
+
+/**
  * SPEC §4.2 — a request carrying an id. Deliberately a type alias, not an
  * interface: aliases get an implicit index signature, so the guard below
  * may narrow `JsonValue` to it.
@@ -113,16 +143,14 @@ export type JsonRpcRequest = {
   params?: { [key: string]: JsonValue };
 };
 
-/** Checked proof that a frame is a §4.2 request (notifications excluded). */
+/**
+ * SPEC §4.2 — validate the envelope and object-or-omitted params shape.
+ * This remains usable on its own. Required fields for each method are
+ * checked separately before invoking a capability (SPEC §9.6).
+ */
 export function isJsonRpcRequest(value: JsonValue | undefined): value is JsonRpcRequest {
   return (
-    isJsonObject(value) &&
-    value.jsonrpc === '2.0' &&
-    typeof value.id === 'number' &&
-    Number.isInteger(value.id) &&
-    value.id > 0 &&
-    typeof value.method === 'string' &&
-    (value.params === undefined || isJsonObject(value.params))
+    isJsonRpcRequestEnvelope(value) && (value.params === undefined || isJsonObject(value.params))
   );
 }
 
