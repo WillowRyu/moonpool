@@ -1,10 +1,11 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-09-08, session checkpoint on master through E4.4c.
-> 162 tests passed; typecheck, lint, and both example builds passed.
-> All requested deep-dives are complete. Next: remaining E4.4 input
-> validation. The maintainer requested committing and pushing this checkpoint.
+> Last updated: 2026-09-30, maintainer's E4.4e implementation verified GREEN:
+> 201 passed, typecheck, lint, and both example builds clean.
+> Next: read the HTML walkthrough; maintainer updates the stale storage guard
+> comments. Host error wording is aligned. Do not advance before learning review.
+> The agent made no E4.4e production edits. The rejection policy is approved.
 > Null policy is SPEC §6.3 / ADR 0004. Study mode: junior.
 
 ## 2026-09-08 checkpoint
@@ -55,6 +56,24 @@ remaining validation work and known boundaries are listed below.
   these comments; they do not replace them. The agent can maintain requested
   comments without changing the maintainer's implementation logic.
 - Dialogue in Korean, repository artifacts in English (see CLAUDE.md).
+- **Refined 2026-09-30 — interrupted study sessions need a living HTML guide.**
+  The maintainer requested an accessible architecture map, roadmap, current
+  position, and sequential explanations of long code, including why each
+  check exists. Maintain `study/index.html` as the stable entry point and
+  `study/05-json-value-validation.html` as the current detailed lesson;
+  `study/study.css` supplies their shared styles. Preserve the earlier notes.
+  Read the guide alongside this handoff on resume. After each verified step,
+  update its date, real check results, current status, next small action, and
+  relevant explanation. Keep prior explanations available rather than
+  replacing the guide with only the newest task. This is upkeep during study,
+  not a scheduled automation or a live repository monitor.
+  Teach long code in small conceptual blocks, with the current architecture
+  and call path first, then each block's purpose, line roles, and failure it
+  prevents. Avoid another large implementation handover while comprehension
+  is pending. HTML teaching materials may be authored by the agent; meaningful
+  Moonpool implementation remains typed by the maintainer. These Korean
+  personal notes are gitignored; if missing on another machine, recreate them
+  from SPEC, source, ADRs, and this handoff instead of assuming they travelled.
 
 ## Where we are (v0.1)
 
@@ -149,9 +168,13 @@ typed storage.set, reverified on 2026-09-07 before adding delete tests.
 After storage.delete: **119 passed**, typecheck and lint clean.
 After E4.4a: **134 passed**, reverified on 2026-09-08 before E4.4b.
 After E4.4b: **160 passed**, typecheck and lint clean.
-Current: `pnpm test --run` → **162 passed** after the maintainer typed E4.4c.
-Typecheck and lint pass. Initialization resets before method-level rejection
-of a repeat handshake, restoring the existing §5.1 requirement for this path.
+After E4.4c: **162 passed**, reverified on 2026-09-09.
+After E4.4d: **172 passed**, typecheck and lint clean.
+Current: **201 passed**, typecheck, lint, and both example builds pass after
+the maintainer typed E4.4e's validator and storage.set integration. Verified
+on 2026-09-30. Sequential explanation and the three requested deep-dives are
+in the HTML guide. Stale storage guard comments remain for the maintainer to
+update; host error wording is aligned. Conceptual review precedes the next task.
 The browser example still has no capability providers.
 The kernel, the first platform adapter, a real cross-origin bridge between the
 two examples, and now the permission gate with the first scoped method are
@@ -850,14 +873,194 @@ They do not establish handling of malformed-envelope or malformed-container
 repeat messages rejected earlier in the pipeline. Required-field validation,
 recursive JSON validation, and size limits remain separate work.
 
+### E4.4d — required protocolVersion input (DONE)
+
+**2026-09-09 — resumed.** The working tree was clean at aaa5adc on master.
+Reverified 162 tests passed, typecheck and lint clean; study mode remains
+junior. E4.4c and the earlier deep-dives are complete.
+
+The initialize branch currently compares message.params?.protocolVersion
+directly with PROTOCOL_VERSION. Missing input and non-string values therefore
+receive -32004, just like a well-typed but unsupported version. SPEC §5 shows
+a string version and defines unsupported-version handling, but does not
+explicitly distinguish missing/wrongly typed input from version negotiation.
+
+The maintainer approved the following clarification on 2026-09-09. SPEC §5
+was updated before tests; ADR 0007 and CHANGELOG.md record the distinction:
+
+> portal.initialize requires params.protocolVersion to be a string. Missing
+> params, a missing protocolVersion, or a non-string protocolVersion MUST
+> be rejected with -32602 before version negotiation. A string that does not
+> exactly match a protocol version supported by the host MUST be rejected
+> with -32004.
+
+This policy adds no version-format grammar or coercion. Under the approved
+rule, an empty string is still an unsupported string (-32004), matching
+the existing exact-match behavior. Unknown fields remain rejected under
+ADR 0006. The E4.4c reset stays before these checks so failed initialization
+cannot inherit prior success, and valid retry remains possible.
+
+**2026-09-09 — tests verified RED.** Added seven input cases in handshake.test.ts
+for omitted params, missing protocolVersion, null, number, boolean, array,
+and object values. Each requires -32602, subsequent -32005 for ping, and a
+valid initialization retry restoring service. Added a repeat-initialization
+case with a missing version to pin the existing reset ahead of this new
+rejection. Extended unsupported-string cases with '' and ' 0.1 ' to preserve
+exact-match behavior without a non-empty rule or trimming.
+
+Verified **164 passed / 8 failed** (172 total). All eight failures receive
+-32004 instead of -32602; the two new unsupported-string cases are already
+green. Typecheck and lint pass. Production code has not been edited by the
+agent. The tests use the real host bridge; the omitted-params frame is built
+directly because the existing request helper defaults params to {}.
+
+Handover: inside PORTAL_METHODS.INITIALIZE, immediately after
+`const requested = message.params?.protocolVersion;` and before the existing
+version comparison, check `typeof requested !== 'string'`. On failure,
+send -32602 with a fixed message and return. Keep the existing early reset,
+unknown-field check, exact version comparison, and success assignment.
+A local check is sufficient; no new public type/guard is needed.
+**2026-09-09 — implementation DONE.** The maintainer inserted the local
+typeof check immediately after reading requested, before version comparison,
+and below the existing initialization reset and unknown-field check. The
+agent read the block and verified **172 passed**, typecheck and lint clean.
+No implementation edits were needed. ADR 0007 records verification. The
+maintainer requested proceeding, not the optional deep-dives; do not deliver
+them automatically on resume. Do not ask for this policy again.
+
+### Current piece — E4.4e, non-JSON storage values (implementation GREEN; learning review)
+
+The next boundary is storage.set's arbitrary value tree. Its current guard
+rejects top-level undefined/null but does not inspect nested values.
+Nested undefined and NaN can therefore reach the provider. Native
+JSON.stringify demonstrates the portability problem: { nickname: undefined }
+becomes {}, and { score: NaN } becomes { score: null }.
+
+The maintainer approved the clarification on 2026-09-09 and explicitly
+requested updating the spec and starting with tests. SPEC §6.3, ADR 0008,
+and CHANGELOG.md were updated before tests. The rule: storage.set MUST
+reject a value containing data outside the JSON value model with -32602,
+before invoking its provider. It MUST NOT remove, coerce, or replace invalid
+data to make the value JSON-compatible. This includes nested undefined,
+non-finite numbers, non-JSON objects such as Date/Map, and circular references.
+Nested null and application-defined object keys remain allowed, under the
+existing ADR 0004/0006 rules. The existing scope and availability ordering
+remains unchanged.
+
+This first slice concerns the storage value tree. A pure validator belongs
+in protocol and can be used by the existing storage.set guard; it does not
+change Transport's interface or normalize payloads. Whole-envelope handling
+and size/depth limits remain separate decisions. This policy is settled;
+do not ask again.
+
+**2026-09-09 — tests prepared and verified RED.** Added 23 tests in
+`packages/host/test/storage-json.test.ts`. Sixteen invalid-value cases cover
+undefined in objects/arrays, non-finite numbers, Date/Map/Set/typed-array
+values, nested bigint, direct/indirect/array cycles, and sparse array holes.
+Also require validation before availability and preservation of both the
+existing stored value and the original invalid input. Five already-green
+cases preserve permission/initialization gates, ordinary nested JSON,
+shared acyclic content, and a deep finite tree.
+
+Verified **177 passed / 18 failed** (195 total), typecheck and lint clean.
+Failures are ordinary response mismatches: invalid writes still succeed,
+or availability responds -32001 instead of input rejection -32602. The
+test-only cast deliberately injects unknown values without serialization;
+no production Transport signature was changed. The 20,000-level tree is a
+stress sample to catch recursive call-stack failure, not a chosen limit.
+The assertions for that case also traverse iteratively.
+
+**2026-09-11 — implementation handover.** Added six boundary/stress tests
+before handing over implementation: symbol-keyed members, non-enumerable
+members, named array members, no toJSON execution, no getter evaluation,
+and a 31-object shared graph whose expanded paths would exceed a billion
+leaf visits. Verified **178 passed / 23 failed** (201 total), typecheck and
+lint clean. New rejection cases still succeed; the shared-graph case is
+already green before validation. This does not impose a protocol size limit.
+
+The maintainer is handed isJsonValue(value: unknown): value is JsonValue in
+protocol. It uses visit/complete tasks in an array stack and a local
+Map<object, 'visiting' | 'valid'>. An active ancestor means a cycle; completed
+subtrees can be reused. Validate scalar leaves, dense array indices and
+ordinary record prototypes, then inspect own string-keyed enumerable data
+descriptors without evaluating getters. Array length is excluded from data
+members. Reject reflective failures. ADR 0008 records this implementation
+rationale and its boundaries, including Proxy traps and serialized expansion.
+
+Integrate by retaining the existing required-key/top-level-null checks in
+isStorageSetParams and adding isJsonValue(params.value). Update its stale
+comment and the host's invalid-params message to mention a non-null JSON
+value. No E4.4e implementation code has been written by the agent. On resume,
+inspect the maintainer's files before repeating the handover. Expected after
+typing: **201 passed**, typecheck and lint clean; not yet verified.
+
+**2026-09-30 — resumed in Codex, study mode still junior.** Inspected the
+current implementation: isJsonValue is absent and isStorageSetParams still
+checks only the required key and top-level undefined/null. Reverified
+`pnpm test --run --reporter=dot`: **178 passed / 23 failed** (201 total).
+All failures remain in storage-json.test.ts; typecheck and lint pass.
+The next handover covers the validator and its storage.set integration as
+one learning step. No production code or test changes were made on resume.
+Wait for the maintainer's typing, then inspect their files and verify the
+expected **201 passed** result before advancing.
+
+**2026-09-30 — maintainer's implementation verified GREEN; explanation requested.**
+The maintainer typed the complete iterative isJsonValue validator and added
+isJsonValue(params.value) to isStorageSetParams. Read the implementation and
+verified **201 passed**, typecheck, lint, and both example builds clean.
+The agent did not modify production logic. The old guard documentation still
+says nested data is unchecked, and its inline comment describes only the
+outer inspection. The host error still says "non-null value" rather than
+"non-null JSON value". These are the next small handover, not another feature.
+
+The maintainer asked for a detailed sequential explanation and persistent,
+readable HTML materials because study sessions are intermittent. Created
+study/index.html (architecture, request flow, roadmap, current state, next
+action, glossary, links to existing notes) and
+study/05-json-value-validation.html (15 annotated source blocks, cycle versus
+sharing, visit/complete stack replay, getter/descriptor experiment, test
+mapping, and the remaining comment/message handover). Shared styles are in
+study/study.css. All are personal, ignored materials. The supplied explanation
+must not be treated as proof the maintainer has reviewed or understood it;
+continue questions and conceptual review before advancing. Update these
+materials alongside HANDOFF after subsequent verified study steps.
+
+Verified the new HTML guide in the browser: architecture and lesson render,
+all three stack replay examples reach their expected outcomes, descriptor
+inspection leaves the getter call count unchanged, and direct reading calls
+it once. Block navigation works. Both pages fit a 390px viewport without
+page-level horizontal overflow; the temporary viewport override was reset.
+Local links and anchors were checked. The source snapshot is dated, not a
+live view of the implementation.
+
+**2026-09-30 — commit/push checkpoint requested.** The maintainer updated the
+host's storage.set error to require a "non-null JSON value". The guard's old
+documentation and inline comment remain for the next study step. Reverified
+**201 passed**, typecheck, lint, and both example builds clean; git diff check
+also passes. Split the checkpoint into required version input, JSON storage
+validation, and session documentation. Personal study HTML remains ignored;
+the tracked handoff preserves its maintenance instructions and recreation
+sources. This checkpoint does not declare complete v0.1 conformance.
+
+Feature commits in this checkpoint:
+
+- `b5d66f9` — validate required version input before negotiation (E4.4d).
+- `8f0ac35` — reject non-JSON storage values without conversion (E4.4e).
+
+The remaining session documentation is a separate docs commit. The maintainer
+requested pushing this checkpoint to origin/master.
+
 Resume checklist:
 
 1. Decision 4 is approved; do not ask again.
 2. storage.get/set/delete are verified GREEN and the provider discussion is finished.
    Both identity and null policies are approved; do not repeat either decision.
 3. E4.3, E4.4a, E4.4b, E4.4c, and the requested deep-dives are complete.
-   Continue with remaining method-field validation and JSON-boundary work.
-   The unknown-field policy is settled; do not ask again.
+   E4.4d is also verified GREEN. E4.4e's rejection policy is approved and
+   the maintainer's implementation is verified GREEN (201 passed). Read the
+   HTML guide and answer questions before advancing; hand over only the stale
+   guard comments next. Version-input, unknown-field, and non-JSON
+   storage rejection policies are settled; do not ask again.
    Guard extraction and a shared
    `invoke(id, run)` helper remain optional refactor candidates under green;
    neither is required before starting E4.4.
@@ -869,8 +1072,10 @@ Resume checklist:
    Also validate the actual JSON value tree at the browser ingress boundary:
    a JsonValue annotation/cast does not prove that a structured-clone payload
    is JSON. Current method guards check required fields and the null policy;
-   nested undefined, non-finite numbers, non-JSON objects, and cycles are not
-   covered yet. Address this before claiming full §9.6 conformance.
+   storage.set now rejects nested undefined, non-finite numbers, non-JSON
+   objects, and cycles. This does not validate the entire inbound envelope or
+   establish size/depth limits. Address remaining boundaries before claiming
+   full §9.6 conformance.
 5. E4.5: mock-host gets a `Map`-backed `StorageProvider` and a constant
    `ProfileProvider`; hello-miniapp calls `profile.get` and renders it, and
    calls `storage.set` so a `-32000` is visible on screen (mock-host grants
@@ -882,7 +1087,7 @@ Resume checklist:
 ```bash
 corepack enable          # once per machine
 pnpm install
-pnpm test --run          # expect 162 passed
+pnpm test --run          # E4.4e implementation: expect 201 passed
 ```
 
 The git remote uses a personal SSH host alias
