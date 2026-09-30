@@ -493,7 +493,7 @@ export function createHost(config: HostConfig): Host {
               id,
               error: {
                 code: ERROR_CODES.INVALID_PARAMS,
-                message: 'storage.set requires a string key and a non-null value',
+                message: 'storage.set requires a string key and a non-null JSON value',
               },
             });
             return;

@@ -101,6 +101,124 @@ export function isJsonObject(value: JsonValue | undefined): value is { [key: str
   return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
+type JsonValueTask = { kind: 'visit'; value: unknown } | { kind: 'complete'; value: object };
+
+/**
+ * SPEC §6.3 / §9.6 / ADR 0008 — inspect JSON data without conversion.
+ * Accept finite scalars, dense arrays, and ordinary records.
+ * Do not mutate input, evaluate getters, or invoke toJSON.
+ * An explicit stack supports deep data; completed objects may be shared.
+ * This check does not impose size limits or prevent Proxy trap side effects.
+ */
+export function isJsonValue(value: unknown): value is JsonValue {
+  const tasks: JsonValueTask[] = [{ kind: 'visit', value }];
+  const states = new Map<object, 'visiting' | 'valid'>();
+
+  try {
+    while (tasks.length > 0) {
+      const task = tasks.pop();
+      // pop() can return undefined in its TypeScript signature.
+      if (task === undefined) {
+        return false;
+      }
+
+      if (task.kind === 'complete') {
+        states.set(task.value, 'valid');
+        continue;
+      }
+
+      const current = task.value;
+
+      // null is valid JSON; storage's top-level null rule is separate.
+      if (current === null || typeof current === 'string' || typeof current === 'boolean') {
+        continue;
+      }
+
+      if (typeof current === 'number') {
+        if (!Number.isFinite(current)) {
+          return false;
+        }
+        continue;
+      }
+
+      // Reject undefined, functions, symbols, and bigint.
+      if (typeof current !== 'object') {
+        return false;
+      }
+
+      const state = states.get(current);
+      if (state === 'visiting') {
+        return false;
+      }
+
+      if (state === 'valid') {
+        continue;
+      }
+
+      const array = Array.isArray(current);
+      const keys = Reflect.ownKeys(current);
+      let arrayLength = 0;
+
+      if (array) {
+        const length: unknown = Object.getOwnPropertyDescriptor(current, 'length')?.value;
+        // Dense arrays own every index plus their bookkeeping length.
+        if (typeof length !== 'number' || keys.length !== length + 1) {
+          return false;
+        }
+        arrayLength = length;
+      } else {
+        const prototype = Object.getPrototypeOf(current);
+        if (prototype !== Object.prototype && prototype !== null) {
+          return false;
+        }
+      }
+
+      states.set(current, 'visiting');
+      // The stack processes children before this completion task.
+      tasks.push({ kind: 'complete', value: current });
+
+      for (const key of keys) {
+        if (typeof key !== 'string') {
+          return false;
+        }
+        if (array && key === 'length') {
+          continue;
+        }
+
+        if (array) {
+          const index = Number(key);
+          // Reject named members and non-canonical index spellings.
+          if (
+            !Number.isInteger(index) ||
+            index < 0 ||
+            index >= arrayLength ||
+            String(index) !== key
+          ) {
+            return false;
+          }
+        }
+
+        const descriptor = Object.getOwnPropertyDescriptor(current, key);
+        // Inspect stored data without executing an accessor.
+        if (
+          descriptor === undefined ||
+          !descriptor.enumerable ||
+          !Object.hasOwn(descriptor, 'value')
+        ) {
+          return false;
+        }
+
+        tasks.push({ kind: 'visit', value: descriptor.value });
+      }
+    }
+
+    return true;
+  } catch {
+    // Failed structural inspection cannot establish valid JSON data.
+    return false;
+  }
+}
+
 /**
  * SPEC §4.2 / ADR 0006 — check only top-level params names.
  * Omission and an empty object contain no unknown names; required fields
@@ -245,7 +363,8 @@ export function isStorageSetParams(params: JsonValue | undefined): params is Sto
     isJsonObject(params) &&
     typeof params.key === 'string' &&
     params.value !== undefined &&
-    params.value !== null
+    params.value !== null &&
+    isJsonValue(params.value)
   );
 }
 

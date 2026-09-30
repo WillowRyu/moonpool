@@ -349,6 +349,15 @@ able to read another mini app's keys.
 Nested `null` values are permitted. `storage.get` returns `{ "value": null }`
 only when the key is absent.
 
+`storage.set` MUST reject a value containing data outside the JSON value
+model with `-32602`, before invoking its provider. This includes nested
+`undefined`, non-finite numbers, non-JSON objects such as `Date` or `Map`,
+and circular references. The host MUST NOT remove, coerce, or replace invalid
+data to make the value JSON-compatible. Nested `null` and application-defined
+object keys remain permitted under the rules above and §4.2. Scope enforcement
+MUST precede this validation, which MUST precede provider availability checks
+and invocation (§9.3 / §9.6).
+
 ### 6.4 Host-initiated notifications
 
 Sent host → mini app as JSON-RPC notifications (no `id`). Mini apps MUST

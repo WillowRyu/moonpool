@@ -4,6 +4,9 @@
 
 ### Changed
 
+- Reject non-JSON storage.set values with -32602 before provider access
+  (SPEC §6.3, ADR 0008). Invalid nested data must not be dropped or converted;
+  nested null and application-defined object keys remain allowed.
 - Require a string protocolVersion for portal.initialize (SPEC §5, ADR 0007).
   Missing or non-string input now receives -32602; unsupported strings
   continue to receive -32004 under exact-match negotiation.
