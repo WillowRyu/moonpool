@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moonpool 스터디 04 — 문지기 심화: fail-closed · 에러 코드 누출 · 의존성 주입 · params 검증</title>
+<style>
+  :root {
+    --bg: #faf9f6; --card: #ffffff; --ink: #1f2430; --muted: #6b7280;
+    --line: #e5e1d8; --accent: #2f6f5e; --accent-soft: #e7f1ee;
+    --warm: #b3652f; --warm-soft: #f7ece2;
+    --danger: #a83a3a; --danger-soft: #f9e9e9;
+    --good: #2f6f5e; --good-soft: #e7f1ee;
+    --code-bg: #f1efe9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161b; --card: #1c1f26; --ink: #e8e6e1; --muted: #9aa0ab;
+      --line: #30343d; --accent: #6fbfa8; --accent-soft: #21302c;
+      --warm: #d9955e; --warm-soft: #33281f;
+      --danger: #d97f7f; --danger-soft: #322022;
+      --good: #6fbfa8; --good-soft: #21302c;
+      --code-bg: #23262e;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); line-height: 1.75; font-size: 16px;
+    font-family: "Apple SD Gothic Neo", "Noto Sans KR", system-ui, -apple-system, sans-serif; }
+  main { max-width: 860px; margin: 0 auto; padding: 48px 20px 80px; }
+  header.page { border-bottom: 2px solid var(--accent); padding-bottom: 20px; margin-bottom: 32px; }
+  .kicker { color: var(--accent); font-weight: 700; letter-spacing: .08em; font-size: 13px; }
+  h1 { font-size: 27px; margin: 6px 0 8px; line-height: 1.35; }
+  .sub { color: var(--muted); margin: 0; }
+  nav.toc { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 20px; margin-bottom: 40px; }
+  nav.toc a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  nav.toc ol { margin: 6px 0 0; padding-left: 20px; }
+  section { margin-bottom: 60px; }
+  h2 { font-size: 22px; border-left: 5px solid var(--accent); padding-left: 12px; margin: 0 0 16px; line-height: 1.4; }
+  h3 { font-size: 17px; margin: 26px 0 8px; }
+  .def { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: 10px 14px; border-radius: 0 10px 10px 0; margin: 14px 0; }
+  .warn { background: var(--danger-soft); border-left: 4px solid var(--danger); padding: 10px 14px; border-radius: 0 10px 10px 0; margin: 14px 0; }
+  .tip { background: var(--warm-soft); border-left: 4px solid var(--warm); padding: 10px 14px; border-radius: 0 10px 10px 0; margin: 14px 0; }
+  .note { color: var(--muted); font-size: 14px; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .92em; background: var(--code-bg); padding: 1px 6px; border-radius: 6px; }
+  pre { background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; overflow-x: auto; line-height: 1.55; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0; font-size: 15px; }
+  th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; vertical-align: top; }
+  th { background: var(--code-bg); }
+  .deny { color: var(--danger); font-weight: 700; }
+  .ok { color: var(--good); font-weight: 700; }
+  .leak { background: var(--danger-soft); }
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 18px 0; }
+  @media (max-width: 640px) { .compare { grid-template-columns: 1fr; } }
+  .card { border: 2px solid var(--line); border-radius: 14px; background: var(--card); padding: 14px 16px; }
+  .card h4 { margin: 0 0 8px; font-size: 14px; letter-spacing: .04em; }
+  .card.bad { border-color: var(--danger); }
+  .card.good { border-color: var(--good); }
+  .card.bad h4 { color: var(--danger); }
+  .card.good h4 { color: var(--good); }
+  .card pre { margin: 8px 0 0; }
+  .where { font-size: 14px; color: var(--muted); margin-top: 18px; }
+  .where code { font-size: .9em; }
+  .recap { border: 2px dashed var(--accent); border-radius: 14px; padding: 14px 18px; background: var(--card); }
+  .recap ul { margin: 6px 0 0; padding-left: 20px; }
+</style>
+</head>
+<body>
+<main>
+<header class="page">
+  <div class="kicker">MOONPOOL 스터디 04 · E4 준비</div>
+  <h1>문지기(permission gate) 심화 네 가지</h1>
+  <p class="sub">결정 1 = A(-32000, scope 검사가 먼저), 결정 2 = A(HostConfig에 타입 있는 칸). 이 두 결정이 <em>왜</em> 맞는지를 네 개의 개념으로 풀어 본다.</p>
+</header>
+
+<nav class="toc">
+  <b>차례</b>
+  <ol>
+    <li><a href="#s1">fail-closed: 검문 순서가 왜 보안이 되는가</a></li>
+    <li><a href="#s2">에러 코드가 새는 정보: -32000과 -32601에서 상대가 배우는 것</a></li>
+    <li><a href="#s3">의존성 주입: 결정 2-A는 이미 우리가 쓰던 패턴</a></li>
+    <li><a href="#s4">params 검증을 라이브러리 없이 TypeScript로</a></li>
+  </ol>
+</nav>
+
+<!-- ============================================================ -->
+<section id="s1">
+<h2>1. fail-closed: 검문 순서가 왜 보안이 되는가</h2>
+
+<div class="def">
+<b>fail-closed</b>(= fail-secure): 모르거나, 빠졌거나, 고장 났을 때 <b>닫힘(거부)</b> 쪽으로 기우는 설계.<br>
+<b>fail-open</b>: 그 반대. 판단이 안 서면 <b>열어</b> 준다.
+</div>
+
+<p>비유: 정전이 났다. 은행 금고 문은 <b>잠긴 채로</b> 있어야 하고(fail-closed), 비상구는 <b>열려야</b> 한다(fail-open). 둘 다 옳다. 차이는 "어느 쪽 실수가 더 싼가"다.</p>
+
+<table>
+<tr><th>우리 문지기의 실수</th><th>비용</th><th>되돌릴 수 있나</th></tr>
+<tr><td>정당한 호출을 잘못 <span class="deny">거부</span></td><td>개발자가 에러를 보고 manifest나 grant를 고친다</td><td class="ok">있다</td></tr>
+<tr><td>부당한 호출을 잘못 <span class="ok">허용</span></td><td>다른 미니앱의 데이터, 사용자 정보가 새어 나간다</td><td class="deny">없다</td></tr>
+</table>
+
+<p>그래서 권한 검사는 언제나 금고 쪽이다. 이걸 코드 모양으로 고정하는 방법이 두 가지 있다.</p>
+
+<h3>모양 1: 허용 목록(allowlist) vs 금지 목록(denylist)</h3>
+
+<div class="compare">
+  <div class="card bad">
+    <h4>fail-open · 금지 목록</h4>
+<pre><code>if scope in deniedScopes
+  → deny
+→ allow            // 새 scope는 자동 허용</code></pre>
+  </div>
+  <div class="card good">
+    <h4>fail-closed · 허용 목록 (우리 선택)</h4>
+<pre><code>if scope not in grantedScopes
+  → deny
+→ allow            // 새 scope는 자동 거부</code></pre>
+  </div>
+</div>
+
+<p>둘 다 "검사"처럼 보이지만 기본값이 반대다. <code>grantedScopes.includes(scope)</code>는 허용 목록이다. 내일 <code>camera</code>라는 scope가 생겨도, 명시적으로 grant되기 전까지는 자동으로 거부된다.</p>
+
+<h3>모양 2: 검문 <em>순서</em></h3>
+
+<p>같은 검사들도 순서를 바꾸면 fail-open이 될 수 있다. 우리 디스패처에서 6번(출입증)과 7번(방 존재)의 순서를 바꿔 보자. 아래 표는 <b><code>storage</code> 출입증이 없는 미니앱</b>이 세 가지 호출에 대해 받는 답이다.</p>
+
+<table>
+<tr><th>호출</th><th>scope 먼저 (결정 1-A)</th><th>메서드 존재 먼저 (잘못된 순서)</th></tr>
+<tr><td><code>storage.get</code> (존재함)</td><td class="deny">-32000</td><td class="deny">-32000</td></tr>
+<tr><td><code>storage.zzz</code> (없음)</td><td class="deny">-32000</td><td class="leak">-32601 ← get과 답이 다르다</td></tr>
+<tr><td><code>camera.take</code> (호스트에 없는 층)</td><td class="deny">-32000</td><td class="leak">-32601</td></tr>
+</table>
+
+<p>왼쪽 열은 세 답이 <b>전부 같다</b>. 출입증 없는 층에 대해서는 두드려 봐도 아무것도 알 수 없다. 오른쪽 열은 답이 갈리므로, 미니앱이 이름을 하나씩 던져 보면서 "어떤 방이 존재하는가"를 알아낼 수 있다. 검사 코드는 한 줄도 안 바뀌었고, 순서만 바뀌었는데 문이 살짝 열린 것이다.</p>
+
+<p>출입증이 <b>있는</b> 미니앱은 물론 <code>storage.get</code>은 결과, <code>storage.zzz</code>는 -32601을 받는다. 그건 자기 층이니 알아도 된다.</p>
+
+<h3>이 코드베이스에 이미 있는 fail-closed</h3>
+
+<table>
+<tr><th>어디</th><th>무엇</th><th>열어 줬다면</th></tr>
+<tr><td><code>isFromPeer</code></td><td>origin을 <code>===</code>로 정확히 비교. 뒤에 <code>/</code> 하나 붙은 설정은 <b>아무것도</b> 매치 안 됨</td><td><code>startsWith</code>였다면 <code>localhost:51740</code>도 통과</td></tr>
+<tr><td><code>isFromPeer</code></td><td>origin <code>"null"</code>은 설정 쪽에서도 거부</td><td>모든 sandboxed iframe이 "null"이라 익명 발신자를 전부 받게 됨</td></tr>
+<tr><td>handshake</td><td><code>grantedScopes</code> = manifest ∩ host grant. 한쪽에만 있으면 탈락</td><td>manifest에 적기만 하면 얻는 권한이 됨</td></tr>
+<tr><td>SPEC §5.1</td><td>반복 handshake 때 리셋할 상태 목록이 <b>닫혀</b> 있음</td><td>새 상태를 깜빡하면 사용자 동의 기록이 날아감</td></tr>
+<tr><td>디스패처 마지막 줄</td><td>어느 분기에도 안 걸리면 -32601. "통과 = 허용"이 아니다</td><td>모르는 메서드가 조용히 실행됨</td></tr>
+</table>
+
+<div class="warn">
+<b>같은 함정, 다른 옷.</b> <code>portal.*</code>은 scope가 필요 없다(§6.2). 이 예외를 <code>method.startsWith('portal')</code>로 쓰면 <code>portalx.hack</code>이 통과한다. 점 앞을 잘라 <b>정확히</b> <code>'portal'</code>과 비교해야 한다. origin의 <code>startsWith</code> 함정과 완전히 같은 모양이다.
+</div>
+
+<h3>이상한 이름들도 닫힘 쪽으로 떨어지나?</h3>
+
+<table>
+<tr><th>메서드 이름</th><th>점 앞(scope)</th><th>결과</th></tr>
+<tr><td><code>ping</code> (점 없음)</td><td><code>ping</code></td><td class="deny">-32000, grant된 적 없는 scope</td></tr>
+<tr><td><code>.get</code></td><td>빈 문자열</td><td class="deny">-32000</td></tr>
+<tr><td><code>storage</code> (동작 없음)</td><td><code>storage</code></td><td>grant 있으면 7번에서 -32601, 없으면 -32000</td></tr>
+</table>
+<p>전부 거부다. 문지기가 "이건 무슨 경우지?"라고 헷갈리는 순간에도 답이 거부라면 잘 설계된 것이다.</p>
+
+<p class="where">코드에서 찾아보기: <code>packages/transport-iframe/src/peer.ts</code>(origin 비교), <code>packages/host/src/index.ts</code>의 <code>grantedScopes</code> 교집합과 마지막 -32601 분기.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="s2">
+<h2>2. 에러 코드가 새는 정보: -32000과 -32601에서 상대가 배우는 것</h2>
+
+<div class="def">
+<b>정보 누출(leak)</b>: 답의 <em>내용</em>이 아니라 답의 <em>차이</em>가 정보가 되는 것. "A일 때는 이 답, B일 때는 저 답"이면 답만 보고 A/B를 알 수 있다.
+</div>
+
+<p>여기서 "상대"는 누구인가. 호스트가 실행하는 <b>제3자 코드</b>, 즉 악의적이거나 해킹당한 미니앱이다. 그 코드는 우리 문지기에게 마음대로 질문할 수 있고, 답을 전부 기록할 수 있다.</p>
+
+<h3>웹의 고전 사례 두 개</h3>
+<ul>
+  <li>로그인 폼이 "비밀번호가 틀렸습니다"와 "그런 계정이 없습니다"를 구분해 주면, 아이디만 대량으로 던져서 <b>가입된 계정 목록</b>을 얻는다. 그래서 요즘은 둘 다 "아이디 또는 비밀번호가 틀렸습니다"다.</li>
+  <li>GitHub은 권한 없는 private 저장소에 403(금지)이 아니라 <b>404(없음)</b>를 준다. 저장소가 존재한다는 사실 자체를 감추기 위해서다.</li>
+</ul>
+
+<h3>우리 코드 하나하나가 말해 주는 것</h3>
+
+<table>
+<tr><th>답</th><th>미니앱이 새로 배우는 것</th><th>이미 알고 있었나</th></tr>
+<tr><td>-32000 PERMISSION_DENIED</td><td>이 scope는 나에게 없다</td><td class="ok">그렇다. handshake의 <code>grantedScopes</code>와 자기 manifest로 이미 안다</td></tr>
+<tr><td>-32601 METHOD_NOT_FOUND</td><td>이 메서드는 존재하지 않는다</td><td>내 층 안에서라면 알아도 된다</td></tr>
+<tr><td>-32602 INVALID_PARAMS</td><td>메서드가 존재하고 scope도 있는데 서류 모양이 틀렸다</td><td>내 층이므로 문제 없음</td></tr>
+<tr><td>-32001 CAPABILITY_UNAVAILABLE</td><td>프로토콜엔 있는데 <b>이 호스트</b>엔 구현이 없다. 호스트/플랫폼의 윤곽</td><td>낮은 위험. 플랫폼은 handshake의 <code>host.platform</code>에 이미 있다</td></tr>
+<tr><td>-32603 INTERNAL_ERROR</td><td>핸들러가 넘어졌다</td><td><span class="deny">message에 스택트레이스나 파일 경로를 넣으면 여기가 구멍이 된다</span></td></tr>
+</table>
+
+<div class="tip">
+<b>결정할 때 던질 질문 하나.</b> "이 답으로 상대가 <em>이미 아는 것 이상</em>을 배우는가?"<br>
+-32000의 답은 "아니오"다. 미니앱은 출입증을 받을 때 못 가는 층을 이미 들었다. 새 정보가 0이므로 -32601로 숨길 이유가 없고, 그렇다면 디버깅이 쉬운 쪽이 이긴다. 이것이 결정 1-A의 논리 전부다.
+</div>
+
+<h3>순서와 합치면</h3>
+<p>1절의 표를 다시 보자. scope 검사가 먼저이면 출입증 없는 층은 <b>무슨 이름을 던져도 -32000</b>이다. 답이 하나뿐이니 차이가 없고, 차이가 없으니 누출이 없다. 결정 1-A는 "코드 선택"과 "순서 선택" 두 개가 합쳐진 것이고, 둘 중 순서가 더 중요하다.</p>
+
+<h3>코드 말고 message와 data도 채널이다</h3>
+<p>SPEC §4.4: <code>error.data</code>는 구조화된 맥락을 담을 수 <b>있지만</b>, 호스트 자격증명, 토큰, 다른 미니앱의 데이터를 담아서는 <b>안 된다</b>. 실무 규칙으로 옮기면:</p>
+<ul>
+  <li>-32602의 message는 "expected params.key to be a string"처럼 <b>어느 필드가 어떤 타입이어야 하는지</b>까지는 괜찮다. 호출자가 보낸 서류니까. 값을 되돌려 보낼 필요는 없다.</li>
+  <li>-32603의 message는 일반적인 한 문장으로 고정한다. 핸들러가 던진 <code>Error.message</code>를 그대로 실어 보내지 않는다. 그 안에는 파일 경로, SQL, 내부 URL이 들어 있을 수 있다.</li>
+</ul>
+<p class="note">더 깊은 층: 답이 같아도 <em>걸리는 시간</em>이 다르면 그것도 채널이다(timing side channel). scope 검사가 맨 앞에 있으면 거부 경로가 가장 짧고 균일해서 이 면에서도 유리하지만, v0.1의 범위는 아니다.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="s3">
+<h2>3. 의존성 주입: 결정 2-A는 이미 우리가 쓰던 패턴</h2>
+
+<div class="def">
+<b>의존성 주입(dependency injection, DI)</b>: 어떤 코드가 필요한 것을 <em>직접 만들거나 찾지</em> 않고, 밖에서 <b>넣어 받는</b> 것. 이름은 거창하지만 본질은 "매개변수로 받기"다.
+</div>
+
+<p>비유: 건물 보안 시스템(커널)은 직원(handler)을 <b>고용하지 않는다</b>. 입주사(호스트 앱)가 직원을 데려오고, 시스템은 출입증만 확인한 뒤 그 직원을 부른다. 시스템은 직원이 누구인지 몰라도 되고, 입주사가 바뀌어도 시스템은 그대로다.</p>
+
+<h3>이미 코드베이스 곳곳에 있다</h3>
+
+<table>
+<tr><th>어디</th><th>무엇을 넣어 받나</th><th>덕분에</th></tr>
+<tr><td><code>createHost(config)</code></td><td>hostInfo, manifest, grantedScopes, environment</td><td>커널이 "이 호스트가 누구인지" 하드코딩하지 않는다</td></tr>
+<tr><td><code>host.connect(transport)</code></td><td><b>Transport</b></td><td>테스트는 메모리 전송, 브라우저는 iframe 전송, iOS는 WKScriptMessageHandler. 커널 코드는 한 줄도 안 바뀐다</td></tr>
+<tr><td><code>createClient({ transport })</code></td><td>Transport</td><td>위와 같음, 반대편</td></tr>
+<tr><td><code>createIframeTransport({ localWindow })</code></td><td>자기 window</td><td>테스트가 전역 <code>window</code> 대신 stub을 넣을 수 있다</td></tr>
+</table>
+
+<p>CLAUDE.md의 "Kernel is pure, transport is swappable"은 문장이고, <code>connect(transport)</code>는 그 문장의 <b>실체</b>다. Transport를 만들지 않고 받기 때문에 커널은 순수할 수 있다.</p>
+
+<h3>결정 2-A가 하는 일: 포트와 어댑터</h3>
+
+<pre><code>커널 (pure) — 인터페이스(port)를 정의한다        호스트 — 구현(adapter)을 공급한다
+
+  ProfileProvider  ◄───────────────────────  mock-host: 고정된 { displayName }
+                                             iOS host : 로그인 세션에서 읽음
+                                             tests    : 호출을 기록하는 가짜
+
+  StorageProvider  ◄───────────────────────  mock-host: 메모리 Map
+                                             iOS host : UserDefaults / 파일
+                                             tests    : 가짜</code></pre>
+
+<p>커널이 정하는 것은 <b>모양</b>뿐이다. 4단계에서 시원 님이 타이핑할 것의 스케치(최종본 아님):</p>
+
+<pre><code>interface StorageProvider {
+  get(key: string): Promise&lt;JsonValue | null&gt;;
+  set(key: string, value: JsonValue): Promise&lt;void&gt;;
+  delete(key: string): Promise&lt;void&gt;;
+}</code></pre>
+
+<p>전부 <code>Promise</code>인 이유: SPEC §9.5 "Async only". 메모리 Map은 동기로도 되지만, 인터페이스가 동기이면 iOS 구현이 같은 모양으로 들어올 수 없다. 인터페이스는 <b>가장 느린 구현</b>에 맞춰야 한다.</p>
+
+<h3>왜 이게 보안 설계이기도 한가</h3>
+<p>핸들러에 닿는 <b>유일한 길</b>이 커널의 dispatch다. 미니앱은 핸들러 객체를 볼 수도, 부를 수도 없고, 오직 JSON 메시지를 보낼 수 있을 뿐이다. 그 메시지는 반드시 문지기를 지난다. SPEC §9.3 "check the granted scope <em>immediately before invoking a handler</em>"가 구조적으로 보장되는 이유다. 핸들러를 커널 안에 하드코딩했다면 문지기와 핸들러 사이에 "지름길"을 만들 유혹이 늘 있다.</p>
+
+<h3>이름 두 개</h3>
+<ul>
+  <li><b>ports and adapters</b>(= hexagonal architecture): 위 그림의 이름. 안쪽(커널)이 포트를 정의하고 바깥(플랫폼)이 어댑터를 꽂는다.</li>
+  <li><b>DI 컨테이너</b>(Spring, NestJS 등): 이 "넣어 주기"를 자동화한 프레임워크. 우리는 함수 인자로 충분하다. 컨테이너가 없어도 DI다.</li>
+</ul>
+
+<p class="note">3단계에서 정할 것 미리보기: 미니앱끼리의 벽(§6.3 "namespaced per mini app id")을 <b>커널</b>이 키 앞에 id를 붙여서 칠지, <b>호스트</b>가 미니앱마다 다른 Provider를 넣어서 칠지. 커널이 치면 순수 테스트로 "다른 미니앱 키를 못 읽는다"를 증명할 수 있다.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="s4">
+<h2>4. params 검증을 라이브러리 없이 TypeScript로</h2>
+
+<div class="warn">
+<b>핵심 사실.</b> TypeScript 타입은 컴파일하면 <b>사라진다</b>. <code>params: { key: string }</code>이라고 적는 것은 컴파일러에게 하는 약속이지 검사가 아니다. 다리를 건너온 <code>params</code>는 다른 origin에서 온 <code>JsonValue</code>, 즉 신뢰할 수 없는 입력이다. SPEC §9.6은 그래서 "validate params against a schema before dispatch"를 MUST로 둔다.
+</div>
+
+<h3>이미 있는 도구: 타입 가드(type predicate)</h3>
+<p>반환 타입이 <code>value is T</code>인 함수. 본문이 <b>런타임</b> 검사를 하고, 결과가 true이면 컴파일러가 그 뒤부터 <code>value</code>를 <code>T</code>로 취급한다. <code>isJsonObject</code>, <code>isJsonRpcRequest</code>, <code>hasRequestId</code>가 전부 이것이다. 메서드마다 하나씩 같은 패턴을 쓰면 된다.</p>
+
+<p>실제 메서드는 4단계에서 시원 님이 쓸 것이므로, 여기서는 <b>가상의</b> 메서드로 모양만 본다. <code>greeting.say</code>의 params가 <code>{ name: string; times?: number }</code>라고 하자.</p>
+
+<pre><code>type GreetingSayParams = { name: string; times?: number };
+
+function isGreetingSayParams(v: JsonValue | undefined): v is GreetingSayParams {
+  return (
+    isJsonObject(v) &amp;&amp;                                   // ① 객체인가 (null, 배열 제외)
+    typeof v.name === 'string' &amp;&amp;                        // ② 필수 필드
+    (v.times === undefined || typeof v.times === 'number') // ③ 선택 필드: 없거나, 맞는 타입
+  );
+}</code></pre>
+
+<table>
+<tr><th>줄</th><th>왜 이 순서인가</th></tr>
+<tr><td>①</td><td><code>isJsonObject</code>가 먼저 true여야 <code>v.name</code>이라는 인덱싱이 타입상 허용된다. <code>&amp;&amp;</code>는 왼쪽이 false이면 오른쪽을 평가하지 않으므로 순서가 곧 안전이다.</td></tr>
+<tr><td>②</td><td><code>noUncheckedIndexedAccess</code>가 켜져 있어 <code>v.name</code>의 타입은 <code>JsonValue | undefined</code>다. <code>typeof</code>가 그것을 <code>string</code>으로 좁힌다. 없는 필드는 <code>undefined</code>라 자연히 실패한다.</td></tr>
+<tr><td>③</td><td>선택 필드는 "없다"와 "있는데 틀리다"를 구분해야 한다. <code>{ name: 'a', times: 'many' }</code>는 거부되어야 한다.</td></tr>
+</table>
+
+<h3>HANDOFF에 적힌 교훈을 다시</h3>
+<div class="tip">
+타입 가드는 <b>검증되지 않은 단언</b>이다. 본문을 <code>return true</code>로 바꿔도 컴파일된다. D단계에서 실제로 <code>isJsonRpcRequest</code>의 본문이 붙여넣기 사고로 바뀌었는데 <code>typecheck</code>는 통과했고 테스트 8개가 잡았다. 그러니 <b>가드마다 테스트</b>, 그것도 <b>false여야 하는 입력</b>을 반드시 포함한 테스트가 필요하다.
+</div>
+
+<h3>가드에서 -32602까지</h3>
+<pre><code>if (!isStorageGetParams(message.params)) {
+  reply error { code: -32602, message: 'expected params.key to be a string' }
+  return
+}
+// 여기부터 message.params는 { key: string } — 컴파일러도 안다</code></pre>
+<p>message에는 <b>어느 필드가 어떤 타입이어야 하는지</b>만 적는다. 받은 값을 되돌려 보내지 않는다(2절).</p>
+
+<h3>왜 zod 같은 스키마 라이브러리를 안 쓰나</h3>
+<table>
+<tr><th>이유</th><th>설명</th></tr>
+<tr><td>CLAUDE.md</td><td>protocol, client, host는 <b>zero runtime dependencies</b>. 다리의 신뢰 경계에 남의 코드를 넣지 않는다</td></tr>
+<tr><td>크기</td><td>v0.1 메서드는 4개. 가드 4개는 스키마 라이브러리 배우는 시간보다 짧다</td></tr>
+<tr><td>이식성</td><td>손으로 쓴 가드는 Swift/Kotlin으로 <b>그대로</b> 옮길 수 있다. zod 스키마는 못 옮긴다. 네이티브 코어는 v0 다음이지만, 지금 모양이 그때의 비용을 정한다</td></tr>
+<tr><td>나중에</td><td>메서드가 수십 개가 되면 스키마 + 코드 생성이 답일 수 있다. 그때는 ADR 한 장이 필요한 결정이다</td></tr>
+</table>
+
+<h3>4단계에서 정할 것 미리보기</h3>
+<ul>
+  <li><b>모르는 추가 필드</b>: 거부할까, 무시할까. JSON-RPC 관례와 앞으로의 호환성은 "무시"를 가리키고, 핸들러가 아는 필드만 읽는다면 무시해도 안전하다.</li>
+  <li><b>크기 제한</b>: <code>storage.set</code>에 50MB 값이 오면? 이건 모양 검사가 아니라 자원 문제다. SPEC에 없으므로 open decision으로 올린다.</li>
+  <li><b>가드가 사는 곳</b>: wire 모양은 양쪽이 공유하므로 <code>protocol</code> 패키지가 자연스럽다. 클라이언트도 UX용 사전 검사에 쓸 수 있다(§9.3: "Client-side checks are a UX affordance only").</li>
+</ul>
+
+<p class="where">코드에서 찾아보기: <code>packages/protocol/src/index.ts</code>의 <code>isJsonObject</code>, <code>isJsonRpcRequest</code>, <code>hasRequestId</code>. 세 가드의 모양이 그대로 params 가드의 모양이다.</p>
+</section>
+
+<!-- ============================================================ -->
+<section>
+<h2>한 장 정리</h2>
+<div class="recap">
+<ul>
+  <li><b>fail-closed</b>: 헷갈리면 거부. 허용 목록으로 쓰고, scope 검사를 메서드 조회보다 <b>앞에</b> 둔다. 순서가 곧 보안이다.</li>
+  <li><b>누출</b>: 답의 <em>차이</em>가 정보다. -32000은 상대가 이미 아는 것만 말하므로 안전하고, 그래서 디버깅이 쉬운 쪽을 고른다. -32603 message에 내부 정보를 싣지 않는다.</li>
+  <li><b>DI</b>: 커널은 인터페이스만 정하고 호스트가 구현을 넣는다. Transport에서 이미 하던 일을 capability에도 한다. 핸들러로 가는 유일한 길이 문지기를 지나게 된다.</li>
+  <li><b>params 검증</b>: 타입은 사라지므로 타입 가드로 런타임에 검사한다. 가드마다 false 케이스 테스트. 라이브러리는 안 쓴다.</li>
+</ul>
+</div>
+</section>
+
+</main>
+</body>
+</html>

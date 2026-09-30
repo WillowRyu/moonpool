@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moonpool 스터디 02 — 레스토랑 · 전화선 · 진동벨 · Zalgo</title>
+<style>
+  :root {
+    --bg: #faf9f6; --card: #ffffff; --ink: #1f2430; --muted: #6b7280;
+    --line: #e5e1d8; --accent: #2f6f5e; --accent-soft: #e7f1ee;
+    --warm: #b3652f; --warm-soft: #f7ece2;
+    --danger: #a83a3a; --danger-soft: #f9e9e9;
+    --good: #2f6f5e; --good-soft: #e7f1ee;
+    --code-bg: #f1efe9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161b; --card: #1c1f26; --ink: #e8e6e1; --muted: #9aa0ab;
+      --line: #30343d; --accent: #6fbfa8; --accent-soft: #21302c;
+      --warm: #d9955e; --warm-soft: #33281f;
+      --danger: #d97f7f; --danger-soft: #322022;
+      --good: #6fbfa8; --good-soft: #21302c;
+      --code-bg: #23262e;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); line-height: 1.75; font-size: 16px;
+    font-family: "Apple SD Gothic Neo", "Noto Sans KR", system-ui, -apple-system, sans-serif; }
+  main { max-width: 800px; margin: 0 auto; padding: 48px 20px 80px; }
+  header.page { border-bottom: 2px solid var(--accent); padding-bottom: 20px; margin-bottom: 32px; }
+  .kicker { color: var(--accent); font-weight: 700; letter-spacing: .08em; font-size: 13px; }
+  h1 { font-size: 27px; margin: 6px 0 8px; line-height: 1.35; }
+  .sub { color: var(--muted); margin: 0; }
+  nav.toc { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 20px; margin-bottom: 40px; }
+  nav.toc a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  section { margin-bottom: 60px; }
+  h2 { font-size: 22px; border-left: 5px solid var(--accent); padding-left: 12px; margin: 0 0 16px; line-height: 1.4; }
+  h3 { font-size: 17px; margin: 26px 0 8px; }
+  .def { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: 10px 14px; border-radius: 0 10px 10px 0; margin: 14px 0; }
+  .warn { background: var(--danger-soft); border-left: 4px solid var(--danger); padding: 10px 14px; border-radius: 0 10px 10px 0; margin: 14px 0; }
+  .note { color: var(--muted); font-size: 14px; }
+  code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .92em; background: var(--code-bg); padding: 1px 6px; border-radius: 6px; }
+  pre { background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; overflow-x: auto; }
+  pre code { background: none; padding: 0; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0; font-size: 15px; }
+  th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; vertical-align: top; }
+  th { background: var(--code-bg); }
+  /* restaurant diagram */
+  .resto { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; margin: 20px 0 8px; }
+  .room { border: 2px solid var(--line); border-radius: 14px; background: var(--card); padding: 14px; width: 300px; }
+  .room h4 { margin: 0 0 8px; font-size: 14px; color: var(--muted); font-weight: 700; text-align: center; }
+  .pkg { border-radius: 10px; padding: 10px 12px; margin: 8px 0; font-size: 14px; }
+  .pkg b { display: block; }
+  .pkg.kernel { background: var(--accent-soft); border: 2px solid var(--accent); }
+  .pkg.plain { background: var(--code-bg); border: 2px dashed var(--line); }
+  .bridge-bar { text-align: center; margin: 6px auto; }
+  .bridge-bar .pkg { display: inline-block; min-width: 320px; text-align: center; }
+  .pkg.warm { background: var(--warm-soft); border: 2px solid var(--warm); }
+  /* cups */
+  .cups { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 22px 0; flex-wrap: wrap; }
+  .cup { border: 2px solid var(--accent); background: var(--accent-soft); border-radius: 0 0 16px 16px; padding: 14px 18px; text-align: center; font-weight: 700; }
+  .cup small { display: block; font-weight: 400; color: var(--muted); }
+  .string { flex: 1; min-width: 90px; max-width: 220px; border-top: 3px dashed var(--accent); position: relative; height: 2px; }
+  .string span { position: absolute; top: -26px; width: 100%; text-align: center; font-size: 12.5px; color: var(--muted); }
+  .flow { counter-reset: step; margin: 14px 0; padding: 0; list-style: none; }
+  .flow li { counter-increment: step; margin: 8px 0; padding-left: 40px; position: relative; }
+  .flow li::before { content: counter(step); position: absolute; left: 0; top: 2px; width: 26px; height: 26px;
+    border-radius: 50%; background: var(--accent); color: var(--bg); font-weight: 800; font-size: 14px;
+    display: flex; align-items: center; justify-content: center; }
+  /* pager ledger */
+  .ledger { border: 2px solid var(--warm); border-radius: 12px; overflow: hidden; margin: 16px 0; }
+  .ledger .title { background: var(--warm-soft); color: var(--warm); font-weight: 800; padding: 8px 14px; font-size: 14px; }
+  .ledger table { margin: 0; border: none; }
+  .ledger td, .ledger th { border-left: none; border-right: none; }
+  .hit { background: var(--good-soft); }
+  /* zalgo compare */
+  .compare { display: flex; gap: 14px; flex-wrap: wrap; margin: 16px 0; }
+  .compare > div { flex: 1; min-width: 280px; border-radius: 12px; padding: 12px 14px; border: 2px solid var(--line); background: var(--card); }
+  .compare .bad { border-color: var(--danger); }
+  .compare .good { border-color: var(--good); }
+  .compare h4 { margin: 0 0 8px; font-size: 14px; }
+  .bad h4 { color: var(--danger); } .good h4 { color: var(--good); }
+  footer { border-top: 1px solid var(--line); padding-top: 16px; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+
+<header class="page">
+  <div class="kicker">MOONPOOL 스터디 노트 02</div>
+  <h1>레스토랑 · 전화선 · 진동벨 · Zalgo</h1>
+  <p class="sub">2026-08-19 · 패키지 4개의 역할, TransportPair의 정체, promise correlation 미리보기, 그리고 "항상 비동기"의 이유</p>
+</header>
+
+<nav class="toc">
+  <ol>
+    <li><a href="#resto">패키지 4개 = 레스토랑 부품 4개</a></li>
+    <li><a href="#cups">TransportPair = 종이컵 전화기</a></li>
+    <li><a href="#pager">진동벨 시스템 — promise correlation</a></li>
+    <li><a href="#zalgo">Zalgo — 왜 "항상 비동기"인가</a></li>
+  </ol>
+</nav>
+
+<!-- ============================================================ -->
+<section id="resto">
+  <h2>① 패키지 4개 = 레스토랑 부품 4개</h2>
+  <p>손님(미니앱)과 주방(네이티브 앱)이 주문서로 소통하는 레스토랑입니다.</p>
+
+  <div class="resto">
+    <div class="room">
+      <h4>손님 테이블 — 미니앱 (웹뷰 안)</h4>
+      <div class="pkg plain"><b>미니앱 코드</b>"프로필 보여줘" 같은 의도</div>
+      <div class="pkg kernel"><b>client — 주문 접수기</b>주문서 작성 · 번호표 붙이기 · 진동벨 울리기 · 타임아웃</div>
+    </div>
+    <div class="room">
+      <h4>주방 — 네이티브 앱</h4>
+      <div class="pkg plain"><b>요리사들 (기능 핸들러)</b>profile.get, storage.set …</div>
+      <div class="pkg kernel"><b>host — 지배인 + 주방</b>양식 검사 · 자격(권한) 확인 · 요리사 호출 · 응답 반송</div>
+    </div>
+  </div>
+  <div class="bridge-bar">
+    <div class="pkg warm"><b>transport-iframe — 서빙 카트</b>주문서/음식을 물리적으로 나름 · 매장(플랫폼)마다 교체되는 유일한 부품</div>
+  </div>
+  <div class="bridge-bar">
+    <div class="pkg plain"><b>protocol — 메뉴판 + 주문서 양식</b>공용 단어 사전 (메시지 모양 · 에러 코드 · 카트 규격) · 스스로 하는 일 없음</div>
+  </div>
+
+  <h3>왜 4개로 나눴나</h3>
+  <table>
+    <tr><th>분리</th><th>이유</th></tr>
+    <tr><td><code>protocol</code> 따로</td><td>손님과 주방이 <b>같은 양식</b>을 봐야 함. 사전이 두 곳이면 언젠가 어긋난다.</td></tr>
+    <tr><td><code>client</code> / <code>host</code> 따로</td><td>실행 장소가 다르고(웹뷰 안 vs 네이티브), <b>보안</b>: 권한 검사가 손님 손에 있으면 조작 가능 → SPEC §9.3 "검사는 dispatch 시점에 host에서".</td></tr>
+    <tr><td><code>transport</code> 따로</td><td>플랫폼이 바뀌면 <b>서빙 방법만</b> 바뀐다. iOS 지원 = 카트 하나 새로 만들기.</td></tr>
+  </table>
+  <p class="note">현재 상태: protocol ✅ 완성(타입·상수) · client/host 빈 껍데기(메인테이너가 구현 예정) · transport-iframe 나중에.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="cups">
+  <h2>② TransportPair = 종이컵 전화기 한 쌍</h2>
+  <p>테스트는 진짜 iframe 없이 미니앱을 <b>연기</b>해야 합니다. 계층화 덕분에 호스트는
+  §3.1 <code>Transport</code> 규격(send / onMessage / close)만 지키면 진짜 카트인지
+  장난감인지 구별할 수 없어요. 그래서 메모리 안에서만 도는 전화기를 꽂습니다.</p>
+
+  <div class="cups">
+    <div class="cup">컵 a<small>테스트가 잡음<br>(미니앱 역)</small></div>
+    <div class="string"><span>마이크로태스크로 배달 (항상 비동기)</span></div>
+    <div class="cup">컵 b<small>호스트에게 쥐여줌<br>host.connect(b)</small></div>
+  </div>
+
+  <h3>테스트 한 판의 왕복</h3>
+  <ol class="flow">
+    <li>테스트: <code>a.send(주문서)</code> — portal.initialize 등</li>
+    <li>전화선: 메시지를 마이크로태스크 목록에 올림 (즉시 배달 금지!)</li>
+    <li>호스트: <code>b</code>의 핸들러(초인종에 연결한 스피커)로 수신</li>
+    <li>호스트: 양식 검사 → 규칙 적용 → 응답 작성</li>
+    <li>호스트: <code>b.send(응답)</code></li>
+    <li>전화선: <code>a</code>쪽으로 배달</li>
+    <li>테스트: <code>a</code>의 핸들러로 받아 배열에 저장 → <code>await flush()</code> 후 내용 검사</li>
+  </ol>
+
+  <div class="def"><b>createLinkedTransports()의 비밀</b> — 컵마다 "내 명단(own)"과 "상대 명단(peer)"을
+  엇갈려 물려준다: a의 상대 명단 = b의 명단. 그래서 <code>a.send</code>가 b의 핸들러들을 울린다.</div>
+</section>
+
+<!-- ============================================================ -->
+<section id="pager">
+  <h2>③ 진동벨 시스템 — promise correlation</h2>
+
+  <div class="def"><b>Promise(프로미스)</b> — "결과가 나중에 오면 알려줄게"라는 <b>티켓</b>.
+  카페 진동벨과 같다: 받는 순간엔 커피가 없지만, 울리면(resolve) 받으러 가면 된다.
+  실패로 울릴 수도 있다(reject — "재료 소진").</div>
+
+  <p>문제 상황: 미니앱이 주문을 <b>여러 개</b> 걸어놓는데, 응답은 시간차를 두고 도착합니다.
+  어떤 응답이 어떤 주문의 답일까요? 해법이 <b>번호표(id)</b>와 <b>대기 명부</b>예요.
+  이것이 client 패키지의 심장, <b>promise correlation</b>(응답 짝 맞추기)입니다.</p>
+
+  <h3>client가 하게 될 일 (곧 메인테이너가 구현)</h3>
+  <ol class="flow">
+    <li><code>call('profile.get')</code> 호출 → 새 번호표 발급 (1, 2, 3… 증가만 함, §4.1)</li>
+    <li>대기 명부(Map: 번호 → 진동벨)에 등록하고, 호출자에겐 Promise(진동벨)를 돌려줌</li>
+    <li>주문서를 transport로 전송</li>
+    <li>응답 도착 → <code>id</code>를 읽고 명부에서 벨을 찾아 울림 — <code>result</code>면 resolve, <code>error</code>면 reject → 명부에서 삭제</li>
+    <li>30초(§4.5) 안에 안 오면: 벨을 실패(-32003 TIMEOUT)로 울리고 명부에서 삭제.
+        <b>그 뒤 늦게 도착한 응답은 명부에 없으므로 조용히 무시</b> — 스펙이 이걸 MUST로 요구</li>
+  </ol>
+
+  <div class="ledger">
+    <div class="title">대기 명부 (pending Map) — 응답 { "id": 2, "result": … } 도착!</div>
+    <table>
+      <tr><th>번호표(id)</th><th>무슨 주문</th><th>진동벨</th></tr>
+      <tr><td>1</td><td>portal.initialize</td><td>🔔 대기 중</td></tr>
+      <tr class="hit"><td>2</td><td>profile.get</td><td>🔔 → ✅ 지금 울림! (resolve) 후 명부에서 삭제</td></tr>
+      <tr><td>3</td><td>storage.get</td><td>🔔 대기 중</td></tr>
+    </table>
+  </div>
+
+  <p class="note">번호표를 재사용하지 않는 이유(§4.1): 지워진 번호가 재활용되면 "늦게 온 옛 응답"이
+  새 주문의 답으로 오인될 수 있다. 증가만 하는 번호는 그 사고를 원천 차단한다.</p>
+</section>
+
+<!-- ============================================================ -->
+<section id="zalgo">
+  <h2>④ Zalgo — 왜 "항상 비동기"로 통일하는가</h2>
+
+  <div class="def"><b>동기(sync)</b> — 그 자리에서 끝날 때까지 기다렸다가 다음 줄로.
+  <b>비동기(async)</b> — 일을 걸어두고 다음 줄로 넘어가고, 결과는 나중에 받는 것.</div>
+
+  <p>"Zalgo(잘고)"는 인터넷 밈 괴물 이름인데, Node.js 커뮤니티에서
+  <b>"어떤 때는 동기로, 어떤 때는 비동기로 콜백을 부르는 API"</b>가 낳는 지옥을 부르는 별명이 됐어요.
+  왜 지옥이냐면:</p>
+
+  <div class="compare">
+    <div class="bad">
+      <h4>✗ 배달이 "즉시(동기)"라면</h4>
+<pre><code>let ready = false;
+transport.send(msg);
+// ← 이 순간 상대 핸들러가
+//    이미 실행돼 버림!
+ready = true;
+// 핸들러는 ready=false를 봤다.
+// 코드 순서와 실행 순서가 어긋남.</code></pre>
+    </div>
+    <div class="good">
+      <h4>✓ 배달이 "항상 나중(비동기)"이면</h4>
+<pre><code>let ready = false;
+transport.send(msg);
+ready = true;
+// 핸들러는 반드시 이 뒤에 실행.
+// 위에서 아래로 읽은 그대로
+// 동작한다. 예측 가능.</code></pre>
+    </div>
+  </div>
+
+  <p>진짜 무서운 건 "가끔"이에요. 열에 아홉은 비동기인데 캐시에 있으면 동기 — 이런 API는
+  <b>테스트에선 통과하고 현장에서 가끔만 터지는</b>, 재현 불가능한 버그를 만듭니다.
+  그래서 JavaScript의 Promise 표준(Promises/A+)은 <code>.then</code> 콜백을
+  <b>무조건 비동기로 실행</b>하도록 아예 명세에 박아버렸어요.</p>
+
+  <div class="warn"><b>Moonpool에 적용하면</b> — ① 가짜 전화선의 <code>send</code>가
+  <code>Promise.resolve().then(…)</code>으로 배달을 미루는 이유: 진짜 postMessage는 절대 즉시
+  배달되지 않으니, 가짜가 즉시 배달하면 "테스트에서만 통과하는 코드"가 생긴다.
+  ② SPEC §9.5 "동기 브릿지 호출은 어떤 층에도, 영원히 금지"의 이유: 동기 API가 하나라도 있으면
+  iOS/Android transport는 물리적으로 구현 불가능해진다.</div>
+</section>
+
+<footer>
+  Moonpool 스터디 노트 · <code>study/</code>는 커밋되지 않는 개인 노트입니다.
+  다음 할 일: STEP 2b — <code>createLinkedTransports()</code> 타이핑 (조각은 HANDOFF.md에).
+</footer>
+
+</main>
+</body>
+</html>

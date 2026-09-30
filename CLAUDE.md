@@ -104,6 +104,7 @@ examples/
   mock-host/                dev host, runs in a browser
   hello-miniapp/            minimal mini app
 docs/adr/                   architecture decision records
+study/                      Korean learning guide and interactive notes
 ```
 
 Nothing in `packages/protocol`, `packages/client`, or `packages/host` may
@@ -127,9 +128,12 @@ pnpm run dev          # serves examples/mock-host
 
 ## Language policy
 
-- All artifacts that live in the repository are in **English**: code,
+- Project artifacts outside `study/` are in **English**: code,
   comments, commit messages, SPEC.md, ADRs, READMEs, issues, and PR
   descriptions. This keeps the project contributable for a global audience.
+- **Exception approved by the maintainer on 2026-09-30:** Korean learning
+  materials in `study/` are versioned with the repository. Keep their HTML
+  guide updated as study progresses and preserve previous lessons.
 - All **conversation with the maintainer is in Korean**: session dialogue,
   plans, explanations, and questions. When quoting spec text or code, keep
   the original English inline.

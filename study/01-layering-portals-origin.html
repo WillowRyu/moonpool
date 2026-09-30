@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moonpool 스터디 01 — 계층화 · Ionic Portals · Origin 격리</title>
+<style>
+  :root {
+    --bg: #faf9f6;
+    --card: #ffffff;
+    --ink: #1f2430;
+    --muted: #6b7280;
+    --line: #e5e1d8;
+    --accent: #2f6f5e;       /* moonpool green */
+    --accent-soft: #e7f1ee;
+    --kernel: #2f6f5e;
+    --platform: #b3652f;
+    --platform-soft: #f7ece2;
+    --danger: #a83a3a;
+    --danger-soft: #f9e9e9;
+    --code-bg: #f1efe9;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161b;
+      --card: #1c1f26;
+      --ink: #e8e6e1;
+      --muted: #9aa0ab;
+      --line: #30343d;
+      --accent: #6fbfa8;
+      --accent-soft: #21302c;
+      --kernel: #6fbfa8;
+      --platform: #d9955e;
+      --platform-soft: #33281f;
+      --danger: #d97f7f;
+      --danger-soft: #322022;
+      --code-bg: #23262e;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Apple SD Gothic Neo", "Noto Sans KR", system-ui, -apple-system, sans-serif;
+    line-height: 1.75;
+    font-size: 16px;
+  }
+  main { max-width: 780px; margin: 0 auto; padding: 48px 20px 80px; }
+  header.page { border-bottom: 2px solid var(--accent); padding-bottom: 20px; margin-bottom: 32px; }
+  .kicker { color: var(--accent); font-weight: 700; letter-spacing: .08em; font-size: 13px; }
+  h1 { font-size: 28px; margin: 6px 0 8px; line-height: 1.35; }
+  .sub { color: var(--muted); margin: 0; }
+  nav.toc { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 20px; margin-bottom: 40px; }
+  nav.toc a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  nav.toc li { margin: 4px 0; }
+  section { margin-bottom: 56px; }
+  h2 { font-size: 22px; border-left: 5px solid var(--accent); padding-left: 12px; line-height: 1.4; margin: 0 0 16px; }
+  h3 { font-size: 17px; margin: 28px 0 8px; }
+  p { margin: 10px 0; }
+  .def {
+    background: var(--accent-soft); border-left: 4px solid var(--accent);
+    padding: 10px 14px; border-radius: 0 10px 10px 0; margin: 14px 0;
+  }
+  .def b:first-child { color: var(--accent); }
+  .warn {
+    background: var(--danger-soft); border-left: 4px solid var(--danger);
+    padding: 10px 14px; border-radius: 0 10px 10px 0; margin: 14px 0;
+  }
+  .note { color: var(--muted); font-size: 14px; }
+  code, .mono { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: .92em; }
+  code { background: var(--code-bg); padding: 1px 6px; border-radius: 6px; }
+  table { border-collapse: collapse; width: 100%; margin: 14px 0; font-size: 15px; }
+  th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; vertical-align: top; }
+  th { background: var(--code-bg); }
+  /* ---- layer stack diagram ---- */
+  .stack { display: flex; flex-direction: column; gap: 6px; margin: 18px 0; }
+  .layer {
+    border: 2px solid var(--line); border-radius: 10px; padding: 10px 16px;
+    background: var(--card); display: flex; justify-content: space-between; gap: 12px; align-items: center;
+  }
+  .layer .who { font-weight: 700; }
+  .layer .what { color: var(--muted); font-size: 14px; text-align: right; }
+  .layer.kernel { border-color: var(--kernel); }
+  .layer.kernel .who { color: var(--kernel); }
+  .layer.platform { border-color: var(--platform); background: var(--platform-soft); }
+  .layer.platform .who { color: var(--platform); }
+  .legend { display: flex; gap: 18px; font-size: 14px; color: var(--muted); margin-top: 8px; }
+  .dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; }
+  /* ---- phone screens diagram ---- */
+  .screens { display: flex; gap: 24px; flex-wrap: wrap; justify-content: center; margin: 20px 0; }
+  .phone {
+    width: 220px; border: 3px solid var(--ink); border-radius: 18px; padding: 12px;
+    background: var(--card); display: flex; flex-direction: column; gap: 8px; min-height: 300px;
+  }
+  .phone .label { text-align: center; font-size: 13px; color: var(--muted); }
+  .native { background: var(--code-bg); border-radius: 8px; padding: 8px 10px; font-size: 13px; color: var(--muted); }
+  .portal {
+    background: var(--accent-soft); border: 2px dashed var(--accent); border-radius: 8px;
+    padding: 10px; font-size: 13px; color: var(--accent); font-weight: 700; text-align: center;
+  }
+  .portal.tall { flex: 1; display: flex; align-items: center; justify-content: center; }
+  /* ---- origin diagram ---- */
+  .origins { display: flex; gap: 0; align-items: stretch; justify-content: center; margin: 20px 0; flex-wrap: wrap; }
+  .origin-box {
+    border: 2px solid var(--accent); border-radius: 12px; padding: 14px; width: 250px;
+    background: var(--card); margin: 6px;
+  }
+  .origin-box h4 { margin: 0 0 6px; font-size: 14px; }
+  .origin-box .addr { font-size: 12.5px; color: var(--accent); font-weight: 700; }
+  .storage { background: var(--code-bg); border-radius: 8px; padding: 8px 10px; margin-top: 8px; font-size: 13px; }
+  .wall {
+    writing-mode: vertical-rl; text-align: center; font-weight: 800; letter-spacing: .2em;
+    background: var(--ink); color: var(--bg); border-radius: 8px; padding: 10px 6px; margin: 6px 0; font-size: 12px;
+  }
+  footer { border-top: 1px solid var(--line); padding-top: 16px; color: var(--muted); font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+
+<header class="page">
+  <div class="kicker">MOONPOOL 스터디 노트 01</div>
+  <h1>계층화 · Ionic Portals · Origin 격리</h1>
+  <p class="sub">2026-08-18 · "미니앱뿐 아니라 임베디드 컴포넌트도 대상"이라는 질문에서 출발한 세 가지 깊이 읽기</p>
+</header>
+
+<nav class="toc">
+  <ol>
+    <li><a href="#layering">계층화 — 프로토콜은 왜 화면 크기를 모르는가</a></li>
+    <li><a href="#portals">Ionic Portals는 임베디드 컴포넌트를 어떻게 다루나</a></li>
+    <li><a href="#origin">Origin 격리 — 작은 컴포넌트에도 똑같이 적용되는 이유</a></li>
+  </ol>
+</nav>
+
+<!-- ================================================================ -->
+<section id="layering">
+  <h2>① 계층화 — 프로토콜은 왜 화면 크기를 모르는가</h2>
+
+  <div class="def"><b>계층화(layering)</b> — 시스템을 여러 층으로 쌓되, <b>각 층은 자기 일만 알고
+  다른 층의 사정을 모르게</b> 만드는 설계 방법. 층과 층 사이에는 약속된 접점(인터페이스)만 존재한다.</div>
+
+  <h3>우편 시스템으로 비유하면</h3>
+  <table>
+    <tr><th>우편</th><th>Moonpool</th><th>이 층이 아는 것</th></tr>
+    <tr><td>편지 내용</td><td>미니앱 코드</td><td>"프로필 보여줘" 같은 의도</td></tr>
+    <tr><td>봉투 규격과 주소 쓰는 법</td><td>JSON-RPC 프로토콜 (SPEC §4~§5)</td><td>메시지의 모양, 인사 절차, 에러 코드</td></tr>
+    <tr><td>트럭 · 비행기 · 배</td><td>Transport (iframe, WKWebView, …)</td><td>바이트를 실제로 옮기는 방법</td></tr>
+  </table>
+  <p>트럭 기사는 편지 내용을 읽지 않고, 편지 쓰는 사람은 트럭 노선을 모릅니다.
+  그런데도 전체 시스템은 완벽하게 동작하죠. 인터넷도 똑같이 만들어져 있어요 —
+  HTTP는 당신이 WiFi인지 LTE인지 모르고, 그래서 HTTP가 설계될 때 존재하지도 않았던
+  스마트폰에서도 웹이 그대로 동작합니다.</p>
+
+  <h3>Moonpool의 층</h3>
+  <div class="stack">
+    <div class="layer"><span class="who">미니앱 / 컴포넌트 코드</span><span class="what">사용자 기능</span></div>
+    <div class="layer kernel"><span class="who">클라이언트 커널</span><span class="what">요청 보내고 답 기다리기 (Promise 연결)</span></div>
+    <div class="layer platform"><span class="who">Transport</span><span class="what">iframe postMessage · WKWebView · Android — 플랫폼마다 교체</span></div>
+    <div class="layer kernel"><span class="who">호스트 커널</span><span class="what">인사(§5) · 권한 검사 · 분배</span></div>
+    <div class="layer platform"><span class="who">호스트 앱 UI</span><span class="what">웹뷰를 어디에, 어떤 크기로 놓을지 ← <b>화면 크기는 여기만의 관심사</b></span></div>
+  </div>
+  <div class="legend">
+    <span><span class="dot" style="background:var(--kernel)"></span>커널 = 순수(플랫폼 API 금지, 지금 우리가 테스트 작성 중)</span>
+    <span><span class="dot" style="background:var(--platform)"></span>플랫폼 = 교체 가능</span>
+  </div>
+
+  <h3>이 설계가 주는 것</h3>
+  <p><b>1. 이식성.</b> 커널이 플랫폼을 모르므로, iOS/Android 지원은 "Transport 한 층만 새로 쓰기"가 됩니다.
+  CLAUDE.md의 불변 규칙 <i>"Kernel is pure, transport is swappable"</i>이 바로 이것.</p>
+  <p><b>2. 테스트 가능성.</b> 진짜 iframe 없이 가짜 Transport(우리의 "가짜 전화선")만 꽂으면
+  커널 전체를 테스트할 수 있어요. STEP 2에서 만들 바로 그것.</p>
+  <p><b>3. 비전 변경에도 코드가 살아남음.</b> "풀스크린 앱 → 임베디드 컴포넌트도 포함"은
+  <b>맨 아래 층(호스트 앱 UI)의 이야기</b>라서, 위 네 층(핸드셰이크 테스트 포함)은 한 글자도 안 바뀝니다.
+  만약 프로토콜에 화면 크기 개념이 박혀 있었다면, 새로운 임베딩 방식이 나올 때마다
+  프로토콜이 깨지고 — §10에 따라 배포된 모든 미니앱이 깨졌을 거예요.</p>
+
+  <div class="def"><b>기억할 한 줄</b> — "아래층은 위층의 사정을 모른다."
+  <code>packages/protocol·client·host</code>에 플랫폼 API import 금지 규칙은 이 원칙을 강제로 지키게 하는 장치다.</div>
+</section>
+
+<!-- ================================================================ -->
+<section id="portals">
+  <h2>② Ionic Portals는 임베디드 컴포넌트를 어떻게 다루나</h2>
+
+  <div class="def"><b>Ionic Portals</b> — 네이티브 앱 안에 웹 미니앱을 심는 상용 런타임.
+  Moonpool은 이 제품의 <b>격리 모델을 오픈소스(MIT)로 다시 만드는</b> 프로젝트다 (CLAUDE.md 첫 문단).</div>
+
+  <h3>핵심 아이디어: Portal은 "화면 부품"이다</h3>
+  <p>Portals에서 Portal은 특별한 전체 화면이 아니라 <b>네이티브 UI 부품(뷰)</b>이에요.
+  버튼이나 이미지 놓듯 레이아웃에 배치합니다 — iOS에선 <code>PortalView</code>(SwiftUI),
+  Android에선 <code>PortalView</code>/Fragment, React Native에선 <code>&lt;PortalView&gt;</code> 컴포넌트.
+  화면 전체를 채우면 "미니앱"처럼 보이고, 한 구석에 놓으면 "웹 컴포넌트"처럼 보일 뿐,
+  <b>런타임 입장에선 둘이 같은 물건</b>입니다.</p>
+
+  <div class="screens">
+    <div class="phone">
+      <div class="label">화면 전체 = 미니앱처럼</div>
+      <div class="portal tall">PortalView<br>(웹 콘텐츠)</div>
+    </div>
+    <div class="phone">
+      <div class="label">일부만 = 컴포넌트처럼</div>
+      <div class="native">네이티브 헤더</div>
+      <div class="native">네이티브 리스트</div>
+      <div class="portal">PortalView (차트 위젯)</div>
+      <div class="native">네이티브 탭바</div>
+    </div>
+  </div>
+  <p>님이 말한 "네이티브 앱이랑 연결되는 컴포넌트"가 정확히 오른쪽 그림이고,
+  업계에서 이미 검증된 사용 방식이라는 뜻이에요. Moonpool의 Portal 정의(SPEC §2)도
+  같은 모델을 따릅니다.</p>
+
+  <h3>통신은 어떻게?</h3>
+  <p>Portals는 웹↔네이티브 사이에 <b>pub/sub 메시지</b>(주제를 정해 발행하고 구독하는 방식)와
+  플러그인 호출을 씁니다. Moonpool은 여기를 <b>공개 문서화된 JSON-RPC + scope 권한 모델</b>로
+  바꾸는 게 차별점이에요:</p>
+  <table>
+    <tr><th></th><th>Ionic Portals</th><th>Moonpool</th></tr>
+    <tr><td>라이선스</td><td>상용 제품</td><td>MIT 오픈소스</td></tr>
+    <tr><td>메시지 규칙</td><td>제품 내부 구현</td><td>SPEC.md에 공개된 JSON-RPC 2.0</td></tr>
+    <tr><td>권한</td><td>플러그인 구성에 따름</td><td>메서드 이름 = 권한 scope, 디스패치 시점 강제 (§9.3)</td></tr>
+    <tr><td>라이브 업데이트 등</td><td>제품 기능</td><td>v0 범위 밖 (의도적으로 제외)</td></tr>
+  </table>
+
+  <p class="note">주의: Portals 제품 세부(API 이름, 가격 정책)는 제 학습 데이터(2026년 1월) 기준이라
+  바뀌었을 수 있어요. 다만 "Portal = 배치 가능한 뷰"라는 구조 모델 자체는 안정적인 사실입니다.</p>
+</section>
+
+<!-- ================================================================ -->
+<section id="origin">
+  <h2>③ Origin 격리 — 작은 컴포넌트에도 똑같이 적용되는 이유</h2>
+
+  <div class="def"><b>origin(오리진)</b> — 웹에서 "이 코드가 어느 사이트 소속인가"를 가리는 신원 단위.
+  주소의 앞부분, 즉 <b>방식 + 도메인(+포트)</b>이다. 예: <code>https://example.com</code>과
+  <code>https://shop.example.com</code>은 서로 <b>다른</b> origin.</div>
+
+  <div class="def"><b>동일 출처 정책(Same-Origin Policy)</b> — 브라우저에 내장된 기본 보안 규칙.
+  "같은 origin의 코드끼리만 서로의 데이터(저장소·쿠키·화면 내용)를 만질 수 있다."
+  아파트로 치면 <b>호실마다 다른 열쇠</b> — 옆집 문은 브라우저가 원천적으로 안 열어준다.</div>
+
+  <h3>Moonpool이 하는 일: 미니앱마다 '호실'을 배정</h3>
+  <p>SPEC §8은 모든 Portal을 <code>moonpool://&lt;미니앱-id&gt;/</code>라는 자기만의 origin에서
+  로드하라고 요구합니다. 그 순간부터 벽을 쌓는 건 우리 코드가 아니라 <b>브라우저 엔진</b>이에요 —
+  20년 넘게 두들겨 맞으며 단단해진 보안 장치를 공짜로 물려받는 겁니다.
+  스펙이 이걸 "load-bearing"(구조를 떠받치는 벽)이라고 부르는 이유죠.</p>
+
+  <div class="origins">
+    <div class="origin-box">
+      <h4>차트 위젯</h4>
+      <div class="addr">moonpool://com.example.chart/</div>
+      <div class="storage">📦 자기만의 localStorage<br>📦 자기만의 IndexedDB</div>
+    </div>
+    <div class="wall">브라우저가 강제하는 벽</div>
+    <div class="origin-box">
+      <h4>결제 위젯</h4>
+      <div class="addr">moonpool://com.example.pay/</div>
+      <div class="storage">📦 자기만의 localStorage<br>📦 자기만의 IndexedDB</div>
+    </div>
+  </div>
+
+  <p><b>작은 컴포넌트라서 달라지는 건 없습니다.</b> 위 그림의 두 위젯이 <b>같은 네이티브 화면에
+  나란히</b> 떠 있어도, 브라우저 눈에는 서로 다른 "사이트"라서 상대 데이터를 읽을 수 없어요.
+  격리는 화면 배치가 아니라 origin이 결정합니다. 덤으로 origin은 미니앱 버전이 바뀌어도
+  동일하므로 저장 데이터가 업데이트에서 살아남고 — 그래서 스킴 변경이 "배포된 모든
+  미니앱을 깨는" 파괴적 변경(§8)인 거예요.</p>
+
+  <div class="warn"><b>왜 file://은 금지인가</b> — <code>file://</code>로 열면 제대로 된 origin이
+  없어서(신원 없음) 저장소·쿠키·CORS가 이상하게 동작하고, 격리의 근거 자체가 사라진다. §8이
+  커스텀 스킴 핸들러를 <b>MUST</b>로 못 박은 이유.</div>
+
+  <h3>오늘 질문과의 연결 — 임의 URL은 왜 안 되나</h3>
+  <div class="warn">
+    <p style="margin-top:0"><code>https://아무사이트.com</code>을 웹뷰에 띄우는 것 자체는 자유지만,
+    거기에 Moonpool <b>브릿지를 꽂으면 안 되는</b> 이유가 정확히 이 신원 문제다:</p>
+    <p>① 그 origin은 우리가 발급한 게 아니라서 <b>manifest도, id도, grantedScopes의 근거도 없다</b>.<br>
+    ② 그 페이지가 로드하는 광고·제3자 스크립트도 <b>같은 페이지 = 같은 권한</b>으로 브릿지를 부를 수 있다.<br>
+    ③ 페이지는 링크 한 번으로 딴 곳으로 이동한다 — 그래서 §9.2가 "자기 origin을 벗어나면
+    브릿지를 철거하라(MUST)"고 요구한다.</p>
+    <p style="margin-bottom:0">표시만 할 외부 콘텐츠는 일반 웹뷰나 시스템 브라우저로. 메시지가 꼭 필요한
+    특정 파트너가 생기면, 그건 만능 브릿지가 아니라 <b>좁게 계약된 별도 통로</b>로 푸는 주제다(v0 범위 밖).</p>
+  </div>
+</section>
+
+<footer>
+  Moonpool 스터디 노트 · 이 파일은 <code>study/</code>에 있어 저장소에 커밋되지 않습니다(개인 노트).
+  다음 할 일: STEP 1 — <code>packages/host/test/handshake.test.ts</code> 직접 타이핑.
+</footer>
+
+</main>
+</body>
+</html>

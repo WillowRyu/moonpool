@@ -6,6 +6,7 @@
 > Next: read the HTML walkthrough; maintainer updates the stale storage guard
 > comments. Host error wording is aligned. Do not advance before learning review.
 > The agent made no E4.4e production edits. The rejection policy is approved.
+> Korean study materials are now versioned under study/ at the maintainer's request.
 > Null policy is SPEC §6.3 / ADR 0004. Study mode: junior.
 
 ## 2026-09-08 checkpoint
@@ -42,8 +43,8 @@ remaining validation work and known boundaries are listed below.
   it into the implementation files, not withhold it); (4) the concrete check
   with the expected test delta; (5) two to four named deep-dive offers. A
   handover missing (2) or (5) is the regression they noticed. Deep-dives are
-  answered in prose unless they ask for HTML. `study/*.html` are gitignored
-  personal notes and do NOT travel between machines.
+  answered in prose unless they ask for HTML. The HTML notes were initially
+  local; since the maintainer's 2026-09-30 request, study/ is versioned.
 - **Refined 2026-09-04 — keep the rationale in the code too.** The maintainer
   pointed out that the storage handovers had fewer useful comments than the
   existing code. Include English documentation comments with handover snippets
@@ -55,7 +56,8 @@ remaining validation work and known boundaries are listed below.
   Avoid merely translating syntax into prose. Chat explanations supplement
   these comments; they do not replace them. The agent can maintain requested
   comments without changing the maintainer's implementation logic.
-- Dialogue in Korean, repository artifacts in English (see CLAUDE.md).
+- Dialogue in Korean, project artifacts in English, with the approved Korean
+  learning-material exception for study/ (see CLAUDE.md).
 - **Refined 2026-09-30 — interrupted study sessions need a living HTML guide.**
   The maintainer requested an accessible architecture map, roadmap, current
   position, and sequential explanations of long code, including why each
@@ -72,8 +74,9 @@ remaining validation work and known boundaries are listed below.
   prevents. Avoid another large implementation handover while comprehension
   is pending. HTML teaching materials may be authored by the agent; meaningful
   Moonpool implementation remains typed by the maintainer. These Korean
-  personal notes are gitignored; if missing on another machine, recreate them
-  from SPEC, source, ADRs, and this handoff instead of assuming they travelled.
+  learning materials are now versioned at the maintainer's explicit request.
+  They travel with a clone or pull; if absent, restore them from Git. Keep
+  the local study-mode marker and editor/session settings untracked.
 
 ## Where we are (v0.1)
 
@@ -1020,7 +1023,8 @@ action, glossary, links to existing notes) and
 study/05-json-value-validation.html (15 annotated source blocks, cycle versus
 sharing, visit/complete stack replay, getter/descriptor experiment, test
 mapping, and the remaining comment/message handover). Shared styles are in
-study/study.css. All are personal, ignored materials. The supplied explanation
+study/study.css. These were initially personal, ignored materials and are now
+versioned under the explicit request recorded below. The supplied explanation
 must not be treated as proof the maintainer has reviewed or understood it;
 continue questions and conceptual review before advancing. Update these
 materials alongside HANDOFF after subsequent verified study steps.
@@ -1049,6 +1053,19 @@ Feature commits in this checkpoint:
 
 The remaining session documentation is a separate docs commit. The maintainer
 requested pushing this checkpoint to origin/master.
+
+**2026-09-30 — maintainer requested publishing the study materials too.**
+Remove study/ from .gitignore and version the stable index, lessons 01–05,
+shared stylesheet, and architecture preview image. CLAUDE.md records the
+narrow Korean-language exception for study/; other project artifacts remain
+English. Update the guide's old local-only wording. Keep all study materials
+updated with subsequent verified steps. Session-mode markers remain ignored;
+cloning the notes does not enable tutor mode for another contributor.
+Verified all study-page relative links and anchors, the preview image, and
+root lint (47 files, clean). Added explicit button types and aligned teaching
+page scripts/styles with existing lint rules. Browser checks confirm the
+getter/descriptor and cycle demonstrations and the older event-loop replay
+still work. No Moonpool runtime implementation changed.
 
 Resume checklist:
 
@@ -1109,9 +1126,9 @@ enabled and its skill is available; the bundled mode controller returns
 was not verified; use the explicit resume command when restoring context.
 If the plugin is unavailable in another agent, ask it to follow the "How we
 work" section of HANDOFF.md. Codex reads `AGENTS.md`, a symlink to `CLAUDE.md`.
-The "How we work" section above is the durable record of the agreement —
-Claude's memory files and the `study/` notes (01–04, Korean HTML) exist only
-on the original machine.
+The "How we work" section above is the durable record of the agreement.
+Claude's memory files remain local. The Korean study/ materials, including
+lessons 01–05 and the stable index, are now versioned with the repository.
 
 ## Open decisions (maintainer's call, not made yet)
 
