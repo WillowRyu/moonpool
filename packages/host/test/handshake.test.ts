@@ -125,8 +125,92 @@ describe('SPEC §5 — NOT_INITIALIZED gate (-32005)', () => {
   });
 });
 
+describe('SPEC §5 / ADR 0007 — required version input before negotiation', () => {
+  const INVALID_VERSION_INPUTS: Array<
+    [label: string, params: Record<string, JsonValue> | undefined]
+  > = [
+    ['omitted params', undefined],
+    ['missing protocolVersion', {}],
+    ['null', { protocolVersion: null }],
+    ['a number', { protocolVersion: 0.1 }],
+    ['a boolean', { protocolVersion: false }],
+    ['an array', { protocolVersion: ['0.1'] }],
+    ['an object', { protocolVersion: { version: '0.1' } }],
+  ];
+
+  it.each(INVALID_VERSION_INPUTS)(
+    'rejects %s with -32602, keeps calls gated, and accepts a valid retry',
+    async (_label, params) => {
+      // These frames have a valid general request shape. Catches treating
+      // missing/wrongly typed input as an unsupported version, or coercing
+      // 0.1 / ['0.1'] into a supported string instead of rejecting it.
+      const bridge = setup();
+      bridge.send({
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'portal.initialize',
+        // The shared request helper defaults to {}, so build this frame
+        // directly to actually exercise omission of the params property.
+        ...(params === undefined ? {} : { params }),
+      });
+      await flush();
+
+      expect(bridge.received).toEqual([
+        {
+          jsonrpc: '2.0',
+          id: 1,
+          error: expect.objectContaining({
+            code: ERROR_CODES.INVALID_PARAMS,
+            message: expect.any(String),
+          }),
+        },
+      ]);
+      bridge.send(request(2, 'portal.ping'));
+      await flush();
+      expect(bridge.received[1]?.error?.code).toBe(ERROR_CODES.NOT_INITIALIZED);
+
+      bridge.send(initialize(3));
+      await flush();
+      expect(bridge.received[2]?.result?.protocolVersion).toBe('0.1');
+      bridge.send(request(4, 'portal.ping'));
+      await flush();
+      expect(bridge.received).toHaveLength(4);
+      expect(bridge.received[3]).toEqual({ jsonrpc: '2.0', id: 4, result: { pong: true } });
+    },
+  );
+
+  it('does not retain previous initialization when a repeat omits the version', async () => {
+    // Pins the new failure path below the §5.1 reset. Checking the type
+    // before resetting state would leave the previous document's success active.
+    const bridge = setup();
+    bridge.send(initialize(1));
+    await flush();
+    expect(bridge.received[0]?.result?.protocolVersion).toBe('0.1');
+
+    bridge.send(request(1, 'portal.initialize', {}));
+    await flush();
+    expect(bridge.received[1]?.error?.code).toBe(ERROR_CODES.INVALID_PARAMS);
+    bridge.send(request(2, 'portal.ping'));
+    await flush();
+    expect(bridge.received[2]?.error?.code).toBe(ERROR_CODES.NOT_INITIALIZED);
+
+    bridge.send(initialize(3));
+    await flush();
+    expect(bridge.received[3]?.result).toMatchObject({
+      protocolVersion: '0.1',
+      grantedScopes: ['profile', 'storage'],
+    });
+    bridge.send(request(4, 'portal.ping'));
+    await flush();
+    expect(bridge.received).toHaveLength(5);
+    expect(bridge.received[4]).toEqual({ jsonrpc: '2.0', id: 4, result: { pong: true } });
+  });
+});
+
 describe('SPEC §5 — version negotiation failure (-32004)', () => {
-  it.each(['9.9', '0.2'])(
+  // Empty and padded strings are intentionally unsupported strings, not
+  // type errors. Catches adding an unapproved non-empty rule or trimming.
+  it.each(['9.9', '0.2', '', ' 0.1 '])(
     'rejects protocolVersion "%s" with -32004 (negotiation is exact-match in 0.x)',
     async (version) => {
       const bridge = setup();

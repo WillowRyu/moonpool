@@ -224,6 +224,11 @@ connection.
 
 Rules:
 
+- `portal.initialize` requires `params.protocolVersion` to be a string.
+  Missing `params`, a missing `protocolVersion`, or a non-string
+  `protocolVersion` MUST be rejected with `-32602` before version negotiation.
+  A string that does not exactly match a protocol version supported by the
+  host MUST be rejected with `-32004`.
 - Until `portal.initialize` resolves, the host MUST reject every other method
   with `-32005`.
 - If the host cannot speak the requested `protocolVersion`, it MUST respond

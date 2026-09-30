@@ -331,6 +331,21 @@ export function createHost(config: HostConfig): Host {
 
           const requested = message.params?.protocolVersion;
 
+          // SPEC §5 / ADR 0007 — validate the input type before version negotiation.
+          // Missing params or a missing field yields undefined. Reject without
+          // converting numbers, arrays, or other values into strings.
+          if (typeof requested !== 'string') {
+            transport.send({
+              jsonrpc: '2.0',
+              id,
+              error: {
+                code: ERROR_CODES.INVALID_PARAMS,
+                message: 'portal.initialize requires a string protocolVersion',
+              },
+            });
+            return;
+          }
+
           if (requested !== PROTOCOL_VERSION) {
             transport.send({
               jsonrpc: '2.0',
