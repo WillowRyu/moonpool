@@ -4,6 +4,10 @@
 
 ### Added
 
+- Install an asynchronous, per-mini-app in-memory storage provider in the
+  browser mock host. Preserve falsy values and nested null, isolate identical
+  keys across apps, and retain data across repeat handshakes. Default grants
+  remain profile-only; browser storage controls follow separately.
 - Connect the browser mock host's fixed profile provider and display
   profile.get results in the mini app after initialization. Render returned
   strings as text and show capability error codes separately from handshake

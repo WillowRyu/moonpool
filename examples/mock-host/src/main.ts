@@ -10,6 +10,7 @@
 import { createHost } from '@moonpool/host';
 import { type MiniAppManifest, PROTOCOL_VERSION } from '@moonpool/protocol';
 import { createIframeTransport } from '@moonpool/transport-iframe';
+import { createMemoryStorageProvider } from './memory-storage';
 
 /** SPEC §8.1 — pinned per mini app id, never derived at runtime. */
 const MINI_APP_ORIGINS: Record<string, string> = {
@@ -83,5 +84,7 @@ createHost({
         return { displayName: 'Moonpool Explorer' };
       },
     },
+    // SPEC §5.1 — keep one provider for this host, across repeat handshakes.
+    storage: createMemoryStorageProvider(),
   },
 }).connect(transport);
