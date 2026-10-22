@@ -1,13 +1,139 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-09-30, maintainer's E4.4e implementation verified GREEN:
-> 201 passed, typecheck, lint, and both example builds clean.
-> Next: read the HTML walkthrough; maintainer updates the stale storage guard
-> comments. Host error wording is aligned. Do not advance before learning review.
-> The agent made no E4.4e production edits. The rejection policy is approved.
-> Korean study materials are now versioned under study/ at the maintainer's request.
-> Null policy is SPEC §6.3 / ADR 0004. Study mode: junior.
+> Last updated: 2026-10-22. The maintainer switched to agent-led implementation
+> and requested small tasks with an easy Korean explanation after each task.
+> The agent now writes tests and implementation; manual typing and learning
+> review are no longer prerequisites. Local study mode is off.
+> T02 plus runtime result checks verified: 219 passed; typecheck, lint, and both
+> example builds pass. Profile display no longer uses a type assertion.
+> Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
+> Next: T03, implement the mock host's per-app in-memory storage provider.
+> The browser mini app now displays Moonpool Explorer after profile.get.
+> Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-22 checkpoint — commit and push
+
+The maintainer requested committing and pushing the completed work to
+origin/master. Group the checkpoint into aligned kernel comments, the browser
+profile example with runtime displayName checks and tests, and the roadmap
+plus Korean learning materials. This includes the screenshot and preserves
+earlier lessons. Runtime verification remains 219 tests, typecheck, and both
+example builds passing; lint and diff checks also pass. Next remains T03.
+
+## 2026-10-22 checkpoint — T02 follow-up: inspect the displayed result
+
+At the maintainer's request, replaced the profile result's `as ProfileGetResult`
+with inline runtime checks and removed the unused type import. Before rendering,
+the example requires a non-null, non-array object with a string displayName.
+The checks narrow unknown without a type assertion. This validates the field
+the view uses, not the complete optional profile schema or the generic client.
+
+Added 11 tests first: ten malformed-result cases failed before implementation,
+while the empty-string case already passed. All now pass. Malformed values
+produce an ordinary local Error handled by the existing profile catch, keeping
+the successful bridge status. No new wire error code, permission policy, or
+kernel API was introduced. The host-side SPEC §9 checks remain unchanged.
+
+Reverified 219 tests across 14 files, typecheck, lint, and both example builds.
+All 72 local references across seven study pages are valid. Updated the T02
+code walkthrough and study entry point with the actual checks, evaluation
+order, type narrowing, and the distinction from the earlier assertion. The
+initial T02 browser screenshot still illustrates the unchanged valid result.
+Next remains T03; this follow-up does not complete the general response
+validation work planned in T12.
+
+## 2026-10-22 checkpoint — T02 complete
+
+The maintainer requested T02 and asked for code alongside the easy explanation.
+Added seven failing example tests before implementation. The initial meaningful
+RED run had seven assertion failures: no profile provider was installed and
+the mini app had no profile request or display. The same seven tests now pass.
+
+The mock host supplies an async profile provider returning the fixed public
+displayName Moonpool Explorer. The mini app waits for initialization, calls
+profile.get, and renders the name with textContent. The handshake's returned
+strings also use textContent. Profile failures preserve the successful bridge
+status and display their error code; failed initialization sends no profile
+request. At this initial checkpoint the generic client result was asserted as
+ProfileGetResult; the subsequent runtime-check follow-up above replaces that
+assertion in the example.
+
+The change touches the existing SPEC §9 boundaries: dispatch-time scope checks
+remain in the host (§9.3), the fixture contains no host credentials (§9.4),
+and the provider remains asynchronous (§9.5). Grants still contain only profile.
+No kernel API, protocol rule, or runtime dependency changed; no new ADR is needed.
+
+Example tests live under examples/*/test and are included by Vitest and the
+browser TypeScript project. The host-entry-point test uses the actual host
+kernel and an in-memory transport; UI tests control the client to verify
+ordering, text rendering, profile error codes -32000/-32001, and handshake
+failure. Browser validation separately confirms the actual cross-origin
+bridge from localhost:5173 to localhost:5174 displays Moonpool Explorer.
+
+Verified: 208 tests across 14 files, typecheck, lint, and both example builds
+pass. study/06-profile-demo.html explains the implementation with source
+snippets, a glossary, request flow, errors, and test evidence. Its screenshot
+is study/t02-profile.png. The entry point now shows T02 and T03; T01's preserved
+explanation has the stable anchor study/index.html#t01. Lesson 05 links follow
+that anchor. All 72 local references across seven study pages are valid, with
+earlier interactive scripts unchanged. Browser checks confirm the new lesson
+and current-task guide render correctly. Next: T03 only; storage UI
+success/denial modes remain T04.
+
+## 2026-10-22 checkpoint — T01 complete
+
+The maintainer authorized starting the task plan and reiterated the request
+for an easy explanation after each task. Completed T01:
+
+- The client header now describes request correlation, timeouts, and draining
+  in-flight requests on local close instead of calling it a skeleton.
+- isStorageSetParams documentation now describes recursive JSON validation,
+  top-level null rejection, valid falsy values, and the separate whole-frame
+  validation boundary. This documents SPEC §6.3 / §9.6 and ADRs 0004/0008;
+  no validation logic or security policy changed.
+- study/index.html records the current implementation workflow, T01's easy
+  explanation, the T01–T21 roadmap, and T02 as next. The earlier architecture
+  and JSON-validation material remain available.
+- The lesson 05 wrap-up marks the stale comments as resolved, preserves its
+  dated source snapshots and exercises, and links to the current task guide.
+
+Verified after edits: 201 tests across 12 files, typecheck, lint (47 files),
+and both example builds pass. Both updated HTML pages have valid local links
+and anchors (35 references), no duplicate ids, and unchanged interactive
+scripts. Actual browser checks confirm the updated task guide and lesson
+wrap-up render correctly. No new tests were added for this documentation-only
+task. No new ADR is needed because no design decision changed.
+
+Next is T02: add the mock host's constant profile provider, then display the
+profile result as text in the mini app, including bridge errors. Follow the
+test-first workflow for the new behavior and explain it when verified.
+
+## 2026-10-22 checkpoint — implementation plan and workflow change
+
+The maintainer asked to proceed with building the project instead of typing
+implementation code as a study exercise. They then requested an accessible
+explanation after every task: what changed, why, how the code works, and what
+the tests prove, using simple examples and definitions for new terms.
+The agent performs the work and explains the result before the next task;
+there is no implicit requirement to wait for a comprehension answer.
+
+`docs/implementation-plan.md` records 21 tasks toward browser v0.1: useful
+example calls, manifest validation, protocol/connection behavior, host events,
+navigation containment, and final verification. Specification gaps are
+explicit gates for the affected tasks, not permission to silently amend SPEC.
+That checkpoint covered planning; feature implementation had not begun.
+
+Fetched origin: local master matches origin/master at c2d3e2e. Reverified on
+2026-10-22: 201 tests across 12 files, typecheck, lint (47 files), and both
+example builds pass. The working tree was clean before these planning edits.
+The study-coding-mode controller confirmed enabled junior mode, then disabled
+it at the maintainer's request. The marker is local and is not committed.
+
+Earlier tutor instructions and resume checklists below describe past sessions.
+For this work, the agreement above supersedes the manual-typing and mandatory
+learning-review requirements. Existing protocol and architecture decisions,
+test-first development, language rules, and security boundaries still apply.
 
 ## 2026-09-08 checkpoint
 
@@ -25,6 +151,9 @@ This is incremental progress, not a declaration of full v0.1 conformance;
 remaining validation work and known boundaries are listed below.
 
 ## How we work (do not skip)
+
+Historical tutor workflow: the 2026-10-22 agreement above is current.
+Preserve these notes for the existing learning material and earlier work.
 
 - **Tutor mode ("study coding mode"), level: junior — implementation-first
   (agreed 2026-08-19).** Division of labor: **The coding agent writes and maintains

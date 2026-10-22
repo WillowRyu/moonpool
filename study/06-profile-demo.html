@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — T02 프로필을 화면까지 연결하기</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p>
+  <div class="small">06 · T02 프로필 조회</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#result">무엇이 달라졌나</a>
+    <a href="#terms">새로 만나는 말</a>
+    <a href="#provider">호스트의 담당 함수</a>
+    <a href="#journey">요청 한 번의 여행</a>
+    <a href="#client">기다린 뒤 화면에 쓰기</a>
+    <a href="#errors">실패를 구분하는 이유</a>
+    <a href="#checks">어떻게 검증했나</a>
+  </nav>
+  <p class="small desktop-only">2026.10.22 검증<br>T02 완료 · 다음 T03<br>코드를 보며 쉬운 해설</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">T02 · From a provider to the screen</div>
+    <h1>담당 함수를 연결하면,<br>이름이 화면까지 옵니다.</h1>
+    <p class="lead">이미 만든 통신 통로에 프로필 담당 함수를 연결했습니다. 누가 이름을 준비하고, 누가 요청하고, 누가 화면에 쓰는지 코드를 따라 읽습니다.</p>
+    <div class="meta"><span class="pill">T02 반환값 검사 보완 완료</span><span class="pill">219 / 219 테스트 통과</span><span class="pill warm">예제 프로필: Moonpool Explorer</span></div>
+  </header>
+
+  <section class="section" id="result">
+    <h2>전에는 연결 확인, 이제는 프로필 표시까지</h2>
+    <p>전에는 호스트와 미니 앱이 연결됐다는 문구만 보였습니다. 호스트에 프로필 담당 함수가 없어서 <code>profile.get</code>을 요청하면 <code>-32001</code>, 즉 “이 호스트에서 기능을 제공하지 않음”이라는 오류가 나왔습니다.</p>
+    <p>이제 초기 연결을 끝내고 프로필을 요청하면, 호스트가 준비한 <strong>Moonpool Explorer</strong>를 미니 앱에 표시합니다. 실제 사용자 정보나 로그인 정보 대신 개발용 고정 이름을 사용합니다.</p>
+    <img src="t02-profile.png" alt="호스트 localhost:5173 안에 미니 앱 localhost:5174가 표시되고, profile 항목에 Moonpool Explorer가 보이는 실제 검증 화면" width="1280" height="720" style="display:block;width:100%;height:auto;border-radius:12px">
+    <p class="small">2026.10.22 실제 브라우저 검증 화면입니다. <code>pnpm run dev</code> 후 호스트의 <code>http://localhost:5173/</code>를 열면 같은 흐름을 확인할 수 있습니다.</p>
+  </section>
+
+  <section class="section" id="terms">
+    <h2>새로 만나는 말</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>표현</th><th>뜻</th><th>비유</th></tr></thead>
+      <tbody>
+        <tr><td>provider</td><td>호스트가 제공하는 실제 기능의 담당 함수</td><td>접수 후 일을 맡는 담당자</td></tr>
+        <tr><td>handshake</td><td>버전과 연결 정보를 먼저 확인하는 초기 대화</td><td>업무를 시작하기 전의 신분·언어 확인</td></tr>
+        <tr><td>async</td><td>결과를 나중에 전달하는 Promise를 반환하는 함수 표시</td><td>결과를 받을 수 있는 접수증 발급</td></tr>
+        <tr><td>await</td><td>결과가 준비될 때까지 현재 비동기 흐름의 다음 줄을 기다림</td><td>접수증의 완료 알림을 기다림</td></tr>
+        <tr><td>textContent</td><td>문자열을 HTML로 해석하지 않고 글자로 화면에 넣는 속성</td><td>안내판 문구로 붙이기</td></tr>
+        <tr><td>unknown</td><td>아직 어떤 형태인지 확인하지 않은 값</td><td>내용물을 확인하기 전의 상자</td></tr>
+        <tr><td>타입 좁히기</td><td>조건문으로 실제 형태를 확인해 사용할 수 있는 타입을 구체화하는 것</td><td>검사대를 통과한 내용에 확인 도장 찍기</td></tr>
+        <tr><td>as ProfileGetResult · 이전 방식</td><td>실제 검사 없이 TypeScript에 결과의 자료형을 알려 주는 타입 단언</td><td>상자를 열지 않고 이름표만 붙이기</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="section" id="provider">
+    <h2>1 · 호스트에 프로필 담당 함수를 연결합니다</h2>
+    <p><code>examples/mock-host/src/main.ts</code>에서 <code>createHost</code> 설정에 추가한 부분입니다.</p>
+    <pre><code>capabilities: {
+  // SPEC §6.3 / §9.4 / §9.5 — fixed public data, supplied asynchronously.
+  // Installing a provider does not bypass the kernel's profile scope check.
+  profile: {
+    async get() {
+      return { displayName: 'Moonpool Explorer' };
+    },
+  },
+},</code></pre>
+    <p><code>capabilities</code>는 이 호스트가 제공하는 담당 함수들의 자리입니다. 그중 <code>profile.get</code>을 요청받았을 때 실행할 <code>get()</code>을 넣습니다. 반환 객체의 <code>displayName</code>은 화면에 보여 줄 이름입니다.</p>
+    <p>고정 문자열이라 즉시 계산할 수 있어도 <code>async</code>를 붙입니다. 기능 호출은 항상 비동기라는 SPEC §9.5 약속을 지키기 위해서입니다. 나중에 실제 저장소나 다른 플랫폼에서 가져오는 방식으로 바뀌어도 통신 규칙은 유지됩니다.</p>
+    <div class="callout"><strong>담당 함수가 있다고 권한까지 생기지는 않습니다.</strong> <code>grantedScopes: ['profile']</code>은 출입증이고, <code>capabilities.profile</code>은 담당자입니다. 호스트는 출입증을 확인한 뒤 담당자를 부릅니다. SPEC §9.3의 권한 검사는 기존 커널이 수행합니다.</div>
+  </section>
+
+  <section class="section" id="journey">
+    <h2>2 · 요청은 이 순서로 이동합니다</h2>
+    <div class="flow"><div class="node">① initialize<br>초기 연결 완료</div><span class="sep">→</span><div class="node">② client<br>profile.get 요청</div><span class="sep">→</span><div class="node">③ transport<br>메시지 운반</div><span class="sep">→</span><div class="node">④ host<br>권한·입력 확인</div><span class="sep">→</span><div class="node">⑤ provider<br>이름 반환</div><span class="sep">→</span><div class="node">⑥ client<br>결과를 화면에 표시</div></div>
+    <p>미니 앱이 호스트의 함수를 직접 호출하는 것은 아닙니다. 요청 메시지를 보내면 호스트가 검사를 마치고 담당 함수를 호출합니다. 그 결과를 응답 메시지로 보내면 클라이언트가 기다리던 요청을 완료합니다.</p>
+    <pre><code>// Request
+{ "jsonrpc": "2.0", "id": 2, "method": "profile.get" }
+
+// Response
+{ "jsonrpc": "2.0", "id": 2,
+  "result": { "displayName": "Moonpool Explorer" } }</code></pre>
+    <p><code>id: 2</code>는 초기 연결 다음 요청을 뜻하는 예시입니다. 요청과 응답의 번호가 같아서 어느 기다림을 끝낼지 알 수 있습니다.</p>
+  </section>
+
+  <section class="section" id="client">
+    <h2>3 · 초기 연결을 기다린 뒤 이름을 표시합니다</h2>
+    <p><code>examples/hello-miniapp/src/main.ts</code>에서는 먼저 이 줄이 끝납니다.</p>
+    <pre><code>const result = await client.initialize();</code></pre>
+    <p>이 초기 연결은 서로 같은 버전의 약속으로 대화할 수 있는지 확인하는 절차입니다. 성공한 뒤에만 다음 프로필 요청을 보냅니다. <code>await</code>는 현재 흐름의 다음 줄을 기다리게 하며, 브라우저 전체를 멈추는 방식이 아닙니다.</p>
+    <pre><code>const profileResult = await client.call(PROFILE_METHODS.GET);
+
+if (
+  typeof profileResult !== 'object' ||
+  profileResult === null ||
+  Array.isArray(profileResult) ||
+  !('displayName' in profileResult) ||
+  typeof profileResult.displayName !== 'string'
+) {
+  throw new Error('profile.get returned an invalid displayName');
+}
+
+profile.textContent = profileResult.displayName;</code></pre>
+    <p><code>PROFILE_METHODS.GET</code>의 실제 값은 <code>'profile.get'</code>입니다. <code>client.call</code>이 응답을 받을 때까지 기다리고, 돌아온 객체에서 이름을 꺼내 <code>profile</code> 표시 자리에 씁니다.</p>
+    <p>처음에는 <code>as ProfileGetResult</code>로 호스트의 반환 계약을 신뢰한다고 표시했습니다. 2026.10.22 요청에 따라 이를 제거하고 실제 검사를 추가했습니다. 이제 화면에서 쓸 <code>displayName</code>을 확인한 뒤에만 표시합니다. 범용 <code>call()</code>의 반환형은 <code>unknown</code>을 유지합니다.</p>
+    <p><code>||</code>는 조건 중 하나라도 참이면 실패라는 뜻입니다. 앞 조건이 참이면 뒤 조건은 평가하지 않습니다. 객체 여부를 먼저 확인하므로 숫자나 문자열에 <code>in</code>을 적용하는 일을 피합니다. 자바스크립트에서는 <code>typeof null</code>과 배열의 <code>typeof</code>도 <code>'object'</code>이므로 각각 따로 거절합니다.</p>
+    <p><code>'displayName' in profileResult</code>는 해당 속성이 있는지 묻고, 마지막 <code>typeof</code>는 실제 값이 문자열인지 확인합니다. 이 실패 조건을 모두 지나면 TypeScript도 이름이 문자열임을 알기 때문에 <code>as</code> 없이 읽을 수 있습니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>돌아온 결과</th><th>처리</th></tr></thead><tbody><tr><td>{ displayName: 'Moonpool Explorer' }</td><td>이름 표시</td></tr><tr><td>{ displayName: '' }</td><td>빈 문자열도 문자열이므로 허용</td></tr><tr><td>{ displayName: 42 }</td><td>숫자를 글자로 바꾸지 않고 오류 표시</td></tr><tr><td>null · 배열 · 빈 객체</td><td>형태나 필요한 항목이 맞지 않아 오류 표시</td></tr></tbody></table></div>
+    <p class="small">이 검사는 화면에서 사용하는 displayName을 확인합니다. 사용하지 않는 avatarUrl이나 응답 전체의 스키마를 검증하는 함수는 아닙니다.</p>
+    <div class="callout"><strong>textContent를 쓰는 이유:</strong> 이름이 <code>&lt;img src="invalid" onerror="alert(1)"&gt;</code>처럼 생겼어도 그대로 글자로 보여 줍니다. 이를 HTML로 해석해서 새로운 이미지나 실행 가능한 내용을 만들지 않습니다. 초기 연결로 받은 호스트 이름과 권한 문자열에도 같은 방식을 적용했습니다.</div>
+  </section>
+
+  <section class="section" id="errors">
+    <h2>4 · 연결 실패와 조회 실패를 구분합니다</h2>
+    <p>반환값 검사에서 던진 오류도 기존의 프로필 <code>catch</code>가 처리합니다. 아래는 그 부분의 발췌입니다.</p>
+    <pre><code>} catch (error) {
+  // A capability failure does not undo a successful handshake.
+  profile.textContent = `profile.get failed: ${describeError(error)}`;
+}</code></pre>
+    <p><code>try</code>는 실행해 볼 부분이고 <code>catch</code>는 실패했을 때 처리하는 부분입니다. 프로필 조회 실패를 안쪽에서 처리해서, 바깥의 연결 성공 문구를 지우지 않도록 했습니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>상황</th><th>화면의 의미</th></tr></thead><tbody>
+      <tr><td>초기 연결 대기</td><td>profile: waiting for handshake...</td></tr>
+      <tr><td>프로필 조회 중</td><td>bridge는 연결 완료, profile은 loading...</td></tr>
+      <tr><td>프로필 권한 없음</td><td>bridge는 연결 완료, profile에는 -32000 오류 표시</td></tr>
+      <tr><td>프로필 담당 함수 없음</td><td>bridge는 연결 완료, profile에는 -32001 오류 표시</td></tr>
+      <tr><td>초기 연결 실패</td><td>bridge에 연결 오류 표시, profile 요청은 보내지 않음</td></tr>
+      <tr><td>이름이 없거나 문자열이 아닌 응답</td><td>bridge는 연결 완료, profile에는 로컬 검사 오류 표시</td></tr>
+    </tbody></table></div>
+    <p><code>describeError</code>는 <code>MoonpoolError</code>의 번호와 메시지를 함께 보여 줍니다. 실패 원인이 달라도 모두 “연결 실패”로 보이게 만들면 문제를 찾기 어려워집니다.</p>
+  </section>
+
+  <section class="section" id="checks">
+    <h2>5 · 테스트로 확인한 동작과 반환값 검사</h2>
+    <p>최초 T02 구현 전에 새 테스트 7개가 실패하는 것을 확인했고, 구현 후 모두 통과했습니다. 예제 테스트도 정기 검증에 포함하도록 Vitest와 브라우저 타입 검사 대상에 추가했습니다. 처음 확인한 일곱 가지는 다음과 같습니다.</p>
+    <ol><li>실제 mock-host 진입점이 프로필을 반환하고 권한은 profile만 부여하는가?</li><li>미니 앱이 초기 연결 후 profile.get을 요청하고 이름을 표시하는가?</li><li>초기 연결이 아직 끝나지 않았으면 프로필 요청을 기다리는가?</li><li>프로필·호스트 이름에 HTML 문자가 있어도 글자로 표시하는가?</li><li>권한 거절 -32000을 연결 성공과 구분해 표시하는가?</li><li>기능 미제공 -32001을 연결 성공과 구분해 표시하는가?</li><li>초기 연결 실패 시 오류를 표시하고 프로필 요청은 보내지 않는가?</li></ol>
+    <p>반환값 검사 보완에서 테스트 11개를 더 추가했습니다. 잘못된 형태 10개가 검사 추가 전에는 실패하고 이후에는 통과했습니다. 나머지 하나는 빈 문자열이 계속 허용되는지 확인합니다. null·undefined·배열·누락된 이름·숫자·불리언 이름을 거절하고 연결 성공 문구는 유지하는지를 검증합니다.</p>
+    <div class="callout"><strong>2026.10.22 검증 결과</strong><br>최초 T02: 208개 통과 → 반환값 검사 보완 후 전체 219 / 219 통과 · 14개 테스트 파일<br>타입 검사·린트·두 예제 빌드 통과<br>최초 T02 실제 브라우저: 호스트 5173 → 미니 앱 5174 → Moonpool Explorer 표시 확인</div>
+    <p>보안 규칙 중 SPEC §9.3의 호스트 권한 검사, §9.4의 자격 증명 비노출, §9.5의 비동기 호출을 유지합니다. 전체 v0.1 보안 적합성을 모두 검증했다는 뜻은 아닙니다. 예제에는 아직 저장소 provider가 없고 storage 권한도 부여하지 않습니다.</p>
+    <div class="callout warm"><strong>다음 T03:</strong> 앱 id마다 구분해 값을 보관하는 개발용 저장소 담당자를 만듭니다. 저장소는 메모리의 Map으로 구현하며, 호스트를 새로 실행하면 데이터가 사라지는 예제라는 경계를 함께 설명합니다.</div>
+  </section>
+  <footer class="footer"><a href="index.html">← 전체 스터디 지도로</a> · <a href="index.html#t01">T01 복습</a><br>근거: SPEC §5·§6.3·§9, 실제 예제 코드와 테스트. 2026.10.22 기준 학습 기록이며 규범 문서는 SPEC.md입니다.</footer>
+</main>
+</body>
+</html>
