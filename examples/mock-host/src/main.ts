@@ -75,4 +75,13 @@ createHost({
   // reports the intersection, which is the permission model made visible.
   grantedScopes: ['profile'],
   environment: { locale: 'ko-KR', colorScheme: 'light' },
+  capabilities: {
+    // SPEC §6.3 / §9.4 / §9.5 — fixed public data, supplied asynchronously.
+    // Installing a provider does not bypass the kernel's profile scope check.
+    profile: {
+      async get() {
+        return { displayName: 'Moonpool Explorer' };
+      },
+    },
+  },
 }).connect(transport);

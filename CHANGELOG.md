@@ -2,8 +2,18 @@
 
 ## Unreleased
 
+### Added
+
+- Connect the browser mock host's fixed profile provider and display
+  profile.get results in the mini app after initialization. Render returned
+  strings as text and show capability error codes separately from handshake
+  failures. Add example tests for provider wiring and the display flow.
+
 ### Changed
 
+- Validate the browser mini app's profile displayName at runtime before
+  rendering, replacing its result type assertion. Report invalid result
+  shapes as local profile errors while preserving the successful handshake.
 - Reject non-JSON storage.set values with -32602 before provider access
   (SPEC §6.3, ADR 0008). Invalid nested data must not be dropped or converted;
   nested null and application-defined object keys remain allowed.

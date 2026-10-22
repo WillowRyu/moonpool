@@ -11,6 +11,7 @@
     "packages/transport-iframe/src/**/*.ts",
     "packages/transport-iframe/test/**/*.ts",
     "examples/*/src/**/*.ts",
+    "examples/*/test/**/*.ts",
     "examples/*/vite.config.ts"
   ]
 }
