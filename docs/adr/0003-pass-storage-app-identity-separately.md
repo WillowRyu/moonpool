@@ -42,3 +42,12 @@ before invoking the provider (§9.6). The provider methods remain asynchronous
   Storage null semantics were subsequently resolved in ADR 0004, and unknown
   params fields are rejected under ADR 0006. Any value size limit remains an
   open decision. An extra miniAppId field must never select another app.
+
+## Example implementation verification (2026-10-22, T03)
+
+The mock host now installs createMemoryStorageProvider with a separate Map
+per app id. Provider and bridge integration tests verify app isolation,
+deletion boundaries, preserved falsy values, repeat-handshake persistence,
+and permission denial with the production provider installed. A fresh provider
+starts empty; state is development-only and does not survive host restarts.
+This implements the existing decision without changing the protocol.

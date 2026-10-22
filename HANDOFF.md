@@ -5,12 +5,58 @@
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
-> T02 plus runtime result checks verified: 219 passed; typecheck, lint, and both
-> example builds pass. Profile display no longer uses a type assertion.
+> T03 verified: 237 passed; typecheck, lint, and both example builds pass.
+> The mock host now has an async per-app in-memory storage provider.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Next: T03, implement the mock host's per-app in-memory storage provider.
+> Next: T04, display storage success and permission denial in the browser.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-22 checkpoint — T03 commit and push
+
+The maintainer requested publishing T03 and asked whether the task list
+persists. docs/implementation-plan.md is versioned with the repository and
+retains T01–T21, completion criteria, dependencies, and decision gates.
+Update its current status and progress after each verified task, alongside
+this handoff and the study guide. Current progress is T01–T03 complete,
+with T04 next. Publish T03 as a provider/test change and a separate roadmap
+and learning-material update. Verification remains 237 tests, typecheck,
+lint, and both example builds passing.
+
+## 2026-10-22 checkpoint — T03 complete
+
+Added examples/mock-host/src/memory-storage.ts and installed its provider in
+the mock host. A nested Map partitions by the host-selected app id, then the
+caller key. Async get/set/delete preserve false, zero, empty strings, and
+nested null. Missing keys read as null; deleting a missing key is harmless.
+The provider lives across handshakes but a fresh instance starts empty.
+It is development-only memory storage, not persistence across host reloads.
+
+Wrote 18 failing tests before implementation: 15 provider cases, two real
+host/client integration cases using the memory transport, and one example
+entry-point wiring/default-grant case. All now pass. Integration checks two
+app identities using the same key, deletion isolation, repeated initialization,
+and denied writes preserving existing data. The mock-host wiring test records
+the real createHost config while still invoking the real kernel.
+
+This implements ADR 0003; no new architecture decision or spec amendment is
+needed. SPEC §9 is involved: the host still checks grants before provider
+access (§9.3), all provider methods are async (§9.5), and the existing kernel
+validates params (§9.6). Default grants remain ['profile'] even with storage
+installed. No dependency, pure-kernel API, or browser origin changed.
+
+Verified 237 tests across 15 files, typecheck, lint, and both example builds.
+study/07-memory-storage.html explains Map nesting, factory/closure state,
+get/set/delete, optional chaining, nullish fallback, lifetime, and the test
+evidence with source snippets. The study entry point now shows T03, preserves
+T02 under #t02 and T01 under #t01, and points to T04 next. All 89 local
+references across eight study pages are valid; earlier interactive scripts
+are unchanged. Browser checks confirm the new lesson and current-task guide.
+
+Next is T04 only: show the default denial and a host-selected storage-enabled
+configuration in the browser UI. Changing that configuration creates a fresh
+connection; it is not runtime consent. Do not treat T03 tests as a claim that
+the browser storage UI has already been exercised.
 
 ## 2026-10-22 checkpoint — commit and push
 

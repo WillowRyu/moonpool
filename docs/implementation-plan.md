@@ -1,7 +1,7 @@
 # Browser v0.1 implementation plan
 
 Date: 2026-10-22
-Status: In progress. T01 and T02 complete; next is T03.
+Status: In progress. T01–T03 complete; next is T04.
 Normative source: `SPEC.md`. This plan does not amend the protocol.
 
 ## Working mode
@@ -20,8 +20,9 @@ Each explanation should cover:
 
 Keep explanations accessible at junior level. The maintainer need not type
 code or answer a comprehension check to continue. Answer questions when they
-arise. Preserve existing lessons and update `study/` and `HANDOFF.md` as work
-is verified. Normal conversation and task explanations remain in Korean;
+arise. After each verified task, update this plan's status and progress,
+`HANDOFF.md`, and `study/`. Preserve task ids and earlier lessons so the
+roadmap remains usable across sessions. Normal conversation and task explanations remain in Korean;
 code, comments, ADRs, and other project documents remain in English.
 
 ## Verified baseline
@@ -40,7 +41,7 @@ timeouts and draining pending requests on close, dispatch-time permissions,
 profile/storage provider contracts, all three storage operations, and JSON
 storage-value validation.
 
-Still missing or incomplete: manifest parsing, the example storage provider,
+Still missing or incomplete: manifest parsing, the storage demonstration UI,
 `portal.close`, host notification APIs, navigation containment, batch rejection,
 some protocol validation, and full error-code coverage. Existing green tests
 do not establish complete v0.1 conformance.
@@ -73,6 +74,15 @@ instead of asserting ProfileGetResult. Eleven additional tests cover invalid
 result shapes and preserving an empty string. All 219 tests, typecheck, lint,
 and both example builds pass. This is example-level field validation; T12's
 generic response validation remains open. Next is still T03.
+
+**T03 complete (2026-10-22).** Added and installed an async in-memory storage
+provider with one Map per mini-app id. Eighteen new tests were RED before
+implementation and GREEN afterward: 15 provider cases, two real host/client
+integration cases over the memory transport, and one mock-host wiring/default
+permission case. All 237 tests, typecheck, lint, and both example builds pass.
+Repeat handshakes retain data; a fresh provider starts empty. Default grants
+remain profile-only. The explanation is `study/07-memory-storage.html`.
+Next: T04, show storage success and denial in the browser UI.
 
 ### Milestone A: demonstrate useful calls
 
@@ -168,7 +178,7 @@ existing §11 open questions.
 
 ## Security and completion rules
 
-T06, T09, T11, T14, and T17–T20 touch SPEC §9 and must be flagged when explained.
+T03, T06, T09, T11, T14, and T17–T20 touch SPEC §9 and must be flagged when explained.
 Every other task must still preserve the existing permission, identity, and
 credential boundaries. Render provider data as text in the example.
 
