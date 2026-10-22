@@ -4,7 +4,8 @@
  *
  * Pure by design: nothing here may import a platform API (CLAUDE.md, SPEC §3).
  *
- * Skeleton only — the failing tests in `test/` are the contract to implement.
+ * Correlates replies with pending requests, applies a timeout to each request,
+ * and rejects in-flight requests on local close (SPEC §4.5 / §4.6).
  */
 import {
   ERROR_CODES,

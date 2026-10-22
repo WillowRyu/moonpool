@@ -350,15 +350,15 @@ export type StorageSetParams = {
 };
 
 /**
- * SPEC §9.6 / ADR 0004 — check required fields and the null policy before
- * any storage mutation. The predicate gives dispatch a StorageSetValue.
- * Nested data relies on the Transport's JsonValue contract: this guard does
- * not recursively validate value types or cycles. See HANDOFF's remaining
- * JSON-boundary validation work before claiming full §9.6 conformance.
+ * SPEC §6.3 / §9.6 / ADR 0004 / ADR 0008 — validate before storage access.
+ * Require a string key and a non-null JSON value without changing input.
+ * isJsonValue checks nested data and rejects non-JSON values and cycles.
+ * Nested null remains valid; only a top-level null is reserved for absence.
+ * This validates storage params, not the complete inbound message.
  */
 export function isStorageSetParams(params: JsonValue | undefined): params is StorageSetParams {
-  // Test absence explicitly: a truthiness check would also reject false, 0,
-  // and "". Inspect only the outer value so nested null remains valid data.
+  // Check absence explicitly so false, 0, and "" remain valid values.
+  // Reject only top-level null here; isJsonValue validates nested contents.
   return (
     isJsonObject(params) &&
     typeof params.key === 'string' &&

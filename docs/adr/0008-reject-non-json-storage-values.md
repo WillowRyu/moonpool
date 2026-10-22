@@ -75,4 +75,13 @@ isStorageSetParams. All 201 tests pass, including the 29 storage JSON boundary
 cases. Typecheck, lint, and both browser example builds also pass. The agent
 made no production implementation edits. This verifies the storage value
 slice, not whole-envelope validation or a resource-limit policy. Host error
-wording is aligned; the guard documentation remains for the next study step.
+wording is aligned; guard documentation remained for the next study step at
+that checkpoint.
+
+## Documentation alignment (2026-10-22, T01)
+
+The guard comments now describe nested JSON validation, top-level null
+rejection, and the separate whole-frame validation boundary. The learning
+guide records completion of this follow-up. Runtime logic and the decision
+above are unchanged. Reverified all 201 tests, typecheck, lint, and both
+browser example builds.
