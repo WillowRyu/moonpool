@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — T11 메시지 전체의 JSON 검사</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">15 · T11 메시지 전체 검사</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#decision">이전 동작·문제·결정 결과</a>
+    <a href="#terms">새로 만나는 말</a>
+    <a href="#inspect">읽기 전에 속성 확인</a>
+    <a href="#stages">봉투와 인자를 나누어 검사</a>
+    <a href="#errors">오류와 초기화의 순서</a>
+    <a href="#checks">테스트와 실제 브라우저</a>
+  </nav>
+  <p class="small desktop-only">2026.10.23 검증<br>T11 완료 · 다음 T12<br>704개 테스트 통과</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">T11 · Inspect the envelope, then validate the params</div>
+    <h1>기능을 실행하기 전에,<br>메시지 전체가 데이터인지 확인합니다.</h1>
+    <p class="lead">기존 저장 값 검사에 더해 메시지의 바깥 항목과 인자 전체를 확인합니다. 권한 오류와 입력 오류의 순서를 지키면서 getter 실행과 자동 변환을 막습니다.</p>
+    <div class="meta"><span class="pill">T11 완료</span><span class="pill">704 / 704 테스트 통과</span><span class="pill warm">다음 T12 · 응답 검증</span></div>
+  </header>
+  <section class="section" id="decision">
+    <h2>1 · 이전 동작과 이번 결정의 결과</h2>
+    <div class="table-wrap"><table><thead><tr><th>단계</th><th>설명</th></tr></thead><tbody>
+      <tr><td>이전 동작</td><td>storage.set의 value는 깊이 검사했지만, 메시지의 다른 추가 항목은 JSON인지 확인하지 않았습니다.</td></tr>
+      <tr><td>현재 문제</td><td>profile.get의 추가 항목에 Date·undefined 등이 있어도 기능이 실행될 수 있었습니다. 속성을 읽다가 getter 코드가 실행되는 경우도 있었습니다.</td></tr>
+      <tr><td>승인한 결과</td><td>바깥 메시지의 잘못된 데이터는 -32600, 인자 안의 잘못된 데이터는 초기화·권한 확인 후 -32602로 거절합니다. 정상 JSON 추가 항목은 허용합니다.</td></tr>
+    </tbody></table></div>
+    <p>2026.10.23에 권장안을 승인받아 <a href="../SPEC.md">SPEC §4.1·§4.2·§5.1</a>에 먼저 반영했습니다. <a href="../docs/adr/0016-validate-inbound-json-in-stages.md">ADR 0016</a>에는 번호·초기화·권한 검사와의 순서를 기록했습니다.</p>
+  </section>
+  <section class="section" id="terms">
+    <h2>이번 코드에서 만나는 표현</h2>
+    <div class="table-wrap"><table><thead><tr><th>표현</th><th>뜻</th><th>비유</th></tr></thead><tbody>
+      <tr><td>envelope</td><td>jsonrpc·id·method와 추가 항목 등 params 밖의 메시지</td><td>배송 정보가 적힌 봉투</td></tr>
+      <tr><td>params</td><td>함수에 전달할 실제 인자</td><td>봉투 안의 내용물</td></tr>
+      <tr><td>getter</td><td>속성을 읽을 때 실행되는 함수</td><td>칸을 열자마자 작동하는 장치</td></tr>
+      <tr><td>descriptor</td><td>속성이 저장 값인지 getter인지 등을 설명하는 정보</td><td>칸을 열기 전에 읽는 설명표</td></tr>
+      <tr><td>own data member</td><td>객체 자신이 직접 가진 저장 값 속성</td><td>다른 곳에서 빌리거나 계산하지 않은 실제 기재 내용</td></tr>
+      <tr><td>unknown</td><td>아직 실제 형태를 확인하지 않은 값</td><td>검사 전의 봉투</td></tr>
+    </tbody></table></div>
+  </section>
+  <section class="section" id="inspect">
+    <h2>2 · id를 읽는 것부터 검사합니다</h2>
+    <pre><code>id = storedValue(Object.getOwnPropertyDescriptor(value, 'id'));</code></pre>
+    <p>새 내부 파일 <code>packages/host/src/incoming-request.ts</code>에서 받은 값을 unknown으로 검사합니다. Object.getOwnPropertyDescriptor는 실제 속성을 읽어 getter를 실행하지 않고, 그 속성의 설명 정보를 가져옵니다.</p>
+    <pre><code>function storedValue(descriptor: PropertyDescriptor | undefined): unknown {
+  return descriptor !== undefined &amp;&amp; Object.hasOwn(descriptor, 'value')
+    ? descriptor.value
+    : undefined;
+}</code></pre>
+    <p>설명표에 저장된 value가 있는 경우만 값을 사용합니다. getter라면 실행해서 id를 만들지 않습니다. 안전하게 읽을 수 있는 직접 저장된 숫자 id가 없으면 응답하지 않는 규칙을 따릅니다.</p>
+    <p>숨겨진 속성, symbol 키, Date 같은 특수 객체, 함수, 순환 데이터도 유효한 JSON 봉투로 인정하지 않습니다. 숫자 id가 NaN이나 Infinity이면 오류 응답에는 null을 사용해 응답 자체가 JSON이 되도록 합니다.</p>
+  </section>
+  <section class="section" id="stages">
+    <h2>3 · 봉투와 인자를 각각 알맞은 단계에서 검사합니다</h2>
+    <pre><code>delete descriptors.params;
+const envelope: unknown = Object.create(Object.getPrototypeOf(value), descriptors);
+const envelopeIsJson = paramsDescriptorValid &amp;&amp; isJsonValue(envelope);</code></pre>
+    <p>descriptors는 원본에서 새로 얻은 속성 설명표입니다. 위 코드는 그 설명표로 <strong>검사용 봉투</strong>를 만들며, 원본 메시지나 params를 삭제하지 않습니다. params 속성 자체도 저장 값인지 확인하고, 원래 params의 내용은 다음 검사 단계까지 그대로 보관합니다.</p>
+    <p>바깥 부분은 isJsonValue로 확인합니다. 이 함수는 이전 저장 값 검사에서 만든 것으로, 자동 문자열 변환 없이 값의 안쪽까지 확인합니다. 새로 만든 파서로 JSON 글자를 읽는 작업이 아닙니다.</p>
+    <pre><code>export function isJsonParams(value: unknown): value is Record&lt;string, JsonValue&gt; | undefined {
+  return value === undefined || (isJsonValue(value) &amp;&amp; isJsonObject(value));
+}</code></pre>
+    <p>인자는 그다음 이 검사로 좁힙니다. 이 함수에 도착하기 전에 params의 바깥 모양과 생략 여부를 이미 확인합니다. 따라서 여기의 undefined는 실제 생략을 뜻합니다. 직접 <code>params: undefined</code>를 넣은 메시지는 앞 단계에서 -32602로 거절합니다.</p>
+    <p>유효한 요청은 봉투와 인자 모두 검사한 뒤 기능 호출로 진행합니다. 잘못된 값을 제거하거나 Date를 문자열로 바꿔서 통과시키지 않습니다. provider가 받는 저장 값도 원래 참조와 내용을 보존합니다.</p>
+  </section>
+  <section class="section" id="errors">
+    <h2>4 · 오류가 여러 개면 정해진 순서로 판단합니다</h2>
+    <div class="flow"><div class="node">배열·번호 규칙</div><span class="sep">→</span><div class="node">바깥 봉투 오류<br>-32600</div><span class="sep">→</span><div class="node">params 모양</div><span class="sep">→</span><div class="node">초기화·권한</div><span class="sep">→</span><div class="node current">params 전체 JSON<br>-32602</div><span class="sep">→</span><div class="node">메서드·provider</div></div>
+    <p>그림은 일반 호출의 오류 판단 순서입니다. 바깥 검사 결과를 미리 수집하더라도, 중복 번호에는 T10의 id:null 오류를 우선 반환합니다. 초기화는 별도 분기에서 문서 경계를 적용합니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>상황</th><th>결과</th></tr></thead><tbody>
+      <tr><td>profile.get의 추가 envelope 항목이 Date</td><td>-32600 · 기능 호출 없음</td></tr>
+      <tr><td>권한 없는 storage.set의 value가 NaN</td><td>기존처럼 -32000 · 권한을 먼저 확인</td></tr>
+      <tr><td>권한 있는 storage.set의 value가 NaN</td><td>-32602 · provider 호출 없음</td></tr>
+      <tr><td>권한 있는 profile.unknown의 params에 Date</td><td>메서드 조회 전에 -32602</td></tr>
+      <tr><td>형식이 맞는 unknown 메서드와 정상 JSON params</td><td>기존 권한 확인 후 -32601</td></tr>
+      <tr><td>중복 번호와 잘못된 envelope 데이터</td><td>T10의 -32600 / id:null</td></tr>
+    </tbody></table></div>
+    <p>초기화의 바깥 메시지가 잘못됐다면 기존 문서 상태를 초기화하지 않습니다. 바깥 메시지와 params 모양은 맞지만 인자 안에 getter 같은 잘못된 값이 있다면 새 문서 경계는 적용하고, 초기화 상태를 false로 바꾼 뒤 -32602로 거절합니다.</p>
+    <p><strong>SPEC §9.3·§9.6의 권한·입력 경계를 다룹니다.</strong> 정상 JSON 추가 항목은 계속 허용하지만, 그것으로 권한을 늘릴 수는 없습니다. 실제 권한은 호스트가 정한 grantedScopes가 결정합니다.</p>
+  </section>
+  <section class="section" id="checks">
+    <h2>5 · 거절되는 입력과 정상 연결을 함께 확인했습니다</h2>
+    <p>처음 58개 테스트에서 49개의 실패를 확인한 뒤 구현했습니다. 검토 중 함수 자체가 메시지인 경우도 추가해 실패를 확인하고 보완했습니다. 최종 새 테스트는 59개이며 모두 통과합니다. 기존 NaN 오류 응답 테스트는 승인된 id:null 정책에 맞게 수정했습니다.</p>
+    <p>테스트는 실제 호스트에 잘못된 값을 직렬화 없이 넣습니다. getter·toJSON 미실행, 원본 보존, 숨겨진 속성과 symbol, 순환·공유·깊은 데이터, 번호와 초기화 순서, 권한과 provider 호출 여부를 확인합니다. 임의 Proxy가 일으킬 수 있는 모든 부수 효과나 동시 변형, 크기 제한은 이번 검사의 보장 범위가 아닙니다.</p>
+    <p>실제 브라우저의 서로 다른 origin에서도 초기화, Moonpool Explorer 표시, storage 허용 구성의 저장과 조회가 동작하는 것을 확인했습니다.</p>
+    <div class="callout"><strong>2026.10.23 검증 결과</strong><br>새 테스트 59개 통과 · 전체 704 / 704 통과 · 26개 테스트 파일<br>타입 검사·린트·두 예제 빌드 통과<br>새 공개 API·전송 API·런타임 의존성 없음</div>
+    <div class="callout warm"><strong>다음 T12:</strong> 클라이언트가 받는 응답의 모양과 요청 연결을 더 엄격하게 검증합니다. 이번 T11은 호스트가 받는 요청 경계에 집중했습니다.</div>
+  </section>
+  <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="14-request-id-order.html">T10 요청 번호 복습</a><br>근거: 승인된 SPEC §4.1·§4.2·§5.1·§9, ADR 0008·0016, incoming-request와 host 코드·테스트. 규범 문서는 SPEC.md입니다.</footer>
+</main>
+</body>
+</html>

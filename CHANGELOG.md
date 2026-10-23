@@ -4,6 +4,11 @@
 
 ### Added
 
+- Validate inbound request envelopes and params as JSON in separate stages.
+  Inspect own data descriptors without running getters or converting input;
+  preserve valid extra envelope fields and original provider values. Reject
+  non-JSON envelopes with -32600 and non-JSON params with -32602 after grants
+  (SPEC §4.1 / §4.2 / §5.1, ADR 0016).
 - Enforce strictly increasing request ids per document on each host connection.
   Reject duplicate/backward ids with -32600 and id null without dispatching
   or disturbing pending calls; consume new positive ids before validation.
@@ -39,6 +44,9 @@
 
 ### Changed
 
+- Return id null for NaN/infinite request ids so errors remain JSON. Treat
+  explicit params:undefined as invalid, and reject non-JSON params before
+  lookup even for unknown methods after their scope is granted.
 - Require method names to contain exactly two ASCII lowerCamelCase components
   separated by one dot, allowing letters/digits after each initial lowercase
   letter. Reject malformed names with -32600 before params, initialization,

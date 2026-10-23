@@ -2,7 +2,7 @@
 
 Date: 2026-10-22
 Last updated: 2026-10-23
-Status: In progress. T01–T10 complete; next is T11.
+Status: In progress. T01–T11 complete; next is T12.
 Normative source: `SPEC.md`. This plan does not amend the protocol.
 
 ## Working mode
@@ -188,6 +188,23 @@ The explanation is `study/14-request-id-order.html`. Next: T11, whose whole
 JSON validation decision is still required. The §11 document-epoch race is
 not resolved by this document-local counter.
 
+**T11 complete (2026-10-23).** T10 was committed and pushed as e4f7f89 and
+45af7d1. The maintainer approved ADR 0016; SPEC §4.1 / §4.2 / §5.1 was updated
+before implementation. The private host inspector reads own data descriptors,
+validates the envelope outside params, and preserves original params for deep
+validation after initialization/scope. Reject invalid envelopes with -32600,
+non-JSON params with -32602 before lookup, and echo non-finite ids as null.
+No getters/toJSON, coercion, input mutation, platform API, or dependency was
+introduced. Valid JSON extras, shared/deep data, original values, and existing
+sequence/permission behavior remain covered. All 59 new tests, 704 total across
+26 files, typecheck, lint, and both example builds pass. The initial 58-case
+RED run had 49 failures; an additional callable-root regression was verified
+RED before its fix. Updated the old NaN response expectation to the approved
+null-id rule. Actual browser initialization/profile/storage set/get pass.
+The explanation is `study/15-inbound-json.html`. Next: T12, response validation
+and correlation. Resource limits and arbitrary Proxy side effects remain outside
+this contract, as documented in ADR 0008.
+
 ### Milestone A: demonstrate useful calls
 
 | ID | Task | Completion evidence | Depends on |
@@ -256,15 +273,10 @@ browser runner. If one is introduced later, revisit HANDOFF's existing
 These are planning gates, not approved specification changes. Continue
 independent tasks while a dependent task awaits the maintainer's decision.
 
-T09's method-format decision and T10's id policy are resolved in SPEC and
-ADRs 0014–0015. Do not ask for those approvals again; the remaining gates
+T09's method-format decision, T10's id policy, and T11's inbound JSON policy
+are resolved in SPEC and ADRs 0014–0016. Do not ask for those approvals again; the remaining gates
 below are separate.
 
-- **JSON boundary validation (T11).** Specify rejection codes and ordering for
-  non-JSON envelope content before tightening the whole-frame guard. Preserve
-  the approved id-sequence and method-syntax precedence,
-  scope-before-method-param validation,
-  and the existing permission behavior for unknown methods.
 - **Client local failures (T13).** Confirm the post-close -32008 behavior and
   define synchronous transport-send failure mapping without inventing a
   claim about remote host health.

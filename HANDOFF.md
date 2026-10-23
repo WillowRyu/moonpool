@@ -5,10 +5,11 @@
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
-> T10 verified: 645 passed; typecheck, lint, and both example builds pass.
-> Document-scoped id order is enforced before ordinary request validation.
+> T11 verified: 704 passed; typecheck, lint, and both example builds pass.
+> Inbound envelopes and params are validated as JSON at their approved stages.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Next: T11, settle whole-message JSON rejection/ordering, then implement it.
+> Next: T12, tighten client response validation and correlation.
+> T11 staged JSON validation is approved in SPEC / ADR 0016. Do not ask again.
 > Policy questions: explain previous behavior → current problem → each option's consequences.
 > The request-id policy is approved in SPEC / ADR 0015. Do not ask again.
 > The method grammar and -32600 precedence are approved in SPEC / ADR 0014.
@@ -16,6 +17,75 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-23 checkpoint — T11 commit and push
+
+The maintainer requested committing and pushing T11, then T12 with an easy
+code explanation. Publish the approved staged JSON policy, implementation,
+tests, and ADR as one feature commit, then progress and learning materials
+as a documentation commit. Verification remains 704 tests, typecheck, lint,
+and both example builds passing. T12 covers generic response validation and
+promise correlation; method-specific result schemas remain outside this task.
+
+## 2026-10-23 checkpoint — T11 complete
+
+T10 was published as e4f7f89 (id ordering) and 45af7d1 (progress/study) to
+origin/master before T11. The maintainer approved the ADR 0016 staged JSON
+proposal after the previous-behavior/problem/consequences explanation. Updated
+SPEC §4.1 / §4.2 / §5.1 and accepted ADR 0016 before dependent implementation.
+Do not ask for that approval again. T11 remains local; no commit/push yet.
+
+Added the private packages/host/src/incoming-request.ts inspector. It accepts
+unknown, classifies arrays/unaddressable values, and recovers only own stored
+numeric ids through property descriptors. It never evaluates routing getters.
+Inspect all original descriptors, separating params only in an inspection view;
+validate the envelope's original prototype/descriptors and extra data through
+isJsonValue. Invalid params descriptors also invalidate the envelope. Keep
+params unknown until deep validation at the approved stage, preserving original
+references and data. No serialization, input mutation, coercion, public API,
+Transport change, platform API, runtime dependency, or resource limit was added.
+
+The host applies T10 sequence rules before ordinary errors. JSON-valid envelope
+and object-or-omitted params shape establish initialize boundaries; malformed
+envelope data cannot reset state. Deeply invalid initialize params do establish
+the boundary, then initialization resets false before -32602. Own params with
+undefined are present and fail the container gate. Ordinary calls retain the
+initialization/scope gates before deep params validation, which now precedes
+lookup even for unknown methods. All provider inputs pass this validation and
+the existing method-specific checks. Ping moved below the shared scope/params
+stage; the exact portal namespace remains exempt from grants.
+
+Invalid envelope data gets -32600 with a fixed message. Echo finite numeric ids
+and use null for NaN/infinities; update the old NaN test accordingly, as approved.
+Batches and no safely recoverable own numeric id retain their response rules.
+Reflection failures produce an invalid request when an id was recovered and
+otherwise remain silent. Callable roots with stored numeric ids are rejected
+without invoking them. Proxy trap side effects/concurrent mutation limitations
+remain ADR 0008's known boundary, not a new security guarantee.
+
+Initial preparation had four valid-input regressions. The first expanded run
+had 58 tests, with 49 failures and nine passes. Added one callable-root case
+when reviewing safe id recovery, observed its failure, and fixed it before
+final verification. All 59 new tests pass, including getters/toJSON, non-JSON
+leaves/objects/cycles, hidden/symbol/inherited members, frozen inputs, deep/shared
+graphs, original value identity, error precedence, id consumption, and initialize
+boundaries. Only the approved NaN expectation changed in existing runtime tests.
+Verified 704 tests across 26 files, typecheck, lint (77 files), both example
+builds, and diff checks. Actual browser localhost:5173 → localhost:5174/index.html
+handshake, profile display, and storage-enabled set/get succeeded.
+
+study/15-inbound-json.html explains descriptors, inspection views, original
+params preservation, the two JSON gates, error/initialization ordering, and
+verification using the requested previous/current/result structure. The guide
+shows T11 complete and T12 next, preserves T10 at #t10 and all previous lessons,
+and updates T10's wrap-up. All 232 local references across 16 study pages are
+valid, with no duplicate ids and unchanged prior interactive scripts. Browser
+checks confirm both the new lesson and updated current-task guide render.
+
+Next is T12 only. Outbound response validation/correlation is separate from
+this host request boundary. Existing §11 epoch, peer-close, and resource-policy
+questions remain open. Keep policy questions in the maintainer's requested
+previous-behavior → current-problem → each-choice-consequences format.
 
 ## 2026-10-23 checkpoint — T10 commit and push
 
