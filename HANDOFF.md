@@ -5,11 +5,11 @@
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
-> T14 verified: 895 passed; typecheck, lint, and both example builds pass.
-> portal.close submits acceptance before invoking a per-connect async UI hook.
+> T15 verified: 940 passed; typecheck, lint, and both example builds pass.
+> Host.connect returns typed connection-bound, id-free notification senders.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Next: T15, typed host notification sending. Milestone C is complete.
-> T13 published as a7179db / cae510b; T14 is complete locally, not committed.
+> Next: T16, client notification subscription and delivery. Milestone C is complete.
+> T14 published as 6166a4e / d1d13b0 / 5cd4d93. T15 is complete locally, not committed.
 > T14 acceptance-before-dismissal policy is approved in SPEC §6.2 / ADR 0019.
 > Do not ask again; implement the per-connect async onCloseRequested hook.
 > T12 published as 1465d03 / f271a2f; remote confirmed in sync before T13.
@@ -23,6 +23,75 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-23 checkpoint — T15 commit and push
+
+The maintainer requested committing and pushing T15, then T16 with an easy
+code explanation. Publish the typed sender, protocol types, tests, and ADR as
+one feature commit, then progress and learning materials as a documentation
+commit. Verification remains 940 tests, typecheck, lint, and both example
+builds passing. T16 adds local client subscribers, preserves response handling,
+and isolates subscriber failures without adding a wire acknowledgement.
+
+## 2026-10-23 checkpoint — T15 complete
+
+Published T14 in three small commits: 6166a4e (kernel/contract), d1d13b0
+(browser examples), and 5cd4d93 (progress/study), to origin/master. Confirmed
+clean tree and HEAD...origin/master 0/0 before T15. The maintainer requested
+T15 with an easy Korean code explanation. T15 remains local; no commit/push
+for T15 has been requested or performed.
+
+Implemented existing SPEC §3.1 / §4.1 / §6.4 without amending SPEC. ADR 0020
+records the local API design and its boundaries. Protocol now exports
+PortalLifecycleState, PortalLifecycleParams, PortalEnvironmentChangedParams,
+and the discriminated HostNotification wire type. Host.connect returns a
+HostConnection with notifyLifecycle(state) and notifyEnvironmentChanged(changes),
+bound to only that transport. Existing callers may ignore the returned handle.
+The implementation lives in packages/host/src/notifications.ts.
+
+Both functions return Promise<void>, construct fresh id-free frames, and call
+transport.send once without response correlation, timers, or new listeners.
+Promises confirm local submission only, not receipt/processing. Synchronous
+send exceptions reject locally with the original error, without retry or an
+error frame. There is no generic arbitrary-method sender. Local input is
+validated at runtime: two lifecycle states; ordinary JSON environment object
+with only optional light/dark colorScheme and string locale. Empty object and
+empty locale are allowed; no new locale syntax or size limit. Invalid arguments
+reject with fixed TypeError before send. Reuse isJsonValue/hasOnlyParamKeys,
+avoid getters/toJSON/coercion/assertions, and snapshot only declared own fields
+so later caller mutation cannot alter submitted payloads.
+
+Sending is not state management: it does not modify initialization, id floors,
+grants, config/environment, or storage; it does not infer platform state or
+queue until handshake. The embedder owns timing/state/transport lifetime and
+must stop using a handle on teardown. No transport API, platform dependency,
+new wire semantics, automatic replay, or additional lifecycle state was added.
+Current clients still ignore notifications; subscriber delivery belongs to T16.
+Unknown inbound notification tolerance must not be conflated with this local
+sender's deliberately restricted argument types.
+
+Wrote 45 tests before implementation; the RED run had 45 failures while the
+connection sender API was absent. All now pass. Checks include exact frames,
+no id/timers/listeners, valid/invalid/empty inputs, getters and conversion,
+frozen/null-prototype inputs, snapshots, connection isolation, local send
+errors, unchanged initialization/id/grants/config, and real host/client calls
+remaining pending with their original deadlines while notifications arrive.
+The timeout fixture leaves a profile provider pending on an open connection;
+it does not rely on sending through a closed transport. No existing tests were
+weakened and no new type assertions were introduced.
+
+Verified 940 tests across 33 files, typecheck, lint (90 files), both example
+builds, and diff checks. No example UI or browser OS-event wiring was added;
+message delivery and correlation are verified over memory transports. Actual
+product browser smoke was not repeated for this sender-only change.
+
+Added study/19-host-notifications.html, preserved T14 at #t14 in the guide,
+updated its lesson wrap-up, and marked T15 complete / T16 next in the roadmap.
+All 299 local references across 20 study pages are valid, with no duplicate ids
+and unchanged previous interactive scripts. Browser QA confirmed the new lesson
+layout and current-task guide. Temporary static server and verification tab
+were cleaned up. Next is T16 only; T17–T18's navigation gate remains open, as do
+SPEC §11's document-epoch and peer-disconnect questions.
 
 ## 2026-10-23 checkpoint — T14 commit and push
 

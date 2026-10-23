@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — T15 호스트에서 알림 보내기</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">19 · T15 호스트 알림 전송</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#difference">요청과 알림의 차이</a>
+    <a href="#handle">연결별 전송 함수</a>
+    <a href="#wire">id 없는 메시지</a>
+    <a href="#validation">타입과 실제 값 검사</a>
+    <a href="#copy">보낼 내용을 따로 만들기</a>
+    <a href="#checks">검증과 다음 작업</a>
+  </nav>
+  <p class="small desktop-only">2026.10.23 검증<br>T15 완료 · 다음 T16<br>940개 테스트 통과</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">T15 · Host notifications without request ids</div>
+    <h1>호스트가 변화를 알릴 때는,<br>답장을 기다리는 번호가 필요 없습니다.</h1>
+    <p class="lead">지금까지는 미니 앱이 질문하고 호스트가 답했습니다. 이번에는 호스트가 “일시 정지 상태입니다”, “화면 모드가 바뀌었습니다” 같은 정보를 먼저 보낼 수 있게 했습니다.</p>
+    <div class="meta"><span class="pill">T15 완료</span><span class="pill">940 / 940 테스트 통과</span><span class="pill warm">다음 T16 · 알림 구독과 전달</span></div>
+  </header>
+  <section class="section" id="difference">
+    <h2>1 · 알림은 답장이 없는 공지입니다</h2>
+    <div class="table-wrap"><table><thead><tr><th>구분</th><th>예</th><th>요청 번호</th><th>응답 기다림</th></tr></thead><tbody>
+      <tr><td>요청</td><td>미니 앱 → profile.get → 호스트</td><td>id 있음</td><td>Promise와 타이머로 응답을 기다림</td></tr>
+      <tr><td>알림</td><td>호스트 → portal.lifecycle → 미니 앱</td><td>id 항목 자체가 없음</td><td>상대의 답장과 타이머 없음</td></tr>
+    </tbody></table></div>
+    <p>여기서 알림(notification)은 브리지 안에서 보내는 JSON-RPC 메시지입니다. 운영체제의 푸시 알림이나 브라우저 알림창을 만드는 작업은 아닙니다.</p>
+    <p>기존 <a href="../SPEC.md">SPEC §6.4</a>의 두 종류를 구현했습니다. <code>portal.lifecycle</code>은 resumed·paused, <code>portal.environmentChanged</code>는 선택적인 colorScheme·locale을 보냅니다. 설계 이유는 <a href="../docs/adr/0020-bind-notification-senders-to-host-connections.md">ADR 0020</a>에 기록했고 명세는 변경하지 않았습니다.</p>
+  </section>
+  <section class="section" id="handle">
+    <h2>2 · connect가 연결에 묶인 도구를 돌려줍니다</h2>
+    <pre><code>const connection = host.connect(transport);
+
+await connection.notifyLifecycle('paused');
+await connection.notifyEnvironmentChanged({
+  colorScheme: 'dark',
+  locale: 'ko-KR',
+});</code></pre>
+    <p>이것이 새 API의 사용 예입니다. 이전에는 connect를 호출하고 끝났지만, 이제 반환받은 connection으로 해당 연결에 알림을 보낼 수 있습니다. 기존처럼 반환값을 사용하지 않는 코드도 계속 동작합니다.</p>
+    <pre><code>export interface HostConnection {
+  notifyLifecycle(state: PortalLifecycleState): Promise&lt;void&gt;;
+  notifyEnvironmentChanged(changes: PortalEnvironmentChangedParams): Promise&lt;void&gt;;
+}</code></pre>
+    <p><strong>연결에 묶인다</strong>는 것은 이 함수가 connect 때 전달한 transport를 기억한다는 뜻입니다. Portal A의 connection을 사용하면 A의 전송 장치만 사용합니다. “현재 선택된 Portal” 같은 공용 변수를 찾아서 보내지 않습니다.</p>
+    <div class="flow"><div class="node">호스트 코드</div><span class="sep">→</span><div class="node current">A의 connection</div><span class="sep">→</span><div class="node">A의 transport</div><span class="sep">→</span><div class="node">미니 앱 A</div></div>
+    <p>반환형 Promise&lt;void&gt;는 로컬 전송이 끝났는지 알려 줍니다. 상대의 답장이 오는 것을 기다리지 않습니다. 전송 함수가 실패하면 이 Promise가 실패하고, 자동 재전송하지 않습니다.</p>
+  </section>
+  <section class="section" id="wire">
+    <h2>3 · 실제 전송 코드에는 id가 없습니다</h2>
+    <pre><code>const frame: HostNotification = {
+  jsonrpc: '2.0',
+  method: 'portal.lifecycle',
+  params: { state },
+};
+transport.send(frame);</code></pre>
+    <p>state가 paused일 때 아래 메시지가 전달됩니다.</p>
+    <pre><code>{
+  "jsonrpc": "2.0",
+  "method": "portal.lifecycle",
+  "params": { "state": "paused" }
+}</code></pre>
+    <p>id:null도 넣지 않습니다. T08의 id:null 오류 응답과 달리 이것은 처음부터 응답을 요구하지 않는 알림입니다. 요청 번호를 발급하거나 대기표를 등록하거나 시간 초과 타이머를 만들지 않습니다.</p>
+    <p>따라서 profile.get의 답장을 기다리던 중 알림이 도착해도, 그 알림으로 프로필 요청을 완료하면 안 됩니다. 기존 클라이언트가 대기 요청과 타이머를 보존하는 것을 실제 host/client 연결로 테스트했습니다.</p>
+  </section>
+  <section class="section" id="validation">
+    <h2>4 · TypeScript 타입과 실제 검사를 함께 둡니다</h2>
+    <pre><code>export type PortalLifecycleState = 'resumed' | 'paused';
+
+export type PortalEnvironmentChangedParams = {
+  colorScheme?: PortalEnvironment['colorScheme'];
+  locale?: PortalEnvironment['locale'];
+};</code></pre>
+    <p>첫 줄은 허용한 문자열 두 개 중 하나만 쓰라는 타입입니다. 대괄호로 적은 PortalEnvironment['colorScheme']는 기존 환경 타입의 해당 필드 타입을 가져온다는 뜻입니다. light·dark 규칙을 따로 중복 작성하지 않습니다.</p>
+    <pre><code>if (state !== 'resumed' &amp;&amp; state !== 'paused') {
+  throw new TypeError('invalid portal.lifecycle state');
+}</code></pre>
+    <p>JavaScript에서 함수를 부르면 TypeScript 검사를 거치지 않을 수 있습니다. 그래서 실행 중에도 값을 확인합니다. as로 믿어 버리는 대신 실제 문자열을 비교합니다. invalid 입력은 전송 전에 고정된 TypeError로 알립니다. 이것은 호스트가 API를 잘못 사용한 로컬 오류이며, 브리지로 보낼 오류 응답이 아닙니다.</p>
+    <pre><code>if (
+  !isJsonValue(changes) ||
+  !isJsonObject(changes) ||
+  !hasOnlyParamKeys(changes, ['colorScheme', 'locale'])
+) {
+  throw new TypeError('invalid portal.environmentChanged params');
+}</code></pre>
+    <p>환경 변경도 실제 JSON 객체인지, 정해진 항목만 있는지 먼저 확인합니다. 이후 colorScheme은 light·dark, locale은 문자열인지 확인합니다. getter나 toJSON을 실행하지 않고, 잘못된 값을 바꾸어 보내지 않습니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>환경 변경 값</th><th>처리</th></tr></thead><tbody>
+      <tr><td>{} / {colorScheme: "dark"} / {locale: "ko-KR"}</td><td>유효 · 존재하는 항목만 전송</td></tr>
+      <tr><td>{locale: ""}</td><td>유효 · 빈 문자열도 보존</td></tr>
+      <tr><td>{locale: undefined} / {colorScheme: "automatic"}</td><td>로컬 TypeError · 전송 없음</td></tr>
+      <tr><td>{locale: "en", token: "secret"}</td><td>허용하지 않은 항목 · 전송 없음</td></tr>
+    </tbody></table></div>
+    <p>명세에 없는 언어 코드 형식이나 길이 제한은 추가하지 않았습니다. colorScheme·locale을 모두 생략한 빈 변경 객체도 유효합니다.</p>
+  </section>
+  <section class="section" id="copy">
+    <h2>5 · 보낼 내용은 새 객체에 담습니다</h2>
+    <pre><code>const params: PortalEnvironmentChangedParams = {};
+if (colorScheme !== undefined) {
+  params.colorScheme = colorScheme;
+}
+if (locale !== undefined) {
+  params.locale = locale;
+}</code></pre>
+    <p>호스트가 건넨 changes 객체를 그대로 전송 장치에 맡기지 않고, 검사한 문자열만 새 객체에 담습니다. 호스트가 나중에 원래 changes.locale을 바꾸어도 이미 전송한 내용은 바뀌지 않습니다.</p>
+    <p>이 함수의 역할은 알림 전송입니다. 호스트 설정이나 초기화 응답의 environment를 자동으로 바꾸지 않습니다. 호스트가 자신의 현재 상태를 관리하고 필요한 시점에 알림을 보냅니다. 연결 종료도 호스트가 관리하므로 전송 장치를 닫은 뒤에는 그 connection을 더 사용하지 않아야 합니다.</p>
+  </section>
+  <section class="section" id="checks">
+    <h2>6 · 이번에 확인한 것과 다음 단계</h2>
+    <p>45개 테스트를 먼저 작성했고, 전송 API가 없던 코드에서 모두 실패하는 것을 확인했습니다. 구현 후 45개 모두 통과했습니다. 메시지의 정확한 형태, 입력 검사, 호출 순서, 객체 변경 방지, 연결 간 분리, 전송 실패, 요청 번호와 권한 유지, 실제 클라이언트의 대기 요청·마감 시간 보존을 확인합니다.</p>
+    <div class="callout"><strong>2026.10.23 검증</strong><br>전체 940 / 940개 · 33개 테스트 파일 통과<br>타입 검사·린트·두 예제 빌드 통과<br>새 플랫폼 API·런타임 의존성·타입 단언 없음</div>
+    <p>현재 클라이언트는 알림을 받아도 기존 요청을 끝내지 않고 무시합니다. 이번에는 전송 API와 실제 메시지·요청 격리를 테스트했으며, 예제 화면에 상태 변경 기능을 추가하지 않았습니다. 알림 전송 성공은 수신·화면 반영의 확인이 아닙니다.</p>
+    <div class="callout warm"><strong>다음 T16:</strong> 미니 앱 코드가 알림을 구독하고 전달받도록 연결합니다. 구독 해제, 모르는 알림 이름, 구독 함수가 실패했을 때 다른 요청을 지키는 동작도 함께 검증합니다.</div>
+  </section>
+  <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="18-portal-close.html">T14 화면 닫기 복습</a><br>근거: SPEC §3.1·§4.1·§6.4, ADR 0020, protocol 타입과 host 알림 코드·테스트.</footer>
+</main>
+</body>
+</html>

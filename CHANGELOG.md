@@ -4,6 +4,12 @@
 
 ### Added
 
+- Return a connection-bound notification sender from Host.connect, with async
+  notifyLifecycle and notifyEnvironmentChanged methods for SPEC §6.4. Add
+  shared notification types, validate local arguments at runtime, and create
+  fresh id-free frames without request correlation or timers. Completion
+  confirms local submission only; subscriber delivery follows separately
+  (ADR 0020).
 - Implement portal.close with optional string reason and a per-connection
   asynchronous onCloseRequested embedder hook. Validate input before returning
   -32001 for a missing hook; no scope is required. Submit acceptance before

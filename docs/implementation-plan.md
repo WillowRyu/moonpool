@@ -2,7 +2,7 @@
 
 Date: 2026-10-22
 Last updated: 2026-10-23
-Status: In progress. T01–T14 complete; next is T15. Milestone C is complete.
+Status: In progress. T01–T15 complete; next is T16. Milestone C is complete.
 Normative source: `SPEC.md`. This plan does not amend the protocol.
 
 ## Working mode
@@ -256,6 +256,23 @@ read retained data, and close pass. The explanation is
 `study/18-portal-close.html`. Milestone C is complete. Next: T15, typed host
 notification sending. SPEC §9.4 / §9.5 / §9.6 are covered; §11 peer-disconnect
 and document-epoch questions remain separate.
+
+**T15 complete (2026-10-23).** Committed and pushed T14 as 6166a4e,
+d1d13b0, and 5cd4d93. Host.connect now returns a HostConnection bound to its
+transport, exposing async notifyLifecycle and notifyEnvironmentChanged.
+Shared protocol types describe the two event payloads and discriminated wire
+frames. The sender validates local arguments without assertions/conversion,
+snapshots declared fields, and sends id-free frames without timers, request
+correlation, or a reply listener. Invalid local arguments reject with fixed
+TypeError; send exceptions reject locally without retry. Configuration,
+initialization, grants, id floors, and other pending calls remain unchanged.
+ADR 0020 records this send-only API; SPEC is unchanged. All 45 new tests failed
+before implementation and now pass. All 940 tests across 33 files, typecheck,
+lint, and both example builds pass. Real host/client memory-transport tests
+prove notifications cannot settle or extend an existing request. No example
+UI/subscriber or platform integration was added. The explanation is
+`study/19-host-notifications.html`. Next: T16, subscriber delivery; embedder
+state/timing/lifetime ownership and §11 limitations remain explicit.
 
 ### Milestone A: demonstrate useful calls
 
