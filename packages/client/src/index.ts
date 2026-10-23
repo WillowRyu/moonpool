@@ -76,7 +76,8 @@ export function createClient(config: ClientConfig): MoonpoolClient {
   const timeoutMs = config.timeoutMs ?? DEFAULT_TIMEOUT_MS;
 
   // One return desk for the whole connection, registered once.
-  const unsubscribe = transport.onMessage((message) => {
+  const unsubscribe = transport.onMessage((message: unknown) => {
+    // Reject invalid data before it can consume a pending call or its timer.
     if (!isJsonRpcResponse(message)) {
       return;
     }

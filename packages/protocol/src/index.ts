@@ -403,18 +403,21 @@ export type JsonRpcResponse = {
   error?: { code: number; message: string; data?: JsonValue };
 };
 
-/** Checked proof that a frame is a §4.3 response. */
-export function isJsonRpcResponse(value: JsonValue | undefined): value is JsonRpcResponse {
+/** SPEC §4.3 / ADR 0017 — validate complete JSON data before response fields. */
+export function isJsonRpcResponse(value: unknown): value is JsonRpcResponse {
   if (
+    !isJsonValue(value) ||
     !isJsonObject(value) ||
+    !Object.hasOwn(value, 'jsonrpc') ||
+    !Object.hasOwn(value, 'id') ||
     value.jsonrpc !== '2.0' ||
     (typeof value.id !== 'number' && value.id !== null)
   ) {
     return false;
   }
 
-  const hasResult = value.result !== undefined;
-  const hasError = value.error !== undefined;
+  const hasResult = Object.hasOwn(value, 'result');
+  const hasError = Object.hasOwn(value, 'error');
   // SPEC §4.3: exactly one of the two. Both or neither is a malformed frame.
   if (hasResult === hasError) {
     return false;
@@ -425,7 +428,14 @@ export function isJsonRpcResponse(value: JsonValue | undefined): value is JsonRp
   }
 
   const error = value.error;
-  return isJsonObject(error) && typeof error.code === 'number' && typeof error.message === 'string';
+  return (
+    isJsonObject(error) &&
+    Object.hasOwn(error, 'code') &&
+    Object.hasOwn(error, 'message') &&
+    typeof error.code === 'number' &&
+    Number.isInteger(error.code) &&
+    typeof error.message === 'string'
+  );
 }
 
 /**
