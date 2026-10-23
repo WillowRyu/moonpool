@@ -2,7 +2,7 @@
 
 Date: 2026-10-22
 Last updated: 2026-10-23
-Status: In progress. T01–T12 complete; next is T13.
+Status: In progress. T01–T13 complete; next is T14.
 Normative source: `SPEC.md`. This plan does not amend the protocol.
 
 ## Working mode
@@ -220,6 +220,24 @@ The explanation is `study/16-response-validation.html`. Next: T13, with its
 client-local failure policy decision still required. Method-specific result
 schemas and the §11 document-epoch race remain separate.
 
+**T13 complete (2026-10-23).** Committed and pushed T12 as 1465d03 and
+f271a2f before T13. The maintainer approved ADR 0018's fixed local failure
+mapping after the previous-behavior/problem/consequences explanation. Updated
+SPEC §4.6 / §4.7 first. Client close now marks terminal state and drains calls
+before once-only adapter cleanup, rejects later call/initialize with -32008,
+and ignores retained callbacks. Both cleanup operations are attempted; the
+first thrown value is rethrown after cleanup. Synchronous send failures clear
+only that request's entry/timer and reject with fixed -32603 / {phase:"send"}.
+Keep other requests usable, consume failed ids, never retry automatically,
+and preserve earlier response/close outcomes. No transport API, dependency,
+platform API, or new assertion was added. All 28 new tests and 848 total across
+29 files, typecheck, lint, and both example builds pass. After correcting the
+test harness, the committed T12 client had 24 failures and four passing
+regressions; the implementation passes all 28. Actual browser initialization,
+profile, and storage set/get pass. The explanation is
+`study/17-client-local-failures.html`. Next: T14, whose dismissal contract
+still requires approval. Peer-disconnect signaling remains a §11 question.
+
 ### Milestone A: demonstrate useful calls
 
 | ID | Task | Completion evidence | Depends on |
@@ -289,12 +307,14 @@ These are planning gates, not approved specification changes. Continue
 independent tasks while a dependent task awaits the maintainer's decision.
 
 T09's method-format decision, T10's id policy, and T11's inbound JSON policy
-are resolved in SPEC and ADRs 0014–0016. Do not ask for those approvals again; the remaining gates
-below are separate.
+are resolved in SPEC and ADRs 0014–0016; T13 is resolved in ADR 0018.
+Do not ask for those approvals again. The remaining gates below are separate.
 
-- **Client local failures (T13).** Confirm the post-close -32008 behavior and
-  define synchronous transport-send failure mapping without inventing a
-  claim about remote host health.
+- **Client local failures (T13): resolved on 2026-10-23.** The maintainer
+  approved terminal local closure, post-close -32008 Promise rejection,
+  once-only cleanup, and per-request send failure cleanup with fixed -32603 /
+  {phase:"send"}. SPEC §4.6 / §4.7 and ADR 0018 record ordering and diagnostics.
+  No automatic retry or claim about remote host health. Do not ask again.
 - **Portal dismissal (T14).** §6.2 lists `{ reason? }` but does not define its
   type, missing-hook behavior, or completion/teardown order. Proposed starting
   point: an optional string and a success reply before destroying the frame;

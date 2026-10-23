@@ -125,7 +125,7 @@ expect(vi.getTimerCount()).toBe(0);</code></pre>
     <p>이번 검사는 공통 응답 형식과 JSON 데이터를 확인합니다. profile.get 결과에 displayName이 있는지 같은 메서드별 의미 검사는 별개입니다. initialize의 기존 결과 타입 단언도 이번 작업에서 바꾸지 않았습니다. 새 코드에는 타입 단언을 추가하지 않았습니다.</p>
     <p>호스트가 잘못된 요청 번호 0·음수·소수를 오류에 그대로 돌려주는 기존 규칙을 유지합니다. 클라이언트는 자신이 실제로 발행해 기다리는 번호만 Map에서 찾으므로, 그런 번호가 다른 요청을 완료하지 않습니다. 성공 응답의 id:null은 여전히 거절합니다.</p>
     <p>임의 Proxy의 부수 효과, 크기 제한, 이전 문서의 늦은 응답 문제는 기존 한계로 남습니다. SPEC §9의 출처·권한 경계도 그대로이며, 이번에 호스트 접근 권한을 늘리는 변경은 없습니다.</p>
-    <div class="callout warm"><strong>다음 T13:</strong> 닫힌 연결에서 새 요청을 보내지 못하게 하고, 전송 함수가 즉시 실패했을 때 대기표와 타이머를 정리합니다. 명세가 정하지 않은 오류 정책은 이전 동작·문제·선택 결과를 설명한 뒤 결정합니다.</div>
+    <div class="callout warm"><strong>다음에 진행한 T13 완료:</strong> 닫힌 연결의 새 요청을 막고 전송 실패의 대기표·타이머를 정리했습니다. <a href="17-client-local-failures.html">T13 해설</a>에서 승인한 오류 정책과 코드를 이어서 읽을 수 있습니다.</div>
   </section>
   <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="15-inbound-json.html">T11 요청 검사 복습</a><br>근거: SPEC §3.1·§4.3–§4.5, JSON-RPC 2.0 §5, ADR 0017, protocol/client 코드와 테스트.</footer>
 </main>

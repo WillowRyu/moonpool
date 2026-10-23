@@ -5,12 +5,14 @@
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
-> T12 verified: 820 passed; typecheck, lint, and both example builds pass.
-> Complete response JSON is validated before consuming pending calls/timers.
+> T13 verified: 848 passed; typecheck, lint, and both example builds pass.
+> Local close is terminal; failed sends clean up only their own pending calls.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Next: T13, terminal client closure and synchronous send-failure cleanup.
-> T11 published as 1695e9a / 0585deb. T12 is complete locally, not committed.
-> T13 local-error policy still needs a concrete proposal and approval.
+> Next: T14, portal.close through an asynchronous embedder hook.
+> T13 is complete locally, not committed; T14 dismissal policy remains open.
+> T12 published as 1465d03 / f271a2f; remote confirmed in sync before T13.
+> T13 local-error policy is approved in SPEC §4.6 / §4.7 and ADR 0018.
+> Implement the approved fixed -32603 / {phase:"send"} mapping; do not ask again.
 > T11 staged JSON validation is approved in SPEC / ADR 0016. Do not ask again.
 > Policy questions: explain previous behavior → current problem → each option's consequences.
 > The request-id policy is approved in SPEC / ADR 0015. Do not ask again.
@@ -19,6 +21,86 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-23 checkpoint — T13 commit and push
+
+The maintainer requested committing and pushing T13, then T14 with an easy
+code explanation. Publish the approved local failure policy, implementation,
+tests, and ADR as one fix commit, then progress and learning materials as a
+documentation commit. Verification remains 848 tests, typecheck, lint, and
+both example builds passing. T14's dismissal contract requires a concrete
+proposal and approval before dependent tests/implementation.
+
+## 2026-10-23 checkpoint — T13 complete
+
+The maintainer requested publishing T12 and implementing T13 with a simple
+code explanation. T12 was pushed as 1465d03 / f271a2f to origin/master; the
+clean tree and 0/0 remote comparison were confirmed before T13. T13 remains
+local; no T13 commit or push has been requested or performed.
+
+Prepared ADR 0018 with previous behavior, current problems, and the recommended
+fixed-error mapping versus original thrown values. The maintainer explicitly
+approved the recommendation. Updated SPEC §4.6 / §4.7 and accepted ADR 0018
+before dependent tests and implementation. Do not ask for this approval again.
+
+The client tracks closed per instance. request returns a rejected -32008
+Promise before id allocation/timer creation/send when closed; initialize uses
+the same path. Receive callbacks return before inspection after close. close
+marks closed, snapshots/clears pending entries, clears timers and rejects all
+calls before external cleanup. Repeated/reentrant close is a no-op. Attempt
+unsubscribe and transport.close once each; after both attempts, rethrow the
+first thrown cleanup value. A boolean records failure separately so undefined
+is still a thrown value. Closure remains terminal after cleanup failures.
+
+Wrap transport.send in try/catch. When the current id is still pending, delete
+only that entry, clear its timer, and reject with MoonpoolError(-32603,
+"failed to send the bridge request", {phase:"send"}). Do not inspect/coerce or
+expose the original throw. Other calls keep their deadlines, the connection
+remains usable, and the attempted id is consumed. Do not retry automatically:
+delivery may have happened before the throw. If a response or close already
+settled the entry during send, preserve that first outcome. Pending registration
+remains before send. No platform API, runtime dependency, transport extension,
+new type assertion, remote-health claim, or peer-disconnect signal was added.
+
+Wrote 28 tests before runtime changes. Initial RED had 24 failures and four
+passes. Corrected test-only typing (cleanup registry inference and mock-key
+selection), and used a plain send function for the thrown Proxy case because
+the test spy itself inspected its thrown value. Reran the corrected suite
+against the committed T12 client, restoring the implementation in finally:
+24 failures/four passes again. T13 passes all 28. No prior tests were weakened.
+Tests cover post-close call/initialize, repeated/reentrant cleanup, adapter
+exceptions including undefined, retained callbacks, multi-client isolation,
+per-request send cleanup, raw throw noninspection, retained deadlines, no
+retries/id reuse, late responses, recovery, and first-settlement ordering.
+
+Verified 848 tests across 29 files, typecheck, lint (82 files), both example
+builds, and diff checks. Actual browser localhost:5173 → localhost:5174/index.html
+initialization/profile/storage set/get passed; the last get returned "dark".
+The browser proof image is /tmp/moonpool-t13-browser.png, not a repository
+artifact. Temporary dev/static servers and verification tabs were cleaned up.
+
+Added study/17-client-local-failures.html, preserved T12 at #t12, updated its
+wrap-up, and marked T13 complete / T14 next in the guide and implementation
+plan. All 265 local references across 18 study pages are valid, no duplicate
+ids were found, and prior interactive scripts remain unchanged. Browser QA
+confirmed the new lesson layout and the current-task guide.
+
+Next is T14 only. Its reason input, missing embedder-hook behavior, and
+response/teardown order still require a concrete policy proposal. Explain
+previous behavior → current problem → each option's consequences before
+asking. T13's local client.close is distinct from portal.close's remote UI
+dismissal request. Existing §11 peer-disconnect/document-epoch questions and
+capability-specific response schemas remain separate.
+
+## 2026-10-23 checkpoint — T13 policy approved
+
+Published T12 as 1465d03 / f271a2f to origin/master and confirmed a clean tree
+and HEAD...origin/master 0/0. Prepared ADR 0018 before asking the maintainer,
+including previous behavior, the current problem, and both options' effects.
+The maintainer explicitly approved the recommended fixed MoonpoolError mapping.
+Updated SPEC §4.6 / §4.7 and accepted ADR 0018 before dependent tests/code.
+Next: write failing tests, implement terminal local closure and per-request
+send-failure cleanup, verify, and explain in Korean with code. T13 is local.
 
 ## 2026-10-23 checkpoint — T12 commit and push
 

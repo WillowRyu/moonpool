@@ -44,6 +44,12 @@
 
 ### Changed
 
+- Make local client closure terminal and idempotent. Reject later calls with
+  -32008 without sending or allocating timers; drain pending calls before
+  once-only adapter cleanup, even when cleanup throws. Map synchronous send
+  failures to fixed -32603 / {phase:"send"} errors after per-request cleanup,
+  preserving other calls, consumed ids, and the first settled outcome without
+  automatic retries (SPEC §4.6 / §4.7, ADR 0018).
 - Validate complete response JSON before client correlation, including nested
   results, error data, and extra members. Require exactly one own outcome and
   an integer error code. Ignore malformed replies without consuming pending
