@@ -5,12 +5,62 @@
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
-> T04 verified: 254 passed; typecheck, lint, and both example builds pass.
-> Browser storage success/denial and host-selected configurations are connected.
+> T05 verified: 343 passed; typecheck, lint, and both example builds pass.
+> Internal manifest field parsing is implemented; full admission is not exposed.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Next: T05, validate the manifest's required fields and value types.
+> Next: T06, validate entry containment and recognized scope names.
+> Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-23 checkpoint — T05 commit and push
+
+The maintainer requested publishing T05, then continuing with T06. Split the
+approved name-length specification and ADR, the internal parser and tests,
+and the roadmap plus learning materials into separate logical commits.
+Verification remains 343 tests, typecheck, lint, and both example builds
+passing. T06 starts after this checkpoint has been pushed to origin/master.
+
+## 2026-10-23 checkpoint — T05 complete
+
+The maintainer requested the next task. SPEC §7's name length was genuinely
+underspecified: they explicitly approved Unicode code points, counting a
+supplementary-plane emoji as one. Updated SPEC first and recorded ADR 0010
+before writing the length implementation. Combining marks and multi-code-point
+emoji components count separately. This policy is settled; do not ask again.
+
+Added packages/host/src/manifest-fields.ts as an internal first stage, with
+ManifestFields and a local ManifestError carrying the failed field. It parses
+actual text to unknown, requires a JSON object and own required members, then
+checks manifestVersion 1, the exact SPEC id expression, 1–40 code-point names,
+SemVer 2.0.0 syntax, string entry/protocolVersion, and arrays of scope strings.
+It does not coerce, trim, deduplicate, or negotiate protocol versions. Errors
+do not echo malformed source. Whole-string matching prevents the JavaScript
+regex final-newline exception from admitting ids or versions with a suffix.
+
+The SemVer expression comes from the official 2.0.0 specification. Numeric
+components stay strings, avoiding JavaScript number precision restrictions.
+Name counting uses the string iterator and stops after the 41st code point,
+without allocating a character array for the whole input. Required members
+cannot be supplied by Object.prototype. Implementation uses narrowing, with
+no result type assertion or platform API.
+
+This is intentionally not exported by packages/host/src/index.ts and is not
+the full manifest parser. Entry containment and scope recognition are still
+unchecked at this stage and must be completed in T06 before public admission;
+T07 then replaces the demo's typed literal. No bridge is created by this
+synchronous pure parsing helper; async capability contracts are unchanged.
+No extra envelope-field policy or resource limit was introduced.
+
+Wrote 89 failing tests before implementation; all now pass. Reverified the
+full suite: 343 tests across 17 files, typecheck, lint, and both example builds.
+The demo behavior is unchanged in this task. study/09-manifest-fields.html
+explains parsing versus validation, required own members, name counting,
+id/version formats, array members, errors, and staged admission. The guide
+preserves earlier lessons and records T05 complete with T06 next.
+All 126 local references across ten study pages are valid; earlier interactive
+scripts are unchanged. Browser checks confirm the name-length walkthrough
+and updated guide render correctly.
 
 ## 2026-10-23 checkpoint — T04 commit and push
 

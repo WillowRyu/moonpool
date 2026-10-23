@@ -2,7 +2,7 @@
 
 Date: 2026-10-22
 Last updated: 2026-10-23
-Status: In progress. T01–T04 complete; next is T05.
+Status: In progress. T01–T05 complete; next is T06.
 Normative source: `SPEC.md`. This plan does not amend the protocol.
 
 ## Working mode
@@ -96,6 +96,18 @@ Actual browser checks confirm denial, successful set/get/delete, null after
 deletion, and retained values after switching configurations. ADR 0009 records
 the lifetime decision. The explanation is `study/08-storage-demo.html`.
 Milestone A is complete. Next: T05, validate required manifest fields.
+
+**T05 complete (2026-10-23).** Added internal parseManifestFields with local
+ManifestError diagnostics. It validates JSON text, own required members,
+manifestVersion, the exact id pattern, name length, SemVer syntax, and string
+entry/protocolVersion/permissions fields without coercion. The maintainer
+approved Unicode code-point counting for names; SPEC §7 was clarified first
+and ADR 0010 records it. All 89 new tests, 343 tests total, typecheck, lint,
+and both example builds pass. No platform API or runtime dependency was added.
+The partial stage is not exported from the package or connected to the demo.
+T06 must complete path containment and scope recognition before exposing the
+full parser; T07 wires it into the example. The explanation is
+`study/09-manifest-fields.html`. Next: T06.
 
 ### Milestone A: demonstrate useful calls
 

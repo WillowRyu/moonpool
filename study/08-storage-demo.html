@@ -122,7 +122,7 @@ const storage = createMemoryStorageProvider();</code></pre>
     <ul><li>초기화 전 조작 금지, 초기화 실패 시 비활성 상태 유지</li><li>기본 구성에서 set/get/delete 모두 -32000, 기존 데이터 보존</li><li>허용된 구성에서 저장 → 조회 → 삭제 → 없는 키 조회</li><li>빈 키·빈 문자열, false·0의 조회, HTML 같은 값과 오류의 텍스트 처리</li><li>잘못된 조회 결과 거절, 요청 중 중복 조작 방지, 실패 후 재시도</li><li>호스트 구성 변경 때 이전 transport 종료와 iframe 교체, 저장 내용 유지</li></ul>
     <div class="callout"><strong>2026.10.23 검증 결과</strong><br>전체 254 / 254 통과 · 16개 테스트 파일<br>타입 검사·린트·두 예제 빌드 통과<br>실제 브라우저에서 저장·조회 성공, 기본 구성 -32000 거절, 구성 교체 후 데이터 유지, 삭제 후 null 확인</div>
     <p>브라우저의 iframe 안쪽 클릭 자동화가 동작하지 않아 Tab·Enter 키보드 조작으로 같은 버튼을 실행해 확인했습니다. 위 두 이미지는 그 실제 결과입니다. 테스트용 데이터는 settings 키의 dark 문자열입니다.</p>
-    <div class="callout warm"><strong>다음 T05:</strong> 현재 호스트에 직접 적어 둔 mini-app 설정을 실제 입력으로 검증할 수 있도록, moonpool.json의 필수 항목과 자료형을 검사하는 파서를 만듭니다.</div>
+    <div class="callout warm"><strong>이후 T05 완료 · 2026.10.23</strong><br>설정 서류의 필수 항목과 형식을 확인하는 내부 단계를 만들었습니다. <a href="09-manifest-fields.html">T05 코드 해설</a>에서 확인할 수 있습니다. 다음 T06은 경로와 알려진 권한 검사를 완성하는 작업입니다.</div>
   </section>
   <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="07-memory-storage.html">T03 저장소 복습</a><br>근거: SPEC §5·§6.3·§9, ADR 0003·0009, 실제 예제와 테스트. 규범 문서는 SPEC.md입니다.</footer>
 </main>
