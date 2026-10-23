@@ -2,7 +2,7 @@
 
 Date: 2026-10-22
 Last updated: 2026-10-23
-Status: In progress. T01–T05 complete; next is T06.
+Status: In progress. T01–T07 complete; next is T08.
 Normative source: `SPEC.md`. This plan does not amend the protocol.
 
 ## Working mode
@@ -108,6 +108,35 @@ The partial stage is not exported from the package or connected to the demo.
 T06 must complete path containment and scope recognition before exposing the
 full parser; T07 wires it into the example. The explanation is
 `study/09-manifest-fields.html`. Next: T06.
+
+**T06 complete (2026-10-23).** The maintainer approved unencoded relative file
+paths; SPEC §7 and ADR 0011 record the rules before implementation. Added path
+syntax, final-file-segment, and left-to-right root-containment checks, plus
+recognized scopes derived from protocol capability method namespaces. The
+public host API now exports parseManifest and ManifestError. Accepted entry
+text and permission order/duplicates are preserved; empty permissions work.
+No platform API or runtime dependency was added. Lexical checks perform no
+file I/O; actual file existence and filesystem containment belong to the
+embedder. All 107 new tests, 450 tests total, typecheck, lint, and both example
+builds pass, including three real host/client cases proving parsing neither
+grants permissions nor installs providers. The explanation is
+`study/10-manifest-entry-scopes.html`. Next: T07, integrate the actual manifest
+file into the example. The example still uses its typed literal at this point.
+
+**T07 complete (2026-10-23).** The mock host imports the actual hello-miniapp
+moonpool.json as Vite raw text, runs the real parseManifest before creating
+a Portal, and replaces the duplicated typed literal. It selects a pinned
+origin by validated id from a host-owned Map, rejects unmapped ids, and
+resolves entry from that origin's root. Iframe insertion and receiver setup
+remain synchronous in the same task. ADR 0012 records this development-only
+loading choice; the pure kernel and its dependencies are unchanged.
+All 14 new tests, 464 tests total, typecheck, lint, and both example builds
+pass. Thirteen new tests failed before implementation; the remaining case
+protects the existing receiver ordering. Actual browser checks confirm
+initialization, profile, storage set/get, invalid-entry startup rejection,
+and normal startup after restoring the original file byte-for-byte.
+The explanation is `study/11-manifest-example.html`. Milestone B is complete.
+Next: T08, reject batch arrays with a single -32600 response.
 
 ### Milestone A: demonstrate useful calls
 

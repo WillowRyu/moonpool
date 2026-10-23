@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — T07 실제 설정 파일로 Portal 시작하기</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">11 · T07 설정 파일 연결</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#purpose">파일 하나를 기준으로</a>
+    <a href="#terms">새로 만나는 말</a>
+    <a href="#raw">raw로 글자를 가져오기</a>
+    <a href="#origin">앱 id와 고정 주소</a>
+    <a href="#entry">entry에서 시작 주소 만들기</a>
+    <a href="#order">검사와 연결의 순서</a>
+    <a href="#security">설정과 실제 권한</a>
+    <a href="#checks">테스트와 실제 브라우저</a>
+  </nav>
+  <p class="small desktop-only">2026.10.23 검증<br>T07 완료 · 다음 T08<br>464개 테스트 통과</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">T07 · Load the real manifest before opening the Portal</div>
+    <h1>복사해 둔 설정을 걷어내고,<br>실제 파일을 검사해 시작합니다.</h1>
+    <p class="lead">T05와 T06에서 만든 파서를 예제 호스트에 연결했습니다. 이제 hello-miniapp의 moonpool.json이 앱 정보의 기준이며, 검사가 통과한 뒤에만 iframe과 연결을 만듭니다.</p>
+    <div class="meta"><span class="pill">T07 완료</span><span class="pill">464 / 464 테스트 통과</span><span class="pill warm">다음 T08 · 배열 요청 거절</span></div>
+  </header>
+
+  <section class="section" id="purpose">
+    <h2>1 · 같은 앱 정보를 두 번 적지 않습니다</h2>
+    <p>이전에는 실제 moonpool.json이 있어도 호스트 코드 안에 id·version·entry·permissions를 다시 적어 두었습니다. 파일을 수정해도 복사본은 그대로 남을 수 있었습니다. T07은 그 복사본을 제거하고 실제 파일의 글자를 parseManifest에 넘깁니다.</p>
+    <div class="flow"><div class="node">moonpool.json<br>호스트가 포함할 파일</div><span class="sep">→</span><div class="node">?raw<br>JSON 글자 가져오기</div><span class="sep">→</span><div class="node current">parseManifest<br>필드·경로·권한 검사</div><span class="sep">→</span><div class="node">고정 origin + entry<br>시작 주소 선택</div><span class="sep">→</span><div class="node">iframe + 수신기<br>첫 요청 받을 준비</div></div>
+    <p>실제 변경은 <code>examples/mock-host/src/main.ts</code>에 있습니다. 커널의 파서는 그대로 사용하고, 파일을 포함하는 일과 브라우저 주소를 만드는 일은 예제에 둡니다. <a href="../docs/adr/0012-bundle-host-owned-development-manifests.md">ADR 0012</a>에 이 연결 방식을 기록했습니다.</p>
+  </section>
+
+  <section class="section" id="terms">
+    <h2>이번 코드에서 만나는 표현</h2>
+    <div class="table-wrap"><table><thead><tr><th>표현</th><th>뜻</th><th>비유</th></tr></thead><tbody>
+      <tr><td>Vite</td><td>개발 서버와 배포용 코드 묶음을 만드는 도구</td><td>앱을 실행할 재료를 모아 주는 준비 담당자</td></tr>
+      <tr><td>?raw</td><td>파일 내용을 변환된 객체가 아닌 문자열로 가져오는 Vite 기능</td><td>서류의 글자를 그대로 복사해 전달</td></tr>
+      <tr><td>고정 origin</td><td>앱 id에 대해 호스트가 정해 둔 출처 주소</td><td>앱마다 배정해 둔 건물 주소</td></tr>
+      <tr><td>Map.get</td><td>키에 해당하는 값을 찾고, 없으면 undefined 반환</td><td>앱 id로 배정표에서 주소 찾기</td></tr>
+      <tr><td>URL 해석</td><td>기준 주소와 상대 경로를 합쳐 완전한 주소 만들기</td><td>건물 주소에 층·방 위치를 더하기</td></tr>
+      <tr><td>수신기(receiver)</td><td>미니 앱의 첫 요청부터 받을 준비를 한 연결</td><td>손님이 말하기 전에 통화 창구 열기</td></tr>
+    </tbody></table></div>
+  </section>
+
+  <section class="section" id="raw">
+    <h2>2 · 파일의 글자를 실제 파서로 검사합니다</h2>
+    <pre><code>import { createHost, parseManifest } from '@moonpool/host';
+import manifestText from '../../hello-miniapp/moonpool.json?raw';
+
+const MANIFEST = parseManifest(manifestText);</code></pre>
+    <p>import의 뒤에 붙은 ?raw는 파일 내용을 문자열로 가져오라는 뜻입니다. 그 문자열을 T06의 파서가 실제로 확인합니다. JSON 문법이 깨졌거나 entry·permissions가 잘못되면 여기서 ManifestError를 던지고 시작을 중단합니다.</p>
+    <p>이 파일은 호스트를 준비할 때 포함됩니다. 이미 실행 중인 미니 앱이 브리지로 자기 id나 권한을 보내서 설정을 바꾸는 구조가 아닙니다. 새로 만든 <code>vite-env.d.ts</code>는 Vite의 타입 선언을 참조해 TypeScript도 ?raw 결과가 문자열임을 알게 합니다. 실제 설정의 유효성은 여전히 파서가 검사합니다.</p>
+    <p>이전의 <code>const MANIFEST: MiniAppManifest = { ... }</code> 복사본은 제거했습니다. 이제 파일의 버전이나 선언 권한이 바뀌면 호스트가 사용하는 검사 결과에도 반영됩니다.</p>
+  </section>
+
+  <section class="section" id="origin">
+    <h2>3 · 파일의 앱 id로 호스트 배정표를 찾습니다</h2>
+    <pre><code>const MINI_APP_ORIGINS = new Map([['com.example.hello', 'http://localhost:5174']]);
+
+const MANIFEST = parseManifest(manifestText);
+const portalOrigin = MINI_APP_ORIGINS.get(MANIFEST.id);
+if (portalOrigin === undefined) {
+  throw new Error(`mock-host: no development origin pinned for ${MANIFEST.id}`);
+}</code></pre>
+    <p>이 배정표는 호스트가 소유합니다. 형식이 올바른 id여도 등록된 주소가 없으면 중단합니다. <code>com.example.other</code>라는 id를 읽었다고 새 주소를 추측하거나 호스트와 같은 주소를 쓰지 않습니다.</p>
+    <p>SPEC §8.1에서 개발 환경의 origin을 고정한 이유는 브라우저 저장소가 origin별로 나뉘기 때문입니다. 자동으로 다른 포트로 옮기면 앱이 다른 저장소를 보게 됩니다. 호스트 5173과 미니 앱 5174는 계속 구분합니다.</p>
+  </section>
+
+  <section class="section" id="entry">
+    <h2>4 · 검사한 시작 파일을 고정 주소의 루트에서 찾습니다</h2>
+    <pre><code>const portalUrl = new URL(MANIFEST.entry, `${portalOrigin}/`).href;
+
+// Later, when starting the admitted Portal:
+iframe.src = portalUrl;</code></pre>
+    <p>new URL의 첫 인자는 상대 경로이고 두 번째 인자는 기준 주소입니다. href는 완성된 주소 문자열입니다. 기준은 호스트 페이지의 주소가 아니라 미니 앱에 배정한 origin의 루트입니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>entry</th><th>만들어진 시작 주소</th></tr></thead><tbody>
+      <tr><td>index.html</td><td>http://localhost:5174/index.html</td></tr>
+      <tr><td>pages/start.html</td><td>http://localhost:5174/pages/start.html</td></tr>
+      <tr><td>pages/../index.html</td><td>http://localhost:5174/index.html</td></tr>
+      <tr><td>pages/hello world.html</td><td>http://localhost:5174/pages/hello%20world.html</td></tr>
+    </tbody></table></div>
+    <p>상대 경로를 주소로 만드는 과정에서 ..가 해석되고 공백·Unicode가 URL에 맞게 인코딩됩니다. 매니페스트 객체의 원래 entry는 그대로 남습니다. T06이 금지한 인코딩 입력을 다시 허용하는 것이 아니라, 검사한 일반 파일 경로로 브라우저 주소를 만드는 단계입니다.</p>
+    <div class="callout warm"><strong>이 예제의 경계:</strong> 파일은 개발 서버가 제공합니다. URL을 만드는 코드가 파일의 존재나 심볼릭 링크, 서버 리다이렉트를 조사한 것은 아닙니다. 실제 파일 로더의 책임과 일반 외부 이동 차단은 계속 구분하며, 후자는 T17–T18에서 다룹니다.</div>
+  </section>
+
+  <section class="section" id="order">
+    <h2>5 · 검사부터 끝내고, 첫 요청을 받을 준비를 합니다</h2>
+    <p>시작 순서는 파일 글자 검사 → 등록된 origin 확인 → 시작 주소 만들기 → 화면과 iframe 생성 → 수신기 연결입니다. 앞 단계에서 실패하면 iframe이나 브리지 연결이 생기지 않습니다.</p>
+    <pre><code>portal.replaceChildren(iframe);
+if (iframe.contentWindow === null) {
+  throw new Error('mock-host: the Portal iframe has no content window');
+}
+
+const transport = createIframeTransport({
+  peerWindow: iframe.contentWindow,
+  peerOrigin: portalOrigin,
+});</code></pre>
+    <p>이후 createHost(...).connect(transport)를 같은 작업 흐름에서 바로 호출합니다. 중간에 네트워크 요청이나 await를 넣지 않습니다. iframe을 붙인 뒤 브라우저가 미니 앱의 첫 portal.initialize를 처리하기 전에 호스트가 받을 준비를 끝내도록 기존 순서를 유지합니다.</p>
+    <p>테스트는 iframe 삽입 직후의 첫 마이크로태스크에서 수신기가 이미 연결됐는지 확인하고 초기화 요청을 보냅니다. 마이크로태스크는 현재 실행 중인 자바스크립트가 끝난 다음에 처리되는 작은 작업입니다. 실제 브라우저 연결도 별도로 확인했습니다.</p>
+  </section>
+
+  <section class="section" id="security">
+    <h2>6 · 파일의 선언과 호스트의 허용은 별개입니다</h2>
+    <p><strong>SPEC §9의 보안 경계를 유지합니다.</strong> §9.1의 메시지 출처 검사는 고정 portalOrigin으로 유지하고, §9.3의 실제 호출 권한 검사도 그대로입니다. 파일에 profile·storage를 선언해도 기본 호스트는 여전히 profile만 허용합니다.</p>
+    <p>테스트에서는 파일 내용을 version 2.3.4와 storage 선언만 남도록 바꾸어 전달했습니다. 실제 초기화 응답의 버전은 2.3.4가 되고, profile만 허용한 호스트와 공통인 권한은 없어서 grantedScopes는 빈 배열이 됩니다. 파일을 읽었는지와 기존 권한 규칙을 함께 검증하는 사례입니다.</p>
+    <p>커널에는 파일 읽기나 URL API를 추가하지 않았습니다. 파서는 입력만 검사하고, 브라우저 예제가 파일 포함과 실행 주소를 담당합니다. 전송을 바꾸더라도 공통 검사 코드를 재사용할 수 있습니다.</p>
+  </section>
+
+  <section class="section" id="checks">
+    <h2>7 · 파일 입력부터 실제 연결까지 확인했습니다</h2>
+    <p>새 테스트 14개 중 13개가 기존 코드에서 예상대로 실패했고, 구현 후에는 모두 통과했습니다. 나머지 하나는 원래 지키던 iframe·수신기 연결 순서를 확인합니다.</p>
+    <div class="test-list"><div><strong>실제 파일 사용</strong><br>원문을 파서에 전달 · 버전·권한이 초기화 응답에 반영</div><div><strong>entry 해석</strong><br>하위 경로 · ./ · 내부 ../ · Unicode와 공백</div><div><strong>시작 차단</strong><br>깨진 JSON · 잘못된 필드 · 외부 경로 · 알 수 없는 권한 · 미등록 앱 id</div><div><strong>연결 순서</strong><br>첫 마이크로태스크 전에 수신기 준비 · 실제 초기화 응답</div></div>
+    <p>실제 브라우저에서 localhost:5173이 localhost:5174/index.html을 열고, 초기 연결·Moonpool Explorer 표시·storage 허용 구성의 저장과 조회가 동작했습니다. 검증 중에만 entry를 ../index.html로 바꿔 새로고침했을 때는 Portal이 생성되지 않았습니다. 원본 파일은 바이트 단위로 복구했고, 다시 정상 연결되는 것을 확인했습니다.</p>
+    <div class="callout"><strong>2026.10.23 검증 결과</strong><br>새 테스트 14개 통과 · 전체 464 / 464 통과 · 19개 테스트 파일<br>타입 검사·린트·두 예제 빌드 통과<br>새 런타임 의존성이나 커널 플랫폼 API 없음</div>
+    <div class="callout warm"><strong>다음 T08:</strong> JSON-RPC의 배열 요청(batch)을 받으면 실행하지 않고 -32600 Invalid Request 하나로 거절하도록 구현합니다.</div>
+  </section>
+  <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="10-manifest-entry-scopes.html">T06 경로·권한 검사 복습</a><br>근거: SPEC §5·§7·§8.1·§9, ADR 0009·0011·0012, mock-host 코드와 테스트. 규범 문서는 SPEC.md입니다.</footer>
+</main>
+</body>
+</html>

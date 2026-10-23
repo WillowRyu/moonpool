@@ -154,7 +154,7 @@ if (
     <p>구현 전에 새 테스트 89개를 작성해 실패를 확인했습니다. 정상 서류, 잘못된 JSON, 객체가 아닌 값, 필수 항목 누락, 잘못된 자료형, 앱 id, Unicode 이름 경계, SemVer 문법을 검증합니다.</p>
     <p>부모 객체의 id가 누락된 필수 항목을 대신하지 못하는지, 잘못된 원문이 오류 메시지에 섞이지 않는지도 확인합니다. 매우 큰 버전 숫자를 자바스크립트 숫자로 바꾸지 않고 문법만 검사하는 사례도 포함합니다.</p>
     <div class="callout"><strong>2026.10.23 검증 결과</strong><br>새 테스트 89개: 실패 → 통과<br>전체 343 / 343 통과 · 17개 테스트 파일<br>타입 검사·린트·두 예제 빌드 통과<br>플랫폼 API와 새 런타임 의존성 없음</div>
-    <div class="callout warm"><strong>다음 T06:</strong> entry가 패키지 밖으로 나가지 않는지, permissions가 알고 있는 권한인지 확인합니다. 모호한 경로 해석이 발견되면 명세 기준부터 확인합니다.</div>
+    <div class="callout warm"><strong>T05 다음에 진행한 작업 · T06 완료</strong><br>승인한 경로 규칙과 알려진 권한 검사를 결합해 공개 파서를 완성했습니다. <a href="10-manifest-entry-scopes.html">T06 코드 해설</a>에서 이어서 읽을 수 있습니다. 이 페이지의 코드와 검증 숫자는 T05 시점의 기록입니다.</div>
   </section>
   <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="08-storage-demo.html">T04 저장 화면 복습</a><br>근거: SPEC §7, 승인된 ADR 0010, 실제 manifest-fields 코드와 테스트. 규범 문서는 SPEC.md입니다.</footer>
 </main>

@@ -4,9 +4,17 @@
 
 ### Added
 
+- Parse the browser example's actual moonpool.json as host-owned bundled text
+  before Portal creation. Select the pinned origin by validated app id and
+  resolve the declared entry from that origin's root; invalid configuration
+  or an unmapped id stops startup (ADR 0012).
+- Expose the pure host's `parseManifest` and local `ManifestError`, composing
+  field validation with entry-path and recognized-scope admission. Recognize
+  scopes from protocol capability namespaces, independently of host grants
+  and installed providers; reject unknown declarations instead of dropping them.
 - Add internal manifest field parsing and validation for JSON text, required
-  members, id/name/version formats, and string permission arrays. Package-path
-  containment and known-scope admission remain the next parser stage.
+  members, id/name/version formats, and string permission arrays as the first
+  stage of manifest admission.
 - Add browser storage controls and host-selected profile-only/storage-enabled
   configurations. Recreate the Portal connection on each selection while
   retaining host-held storage, show permission errors and CRUD results, and
@@ -22,6 +30,10 @@
 
 ### Changed
 
+- Define manifest entries as unencoded, slash-separated relative file paths
+  with literal parent traversal checked against the package root. Reject URL
+  syntax, backslashes, percent encoding, controls, edge whitespace, and
+  directory targets (SPEC §7, ADR 0011).
 - Define manifest display-name length as 1–40 Unicode code points, including
   one per supplementary-plane character (SPEC §7, ADR 0010).
 - Validate the browser mini app's profile displayName at runtime before

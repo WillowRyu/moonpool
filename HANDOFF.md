@@ -5,13 +5,120 @@
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
-> T05 verified: 343 passed; typecheck, lint, and both example builds pass.
-> Internal manifest field parsing is implemented; full admission is not exposed.
+> T07 verified: 464 passed; typecheck, lint, and both example builds pass.
+> The example parses the actual moonpool.json before creating its Portal.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Next: T06, validate entry containment and recognized scope names.
+> Next: T08, reject batch arrays with a single -32600 response.
+> The unencoded relative entry-path policy is approved in SPEC §7 / ADR 0011.
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-23 checkpoint — T06 and T07 commit and push
+
+The maintainer requested committing and pushing the completed T06/T07 work,
+then continuing with T08. Publish entry/scope admission and actual manifest
+example integration as separate feature commits, followed by their progress
+and learning materials. Verification remains 464 tests, typecheck, lint,
+and both example builds passing. Continue with T08 only after this checkpoint
+has been pushed to origin/master.
+
+## 2026-10-23 checkpoint — T07 complete
+
+The maintainer requested T07. The T06 work was still uncommitted at the start;
+preserve it alongside T07. No additional commit or push was requested.
+
+examples/mock-host/src/main.ts now imports hello-miniapp/moonpool.json?raw as
+host-owned text, calls the real parseManifest, selects a pinned origin from
+a Map using the validated id, and resolves entry from that origin's root
+with new URL. Removed the duplicated typed manifest literal. Invalid source
+or an unmapped id throws before iframe creation. The default connection still
+grants profile only, and the existing host buttons create fresh connections
+with fixed grants. Iframe insertion and receiver attachment remain synchronous
+in the same task, so the first handshake cannot precede listener setup.
+
+Added examples/mock-host/src/vite-env.d.ts referencing vite/client so ?raw
+imports have their existing Vite string type. The installed Vite raw loader
+and its declaration were checked locally. ADR 0012 records the example's
+file inclusion and URL resolution decisions; no spec amendment, runtime
+dependency, or platform API in the pure kernel was introduced. SPEC §9.1's
+pinned message origin and §9.3's dispatch-time scope enforcement remain in
+place. URL resolution is not filesystem or redirect inspection; production
+loader duties and T17–T18 navigation containment remain separate work.
+
+Added 14 example tests. After fixing the test environment setup, the meaningful
+RED run had 13 assertion failures and one passing receiver-ordering regression
+case. All 14 now pass. Tests retain the real parser and dispatcher, varying
+raw file text to verify version and manifest permissions in the handshake,
+entry URL resolution (including ./, ../, Unicode, and spaces), invalid-source
+startup rejection, and unknown-id rejection before Portal creation. The
+ordering case checks receiver registration at the first microtask after
+iframe insertion and then completes a real in-memory handshake.
+
+Verified 464 tests across 19 files, typecheck, lint (65 files), and both example
+builds. Actual browser checks at localhost:5173 show the Portal loading
+localhost:5174/index.html, successful initialization, Moonpool Explorer, and
+storage set/get in the host-selected storage configuration. Temporarily set
+entry to ../index.html and reloaded: startup raised ManifestError and created
+no Portal. Restored the original manifest byte-for-byte and confirmed normal
+profile-only initialization again. There is no remaining manifest-file diff.
+
+study/11-manifest-example.html explains raw text import, the origin Map,
+URL resolution, validation/connection order, security boundaries, and actual
+verification. The guide shows T07 complete and T08 next, preserves T06 at
+#t06 and T05 at #t05 with all previous lessons, and updates T06's wrap-up.
+All 163 local references across 12 study pages are valid, with no duplicate
+ids and unchanged earlier interactive scripts. Browser checks confirm the
+new lesson and updated current-task guide render correctly. Milestone B is
+complete; full v0.1 conformance is still open. T06 and T07 remain local.
+
+## 2026-10-23 checkpoint — T06 complete
+
+T05 was committed and pushed to origin/master as fb834fb (approved name policy),
+9206fc4 (parser and tests), and 6d870bc (progress and learning materials).
+The maintainer then requested T06. No T06 commit or push was requested.
+
+The initial T06 checkpoint paused only the underspecified entry syntax. After
+the question was restated in plain Korean, the maintainer explicitly approved
+the recommended rules. Updated SPEC §7 and ADR 0011 before implementing them.
+This decision is settled; do not ask again. Entries are nonempty, unencoded
+slash-separated relative file paths. Reject absolute paths, backslashes,
+percent signs, colon/question/hash delimiters, Unicode controls, edge
+whitespace, and directory targets. Allow literal Unicode, interior spaces,
+./ and internal ../ that do not ascend above root. Reject a parent step at
+depth zero immediately, even if later segments would descend again. Preserve
+accepted entry text; do not trim, decode, or repair it.
+
+packages/host/src/manifest.ts composes T05's internal field parser with this
+lexical path check and scope recognition derived from PROFILE_METHODS and
+STORAGE_METHODS, excluding the reserved portal namespace. Empty permissions
+are allowed and original order/duplicates are preserved. The host package's
+index now exports parseManifest and the local ManifestError. The partial
+parseManifestFields remains internal, and its documentation points to the
+full parser. No platform API or runtime dependency was added. The parser
+performs no I/O and creates no bridge; file existence and actual containment,
+including symlinks where applicable, remain the embedder loader's duty.
+
+Before implementation, scope checks had 13 expected failures, direct
+containment had four, and the approved additional entry rules had 40. All
+107 T06 tests now pass, including composed field-regression cases and three
+real client/host connections proving parsing neither grants permission nor
+installs a provider. SPEC §9.3 and §9.7 boundaries remain enforced by the
+existing dispatch gate. Protocol version negotiation remains in the handshake.
+
+Verified 450 tests across 18 files, typecheck, lint (62 files), and both example
+builds. Both example bundle hashes match T04/T05 after removing eager parser
+module initialization. The example behavior and typed manifest literal are
+unchanged; T07 will integrate the actual file and loader entry interpretation.
+
+study/10-manifest-entry-scopes.html explains the approved syntax, path-depth
+walk, namespace-derived Set, every, declared permissions versus grants and
+providers, public API, local errors, and loader limits. The study entry point
+shows T06 complete and T07 next, preserves T05 at #t05 and all earlier lessons,
+and links the T05 wrap-up to T06. All 145 local references across 11 study
+pages are valid, with no duplicate ids and unchanged earlier interactive
+scripts. Browser checks confirm the new lesson's code/depth walkthrough and
+the updated current-task guide render correctly. No T06 commit or push yet.
 
 ## 2026-10-23 checkpoint — T05 commit and push
 
