@@ -4,6 +4,15 @@
 
 ### Added
 
+- Implement portal.close with optional string reason and a per-connection
+  asynchronous onCloseRequested embedder hook. Validate input before returning
+  -32001 for a missing hook; no scope is required. Submit acceptance before
+  invoking dismissal, keep later hook failures host-local, and document that
+  response delivery/completed teardown is not guaranteed (SPEC §6.2, ADR 0019).
+- Add a mini-app dismissal button and a browser host handler that closes only
+  its captured Portal, displays reason as text, and preserves host storage
+  when starting a fresh Portal. Repeated/stale handlers cannot dismiss a
+  replacement frame.
 - Validate inbound request envelopes and params as JSON in separate stages.
   Inspect own data descriptors without running getters or converting input;
   preserve valid extra envelope fields and original provider values. Reject

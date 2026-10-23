@@ -2,7 +2,7 @@
 
 Date: 2026-10-22
 Last updated: 2026-10-23
-Status: In progress. T01–T13 complete; next is T14.
+Status: In progress. T01–T14 complete; next is T15. Milestone C is complete.
 Normative source: `SPEC.md`. This plan does not amend the protocol.
 
 ## Working mode
@@ -238,6 +238,25 @@ profile, and storage set/get pass. The explanation is
 `study/17-client-local-failures.html`. Next: T14, whose dismissal contract
 still requires approval. Peer-disconnect signaling remains a §11 question.
 
+**T14 complete (2026-10-23).** Committed and pushed T13 as a7179db and
+cae510b. The maintainer approved the ADR 0019 acceptance contract; SPEC §6.2
+was updated before dependent implementation. portal.close validates optional
+string reason and rejects unknown fields before handler lookup. The optional
+per-connect onCloseRequested hook needs no scope; absence returns -32001.
+Submit one result:{} response before invoking/awaiting the hook internally;
+subsequent failure is reported only on the host. Acceptance does not guarantee
+receipt or completed UI teardown. The example adds a handshake-gated close
+button and an idempotent, captured-frame handler that cannot dismiss a
+replacement Portal. Reason is rendered as text and storage survives reopening.
+Added 47 tests and strengthened two existing handshake/UI checks. Host RED:
+20 failures / 14 passes; UI RED included a missing module and seven failing
+behavior checks. All 895 tests across 32 files, typecheck, lint, and both
+example builds pass. Actual browser close, restart, store, close, restart,
+read retained data, and close pass. The explanation is
+`study/18-portal-close.html`. Milestone C is complete. Next: T15, typed host
+notification sending. SPEC §9.4 / §9.5 / §9.6 are covered; §11 peer-disconnect
+and document-epoch questions remain separate.
+
 ### Milestone A: demonstrate useful calls
 
 | ID | Task | Completion evidence | Depends on |
@@ -307,7 +326,8 @@ These are planning gates, not approved specification changes. Continue
 independent tasks while a dependent task awaits the maintainer's decision.
 
 T09's method-format decision, T10's id policy, and T11's inbound JSON policy
-are resolved in SPEC and ADRs 0014–0016; T13 is resolved in ADR 0018.
+are resolved in SPEC and ADRs 0014–0016; T13 and T14 are resolved in
+ADRs 0018–0019.
 Do not ask for those approvals again. The remaining gates below are separate.
 
 - **Client local failures (T13): resolved on 2026-10-23.** The maintainer
@@ -315,10 +335,11 @@ Do not ask for those approvals again. The remaining gates below are separate.
   once-only cleanup, and per-request send failure cleanup with fixed -32603 /
   {phase:"send"}. SPEC §4.6 / §4.7 and ADR 0018 record ordering and diagnostics.
   No automatic retry or claim about remote host health. Do not ask again.
-- **Portal dismissal (T14).** §6.2 lists `{ reason? }` but does not define its
-  type, missing-hook behavior, or completion/teardown order. Proposed starting
-  point: an optional string and a success reply before destroying the frame;
-  approve a precise contract before implementing it.
+- **Portal dismissal (T14): resolved on 2026-10-23.** The maintainer approved
+  optional string reason, -32001 without a per-connect async handler, and
+  success as acceptance submitted before invoking dismissal. Subsequent hook
+  failures are reported only on the host; no delivery/completion guarantee.
+  SPEC §6.2 and ADR 0019 record the contract. Do not ask again.
 - **Browser navigation (T17–T18).** Establish a feasible observation and
   teardown mechanism. If strict §9.2 behavior cannot be achieved, propose a
   spec change and wait for approval rather than claiming conformance.

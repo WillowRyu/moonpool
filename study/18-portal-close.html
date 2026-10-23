@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — T14 미니 앱에서 화면 닫기 요청</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">18 · T14 portal.close</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#decision">이전 동작과 승인한 결과</a>
+    <a href="#params">입력 확인과 담당 함수</a>
+    <a href="#ordering">접수 응답을 먼저 전송</a>
+    <a href="#embedder">실제 화면을 닫는 곳</a>
+    <a href="#button">버튼에서 요청 보내기</a>
+    <a href="#checks">검증과 다음 작업</a>
+  </nav>
+  <p class="small desktop-only">2026.10.23 검증<br>T14 완료 · 다음 T15<br>895개 테스트 통과</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">T14 · Accept a dismissal request, then invoke the embedder</div>
+    <h1>미니 앱은 닫기를 요청하고,<br>호스트가 그 화면을 닫습니다.</h1>
+    <p class="lead">미니 앱은 자신을 담은 바깥 화면을 직접 지우지 않습니다. portal.close를 보내면 호스트가 입력을 확인하고, 해당 Portal에 연결해 둔 담당 함수를 실행합니다.</p>
+    <div class="meta"><span class="pill">T14 완료</span><span class="pill">895 / 895 테스트 통과</span><span class="pill warm">Milestone C 완료 · 다음 T15</span></div>
+  </header>
+  <section class="section" id="decision">
+    <h2>1 · T13의 close와 무엇이 다를까요?</h2>
+    <div class="table-wrap"><table><thead><tr><th>호출</th><th>역할</th><th>담당</th></tr></thead><tbody>
+      <tr><td>client.close()</td><td>로컬 통신을 끝내고 기다리는 요청을 정리합니다.</td><td>클라이언트 라이브러리 · T13</td></tr>
+      <tr><td>client.call('portal.close')</td><td>호스트에 “이 미니 앱 화면을 닫아 주세요”라고 요청합니다.</td><td>호스트 검사 → 화면 담당 함수 · T14</td></tr>
+    </tbody></table></div>
+    <p>이전에는 portal.close라는 이름이 명세에만 있고 구현이 없어, 초기화 후 호출해도 -32601로 끝났습니다. 이번에는 실제 닫기 요청을 전달합니다.</p>
+    <p>화면을 먼저 없애면 답장을 받을 미니 앱도 사라질 수 있습니다. 사용자가 승인한 규칙은 <strong>접수 응답을 먼저 전송하고 닫기 함수를 실행</strong>하는 것입니다. 성공 {}는 닫기 완료가 아니라 요청 접수를 뜻합니다. <a href="../SPEC.md">SPEC §6.2</a>를 먼저 갱신했고 <a href="../docs/adr/0019-acknowledge-portal-dismissal-before-ui-teardown.md">ADR 0019</a>에 결정과 한계를 기록했습니다.</p>
+  </section>
+  <section class="section" id="params">
+    <h2>2 · reason은 생략하거나 문자열로 전달합니다</h2>
+    <pre><code>if (rejectUnknownParams(id, params, ['reason'])) {
+  return;
+}
+const reason = params?.reason;
+if (reason !== undefined &amp;&amp; typeof reason !== 'string') {
+  // Reply with INVALID_PARAMS (-32602).
+  return;
+}</code></pre>
+    <p>호스트 분기의 핵심을 발췌했습니다. reason 이외의 인자는 먼저 거절하고, reason이 있다면 실제로 문자열인지 확인합니다. 이 단계 전에 T11의 JSON 검사를 통과했으므로 직접 넣은 undefined도 허용되지 않습니다. 생략한 reason과 구분합니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>인자</th><th>결과</th></tr></thead><tbody>
+      <tr><td>생략 / {} / {reason: "finished"} / {reason: ""}</td><td>유효합니다. 공백이나 문자열 내용을 바꾸지 않습니다.</td></tr>
+      <tr><td>{reason: 42} / {reason: null} / {portalId: "other"}</td><td>-32602 · 화면 담당 함수를 호출하지 않습니다.</td></tr>
+      <tr><td>유효한 인자지만 담당 함수가 없음</td><td>-32001 · 이 호스트에서 사용할 수 없습니다.</td></tr>
+    </tbody></table></div>
+    <p>초기화 전에는 기존처럼 -32005입니다. portal은 별도 scope가 필요 없는 예약 이름이므로 profile·storage 권한 없이도 닫기를 요청할 수 있습니다. 다른 Portal을 고르는 id는 인자로 받지 않습니다.</p>
+    <pre><code>export interface HostConnectionOptions {
+  onCloseRequested?: (reason?: string) =&gt; Promise&lt;void&gt;;
+}</code></pre>
+    <p><strong>hook</strong>은 라이브러리가 특정 순간에 호출할 수 있도록 호스트가 연결해 둔 함수입니다. 이름은 “닫기 요청이 들어오면”이라는 뜻입니다. 각 connect에 따로 전달하므로 하나의 호스트를 여러 연결에 사용해도 닫을 화면을 구분할 수 있습니다.</p>
+  </section>
+  <section class="section" id="ordering">
+    <h2>3 · 두 줄의 순서가 계약입니다</h2>
+    <pre><code>transport.send({ jsonrpc: '2.0', id, result: {} });
+void invokeCloseRequested(handler, reason);</code></pre>
+    <div class="flow"><div class="node">portal.close 수신</div><span class="sep">→</span><div class="node">기존 요청·초기화 검사</div><span class="sep">→</span><div class="node">reason·담당 함수 확인</div><span class="sep">→</span><div class="node current">접수 응답 전송</div><span class="sep">→</span><div class="node">닫기 함수 실행</div></div>
+    <p>첫 줄의 전송이 실패해 예외를 던지면 두 번째 줄로 진행하지 않습니다. 두 번째 답장을 보내지도 않습니다. void는 비동기 보조 함수의 반환 Promise를 이 위치에서 사용하지 않는다는 표시입니다. 함수 안에서는 await로 담당 함수의 실패를 처리합니다.</p>
+    <pre><code>try {
+  await handler(reason);
+} catch (error) {
+  queueMicrotask(() =&gt; {
+    throw error;
+  });
+}</code></pre>
+    <p>이미 접수 응답을 보냈으므로 이후 화면 담당 함수가 실패해도 새 오류 응답으로 덮어쓰지 않습니다. 기존 호스트 오류 보고 방식으로 호스트 쪽에만 드러냅니다. 미니 앱에 호스트의 오류 원문·내부 정보가 넘어가지 않습니다.</p>
+    <div class="callout warm"><strong>전송과 수신은 다릅니다.</strong><br>현재 Transport.send는 상대가 읽었다는 확인을 돌려주지 않습니다. 이 코드는 응답을 전송한 뒤 닫기를 시작한다는 순서만 보장합니다. 미니 앱의 await가 끝나기 전에 화면이 없어질 수도 있습니다. 성공 응답을 실제 닫기 완료나 수신 확인으로 해석하면 안 됩니다.</div>
+  </section>
+  <section class="section" id="embedder">
+    <h2>4 · iframe을 지우는 코드는 예제 호스트에 있습니다</h2>
+    <pre><code>async onCloseRequested(reason) {
+  if (activeTransport !== transport || iframe.parentElement !== portal) {
+    return;
+  }
+  activeTransport = undefined;
+  transport.close();
+  iframe.remove();
+  // Update the host's status text and configuration buttons.
+}</code></pre>
+    <p>예제의 실제 닫기 함수 앞부분입니다. 지금 사용 중인 연결과 이 함수가 기억하는 연결이 같은지 확인합니다. iframe도 원래 자리에 있어야 합니다. 이전 화면의 함수가 뒤늦게 실행되면 바로 끝내므로 새 화면을 닫지 않습니다.</p>
+    <p>activeTransport를 먼저 비워 두어 같은 함수가 다시 호출돼도 정리를 반복하지 않습니다. 그다음 연결을 닫고, 이 함수가 기억한 iframe만 제거합니다. 저장 데이터는 호스트 페이지의 저장소에 남아 새 Portal에서도 읽을 수 있습니다.</p>
+    <p>이 DOM 코드는 examples/mock-host에만 있습니다. 순수 커널은 iframe이나 window를 모르고, 연결해 둔 비동기 함수만 호출합니다. <strong>SPEC §9.4·§9.5·§9.6</strong>에 따라 호스트 오류 정보는 로컬에 두고, 함수는 비동기로 제공하며, 입력 검사를 먼저 합니다. reason을 화면에 표시할 때도 textContent를 사용합니다.</p>
+  </section>
+  <section class="section" id="button">
+    <h2>5 · 미니 앱 버튼은 요청 한 줄을 보냅니다</h2>
+    <pre><code>await client.call(PORTAL_METHODS.CLOSE, { reason: 'finished' });</code></pre>
+    <p>새 close-demo.ts의 핵심입니다. 초기화 전에는 버튼을 비활성화하고, 기다리는 동안에도 중복 클릭을 막습니다. 응답을 받으면 “Close request accepted”라고 표시합니다. 이미 화면이 제거됐다면 이 표시를 볼 수 없는 것이 승인한 계약의 한계입니다.</p>
+    <p>담당 함수 없음 같은 오류 응답을 받으면 오류 코드를 보여 주고 사용자가 직접 다시 시도할 수 있도록 합니다. 자동 재전송은 하지 않습니다. 호스트 페이지에서는 Portal이 사라진 뒤 구성 버튼으로 새 화면을 열 수 있습니다.</p>
+  </section>
+  <section class="section" id="checks">
+    <h2>6 · 테스트와 실제 닫기 동작을 확인했습니다</h2>
+    <p>새 테스트는 47개입니다. 호스트 테스트는 기존 검사 8개부터 시작했고, 확장한 34개 중 구현 전 20개 실패·14개 통과를 확인했습니다. UI는 새 모듈이 없어 불러오지 못한 테스트와 버튼·호스트 연결이 없어 실패한 동작 검사를 먼저 작성했습니다. 기존 초기화 테스트 두 곳도 닫기 버튼 상태를 확인하도록 강화했습니다.</p>
+    <p>검증 대상은 인자와 담당 함수의 검사 순서, 권한 없이 요청하기, 접수 후 함수 실행, 호스트 오류 정보 보호, 연결별 함수 분리, 이전 함수의 새 화면 보호, 반복 닫기, 새 Portal의 저장 데이터 유지입니다.</p>
+    <p>실제 브라우저에서는 profile-only 구성에서 닫기 → storage 구성으로 다시 열기 → "dark" 저장 → 닫기 → 다시 열고 "dark" 조회 → 닫기까지 확인했습니다. 이는 화면 동작 검증이며 응답의 실제 수신 보장을 뜻하지 않습니다.</p>
+    <div class="callout"><strong>2026.10.23 검증</strong><br>전체 895 / 895개 · 32개 테스트 파일 통과<br>타입 검사·린트·두 예제 빌드 통과<br>새 플랫폼 API·런타임 의존성·타입 단언을 커널에 추가하지 않음</div>
+    <p>상대 연결 종료 알림과 이전 문서의 늦은 응답 문제는 SPEC §11에 남습니다. 이번 task에서 새 연결 상태나 전송 규약을 만들지 않았습니다. Milestone C의 T08–T14가 완료됐으며, 전체 v0.1 완료를 의미하지는 않습니다.</p>
+    <div class="callout warm"><strong>다음 T15:</strong> 호스트가 미니 앱에 환경·생명주기 변화를 알리는 두 종류의 알림을 보내도록 구현합니다. 알림은 응답을 기다리지 않으므로 요청 번호가 없습니다.</div>
+  </section>
+  <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="17-client-local-failures.html">T13 로컬 종료 복습</a><br>근거: 승인된 SPEC §6.2·§9, ADR 0019, host·예제 코드와 테스트.</footer>
+</main>
+</body>
+</html>

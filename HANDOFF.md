@@ -5,11 +5,13 @@
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
-> T13 verified: 848 passed; typecheck, lint, and both example builds pass.
-> Local close is terminal; failed sends clean up only their own pending calls.
+> T14 verified: 895 passed; typecheck, lint, and both example builds pass.
+> portal.close submits acceptance before invoking a per-connect async UI hook.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Next: T14, portal.close through an asynchronous embedder hook.
-> T13 is complete locally, not committed; T14 dismissal policy remains open.
+> Next: T15, typed host notification sending. Milestone C is complete.
+> T13 published as a7179db / cae510b; T14 is complete locally, not committed.
+> T14 acceptance-before-dismissal policy is approved in SPEC §6.2 / ADR 0019.
+> Do not ask again; implement the per-connect async onCloseRequested hook.
 > T12 published as 1465d03 / f271a2f; remote confirmed in sync before T13.
 > T13 local-error policy is approved in SPEC §4.6 / §4.7 and ADR 0018.
 > Implement the approved fixed -32603 / {phase:"send"} mapping; do not ask again.
@@ -21,6 +23,86 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-23 checkpoint — T14 commit and push
+
+The maintainer requested committing and pushing T14, then T15 with an easy
+code explanation. Publish the approved dismissal contract/kernel/tests,
+browser example wiring/tests, and progress/learning materials as three small
+commits. Verification remains 895 tests, typecheck, lint, and both example
+builds passing. T15 covers typed host notification sending; client subscribers
+remain T16. Preserve the existing transport and pending-request contracts.
+
+## 2026-10-23 checkpoint — T14 complete
+
+Published T13 as a7179db (terminal client lifecycle) and cae510b (progress/study)
+to origin/master, confirming a clean tree and HEAD...origin/master 0/0 before
+T14. The maintainer requested T14 with an easy code explanation. T14 remains
+local; no T14 commit or push has been requested or performed.
+
+Prepared ADR 0019 and explained previous behavior (-32601), the UI teardown
+ordering problem, acceptance-first versus two-stage preparation, and the lack
+of delivery acknowledgement. The maintainer explicitly approved the simpler
+acceptance-first contract. Updated SPEC §6.2 and accepted ADR 0019 before
+dependent tests/implementation. Eight existing request-gate regressions were
+written and passed while awaiting approval. Do not ask for approval again.
+
+Host.connect now accepts optional HostConnectionOptions, with per-connection
+onCloseRequested(reason?: string): Promise<void>. After existing envelope/id/
+initialization/JSON gates, portal.close rejects unknown fields and non-string
+reason with -32602, preserving omission/empty/string contents. The portal
+namespace needs no scope. Missing handler returns -32001. Submit result:{}
+before invoking an async helper that awaits the handler. A submission throw
+prevents invocation and propagates through the existing receive error path;
+there is no second reply. A hook throw/rejection after acceptance is queued
+for host-only rethrow, with no exception data or second response on the wire.
+The kernel adds no automatic transport closure, new connection state, platform
+API, dependency, or assertion. Success means acceptance, not receipt or
+completed dismissal. Existing §11 peer-disconnect/document-epoch questions stay.
+This task explicitly touches SPEC §9.4 / §9.5 / §9.6.
+
+The mock host binds the hook to the captured transport and iframe. Check both
+against current ownership, clear activeTransport, close that transport, remove
+only that iframe, clear configuration button pressed states, and show reason
+as textContent. Repeated/stale callbacks cannot dismiss a replacement frame.
+The memory storage provider remains on the host page across Portal reopening.
+The mini app's new close-demo.ts sends portal.close with reason "finished".
+The button is disabled before handshake, while pending, and after acceptance;
+errors display their code and allow deliberate retry. No automatic retries.
+main.ts wires ready/unavailable alongside the existing storage UI.
+
+Added 47 tests: 34 host, seven close-button, five mock-host, and one mini-app
+entry wiring test; strengthened two existing handshake UI tests. Host RED:
+20 failures/14 passes. UI RED: the close-demo module was absent and seven
+behavior assertions failed, with 16 existing regressions passing. Corrected
+TypeScript closure narrowing by using an arrow callback after DOM checks, and
+used runtime validation of the happy-dom setting rather than a window type
+assertion. All final checks pass; no existing test expectation was weakened.
+
+Verified 895 tests across 32 files, typecheck, lint (87 files), both example
+builds, and diff checks. Actual browser flow: initialize/profile in profile-only
+mode, dismiss, open storage mode, store "dark", dismiss, reopen, read retained
+"dark", dismiss. Captured /tmp/moonpool-t14-dismissed.png (not a repository
+artifact). The browser verifies UI teardown/reopening; it does not establish
+response receipt before document destruction. Temporary servers/tabs cleaned up.
+
+Added study/18-portal-close.html, preserved T13 at #t13, updated the prior
+lesson's wrap-up, and marked T14 complete / T15 next in the guide and roadmap.
+All 282 local references across 19 study pages are valid, with no duplicate ids
+and unchanged earlier interactive scripts. Browser QA confirmed lesson layout
+and the updated current-task guide. Milestone C (T08–T14) is complete; v0.1 as
+a whole is not yet complete. Next is T15 only, host notification sending;
+T16 receives notifications, and T17–T18 still have the navigation decision gate.
+
+## 2026-10-23 checkpoint — T14 policy approved
+
+Published T13 as a7179db / cae510b to origin/master and confirmed a clean tree
+and HEAD...origin/master 0/0. The maintainer approved ADR 0019's recommended
+acceptance response before dismissal, including the receipt limitation and
+host-only reporting after acceptance. Updated SPEC §6.2 before dependent work.
+Eight existing request-gate regressions were written and passed while waiting.
+Next: expand failing tests, add the bound async hook and example UI, verify,
+and explain with code. This task touches SPEC §9.4 / §9.5 / §9.6.
 
 ## 2026-10-23 checkpoint — T13 commit and push
 
