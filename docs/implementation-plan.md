@@ -2,7 +2,7 @@
 
 Date: 2026-10-22
 Last updated: 2026-10-23
-Status: In progress. T01–T15 complete; next is T16. Milestone C is complete.
+Status: In progress. T01–T16 complete; next is T17. Milestone C is complete.
 Normative source: `SPEC.md`. This plan does not amend the protocol.
 
 ## Working mode
@@ -273,6 +273,23 @@ prove notifications cannot settle or extend an existing request. No example
 UI/subscriber or platform integration was added. The explanation is
 `study/19-host-notifications.html`. Next: T16, subscriber delivery; embedder
 state/timing/lifetime ownership and §11 limitations remain explicit.
+
+**T16 complete (2026-10-23).** Committed and pushed T15 as 5aebae6 and
+de26d0e. Added client.onNotification with independent local registrations and
+idempotent unsubscribe. Preserve the response path first; validate known,
+id-free notifications and project declared fields into fresh per-listener
+copies. Ignore unknown/malformed messages without replies. Snapshot registration
+order, skip removed listeners, defer additions to the next event, and clear
+subscribers before adapter cleanup on close. Synchronous throws and Promise
+rejections are reported locally through the existing queued-rethrow pattern
+without blocking other callbacks or request correlation. ADR 0021 records
+local API semantics; SPEC is unchanged. All 55 new tests failed before
+implementation and now pass. All 995 tests across 34 files, typecheck, lint,
+and both example builds pass. Updated one typed example mock for the new API;
+no example runtime UI or OS-event wiring was added. The explanation is
+`study/20-client-notifications.html`. Next: T17, browser navigation investigation.
+Notifications have no replay; registration before initialize helps with early
+events, but receipt before receiver/subscriber installation is not guaranteed.
 
 ### Milestone A: demonstrate useful calls
 

@@ -117,7 +117,7 @@ if (locale !== undefined) {
     <p>45개 테스트를 먼저 작성했고, 전송 API가 없던 코드에서 모두 실패하는 것을 확인했습니다. 구현 후 45개 모두 통과했습니다. 메시지의 정확한 형태, 입력 검사, 호출 순서, 객체 변경 방지, 연결 간 분리, 전송 실패, 요청 번호와 권한 유지, 실제 클라이언트의 대기 요청·마감 시간 보존을 확인합니다.</p>
     <div class="callout"><strong>2026.10.23 검증</strong><br>전체 940 / 940개 · 33개 테스트 파일 통과<br>타입 검사·린트·두 예제 빌드 통과<br>새 플랫폼 API·런타임 의존성·타입 단언 없음</div>
     <p>현재 클라이언트는 알림을 받아도 기존 요청을 끝내지 않고 무시합니다. 이번에는 전송 API와 실제 메시지·요청 격리를 테스트했으며, 예제 화면에 상태 변경 기능을 추가하지 않았습니다. 알림 전송 성공은 수신·화면 반영의 확인이 아닙니다.</p>
-    <div class="callout warm"><strong>다음 T16:</strong> 미니 앱 코드가 알림을 구독하고 전달받도록 연결합니다. 구독 해제, 모르는 알림 이름, 구독 함수가 실패했을 때 다른 요청을 지키는 동작도 함께 검증합니다.</div>
+    <div class="callout warm"><strong>다음에 진행한 T16 완료:</strong> 미니 앱의 구독·해제 API와 구독자 오류 분리를 구현했습니다. <a href="20-client-notifications.html">T16 해설</a>에서 실제 수신 코드를 이어서 읽을 수 있습니다.</div>
   </section>
   <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="18-portal-close.html">T14 화면 닫기 복습</a><br>근거: SPEC §3.1·§4.1·§6.4, ADR 0020, protocol 타입과 host 알림 코드·테스트.</footer>
 </main>

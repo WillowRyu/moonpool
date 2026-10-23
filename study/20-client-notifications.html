@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — T16 알림 구독과 안전한 전달</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">20 · T16 클라이언트 알림 구독</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#usage">구독하고 해제하기</a>
+    <a href="#routing">응답과 알림의 길 나누기</a>
+    <a href="#validation">실제 값과 알려진 항목 확인</a>
+    <a href="#listeners">구독자를 따로 보호하기</a>
+    <a href="#errors">동기 오류와 비동기 실패</a>
+    <a href="#checks">검증과 다음 작업</a>
+  </nav>
+  <p class="small desktop-only">2026.10.23 검증<br>T16 완료 · 다음 T17<br>995개 테스트 통과</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">T16 · Subscribe, validate, and isolate notification delivery</div>
+    <h1>알림을 받을 함수를 등록하고,<br>각 구독자의 실행을 분리합니다.</h1>
+    <p class="lead">T15에서 호스트가 알림을 보낼 수 있게 했습니다. 이제 미니 앱 코드가 그 알림을 받을 함수를 등록합니다. 한 함수가 실패하거나 데이터를 바꿔도 다른 구독자와 요청을 보호합니다.</p>
+    <div class="meta"><span class="pill">T16 완료</span><span class="pill">995 / 995 테스트 통과</span><span class="pill warm">다음 T17 · 브라우저 이동 관찰</span></div>
+  </header>
+  <section class="section" id="usage">
+    <h2>1 · 구독은 “알림이 오면 이 함수를 불러 주세요”입니다</h2>
+    <pre><code>const unsubscribe = client.onNotification((notification) =&gt; {
+  if (notification.method === 'portal.lifecycle') {
+    console.log(notification.params.state);
+  } else {
+    console.log(notification.params.colorScheme, notification.params.locale);
+  }
+});
+
+await client.initialize();
+
+// When this subscriber is no longer needed:
+unsubscribe();</code></pre>
+    <p>미니 앱에서 사용하는 예입니다. onNotification에 넘긴 함수를 <strong>구독자(listener)</strong>라고 합니다. 반환받은 unsubscribe를 호출하면 그 등록만 해제합니다. 여러 번 해제해도 괜찮습니다.</p>
+    <p>등록과 해제는 현재 클라이언트 안의 목록만 바꿉니다. 호스트에 메시지를 보내거나 타이머를 만들지 않습니다. 같은 함수를 두 번 등록하면 별개의 구독 두 개가 되며 각각 해제할 수 있습니다.</p>
+    <p>notification.method를 비교하면 TypeScript가 해당 params의 타입도 좁힙니다. lifecycle이면 state, environmentChanged이면 선택적인 colorScheme·locale을 안전하게 읽을 수 있습니다.</p>
+    <div class="callout warm"><strong>초기 알림을 받으려면:</strong><br>가능하면 initialize 전에 구독을 등록합니다. 이미 지나간 알림을 보관했다가 다시 보내지는 않습니다. 수신 장치나 구독자가 생기기 전에 호스트가 보낸 알림은 놓칠 수 있으며, 이번에 새 버퍼나 수신 확인 규칙을 추가하지 않았습니다.</div>
+  </section>
+  <section class="section" id="routing">
+    <h2>2 · 대기 중인 요청과 알림은 서로 다른 길을 갑니다</h2>
+    <pre><code>if (!isJsonRpcResponse(message)) {
+  notifications.dispatch(message);
+  return;
+}</code></pre>
+    <p>클라이언트 수신 함수의 실제 분기입니다. 정상 응답이면 기존대로 id로 대기 요청을 찾습니다. 응답이 아닌 메시지는 알림 담당자가 확인하고, 요청 대기표를 다루는 코드로 내려가지 않습니다.</p>
+    <div class="flow"><div class="node">메시지 수신</div><span class="sep">→</span><div class="node">정상 응답?<br>id로 대기 요청 처리</div><span class="sep">/</span><div class="node current">알려진 정상 알림?<br>구독자에게 전달</div></div>
+    <p>알림에는 id 항목 자체가 없어야 합니다. id:null이나 잘못된 번호를 넣은 메시지도 알림으로 전달하지 않습니다. T12에서 허용한 정상 응답의 추가 JSON 항목은 그대로 유지하므로, 정상 응답에 method 정보가 추가돼 있어도 알림으로 중복 전달하지 않습니다.</p>
+    <p>모르는 알림 이름과 잘못된 알림은 조용히 무시합니다. 알림에 오류 답장을 보내면 “응답을 요구하지 않는 메시지”라는 규칙을 깨므로 답장을 만들지 않습니다.</p>
+  </section>
+  <section class="section" id="validation">
+    <h2>3 · 타입을 붙이기 전에 실제 데이터를 확인합니다</h2>
+    <pre><code>!isJsonValue(value) ||
+!isJsonObject(value) ||
+!Object.hasOwn(value, 'jsonrpc') ||
+value.jsonrpc !== '2.0' ||
+!Object.hasOwn(value, 'method') ||
+Object.hasOwn(value, 'id')</code></pre>
+    <p>위는 알림 검사에서 거절하는 조건입니다. 전체 JSON과 객체 모양을 먼저 확인하므로 getter나 toJSON을 실행해 값을 만들어 내지 않습니다. 이어서 알려진 두 이름과 인자의 값을 검사합니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>알림</th><th>확인하는 내용</th></tr></thead><tbody>
+      <tr><td>portal.lifecycle</td><td>params 객체에 직접 저장된 state가 resumed 또는 paused</td></tr>
+      <tr><td>portal.environmentChanged</td><td>colorScheme은 light·dark, locale은 문자열. 두 필드 모두 선택적</td></tr>
+      <tr><td>모르는 method / 잘못된 JSON·인자</td><td>구독자 호출과 답장 없이 무시</td></tr>
+    </tbody></table></div>
+    <p>환경 알림의 params가 생략됐다면 선택 항목이 모두 없는 빈 변경으로 전달합니다. lifecycle은 state가 필요하므로 생략하면 무시합니다. locale의 빈 문자열은 유지합니다.</p>
+    <p>수신 메시지에 유효한 JSON 확장 항목이 있으면 전체가 JSON인지 확인한 뒤, 구독자에게는 알려진 항목만 담은 새 객체를 줍니다. 원본 메시지를 수정하지 않습니다. T15의 호스트용 전송 API가 잘못된 추가 인자를 거절하는 것과, 수신 측이 미래 확장 항목을 다루는 것을 구분했습니다.</p>
+    <p>기존 <a href="../SPEC.md">SPEC §4·§6.4</a>를 따르며, 구독 API의 설계는 <a href="../docs/adr/0021-isolate-client-notification-subscribers.md">ADR 0021</a>에 기록했습니다. 명세와 전송 인터페이스는 변경하지 않았습니다.</p>
+  </section>
+  <section class="section" id="listeners">
+    <h2>4 · 구독 목록의 변화와 데이터 수정을 분리합니다</h2>
+    <pre><code>for (const subscription of [...subscriptions]) {
+  if (!subscriptions.has(subscription)) {
+    continue;
+  }
+  // Deliver a fresh notification copy to this listener.
+}</code></pre>
+    <p>앞의 [...subscriptions]는 이번 알림을 받을 순서를 복사합니다. 전달 중 새 구독자가 등록돼도 이번 순서에 끼어들지 않습니다. 실행 직전에는 아직 구독 중인지 다시 확인해서, 그사이 해제된 함수는 건너뜁니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>구독자 A가 하는 일</th><th>결과</th></tr></thead><tbody>
+      <tr><td>새 구독자 C 등록</td><td>C는 다음 알림부터 받습니다.</td></tr>
+      <tr><td>아직 실행되지 않은 B 해제</td><td>B는 이번 알림도 받지 않습니다.</td></tr>
+      <tr><td>자신에게 전달된 state 수정</td><td>B는 원래 값이 담긴 별도 복사본을 받습니다.</td></tr>
+      <tr><td>client.close() 호출</td><td>전체 구독을 지우고 남은 전달을 멈춥니다.</td></tr>
+    </tbody></table></div>
+    <p>close는 전송 장치의 정리 함수를 부르기 전에 구독 목록부터 비웁니다. 닫힌 뒤 등록하면 아무것도 저장하지 않는 해제 함수를 돌려줍니다. 이미 시작된 비동기 작업 자체를 취소하는 기능은 아닙니다.</p>
+  </section>
+  <section class="section" id="errors">
+    <h2>5 · try/catch만으로는 비동기 실패를 잡을 수 없습니다</h2>
+    <pre><code>try {
+  void Promise.resolve(listener(copyNotification(notification)))
+    .catch(reportListenerError);
+} catch (error) {
+  reportListenerError(error);
+}</code></pre>
+    <p>구독자 호출이 그 자리에서 throw하면 바깥 try/catch가 잡습니다. async 구독자가 반환한 Promise가 나중에 실패하면 .catch(reportListenerError)가 잡습니다. Promise.resolve는 동기 반환과 Promise 반환을 같은 형태로 처리하게 해 줍니다.</p>
+    <p>여기서 구독자 하나를 await하지 않습니다. A가 오래 기다리는 작업을 하더라도 B를 호출하고, 별도로 도착한 요청 응답도 처리할 수 있어야 하기 때문입니다. 구독자의 호출 순서는 등록 순서이고, 비동기 작업의 완료 순서는 달라질 수 있습니다.</p>
+    <pre><code>function reportListenerError(error: unknown): void {
+  queueMicrotask(() =&gt; {
+    throw error;
+  });
+}</code></pre>
+    <p>오류를 숨기지 않고 기존 프로젝트 방식대로 현재 호출 스택 밖에서 미니 앱 쪽 오류로 보고합니다. 호스트에 오류 응답을 보내거나 다른 구독자를 제거하지 않습니다. 테스트에서는 이 보고 작업을 모아서 원래 오류가 그대로 보고되는지 확인합니다.</p>
+  </section>
+  <section class="section" id="checks">
+    <h2>6 · 실제 호스트와 클라이언트도 연결해 확인했습니다</h2>
+    <p>새 테스트 55개를 먼저 작성했습니다. API가 없던 코드에서 모두 실패하고, 구현 후 모두 통과했습니다. 두 알림, 구독 해제, 변경 중인 구독 목록, 데이터 수정, close, 동기 throw·비동기 rejection, 알 수 없는 메시지, 요청의 마감 시간 보존을 검증합니다.</p>
+    <p>실제 createHost·createClient를 메모리 전송으로 연결한 테스트에서는 프로필 응답을 잠시 보류합니다. 그동안 resumed·환경 변경·paused 알림을 받더라도 프로필 요청은 계속 기다립니다. 나중에 원래 프로필 응답이 오면 그 요청만 정상 완료합니다.</p>
+    <div class="callout"><strong>2026.10.23 검증</strong><br>전체 995 / 995개 · 34개 테스트 파일 통과<br>타입 검사·린트·두 예제 빌드 통과<br>새 플랫폼 import·런타임 의존성·타입 단언 없음</div>
+    <p>이번에는 라이브러리의 구독 API를 완성했습니다. 예제의 OS 이벤트 감지나 화면 변경 버튼은 추가하지 않았습니다. 알림을 받았다고 라이브러리가 자동으로 화면 모드·초기화 결과·권한을 바꾸지도 않습니다. 앱이 구독 함수에서 필요한 동작을 선택합니다.</p>
+    <div class="callout warm"><strong>다음 T17:</strong> 실제 브라우저에서 iframe이 다른 주소로 이동할 때 호스트가 무엇을 관찰할 수 있는지 조사합니다. 그 결과를 바탕으로 T18의 연결 종료 정책을 결정합니다.</div>
+  </section>
+  <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="19-host-notifications.html">T15 호스트 전송 복습</a><br>근거: SPEC §4·§6.4, ADR 0021, client 알림 코드와 테스트.</footer>
+</main>
+</body>
+</html>

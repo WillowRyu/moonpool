@@ -4,6 +4,12 @@
 
 ### Added
 
+- Add client.onNotification with independent, idempotently removable local
+  subscriptions to the two SPEC §6.4 events. Validate inbound data, project
+  known fields, and give each listener a separate copy. Isolate synchronous
+  throws and asynchronous rejections while preserving response correlation;
+  clear subscriptions on close and ignore unknown/malformed notifications
+  without replying (ADR 0021).
 - Return a connection-bound notification sender from Host.connect, with async
   notifyLifecycle and notifyEnvironmentChanged methods for SPEC §6.4. Add
   shared notification types, validate local arguments at runtime, and create

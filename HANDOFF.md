@@ -5,11 +5,11 @@
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
-> T15 verified: 940 passed; typecheck, lint, and both example builds pass.
-> Host.connect returns typed connection-bound, id-free notification senders.
+> T16 verified: 995 passed; typecheck, lint, and both example builds pass.
+> Client notification subscriptions validate events and isolate each listener.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Next: T16, client notification subscription and delivery. Milestone C is complete.
-> T14 published as 6166a4e / d1d13b0 / 5cd4d93. T15 is complete locally, not committed.
+> Next: T17, actual-browser navigation investigation. Milestone C is complete.
+> T15 published as 5aebae6 / de26d0e. T16 is complete locally, not committed.
 > T14 acceptance-before-dismissal policy is approved in SPEC §6.2 / ADR 0019.
 > Do not ask again; implement the per-connect async onCloseRequested hook.
 > T12 published as 1465d03 / f271a2f; remote confirmed in sync before T13.
@@ -23,6 +23,82 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-23 checkpoint — T16 commit and push
+
+The maintainer requested committing and pushing T16, then T17 with an easy
+code explanation. Publish client subscriptions, tests, the compatible example
+mock update, and ADR as one feature commit; publish progress and learning
+materials as a documentation commit. Verification remains 995 tests, typecheck,
+lint, and both example builds passing. T17 is a bounded real-browser
+investigation and proposal; do not implement T18 or amend SPEC without approval.
+
+## 2026-10-23 checkpoint — T16 complete
+
+Published T15 as 5aebae6 (typed senders) and de26d0e (progress/study) to
+origin/master, confirming a clean tree and HEAD...origin/master 0/0 before
+T16. The maintainer requested implementation and a simple Korean explanation
+with code. T16 remains local; no T16 commit or push has been requested.
+
+Added onNotification(listener): () => void and exported NotificationListener
+on MoonpoolClient. The private packages/client/src/notifications.ts registry
+validates received messages, projects known fields, and dispatches independent
+copies. Preserve the existing response path first, including valid JSON response
+extras; only non-responses enter notification inspection. Known notifications
+must be complete JSON ordinary records with own version/method and no own id
+of any kind. Unknown/malformed notifications are ignored without a reply.
+Lifecycle needs own resumed/paused state. Environment fields are optional
+light/dark and string; omitted params yields an empty local change under §4.2.
+JSON extension members are validated but not exposed to listeners. Do not
+conflate inbound tolerance with T15's strict local sender arguments.
+
+Every registration is independent, even for the same function. Dispatch takes
+a registration-order snapshot, skips removed entries before each invocation,
+and gives each listener a fresh frame/params copy. Additions start with the
+next event. Unsubscribe is idempotent. No replay, implicit initialization,
+state synchronization, timer, wire acknowledgement, platform import, runtime
+dependency, or new type assertion was added. ADR 0021 records local API choices;
+SPEC is unchanged. Register before initialize when early events matter; the
+previously recorded startup race before receiver/subscriber installation remains.
+
+Catch synchronous listener throws and observe Promise rejections without
+awaiting a listener before the next one. Report through the existing local
+queueMicrotask rethrow pattern, preserving the original error; do not swallow
+or send it to the host. Tests capture each scheduled reporter and invoke it
+independently, avoiding the old fake-timer multiple-throw artifact. This does
+not introduce a real-browser test runner or trigger the reportError migration.
+Already-started async application work is not cancelled on close. close clears
+subscriptions before external adapter cleanup; retained receive callbacks and
+later registration are ignored through the terminal closed state. A listener
+closing the client prevents remaining registrations from executing.
+
+Wrote 55 tests before implementation. The first run had 54 failures and one
+false-positive broad TypeError assertion; tightened that assertion to require
+the fixed registration diagnostic, then confirmed all 55 failed before runtime
+changes. All now pass. Tests cover both event types, omitted/empty fields,
+unknown/malformed frames, getters/reflection failures, response extras,
+per-listener mutation isolation, independent registrations, subscription changes,
+close/cleanup failures, sync/async errors, deadlines, and real host/client
+notification delivery while a delayed profile request remains correlated.
+Updated one typed example client mock with the new method; did not weaken any
+existing test. Updated the client module's old globals comment to remain accurate.
+
+Verified 995 tests across 34 files, typecheck, lint (93 files), both example
+builds, and diff checks. No example runtime UI/event controls/OS observers were
+added; the library behavior is exercised over direct and linked transports.
+Product browser smoke was not repeated; study pages were checked in a browser.
+
+Added study/20-client-notifications.html, preserved T15 at #t15, updated its
+wrap-up, and marked T16 complete / T17 next. All 316 local references across
+21 study pages are valid, no duplicate ids were found, and previous interactive
+scripts are unchanged. Browser QA confirmed the lesson and current-task guide.
+The temporary static server and verification tab were cleaned up.
+
+Next is T17 only: inspect actual browser navigation/iframe observability and
+prepare the required ADR/policy proposal before T18 implementation. Read the
+historical browser findings rather than repeating the disproven claim that
+iframe load always follows initialize delivery. Keep policy explanations in
+the requested previous behavior → current problem → consequences format.
 
 ## 2026-10-23 checkpoint — T15 commit and push
 
