@@ -1,7 +1,8 @@
 # Browser v0.1 implementation plan
 
 Date: 2026-10-22
-Status: In progress. T01–T03 complete; next is T04.
+Last updated: 2026-10-23
+Status: In progress. T01–T04 complete; next is T05.
 Normative source: `SPEC.md`. This plan does not amend the protocol.
 
 ## Working mode
@@ -41,7 +42,7 @@ timeouts and draining pending requests on close, dispatch-time permissions,
 profile/storage provider contracts, all three storage operations, and JSON
 storage-value validation.
 
-Still missing or incomplete: manifest parsing, the storage demonstration UI,
+Still missing or incomplete: manifest parsing,
 `portal.close`, host notification APIs, navigation containment, batch rejection,
 some protocol validation, and full error-code coverage. Existing green tests
 do not establish complete v0.1 conformance.
@@ -83,6 +84,18 @@ permission case. All 237 tests, typecheck, lint, and both example builds pass.
 Repeat handshakes retain data; a fresh provider starts empty. Default grants
 remain profile-only. The explanation is `study/07-memory-storage.html`.
 Next: T04, show storage success and denial in the browser UI.
+
+**T04 complete (2026-10-23).** Added host-selected profile-only and storage
+configurations. Each selection closes the previous transport and replaces the
+iframe; one host-held memory provider retains values across these connections.
+The mini app exposes text-value CRUD, preserves bridge error codes, validates
+read results without assertions, and prevents actions before initialization
+or while another action is pending. Added 17 tests and strengthened four
+existing cases; all 254 tests, typecheck, lint, and both example builds pass.
+Actual browser checks confirm denial, successful set/get/delete, null after
+deletion, and retained values after switching configurations. ADR 0009 records
+the lifetime decision. The explanation is `study/08-storage-demo.html`.
+Milestone A is complete. Next: T05, validate required manifest fields.
 
 ### Milestone A: demonstrate useful calls
 
@@ -178,7 +191,7 @@ existing §11 open questions.
 
 ## Security and completion rules
 
-T03, T06, T09, T11, T14, and T17–T20 touch SPEC §9 and must be flagged when explained.
+T03, T04, T06, T09, T11, T14, and T17–T20 touch SPEC §9 and must be flagged when explained.
 Every other task must still preserve the existing permission, identity, and
 credential boundaries. Render provider data as text in the example.
 

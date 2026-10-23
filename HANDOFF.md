@@ -1,16 +1,65 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-10-22. The maintainer switched to agent-led implementation
+> Last updated: 2026-10-23. The maintainer switched to agent-led implementation
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
-> T03 verified: 237 passed; typecheck, lint, and both example builds pass.
-> The mock host now has an async per-app in-memory storage provider.
+> T04 verified: 254 passed; typecheck, lint, and both example builds pass.
+> Browser storage success/denial and host-selected configurations are connected.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Next: T04, display storage success and permission denial in the browser.
+> Next: T05, validate the manifest's required fields and value types.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-23 checkpoint — T04 commit and push
+
+The maintainer requested publishing the completed T04 work to origin/master.
+Group the host configurations, mini-app controls, tests, and ADR 0009 as one
+feature commit, with the task progress and learning materials in a separate
+documentation commit. Verification remains 254 tests, typecheck, lint, and both
+example builds passing, with actual browser CRUD and permission checks recorded
+below. The versioned task list remains T01–T04 complete and T05 next.
+
+## 2026-10-23 checkpoint — T04 complete
+
+The maintainer reaffirmed TypeScript and requested T04 with an easy explanation
+and source snippets. The host now offers two fixed configurations: profile-only
+by default and profile plus storage. Each selection closes the old transport,
+replaces the iframe, and attaches a fresh host connection in the same task as
+frame creation. A single memory provider outside startPortal retains data.
+ADR 0009 records the connection/document lifetime decision; no spec amendment,
+runtime consent, transport extension, or dependency was introduced.
+
+examples/hello-miniapp/src/storage-demo.ts owns text-value Set/Get/Delete
+controls. main.ts enables it after initialization, independently of profile
+success, and leaves it disabled on initialization failure. It sends denied
+calls deliberately to demonstrate SPEC §9.3 host enforcement. Controls are
+disabled while a request is pending and restored in finally. Read values are
+checked with ordinary narrowing and isJsonValue before JSON text rendering;
+there is no result type assertion. Empty keys and strings remain valid.
+
+Added 17 tests and strengthened four existing initialization/profile cases.
+Before implementation, the targeted suite had 21 failures and 15 passes; after
+implementation all 36 pass. Full verification: 254 tests across 16 files,
+typecheck, lint, and both example builds pass. Security checks (§9.3 / §9.6)
+remain in the pure host; provider calls remain async (§9.5), and all returned
+strings/error details are rendered as text. Pinned origins are unchanged.
+
+Actual browser checks confirm allowed set/get, profile-only -32000 denial,
+retained data after switching back to storage, successful delete, and null
+after deletion. Iframe locator clicks were unavailable in computer use;
+approved browser Tab/Enter actions completed the same controls successfully.
+Screenshots are study/t04-storage-allowed.png and study/t04-storage-denied.png.
+study/08-storage-demo.html explains host selection, fresh connections, UI
+request ordering, finally, response guards, and the verification evidence.
+The study entry point shows T04 and preserves T03/T02/T01 at stable anchors.
+All 108 local references across nine study pages are valid; earlier interactive
+scripts are unchanged. Browser checks confirm the new lesson and current guide.
+
+Next is T05 only. General navigation containment and the same-iframe response
+epoch issue remain separate T17–T18 / SPEC §11 work; do not treat this demo's
+explicit frame replacement as solving either. The v0.1 roadmap is still open.
 
 ## 2026-10-22 checkpoint — T03 commit and push
 
