@@ -119,7 +119,7 @@ const transport = createIframeTransport({
     <div class="test-list"><div><strong>실제 파일 사용</strong><br>원문을 파서에 전달 · 버전·권한이 초기화 응답에 반영</div><div><strong>entry 해석</strong><br>하위 경로 · ./ · 내부 ../ · Unicode와 공백</div><div><strong>시작 차단</strong><br>깨진 JSON · 잘못된 필드 · 외부 경로 · 알 수 없는 권한 · 미등록 앱 id</div><div><strong>연결 순서</strong><br>첫 마이크로태스크 전에 수신기 준비 · 실제 초기화 응답</div></div>
     <p>실제 브라우저에서 localhost:5173이 localhost:5174/index.html을 열고, 초기 연결·Moonpool Explorer 표시·storage 허용 구성의 저장과 조회가 동작했습니다. 검증 중에만 entry를 ../index.html로 바꿔 새로고침했을 때는 Portal이 생성되지 않았습니다. 원본 파일은 바이트 단위로 복구했고, 다시 정상 연결되는 것을 확인했습니다.</p>
     <div class="callout"><strong>2026.10.23 검증 결과</strong><br>새 테스트 14개 통과 · 전체 464 / 464 통과 · 19개 테스트 파일<br>타입 검사·린트·두 예제 빌드 통과<br>새 런타임 의존성이나 커널 플랫폼 API 없음</div>
-    <div class="callout warm"><strong>다음 T08:</strong> JSON-RPC의 배열 요청(batch)을 받으면 실행하지 않고 -32600 Invalid Request 하나로 거절하도록 구현합니다.</div>
+    <div class="callout warm"><strong>T07 다음에 진행한 작업 · T08 완료</strong><br>배열 전체를 오류 하나로 거절하고, id:null 오류가 다른 요청을 끝내지 않도록 연결했습니다. <a href="12-batch-rejection.html">T08 코드 해설</a>에서 이어서 읽을 수 있습니다. 이 페이지의 검증 숫자는 T07 시점의 기록입니다.</div>
   </section>
   <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="10-manifest-entry-scopes.html">T06 경로·권한 검사 복습</a><br>근거: SPEC §5·§7·§8.1·§9, ADR 0009·0011·0012, mock-host 코드와 테스트. 규범 문서는 SPEC.md입니다.</footer>
 </main>

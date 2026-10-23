@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — T08 배열 요청을 통째로 거절하기</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">12 · T08 배열 요청 거절</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#purpose">묶음 요청이란</a>
+    <a href="#terms">새로 만나는 말</a>
+    <a href="#host">가장 먼저 배열 확인</a>
+    <a href="#null">응답 번호가 null인 이유</a>
+    <a href="#client">다른 요청의 기다림 지키기</a>
+    <a href="#boundary">거절하는 배열의 범위</a>
+    <a href="#checks">테스트로 확인한 경계</a>
+  </nav>
+  <p class="small desktop-only">2026.10.23 검증<br>T08 완료 · 다음 T09<br>498개 테스트 통과</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">T08 · Reject the array and preserve pending requests</div>
+    <h1>묶음 요청은 실행 전에 거절하고,<br>다른 요청의 기다림은 지킵니다.</h1>
+    <p class="lead">Moonpool 0.x는 여러 요청을 배열로 묶어 보내는 batch를 지원하지 않습니다. 배열 전체에 오류 하나를 보내고, 안쪽 요청을 하나도 실행하지 않도록 연결했습니다.</p>
+    <div class="meta"><span class="pill">T08 완료</span><span class="pill">498 / 498 테스트 통과</span><span class="pill warm">다음 T09 · 메서드 이름</span></div>
+  </header>
+
+  <section class="section" id="purpose">
+    <h2>1 · 배열에 담긴 요청을 조용히 무시하고 있었습니다</h2>
+    <pre><code>[
+  { "jsonrpc": "2.0", "id": 2, "method": "profile.get" },
+  { "jsonrpc": "2.0", "id": 3, "method": "storage.get", "params": { "key": "settings" } }
+]</code></pre>
+    <p>이처럼 요청 여러 개를 한 배열에 담은 것을 batch라고 합니다. 일반 JSON-RPC에는 batch 처리가 있지만, Moonpool은 SPEC §4.1에서 0.x의 배열 요청을 -32600 Invalid Request로 거절하도록 정했습니다. T08은 이미 있던 약속을 구현합니다.</p>
+    <p>기존 호스트는 숫자 id가 있는지 먼저 확인했습니다. 배열 전체에는 id가 없으므로 응답 없이 돌아갔습니다. 이제 배열인지 먼저 확인해 거절 응답을 한 번 보냅니다.</p>
+    <div class="flow"><div class="node">프레임 수신<br>전체 메시지</div><span class="sep">→</span><div class="node current">최상위 배열?<br>오류 하나 전송 후 종료</div><span class="sep">→</span><div class="node">일반 객체<br>기존 id·초기 연결 검사</div><span class="sep">→</span><div class="node">권한·입력 검사<br>실제 기능 호출</div></div>
+    <p>그림의 오른쪽 두 단계는 배열 검사를 통과한 일반 객체가 가는 길입니다. 거절한 배열은 그 단계로 진행하지 않습니다.</p>
+  </section>
+
+  <section class="section" id="terms">
+    <h2>이번 코드에서 만나는 표현</h2>
+    <div class="table-wrap"><table><thead><tr><th>표현</th><th>뜻</th><th>비유</th></tr></thead><tbody>
+      <tr><td>batch</td><td>여러 요청을 배열에 묶어 보낸 것</td><td>주문서 여러 장이 든 한 묶음</td></tr>
+      <tr><td>프레임(frame)</td><td>전송 한 번으로 받은 메시지 전체</td><td>배달된 봉투 하나</td></tr>
+      <tr><td>최상위(top-level)</td><td>다른 값 안에 들어가지 않은 가장 바깥 값</td><td>봉투 안의 작은 상자와 구분한 바깥 포장</td></tr>
+      <tr><td>pending</td><td>응답을 기다리며 보관 중인 요청</td><td>아직 결과가 나오지 않은 주문 번호</td></tr>
+      <tr><td>응답 연결(correlation)</td><td>응답 id로 기다리는 요청을 찾는 일</td><td>번호표에 맞는 손님에게 결과 전달</td></tr>
+      <tr><td>uncorrelated error</td><td>특정 요청 번호에 연결할 수 없는 오류</td><td>개별 번호를 지정할 수 없는 접수 오류</td></tr>
+    </tbody></table></div>
+  </section>
+
+  <section class="section" id="host">
+    <h2>2 · 가장 바깥 값이 배열이면 바로 거절합니다</h2>
+    <pre><code>if (Array.isArray(message)) {
+  const response: JsonRpcResponse = {
+    jsonrpc: '2.0',
+    id: null,
+    error: {
+      code: ERROR_CODES.INVALID_REQUEST,
+      message: 'batch requests are not supported',
+    },
+  };
+  transport.send(response);
+  return;
+}</code></pre>
+    <p>Array.isArray는 받은 값 자체가 배열인지 확인합니다. 전송하는 것은 응답 객체 하나이며, 배열 안의 요청 수만큼 응답하지 않습니다. return에서 처리가 끝나므로 요청 안의 초기화·조회·저장·삭제는 호출되지 않습니다.</p>
+    <p>이 코드는 id 확인과 초기 연결 처리보다 앞에 있습니다. 빈 배열, 요청 하나가 든 배열, 알림만 든 배열, 중첩 배열 모두 같은 규칙으로 거절합니다. 연결 전인지 연결 후인지에 따라 결과를 달리하지 않습니다.</p>
+    <p>배열 안에 portal.initialize가 있어도 초기화되지 않습니다. 이미 연결된 상태에서 잘못된 초기화가 배열에 들어와도 기존 연결 상태를 초기화하지 않습니다. 멤버를 읽어 실행하지 않는 것이 상태 보존에도 필요합니다.</p>
+  </section>
+
+  <section class="section" id="null">
+    <h2>3 · 배열 안의 번호를 골라 쓰지 않습니다</h2>
+    <pre><code>{
+  "jsonrpc": "2.0",
+  "id": null,
+  "error": { "code": -32600, "message": "batch requests are not supported" }
+}</code></pre>
+    <p>배열 전체에는 하나의 요청 번호가 없습니다. 안쪽의 id 2나 3을 골라 오류를 보내면, 클라이언트가 그 번호로 기다리던 다른 호출을 잘못 끝낼 수 있습니다. 그래서 특정 요청을 식별할 수 없다는 뜻으로 id에 null을 씁니다. <a href="https://www.jsonrpc.org/specification#response_object">JSON-RPC 2.0 §5의 응답 규칙</a>에 있는 표현입니다.</p>
+    <pre><code>export type JsonRpcResponse = {
+  jsonrpc: '2.0';
+  id: number | null;
+  result?: JsonValue;
+  error?: { code: number; message: string; data?: JsonValue };
+};</code></pre>
+    <p>공유 응답 타입도 null을 표현하도록 바꿨습니다. 실제 응답 검사에서는 null id를 오류에만 허용하며, null id를 가진 성공 응답은 거절합니다. 정상 Moonpool 요청의 id는 계속 양의 정수입니다. 응답의 null 때문에 요청의 null id까지 유효해지지는 않습니다.</p>
+    <p>여기서 null은 응답 번호에 관한 표기입니다. storage.get의 값이 없음을 나타내는 value: null과는 서로 다른 항목입니다.</p>
+  </section>
+
+  <section class="section" id="client">
+    <h2>4 · 번호 없는 오류가 다른 요청을 끝내지 않게 합니다</h2>
+    <pre><code>if (!isJsonRpcResponse(message)) {
+  return;
+}
+
+if (message.id === null) {
+  return;
+}
+
+const entry = pending.get(message.id);</code></pre>
+    <p>응답 형태가 맞아도 id가 null이면 기다리는 요청을 찾지 않습니다. pending은 숫자 id를 키로 쓰는 Map입니다. 위에서 돌아가므로 요청을 지우거나 타이머를 끄는 아래쪽 코드도 실행되지 않습니다.</p>
+    <div class="flow"><div class="node">요청 2<br>프로필 결과 대기</div><span class="sep">→</span><div class="node current">id: null 오류<br>기다림 그대로 유지</div><span class="sep">→</span><div class="node">id: 2 응답<br>해당 호출 완료</div></div>
+    <p>번호가 맞는 응답이 나중에 오면 정상적으로 완료합니다. 끝내 오지 않으면 원래 켜 둔 타이머가 -32003 TIMEOUT으로 끝냅니다. null 오류에 답장을 보내지도 않으므로 오류 응답끼리 오가는 루프도 만들지 않습니다.</p>
+  </section>
+
+  <section class="section" id="boundary">
+    <h2>5 · 배열이 놓인 위치에 따라 규칙이 다릅니다</h2>
+    <div class="table-wrap"><table><thead><tr><th>입력 형태</th><th>처리</th></tr></thead><tbody>
+      <tr><td>메시지 전체가 [] 또는 [요청, 요청]</td><td>T08: -32600 응답 객체 하나</td></tr>
+      <tr><td>메시지 전체가 [알림]</td><td>T08: 최상위 배열이므로 동일하게 거절</td></tr>
+      <tr><td>일반 객체의 알림, id 없음</td><td>기존 규칙: 응답 없음</td></tr>
+      <tr><td>storage.set의 params.value가 [null, false, 0, ""]</td><td>기존 스키마에 따라 정상 저장 가능</td></tr>
+      <tr><td>params 자체가 배열</td><td>기존 규칙: -32602 Invalid Params</td></tr>
+    </tbody></table></div>
+    <p><strong>SPEC §9의 보안 경계를 유지합니다.</strong> 거절한 묶음은 provider까지 도달하지 않습니다. 일반 요청에는 기존 §9.3 권한 검사와 §9.6 입력 검사를 계속 적용합니다. 커널에는 플랫폼 API나 새 런타임 의존성을 추가하지 않았습니다.</p>
+    <p>이 단계가 모든 응답 검증을 끝낸 것은 아닙니다. 일반 응답 검증의 보강은 T12, 요청 번호 재사용과 순서 정책은 T10에 남아 있습니다. 이번 선택은 <a href="../docs/adr/0013-reject-batches-with-uncorrelated-errors.md">ADR 0013</a>에 기록했습니다.</p>
+  </section>
+
+  <section class="section" id="checks">
+    <h2>6 · 호스트와 클라이언트 양쪽에서 확인합니다</h2>
+    <p>새 테스트 34개 중 구현 전에는 20개가 예상대로 실패했고 14개는 기존 동작을 확인했습니다. 응답 타입이 null을 표현하지 못하는 타입 오류도 먼저 확인했습니다. 구현 후에는 모두 통과합니다.</p>
+    <div class="test-list"><div><strong>호스트 20개</strong><br>초기화 전후 · 배열 형태 · 응답 하나 · provider 미호출 · 연결 상태 보존</div><div><strong>프로토콜 10개</strong><br>null 오류 허용 · 잘못된 null 응답 거절 · null 요청 id 거절 · 숫자 응답 유지</div><div><strong>클라이언트 4개</strong><br>동시 대기·타이머 보존 · 시간 초과 · 이후 호출 정상 처리 · 실제 host/client 연결</div></div>
+    <p>마지막 연결 테스트는 실제 호스트의 프로필 응답을 잠시 기다리게 하고, 별도의 빈 배열을 보냅니다. 배열 오류가 와도 프로필 호출과 타이머가 유지되고, provider를 완료시키면 원래 호출이 올바른 결과로 끝나는지 확인합니다.</p>
+    <div class="callout"><strong>2026.10.23 검증 결과</strong><br>새 테스트 34개 통과 · 전체 498 / 498 통과 · 22개 테스트 파일<br>타입 검사·린트·두 예제 빌드 통과<br>새 전송 API·플랫폼 API·런타임 의존성 없음</div>
+    <div class="callout warm"><strong>다음 T09:</strong> 메서드 이름이 namespace.action 형식이고 양쪽이 lowerCamelCase인지 검사합니다. 형식 오류의 응답 코드와 검사 순서는 기존 계획의 명세 결정 항목을 먼저 확정해야 합니다.</div>
+  </section>
+  <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="11-manifest-example.html">T07 실제 설정 연결 복습</a><br>근거: SPEC §4.1·§4.3·§4.5·§9, JSON-RPC 2.0 §5, ADR 0013, 실제 host·protocol·client 코드와 테스트. 규범 문서는 SPEC.md입니다.</footer>
+</main>
+</body>
+</html>

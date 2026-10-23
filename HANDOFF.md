@@ -5,14 +5,71 @@
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
-> T07 verified: 464 passed; typecheck, lint, and both example builds pass.
-> The example parses the actual moonpool.json before creating its Portal.
+> T08 verified: 498 passed; typecheck, lint, and both example builds pass.
+> Top-level batches get one -32600/id:null reply without member dispatch.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Next: T08, reject batch arrays with a single -32600 response.
+> Next: T09, settle method-format rejection/ordering, then validate names.
 > The unencoded relative entry-path policy is approved in SPEC §7 / ADR 0011.
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-23 checkpoint — T08 commit and push
+
+The maintainer requested committing and pushing T08, then starting T09 with
+an easy code explanation. Publish batch/error-id handling with its tests and
+ADR as one feature commit, then its progress and learning materials as a
+documentation commit. Verification remains 498 tests, typecheck, lint, and
+both example builds passing. T09 still requires the documented method-format
+error/ordering decision before tightening the normative request contract.
+
+## 2026-10-23 checkpoint — T08 complete
+
+The maintainer requested committing/pushing the completed work and then T08.
+Published T06 as 1f93b47, T07 as 6346f8d, and their progress/study notes as
+340e69a to origin/master. Confirmed a clean tree and HEAD...origin/master
+0/0 before T08. The T08 changes remain local; no T08 commit or push yet.
+
+The host now checks Array.isArray at receive entry, before numeric-id checks
+and any session processing. Empty, nonempty, nested, malformed-member, and
+notification-only arrays receive one object with id null and code -32600.
+No member is inspected or dispatched, so provider calls and initialization
+state are untouched. Standalone notifications and ordinary arrays inside
+storage values retain their existing behavior. The fixed error message does
+not echo array contents. SPEC §9.3 / §9.6 gates on ordinary requests remain.
+
+JsonRpcResponse can represent a null id, and isJsonRpcResponse admits it only
+for the existing error shape, never for success. Request guards still reject
+null ids and require positive integers. The client ignores null ids before
+pending lookup, preserving calls and their timers. It neither infers a batch
+member's id nor sends an error reply. JSON-RPC 2.0 §5 already defines the
+unknown-id error marker, so no spec amendment or approval gate was needed.
+ADR 0013 records the decision and cites the official specification checked
+during implementation. General response validation remains T12, and request
+id reuse/backward-id behavior remains T10. No platform API, runtime dependency,
+transport extension, resource limit, or batch execution feature was added.
+
+Wrote 34 tests before implementation. The meaningful RED run had 20 assertion
+failures and 14 passing regressions. Typecheck also first rejected null in
+the existing response type. All new tests now pass: 20 host cases, ten shared
+response/request-id cases, and four client cases. They verify initialization
+before/after arrays, one reply, provider non-invocation, session preservation,
+nullable-error guards, timer counts, timeout, subsequent calls, and a real
+host/client connection with a pending provider response and a separate batch.
+
+Verified 498 tests across 22 files, typecheck, lint (69 files), both example
+builds, and git diff --check. Runtime batch behavior is exercised by controlled
+transports and real in-memory host/client integration; no new browser UI was
+added. study/12-batch-rejection.html explains the early return, null response
+id, pending Map, timer preservation, and top-level versus nested arrays.
+The guide shows T08 complete and T09 next, preserves T07 at #t07 and all earlier
+lessons, and links T07's wrap-up to T08. All 180 local references across 13
+study pages are valid, with no duplicate ids and unchanged earlier interactive
+scripts. Browser checks confirm the new lesson and current-task guide render.
+
+Next is T09 only. The method-format error code and rejection order are still
+the existing spec decision gate in docs/implementation-plan.md. Do not treat
+T08 as resolving that gate or the later request-id and JSON-boundary decisions.
 
 ## 2026-10-23 checkpoint — T06 and T07 commit and push
 

@@ -4,6 +4,10 @@
 
 ### Added
 
+- Reject top-level request arrays with one -32600 response and id null before
+  processing initialization or capability calls. Execute no array members,
+  including notification-only batches, while preserving ordinary nested
+  arrays in method input (SPEC §4.1, ADR 0013).
 - Parse the browser example's actual moonpool.json as host-owned bundled text
   before Portal creation. Select the pinned origin by validated app id and
   resolve the declared entry from that origin's root; invalid configuration
@@ -30,6 +34,9 @@
 
 ### Changed
 
+- Represent uncorrelated errors with nullable response ids and explicitly
+  ignore them in client correlation without settling requests or clearing
+  their timers. Null ids remain invalid for Moonpool requests.
 - Define manifest entries as unencoded, slash-separated relative file paths
   with literal parent traversal checked against the package root. Reject URL
   syntax, backslashes, percent encoding, controls, edge whitespace, and

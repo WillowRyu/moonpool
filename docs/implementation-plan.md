@@ -2,7 +2,7 @@
 
 Date: 2026-10-22
 Last updated: 2026-10-23
-Status: In progress. T01–T07 complete; next is T08.
+Status: In progress. T01–T08 complete; next is T09.
 Normative source: `SPEC.md`. This plan does not amend the protocol.
 
 ## Working mode
@@ -137,6 +137,22 @@ initialization, profile, storage set/get, invalid-entry startup rejection,
 and normal startup after restoring the original file byte-for-byte.
 The explanation is `study/11-manifest-example.html`. Milestone B is complete.
 Next: T08, reject batch arrays with a single -32600 response.
+
+**T08 complete (2026-10-23).** Before starting T08, committed and pushed
+T06/T07 to origin/master as 1f93b47, 6346f8d, and 340e69a. The host now
+rejects every top-level array with one -32600 response carrying id null,
+before id checks or initialization, without inspecting or dispatching
+members. The shared response type/guard recognizes uncorrelated errors;
+null request ids and null-id success responses remain invalid. The client
+ignores null ids before pending lookup, preserving calls and timers. Ordinary
+storage-value arrays and standalone notifications retain their behavior.
+ADR 0013 records the standard response-id rule and Moonpool's existing
+no-batch profile; no spec amendment or platform dependency was added.
+All 34 new tests, 498 tests total, typecheck, lint, and both example builds
+pass. The meaningful RED run had 20 failures and 14 passing regressions.
+The explanation is `study/12-batch-rejection.html`. Next: T09, with its
+method-format rejection and ordering decision still required. General
+response validation and request-id reuse policy remain T12 and T10.
 
 ### Milestone A: demonstrate useful calls
 
