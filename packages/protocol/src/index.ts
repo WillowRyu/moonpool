@@ -392,14 +392,19 @@ export function isStorageDeleteParams(value: JsonValue | undefined): value is St
  */
 export type JsonRpcResponse = {
   jsonrpc: '2.0';
-  id: number;
+  /** null identifies an uncorrelated error (JSON-RPC §5), never a valid request id. */
+  id: number | null;
   result?: JsonValue;
   error?: { code: number; message: string; data?: JsonValue };
 };
 
 /** Checked proof that a frame is a §4.3 response. */
 export function isJsonRpcResponse(value: JsonValue | undefined): value is JsonRpcResponse {
-  if (!isJsonObject(value) || value.jsonrpc !== '2.0' || typeof value.id !== 'number') {
+  if (
+    !isJsonObject(value) ||
+    value.jsonrpc !== '2.0' ||
+    (typeof value.id !== 'number' && value.id !== null)
+  ) {
     return false;
   }
 
@@ -410,7 +415,8 @@ export function isJsonRpcResponse(value: JsonValue | undefined): value is JsonRp
     return false;
   }
   if (!hasError) {
-    return true;
+    // Moonpool requests use numeric ids. Only uncorrelated errors can carry null.
+    return value.id !== null;
   }
 
   const error = value.error;
@@ -418,9 +424,9 @@ export function isJsonRpcResponse(value: JsonValue | undefined): value is JsonRp
 }
 
 /**
- * SPEC §4.1 — a frame with a numeric `id` can expect exactly one reply, even
- * if it turns out to be malformed in some other way. A frame that fails this
- * MUST NOT be answered: it is a notification (or not a request at all).
+ * SPEC §4.1 / §4.2 — find a numeric id to echo before envelope validation.
+ * This does not establish a valid request. The host rejects top-level arrays
+ * separately, before using this check for ordinary object frames.
  */
 export function hasRequestId(
   value: JsonValue | undefined,

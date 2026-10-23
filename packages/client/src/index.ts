@@ -81,6 +81,11 @@ export function createClient(config: ClientConfig): MoonpoolClient {
       return;
     }
 
+    // JSON-RPC §5: an uncorrelated error cannot settle any numeric request.
+    if (message.id === null) {
+      return;
+    }
+
     const entry = pending.get(message.id);
     if (entry === undefined) {
       // SPEC §4.5: a reply to an unknown or already-settled id is ignored.

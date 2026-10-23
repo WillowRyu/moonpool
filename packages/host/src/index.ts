@@ -9,6 +9,7 @@
 
 import type {
   HostInfo,
+  JsonRpcResponse,
   JsonValue,
   MiniAppManifest,
   PortalEnvironment,
@@ -274,6 +275,21 @@ export function createHost(config: HostConfig): Host {
       }
 
       transport.onMessage((message) => {
+        // SPEC §4.1: reject the whole array before notifications or session state.
+        // There is no single request id; never dispatch members or echo one of theirs.
+        if (Array.isArray(message)) {
+          const response: JsonRpcResponse = {
+            jsonrpc: '2.0',
+            id: null,
+            error: {
+              code: ERROR_CODES.INVALID_REQUEST,
+              message: 'batch requests are not supported',
+            },
+          };
+          transport.send(response);
+          return;
+        }
+
         if (!hasRequestId(message)) {
           // SPEC §4.1: no id means a notification (or not a request at
           // all) — never answered, no matter how malformed the rest is.

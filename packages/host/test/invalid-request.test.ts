@@ -8,10 +8,9 @@
  * malformed) into the same silent `return`, which is correct for the first
  * and wrong for the second.
  *
- * Deliberately out of scope here: top-level batch arrays (§4.1 also assigns
- * these -32600, but there is no single id to reply to — needs its own
- * id:null handling). A malformed `params` shape has its own code, -32602,
- * and is covered separately in invalid-params.test.ts (E4.4a).
+ * Top-level batch rejection with id:null is covered in batch.test.ts.
+ * A malformed `params` shape has its own code, -32602, and is covered
+ * separately in invalid-params.test.ts (E4.4a).
  */
 import { createHost, type HostConfig } from '@moonpool/host';
 import { ERROR_CODES, type JsonValue, type MiniAppManifest } from '@moonpool/protocol';
