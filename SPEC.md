@@ -390,11 +390,16 @@ Every mini app MUST ship a `moonpool.json` at its package root.
 | ----------------- | -------- | --------------------------------------------------------------------- |
 | `manifestVersion` | yes      | `1` for this spec                                                     |
 | `id`              | yes      | Reverse-DNS. `^[a-z0-9]+(\.[a-z0-9-]+)+$`. Immutable across versions. |
-| `name`            | yes      | Display name, 1–40 chars                                              |
+| `name`            | yes      | Display name, 1–40 Unicode code points                                |
 | `version`         | yes      | SemVer                                                                |
 | `entry`           | yes      | Relative path, MUST NOT escape the package root                       |
 | `protocolVersion` | yes      | Protocol version the mini app targets                                 |
 | `permissions`     | yes      | Array of scope strings. MAY be empty.                                 |
+
+The length of `name` is measured in Unicode code points. A supplementary-plane
+character such as U+1F600 counts as one code point. Combining marks and the
+components of multi-code-point emoji count separately; this is not a count of
+grapheme clusters.
 
 A host MUST reject a manifest declaring an unknown scope rather than silently
 dropping it — silent drops produce mini apps that fail at runtime for
