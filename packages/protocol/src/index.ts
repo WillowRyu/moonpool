@@ -238,8 +238,8 @@ export function hasOnlyParamKeys(
 
 /**
  * SPEC §4.2 — intermediate receive-side shape.
- * The envelope guard proves jsonrpc, id, and method, but does not yet
- * require params to be an object. This is not a complete valid request.
+ * The envelope guard proves jsonrpc, id, and method-name syntax, but does
+ * not yet require params to be an object. This is not a complete valid request.
  */
 export type JsonRpcRequestEnvelope = {
   jsonrpc: '2.0';
@@ -248,8 +248,11 @@ export type JsonRpcRequestEnvelope = {
   params?: JsonValue;
 };
 
+/** SPEC §6.1 / ADR 0014 — ASCII lowerCamelCase components, separated by one dot. */
+const METHOD_NAME = /^[a-z][A-Za-z0-9]*\.[a-z][A-Za-z0-9]*$/;
+
 /**
- * SPEC §4.1 / §4.2 — validate the envelope independently of params.
+ * SPEC §4.1 / §4.2 / §6.1 — validate the envelope independently of params.
  * Separating these checks lets the host distinguish -32600 from -32602
  * without claiming that unchecked params is an object (ADR 0005).
  */
@@ -262,7 +265,9 @@ export function isJsonRpcRequestEnvelope(
     typeof value.id === 'number' &&
     Number.isInteger(value.id) &&
     value.id > 0 &&
-    typeof value.method === 'string'
+    typeof value.method === 'string' &&
+    // JavaScript's $ can match before a final newline; require the entire input.
+    METHOD_NAME.exec(value.method)?.[0] === value.method
   );
 }
 

@@ -114,6 +114,15 @@ semantics layered on top.
 `params` MUST be an object or omitted. Positional (array) params are not
 supported; a receiver MUST respond with `-32602`.
 
+For an addressable request, a method string that violates §6.1 MUST be
+rejected with `-32600`, echoing the numeric request id. Method-name syntax is
+part of envelope validation: check it before the params container,
+initialization state, and scope enforcement. A malformed name MUST NOT invoke
+a capability or change initialization state, including when it resembles
+`portal.initialize`. Standalone no-id notifications still receive no reply;
+top-level arrays retain their §4.1 rejection. Syntactically valid unknown
+methods retain initialization and scope checks before method lookup.
+
 For a known method, the host MUST reject any top-level member of `params`
 that is not defined for that method with `-32602`. This restriction applies
 to `params` itself, not to application-defined object keys inside
@@ -319,6 +328,15 @@ Method names MUST take the form `namespace.action`, lowerCamelCase on both
 sides. The namespace **is** the permission scope. There is no separate scope
 registry — this is deliberate, so a new method cannot silently escape the
 permission model.
+
+For this profile, each component MUST start with an ASCII lowercase letter
+and continue with zero or more ASCII letters or digits. A method MUST match
+the entire expression `[a-z][A-Za-z0-9]*\.[a-z][A-Za-z0-9]*`, with exactly
+one dot and no prefix or suffix. Acronym runs after the first letter and
+numeric suffixes are permitted, such as `profile.getURL` and `storage2.get2`.
+Underscores, hyphens, Unicode letters, whitespace, and additional dots are
+not permitted. A receiver MUST NOT trim, lowercase, or otherwise repair a
+malformed name to admit it. This does not introduce a length limit.
 
 The `portal` namespace is reserved for protocol methods and requires no scope.
 

@@ -306,7 +306,8 @@ export function createHost(config: HostConfig): Host {
             id,
             error: {
               code: ERROR_CODES.INVALID_REQUEST,
-              message: 'malformed request: expected { jsonrpc: "2.0", id, method }',
+              message:
+                'malformed request: expected jsonrpc 2.0, a positive integer id, and a namespace.action method',
             },
           });
           return;
