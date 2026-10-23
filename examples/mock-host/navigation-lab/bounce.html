@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Silent foreign bounce</title></head>
+<body><p>Foreign document: no parent message; return before the slow image allows load.</p>
+<script>
+  const run = new URLSearchParams(location.search).get('run');
+  const image = document.createElement('img');
+  image.src = `/slow.svg?run=${run}`;
+  document.body.append(image);
+  setTimeout(() => location.replace(`http://127.0.0.1:5274/probe.html?run=${run}&mode=resume&hold=1`), 100);
+</script></body>
+</html>

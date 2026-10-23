@@ -1,0 +1,50 @@
+Browser tab: 19, Title: "Moonpool T17 navigation lab", URL: "http://127.0.0.1:5273/host.html".
+1 AXWebArea Moonpool T17 navigation lab, URL: 127.0.0.1:5273/host.html
+	2 container app
+		3 heading T17 navigation observations, Value: 1
+			4 text T17 navigation observations
+		5 text Manual research fixture. No navigation protection has been added to Moonpool.
+		6 text UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36 | frame-src restriction: false
+		7 container
+			8 text Experimental policy 
+			9 pop up button (collapsed, settable) Experimental policy, Value: Existing bridge only, ID: policy, Secondary Actions: Expand
+				10 menu
+					11 (selected) Existing bridge only
+					12 Close on every load after first
+		13 button Start fresh Portal, ID: start
+		14 button Inspect parent view, ID: inspect
+		15 button Child same-origin navigation, ID: same
+		16 button Child reload, ID: reload
+		17 button Child hash change, ID: hash
+		18 button Child foreign navigation, ID: foreign
+		19 button Foreign return without initialize, ID: return
+		20 button Silent foreign bounce before load, ID: bounce
+		21 button Send targetOrigin marker, ID: target
+		22 button Read fixture server observations, ID: proof
+		32 text run=1792744177075 | loads=2 | profile calls=2 | bridge closed=false
+		24 container Navigation probe
+			26 AXWebArea Allowed navigation probe, URL: 127.0.0.1:5274/probe.html?run=1792744177075&mode=resume&hold=1
+				27 heading Allowed mini-app document, Value: 1
+					28 text Allowed mini-app document
+				29 text Returned document: profile.get id 100 WITHOUT initialize
+				30 text {"jsonrpc":"2.0","id":100,"result":{"displayName":"Lab user"}}
+
+				31 image
+		33 text {"n":1,"ms":3,"event":"start","policy":"baseline","allowedOrigin":"http://127.0.0.1:5274","foreignOrigin":"http://127.0.0.1:5275"}
+{"n":2,"ms":54,"event":"iframe-load"}
+{"n":3,"ms":54,"event":"parent-inspection","src":"http://127.0.0.1:5274/probe.html?run=1792744177075","sameWindowProxy":true,"href":"SecurityError","documentAccess":"null","navigationAccess":"SecurityError"}
+{"n":4,"ms":54,"event":"message","origin":"http://127.0.0.1:5274","sameWindowProxy":true,"passesOriginAndSource":true,"data":{"jsonrpc":"2.0","id":1,"method":"portal.initialize","params":{"protocolVersion":"0.1"}}}
+{"n":5,"ms":55,"event":"bridge-send","data":{"jsonrpc":"2.0","id":1,"result":{"protocolVersion":"0.1","miniApp":{"id":"com.example.navigation","version":"1.0.0"},"host":{"name":"navigation-lab","version":"0.1.0","platform":"browser"},"grantedScopes":["profile"],"environment":{"locale":"en","colorScheme":"light"}}}}
+{"n":6,"ms":55,"event":"message","origin":"http://127.0.0.1:5274","sameWindowProxy":true,"passesOriginAndSource":true,"data":{"jsonrpc":"2.0","id":2,"method":"profile.get"}}
+{"n":7,"ms":55,"event":"profile-provider"}
+{"n":8,"ms":55,"event":"bridge-send","data":{"jsonrpc":"2.0","id":2,"result":{"displayName":"Lab user"}}}
+{"n":9,"ms":5312,"event":"command","name":"bounce","targetOrigin":"http://127.0.0.1:5274"}
+{"n":10,"ms":5463,"event":"message","origin":"http://127.0.0.1:5274","sameWindowProxy":true,"passesOriginAndSource":true,"data":{"jsonrpc":"2.0","id":100,"method":"profile.get"}}
+{"n":11,"ms":5463,"event":"profile-provider"}
+{"n":12,"ms":5463,"event":"bridge-send","data":{"jsonrpc":"2.0","id":100,"result":{"displayName":"Lab user"}}}
+{"n":13,"ms":10464,"event":"iframe-load"}
+{"n":14,"ms":10465,"event":"parent-inspection","src":"http://127.0.0.1:5274/probe.html?run=1792744177075","sameWindowProxy":true,"href":"SecurityError","documentAccess":"null","navigationAccess":"SecurityError"}
+		34 text Fixture-only server evidence (not available to a production embedder):
+[{"sequence":8,"port":5274,"path":"/probe.html","run":"1792744177075"},{"sequence":9,"port":5275,"path":"/bounce.html","run":"1792744177075"},{"sequence":10,"port":5275,"path":"/slow.svg","run":"1792744177075"},{"sequence":11,"port":5274,"path":"/probe.html","run":"1792744177075"},{"sequence":12,"port":5274,"path":"/slow.svg","run":"1792744177075"}]
+
+The focused UI element is 22 button Read fixture server observations, ID: proof

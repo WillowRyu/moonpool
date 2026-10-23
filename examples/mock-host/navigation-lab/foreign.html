@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Foreign navigation probe</title><link rel="stylesheet" href="lab.css"></head>
+<body><h1>Foreign document</h1><p>Attempts profile.get id 50; the real origin gate should reject it.</p><pre id="events"></pre>
+<script>
+  const HOST = 'http://127.0.0.1:5273';
+  const ALLOWED = 'http://127.0.0.1:5274';
+  const run = new URLSearchParams(location.search).get('run');
+  parent.postMessage({ jsonrpc: '2.0', id: 50, method: 'profile.get' }, HOST);
+  addEventListener('message', (event) => {
+    if (event.origin !== HOST || event.source !== parent) { return; }
+    document.querySelector('#events').textContent += `${JSON.stringify(event.data)}\n`;
+    if (event.data?.lab === 'navigation' && event.data.command === 'return') {
+      location.replace(`${ALLOWED}/probe.html?run=${run}&mode=resume`);
+    }
+    if (event.data?.lab === 'marker') { parent.postMessage({ lab: 'foreign-marker-received' }, HOST); }
+  });
+</script></body>
+</html>

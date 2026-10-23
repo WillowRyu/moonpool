@@ -1,0 +1,45 @@
+Browser tab: 20, Title: "Moonpool T17 CSP comparison", URL: "http://127.0.0.1:5273/host-csp.html".
+0 AXWebArea Moonpool T17 CSP comparison, URL: 127.0.0.1:5273/host-csp.html
+	1 container app
+		2 heading T17 navigation observations, Value: 1
+			3 text T17 navigation observations
+		4 text Manual research fixture. No navigation protection has been added to Moonpool.
+		5 text UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36 | frame-src restriction: true
+		6 container
+			7 text Experimental policy 
+			8 pop up button (collapsed, settable) Experimental policy, Value: Existing bridge only, ID: policy, Secondary Actions: Expand
+				9 menu
+					10 (selected) Existing bridge only
+					11 Close on every load after first
+		12 button Start fresh Portal, ID: start
+		13 button Inspect parent view, ID: inspect
+		14 button Child same-origin navigation, ID: same
+		15 button Child reload, ID: reload
+		16 button Child hash change, ID: hash
+		17 button Child foreign navigation, ID: foreign
+		18 button Foreign return without initialize, ID: return
+		19 button Silent foreign bounce before load, ID: bounce
+		20 button Send targetOrigin marker, ID: target
+		21 button Read fixture server observations, ID: proof
+		24 text run=1792744247002 | loads=2 | profile calls=1 | bridge closed=false
+		23 container Navigation probe
+			25 AXWebArea 127.0.0.1, URL: chrome-error://chromewebdata/
+				26 container sub-frame-error
+					27 image
+					28 text 이 콘텐츠는 차단되어 있습니다. 문제를 해결하려면 사이트 소유자에게 문의하세요.
+		29 text {"n":1,"ms":1,"event":"start","policy":"baseline","allowedOrigin":"http://127.0.0.1:5274","foreignOrigin":"http://127.0.0.1:5275"}
+{"n":2,"ms":105,"event":"iframe-load"}
+{"n":3,"ms":106,"event":"parent-inspection","src":"http://127.0.0.1:5274/probe.html?run=1792744247002","sameWindowProxy":true,"href":"SecurityError","documentAccess":"null","navigationAccess":"SecurityError"}
+{"n":4,"ms":106,"event":"message","origin":"http://127.0.0.1:5274","sameWindowProxy":true,"passesOriginAndSource":true,"data":{"jsonrpc":"2.0","id":1,"method":"portal.initialize","params":{"protocolVersion":"0.1"}}}
+{"n":5,"ms":106,"event":"bridge-send","data":{"jsonrpc":"2.0","id":1,"result":{"protocolVersion":"0.1","miniApp":{"id":"com.example.navigation","version":"1.0.0"},"host":{"name":"navigation-lab","version":"0.1.0","platform":"browser"},"grantedScopes":["profile"],"environment":{"locale":"en","colorScheme":"light"}}}}
+{"n":6,"ms":107,"event":"message","origin":"http://127.0.0.1:5274","sameWindowProxy":true,"passesOriginAndSource":true,"data":{"jsonrpc":"2.0","id":2,"method":"profile.get"}}
+{"n":7,"ms":107,"event":"profile-provider"}
+{"n":8,"ms":107,"event":"bridge-send","data":{"jsonrpc":"2.0","id":2,"result":{"displayName":"Lab user"}}}
+{"n":9,"ms":6081,"event":"command","name":"foreign","targetOrigin":"http://127.0.0.1:5274"}
+{"n":10,"ms":6092,"event":"csp-violation","directive":"frame-src","blockedURI":"http://127.0.0.1:5275"}
+{"n":11,"ms":6121,"event":"iframe-load"}
+{"n":12,"ms":6121,"event":"parent-inspection","src":"http://127.0.0.1:5274/probe.html?run=1792744247002","sameWindowProxy":true,"href":"SecurityError","documentAccess":"null","navigationAccess":"SecurityError"}
+		30 text Fixture-only server evidence (not available to a production embedder):
+[{"sequence":20,"port":5274,"path":"/probe.html","run":"1792744247002"}]
+
+The focused UI element is 21 button Read fixture server observations, ID: proof

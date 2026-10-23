@@ -1,0 +1,60 @@
+Browser tab: 20, Title: "Moonpool T17 CSP comparison", URL: "http://127.0.0.1:5273/host-csp.html".
+1 AXWebArea Moonpool T17 CSP comparison, URL: 127.0.0.1:5273/host-csp.html
+	2 container app
+		3 heading T17 navigation observations, Value: 1
+			4 text T17 navigation observations
+		5 text Manual research fixture. No navigation protection has been added to Moonpool.
+		6 text UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36 | frame-src restriction: true
+		7 container
+			8 text Experimental policy 
+			9 pop up button (collapsed, settable) Experimental policy, Value: Existing bridge only, ID: policy, Secondary Actions: Expand
+				10 menu
+					11 (selected) Existing bridge only
+					12 Close on every load after first
+		13 button Start fresh Portal, ID: start
+		14 button Inspect parent view, ID: inspect
+		15 button Child same-origin navigation, ID: same
+		16 button Child reload, ID: reload
+		17 button Child hash change, ID: hash
+		18 button Child foreign navigation, ID: foreign
+		19 button Foreign return without initialize, ID: return
+		20 button Silent foreign bounce before load, ID: bounce
+		21 button Send targetOrigin marker, ID: target
+		22 button Read fixture server observations, ID: proof
+		23 button Child foreign form submission, ID: form
+		24 button Allowed URL redirects to foreign, ID: redirect
+		27 text run=1792744962012 | loads=3 | profile calls=3 | bridge closed=false
+		26 container Navigation probe
+			28 AXWebArea Allowed navigation probe, URL: 127.0.0.1:5274/probe.html?run=1792744962012&page=second
+				29 heading Allowed mini-app document, Value: 1
+					30 text Allowed mini-app document
+				31 text Initialized and read profile: {"displayName":"Lab user"}
+				32 text {"jsonrpc":"2.0","id":1,"result":{"protocolVersion":"0.1","miniApp":{"id":"com.example.navigation","version":"1.0.0"},"host":{"name":"navigation-lab","version":"0.1.0","platform":"browser"},"grantedScopes":["profile"],"environment":{"locale":"en","colorScheme":"light"}}}
+{"jsonrpc":"2.0","id":2,"result":{"displayName":"Lab user"}}
+
+		33 text {"n":1,"ms":14,"event":"start","policy":"baseline","allowedOrigin":"http://127.0.0.1:5274","foreignOrigin":"http://127.0.0.1:5275"}
+{"n":2,"ms":133,"event":"iframe-load"}
+{"n":3,"ms":133,"event":"parent-inspection","src":"http://127.0.0.1:5274/probe.html?run=1792744962012","sameWindowProxy":true,"href":"SecurityError","documentAccess":"null","navigationAccess":"SecurityError"}
+{"n":4,"ms":133,"event":"message","origin":"http://127.0.0.1:5274","sameWindowProxy":true,"passesOriginAndSource":true,"data":{"jsonrpc":"2.0","id":1,"method":"portal.initialize","params":{"protocolVersion":"0.1"}}}
+{"n":5,"ms":133,"event":"bridge-send","data":{"jsonrpc":"2.0","id":1,"result":{"protocolVersion":"0.1","miniApp":{"id":"com.example.navigation","version":"1.0.0"},"host":{"name":"navigation-lab","version":"0.1.0","platform":"browser"},"grantedScopes":["profile"],"environment":{"locale":"en","colorScheme":"light"}}}}
+{"n":6,"ms":135,"event":"message","origin":"http://127.0.0.1:5274","sameWindowProxy":true,"passesOriginAndSource":true,"data":{"jsonrpc":"2.0","id":2,"method":"profile.get"}}
+{"n":7,"ms":135,"event":"profile-provider"}
+{"n":8,"ms":135,"event":"bridge-send","data":{"jsonrpc":"2.0","id":2,"result":{"displayName":"Lab user"}}}
+{"n":9,"ms":487,"event":"command","name":"same","targetOrigin":"http://127.0.0.1:5274"}
+{"n":10,"ms":529,"event":"iframe-load"}
+{"n":11,"ms":529,"event":"parent-inspection","src":"http://127.0.0.1:5274/probe.html?run=1792744962012","sameWindowProxy":true,"href":"SecurityError","documentAccess":"null","navigationAccess":"SecurityError"}
+{"n":12,"ms":529,"event":"message","origin":"http://127.0.0.1:5274","sameWindowProxy":true,"passesOriginAndSource":true,"data":{"jsonrpc":"2.0","id":1,"method":"portal.initialize","params":{"protocolVersion":"0.1"}}}
+{"n":13,"ms":529,"event":"bridge-send","data":{"jsonrpc":"2.0","id":1,"result":{"protocolVersion":"0.1","miniApp":{"id":"com.example.navigation","version":"1.0.0"},"host":{"name":"navigation-lab","version":"0.1.0","platform":"browser"},"grantedScopes":["profile"],"environment":{"locale":"en","colorScheme":"light"}}}}
+{"n":14,"ms":530,"event":"message","origin":"http://127.0.0.1:5274","sameWindowProxy":true,"passesOriginAndSource":true,"data":{"jsonrpc":"2.0","id":2,"method":"profile.get"}}
+{"n":15,"ms":531,"event":"profile-provider"}
+{"n":16,"ms":531,"event":"bridge-send","data":{"jsonrpc":"2.0","id":2,"result":{"displayName":"Lab user"}}}
+{"n":17,"ms":727,"event":"command","name":"reload","targetOrigin":"http://127.0.0.1:5274"}
+{"n":18,"ms":751,"event":"iframe-load"}
+{"n":19,"ms":751,"event":"parent-inspection","src":"http://127.0.0.1:5274/probe.html?run=1792744962012","sameWindowProxy":true,"href":"SecurityError","documentAccess":"null","navigationAccess":"SecurityError"}
+{"n":20,"ms":751,"event":"message","origin":"http://127.0.0.1:5274","sameWindowProxy":true,"passesOriginAndSource":true,"data":{"jsonrpc":"2.0","id":1,"method":"portal.initialize","params":{"protocolVersion":"0.1"}}}
+{"n":21,"ms":751,"event":"bridge-send","data":{"jsonrpc":"2.0","id":1,"result":{"protocolVersion":"0.1","miniApp":{"id":"com.example.navigation","version":"1.0.0"},"host":{"name":"navigation-lab","version":"0.1.0","platform":"browser"},"grantedScopes":["profile"],"environment":{"locale":"en","colorScheme":"light"}}}}
+{"n":22,"ms":753,"event":"message","origin":"http://127.0.0.1:5274","sameWindowProxy":true,"passesOriginAndSource":true,"data":{"jsonrpc":"2.0","id":2,"method":"profile.get"}}
+{"n":23,"ms":753,"event":"profile-provider"}
+{"n":24,"ms":753,"event":"bridge-send","data":{"jsonrpc":"2.0","id":2,"result":{"displayName":"Lab user"}}}
+
+The focused UI element is 16 button Child reload, ID: reload

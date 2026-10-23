@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Allowed navigation probe</title><link rel="stylesheet" href="lab.css"></head>
+<body><h1>Allowed mini-app document</h1><p id="status">starting</p><pre id="events"></pre>
+<script>
+  const query = new URLSearchParams(location.search);
+  if (query.has('hold')) {
+    const image = document.createElement('img');
+    image.src = `/slow.svg?run=${query.get('run')}`;
+    document.body.append(image);
+  }
+</script>
+<script type="module" src="probe.ts"></script></body>
+</html>
