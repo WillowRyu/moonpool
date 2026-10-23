@@ -4,6 +4,10 @@
 
 ### Added
 
+- Add a manual three-origin navigation research fixture, recorded browser
+  observations, and a proposed constrained CSP development profile for T18.
+  This records gaps in iframe navigation observability; it does not change
+  the normative contract or ship navigation containment (T17, ADR 0022).
 - Add client.onNotification with independent, idempotently removable local
   subscriptions to the two SPEC §6.4 events. Validate inbound data, project
   known fields, and give each listener a separate copy. Isolate synchronous

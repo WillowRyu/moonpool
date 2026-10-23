@@ -2,8 +2,28 @@
 
 Date: 2026-10-22
 Last updated: 2026-10-23
-Status: In progress. T01–T16 complete; next is T17. Milestone C is complete.
+Status: T01–T16 implemented; T17 investigation complete. ADR 0022 review deferred by the maintainer; T18 not started. Milestone C is complete.
 Normative source: `SPEC.md`. This plan does not amend the protocol.
+
+## Current checkpoint — 2026-10-23
+
+The maintainer requested committing/pushing completed work and will review
+ADR 0022 later. The proposal remains unapproved; no SPEC change or T18
+implementation is authorized by this publication request.
+
+| Tasks | Completed work |
+| --- | --- |
+| T01–T04 | Learning workflow, profile display, isolated memory storage, permission demos |
+| T05–T07 | Manifest field/path/scope validation and real example manifest wiring |
+| T08–T13 | Request/response validation, ordering, client closure, send-failure cleanup |
+| T14–T16 | Portal dismissal, host notification sending, isolated client subscriptions |
+| T17 | Manual navigation investigation, evidence, reproducible fixture, proposed ADR 0022 |
+
+Current verification: 995 tests across 34 files, root typecheck, lab typecheck,
+lint, and both example builds pass. Manual browser observations are separate.
+Remaining: T18 navigation behavior after approval; T19 error-code matrix;
+T20 final browser/security verification; T21 conformance and document reconciliation.
+Full v0.1 completion has not been declared. Resume at the deferred ADR review.
 
 ## Working mode
 
@@ -291,6 +311,23 @@ no example runtime UI or OS-event wiring was added. The explanation is
 Notifications have no replay; registration before initialize helps with early
 events, but receipt before receiver/subscriber installation is not guaranteed.
 
+**T17 complete (2026-10-23).** Committed and pushed T16 as dadbd28 and
+bcd9920. Added a separate manual three-origin fixture using the real kernel
+and transport, with HMR/watch/dependency discovery disabled during measurement.
+Recorded Chrome 155 observations for internal navigation/reload/hash, foreign
+calls/return, silent pre-load excursions, a load-close candidate, and CSP
+location/form/redirect/bounce prevention. The current bridge rejects foreign
+calls but remains usable after return; load-close both breaks internal navigation
+and misses pre-load calls. CSP prevented the tested foreign loads while keeping
+allowed reloads usable. docs/navigation-investigation.md links the raw evidence.
+ADR 0022 proposes an explicit single-Portal, single-origin CSP development
+profile and terminal disposal on violations; approval is required before SPEC
+or T18 runtime changes. The original SPEC and production code remain unchanged.
+Existing 995 tests, typecheck, lint, both builds, and the lab's separate typecheck
+pass. Manual observations are not counted as automated tests or cross-engine
+certification. The explanation is `study/21-navigation-investigation.html`.
+Next: decide the T18 contract, then implement it. This task touches SPEC §9.2.
+
 ### Milestone A: demonstrate useful calls
 
 | ID | Task | Completion evidence | Depends on |
@@ -374,9 +411,11 @@ Do not ask for those approvals again. The remaining gates below are separate.
   success as acceptance submitted before invoking dismissal. Subsequent hook
   failures are reported only on the host; no delivery/completion guarantee.
   SPEC §6.2 and ADR 0019 record the contract. Do not ask again.
-- **Browser navigation (T17–T18).** Establish a feasible observation and
-  teardown mechanism. If strict §9.2 behavior cannot be achieved, propose a
-  spec change and wait for approval rather than claiming conformance.
+- **Browser navigation (T17–T18): proposal ready.** T17 observations and
+  limitations are recorded in docs/navigation-investigation.md. ADR 0022
+  proposes a constrained CSP development profile with terminal disposal on
+  enforced violations. Approval is required before SPEC/T18 changes. Do not
+  claim unrestricted iframe conformance from origin filtering or load events.
 
 Do not choose numeric payload/depth limits during this work: the spec defines
 none. Any such policy needs a separate proposal. The document-epoch race,

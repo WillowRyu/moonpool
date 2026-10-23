@@ -115,7 +115,7 @@ Object.hasOwn(value, 'id')</code></pre>
     <p>실제 createHost·createClient를 메모리 전송으로 연결한 테스트에서는 프로필 응답을 잠시 보류합니다. 그동안 resumed·환경 변경·paused 알림을 받더라도 프로필 요청은 계속 기다립니다. 나중에 원래 프로필 응답이 오면 그 요청만 정상 완료합니다.</p>
     <div class="callout"><strong>2026.10.23 검증</strong><br>전체 995 / 995개 · 34개 테스트 파일 통과<br>타입 검사·린트·두 예제 빌드 통과<br>새 플랫폼 import·런타임 의존성·타입 단언 없음</div>
     <p>이번에는 라이브러리의 구독 API를 완성했습니다. 예제의 OS 이벤트 감지나 화면 변경 버튼은 추가하지 않았습니다. 알림을 받았다고 라이브러리가 자동으로 화면 모드·초기화 결과·권한을 바꾸지도 않습니다. 앱이 구독 함수에서 필요한 동작을 선택합니다.</p>
-    <div class="callout warm"><strong>다음 T17:</strong> 실제 브라우저에서 iframe이 다른 주소로 이동할 때 호스트가 무엇을 관찰할 수 있는지 조사합니다. 그 결과를 바탕으로 T18의 연결 종료 정책을 결정합니다.</div>
+    <div class="callout warm"><strong>다음에 진행한 T17 완료:</strong> 실제 이동·외부 왕복·CSP 차단을 조사했습니다. <a href="21-navigation-investigation.html">T17 해설</a>에서 관찰 한계와 T18 결정안을 읽을 수 있습니다.</div>
   </section>
   <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="19-host-notifications.html">T15 호스트 전송 복습</a><br>근거: SPEC §4·§6.4, ADR 0021, client 알림 코드와 테스트.</footer>
 </main>

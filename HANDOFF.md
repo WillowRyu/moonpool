@@ -5,16 +5,18 @@
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
-> T16 verified: 995 passed; typecheck, lint, and both example builds pass.
-> Client notification subscriptions validate events and isolate each listener.
+> T17 investigation complete: 995 tests, typecheck, lint, both builds, and lab typecheck pass.
+> Real-browser evidence and proposed ADR 0022 are ready; no navigation fix shipped.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Next: T17, actual-browser navigation investigation. Milestone C is complete.
-> T15 published as 5aebae6 / de26d0e. T16 is complete locally, not committed.
+> Current checkpoint: T01–T16 implemented; T17 investigation complete.
+> The maintainer deferred ADR 0022 review. T18 has not started.
+> Resume with that review only when the maintainer returns to it; do not ask now.
+> ADR 0022 is PROPOSED, not approved. SPEC and production code remain unchanged.
 > T14 acceptance-before-dismissal policy is approved in SPEC §6.2 / ADR 0019.
-> Do not ask again; implement the per-connect async onCloseRequested hook.
+> The per-connect async onCloseRequested hook is implemented. Do not ask again.
 > T12 published as 1465d03 / f271a2f; remote confirmed in sync before T13.
 > T13 local-error policy is approved in SPEC §4.6 / §4.7 and ADR 0018.
-> Implement the approved fixed -32603 / {phase:"send"} mapping; do not ask again.
+> The approved fixed -32603 / {phase:"send"} mapping is implemented. Do not ask again.
 > T11 staged JSON validation is approved in SPEC / ADR 0016. Do not ask again.
 > Policy questions: explain previous behavior → current problem → each option's consequences.
 > The request-id policy is approved in SPEC / ADR 0015. Do not ask again.
@@ -23,6 +25,124 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-23 checkpoint — progress summary and deferred policy review
+
+The maintainer requested a consolidated progress record and committing/pushing
+all completed work, explicitly deferring ADR 0022 review until later. Publishing
+the proposal is not approval. Keep ADR 0022 Proposed, leave SPEC and production
+navigation behavior unchanged, and do not start T18 or ask for its decision
+during this publication task.
+
+Current scope:
+
+- T01–T04: aligned learning materials and working mode; browser profile and
+  per-app in-memory storage demos, permission denial/success, and runtime
+  validation of displayed values.
+- T05–T07: complete manifest parsing, approved name/path/scope rules, and
+  actual manifest integration into the browser example.
+- T08–T13: batch rejection, method grammar, request-id ordering, staged JSON
+  validation, response validation, terminal client close, and failed-send cleanup.
+- T14–T16: Portal dismissal, typed host notification sending, and isolated
+  client subscriptions with unsubscribe/close and sync/async failure handling.
+- T17: real-browser navigation evidence, repeatable manual fixture, findings,
+  and proposed ADR 0022. Investigation complete; containment is not implemented.
+- T18–T21 remain: approved navigation behavior, error-code matrix, final browser
+  integration/security verification, and v0.1 conformance/document reconciliation.
+
+Verified baseline remains 995 tests across 34 files, root and lab typechecks,
+lint, and both example builds passing. T17 manual observations cover one
+Chrome 155 environment and are not counted as automated tests or cross-engine
+certification. Earlier lessons remain preserved in study/; use the current
+summary in docs/implementation-plan.md and the guide to resume.
+
+The next maintainer decision is ADR 0022's browser-development contract.
+Its unresolved status is deliberate; no reminder, schedule, or automatic
+continuation was requested. SPEC §11 epoch and peer-disconnect issues also
+remain open. All temporary experiment servers/tabs were already cleaned up.
+
+## 2026-10-23 checkpoint — T17 investigation complete
+
+Published T16 as dadbd28 (subscriptions) and bcd9920 (progress/study) to
+origin/master and confirmed a clean tree with HEAD...origin/master 0/0 before
+T17. The maintainer requested the investigation with an easy code explanation.
+T17 is complete locally; no T17 commit or push has been requested/performed.
+The required output is evidence and a proposal, not T18 implementation.
+
+Added examples/mock-host/navigation-lab with a manual three-origin fixture:
+127.0.0.1:5273 host, :5274 allowed app, :5275 foreign. It imports the actual
+host/client/iframe transport and uses only a dummy public profile. The server
+uses the existing example Vite dependency, fixed strict ports, and no new
+package/runtime dependency. HMR, watch, and dependency discovery are disabled
+during measurements. This is a manual fixture, not a new browser runner; the
+reportError migration trigger is not activated. Its separate tsconfig covers
+browser probe code. Normal 5173/5174 examples and production SDK code are untouched.
+
+An initial calibration with default dev reload behavior showed extra loads
+and was discarded without claiming a proven cause. All retained observations
+were made after disabling dev reload sources, with no code/server changes
+inside a measured sequence. Later server restarts can reload existing tabs,
+so screenshots/current tab state are not substitutes for the saved snapshots.
+The single screenshot lab-overview.png is explicitly an interface overview,
+not evidence of the timing gap. Eleven raw rendered accessibility snapshots
+in results/ preserve the measurements; redundant intermediate snapshots removed.
+
+Measured in the in-app browser reporting Chrome/155.0.0.0 on Macintosh.
+Allowed page change/reload kept the WindowProxy and initial src and repeated
+handshake successfully; hash did not add load. Parent location and Navigation
+API reads threw SecurityError for both allowed and foreign docs; contentDocument
+was null. Foreign RPC id 50 failed the exact origin/source predicate despite
+source identity matching; no provider invocation. targetOrigin marker had no
+foreign receipt report and a successful allowed-origin positive control.
+Returning allowed without initialize let id 100 invoke the old provider.
+
+A silent foreign page sent no host message, delayed load with an image, and
+returned to allowed. Fixture server records independently prove the foreign
+hop. The baseline provider ran at 5463 ms, next load at 10464 ms. A candidate
+closing on every load after the first broke normal same-origin navigation
+(initialize timed out). With the silent bounce it still invoked the provider
+at 596 ms, only closing at 5584 ms. Do not generalize either load/message
+ordering into a universal rule. Do not treat iframe.src or WindowProxy as a
+current-origin proof, or access errors as a foreign-navigation detector.
+
+A parent meta CSP frame-src restricted to exactly :5274 blocked tested foreign
+location navigation, silent bounce, form submission, and allowed-to-foreign
+302 redirect. Server logs for the directly measured paths contained no foreign
+page request; the redirect endpoint itself was reached. A frame-src violation
+was observed. Allowed same-origin page changes/reloads continued to work.
+The CSP fixture only LOGS violations and does not close the bridge on them.
+No cross-engine, all-scheme, history, or multi-Portal certification is claimed.
+
+Added docs/navigation-investigation.md with evidence/source links and proposed
+ADR 0022. Recommendation for explicit approval: a browser-development profile
+with one active Portal/one exact app origin per host document, host-owned
+CSP enforced before frame creation, and terminal disposal on a trusted enforced
+frame-src violation. Keep origin/source/targetOrigin checks and same-origin
+repeat handshake; no automatic revival. Preserve production §9.2 and state the
+preventive contract instead of claiming a generic current-URL observer.
+Multiple unrelated origins/frames in one host document are outside the simple
+profile. Alternative: retain general wording and keep browser navigation
+conformance unresolved. Do not offer load-only closing as a valid solution.
+ADR remains PROPOSED. No approval question was issued yet and no approval was
+received; ask before SPEC/T18 changes, with prior behavior, problem, consequences.
+Do not equate a request to continue T18 with approval of an unstated contract.
+
+Checked official HTML iframe/WindowProxy, MDN contentWindow, and W3C CSP3 sources.
+SPEC §9.2 is explicitly flagged. No normative SPEC edit or product navigation
+fix was made. Existing §11 epoch and peer-disconnect issues are separate.
+
+Verified 995 tests across 34 files, root typecheck, dedicated lab typecheck,
+lint (104 files), both unchanged example builds, and diff checks. Manual
+observations are not counted as automated tests. Added study/21-navigation-
+investigation.html, preserved T16 at #t16, updated its wrap-up, and marked
+T17 complete / T18 decision pending in the roadmap and guide. All 335 local
+references across 22 study pages and the research-document links are valid;
+no duplicate ids or changes to prior interactive scripts. Browser QA confirms
+the lesson and current-task guide. All temporary servers and tabs were stopped.
+
+Next: T18 contract approval, then specification first, failing tests, and the
+approved implementation. The T17 fixture's README provides the exact rerun
+command. Keep its server running unchanged during each observation sequence.
 
 ## 2026-10-23 checkpoint — T16 commit and push
 
