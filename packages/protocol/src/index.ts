@@ -62,6 +62,26 @@ export interface PortalEnvironment {
   colorScheme: 'light' | 'dark';
 }
 
+/** SPEC §6.4 — the two lifecycle states defined for host notifications. */
+export type PortalLifecycleState = 'resumed' | 'paused';
+
+export type PortalLifecycleParams = { state: PortalLifecycleState };
+
+/** SPEC §6.4 — only changed environment fields need to be present. */
+export type PortalEnvironmentChangedParams = {
+  colorScheme?: PortalEnvironment['colorScheme'];
+  locale?: PortalEnvironment['locale'];
+};
+
+/** SPEC §6.4 — notifications have no id and require no response. */
+export type HostNotification =
+  | { jsonrpc: '2.0'; method: 'portal.lifecycle'; params: PortalLifecycleParams }
+  | {
+      jsonrpc: '2.0';
+      method: 'portal.environmentChanged';
+      params: PortalEnvironmentChangedParams;
+    };
+
 /** SPEC §5 — successful result of `portal.initialize`. */
 export interface InitializeResult {
   protocolVersion: string;

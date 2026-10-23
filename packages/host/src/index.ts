@@ -32,9 +32,11 @@ import {
 } from '@moonpool/protocol';
 
 import { inspectIncomingRequest, isJsonParams } from './incoming-request';
+import { createNotificationSender, type HostConnection } from './notifications';
 
 export { parseManifest } from './manifest';
 export { ManifestError } from './manifest-fields';
+export type { HostConnection } from './notifications';
 
 /**
  * The only host-environment global this package touches. Declared narrowly
@@ -95,8 +97,8 @@ export interface HostConfig {
 }
 
 export interface Host {
-  /** Attach one Portal's bridge connection. */
-  connect(transport: Transport, options?: HostConnectionOptions): void;
+  /** Attach one Portal's bridge and return its notification sender (SPEC §6.4). */
+  connect(transport: Transport, options?: HostConnectionOptions): HostConnection;
 }
 
 export interface HostConnectionOptions {
@@ -692,6 +694,7 @@ export function createHost(config: HostConfig): Host {
           },
         });
       });
+      return createNotificationSender(transport);
     },
   };
 }
