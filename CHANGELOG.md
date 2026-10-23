@@ -4,6 +4,9 @@
 
 ### Added
 
+- Add internal manifest field parsing and validation for JSON text, required
+  members, id/name/version formats, and string permission arrays. Package-path
+  containment and known-scope admission remain the next parser stage.
 - Add browser storage controls and host-selected profile-only/storage-enabled
   configurations. Recreate the Portal connection on each selection while
   retaining host-held storage, show permission errors and CRUD results, and
@@ -19,6 +22,8 @@
 
 ### Changed
 
+- Define manifest display-name length as 1–40 Unicode code points, including
+  one per supplementary-plane character (SPEC §7, ADR 0010).
 - Validate the browser mini app's profile displayName at runtime before
   rendering, replacing its result type assertion. Report invalid result
   shapes as local profile errors while preserving the successful handshake.
