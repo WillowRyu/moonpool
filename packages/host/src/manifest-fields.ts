@@ -55,8 +55,8 @@ function matchesEntirely(pattern: RegExp, value: string): boolean {
 /**
  * Parse file text and validate SPEC §7's required field shapes and formats.
  * This pure, synchronous helper performs no I/O and creates no connection.
- * It does not prove entry containment or scope recognition; T06 must finish
- * admission before the package exposes a full parser or the example uses it.
+ * It does not prove entry containment or scope recognition. The package's
+ * public parseManifest composes this stage with both admission checks.
  */
 export function parseManifestFields(source: unknown): ManifestFields {
   if (typeof source !== 'string') {

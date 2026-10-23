@@ -90,7 +90,7 @@ export interface MiniAppManifest {
   /** Display name, 1–40 Unicode code points (SPEC §7 / ADR 0010). */
   name: string;
   version: string;
-  /** Relative path; MUST NOT escape the package root. */
+  /** Unencoded relative file path; MUST NOT escape the package root (SPEC §7). */
   entry: string;
   protocolVersion: string;
   /** Declared scopes. MAY be empty. */

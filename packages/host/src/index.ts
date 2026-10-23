@@ -33,6 +33,9 @@ import {
   STORAGE_METHODS,
 } from '@moonpool/protocol';
 
+export { parseManifest } from './manifest';
+export { ManifestError } from './manifest-fields';
+
 /**
  * The only host-environment global this package touches. Declared narrowly
  * on purpose, the way the client declares `setTimeout`: adding "DOM" or

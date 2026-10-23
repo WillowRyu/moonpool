@@ -401,6 +401,27 @@ character such as U+1F600 counts as one code point. Combining marks and the
 components of multi-code-point emoji count separately; this is not a count of
 grapheme clusters.
 
+`entry` is a nonempty, unencoded relative file path using `/` separators:
+
+- It MUST NOT start with `/`, contain `\`, `%`, `:`, `?`, or `#`, contain
+  Unicode control characters (U+0000–U+001F or U+007F–U+009F), or have leading
+  or trailing whitespace (as defined by ECMAScript `String.prototype.trim`).
+- Empty interior segments and `.` segments do not change the path depth.
+  Process `..` segments from left to right: each removes one preceding path
+  segment and MUST be rejected if it would ascend above the package root,
+  even if a later segment would descend into the package again.
+- The final segment MUST be nonempty and MUST NOT be `.` or `..`. Directory
+  targets such as `pages/` are not valid entries. No file extension is required.
+- Hosts MUST preserve accepted entry text during manifest parsing. They MUST
+  NOT trim it, decode percent escapes, or replace backslashes to admit it.
+
+For example, `index.html`, `./index.html`, and `pages/../index.html` are valid;
+`/index.html`, `../index.html`, and `pages/%2e%2e/index.html` are not.
+Literal Unicode and spaces inside the path are permitted. Manifest validation
+checks this path syntax without I/O; it does not prove that a file exists.
+The loader remains responsible for ensuring actual file resolution, including
+symbolic links where applicable, stays inside the package root.
+
 A host MUST reject a manifest declaring an unknown scope rather than silently
 dropping it — silent drops produce mini apps that fail at runtime for
 non-obvious reasons.
