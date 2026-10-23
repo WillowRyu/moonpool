@@ -6,6 +6,7 @@
  *
  * Correlates replies with pending requests, applies a timeout to each request,
  * rejects calls on terminal local close, and cleans up failed sends (SPEC §4.5–§4.7).
+ * Delivers known host notifications to isolated local subscribers (SPEC §6.4).
  */
 import {
   ERROR_CODES,
@@ -16,10 +17,13 @@ import {
   PROTOCOL_VERSION,
   type Transport,
 } from '@moonpool/protocol';
+import { createNotificationSubscriptions, type NotificationListener } from './notifications';
+
+export type { NotificationListener } from './notifications';
 
 /**
- * The only host-environment globals this package touches. Declared narrowly
- * on purpose: adding "DOM" or @types/node to typecheck these would also make
+ * The timers this module needs. Declared narrowly on purpose: adding "DOM"
+ * or @types/node to typecheck these would also make
  * `window`/`process` compile inside a package that must stay portable.
  */
 declare const setTimeout: (handler: () => void, timeoutMs: number) => unknown;
@@ -53,6 +57,8 @@ export interface MoonpoolClient {
   initialize(): Promise<InitializeResult>;
   /** Calls a capability, e.g. `call('profile.get')`. */
   call(method: string, params?: Record<string, JsonValue>): Promise<unknown>;
+  /** Subscribe to known §6.4 notifications locally; returns an idempotent unsubscribe. */
+  onNotification(listener: NotificationListener): () => void;
   /** Terminal local close. Repeated calls do nothing (SPEC §4.6). */
   close(): void;
 }
@@ -72,6 +78,7 @@ export function createClient(config: ClientConfig): MoonpoolClient {
 
   /** id → the promise waiting on it. A Map, not an object: ids arrive from off-connection. */
   const pending = new Map<number, Pending>();
+  const notifications = createNotificationSubscriptions();
   let closed = false;
   /** SPEC §4.1: ids are positive integers, unique per connection. */
   let nextId = 1;
@@ -85,6 +92,8 @@ export function createClient(config: ClientConfig): MoonpoolClient {
     }
     // Reject invalid data before it can consume a pending call or its timer.
     if (!isJsonRpcResponse(message)) {
+      // Notifications never reach the pending Map; unknown/malformed ones are ignored.
+      notifications.dispatch(message);
       return;
     }
 
@@ -165,12 +174,19 @@ export function createClient(config: ClientConfig): MoonpoolClient {
     call(method, params) {
       return request(method, params);
     },
+    onNotification(listener) {
+      if (closed) {
+        return () => {};
+      }
+      return notifications.subscribe(listener);
+    },
     close() {
       if (closed) {
         return;
       }
       // External cleanup may reenter the client; make closure terminal first.
       closed = true;
+      notifications.clear();
 
       // SPEC §4.6: nothing may stay pending across a close. Snapshot and clear
       // before settling — the same discard-then-settle order as the return

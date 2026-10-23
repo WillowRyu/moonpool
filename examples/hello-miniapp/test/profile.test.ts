@@ -37,6 +37,7 @@ beforeEach(() => {
   client = {
     initialize: vi.fn().mockResolvedValue(HANDSHAKE),
     call: vi.fn().mockResolvedValue({ displayName: 'Moonpool Explorer' }),
+    onNotification: vi.fn(() => () => {}),
     close: vi.fn(),
   };
   vi.mocked(createClient).mockReturnValue(client);
