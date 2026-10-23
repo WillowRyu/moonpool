@@ -9,6 +9,7 @@
 import { createClient, MoonpoolError } from '@moonpool/client';
 import { PROFILE_METHODS, PROTOCOL_VERSION } from '@moonpool/protocol';
 import { createIframeTransport } from '@moonpool/transport-iframe';
+import { createCloseDemo } from './close-demo';
 import { createStorageDemo } from './storage-demo';
 
 /** SPEC §8.1 — pinned, never derived from the environment. */
@@ -27,6 +28,7 @@ root.innerHTML = `
     <dt>bridge</dt><dd id="bridge">connecting...</dd>
     <dt>profile</dt><dd id="profile" aria-live="polite">waiting for handshake...</dd>
   </dl>
+  <section id="dismissal" aria-label="Portal dismissal"></section>
   <section id="storage" aria-label="Storage demo"></section>
 `;
 
@@ -43,6 +45,11 @@ if (profile === null) {
 const storageRoot = root.querySelector<HTMLElement>('#storage');
 if (storageRoot === null) {
   throw new Error('hello-miniapp: #storage is missing from the rendered markup');
+}
+
+const closeRoot = root.querySelector<HTMLElement>('#dismissal');
+if (closeRoot === null) {
+  throw new Error('hello-miniapp: #dismissal is missing from the rendered markup');
 }
 
 /** Preserve bridge error codes so the example explains why a call failed. */
@@ -65,6 +72,7 @@ const client = createClient({
   }),
 });
 const storageDemo = createStorageDemo(storageRoot, client);
+const closeDemo = createCloseDemo(closeRoot, client);
 
 try {
   // SPEC §5 — the mini app initiates, and this MUST be the first request.
@@ -72,6 +80,7 @@ try {
   // Treat returned strings as text; they must not become executable markup.
   bridge.textContent = `connected to ${result.host.name} · granted ${result.grantedScopes.join(', ') || '(nothing)'}`;
   storageDemo.ready(result.grantedScopes);
+  closeDemo.ready();
 
   profile.textContent = 'loading...';
   try {
@@ -98,4 +107,5 @@ try {
   bridge.textContent = `handshake failed: ${describeError(error)}`;
   profile.textContent = 'not requested: handshake failed';
   storageDemo.unavailable('not requested: handshake failed');
+  closeDemo.unavailable('not requested: handshake failed');
 }

@@ -69,13 +69,16 @@ describe('T02 — hello-miniapp profile display', () => {
 
     const callsBeforeHandshake = vi.mocked(client.call).mock.calls.length;
     const pendingLabel = document.querySelector('#profile')?.textContent;
+    const closeDisabled = document.querySelector<HTMLButtonElement>('#portal-close')?.disabled;
     // Settle the entry point even when an assertion below fails during RED.
     completeHandshake(HANDSHAKE);
     await loading;
 
     expect(callsBeforeHandshake).toBe(0);
     expect(pendingLabel).toBe('waiting for handshake...');
+    expect(closeDisabled).toBe(true);
     expect(document.querySelector('#profile')?.textContent).toBe('Moonpool Explorer');
+    expect(document.querySelector<HTMLButtonElement>('#portal-close')?.disabled).toBe(false);
   });
 
   it('renders profile and handshake strings as text rather than HTML', async () => {
@@ -161,5 +164,17 @@ describe('T02 — hello-miniapp profile display', () => {
     );
     expect(document.querySelector('#profile')?.textContent).toBe('not requested: handshake failed');
     expect(document.querySelector<HTMLFieldSetElement>('#storage-controls')?.disabled).toBe(true);
+    expect(document.querySelector<HTMLButtonElement>('#portal-close')?.disabled).toBe(true);
+  });
+
+  it('wires the close button to portal.close after the handshake', async () => {
+    await import('../src/main');
+    const button = document.querySelector<HTMLButtonElement>('#portal-close');
+    expect(button?.disabled).toBe(false);
+    button?.click();
+    await vi.waitFor(() =>
+      expect(client.call).toHaveBeenCalledWith('portal.close', { reason: 'finished' }),
+    );
+    expect(document.querySelector('#close-output')?.textContent).toBe('Close request accepted');
   });
 });

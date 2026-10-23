@@ -96,7 +96,24 @@ const startPortal = (storageAllowed: boolean): void => {
       },
       storage,
     },
-  }).connect(transport);
+  }).connect(transport, {
+    async onCloseRequested(reason) {
+      // A stale handler must never close a Portal created by a later selection.
+      if (activeTransport !== transport || iframe.parentElement !== portal) {
+        return;
+      }
+      activeTransport = undefined;
+      transport.close();
+      iframe.remove();
+      profileOnly.setAttribute('aria-pressed', 'false');
+      withStorage.setAttribute('aria-pressed', 'false');
+      // Caller-provided reason is text, never executable markup (§9.6).
+      configuration.textContent =
+        reason === undefined
+          ? 'Portal dismissed. Choose a configuration to start again.'
+          : `Portal dismissed: ${reason}. Choose a configuration to start again.`;
+    },
+  });
   profileOnly.setAttribute('aria-pressed', String(!storageAllowed));
   withStorage.setAttribute('aria-pressed', String(storageAllowed));
   configuration.textContent = storageAllowed
