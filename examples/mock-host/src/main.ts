@@ -7,20 +7,24 @@
  * Host controls start a new Portal to demonstrate storage denial and success.
  */
 
-import { createHost } from '@moonpool/host';
-import { type MiniAppManifest, PROTOCOL_VERSION, type Transport } from '@moonpool/protocol';
+import { createHost, parseManifest } from '@moonpool/host';
+import { PROTOCOL_VERSION, type Transport } from '@moonpool/protocol';
 import { createIframeTransport } from '@moonpool/transport-iframe';
+import manifestText from '../../hello-miniapp/moonpool.json?raw';
 import { createMemoryStorageProvider } from './memory-storage';
 
 /** SPEC §8.1 — pinned per mini app id, never derived at runtime. */
-const MINI_APP_ORIGINS: Record<string, string> = {
-  'com.example.hello': 'http://localhost:5174',
-};
+const MINI_APP_ORIGINS = new Map([['com.example.hello', 'http://localhost:5174']]);
 
-const portalOrigin = MINI_APP_ORIGINS['com.example.hello'];
+// SPEC §7: bundle host-owned file text and validate it before any Portal exists.
+// The mini app does not supply its own identity or permissions over the bridge.
+const MANIFEST = parseManifest(manifestText);
+const portalOrigin = MINI_APP_ORIGINS.get(MANIFEST.id);
 if (portalOrigin === undefined) {
-  throw new Error('mock-host: no development origin pinned for com.example.hello');
+  throw new Error(`mock-host: no development origin pinned for ${MANIFEST.id}`);
 }
+// ADR 0011: resolve the validated relative entry from this app's pinned root.
+const portalUrl = new URL(MANIFEST.entry, `${portalOrigin}/`).href;
 
 const root = document.querySelector<HTMLElement>('#app');
 if (root === null) {
@@ -45,21 +49,6 @@ root.innerHTML = `
   <div id="portal"></div>
 `;
 
-/**
- * A real host parses this out of the mini app bundle it downloaded, before
- * the web view exists — the Portal never serves its own manifest to the host.
- * Held as a typed literal until the host package grows a manifest parser.
- */
-const MANIFEST: MiniAppManifest = {
-  manifestVersion: 1,
-  id: 'com.example.hello',
-  name: 'Hello',
-  version: '1.0.0',
-  entry: 'index.html',
-  protocolVersion: '0.1',
-  permissions: ['profile', 'storage'],
-};
-
 const portal = root.querySelector<HTMLElement>('#portal');
 const profileOnly = root.querySelector<HTMLButtonElement>('#profile-only');
 const withStorage = root.querySelector<HTMLButtonElement>('#with-storage');
@@ -78,7 +67,7 @@ const startPortal = (storageAllowed: boolean): void => {
   activeTransport?.close();
   const iframe = document.createElement('iframe');
   iframe.title = MANIFEST.id;
-  iframe.src = `${portalOrigin}/`;
+  iframe.src = portalUrl;
   portal.replaceChildren(iframe);
   if (iframe.contentWindow === null) {
     throw new Error('mock-host: the Portal iframe has no content window');
