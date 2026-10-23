@@ -6,7 +6,7 @@ Browser tab: 20, Title: "Moonpool T17 CSP comparison", URL: "http://127.0.0.1:52
 		4 text Manual research fixture. No navigation protection has been added to Moonpool.
 		5 text UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36 | frame-src restriction: true
 		6 container
-			7 text Experimental policy 
+			7 text Experimental policy
 			8 pop up button (collapsed, settable) Experimental policy, Value: Existing bridge only, ID: policy, Secondary Actions: Expand
 				9 menu
 					10 (selected) Existing bridge only

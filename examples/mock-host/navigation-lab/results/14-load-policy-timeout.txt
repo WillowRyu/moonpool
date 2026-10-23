@@ -6,7 +6,7 @@ Browser tab: 19, Title: "Moonpool T17 navigation lab", URL: "http://127.0.0.1:52
 		5 text Manual research fixture. No navigation protection has been added to Moonpool.
 		6 text UA: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/155.0.0.0 Safari/537.36 | frame-src restriction: false
 		7 container
-			8 text Experimental policy 
+			8 text Experimental policy
 			9 pop up button (collapsed, settable) Experimental policy, Value: Close on every load after first, ID: policy, Secondary Actions: Expand
 				10 menu
 					11 Existing bridge only

@@ -34,6 +34,11 @@ the proposal is not approval. Keep ADR 0022 Proposed, leave SPEC and production
 navigation behavior unchanged, and do not start T18 or ask for its decision
 during this publication task.
 
+Published the investigation as ab3404c and the progress checkpoint as 7fa00c4
+to origin/master. A formatting follow-up normalizes trailing whitespace and
+final newlines in the eleven saved snapshots; JSON event contents are verified
+unchanged, and the normalization is documented in the lab README.
+
 Current scope:
 
 - T01–T04: aligned learning materials and working mode; browser profile and

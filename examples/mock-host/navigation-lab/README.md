@@ -50,8 +50,9 @@ inferred from the unchanged src attribute or a child-supplied URL.
 
 ## Evidence and limits
 
-Raw rendered accessibility snapshots are in `results/`; redundant intermediate
-snapshots were removed. `lab-overview.png` shows the fixture interface, not a
+Rendered accessibility snapshots are in `results/`; redundant intermediate
+snapshots were removed. Trailing label whitespace and final newlines are
+normalized; recorded JSON event contents are unchanged. `lab-overview.png` shows the fixture interface, not a
 timing assertion. See [the findings](../../../docs/navigation-investigation.md)
 for measurements, sources, and the proposed T18 contract.
 
