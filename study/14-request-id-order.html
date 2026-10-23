@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — T10 요청 번호 재사용과 역순 검사</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">14 · T10 요청 번호 순서</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#decision">이전 동작·문제·결정 결과</a>
+    <a href="#terms">새로 만나는 말</a>
+    <a href="#counter">가장 큰 번호 하나 기억하기</a>
+    <a href="#error">번호 없는 오류로 거절하기</a>
+    <a href="#boundary">초기화에서 기준 새로 잡기</a>
+    <a href="#checks">검증과 남은 경계</a>
+  </nav>
+  <p class="small desktop-only">2026.10.23 검증<br>T10 완료 · 다음 T11<br>645개 테스트 통과</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">T10 · Increasing ids within each document</div>
+    <h1>이미 지난 번호는 거절하고,<br>원래 요청의 기다림은 지킵니다.</h1>
+    <p class="lead">호스트가 현재 문서에서 사용한 가장 큰 번호를 기억합니다. 중복·역순 요청을 실행하지 않고, 새 초기화에서는 번호 기준을 다시 시작합니다.</p>
+    <div class="meta"><span class="pill">T10 완료</span><span class="pill">645 / 645 테스트 통과</span><span class="pill warm">다음 T11 · 메시지 전체 JSON 검사</span></div>
+  </header>
+  <section class="section" id="decision">
+    <h2>1 · 이전 동작에서 무엇이 달라졌나</h2>
+    <div class="table-wrap"><table><thead><tr><th>단계</th><th>설명</th></tr></thead><tbody>
+      <tr><td>이전 동작</td><td>양의 정수 번호인지는 검사했지만, 같은 번호를 다시 보내도 요청이 실행됐습니다.</td></tr>
+      <tr><td>지금 해결할 문제</td><td>저장이 중복 실행될 수 있습니다. 중복 번호를 붙인 오류가 아직 기다리는 원래 호출의 응답으로 해석될 수도 있습니다.</td></tr>
+      <tr><td>승인한 결과</td><td>사용한 가장 큰 번호 이하의 요청은 -32600 / id:null로 거절합니다. 원래 호출은 자기 응답을 계속 기다립니다.</td></tr>
+    </tbody></table></div>
+    <p>2026.10.23에 이 정책을 승인받아 <a href="../SPEC.md">SPEC §4.1·§4.2·§5.1</a>에 먼저 기록했습니다. <a href="../docs/adr/0015-enforce-document-request-id-order.md">ADR 0015</a>에는 검사 순서, 초기화 예외와 남은 한계를 정리했습니다. 이후 정책 질문도 이전 동작 → 현재 문제 → 선택 결과 순서로 설명하기로 했습니다.</p>
+  </section>
+  <section class="section" id="terms">
+    <h2>이번 코드에서 만나는 표현</h2>
+    <div class="table-wrap"><table><thead><tr><th>표현</th><th>뜻</th><th>비유</th></tr></thead><tbody>
+      <tr><td>lastRequestId</td><td>현재 문서에서 사용한 가장 큰 요청 번호</td><td>접수대가 기억한 마지막 번호</td></tr>
+      <tr><td>단조 증가</td><td>다음 번호가 이전 번호보다 커야 하는 규칙</td><td>1 → 3 → 5도 괜찮지만 5 → 3은 거절</td></tr>
+      <tr><td>번호 소비</td><td>요청을 받았으므로 다시 쓸 수 없다고 기록</td><td>서류 내용에 오류가 있어도 사용한 접수번호는 남김</td></tr>
+      <tr><td>문서 경계</td><td>일반 요청 형식이 맞는 portal.initialize로 새 번호 구간 시작</td><td>새 문서의 접수 장부 열기</td></tr>
+      <tr><td>id:null 오류</td><td>특정 대기 요청에 연결하지 않을 오류</td><td>원래 번호표의 손님을 호출하지 않는 거절 안내</td></tr>
+    </tbody></table></div>
+  </section>
+  <section class="section" id="counter">
+    <h2>2 · 가장 큰 번호 하나로 판단합니다</h2>
+    <pre><code>let initialized = false;
+let lastRequestId = 0;</code></pre>
+    <p>변수는 connect 안에 있으므로 같은 호스트에 연결된 두 Portal도 각자의 번호를 기억합니다. 5까지 사용했다면 5 이하의 번호를 모두 거절할 수 있어, 과거 번호 목록 전체를 보관할 필요가 없습니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>들어온 요청</th><th>처리</th><th>기억한 번호</th></tr></thead><tbody>
+      <tr><td>initialize 1</td><td>새 기준에서 초기화</td><td>1</td></tr>
+      <tr><td>ping 5</td><td>허용. 중간 번호를 건너뛰어도 됨</td><td>5</td></tr>
+      <tr><td>저장 요청 5</td><td>중복이므로 실행하지 않음</td><td>5</td></tr>
+      <tr><td>저장 요청 3</td><td>사용하지 않았던 번호여도 역순이므로 거절</td><td>5</td></tr>
+      <tr><td>잘못된 이름의 요청 6</td><td>번호는 소비하고 이름 오류로 거절</td><td>6</td></tr>
+      <tr><td>이름을 고쳐 다시 보낸 요청 6</td><td>중복이므로 거절. 새 번호가 필요</td><td>6</td></tr>
+      <tr><td>ping 7</td><td>허용</td><td>7</td></tr>
+    </tbody></table></div>
+    <p>새 번호는 이름·인자·권한 등의 검사보다 먼저 기록합니다. 따라서 오류로 끝난 요청도 번호를 사용한 것입니다. 양의 정수가 아닌 번호와 알림, 배열 요청은 이 번호 기준을 올리지 않습니다.</p>
+  </section>
+  <section class="section" id="error">
+    <h2>3 · 중복 번호를 오류의 id로 돌려주지 않습니다</h2>
+    <pre><code>if (Number.isInteger(id) &amp;&amp; id &gt; 0) {
+  if (id &lt;= lastRequestId) {
+    const response: JsonRpcResponse = {
+      jsonrpc: '2.0',
+      id: null,
+      error: {
+        code: ERROR_CODES.INVALID_REQUEST,
+        message: 'request ids must increase within a document',
+      },
+    };
+    transport.send(response);
+    return;
+  }
+  lastRequestId = id;
+}</code></pre>
+    <p><code>&lt;=</code>는 “작거나 같다”입니다. 이 조건에 걸리면 오류를 보내고 return으로 끝내므로 provider는 호출되지 않습니다. 통과한 번호만 마지막 줄에서 기록합니다. 이 코드는 <code>packages/host/src/index.ts</code>에 있습니다.</p>
+    <p>예를 들어 프로필 요청 2가 아직 실행 중인데 또 2가 들어왔다고 해 봅시다. 오류에도 id:2를 붙이면 클라이언트가 원래 프로필 호출을 실패로 끝낼 수 있습니다. id:null로 보내면 T08의 클라이언트 처리가 그 오류를 대기 중인 호출과 연결하지 않습니다.</p>
+    <div class="flow"><div class="node">원래 요청 2<br>provider 결과 대기</div><span class="sep">→</span><div class="node current">중복 요청 2<br>실행 없이 null 오류</div><span class="sep">→</span><div class="node">원래 응답 2<br>정상 완료</div></div>
+    <p>중복 요청의 이름이나 인자까지 틀렸어도 번호 검사를 먼저 합니다. 그래야 다른 오류 분기에서 같은 번호를 돌려주어 원래 호출을 끝내는 일이 없습니다. 새 번호가 통과한 뒤에는 기존 T09 이름 검사와 다른 오류 순서를 따릅니다.</p>
+  </section>
+  <section class="section" id="boundary">
+    <h2>4 · 정식 초기화는 새 문서의 번호 구간을 엽니다</h2>
+    <pre><code>if (message.method === PORTAL_METHODS.INITIALIZE &amp;&amp; isJsonRpcRequest(message)) {
+  lastRequestId = 0;
+}</code></pre>
+    <p>이 코드는 번호 비교보다 앞에 있습니다. 일반 요청 모양이 맞는 정확한 portal.initialize이면 기준을 0으로 돌린 뒤 그 초기화의 번호를 소비합니다. 이전 문서에서 20까지 썼어도 새 문서가 initialize 1 → ping 2로 시작할 수 있습니다.</p>
+    <p>일반 요청 모양은 버전 협상의 성공과 다릅니다. params가 객체이거나 생략된 정상 요청 모양이라면 새 문서 경계이고, 그다음 protocolVersion 검사가 실패할 수도 있습니다. 이때 초기화 상태는 실패 상태이며 새 번호 기준은 유지합니다. 기존 클라이언트가 initialize 3으로 재시도하는 경우도 허용합니다.</p>
+    <p>이름을 잘못 적거나 params 자체가 배열인 초기화는 새 문서 경계가 아닙니다. 기존 상태를 유지하면서, 새 번호라면 그 번호를 소비한 뒤 형식 오류를 보내고, 이전 번호라면 null 오류로 거절합니다.</p>
+    <p><strong>SPEC §9의 권한 경계와 §5.1의 보존 규칙을 지킵니다.</strong> 요청 번호는 권한 증명이 아닙니다. 초기화로 번호 기준이 바뀌어도 grantedScopes와 저장 내용은 유지하며, 실제 호출에서는 계속 호스트의 권한 검사를 거칩니다.</p>
+    <div class="callout warm"><strong>문서별 검사의 범위:</strong> 초기화는 의도적으로 새 번호 구간을 시작하므로 영구적인 재실행 방지 기능은 아닙니다. 문서가 바뀐 뒤 예전 provider 응답이 늦게 도착하는 문제는 SPEC §11에 남아 있습니다. 이번 번호 초기화가 예전 provider 작업을 취소하는 것은 아닙니다.</div>
+  </section>
+  <section class="section" id="checks">
+    <h2>5 · 결과와 저장 내용, 대기 중인 호출을 확인했습니다</h2>
+    <p>구현 전 새 테스트 25개 중 17개가 실패했고 8개는 기존 동작을 확인했습니다. 구현 후 모두 통과했습니다. 같은 호스트의 서로 다른 연결, 증가하는 번호의 건너뛰기, 중복·역순 저장, 실패 요청의 번호 소비, 초기화 경계와 버전 실패 후 재시도를 확인합니다.</p>
+    <p>실제 host와 client를 메모리 전송으로 연결한 테스트는 원래 프로필 호출을 기다리게 한 뒤 중복 요청과 잘못된 이름의 중복 요청을 보냅니다. provider는 한 번만 호출되고 원래 호출과 타이머가 유지됩니다. 원래 provider를 완료하면 호출이 성공하고 타이머가 정리됩니다.</p>
+    <div class="callout"><strong>2026.10.23 검증 결과</strong><br>새 테스트 25개 통과 · 전체 645 / 645 통과 · 25개 테스트 파일<br>타입 검사·린트·두 예제 빌드 통과<br>플랫폼 API·런타임 의존성·새 메시지 필드 없음</div>
+    <div class="callout warm"><strong>다음 T11:</strong> 받은 메시지 전체가 JSON 값인지 검사합니다. 기존 입력 검사는 유지하며, 전체 메시지 오류의 코드와 순서는 이전 동작·현재 문제·선택 결과를 설명한 뒤 명세에서 확정합니다.</div>
+  </section>
+  <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="13-method-names.html">T09 이름 검사 복습</a><br>근거: 승인된 SPEC §4.1·§4.2·§5.1, ADR 0015, 실제 host 코드와 테스트. 규범 문서는 SPEC.md입니다.</footer>
+</main>
+</body>
+</html>

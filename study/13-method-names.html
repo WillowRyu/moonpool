@@ -114,7 +114,7 @@ METHOD_NAME.exec(value.method)?.[0] === value.method</code></pre>
     <p>먼저 기존 정상 동작을 확인하는 테스트 29개를 준비했습니다. 규칙 승인 후 경계 사례를 더한 T09 테스트는 122개이며, 구현 직전에는 83개가 실패하고 39개가 통과했습니다. 이제 전부 통과합니다.</p>
     <div class="test-list"><div><strong>프로토콜 58개</strong><br>알려진 이름 · 대문자·숫자 허용 위치 · 잘못된 글자 · 줄바꿈 · 문자열 경계 · params 검사 분리</div><div><strong>호스트 64개</strong><br>초기화·권한별 코드 · 인자보다 이름 먼저 · provider 미호출 · 세션 보존 · 알림·배열 · 원문 미노출</div></div>
     <div class="callout"><strong>2026.10.23 검증 결과</strong><br>새 테스트 122개 통과 · 전체 620 / 620 통과 · 24개 테스트 파일<br>타입 검사·린트·두 예제 빌드 통과<br>승인한 규칙은 SPEC §4.2·§6.1과 ADR 0014에 먼저 기록</div>
-    <div class="callout warm"><strong>다음 T10:</strong> 요청 번호의 재사용과 역순 요청을 어떻게 거절하고, 반복 초기화에서 무엇을 재설정할지 다룹니다. 그 응답·연결 규칙은 기존 명세 결정 항목을 먼저 확정해야 합니다.</div>
+    <div class="callout warm"><strong>T09 다음에 진행한 작업 · T10 완료</strong><br>중복·역순 번호의 거절과 초기화 경계를 승인받아 구현했습니다. <a href="14-request-id-order.html">T10 코드 해설</a>에서 이어서 읽을 수 있습니다. 이 페이지의 검증 숫자는 T09 시점의 기록입니다.</div>
   </section>
   <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="12-batch-rejection.html">T08 배열 거절 복습</a><br>근거: 승인된 SPEC §4.2·§6.1, ADR 0005·0006·0014, 실제 protocol·host 코드와 테스트. 규범 문서는 SPEC.md입니다.</footer>
 </main>

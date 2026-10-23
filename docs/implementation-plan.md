@@ -2,7 +2,7 @@
 
 Date: 2026-10-22
 Last updated: 2026-10-23
-Status: In progress. T01–T09 complete; next is T10.
+Status: In progress. T01–T10 complete; next is T11.
 Normative source: `SPEC.md`. This plan does not amend the protocol.
 
 ## Working mode
@@ -11,6 +11,10 @@ The maintainer switched from typing implementation code to agent-led
 implementation. The agent writes tests first, implements, verifies, and
 explains each completed task in Korean before proceeding to the next task.
 The local study-mode marker is off. Earlier tutor handovers are historical.
+
+For policy questions, explain the previous behavior, the current problem,
+and the expected consequences of each proposed option in plain Korean before
+asking. The maintainer requested this structure on 2026-10-23 during T10.
 
 Each explanation should cover:
 
@@ -169,6 +173,21 @@ had 83 failures and 39 passing regressions. The explanation is
 `study/13-method-names.html`. Next: T10, whose id-policy decision is still
 required. The T11 JSON-boundary decision is also still open.
 
+**T10 complete (2026-10-23).** Committed and pushed T09 as 1ebd7e4 and
+41a2f47 before starting T10. The maintainer approved document-scoped id
+ordering, early consumption, -32600/id:null sequence errors, and the general
+initialize boundary. Recorded SPEC §4.1 / §4.2 / §5.1 and ADR 0015 first.
+Each host connection remembers its current document's largest consumed id.
+Duplicate/backward requests do not execute or settle earlier client calls;
+new ids are consumed even if later checks fail. General initialize requests
+reset the floor before consuming their own id, including failed negotiation.
+Malformed initialize shapes cannot reset it. Existing grants/storage remain.
+All 25 new tests, 645 total across 25 files, typecheck, lint, and both example
+builds pass. The RED run had 17 failures and eight passing regressions.
+The explanation is `study/14-request-id-order.html`. Next: T11, whose whole
+JSON validation decision is still required. The §11 document-epoch race is
+not resolved by this document-local counter.
+
 ### Milestone A: demonstrate useful calls
 
 | ID | Task | Completion evidence | Depends on |
@@ -237,16 +256,14 @@ browser runner. If one is introduced later, revisit HANDOFF's existing
 These are planning gates, not approved specification changes. Continue
 independent tasks while a dependent task awaits the maintainer's decision.
 
-T09's method-format decision is resolved in SPEC §4.2 / §6.1 and ADR 0014.
-Do not ask for that approval again; the remaining gates below are separate.
+T09's method-format decision and T10's id policy are resolved in SPEC and
+ADRs 0014–0015. Do not ask for those approvals again; the remaining gates
+below are separate.
 
-- **Request ids (T10).** §4.1 defines sender uniqueness and monotonicity;
-  the receiver's response to reuse or backward ids is still unresolved.
-  Proposed direction: reject with -32600, with document-level tracking reset
-  only by the §5.1 handshake. Settle invalid-id response correlation too.
 - **JSON boundary validation (T11).** Specify rejection codes and ordering for
   non-JSON envelope content before tightening the whole-frame guard. Preserve
-  the approved method-syntax precedence, scope-before-method-param validation,
+  the approved id-sequence and method-syntax precedence,
+  scope-before-method-param validation,
   and the existing permission behavior for unknown methods.
 - **Client local failures (T13).** Confirm the post-close -32008 behavior and
   define synchronous transport-send failure mapping without inventing a

@@ -5,15 +5,81 @@
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
-> T09 verified: 620 passed; typecheck, lint, and both example builds pass.
-> Method syntax is checked in the envelope before params, state, and grants.
+> T10 verified: 645 passed; typecheck, lint, and both example builds pass.
+> Document-scoped id order is enforced before ordinary request validation.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Next: T10, settle request-id reuse/backward-id handling, then implement it.
+> Next: T11, settle whole-message JSON rejection/ordering, then implement it.
+> Policy questions: explain previous behavior → current problem → each option's consequences.
+> The request-id policy is approved in SPEC / ADR 0015. Do not ask again.
 > The method grammar and -32600 precedence are approved in SPEC / ADR 0014.
 > The unencoded relative entry-path policy is approved in SPEC §7 / ADR 0011.
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-23 checkpoint — T10 commit and push
+
+The maintainer requested committing and pushing T10, then T11 with an easy
+code explanation. Publish the approved id-order policy, implementation,
+tests, and ADR as one feature commit, then progress and learning materials
+as a documentation commit. Verification remains 645 tests, typecheck, lint,
+and both example builds passing. Explain T11's policy proposal using previous
+behavior, the current problem, and the consequences before asking approval.
+
+## 2026-10-23 checkpoint — T10 complete
+
+The maintainer requested committing/pushing T09, then T10 with an easy code
+explanation. Published 1ebd7e4 (method syntax) and 41a2f47 (progress/study) to
+origin/master and confirmed HEAD...origin/master 0/0. T10 remains local.
+
+Prepared ADR 0015 as a proposal covering duplicate/backward-id correlation,
+early consumption, and repeat initialization. The maintainer approved option 1.
+They also requested a persistent communication change: every future policy
+question must explain previous behavior, the current problem, and consequences
+of the proposed options, so the decision is easy to understand. This is also
+recorded in docs/implementation-plan.md. Do not merely present error codes or
+a recommendation without that context.
+
+Updated SPEC §4.1 / §4.2 / §5.1 and accepted ADR 0015 before implementation.
+Each host connect closure now keeps lastRequestId, initially zero. After array
+rejection and numeric-id detection, an exact general-request-shaped initialize
+resets the floor before consuming its own id. Version/field failures still
+establish that boundary; malformed envelopes, names, and params containers
+cannot reset it. Positive integer ids must exceed the current floor, with
+gaps allowed. Duplicate/backward ids receive one -32600/id:null response and
+do not execute, lower the floor, change session state, or close the connection.
+
+Consume a new positive integer id before later validation, state, scope, lookup,
+params, or provider processing, even if these fail. This prevents malformed
+duplicates from echoing a pending call's number through another error path.
+Nonpositive/noninteger ids retain their existing behavior and do not consume
+the floor; batches and notifications do not either. No numeric maximum, client
+counter reset, wire field, platform API, or runtime dependency was introduced.
+The existing null-error client handling preserves the original pending call
+and timeout. Existing grants/storage and SPEC §9 checks remain in force.
+
+Wrote 25 tests before implementation: 17 failed and eight passed. All now pass.
+They cover increasing/gapped ids, completed and in-flight duplicates, backward
+unused ids, consumption after rejection, invalid ids, malformed initialize
+shapes, failed version/field negotiation and retries, separate connections on
+one host, and storage/grant preservation. The real client/host in-flight test
+also sends a malformed duplicate and checks one provider call, unchanged timer,
+and eventual successful completion of the original call. Fixed only test typing
+and formatting after the full run; no existing runtime tests needed weakening.
+
+Verified 645 tests across 25 files, typecheck, lint (74 files), both example
+builds, and diff checks. study/14-request-id-order.html starts with the requested
+previous-behavior/problem/result explanation, then walks through the counter,
+null errors, consumption, initialization boundaries, and the §11 epoch limit.
+The guide shows T10 complete and T11 next, preserves T09 at #t09 and all earlier
+lessons, and links T09's wrap-up to T10. All 215 local references across 15 study
+pages are valid, with no duplicate ids and unchanged earlier interactive scripts.
+Browser checks confirm the new lesson and updated task guide render correctly.
+
+Next is T11 only. Its whole-JSON error and ordering decision remains open and
+must account for the approved id-sequence/method-name gates. The §11 late
+old-document response race remains open: resetting the id floor does not cancel
+old providers or provide durable replay protection. No T10 commit or push yet.
 
 ## 2026-10-23 checkpoint — T09 commit and push
 

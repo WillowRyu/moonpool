@@ -4,6 +4,11 @@
 
 ### Added
 
+- Enforce strictly increasing request ids per document on each host connection.
+  Reject duplicate/backward ids with -32600 and id null without dispatching
+  or disturbing pending calls; consume new positive ids before validation.
+  General initialize requests begin a fresh sequence while preserving grants
+  and storage, including when version negotiation fails (ADR 0015).
 - Reject top-level request arrays with one -32600 response and id null before
   processing initialization or capability calls. Execute no array members,
   including notification-only batches, while preserving ordinary nested
