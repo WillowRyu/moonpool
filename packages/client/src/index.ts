@@ -5,7 +5,7 @@
  * Pure by design: nothing here may import a platform API (CLAUDE.md, SPEC §3).
  *
  * Correlates replies with pending requests, applies a timeout to each request,
- * and rejects in-flight requests on local close (SPEC §4.5 / §4.6).
+ * rejects calls on terminal local close, and cleans up failed sends (SPEC §4.5–§4.7).
  */
 import {
   ERROR_CODES,
@@ -53,6 +53,7 @@ export interface MoonpoolClient {
   initialize(): Promise<InitializeResult>;
   /** Calls a capability, e.g. `call('profile.get')`. */
   call(method: string, params?: Record<string, JsonValue>): Promise<unknown>;
+  /** Terminal local close. Repeated calls do nothing (SPEC §4.6). */
   close(): void;
 }
 
@@ -71,12 +72,17 @@ export function createClient(config: ClientConfig): MoonpoolClient {
 
   /** id → the promise waiting on it. A Map, not an object: ids arrive from off-connection. */
   const pending = new Map<number, Pending>();
+  let closed = false;
   /** SPEC §4.1: ids are positive integers, unique per connection. */
   let nextId = 1;
   const timeoutMs = config.timeoutMs ?? DEFAULT_TIMEOUT_MS;
 
   // One return desk for the whole connection, registered once.
   const unsubscribe = transport.onMessage((message: unknown) => {
+    // An adapter may still hold a callback queued before unsubscribe.
+    if (closed) {
+      return;
+    }
     // Reject invalid data before it can consume a pending call or its timer.
     if (!isJsonRpcResponse(message)) {
       return;
@@ -105,6 +111,11 @@ export function createClient(config: ClientConfig): MoonpoolClient {
   });
 
   function request(method: string, params?: Record<string, JsonValue>): Promise<unknown> {
+    if (closed) {
+      return Promise.reject(
+        new MoonpoolError(ERROR_CODES.CONNECTION_CLOSED, 'the bridge connection is closed'),
+      );
+    }
     const id = nextId++;
 
     return new Promise<unknown>((resolve, reject) => {
@@ -124,7 +135,23 @@ export function createClient(config: ClientConfig): MoonpoolClient {
         frame.params = params;
       }
 
-      transport.send(frame);
+      try {
+        transport.send(frame);
+      } catch {
+        // A synchronous response or close may already have consumed this entry.
+        const failed = pending.get(id);
+        if (failed === undefined) {
+          return;
+        }
+        pending.delete(id);
+        clearTimeout(failed.timer);
+        failed.reject(
+          new MoonpoolError(ERROR_CODES.INTERNAL_ERROR, 'failed to send the bridge request', {
+            phase: 'send',
+          }),
+        );
+        // Delivery may have happened before the throw: never retry or reuse the id.
+      }
     });
   }
 
@@ -139,7 +166,11 @@ export function createClient(config: ClientConfig): MoonpoolClient {
       return request(method, params);
     },
     close() {
-      unsubscribe();
+      if (closed) {
+        return;
+      }
+      // External cleanup may reenter the client; make closure terminal first.
+      closed = true;
 
       // SPEC §4.6: nothing may stay pending across a close. Snapshot and clear
       // before settling — the same discard-then-settle order as the return
@@ -157,7 +188,27 @@ export function createClient(config: ClientConfig): MoonpoolClient {
         );
       }
 
-      transport.close();
+      // Both cleanup operations get one attempt, even if either throws.
+      // A separate flag preserves a thrown undefined as an actual failure.
+      let cleanupFailed = false;
+      let cleanupError: unknown;
+      try {
+        unsubscribe();
+      } catch (error) {
+        cleanupFailed = true;
+        cleanupError = error;
+      }
+      try {
+        transport.close();
+      } catch (error) {
+        if (!cleanupFailed) {
+          cleanupFailed = true;
+          cleanupError = error;
+        }
+      }
+      if (cleanupFailed) {
+        throw cleanupError;
+      }
     },
   };
 }

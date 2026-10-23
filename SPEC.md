@@ -247,6 +247,39 @@ A client MUST NOT leave a request pending across a close.
 retry the call on that connection. Unlike `-32006` and `-32007` it says
 nothing about host health — the host may be perfectly available.
 
+Local client close MUST mark the client closed and drain pending entries and
+timers before invoking transport cleanup. Subsequent call and initialize
+operations MUST return rejected Promises with -32008 without allocating a
+request id, creating a timer, sending, or reopening the connection. Repeated
+or reentrant close MUST be a no-op; retained receive callbacks MUST be ignored
+after local close.
+
+Unsubscribe and transport.close MUST each be attempted once, even if the other
+throws. Cleanup failure MUST NOT undo terminal closure or leave calls pending.
+After both attempts, close rethrows the first thrown value synchronously,
+including an undefined value. This local lifecycle error is separate from
+capability Promise rejections and is not sent over the bridge.
+
+### 4.7 Local client send failures
+
+If transport.send throws synchronously while its request is still pending,
+the client MUST discard only that request's entry and clear its timer before
+rejecting its Promise with -32603, the fixed message
+"failed to send the bridge request", and data `{ "phase": "send" }`.
+The raw thrown value, message, and stack MUST NOT be inspected, converted,
+or forwarded in this rejection. This error describes a local send failure,
+not remote host health or terminal connection closure.
+
+Other pending calls and the connection remain usable. The attempted id stays
+consumed and MUST NOT be reused; a later response to the discarded id is ignored.
+The client MUST NOT retry automatically: a send exception does not prove the
+request was undelivered, so remote side effects may already have occurred.
+
+Register the pending entry before invoking send. If a synchronous response or
+local close has already settled that entry during send, a later send exception
+MUST NOT replace its outcome or affect another request. The first settlement
+wins. Capability APIs continue to return Promises for all these outcomes.
+
 ---
 
 ## 5. Handshake
