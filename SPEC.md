@@ -447,6 +447,30 @@ The `portal` namespace is reserved for protocol methods and requires no scope.
 | `portal.ping`       | `{}`                  | `{ "pong": true }` | Liveness / smoke test                |
 | `portal.close`      | `{ reason? }`         | `{}`               | Requests host to dismiss this Portal |
 
+`portal.close` accepts omitted params, an empty object, or an optional string
+`reason`. Preserve the string, including an empty string, without trimming or
+coercion. Reject non-string reason and unknown params names with -32602 before
+checking handler availability. Existing initialization and JSON-validation
+gates still apply; no permission scope is required.
+
+The embedder MAY supply an asynchronous dismissal-request handler bound to
+this Portal's connection. If none is supplied, return -32001 without dismissal.
+For an accepted request, the host MUST submit one success response with result
+{} through transport.send before invoking the handler. Success means acceptance
+of the dismissal request, not completed UI teardown or confirmed response
+delivery. If response submission throws, do not invoke the handler or submit a
+second response; retain receive-side exception reporting.
+
+Invoke the handler once per accepted request and await its completion internally.
+A subsequent handler throw/rejection MUST be reported on the host only; do not
+send a second response, expose exception details to the mini app, retry, or
+replace the accepted outcome. The embedder owns transport/UI teardown, MUST
+make dismissal idempotent for the bound Portal, and MUST NOT let a delayed
+handler dismiss a replacement Portal. Fresh valid ids remain separate requests
+under §4.1; the kernel does not automatically close the transport or introduce
+new connection state. Other pending calls retain §4.5 / §4.6 behavior if their
+context survives. Peer-disconnect detection remains an open question (§11).
+
 ### 6.3 `v0.1` capability set
 
 Deliberately minimal. The goal is to exercise the permission model, not to be

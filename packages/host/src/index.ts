@@ -96,12 +96,21 @@ export interface HostConfig {
 
 export interface Host {
   /** Attach one Portal's bridge connection. */
-  connect(transport: Transport): void;
+  connect(transport: Transport, options?: HostConnectionOptions): void;
+}
+
+export interface HostConnectionOptions {
+  /**
+   * SPEC §6.2 / ADR 0019 — invoked after submitting dismissal acceptance.
+   * Bind to this Portal; keep teardown idempotent and replacement-safe.
+   * Failure is reported on the host only, after the one success response.
+   */
+  onCloseRequested?: (reason?: string) => Promise<void>;
 }
 
 export function createHost(config: HostConfig): Host {
   return {
-    connect(transport) {
+    connect(transport, options = {}) {
       let initialized = false;
       // SPEC §4.1 / §5.1: largest id consumed by this connection's current document.
       let lastRequestId = 0;
@@ -148,6 +157,21 @@ export function createHost(config: HostConfig): Host {
             message: 'params must contain only JSON data',
           },
         });
+      }
+
+      async function invokeCloseRequested(
+        handler: (reason?: string) => Promise<void>,
+        reason: string | undefined,
+      ): Promise<void> {
+        try {
+          await handler(reason);
+        } catch (error) {
+          // Acceptance was already sent. Keep diagnostics on the host and
+          // never send a second response or expose the embedder's exception.
+          queueMicrotask(() => {
+            throw error;
+          });
+        }
       }
 
       // Provider calls live in async helpers so the dispatcher below stays
@@ -483,6 +507,43 @@ export function createHost(config: HostConfig): Host {
           }
 
           transport.send({ jsonrpc: '2.0', id, result: { pong: true } });
+          return;
+        }
+
+        if (method === PORTAL_METHODS.CLOSE) {
+          if (rejectUnknownParams(id, params, ['reason'])) {
+            return;
+          }
+          const reason = params?.reason;
+          if (reason !== undefined && typeof reason !== 'string') {
+            transport.send({
+              jsonrpc: '2.0',
+              id,
+              error: {
+                code: ERROR_CODES.INVALID_PARAMS,
+                message: 'portal.close reason must be a string when provided',
+              },
+            });
+            return;
+          }
+
+          const handler = options.onCloseRequested;
+          if (handler === undefined) {
+            transport.send({
+              jsonrpc: '2.0',
+              id,
+              error: {
+                code: ERROR_CODES.CAPABILITY_UNAVAILABLE,
+                message: 'portal.close is not available on this host',
+              },
+            });
+            return;
+          }
+
+          // Submission precedes teardown, but does not confirm peer receipt.
+          // If send throws, do not invoke dismissal or attempt another reply.
+          transport.send({ jsonrpc: '2.0', id, result: {} });
+          void invokeCloseRequested(handler, reason);
           return;
         }
 
