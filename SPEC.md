@@ -120,7 +120,8 @@ the current document. Do not echo it and risk settling an earlier in-flight
 call. This sequence error takes precedence over other request validation.
 The connection remains usable with a larger id; clients ignore the uncorrelated
 error and keep existing pending calls and timers. This rule adds no numeric
-maximum and does not change other invalid-id handling.
+maximum. Non-finite numeric ids receive -32600 with id null, so responses
+remain JSON; other invalid-id handling is unchanged.
 
 A `portal.initialize` with a valid request envelope and object-or-omitted params
 establishes a new document boundary before sequence checking. Reset the counter
@@ -148,6 +149,33 @@ a capability or change initialization state, including when it resembles
 `portal.initialize`. Standalone no-id notifications still receive no reply;
 top-level arrays retain their §4.1 rejection. Syntactically valid unknown
 methods retain initialization and scope checks before method lookup.
+
+The host MUST inspect inbound values without coercion, serialization, input
+mutation, getter evaluation, or toJSON calls. The request envelope MUST be an
+ordinary record (Object.prototype or null prototype) with own enumerable data
+members. Required routing fields MUST be own data members. Additional envelope
+members are allowed when they contain valid JSON values. Accessors, hidden or
+symbol members, non-ordinary objects, and recursively non-JSON values outside
+params make the envelope invalid. Validate using finite scalars, dense arrays,
+and ordinary records; reject cycles and preserve shared acyclic values. This
+adds no size/depth limit or protection against arbitrary Proxy trap effects.
+
+Recover the id from its own data descriptor without evaluating accessors.
+After batch rejection, frames without a recoverable own numeric id remain
+unanswered. Apply §4.1 sequencing before ordinary errors. Invalid envelope
+syntax or data receives -32600, echoing a finite numeric id or using null for
+NaN/infinities. Reflection failures fail closed under the same rules when an
+id has been safely recovered, and otherwise remain unanswered.
+
+The optional params member itself MUST also be an enumerable data member.
+An own params:undefined is present and invalid, unlike omission. Validate its
+object-or-omitted container before initialization and scope gates. Validate
+its entire value tree as JSON after those gates but before method lookup,
+method-specific field checks, provider availability, or invocation. Invalid
+trees receive -32602, including on a syntactically valid unknown method after
+its scope is granted. Non-JSON envelope data receives -32600 before the params
+container check. Input rejected at any stage MUST NOT reach a provider.
+New JSON-validation errors MUST use fixed messages without echoing invalid data.
 
 For a known method, the host MUST reject any top-level member of `params`
 that is not defined for that method with `-32602`. This restriction applies
@@ -321,6 +349,12 @@ and object-or-omitted params checks pass for the exact `portal.initialize`
 method. Reset initialization before method-specific checks as in §5, and reset
 the id counter before consuming this initialization's id as in §4.1. A failed
 field/version check leaves the new document uninitialized but its id consumed.
+
+Envelope validity here includes all JSON data outside params and the params
+member's descriptor (§4.2). Invalid envelope data cannot establish a document
+boundary. Deep params validity is checked after the boundary and initialization
+reset; an otherwise general-shaped initialize with non-JSON params therefore
+starts a new sequence and fails with -32602, leaving initialization false.
 
 Everything a host holds that is not on that list is preserved, including:
 

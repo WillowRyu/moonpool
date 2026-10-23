@@ -21,9 +21,6 @@ import type {
 import {
   ERROR_CODES,
   hasOnlyParamKeys,
-  hasRequestId,
-  isJsonRpcRequest,
-  isJsonRpcRequestEnvelope,
   isStorageDeleteParams,
   isStorageGetParams,
   isStorageSetParams,
@@ -33,6 +30,8 @@ import {
   PROTOCOL_VERSION,
   STORAGE_METHODS,
 } from '@moonpool/protocol';
+
+import { inspectIncomingRequest, isJsonParams } from './incoming-request';
 
 export { parseManifest } from './manifest';
 export { ManifestError } from './manifest-fields';
@@ -138,6 +137,17 @@ export function createHost(config: HostConfig): Host {
           },
         });
         return true;
+      }
+
+      function rejectNonJsonParams(id: number): void {
+        transport.send({
+          jsonrpc: '2.0',
+          id,
+          error: {
+            code: ERROR_CODES.INVALID_PARAMS,
+            message: 'params must contain only JSON data',
+          },
+        });
       }
 
       // Provider calls live in async helpers so the dispatcher below stays
@@ -276,10 +286,11 @@ export function createHost(config: HostConfig): Host {
         }
       }
 
-      transport.onMessage((message) => {
+      transport.onMessage((message: unknown) => {
+        const incoming = inspectIncomingRequest(message);
         // SPEC §4.1: reject the whole array before notifications or session state.
         // There is no single request id; never dispatch members or echo one of theirs.
-        if (Array.isArray(message)) {
+        if (incoming.kind === 'batch') {
           const response: JsonRpcResponse = {
             jsonrpc: '2.0',
             id: null,
@@ -292,17 +303,22 @@ export function createHost(config: HostConfig): Host {
           return;
         }
 
-        if (!hasRequestId(message)) {
-          // SPEC §4.1: no id means a notification (or not a request at
-          // all) — never answered, no matter how malformed the rest is.
+        if (incoming.kind === 'unaddressable') {
+          // SPEC §4.2: no safely recovered own numeric data id. Notifications
+          // and unaddressable values stay silent without evaluating getters.
           return;
         }
 
-        const { id } = message;
+        const { id, header, params } = incoming;
+        const validEnvelope = header !== undefined && incoming.envelopeIsJson;
 
         // A well-shaped initialize is the document boundary, even if its fields
         // or version will fail later. Malformed containers/names cannot reset it.
-        if (message.method === PORTAL_METHODS.INITIALIZE && isJsonRpcRequest(message)) {
+        if (
+          validEnvelope &&
+          header.method === PORTAL_METHODS.INITIALIZE &&
+          incoming.paramsShapeValid
+        ) {
           lastRequestId = 0;
         }
 
@@ -326,20 +342,20 @@ export function createHost(config: HostConfig): Host {
 
         // SPEC §4.2 / ADR 0005 — distinguish a malformed envelope from bad params.
         // Neither check may reach handshake processing or a capability provider.
-        if (!isJsonRpcRequestEnvelope(message)) {
+        if (!validEnvelope) {
           transport.send({
             jsonrpc: '2.0',
-            id,
+            id: Number.isFinite(id) ? id : null,
             error: {
               code: ERROR_CODES.INVALID_REQUEST,
               message:
-                'malformed request: expected jsonrpc 2.0, a positive integer id, and a namespace.action method',
+                'malformed request: expected a JSON envelope with valid jsonrpc, id, and method',
             },
           });
           return;
         }
 
-        if (!isJsonRpcRequest(message)) {
+        if (!incoming.paramsShapeValid) {
           transport.send({
             jsonrpc: '2.0',
             id,
@@ -351,7 +367,7 @@ export function createHost(config: HostConfig): Host {
           return;
         }
 
-        const { method } = message;
+        const { method } = header;
 
         // SPEC §5.1: a repeat handshake is ordinary traffic — a reload, a link
         // in a multi-page mini app, a web view recovering from renderer
@@ -368,13 +384,17 @@ export function createHost(config: HostConfig): Host {
           // inherit a previous successful handshake. Origin-scoped grants and
           // storage remain unchanged.
           initialized = false;
-
-          // SPEC §4.2 — initialization accepts only its declared version input.
-          if (rejectUnknownParams(id, message.params, ['protocolVersion'])) {
+          if (!isJsonParams(params)) {
+            rejectNonJsonParams(id);
             return;
           }
 
-          const requested = message.params?.protocolVersion;
+          // SPEC §4.2 — initialization accepts only its declared version input.
+          if (rejectUnknownParams(id, params, ['protocolVersion'])) {
+            return;
+          }
+
+          const requested = params?.protocolVersion;
 
           // SPEC §5 / ADR 0007 — validate the input type before version negotiation.
           // Missing params or a missing field yields undefined. Reject without
@@ -430,16 +450,6 @@ export function createHost(config: HostConfig): Host {
           return;
         }
 
-        if (method === PORTAL_METHODS.PING) {
-          // SPEC §4.2 — this method defines no params members.
-          if (rejectUnknownParams(id, message.params, [])) {
-            return;
-          }
-
-          transport.send({ jsonrpc: '2.0', id, result: { pong: true } });
-          return;
-        }
-
         // SPEC §9.3 — scope enforcement at dispatch. The namespace IS the
         // scope (§6.1). Checked before the method lookup, so a namespace the
         // connection was not granted answers -32000 for every name, real or
@@ -459,9 +469,26 @@ export function createHost(config: HostConfig): Host {
           return;
         }
 
+        // SPEC §4.2 / ADR 0016: grants precede deep params inspection, which
+        // precedes lookup and provider access, including for unknown methods.
+        if (!isJsonParams(params)) {
+          rejectNonJsonParams(id);
+          return;
+        }
+
+        if (method === PORTAL_METHODS.PING) {
+          // SPEC §4.2 — this method defines no params members.
+          if (rejectUnknownParams(id, params, [])) {
+            return;
+          }
+
+          transport.send({ jsonrpc: '2.0', id, result: { pong: true } });
+          return;
+        }
+
         if (method === PROFILE_METHODS.GET) {
           // SPEC §4.2 — this method defines no params members.
-          if (rejectUnknownParams(id, message.params, [])) {
+          if (rejectUnknownParams(id, params, [])) {
             return;
           }
 
@@ -486,11 +513,9 @@ export function createHost(config: HostConfig): Host {
         // The provider receives only the validated key plus the host's id.
         if (method === STORAGE_METHODS.GET) {
           // SPEC §4.2 / ADR 0003 — only the key comes from the caller.
-          if (rejectUnknownParams(id, message.params, ['key'])) {
+          if (rejectUnknownParams(id, params, ['key'])) {
             return;
           }
-
-          const params = message.params;
 
           if (!isStorageGetParams(params)) {
             transport.send({
@@ -526,11 +551,9 @@ export function createHost(config: HostConfig): Host {
         // scope → params → availability → invocation order as storage.get.
         if (method === STORAGE_METHODS.SET) {
           // SPEC §4.2 — check names here; value contents remain application data.
-          if (rejectUnknownParams(id, message.params, ['key', 'value'])) {
+          if (rejectUnknownParams(id, params, ['key', 'value'])) {
             return;
           }
-
-          const params = message.params;
 
           if (!isStorageSetParams(params)) {
             transport.send({
@@ -565,11 +588,9 @@ export function createHost(config: HostConfig): Host {
         // Validate the key before checking availability or invoking deletion.
         if (method === STORAGE_METHODS.DELETE) {
           // SPEC §4.2 / ADR 0003 — only the key comes from the caller.
-          if (rejectUnknownParams(id, message.params, ['key'])) {
+          if (rejectUnknownParams(id, params, ['key'])) {
             return;
           }
-
-          const params = message.params;
 
           if (!isStorageDeleteParams(params)) {
             transport.send({

@@ -30,7 +30,7 @@ const HELLO_MANIFEST: MiniAppManifest = {
 /** Shape of a JSON-RPC response, loose on purpose — for assertions only. */
 interface RpcResponse {
   jsonrpc: '2.0';
-  id: number;
+  id: number | null;
   result?: Record<string, JsonValue>;
   error?: { code: number; message: string; data?: JsonValue };
 }
@@ -152,6 +152,7 @@ describe('SPEC §4.1 — id MUST be a positive integer', () => {
 
     expect(bridge.received).toHaveLength(1);
     expect(bridge.received[0]?.error?.code).toBe(ERROR_CODES.INVALID_REQUEST);
-    expect(bridge.received[0]?.id).toBeNaN();
+    // ADR 0016: the rejection itself must be JSON, so an unrepresentable id is null.
+    expect(bridge.received[0]?.id).toBeNull();
   });
 });
