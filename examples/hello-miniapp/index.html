@@ -11,6 +11,16 @@
       dt { color: #666; }
       dd { margin: 0; }
       code { font-family: ui-monospace, monospace; font-size: 0.9em; }
+      h2 { font-size: 1rem; margin: 1rem 0 0.35rem; }
+      #storage-permission { margin: 0 0 0.5rem; color: #555; }
+      fieldset { border: 1px solid #ccc; border-radius: 6px; padding: 0.5rem 0.75rem; min-width: 0; }
+      .storage-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+      label { display: grid; gap: 0.2rem; }
+      input { box-sizing: border-box; width: 100%; min-width: 0; padding: 0.25rem; font: inherit; }
+      .actions { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.6rem; }
+      button { font: inherit; padding: 0.25rem 0.75rem; cursor: pointer; }
+      #storage-output { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.85rem; }
+      @media (max-width: 480px) { .storage-fields { grid-template-columns: 1fr; } }
     </style>
   </head>
   <body>

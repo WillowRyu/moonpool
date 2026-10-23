@@ -54,6 +54,7 @@ describe('T02 — hello-miniapp profile display', () => {
     expect(client.call).toHaveBeenCalledExactlyOnceWith('profile.get');
     expect(document.querySelector('#profile')?.textContent).toBe('Moonpool Explorer');
     expect(document.querySelector('#bridge')?.textContent).toContain('connected to');
+    expect(document.querySelector<HTMLFieldSetElement>('#storage-controls')?.disabled).toBe(false);
   });
 
   it('waits for the handshake before asking for a profile', async () => {
@@ -141,6 +142,9 @@ describe('T02 — hello-miniapp profile display', () => {
         `profile.get failed: ${code} - ${message}`,
       );
       expect(document.querySelector('#bridge')?.textContent).toContain('connected to');
+      expect(document.querySelector<HTMLFieldSetElement>('#storage-controls')?.disabled).toBe(
+        false,
+      );
     },
   );
 
@@ -156,5 +160,6 @@ describe('T02 — hello-miniapp profile display', () => {
       'handshake failed: -32004 - Unsupported version',
     );
     expect(document.querySelector('#profile')?.textContent).toBe('not requested: handshake failed');
+    expect(document.querySelector<HTMLFieldSetElement>('#storage-controls')?.disabled).toBe(true);
   });
 });

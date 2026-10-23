@@ -4,6 +4,10 @@
 
 ### Added
 
+- Add browser storage controls and host-selected profile-only/storage-enabled
+  configurations. Recreate the Portal connection on each selection while
+  retaining host-held storage, show permission errors and CRUD results, and
+  validate read values before text rendering (ADR 0009).
 - Install an asynchronous, per-mini-app in-memory storage provider in the
   browser mock host. Preserve falsy values and nested null, isolate identical
   keys across apps, and retain data across repeat handshakes. Default grants

@@ -3,12 +3,12 @@
  *
  * Embeds one mini app in an iframe on a pinned, distinct origin (SPEC §8.1)
  * and serves its bridge: an iframe transport wired to the pure host kernel.
- * The grant is deliberately narrower than the manifest asks for, so the
- * handshake's scope intersection is visible on screen.
+ * The default grant is deliberately narrower than the manifest asks for.
+ * Host controls start a new Portal to demonstrate storage denial and success.
  */
 
 import { createHost } from '@moonpool/host';
-import { type MiniAppManifest, PROTOCOL_VERSION } from '@moonpool/protocol';
+import { type MiniAppManifest, PROTOCOL_VERSION, type Transport } from '@moonpool/protocol';
 import { createIframeTransport } from '@moonpool/transport-iframe';
 import { createMemoryStorageProvider } from './memory-storage';
 
@@ -36,7 +36,13 @@ root.innerHTML = `
       <dt>protocol</dt><dd><code>${PROTOCOL_VERSION}</code></dd>
     </dl>
   </header>
-  <iframe title="com.example.hello" src="${portalOrigin}/"></iframe>
+  <div class="actions" role="group" aria-label="Portal configuration">
+    <button type="button" id="profile-only">Start profile-only Portal</button>
+    <button type="button" id="with-storage">Start Portal with storage</button>
+  </div>
+  <p id="configuration" role="status"></p>
+  <p class="hint">Each selection starts a new Portal. Host reload clears memory storage.</p>
+  <div id="portal"></div>
 `;
 
 /**
@@ -54,37 +60,61 @@ const MANIFEST: MiniAppManifest = {
   permissions: ['profile', 'storage'],
 };
 
-const iframe = root.querySelector('iframe');
-if (iframe === null || iframe.contentWindow === null) {
-  throw new Error('mock-host: the Portal iframe has no content window');
+const portal = root.querySelector<HTMLElement>('#portal');
+const profileOnly = root.querySelector<HTMLButtonElement>('#profile-only');
+const withStorage = root.querySelector<HTMLButtonElement>('#with-storage');
+const configuration = root.querySelector<HTMLElement>('#configuration');
+if (portal === null || profileOnly === null || withStorage === null || configuration === null) {
+  throw new Error('mock-host: Portal configuration controls are missing');
 }
 
-// Attached in the SAME synchronous task that created the iframe. JavaScript is
-// single threaded, so this script runs to completion before any script inside
-// the iframe can run: the host is listening before the Portal exists. That is
-// what makes the Portal-initiated handshake (SPEC §5) impossible to lose.
-const transport = createIframeTransport({
-  peerWindow: iframe.contentWindow,
-  peerOrigin: portalOrigin,
-});
+// Storage belongs to this host page, not to one Portal's document or grants.
+const storage = createMemoryStorageProvider();
+let activeTransport: Transport | undefined;
 
-createHost({
-  hostInfo: { name: 'moonpool-mock-host', version: '0.1.0', platform: 'browser' },
-  manifest: MANIFEST,
-  // Deliberately narrower than the manifest asks for: the mini app declares
-  // profile AND storage, this host grants only profile. The handshake result
-  // reports the intersection, which is the permission model made visible.
-  grantedScopes: ['profile'],
-  environment: { locale: 'ko-KR', colorScheme: 'light' },
-  capabilities: {
-    // SPEC §6.3 / §9.4 / §9.5 — fixed public data, supplied asynchronously.
-    // Installing a provider does not bypass the kernel's profile scope check.
-    profile: {
-      async get() {
-        return { displayName: 'Moonpool Explorer' };
+const startPortal = (storageAllowed: boolean): void => {
+  // SPEC §9.3: grants are fixed for one connection. Dispose the old receiver
+  // and replace its iframe instead of changing permission inside a live bridge.
+  activeTransport?.close();
+  const iframe = document.createElement('iframe');
+  iframe.title = MANIFEST.id;
+  iframe.src = `${portalOrigin}/`;
+  portal.replaceChildren(iframe);
+  if (iframe.contentWindow === null) {
+    throw new Error('mock-host: the Portal iframe has no content window');
+  }
+
+  // Attach synchronously in the same task as frame creation so its first
+  // portal.initialize cannot run before this receiver is ready (SPEC §5).
+  const transport = createIframeTransport({
+    peerWindow: iframe.contentWindow,
+    peerOrigin: portalOrigin,
+  });
+  activeTransport = transport;
+  createHost({
+    hostInfo: { name: 'moonpool-mock-host', version: '0.1.0', platform: 'browser' },
+    manifest: MANIFEST,
+    // Only these host buttons select grants; no mini-app params or URL do so.
+    grantedScopes: storageAllowed ? ['profile', 'storage'] : ['profile'],
+    environment: { locale: 'ko-KR', colorScheme: 'light' },
+    capabilities: {
+      // SPEC §6.3 / §9.4 / §9.5 — fixed public data, supplied asynchronously.
+      // Installing a provider does not bypass the kernel's profile scope check.
+      profile: {
+        async get() {
+          return { displayName: 'Moonpool Explorer' };
+        },
       },
+      storage,
     },
-    // SPEC §5.1 — keep one provider for this host, across repeat handshakes.
-    storage: createMemoryStorageProvider(),
-  },
-}).connect(transport);
+  }).connect(transport);
+  profileOnly.setAttribute('aria-pressed', String(!storageAllowed));
+  withStorage.setAttribute('aria-pressed', String(storageAllowed));
+  configuration.textContent = storageAllowed
+    ? 'Configuration: profile + storage'
+    : 'Configuration: profile only (storage denied)';
+};
+
+profileOnly.addEventListener('click', () => startPortal(false));
+withStorage.addEventListener('click', () => startPortal(true));
+startPortal(false);

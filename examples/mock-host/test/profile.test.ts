@@ -22,6 +22,7 @@ vi.mock('@moonpool/host', async (importOriginal) => {
 });
 
 let bridge: ReturnType<typeof createLinkedTransports>;
+const extraBridges: Array<ReturnType<typeof createLinkedTransports>> = [];
 const browserWindow = window as unknown as HappyDomWindow;
 const navigation = browserWindow.happyDOM.settings.navigation;
 const originalChildNavigation = navigation.disableChildFrameNavigation;
@@ -39,6 +40,10 @@ beforeEach(() => {
 afterEach(() => {
   bridge.a.close();
   bridge.b.close();
+  for (const extra of extraBridges.splice(0)) {
+    extra.a.close();
+    extra.b.close();
+  }
   document.body.replaceChildren();
   navigation.disableChildFrameNavigation = originalChildNavigation;
 });
@@ -97,5 +102,72 @@ describe('mock-host capability providers', () => {
         error: expect.objectContaining({ code: ERROR_CODES.PERMISSION_DENIED }),
       }),
     ]);
+  });
+
+  it('replaces the Portal for each host configuration and keeps storage across connections', async () => {
+    await import('../src/main');
+    const storage = vi.mocked(createHost).mock.calls[0]?.[0].capabilities?.storage;
+    if (storage === undefined) {
+      throw new Error('storage must be installed');
+    }
+    await storage.set('com.example.hello', 'settings', 'kept');
+    const originalFrame = document.querySelector('iframe');
+    const closeOriginal = vi.spyOn(bridge.b, 'close');
+    const allowed = createLinkedTransports();
+    extraBridges.push(allowed);
+    const allowedReplies: JsonValue[] = [];
+    allowed.a.onMessage((message) => allowedReplies.push(message));
+    vi.mocked(createIframeTransport).mockReturnValueOnce(allowed.b);
+
+    const allowButton = document.querySelector<HTMLButtonElement>('#with-storage');
+    expect(allowButton).not.toBeNull();
+    allowButton?.click();
+
+    expect(closeOriginal).toHaveBeenCalledOnce();
+    expect(originalFrame?.isConnected).toBe(false);
+    expect(document.querySelector('iframe')).not.toBe(originalFrame);
+    allowed.a.send({
+      jsonrpc: '2.0',
+      id: 1,
+      method: 'portal.initialize',
+      params: { protocolVersion: PROTOCOL_VERSION },
+    });
+    await flush();
+    allowed.a.send({ jsonrpc: '2.0', id: 2, method: 'storage.get', params: { key: 'settings' } });
+    await flush();
+    expect(allowedReplies).toEqual([
+      expect.objectContaining({
+        result: expect.objectContaining({ grantedScopes: ['profile', 'storage'] }),
+      }),
+      { jsonrpc: '2.0', id: 2, result: { value: 'kept' } },
+    ]);
+
+    const allowedFrame = document.querySelector('iframe');
+    const closeAllowed = vi.spyOn(allowed.b, 'close');
+    const denied = createLinkedTransports();
+    extraBridges.push(denied);
+    const deniedReplies: JsonValue[] = [];
+    denied.a.onMessage((message) => deniedReplies.push(message));
+    vi.mocked(createIframeTransport).mockReturnValueOnce(denied.b);
+    document.querySelector<HTMLButtonElement>('#profile-only')?.click();
+
+    expect(closeAllowed).toHaveBeenCalledOnce();
+    expect(allowedFrame?.isConnected).toBe(false);
+    denied.a.send({
+      jsonrpc: '2.0',
+      id: 1,
+      method: 'portal.initialize',
+      params: { protocolVersion: PROTOCOL_VERSION },
+    });
+    await flush();
+    denied.a.send({ jsonrpc: '2.0', id: 2, method: 'storage.get', params: { key: 'settings' } });
+    await flush();
+    expect(deniedReplies).toEqual([
+      expect.objectContaining({ result: expect.objectContaining({ grantedScopes: ['profile'] }) }),
+      expect.objectContaining({
+        error: expect.objectContaining({ code: ERROR_CODES.PERMISSION_DENIED }),
+      }),
+    ]);
+    await expect(storage.get('com.example.hello', 'settings')).resolves.toBe('kept');
   });
 });

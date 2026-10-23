@@ -9,6 +9,7 @@
 import { createClient, MoonpoolError } from '@moonpool/client';
 import { PROFILE_METHODS, PROTOCOL_VERSION } from '@moonpool/protocol';
 import { createIframeTransport } from '@moonpool/transport-iframe';
+import { createStorageDemo } from './storage-demo';
 
 /** SPEC §8.1 — pinned, never derived from the environment. */
 const HOST_ORIGIN = 'http://localhost:5173';
@@ -26,6 +27,7 @@ root.innerHTML = `
     <dt>bridge</dt><dd id="bridge">connecting...</dd>
     <dt>profile</dt><dd id="profile" aria-live="polite">waiting for handshake...</dd>
   </dl>
+  <section id="storage" aria-label="Storage demo"></section>
 `;
 
 const bridge = root.querySelector<HTMLElement>('#bridge');
@@ -36,6 +38,11 @@ if (bridge === null) {
 const profile = root.querySelector<HTMLElement>('#profile');
 if (profile === null) {
   throw new Error('hello-miniapp: #profile is missing from the rendered markup');
+}
+
+const storageRoot = root.querySelector<HTMLElement>('#storage');
+if (storageRoot === null) {
+  throw new Error('hello-miniapp: #storage is missing from the rendered markup');
 }
 
 /** Preserve bridge error codes so the example explains why a call failed. */
@@ -57,12 +64,14 @@ const client = createClient({
     peerOrigin: HOST_ORIGIN,
   }),
 });
+const storageDemo = createStorageDemo(storageRoot, client);
 
 try {
   // SPEC §5 — the mini app initiates, and this MUST be the first request.
   const result = await client.initialize();
   // Treat returned strings as text; they must not become executable markup.
   bridge.textContent = `connected to ${result.host.name} · granted ${result.grantedScopes.join(', ') || '(nothing)'}`;
+  storageDemo.ready(result.grantedScopes);
 
   profile.textContent = 'loading...';
   try {
@@ -88,4 +97,5 @@ try {
 } catch (error) {
   bridge.textContent = `handshake failed: ${describeError(error)}`;
   profile.textContent = 'not requested: handshake failed';
+  storageDemo.unavailable('not requested: handshake failed');
 }
