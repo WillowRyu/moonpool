@@ -5,10 +5,12 @@
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
-> T11 verified: 704 passed; typecheck, lint, and both example builds pass.
-> Inbound envelopes and params are validated as JSON at their approved stages.
+> T12 verified: 820 passed; typecheck, lint, and both example builds pass.
+> Complete response JSON is validated before consuming pending calls/timers.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Next: T12, tighten client response validation and correlation.
+> Next: T13, terminal client closure and synchronous send-failure cleanup.
+> T11 published as 1695e9a / 0585deb. T12 is complete locally, not committed.
+> T13 local-error policy still needs a concrete proposal and approval.
 > T11 staged JSON validation is approved in SPEC / ADR 0016. Do not ask again.
 > Policy questions: explain previous behavior → current problem → each option's consequences.
 > The request-id policy is approved in SPEC / ADR 0015. Do not ask again.
@@ -17,6 +19,66 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-23 checkpoint — T12 commit and push
+
+The maintainer requested committing and pushing T12, then implementing T13
+with an easy code explanation. Publish response validation and its tests/ADR
+as one fix commit, then progress and learning materials as a documentation
+commit. Verification remains 820 tests, typecheck, lint, and both example
+builds passing. Prepare T13's local-failure proposal before dependent changes.
+
+## 2026-10-23 checkpoint — T12 complete
+
+Published T11 as 1695e9a (staged JSON validation) and 0585deb (progress/study)
+to origin/master, then verified a clean tree and HEAD...origin/master 0/0.
+The maintainer requested T12 implementation and an easy explanation with code.
+T12 remains local; no T12 commit or push has been requested or performed.
+
+Read SPEC and the existing JSON-RPC 2.0 §5 response/error contract. ADR 0017
+records applying those requirements; no new policy or SPEC amendment was needed.
+isJsonRpcResponse now accepts unknown and reuses isJsonValue on the entire
+frame before field access. It requires own version/id/outcome/error members,
+exactly one result/error, and an integer code with a string message. Nested
+results, error data, and extra fields must be JSON. Valid extras, null-prototype
+records, falsy values, shared acyclic data, and deep JSON remain usable. No
+getter/toJSON evaluation, serialization, input mutation, new assertions,
+platform APIs, dependencies, numeric bounds, or code whitelist were added.
+
+Retain finite numeric diagnostic response ids because the host can echo an
+invalid finite request id; actual pending Map membership decides correlation.
+Null ids remain error-only. The client callback marks input unknown and uses
+the strengthened guard before lookup, deletion, timer cleanup, or settlement.
+Malformed replies receive no reply and cannot restart deadlines. Null/unknown/
+expired/duplicate ids remain ignored. Valid errors preserve code/message/data
+in MoonpoolError; host sanitization remains the credential boundary.
+
+Added 116 tests across protocol and client. Corrected the test-only host import
+and the existing host error-message expectation before the meaningful RED run:
+39 failed and 77 existing-behavior regressions passed. All pass after the guard
+change. Tests cover non-JSON values, both/neither outcomes, descriptors and
+reflection errors, integer error codes, falsy results/data, out-of-order
+completion, multiple pending calls, original deadlines, late/unknown/null ids,
+and a real host/client provider failure with its sanitized wire error and
+host-side rethrow. No existing test was weakened.
+
+Verified 820 tests across 28 files, typecheck, lint (80 files), both example
+builds, and diff checks. Actual browser localhost:5173 → localhost:5174/index.html
+handshake, Moonpool Explorer, storage-enabled set, and get returning "dark" pass.
+Browser proof image is /tmp/moonpool-t12-browser.png (not a repository artifact).
+Temporary dev/static servers and verification tabs were cleaned up.
+
+Added study/16-response-validation.html, preserved T11 at #t11 in the guide,
+updated T11's wrap-up, and marked T12 complete / T13 next throughout progress
+materials. All 248 local references across 17 study pages are valid, there are
+no duplicate ids, and prior interactive scripts are unchanged. Browser checks
+confirm the new lesson and updated current-task guide render correctly.
+
+Next is T13 only; start with its existing local-failure decision gate. Explain
+previous behavior, the current problem, and consequences of each option before
+asking. Capability-specific result schemas (including initialize's existing
+assertion), arbitrary Proxy effects/resource limits, and §11's document-epoch
+race remain separate from this completed generic response task.
 
 ## 2026-10-23 checkpoint — T11 commit and push
 

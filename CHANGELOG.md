@@ -44,6 +44,11 @@
 
 ### Changed
 
+- Validate complete response JSON before client correlation, including nested
+  results, error data, and extra members. Require exactly one own outcome and
+  an integer error code. Ignore malformed replies without consuming pending
+  calls or renewing deadlines; preserve valid falsy values and wire errors
+  (SPEC §4.3 / §4.5, ADR 0017).
 - Return id null for NaN/infinite request ids so errors remain JSON. Treat
   explicit params:undefined as invalid, and reject non-JSON params before
   lookup even for unknown methods after their scope is granted.

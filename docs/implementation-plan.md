@@ -2,7 +2,7 @@
 
 Date: 2026-10-22
 Last updated: 2026-10-23
-Status: In progress. T01–T11 complete; next is T12.
+Status: In progress. T01–T12 complete; next is T13.
 Normative source: `SPEC.md`. This plan does not amend the protocol.
 
 ## Working mode
@@ -204,6 +204,21 @@ null-id rule. Actual browser initialization/profile/storage set/get pass.
 The explanation is `study/15-inbound-json.html`. Next: T12, response validation
 and correlation. Resource limits and arbitrary Proxy side effects remain outside
 this contract, as documented in ADR 0008.
+
+**T12 complete (2026-10-23).** Committed and pushed T11 as 1695e9a and
+0585deb before starting T12. The shared response guard now accepts unknown,
+validates the entire frame with isJsonValue, requires own response/outcome/error
+members, and checks integer error codes. Client correlation still runs only
+after validation; malformed replies cannot consume entries, clear timers, or
+renew deadlines. Preserve falsy JSON results/data, valid extras, numeric
+host diagnostic ids, null-id errors, unknown error codes, and wire error fields.
+ADR 0017 records the implementation of existing JSON-RPC rules; SPEC is unchanged.
+Wrote 116 new tests; the meaningful RED run had 39 failures and 77 passing
+regressions. All 820 tests across 28 files, typecheck, lint, and both example
+builds pass. Actual browser initialization, profile, and storage set/get pass.
+The explanation is `study/16-response-validation.html`. Next: T13, with its
+client-local failure policy decision still required. Method-specific result
+schemas and the §11 document-epoch race remain separate.
 
 ### Milestone A: demonstrate useful calls
 

@@ -93,7 +93,7 @@ const envelopeIsJson = paramsDescriptorValid &amp;&amp; isJsonValue(envelope);</
     <p>테스트는 실제 호스트에 잘못된 값을 직렬화 없이 넣습니다. getter·toJSON 미실행, 원본 보존, 숨겨진 속성과 symbol, 순환·공유·깊은 데이터, 번호와 초기화 순서, 권한과 provider 호출 여부를 확인합니다. 임의 Proxy가 일으킬 수 있는 모든 부수 효과나 동시 변형, 크기 제한은 이번 검사의 보장 범위가 아닙니다.</p>
     <p>실제 브라우저의 서로 다른 origin에서도 초기화, Moonpool Explorer 표시, storage 허용 구성의 저장과 조회가 동작하는 것을 확인했습니다.</p>
     <div class="callout"><strong>2026.10.23 검증 결과</strong><br>새 테스트 59개 통과 · 전체 704 / 704 통과 · 26개 테스트 파일<br>타입 검사·린트·두 예제 빌드 통과<br>새 공개 API·전송 API·런타임 의존성 없음</div>
-    <div class="callout warm"><strong>다음 T12:</strong> 클라이언트가 받는 응답의 모양과 요청 연결을 더 엄격하게 검증합니다. 이번 T11은 호스트가 받는 요청 경계에 집중했습니다.</div>
+    <div class="callout warm"><strong>다음에 진행한 T12 완료:</strong> 클라이언트가 받는 응답 전체를 검사하고 대기 요청을 보호했습니다. <a href="16-response-validation.html">T12 해설</a>에서 코드와 함께 이어서 읽을 수 있습니다.</div>
   </section>
   <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="14-request-id-order.html">T10 요청 번호 복습</a><br>근거: 승인된 SPEC §4.1·§4.2·§5.1·§9, ADR 0008·0016, incoming-request와 host 코드·테스트. 규범 문서는 SPEC.md입니다.</footer>
 </main>
