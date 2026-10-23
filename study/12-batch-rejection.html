@@ -125,7 +125,7 @@ const entry = pending.get(message.id);</code></pre>
     <div class="test-list"><div><strong>호스트 20개</strong><br>초기화 전후 · 배열 형태 · 응답 하나 · provider 미호출 · 연결 상태 보존</div><div><strong>프로토콜 10개</strong><br>null 오류 허용 · 잘못된 null 응답 거절 · null 요청 id 거절 · 숫자 응답 유지</div><div><strong>클라이언트 4개</strong><br>동시 대기·타이머 보존 · 시간 초과 · 이후 호출 정상 처리 · 실제 host/client 연결</div></div>
     <p>마지막 연결 테스트는 실제 호스트의 프로필 응답을 잠시 기다리게 하고, 별도의 빈 배열을 보냅니다. 배열 오류가 와도 프로필 호출과 타이머가 유지되고, provider를 완료시키면 원래 호출이 올바른 결과로 끝나는지 확인합니다.</p>
     <div class="callout"><strong>2026.10.23 검증 결과</strong><br>새 테스트 34개 통과 · 전체 498 / 498 통과 · 22개 테스트 파일<br>타입 검사·린트·두 예제 빌드 통과<br>새 전송 API·플랫폼 API·런타임 의존성 없음</div>
-    <div class="callout warm"><strong>다음 T09:</strong> 메서드 이름이 namespace.action 형식이고 양쪽이 lowerCamelCase인지 검사합니다. 형식 오류의 응답 코드와 검사 순서는 기존 계획의 명세 결정 항목을 먼저 확정해야 합니다.</div>
+    <div class="callout warm"><strong>T08 다음에 진행한 작업 · T09 완료</strong><br>승인한 이름 문법과 오류 순서를 명세에 먼저 기록하고 구현했습니다. <a href="13-method-names.html">T09 코드 해설</a>에서 이어서 읽을 수 있습니다. 이 페이지의 검증 숫자는 T08 시점의 기록입니다.</div>
   </section>
   <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="11-manifest-example.html">T07 실제 설정 연결 복습</a><br>근거: SPEC §4.1·§4.3·§4.5·§9, JSON-RPC 2.0 §5, ADR 0013, 실제 host·protocol·client 코드와 테스트. 규범 문서는 SPEC.md입니다.</footer>
 </main>

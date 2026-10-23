@@ -34,6 +34,11 @@
 
 ### Changed
 
+- Require method names to contain exactly two ASCII lowerCamelCase components
+  separated by one dot, allowing letters/digits after each initial lowercase
+  letter. Reject malformed names with -32600 before params, initialization,
+  or scope checks; preserve valid unknown-method permission behavior
+  (SPEC §4.2 / §6.1, ADR 0014).
 - Represent uncorrelated errors with nullable response ids and explicitly
   ignore them in client correlation without settling requests or clearing
   their timers. Null ids remain invalid for Moonpool requests.

@@ -5,14 +5,73 @@
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
-> T08 verified: 498 passed; typecheck, lint, and both example builds pass.
-> Top-level batches get one -32600/id:null reply without member dispatch.
+> T09 verified: 620 passed; typecheck, lint, and both example builds pass.
+> Method syntax is checked in the envelope before params, state, and grants.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Next: T09, settle method-format rejection/ordering, then validate names.
+> Next: T10, settle request-id reuse/backward-id handling, then implement it.
+> The method grammar and -32600 precedence are approved in SPEC / ADR 0014.
 > The unencoded relative entry-path policy is approved in SPEC §7 / ADR 0011.
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-23 checkpoint — T09 commit and push
+
+The maintainer requested committing and pushing T09, then starting T10 with
+an easy code explanation. Publish the approved method grammar, validation,
+tests, and ADR as one feature commit, then progress and learning materials
+as a documentation commit. Verification remains 620 tests, typecheck, lint,
+and both example builds passing. Resolve T10's request-id rejection and
+correlation contract before implementing dependent behavior.
+
+## 2026-10-23 checkpoint — T09 complete
+
+The maintainer requested committing/pushing T08, then T09 with an easy code
+explanation. Published 257fdd5 (batch/error-id handling) and 4f9dd4b (progress
+and study notes) to origin/master. Confirmed HEAD...origin/master 0/0 before
+T09 changes. T09 remains local; no T09 commit or push yet.
+
+T09 had an explicit specification gate. Prepared ADR 0014 as a concrete
+proposal and asked the maintainer to approve the grammar and error order.
+While waiting, wrote 29 passing regressions for valid protocol names and
+unknown-method permission behavior. The maintainer explicitly approved the
+recommended rules: exactly one dot, two ASCII components starting lowercase
+and continuing with letters/digits, and -32600 before params, initialization,
+or permissions. Updated SPEC §4.2 / §6.1 and accepted ADR 0014 before writing
+the dependent implementation. This decision is settled; do not ask again.
+
+packages/protocol/src/index.ts now checks a private METHOD_NAME expression
+inside isJsonRpcRequestEnvelope. Compare exec's full matched text with the
+input to reject suffix line terminators despite JavaScript's $ behavior.
+Keep the string check first, with no coercion, trimming, case conversion,
+length limit, or registration lookup. isJsonRpcRequest reuses the same guard.
+The host uses its existing envelope failure branch, with a fixed message
+describing the expected version/id/name. It echoes the numeric id and does
+not copy malformed method text into errors. No platform API or dependency
+was added; all validation remains in the pure kernel.
+
+Valid unknown names retain initialization, scope, and lookup behavior.
+Syntax checking uses only public grammar, so early rejection does not reveal
+whether an ungranted method exists. SPEC §9.3 / §9.6 ordering for ordinary
+method params/providers is unchanged. Malformed initialize spellings do not
+reset an active session, and valid handshakes remain usable afterward.
+Standalone notifications remain silent, and T08 still rejects arrays as one
+unit with id null. T10 id policy and T11 whole-JSON validation remain open.
+
+The final T09 suite has 122 tests (58 protocol and 64 host). Before runtime
+implementation, 83 failed and 39 passed. All now pass. Verified 620 tests
+across 24 files, typecheck, lint (72 files), both example builds, and diff
+checks. No browser application UI was added. The new behavior is checked
+through shared guards and the real host over in-memory transports.
+
+study/13-method-names.html explains the regex components, full-input check,
+error precedence, grammar versus grants/method existence, and test evidence.
+The guide shows T09 complete and T10 next, preserves T08 at #t08 with all
+earlier lessons, and links T08's wrap-up to T09. All 198 local references
+across 14 study pages are valid, with no duplicate ids and unchanged earlier
+interactive scripts. Browser checks confirm the lesson and current-task
+guide render correctly. Next is T10 only, starting with its existing
+request-id rejection/correlation decision; do not infer approval from T09.
 
 ## 2026-10-23 checkpoint — T08 commit and push
 

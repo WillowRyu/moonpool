@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — T09 메서드 이름 형식 검사</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">13 · T09 메서드 이름</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#purpose">문자열에서 정해진 이름으로</a>
+    <a href="#terms">새로 만나는 말</a>
+    <a href="#pattern">이름의 패턴 읽기</a>
+    <a href="#whole">입력 전체를 확인하는 이유</a>
+    <a href="#order">이름을 먼저 검사하는 순서</a>
+    <a href="#permission">형식과 권한과 실제 기능</a>
+    <a href="#checks">테스트와 다음 단계</a>
+  </nav>
+  <p class="small desktop-only">2026.10.23 검증<br>T09 완료 · 다음 T10<br>620개 테스트 통과</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">T09 · Validate namespace.action before dispatch</div>
+    <h1>메서드 이름도,<br>받은 글자 그대로 검사합니다.</h1>
+    <p class="lead">profile.get처럼 정해진 이름 구조인지 확인합니다. 잘못된 이름은 -32600으로 거절하고, 형식이 맞는 요청은 기존 초기화·권한·메서드 조회 순서로 처리합니다.</p>
+    <div class="meta"><span class="pill">T09 완료</span><span class="pill">620 / 620 테스트 통과</span><span class="pill warm">다음 T10 · 요청 번호 정책</span></div>
+  </header>
+
+  <section class="section" id="purpose">
+    <h2>1 · 문자열이라고 올바른 메서드 이름은 아닙니다</h2>
+    <p>기존 요청 검사는 method가 문자열인지 확인했습니다. 그래서 <code>profile..get</code>이나 <code>Profile.get</code>도 이름 형식 검사 없이 초기화·권한·메서드 조회로 넘어갔습니다. 이제 요청의 바깥 형식을 확인할 때 이름 문법까지 검사합니다.</p>
+    <p>기존 SPEC에는 namespace.action과 lowerCamelCase라는 요구만 있었고 정확한 글자 규칙과 오류 순서는 없었습니다. 2026.10.23에 권장안을 승인받아 <a href="../SPEC.md">SPEC §4.2·§6.1</a>과 <a href="../docs/adr/0014-validate-method-name-syntax.md">ADR 0014</a>에 먼저 기록했습니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>이름</th><th>형식 검사</th><th>이유</th></tr></thead><tbody>
+      <tr><td>profile.get</td><td>통과</td><td>소문자로 시작한 두 부분과 점 하나</td></tr>
+      <tr><td>profile.readName</td><td>통과</td><td>첫 글자 이후 대문자도 허용</td></tr>
+      <tr><td>profile.getURL</td><td>통과</td><td>첫 글자 이후 약어의 대문자 연속도 허용</td></tr>
+      <tr><td>storage2.get2</td><td>통과</td><td>첫 글자 이후 숫자도 허용</td></tr>
+      <tr><td>Profile.get</td><td>거절</td><td>namespace 첫 글자가 대문자</td></tr>
+      <tr><td>profile..get</td><td>거절</td><td>점이 두 개이고 중간 구간이 비어 있음</td></tr>
+      <tr><td>profile.get_name</td><td>거절</td><td>밑줄은 허용한 글자에 없음</td></tr>
+    </tbody></table></div>
+    <p>형식을 통과한 이름도 실제로 구현된 기능이어야 호출할 수 있습니다. 이 표는 이름의 문법만 보여 주며 새로운 capability를 추가한 목록이 아닙니다.</p>
+  </section>
+
+  <section class="section" id="terms">
+    <h2>이번 코드에서 만나는 표현</h2>
+    <div class="table-wrap"><table><thead><tr><th>표현</th><th>뜻</th><th>비유</th></tr></thead><tbody>
+      <tr><td>namespace.action</td><td>점 앞은 권한 이름, 점 뒤는 요청할 동작 이름</td><td>“storage 방의 set 업무”</td></tr>
+      <tr><td>lowerCamelCase</td><td>소문자로 시작하고 단어 경계에 대문자를 쓸 수 있는 표기</td><td>read + Name을 readName으로 붙이기</td></tr>
+      <tr><td>정규식(pattern)</td><td>허용할 글자의 순서와 반복을 적은 검사 규칙</td><td>입력 이름이 들어맞아야 하는 틀</td></tr>
+      <tr><td>exec</td><td>패턴과 맞는 부분을 찾는 정규식 메서드</td><td>틀에 맞은 부분을 표시해 반환</td></tr>
+      <tr><td>envelope</td><td>jsonrpc·id·method처럼 요청 바깥의 기본 항목</td><td>내용물을 보기 전 확인하는 봉투의 주소·접수번호</td></tr>
+      <tr><td>검사 순서</td><td>오류가 여러 개 있을 때 먼저 판단할 규칙</td><td>접수 양식 확인 후 권한 창구로 안내</td></tr>
+    </tbody></table></div>
+  </section>
+
+  <section class="section" id="pattern">
+    <h2>2 · 짧은 패턴에 이름 규칙을 적습니다</h2>
+    <pre><code>const METHOD_NAME = /^[a-z][A-Za-z0-9]*\.[a-z][A-Za-z0-9]*$/;</code></pre>
+    <div class="table-wrap"><table><thead><tr><th>부분</th><th>읽는 법</th></tr></thead><tbody>
+      <tr><td>^</td><td>입력의 시작에서 검사</td></tr>
+      <tr><td>[a-z]</td><td>첫 글자는 ASCII 영문 소문자 한 개</td></tr>
+      <tr><td>[A-Za-z0-9]*</td><td>이후에는 영문 대문자·소문자·숫자를 0개 이상 허용</td></tr>
+      <tr><td>\.</td><td>구분자로 사용하는 실제 점 한 개</td></tr>
+      <tr><td>뒤의 [a-z][A-Za-z0-9]*</td><td>action에도 같은 글자 규칙 적용</td></tr>
+      <tr><td>$</td><td>정규식의 끝 위치 조건. 마지막 줄바꿈 예외는 아래에서 추가 확인</td></tr>
+    </tbody></table></div>
+    <p>허용하지 않은 글자는 공백·밑줄·하이픈·Unicode 문자 등을 포함합니다. 이름을 소문자로 바꾸거나 공백을 잘라서 합격시키지 않습니다. 승인된 규칙에는 길이 제한을 새로 넣지 않았습니다.</p>
+  </section>
+
+  <section class="section" id="whole">
+    <h2>3 · 찾은 부분이 실제 입력 전체와 같아야 합니다</h2>
+    <p>기존 <code>isJsonRpcRequestEnvelope</code>의 조건에 아래 마지막 비교를 더했습니다. 코드는 <code>packages/protocol/src/index.ts</code>에 있습니다.</p>
+    <pre><code>typeof value.method === 'string' &amp;&amp;
+METHOD_NAME.exec(value.method)?.[0] === value.method</code></pre>
+    <p>먼저 문자열인지 확인하므로 숫자나 객체를 글자로 바꿔 검사하지 않습니다. exec가 찾은 결과의 첫 항목 [0]이 실제로 맞은 글자 전체입니다. 찾지 못했다면 ?.가 항목 읽기를 건너뛰어 undefined가 되므로 입력과 같지 않습니다.</p>
+    <p>JavaScript 정규식의 $는 마지막 줄바꿈 바로 앞에서도 맞을 수 있습니다. <code>profile.get\n</code>에서 앞부분만 맞았다고 합격시키지 않도록, 실제로 찾은 글자와 입력 전체를 한 번 더 비교합니다. T05의 ID·버전 검사에서 배운 것과 같은 이유입니다.</p>
+    <p>isJsonRpcRequest도 이 envelope 검사를 재사용하므로 두 검사 함수가 같은 이름 규칙을 지킵니다. params가 객체인지와 메서드별 필수 항목이 맞는지는 각각 다음 단계에서 확인합니다.</p>
+  </section>
+
+  <section class="section" id="order">
+    <h2>4 · 이름이 틀렸으면 다른 판단 전에 -32600입니다</h2>
+    <div class="flow"><div class="node">배열·응답할 id 확인</div><span class="sep">→</span><div class="node current">envelope<br>메서드 이름 문법 포함</div><span class="sep">→</span><div class="node">params의 바깥 모양</div><span class="sep">→</span><div class="node">초기화·권한·메서드</div></div>
+    <p>호스트는 기존 envelope 실패 분기에서 숫자 요청 id를 그대로 돌려주고 -32600을 보냅니다. 받은 메서드 원문을 오류 메시지에 복사하지 않습니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>요청</th><th>처리</th></tr></thead><tbody>
+      <tr><td>profile..get · params가 객체</td><td>초기화·권한과 관계없이 -32600</td></tr>
+      <tr><td>profile..get · params가 배열</td><td>이름 문법을 먼저 보므로 -32600</td></tr>
+      <tr><td>profile.get · params가 배열</td><td>이름은 맞고 인자 모양이 틀려 기존 -32602</td></tr>
+      <tr><td>profile.get · params가 객체 · 초기화 전</td><td>기존 -32005</td></tr>
+      <tr><td>id 없는 일반 알림 · 잘못된 이름</td><td>기존 알림 규칙대로 응답 없음</td></tr>
+      <tr><td>잘못된 이름이 든 최상위 배열</td><td>T08의 배열 거절: 응답 하나, id:null, -32600</td></tr>
+    </tbody></table></div>
+    <p>잘못 적은 <code>portal.initialize </code>는 반복 초기화가 아닙니다. 기존 초기화 상태를 바꾸지 않고 거절합니다. 거절 이후에도 정확한 이름의 초기화와 일반 호출은 계속 처리할 수 있습니다.</p>
+  </section>
+
+  <section class="section" id="permission">
+    <h2>5 · 문법이 맞으면 기존 권한 경계를 따릅니다</h2>
+    <p><strong>SPEC §9.3·§9.6의 보안 경계와 관련된 작업입니다.</strong> 이름 문법을 통과한 일반 호출에는 기존 초기화 확인 → 권한 확인 → 메서드 조회 → 메서드별 입력 검사 → provider 확인·호출 순서를 유지합니다. params가 생략되었거나 객체인지는 이보다 앞의 바깥 모양 검사입니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>형식이 맞는 이름</th><th>호스트 상태</th><th>결과</th></tr></thead><tbody>
+      <tr><td>profile.readDisplayName</td><td>초기화 전</td><td>-32005</td></tr>
+      <tr><td>profile.readDisplayName</td><td>초기화 후 profile 권한 없음</td><td>-32000</td></tr>
+      <tr><td>profile.readDisplayName</td><td>초기화 후 profile 권한 있음</td><td>실제 구현된 메서드가 아니므로 -32601</td></tr>
+      <tr><td>profile.get</td><td>초기화·권한·provider 준비 완료</td><td>정상 프로필 결과</td></tr>
+      <tr><td>portalX.ping</td><td>portalX 권한 없음</td><td>-32000. portal과 접두사가 같아도 별개 이름</td></tr>
+    </tbody></table></div>
+    <p>이름 검사는 공개된 글자 규칙만 사용하고 메서드 목록을 조회하지 않으므로, 권한 없는 호출에 실제 구현 여부를 알려주지 않습니다. 별도 scope 등록부를 만들지 않고 각 단계가 문법·권한·실제 기능 확인을 담당합니다. 순수 커널에 플랫폼 API나 런타임 의존성도 추가하지 않았습니다.</p>
+  </section>
+
+  <section class="section" id="checks">
+    <h2>6 · 잘못된 이름과 기존 정상 동작을 함께 검증했습니다</h2>
+    <p>먼저 기존 정상 동작을 확인하는 테스트 29개를 준비했습니다. 규칙 승인 후 경계 사례를 더한 T09 테스트는 122개이며, 구현 직전에는 83개가 실패하고 39개가 통과했습니다. 이제 전부 통과합니다.</p>
+    <div class="test-list"><div><strong>프로토콜 58개</strong><br>알려진 이름 · 대문자·숫자 허용 위치 · 잘못된 글자 · 줄바꿈 · 문자열 경계 · params 검사 분리</div><div><strong>호스트 64개</strong><br>초기화·권한별 코드 · 인자보다 이름 먼저 · provider 미호출 · 세션 보존 · 알림·배열 · 원문 미노출</div></div>
+    <div class="callout"><strong>2026.10.23 검증 결과</strong><br>새 테스트 122개 통과 · 전체 620 / 620 통과 · 24개 테스트 파일<br>타입 검사·린트·두 예제 빌드 통과<br>승인한 규칙은 SPEC §4.2·§6.1과 ADR 0014에 먼저 기록</div>
+    <div class="callout warm"><strong>다음 T10:</strong> 요청 번호의 재사용과 역순 요청을 어떻게 거절하고, 반복 초기화에서 무엇을 재설정할지 다룹니다. 그 응답·연결 규칙은 기존 명세 결정 항목을 먼저 확정해야 합니다.</div>
+  </section>
+  <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="12-batch-rejection.html">T08 배열 거절 복습</a><br>근거: 승인된 SPEC §4.2·§6.1, ADR 0005·0006·0014, 실제 protocol·host 코드와 테스트. 규범 문서는 SPEC.md입니다.</footer>
+</main>
+</body>
+</html>

@@ -2,7 +2,7 @@
 
 Date: 2026-10-22
 Last updated: 2026-10-23
-Status: In progress. T01–T08 complete; next is T09.
+Status: In progress. T01–T09 complete; next is T10.
 Normative source: `SPEC.md`. This plan does not amend the protocol.
 
 ## Working mode
@@ -154,6 +154,21 @@ The explanation is `study/12-batch-rejection.html`. Next: T09, with its
 method-format rejection and ordering decision still required. General
 response validation and request-id reuse policy remain T12 and T10.
 
+**T09 complete (2026-10-23).** Committed and pushed T08 as 257fdd5 and
+4f9dd4b before starting T09. The maintainer approved the exact ASCII
+lowerCamelCase grammar and -32600 rejection before params, initialization,
+and permissions. Recorded SPEC §4.2 / §6.1 and accepted ADR 0014 before
+implementation. The shared envelope guard now validates the whole method
+string, including rejecting suffix newlines, without trimming or coercion.
+The host reuses its fixed envelope-error path. Valid unknown names retain
+the existing scope-before-lookup behavior; malformed initialize spellings
+do not reset a session. No platform API, dependency, length limit, registry,
+or capability was added. All 122 new tests, 620 total across 24 files,
+typecheck, lint, and both example builds pass. The final meaningful RED run
+had 83 failures and 39 passing regressions. The explanation is
+`study/13-method-names.html`. Next: T10, whose id-policy decision is still
+required. The T11 JSON-boundary decision is also still open.
+
 ### Milestone A: demonstrate useful calls
 
 | ID | Task | Completion evidence | Depends on |
@@ -184,7 +199,7 @@ below, rather than inventing a restrictive private manifest format.
 | ID | Task | Completion evidence | Depends on |
 | --- | --- | --- | --- |
 | T08 | Reject top-level batch arrays with -32600. | Empty and nonempty arrays receive the required single invalid-request reply and execute no methods. Null response ids can be represented without allowing a valid client request to use null. Clients ignore uncorrelated error responses. | T01 |
-| T09 | Validate the `namespace.action` method format. | Valid lowerCamelCase names reach existing dispatch; malformed names follow the approved rejection contract. Unknown valid names retain existing permission and method-lookup behavior. | T01; method-format decision |
+| T09 | Validate the `namespace.action` method format. | Valid lowerCamelCase names reach existing dispatch; malformed names follow the approved rejection contract. Unknown valid names retain existing permission and method-lookup behavior. | T01; method-format decision approved in ADR 0014 |
 | T10 | Enforce the approved request-id policy. | Tests cover reuse and backward ids, initialization retries, and the fresh sequence after repeat handshake. Document-scoped correlation resets without clearing grants or storage. | T08; id decision |
 | T11 | Validate JSON at the inbound request boundary. | Structured-clone values outside JSON cannot reach providers; tests preserve existing rejection precedence and allowed extra JSON envelope members. No input is coerced to make it valid. | T09; JSON-boundary decision |
 | T12 | Tighten response validation and correlation tests. | Malformed result/error shapes cannot settle a request; valid falsy results, sanitized errors, unknown ids, and late responses retain their specified behavior. | T08 |
@@ -222,14 +237,17 @@ browser runner. If one is introduced later, revisit HANDOFF's existing
 These are planning gates, not approved specification changes. Continue
 independent tasks while a dependent task awaits the maintainer's decision.
 
+T09's method-format decision is resolved in SPEC §4.2 / §6.1 and ADR 0014.
+Do not ask for that approval again; the remaining gates below are separate.
+
 - **Request ids (T10).** §4.1 defines sender uniqueness and monotonicity;
   the receiver's response to reuse or backward ids is still unresolved.
   Proposed direction: reject with -32600, with document-level tracking reset
   only by the §5.1 handshake. Settle invalid-id response correlation too.
-- **Method and JSON boundary validation (T09, T11).** Specify rejection codes and
-  ordering for invalid method syntax and non-JSON envelope content before
-  tightening guards. Preserve scope-before-method-param validation and the
-  existing permission behavior for unknown methods.
+- **JSON boundary validation (T11).** Specify rejection codes and ordering for
+  non-JSON envelope content before tightening the whole-frame guard. Preserve
+  the approved method-syntax precedence, scope-before-method-param validation,
+  and the existing permission behavior for unknown methods.
 - **Client local failures (T13).** Confirm the post-close -32008 behavior and
   define synchronous transport-send failure mapping without inventing a
   claim about remote host health.
