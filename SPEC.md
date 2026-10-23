@@ -101,9 +101,35 @@ semantics layered on top.
 
 - Batch requests (top-level arrays) are NOT supported in `0.x`. A receiver
   MUST respond with `-32600` Invalid Request.
-- `id` MUST be a positive integer, unique per connection, monotonically
-  increasing. Implementations MUST NOT reuse ids within a connection.
+- `id` MUST be a positive integer, unique and strictly increasing within a
+  document (§5.1). Implementations MUST NOT reuse ids within that document.
 - Requests without an `id` are notifications. The receiver MUST NOT reply.
+
+Request-id order is scoped to a document within a connection (§5.1). The host
+MUST track the largest consumed positive integer id, initially zero. Gaps are
+allowed. A new positive integer id MUST be consumed before envelope/method-name,
+params, initialization, permission, or provider validation, even when those
+later checks reject the request. This gate follows batch rejection and numeric
+id detection; notifications, batches, and nonpositive/noninteger ids do not
+advance the counter.
+
+Except for the initialization boundary below, a positive integer id less than
+or equal to the counter MUST receive one `-32600` error with `id: null`, without
+execution or state changes. Such an id cannot uniquely identify a request in
+the current document. Do not echo it and risk settling an earlier in-flight
+call. This sequence error takes precedence over other request validation.
+The connection remains usable with a larger id; clients ignore the uncorrelated
+error and keep existing pending calls and timers. This rule adds no numeric
+maximum and does not change other invalid-id handling.
+
+A `portal.initialize` with a valid request envelope and object-or-omitted params
+establishes a new document boundary before sequence checking. Reset the counter
+and consume this initialization's own id, which need not be 1 for a continuing
+client's retry. Method-specific field or version failure does not undo this
+boundary. Malformed envelopes, malformed method names, and malformed params
+containers MUST NOT reset the counter or initialization state. With a new
+positive integer id they consume it and receive the existing validation error;
+with a reused/backward id they receive the sequence error above.
 
 ### 4.2 Request
 
@@ -114,9 +140,9 @@ semantics layered on top.
 `params` MUST be an object or omitted. Positional (array) params are not
 supported; a receiver MUST respond with `-32602`.
 
-For an addressable request, a method string that violates §6.1 MUST be
-rejected with `-32600`, echoing the numeric request id. Method-name syntax is
-part of envelope validation: check it before the params container,
+After passing §4.1's request-id sequence gate, a method string that violates
+§6.1 MUST be rejected with `-32600`, echoing the numeric request id.
+Method-name syntax is part of envelope validation: check it before the params container,
 initialization state, and scope enforcement. A malformed name MUST NOT invoke
 a capability or change initialization state, including when it resembles
 `portal.initialize`. Standalone no-id notifications still receive no reply;
@@ -289,6 +315,12 @@ reset anything else:
 | ------------------------------------------------------ |
 | Initialization state                                    |
 | Request-id correlation: a new document restarts at `1`  |
+
+The receiver recognizes this boundary only after the general request envelope
+and object-or-omitted params checks pass for the exact `portal.initialize`
+method. Reset initialization before method-specific checks as in §5, and reset
+the id counter before consuming this initialization's id as in §4.1. A failed
+field/version check leaves the new document uninitialized but its id consumed.
 
 Everything a host holds that is not on that list is preserved, including:
 

@@ -104,6 +104,8 @@ export function createHost(config: HostConfig): Host {
   return {
     connect(transport) {
       let initialized = false;
+      // SPEC §4.1 / §5.1: largest id consumed by this connection's current document.
+      let lastRequestId = 0;
 
       // SPEC §5: "grantedScopes is the authoritative permission set for the
       // connection" — the intersection of what the manifest declares and what
@@ -298,6 +300,30 @@ export function createHost(config: HostConfig): Host {
 
         const { id } = message;
 
+        // A well-shaped initialize is the document boundary, even if its fields
+        // or version will fail later. Malformed containers/names cannot reset it.
+        if (message.method === PORTAL_METHODS.INITIALIZE && isJsonRpcRequest(message)) {
+          lastRequestId = 0;
+        }
+
+        if (Number.isInteger(id) && id > 0) {
+          if (id <= lastRequestId) {
+            // Never echo an ambiguous id: an earlier provider may still be running.
+            const response: JsonRpcResponse = {
+              jsonrpc: '2.0',
+              id: null,
+              error: {
+                code: ERROR_CODES.INVALID_REQUEST,
+                message: 'request ids must increase within a document',
+              },
+            };
+            transport.send(response);
+            return;
+          }
+          // Reserve before validation/dispatch, including failures and async work.
+          lastRequestId = id;
+        }
+
         // SPEC §4.2 / ADR 0005 — distinguish a malformed envelope from bad params.
         // Neither check may reach handshake processing or a capability provider.
         if (!isJsonRpcRequestEnvelope(message)) {
@@ -333,10 +359,9 @@ export function createHost(config: HostConfig): Host {
         // and this message is the only signal the host gets that it happened.
         // Answer it the same way every time.
         //
-        // Document-scoped state is reset here. Today `initialized` is all of
-        // it and the assignment below covers that; anything document-scoped
-        // added later MUST be reset in this branch. Origin-scoped state — rate
-        // limits, consent records, storage — MUST NOT be touched.
+        // The id floor was reset and this initialization's id consumed above.
+        // Reset initialization here before method-level checks. Origin-scoped
+        // state — rate limits, consent records, storage — MUST NOT be touched.
         if (method === PORTAL_METHODS.INITIALIZE) {
           // SPEC §5.1 — a repeat handshake starts a new document's negotiation.
           // Reset before any method-level rejection so the new document cannot
