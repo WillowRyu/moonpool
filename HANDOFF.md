@@ -5,15 +5,18 @@
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
-> T19 complete: 1131 tests / 39 files, root typecheck and lint pass.
-> T18 build/browser/lab verification remains the unchanged runtime baseline.
+> T01–T21 complete: browser v0.1 milestone; see docs/v0.1-conformance.md.
+> T20 baseline: 1131 tests / 39 files, root/lab typecheck, lint and both builds pass.
+> Chrome 156 dev, isolated native transport, and final built-preview evidence recorded.
 > Multi-Portal research published as 00c0c63 / 76bc212; remote confirmed in sync.
 > ADR 0022 accepted revision published as 0397b70; remote confirmed in sync.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Current checkpoint: T01–T16 implemented; T17 investigation complete; T18/T19 complete.
+> Current checkpoint: all T01–T21 tasks complete within the reference browser scope.
 > T18 published as 4aab691 / ab98b58; remote confirmed in sync before T19.
-> T19 publication is requested; publish its tests and documentation before T20.
-> T20 final browser/security verification is explicitly authorized.
+> T19 published as e2354e6 / 8f98da9; clean remote sync confirmed before T20.
+> The maintainer requested committing/pushing T20/T21 on 2026-10-26.
+> T20 verification source/evidence committed as 321d09d; publish the completion docs next.
+> Package/tag publication remains separate from this Git publication request.
 > Clarification: one app/screen can contain Portals with different origins.
 > No application-wide single-domain or single-Portal restriction is intended.
 > Accepted ownership: wrapper-local kernel/API, outer-host retained app-partitioned provider.
@@ -31,6 +34,160 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-26 checkpoint — T20/T21 Git publication authorized
+
+The maintainer explicitly requested committing/pushing the completed T20/T21
+work and asked whether it is now usable. T20 source/evidence is committed as
+321d09d. Publish the completion/documentation batch, push master and confirm
+remote sync. Earlier local/unrequested-publication statements are historical.
+
+Readiness assessment: the implemented reference browser-development setup can
+be used for local experiments/PoCs. It is not ready for immediate production
+web/native deployment: native transports/cores are absent, production HTTPS
+hosting is undefined, packages are private TypeScript-source workspaces, and
+the accepted epoch/peer-disconnect limits remain. The question does not request
+implementing new platforms, changing those policies, publishing npm packages or
+creating release tags. Explain these practical boundaries plainly in Korean.
+
+## 2026-10-26 checkpoint — T21 complete; browser v0.1 milestone complete
+
+The maintainer requested the next task, T21, after T20. This did not request
+committing/pushing T20. Preserve its local instrumentation/evidence and the
+current T21 documentation; the published HEAD remains 8f98da9.
+
+Audited all seven CLAUDE.md v0.1 requirements against source, existing test
+suites, the T19 error matrix and T20 browser evidence. Added
+docs/v0.1-conformance.md mapping each requirement and SPEC §9 responsibility to
+implementation/evidence, with all existing scope limits and §11 questions.
+All required T01–T21 gates are resolved, so the reference browser v0.1 milestone
+is complete. This is not package publication or all-platform certification.
+
+Updated README status, seven completion checkboxes, actual createClient example,
+three-method Transport description, ownership/run instructions and verification
+links. Removed outdated vendor-status comparison from the public overview and
+kept the project purpose centered on the implemented runtime. Documented the
+tested Node 22.19.0/pnpm 11.1.3 workspace environment rather than implying that
+every version allowed by the broad root engine range runs the pinned tooling.
+Packages remain private 0.1.0 TypeScript-source workspaces; protocol 0.1 remains
+draft/unstable. No dependency, version, API or SPEC change was introduced.
+
+Edited real CLAUDE.md, preserving AGENTS.md/Copilot symlinks. Marked the seven
+browser-milestone criteria complete and reconciled the stale manual-typing
+instruction with the already-approved agent-led learning workflow. Architecture
+invariants and v0 scope exclusions remain unchanged. No new ADR was necessary:
+completion uses the accepted decisions, including ADR 0022, rather than adding
+a new protocol/deployment policy.
+
+Retained limits: same-origin response/document epoch race, peer disconnect,
+runtime consent/throttling, undefined emitters for four codes, inter-Portal
+communication (distinct from supported multi-Portal composition), streaming,
+discovery/imminent-destruction state, native/production-hosting scope and bounded
+browser/GC/performance evidence. Host providers and loaders retain their existing
+result/partition/file-confinement responsibilities. The observer diagnostic
+still has the T20 script-free control, with no precise browser/tooling attribution.
+
+Source review confirms pure-package imports are internal/relative only, with
+no third-party runtime dependency and separate DOM-free typechecking. Imports
+were reviewed directly; no audit dependency or script was added.
+Runtime/test/config fingerprints are compared before/after
+T21 to ensure a documentation-only change. The 1131-test/T20 build/browser baseline
+is retained without claiming a new runtime/browser run for the text changes.
+
+Updated the implementation plan and Korean study guide, added
+study/26-v0.1-completion.html, and preserved earlier lessons. Current work is a
+reviewable local browser milestone; release/package/tag/push requires its own
+maintainer request. Further implementation needs a separately scoped goal.
+
+Final T21 verification: all 103 selected runtime/test/config files match their
+pre-T21 SHA-256 snapshot. Both seven-item checklists agree and have no remaining
+unchecked entries. All 440 local references across 27 study pages and 124 current
+README/report links resolve; ids are unique and prior guide scripts remain.
+AGENTS.md and Copilot instructions remain symlinks to real CLAUDE.md; the shipped
+reference entry is a confined regular file. Biome checks 203 files with no fixes,
+and diff checks pass. Browser layout review confirmed the new completion lesson
+and T21 guide checkpoint. The temporary review tab/server were stopped.
+
+## 2026-10-26 checkpoint — T19 published; T20 complete
+
+Published the T19 matrix tests as e2354e6 and its documentation/study notes as
+8f98da9, pushed master and confirmed a clean 0/0 comparison before T20. The
+interrupted earlier turn had sent only commentary; the user said to proceed.
+The authorized T20 browser/security verification is now complete for the
+recorded Chrome 156 development configuration. No new policy approval is needed.
+
+Expected scenarios were recorded first in docs/browser-integration-verification.md.
+Extended the existing separate containment-check/probe fixtures to instantiate
+the actual createStorageDemo and createCloseDemo views through the real client.
+Added delete/dismissal controls, lifecycle notifications, unsubscribe/local close,
+explicit version refusal/retry, Date-valued invalid input, inert markup data,
+and root provider invocation logs. All controls are fixture-only, not new SDK RPCs.
+The normal UI components, SDK implementations, public APIs, dependencies and
+SPEC remain unchanged. No functional regression needing a runtime fix was found.
+
+Development native observations: two app identities/grants/public profiles;
+actual component set/get/delete and cross-app isolation; null after deletion;
+literal markup without image/DOM execution; Date rejected -32602 with write
+count unchanged; ungranted CRUD -32000 despite forged grants/SOP access attempt;
+explicit version refusal -32004, gated -32005 and valid recovery; paused/resumed
+and environment notifications while B remains pending; wrong-source reply ignored;
+A-only CSP revocation; unsubscribe stops callbacks; local client.close rejects
+pending and later calls -32008 and ignores late completion; actual close view
+dismisses A alone; recreation/reload/internal navigation preserve grants/data;
+same-URL/different-policy wrapper replacement is rejected; foreign location,
+form, redirect and bounce all revoke A while B data remains.
+
+The uncontained T17 lab now has T20 native-source controls: another iframe at
+the correct origin sends valid profile id 900, source differs, provider count
+stays 1; bound-peer positive control increases it to 2. Same WindowProxy moves
+foreign and sends valid id 50; origin differs, provider count stays 2. Allowed
+return id 100 increases it to 3. Native MessageEvent fields are recorded, not
+guest URL claims. Actual SDK targetOrigin marker is blocked foreign and delivered
+allowed; a separately labeled direct foreign marker proves that listener works.
+This lab intentionally omits containment and is not a conforming Portal example.
+
+Final built preview verifies zero get/set/delete provider calls for denied B,
+then positive A calls and deletion/null. It repeats public profile, both event
+types, actual close, retained data across recreation and isolated navigation.
+The ordinary built mock host initializes both origins/profiles. HTTP headers
+show exact root/A/B policies, unknown-app frame-src 'none' and ignored caller
+origin query claims. Root commands used Node 22.19.0/pnpm 11.1.3/Vite 8.2.2.
+
+All 1131 tests in 39 files, root/lab typechecks, lint and both builds pass.
+Manual observations do not increase the test count. Records 01–34 are one
+unchanged dev sequence, 35–42 one unchanged transport sequence, 43–52 a fresh
+final build after adding get/delete diagnostics, and 53 the normal built page.
+52 numbered JSON records, initial/normal rendered text, actual screenshot,
+policy headers and diagnostics are in examples/mock-host/integration-results/.
+Records contain scoped DOM text/attributes and host logs, not hidden runtime state.
+An initial summary counted the subscription-removal log with notifications;
+checking only portal event lines confirms three deliveries and no post-unsubscribe
+delivery. Raw recorded strings were not altered.
+
+The known MutationObserver.observe diagnostic reproduces in a retained two-level,
+cross-origin HTML-only frame control with no scripts, Moonpool or Vite. Blank
+and single-level lab controls show no such error. This narrows the diagnostic
+outside project-script requirements without identifying its exact browser/tooling
+source or claiming a clean console. The three static control files and raw
+diagnostics are retained. No SDK change was made to suppress the diagnostic.
+The existing Vite future-native-loader advisory remains non-blocking.
+
+Stopped all created dev/lab/preview/static servers and browser tabs. Existing
+§11 epoch/disconnect questions, already-dispatched side effects, cross-engine/
+all-scheme verification and GC/performance limits remain. Production HTTPS and
+native cores are outside scope. This task verifies SPEC §9; it does not amend it.
+Updated the task map, verification report and study/25-browser-security-verification.html.
+
+Final documentation QA: 26 study pages / 423 local references and 79 report/matrix
+links resolve; ids are unique, prior interactive scripts are preserved, static
+controls have no script tags and evidence whitespace is clean. Browser screenshots
+confirm the code/table layout and the guide's T20 checkpoint. Final Biome checks
+202 files with no fixes; git diff checks pass. SDK, normal UI component, SPEC and
+dependency sources match T19 HEAD. All nine test/review ports were confirmed closed.
+
+Next: T21 public roadmap/conformance/document reconciliation when requested.
+Do not declare all of v0.1 complete now or commit/push T20 without a request;
+the current publication request covered T19 before this task.
 
 ## 2026-10-26 checkpoint — T19 publication requested; T20 authorized
 

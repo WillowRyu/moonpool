@@ -51,13 +51,16 @@ proven in the browser. That ordering is deliberate.
 
 ## v0.1 definition of done
 
-- [ ] `Transport` interface, with an iframe implementation for the browser
-- [ ] Client: JSON-RPC encoding, promise correlation, timeout, error mapping
-- [ ] Host: dispatcher, manifest parsing, scope enforcement
-- [ ] Handshake with version negotiation
-- [ ] Capabilities: `portal.*`, `profile.get`, `storage.*`
-- [ ] Mock host + hello-world mini app runnable in a browser
-- [ ] Test coverage for every error code in `SPEC.md` §4.4
+Complete for the reference browser-development milestone on 2026-10-26.
+Evidence and retained scope limits are in `docs/v0.1-conformance.md`.
+
+- [x] `Transport` interface, with an iframe implementation for the browser
+- [x] Client: JSON-RPC encoding, promise correlation, timeout, error mapping
+- [x] Host: dispatcher, manifest parsing, scope enforcement
+- [x] Handshake with version negotiation
+- [x] Capabilities: `portal.*`, `profile.get`, `storage.*`
+- [x] Mock host + hello-world mini app runnable in a browser
+- [x] Test coverage for every error code in `SPEC.md` §4.4
 
 ---
 
@@ -112,7 +115,9 @@ import a platform API. That rule is what keeps the native ports cheap later.
 
 ## Stack
 
-TypeScript (strict), pnpm workspaces, Vitest, Biome, Node 20+.
+TypeScript (strict), pnpm workspaces, Vitest, Biome.
+Verified workspace toolchain: Node 22.19.0 and pnpm 11.1.3. Run commands from
+the workspace root using that runtime environment.
 Prefer zero runtime dependencies in `protocol`, `client`, and `host`.
 
 ## Commands
@@ -142,6 +147,7 @@ pnpm run dev          # serves examples/mock-host
 
 Read `HANDOFF.md` at the start of every session and keep it updated as steps
 complete. It records where work stopped, the current roadmap, and open
-decisions. The maintainer learns by typing all meaningful code themselves —
-explain first, hand over one small step, verify what they typed. Do not write
-the meaningful code for them.
+decisions. The maintainer switched to agent-led implementation on 2026-10-22:
+the agent writes tests and code, verifies the result, then explains each small
+task in Korean with useful code examples. Keep previous study lessons and update
+their guide. Manual typing and comprehension checks are not prerequisites.

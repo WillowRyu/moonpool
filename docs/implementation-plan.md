@@ -2,8 +2,50 @@
 
 Date: 2026-10-22
 Last updated: 2026-10-26
-Status: T01–T16 implemented; T17 research published; T18 published; T19 complete locally. T20–T21 remain. ADR 0022 is accepted. Milestone C is complete.
+Status: T01–T21 complete for the browser v0.1 milestone. T20/T21 remain local after 8f98da9. Completion/evidence: docs/v0.1-conformance.md. Protocol remains draft/unstable.
 Normative source: `SPEC.md`. This plan does not amend the protocol.
+
+## T21 complete — 2026-10-26
+
+Reconciled README, the seven working-agreement completion checkboxes, CHANGELOG,
+HANDOFF and the learning guide with verified behavior. Added
+docs/v0.1-conformance.md mapping every v0.1 criterion and SPEC §9 responsibility
+to source/tests/browser evidence, plus current provider/loader/deployment duties.
+The complete T01–T21 reference browser milestone satisfies its definition of done.
+
+Corrected the Transport description to send/onMessage/close, aligned the API
+example and recorded the existing agent-led learning mode in real CLAUDE.md
+while preserving symlinks. All accepted decisions and SPEC remain unchanged.
+The T20 1131-test/typecheck/lint/build/browser baseline is retained; T21 changes
+documentation only. Existing §11 questions, private source-package status,
+production/native boundaries and bounded engine/diagnostic evidence stay explicit.
+
+study/26-v0.1-completion.html explains completion versus release and links every
+criterion to evidence. T20/T21 remain local; this task did not authorize commit,
+push, tag or package publication. No numbered task in the current plan remains.
+Further implementation requires a separately scoped maintainer request.
+
+## T20 complete — 2026-10-26
+
+Published T19 as e2354e6 / 8f98da9 and confirmed remote sync before T20.
+Recorded the required browser/security flows using real SDKs, served wrappers
+and the actual example storage/close components. All 1131 tests in 39 files,
+root/lab typechecks, lint and both builds pass. No SDK/SPEC changes were needed.
+
+Chrome 156 observations cover initialization/profile, CRUD success/denial,
+provider non-invocation, invalid Date input, inert text rendering, version
+refusal/recovery, reload/data lifetime, actual dismissal, both notifications,
+unsubscribe, local client close, wrong-source replies and containment. A separate
+uncontained transport lab independently verifies native origin/source gates and
+outbound targetOrigin with positive controls. Final built previews repeat the
+critical flows. docs/browser-integration-verification.md links the evidence.
+
+The known observer diagnostic also reproduces in a retained script-free nested
+frame control, without Moonpool/Vite; its exact browser/tooling source is unknown.
+No clean-console, all-engine/scheme or GC guarantee is claimed. The approved §11
+limits remain. study/25-browser-security-verification.html explains the code and
+observations. T20 changes remain local. T21 subsequently completed the scoped
+browser-milestone reconciliation above.
 
 ## T19 complete — 2026-10-26
 
@@ -20,10 +62,11 @@ rate limiting, host-state policy, string decoding or peer-disconnect behavior.
 Existing client timeout/local-close/send-failure suites remain producer coverage.
 This verifies §4.4 / §9.4 privacy without changing the security contract.
 
-1131 tests across 39 files, root typecheck and lint pass. T18's unchanged build/
-browser baseline is retained; T20 will perform final integration verification.
+1131 tests across 39 files, root typecheck and lint passed at T19, retaining
+T18's unchanged build/browser baseline for that tests-only step.
 study/24-error-code-matrix.html explains the code, producer distinction and
-null-id timeline. T19 changes are local. Next: T20, then T21; v0.1 not complete.
+null-id timeline. T19 was published as e2354e6 / 8f98da9. The later T20/T21
+checkpoints above record final verification and browser-milestone completion.
 
 ## T18 complete — 2026-10-26
 
@@ -496,22 +539,23 @@ navigation. Do not weaken §9.2 to fit an iframe limitation.
 | ID | Task | Completion evidence | Depends on |
 | --- | --- | --- | --- |
 | T19 | Completed 2026-10-26: SPEC §4.4 error-code matrix. | All 14 client mappings and current producer paths have meaningful tests. Added 54 cases and docs/error-code-matrix.md; 1131 total tests pass. Defined codes without producers use controlled peer frames; runtime/SPEC/policies unchanged. | T08–T16 |
-| T20 | Verify browser integration and security scenarios. | Record actual browser results for handshake, profile, storage success/denial, reload, close, notifications, foreign-origin/source rejection, and navigation containment. Run all tests, typecheck, lint, and both example builds. | T04, T07, T14, T16, T18, T19 |
-| T21 | Reconcile the public roadmap and final conformance record. | README, CHANGELOG, HANDOFF, study status, and necessary ADRs match the verified behavior. Map each v0.1 requirement to evidence and record remaining approved limitations. Declare completion only when the required checks and specification decisions are resolved. | T20 |
+| T20 | Completed 2026-10-26: browser integration/security verification. | Chrome 156 dev/final-preview records cover required flows; independent native origin/source and targetOrigin controls pass. 1131 tests, root/lab typechecks, lint and both builds pass. See docs/browser-integration-verification.md for evidence and limits. | T04, T07, T14, T16, T18, T19 |
+| T21 | Completed 2026-10-26: public roadmap and conformance record. | README/working-agreement checklists, CHANGELOG, HANDOFF, plan and study agree. docs/v0.1-conformance.md maps every requirement to evidence and retains accepted limits. Browser milestone complete; release/publication separate. | T20 |
 
 Real-browser verification does not by itself require adopting a new automated
 browser runner. If one is introduced later, revisit HANDOFF's existing
 `queueMicrotask` to `reportError` transition requirement and record its ADR.
 
-## Decisions needed before affected implementation
+## Historical policy gates — resolved for T01–T21
 
-These are planning gates, not approved specification changes. Continue
-independent tasks while a dependent task awaits the maintainer's decision.
+These planning gates were resolved by the recorded maintainer approvals and
+accepted SPEC/ADRs. None remains pending for the completed browser milestone.
+Future changes to settled contracts still need their own explicit approval.
 
 T09's method-format decision, T10's id policy, and T11's inbound JSON policy
 are resolved in SPEC and ADRs 0014–0016; T13 and T14 are resolved in
 ADRs 0018–0019.
-Do not ask for those approvals again. The remaining gates below are separate.
+Do not ask for those approvals again. The resolved gates below remain as history.
 
 - **Client local failures (T13): resolved on 2026-10-23.** The maintainer
   approved terminal local closure, post-close -32008 Promise rejection,

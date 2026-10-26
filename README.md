@@ -1,96 +1,154 @@
 # Moonpool
 
-Run sandboxed web mini apps inside a native app, behind a permissioned bridge.
+An MIT runtime for isolated web mini apps behind an asynchronous, permissioned
+bridge. Moonpool targets embedding inside native apps; its current implementation
+proves the protocol in a browser reference host.
 
-> ⚠️ **Early development.** The protocol is unstable and nothing here is ready
-> for production use. There is no install path yet — see the roadmap below.
+**Status:** the browser v0.1 milestone is complete (2026-10-26). See the
+[completion and conformance record](docs/v0.1-conformance.md) for requirements,
+evidence and scope. Protocol 0.1 remains draft/unstable. The deliverable is the
+source workspace; its packages are private and export TypeScript source.
 
----
+## What it does
 
-## What it is
+A moonpool is a controlled opening in a ship's hull. Here, that opening is a
+small bridge through which an isolated mini app can request host capabilities.
 
-A moonpool is the opening in the hull of a drilling vessel: a controlled way to
-reach the water without letting the sea into the ship. This project is the same
-idea for applications — a bounded opening in a native app through which web
-content runs, with an explicit contract governing what it can reach.
+- Each mini app has a stable, distinct origin. One host page can contain Portals
+  with different origins.
+- JSON-RPC 2.0 carries every request/response. The host checks initialization,
+  granted scope and input before invoking a capability.
+- All capability calls return Promises. The kernel owns protocol logic; the
+  embedder supplies asynchronous profile/storage implementations and UI lifetime.
+- The reference browser host uses one trusted served wrapper per Portal, each
+  with its own enforcing CSP and bound connection. Host-held app data survives
+  Portal recreation while the memory provider remains alive.
 
-Concretely, that's a web view plus a bridge:
+## Run the browser example
 
-- Each mini app runs in its own web view, on its own origin. Isolation is
-  enforced by the browser engine, not by convention.
-- The host exposes a declared set of capabilities. A mini app calls them over
-  [JSON-RPC 2.0](https://www.jsonrpc.org/specification), and every call is
-  checked against the permissions in its manifest.
-- Mini apps are plain web apps. No specific framework, no version lockstep with
-  the host.
+Use the tested Node 22.19.0 / pnpm 11.1.3 environment and run from the workspace root:
 
-```js
-const profile = await portal.call("profile.get");
-```
-
-## Why
-
-[Ionic Portals](https://ionic.io/blog/important-announcement-the-future-of-ionics-commercial-products)
-solved this well and was discontinued as a commercial product in 2025. It was
-never open source, so there is no continuation path. Meanwhile the alternatives
-in the React Native ecosystem — Module Federation and friends — share a single
-JavaScript runtime by design, which makes them a good fit for splitting up
-first-party code and a poor fit for running code you do not control.
-
-The gap is a small, open, framework-agnostic runtime for the second case.
-
-## Design
-
-The protocol is specified in [`SPEC.md`](./SPEC.md) and comes before the
-implementation. All protocol logic lives in a platform-independent kernel;
-each platform contributes only a transport adapter implementing a two-method
-interface. Adding React Native, iOS, or Android should mean writing a transport,
-not reimplementing the protocol.
-
-## Run the browser development example
-
-From the workspace root, using the repository's Node/pnpm environment:
-
-```bash
+```sh
 pnpm install
 pnpm run dev
 ```
 
-Open [http://localhost:5173](http://localhost:5173). The command starts the host and two fixed mini-app
-origins on ports 5174 and 5175; occupied ports fail instead of drifting. Use
-the host buttons to select storage grants and open the second app concurrently.
-Each Portal has a trusted served wrapper with its own enforcing CSP. Host memory
-storage survives Portal recreation and is partitioned by the host-selected app id;
-reloading the outer host clears it.
+Open [http://localhost:5173](http://localhost:5173). The command starts the host
+and two fixed mini-app origins on ports 5174 and 5175. Occupied ports fail instead
+of drifting. Host buttons select profile-only/storage-enabled grants and open
+the second app concurrently. The sample reads a public profile and offers
+storage set/get/delete and Portal dismissal. Host reload clears memory storage.
 
-The separate [containment checks](http://localhost:5173/containment-check.html)
-exercise navigation, independent revocation and storage/realm ownership using
-the actual adapters. See [T18 verification](docs/browser-containment-verification.md)
-for recorded results and limits. CSP response headers are part of this setup;
-opening built HTML directly or serving it without those headers is not equivalent.
-This remains browser development, not a production web-hosting contract.
+The separate [browser checks](http://localhost:5173/containment-check.html) drive
+actual components through the same SDK and demonstrate failure/positive controls.
+CSP response headers and the trusted wrapper are required parts of this setup.
+Use the served example rather than opening HTML through `file://`.
 
-## Roadmap
+## Client API
 
-**v0.1 — protocol, in the browser**
+Inside an embedded reference mini app, the immediate parent is its trusted
+host wrapper. The host origin is pinned by configuration:
 
-- [ ] Transport interface + iframe transport
-- [ ] Client: encoding, promise correlation, timeouts
-- [ ] Host: dispatcher, manifest parsing, scope enforcement
-- [ ] Handshake with version negotiation
-- [ ] `portal.*`, `profile.get`, `storage.*`
-- [ ] Runnable mock host and example mini app
+```ts
+import { createClient } from '@moonpool/client';
+import { createIframeTransport } from '@moonpool/transport-iframe';
 
-**Later** — React Native transport · iOS (`WKWebView`) and Android
-(`WebMessagePort`) cores · web view pooling and prewarming · bundle loading via
-custom scheme handlers
+const client = createClient({
+  transport: createIframeTransport({
+    peerWindow: window.parent,
+    peerOrigin: 'http://localhost:5173',
+  }),
+});
 
-Distribution, signing, and live updates are explicitly out of scope for now.
+await client.initialize();
+const profile = await client.call('profile.get');
+```
+
+These imports are workspace APIs. Generic call results are unknown; the example
+checks the fields it renders. The host connection handle sends `portal.lifecycle`
+(`resumed`/`paused`) through `notifyLifecycle`, and `portal.environmentChanged`
+(`locale`/`colorScheme`) through `notifyEnvironmentChanged`. The embedder owns
+timing. `client.onNotification` registers a subscriber and returns its unsubscribe
+function.
+
+## Architecture
+
+The normative contract is [SPEC.md](SPEC.md). Protocol, client and host are pure
+TypeScript packages with no third-party runtime dependencies. Their only shared
+package dependency is `@moonpool/protocol`. Browser APIs live in the iframe adapter
+and embedding example; the kernel typecheck omits the DOM library.
+
+The complete transport boundary has three methods:
+
+```ts
+interface Transport {
+  send(message: JsonValue): void;
+  onMessage(handler: (message: JsonValue) => void): () => void;
+  close(): void;
+}
+```
+
+| Owner | Responsibility |
+| --- | --- |
+| Outer host | Trusted app/origin/grant registry, Portal lifetime, retained providers and app-partitioned storage |
+| Per-Portal trusted wrapper | Narrow CSP, local host kernel/configuration/sender, provider facades and transport |
+| Mini app | Client and application UI on its distinct origin |
+
+The kernel supplies storage ownership from the manifest id. A caller selects a
+key, never another app's partition. Different apps are separated; instances of
+the same app share data and keep separate connections. Cross-realm host data
+uses validated JSON snapshots, while guest requests retain staged validation.
+
+## Browser v0.1 completion
+
+- [x] Transport interface and iframe adapter
+- [x] Client request encoding, correlation, timeouts and error mapping
+- [x] Host dispatcher, manifest parsing and scope enforcement
+- [x] Version negotiation and repeat handshake
+- [x] `portal.*`, `profile.get` and `storage.*`
+- [x] Runnable mock host and hello mini app
+- [x] Meaningful client coverage for all 14 error codes and current producer tests
+
+[Requirement-to-evidence map](docs/v0.1-conformance.md) ·
+[error-code matrix](docs/error-code-matrix.md) ·
+[final browser/security verification](docs/browser-integration-verification.md) ·
+[implementation plan](docs/implementation-plan.md) ·
+[Korean learning guide](study/index.html)
+
+## Verification
+
+```sh
+pnpm test
+pnpm run typecheck
+pnpm run lint
+pnpm run build
+```
+
+T20 passed 1131 tests across 39 files, both typecheck targets plus the research
+lab typecheck, Biome and both example builds. Native browser observations cover
+the recorded Chrome 156 configuration, including final built-preview checks.
+The conformance record links each requirement to source/tests/browser evidence.
+
+## Scope and retained limits
+
+Browser HTTP origins are a development exception under SPEC §8.1.1. Production
+origins remain `moonpool://<mini-app-id>/`; native cores and production HTTPS
+hosting have separate implementation/verification requirements. The current
+milestone does not establish support for other browser configurations.
+
+[SPEC §11](SPEC.md#11-open-questions) retains document epochs, peer disconnect,
+consent, throttling and other open questions. Multiple-origin Portal composition
+works; inter-Portal messaging/broadcast is still unspecified. Four error codes
+have receiver coverage without current emitters, as the error matrix records.
+The memory provider is development storage, and frame removal is not a GC or
+performance guarantee. Distribution, signing and live updates remain out of scope.
 
 ## Contributing
 
-Too early for code contributions, but feedback on [`SPEC.md`](./SPEC.md) is
-genuinely useful — particularly on the open questions in §11. Open an issue.
+Start with SPEC.md, [CLAUDE.md](CLAUDE.md) and the conformance record. Record
+non-obvious decisions in docs/adr/, write tests before implementation, and
+preserve the pure kernel/platform boundary. Protocol feedback should identify
+an existing requirement, observation or explicitly unresolved question.
 
 ## License
 

@@ -2,8 +2,21 @@
 
 ## Unreleased
 
+Browser v0.1 milestone complete on 2026-10-26. The source workspace implements
+the seven completion requirements in its tested browser-development configuration.
+Protocol 0.1 remains draft/unstable; this status does not publish a release.
+See [completion evidence and retained limits](docs/v0.1-conformance.md).
+
 ### Added
 
+- Reconcile the browser v0.1 checklist, public roadmap, working agreement and
+  learning guide with verified behavior. Add a requirement/security evidence map,
+  explicit deployment/provider responsibilities and retained §11 limits (T21).
+- Record final browser integration/security verification with actual storage
+  and close components, both notifications, permission/input/privacy checks,
+  native origin/source and targetOrigin controls, and built-preview evidence.
+  Extend only the separate manual fixtures and retain an HTML-only diagnostic
+  control; 1131 tests and all required checks pass (T20).
 - Complete the SPEC §4.4 error-code verification matrix: test all 14 client
   mappings with/without data, null-id deadline preservation, specified actual
   host producers and provider-error sanitization. Document unimplemented

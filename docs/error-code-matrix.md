@@ -81,8 +81,10 @@ implementation, so no production implementation or SPEC edit was needed.
 
 Total: 1131 tests across 39 files pass (1077 + 54). Root typecheck and Biome
 checks pass. No dependencies, browser behavior, public APIs, or reserved producer
-policies changed. The latest relevant build/browser baseline is T18; T20 will
-perform final browser/security verification. T21 conformance reconciliation remains.
+policies changed. The T19 run retained the T18 build/browser baseline.
+[T20](browser-integration-verification.md) subsequently completed the final
+browser/security checks and both builds. [T21](v0.1-conformance.md) subsequently
+completed the scoped browser-milestone conformance reconciliation.
 
 This is error-contract coverage, not a code-coverage percentage or a claim that
 every code has a production emitter. Rate limiting, consent UI, host availability,
