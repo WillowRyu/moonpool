@@ -5,13 +5,15 @@
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
-> T18 complete: 1077 tests / 38 files, typecheck, lint, both builds, and lab typecheck pass.
+> T19 complete: 1131 tests / 39 files, root typecheck and lint pass.
+> T18 build/browser/lab verification remains the unchanged runtime baseline.
 > Multi-Portal research published as 00c0c63 / 76bc212; remote confirmed in sync.
 > ADR 0022 accepted revision published as 0397b70; remote confirmed in sync.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Current checkpoint: T01–T16 implemented; T17 investigation complete; T18 implemented.
-> T18 code/SPEC committed as 4aab691; publish its verification/notes, then push both.
-> T19 is explicitly authorized. Build the existing §4.4 matrix without new producer policies.
+> Current checkpoint: T01–T16 implemented; T17 investigation complete; T18/T19 complete.
+> T18 published as 4aab691 / ab98b58; remote confirmed in sync before T19.
+> T19 publication is requested; publish its tests and documentation before T20.
+> T20 final browser/security verification is explicitly authorized.
 > Clarification: one app/screen can contain Portals with different origins.
 > No application-wide single-domain or single-Portal restriction is intended.
 > Accepted ownership: wrapper-local kernel/API, outer-host retained app-partitioned provider.
@@ -29,6 +31,78 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-26 checkpoint — T19 publication requested; T20 authorized
+
+The maintainer requested committing/pushing T19, then T20 final browser/security
+verification with an easy Korean explanation and code. An interrupted turn only
+sent commentary; no T20 tool or code work had run. The maintainer then said to
+proceed. Publish the completed T19 tests and notes and confirm remote sync before
+T20. Earlier local/unpublished notes below are historical checkpoints.
+
+T20 must record actual handshake/profile, storage success/denial, reload, close,
+notifications, foreign origin/source rejection and navigation containment, then
+run the full suite, typecheck, lint and both builds. Retain the approved ADR 0022
+scope and §11 limits. A new automated browser runner is not required.
+
+## 2026-10-26 checkpoint — T18 published; T19 complete
+
+Published T18 implementation/SPEC/tests as 4aab691 and evidence/documentation/
+learning notes as ab98b58, then pushed master and confirmed a clean 0/0 remote
+comparison before starting T19. The user explicitly authorized this publication
+and T19, requesting an easy Korean code explanation afterward.
+
+Added packages/client/test/error-code-matrix.test.ts with 54 contract tests:
+14 literal SPEC constant bindings, 28 correlated mappings (data present/omitted),
+14 null-id/deadline cases, 6 actual host producers, 2 handshake/gate recovery
+cases and 3 private provider exception cases. The constant bindings are one
+test; the total is 1+28+14+6+2+3 = 54. Wire mappings exercise real MoonpoolError,
+exact code/message/data, per-request cleanup, single settlement, unaffected
+neighbor requests and no automatic retransmission. Synthetic -32008 tests
+make no subsequent call or assertion about a new peer-disconnect policy.
+
+Null-id errors cannot settle or extend a call: inject at 600ms, remain pending
+through 999ms, then reject with locally produced -32003 at the original 1000ms
+deadline. All 14 codes use that contract, including parse-error/terminal codes.
+Actual host/client cases cover -32600/-32601/-32602/-32603/-32000/-32001,
+plus -32004 with a valid explicit retry and -32005 with initialization recovery.
+Provider-thrown MoonpoolError(-32002/-32006/-32007) still becomes sanitized
+-32603 while the original remains host-local. This checks existing §4.4/§9.4
+privacy; it adds no new exception-to-wire policy.
+
+Added docs/error-code-matrix.md linking every code to receiver and current
+producer tests. Eight unique host-produced codes plus the local-client codes
+(-32603/-32003/-32008), with one overlap, give ten current producers. Four
+defined codes have no current producer: -32700 (no string decoder), -32002
+(no consent/picker cancellation), -32006 (reserved limiter), -32007 (no generic
+host-state policy). Receiver coverage uses controlled peer frames; do not
+invent those features or confuse ManifestError with a bridge parse error.
+Existing timeout, local close/send-failure, validation and provider suites
+remain the detailed producer evidence. Unknown integer wire codes still work;
+the test inventory is not a new runtime whitelist.
+
+All 54 new assertions pass against the existing implementation. No runtime,
+SPEC, dependency, transport API or policy changes were required. All 1131
+tests across 39 files, root typecheck and Biome pass. Build/runtime
+sources are unchanged from T18, so its build/browser/lab baseline is retained;
+do not claim a new browser or build run for this tests/docs-only task.
+
+Added study/24-error-code-matrix.html and current roadmap/guide updates; keep
+older lessons and their interactive scripts. The explanation should separate
+receiving a code from implementing its producer, show the real MoonpoolError
+mapping and test peer response, and explain why id:null preserves the timer.
+Current T19 changes remain local after the requested T18 publication.
+
+Documentation QA: all 402 local references across 25 study pages and 21 matrix
+links resolve; no duplicate ids or changes to prior interactive scripts. New
+file whitespace and git diff checks pass. Browser review confirmed the new
+lesson's code/tables and the guide's T19/1131 checkpoint. The temporary review
+tab/server were stopped. Final Biome check covers 141 files with no fixes.
+SDK source/SPEC/dependency files match the T18 HEAD.
+
+Next: T20 final browser/security verification when requested, then T21
+conformance/document reconciliation. Full v0.1 completion is not declared.
+No new policy decision or approval is needed for this completed matrix.
 
 ## 2026-10-26 checkpoint — T18 publication requested; T19 authorized
 

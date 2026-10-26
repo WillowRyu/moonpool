@@ -108,7 +108,7 @@ return encodeJson(value);</code></pre>
     <pre><code>pnpm run dev</code></pre>
     <p>저장소 루트에서 실행하고 <a href="http://localhost:5173">http://localhost:5173</a>을 엽니다. 호스트 5173, 첫 앱 5174, 두 번째 앱 5175를 함께 시작합니다. 이미 사용 중인 포트가 있으면 다른 포트로 넘어가지 않고 실패합니다.</p>
     <p>일반 화면의 Start second app으로 두 앱을 함께 열 수 있습니다. <a href="http://localhost:5173/containment-check.html">별도 검증 페이지</a>에서는 A save·B save → A read·B read → Hold next profile·B profile → A to B → Release held profile 순서로 실행하면 한쪽만 닫히고 다른 요청이 완료되는 흐름을 볼 수 있습니다.</p>
-    <p>ADR 승인 기록은 0397b70으로 커밋·푸시했습니다. T18 구현과 이 해설은 그 이후의 로컬 작업입니다. 다음 task는 T19의 전체 오류 코드 검증입니다.</p>
+    <p>ADR 승인 기록은 0397b70으로, 이후 T18 구현은 4aab691·검증과 해설은 ab98b58로 커밋·푸시했습니다. <a href="24-error-code-matrix.html">다음 T19 오류 코드 검증 해설</a>에서 이어집니다.</p>
   </section>
   <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="22-multi-portal-wrappers.html">이전 복수 Portal 조사</a><br>근거: 승인된 ADR 0022, SPEC §8.1.1·§9.2, 실제 구현·테스트·브라우저 기록.</footer>
 </main>

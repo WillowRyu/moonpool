@@ -4,6 +4,10 @@
 
 ### Added
 
+- Complete the SPEC §4.4 error-code verification matrix: test all 14 client
+  mappings with/without data, null-id deadline preservation, specified actual
+  host producers and provider-error sanitization. Document unimplemented
+  producers separately; no reserved policy or runtime behavior changes (T19).
 - Implement accepted ADR 0022 / SPEC §8.1.1 browser containment: independently
   CSP-bound served wrappers, wrapper-local kernels, strict host-only JSON realm
   adapters, trusted Document/instance binding and retained app-partitioned

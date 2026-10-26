@@ -2,8 +2,28 @@
 
 Date: 2026-10-22
 Last updated: 2026-10-26
-Status: T01–T16 implemented; T17 research published; T18 implemented and verified. ADR 0022 accepted revision published as 0397b70. T19–T21 remain. Milestone C is complete.
+Status: T01–T16 implemented; T17 research published; T18 published; T19 complete locally. T20–T21 remain. ADR 0022 is accepted. Milestone C is complete.
 Normative source: `SPEC.md`. This plan does not amend the protocol.
+
+## T19 complete — 2026-10-26
+
+Committed/pushed T18 as 4aab691 / ab98b58 and confirmed the remote in sync before
+starting T19. Added 54 tests covering all 14 SPEC §4.4 client mappings with and
+without public data, null-id deadline preservation, actual host producers,
+initialization/version recovery and private provider error sanitization.
+Current implementation passes these contracts; no runtime or SPEC changes.
+
+docs/error-code-matrix.md distinguishes ten current producing codes from four
+defined codes without current emitters, and links each to meaningful evidence.
+Controlled peer frames cover unimplemented producers without adding cancellation,
+rate limiting, host-state policy, string decoding or peer-disconnect behavior.
+Existing client timeout/local-close/send-failure suites remain producer coverage.
+This verifies §4.4 / §9.4 privacy without changing the security contract.
+
+1131 tests across 39 files, root typecheck and lint pass. T18's unchanged build/
+browser baseline is retained; T20 will perform final integration verification.
+study/24-error-code-matrix.html explains the code, producer distinction and
+null-id timeline. T19 changes are local. Next: T20, then T21; v0.1 not complete.
 
 ## T18 complete — 2026-10-26
 
@@ -23,9 +43,10 @@ A-only revocation while B remains pending, storage retained across recreation,
 notifications across realms and persistent scope denial. See
 docs/browser-containment-verification.md and study/23-browser-containment.html.
 
-T18 changes are local after the accepted ADR publication. Existing §11 questions,
-cross-engine/full-scheme verification and production origins are unchanged.
-Next task is T19; full v0.1 completion has not been declared.
+T18 was subsequently published as 4aab691 / ab98b58 before starting T19.
+Existing §11 questions, cross-engine/full-scheme verification and production
+origins are unchanged. The T19 checkpoint above records the next completed step;
+full v0.1 completion has not been declared.
 
 ## Historical approval checkpoint — 2026-10-26
 
@@ -474,7 +495,7 @@ navigation. Do not weaken §9.2 to fit an iframe limitation.
 
 | ID | Task | Completion evidence | Depends on |
 | --- | --- | --- | --- |
-| T19 | Complete the SPEC §4.4 error-code matrix. | All 14 codes have meaningful tests for client error mapping, with host/transport behavior tested where a producer is specified. Reserved codes are tested using controlled peer frames; no rate limiter, consent UI, or string transport is added just to manufacture them. | T08–T16 |
+| T19 | Completed 2026-10-26: SPEC §4.4 error-code matrix. | All 14 client mappings and current producer paths have meaningful tests. Added 54 cases and docs/error-code-matrix.md; 1131 total tests pass. Defined codes without producers use controlled peer frames; runtime/SPEC/policies unchanged. | T08–T16 |
 | T20 | Verify browser integration and security scenarios. | Record actual browser results for handshake, profile, storage success/denial, reload, close, notifications, foreign-origin/source rejection, and navigation containment. Run all tests, typecheck, lint, and both example builds. | T04, T07, T14, T16, T18, T19 |
 | T21 | Reconcile the public roadmap and final conformance record. | README, CHANGELOG, HANDOFF, study status, and necessary ADRs match the verified behavior. Map each v0.1 requirement to evidence and record remaining approved limitations. Declare completion only when the required checks and specification decisions are resolved. | T20 |
 
