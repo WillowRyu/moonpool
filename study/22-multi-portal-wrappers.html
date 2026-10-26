@@ -19,7 +19,7 @@
     <a href="#tooling">포맷터와 주석</a>
     <a href="#limits">검증 범위와 다음 결정</a>
   </nav>
-  <p class="small desktop-only">2026.10.26 조사<br>ADR 0022 승인 · T18 구현 예정<br>기존 995개 테스트 통과</p>
+  <p class="small desktop-only">2026.10.26 조사<br>ADR 0022 승인 · T18 구현 완료<br>기존 995개 테스트 통과</p>
 </aside>
 <main>
   <header>
@@ -76,7 +76,7 @@ if (prototype !== Object.prototype &amp;&amp; prototype !== null) {
   </section>
   <section class="section" id="ownership">
     <h2>5 · 수정안: 통신 담당자는 안쪽에, 데이터 보관자는 바깥에</h2>
-    <p>보호 문서를 교체할 때 저장소까지 사라지면 앱을 다시 열었을 뿐인데 데이터가 없어집니다. 그래서 연결을 처리하는 커널과 데이터를 보관하는 provider의 수명을 나눕니다. provider는 실제 저장·조회·삭제를 맡는 담당자입니다. 아래 내용은 <strong>2026.10.26 승인된 ADR 0022 설계</strong>입니다. 이제 T18에서 구현하고 검증합니다.</p>
+    <p>보호 문서를 교체할 때 저장소까지 사라지면 앱을 다시 열었을 뿐인데 데이터가 없어집니다. 그래서 연결을 처리하는 커널과 데이터를 보관하는 provider의 수명을 나눕니다. provider는 실제 저장·조회·삭제를 맡는 담당자입니다. 아래 내용은 <strong>2026.10.26 승인된 ADR 0022 설계</strong>입니다. 이 설계를 T18에서 구현·검증했습니다. <a href="23-browser-containment.html">새 구현 해설</a>에서 실제 코드와 결과를 읽을 수 있습니다.</p>
     <div class="table-wrap"><table><thead><tr><th>소유자</th><th>맡을 일</th></tr></thead><tbody>
       <tr><td>바깥 호스트</td><td>앱 id·출처·권한 등록 정보, Portal 생성·폐기, 오래 유지할 저장소</td></tr>
       <tr><td>각 보호 문서</td><td>자기 앱의 CSP, host 커널·설정·연결·transport, 비동기 저장소 전달 함수</td></tr>
@@ -110,7 +110,7 @@ pnpm run lint:fix  # biome check --write .</code></pre>
     <p>두 Portal에 보호 문서 두 개를 더해 iframe 요소는 총 네 개였습니다. A를 폐기한 뒤에는 늦은 응답을 관찰하려고 닫힌 보호 문서를 잠시 남겼으므로 세 개였습니다. 실제 메모리·속도나 GC를 측정한 결과는 아닙니다.</p>
     <p>이 실험의 저장소는 보호 문서마다 따로 둔 Map입니다. 안쪽 미니 앱의 새로고침에는 유지되지만 보호 문서를 새로 만들면 초기화됩니다. 제품에서는 저장 담당자의 수명도 별도로 설계해야 합니다. 표시된 리스너 수는 실험의 등록·해제 기록이며 브라우저 전체의 누수 검사 결과가 아닙니다.</p>
     <div class="callout"><strong>2026.10.26 검증</strong><br>실제 Chrome 156 관찰 기록 보존<br>기존 995개 테스트·타입 검사·Biome·두 예제 빌드 통과<br>실험 코드의 별도 타입 검사 통과<br>실험을 자동 테스트 개수나 모든 브라우저 검증으로 세지 않음</div>
-    <p>조사 결과는 00c0c63 / 76bc212로 커밋·푸시했습니다. 이어서 <a href="../docs/adr/0022-constrain-browser-navigation-with-host-csp.md">ADR 0022</a>를 복수 Portal·실행 문맥·저장소 소유권을 담은 수정 제안으로 정리했습니다. 이후 수정안도 승인됐습니다. 승인된 계약을 명세에 반영하고 T18에서 구현·검증합니다.</p>
+    <p>조사 결과는 00c0c63 / 76bc212로 커밋·푸시했습니다. 이어서 <a href="../docs/adr/0022-constrain-browser-navigation-with-host-csp.md">ADR 0022</a>를 복수 Portal·실행 문맥·저장소 소유권을 담은 수정 제안으로 정리했습니다. 이후 수정안도 승인됐습니다. 승인된 계약을 명세에 반영하고 T18에서 구현·검증했습니다. <a href="23-browser-containment.html">T18 해설</a>로 이어집니다.</p>
     <p>재현 명령은 <a href="../examples/mock-host/navigation-lab/README.md">실험 안내</a>에 있습니다. 서로 다른 브라우저, 모든 URL·히스토리 방식, 최종 메모리 정리, 호스트 provider 연결까지 검증한 설계는 아닙니다.</p>
   </section>
   <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="21-navigation-investigation.html">기존 T17 단일 Portal 조사</a><br>근거: SPEC §3·§5.1·§9, 복수 Portal 실제 관찰, Biome 설정, 수정 중인 ADR 0022.</footer>

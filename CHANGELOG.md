@@ -4,10 +4,19 @@
 
 ### Added
 
+- Implement accepted ADR 0022 / SPEC §8.1.1 browser containment: independently
+  CSP-bound served wrappers, wrapper-local kernels, strict host-only JSON realm
+  adapters, trusted Document/instance binding and retained app-partitioned
+  providers. Terminally revoke only the affected Portal, invalidate stale
+  controls, remove both frames, and attempt cleanup despite failures. Preserve
+  same-origin repeat handshakes and storage across explicit recreation (T18).
+- Run the browser example with two fixed app origins and add separate manual
+  integration checks with recorded development/built-preview evidence.
 - Accept replacement ADR 0022 for per-Portal browser containment with
   explicit wrapper/host realm ownership, retained app-partitioned providers,
   host-only data boundaries and complete disposal acceptance checks. This is
-  an approved design; implementation and verification follow in T18.
+  an approved design, implemented and verified in T18.
+
 - Extend the manual navigation lab with independently policy-bound Portal
   wrappers, recorded multi-origin isolation/lifetime observations, and a
   documented cross-realm integration constraint. This remains research and
@@ -74,6 +83,12 @@
   profile.get results in the mini app after initialization. Render returned
   strings as text and show capability error codes separately from handshake
   failures. Add example tests for provider wiring and the display flow.
+
+### Fixed
+
+- Make iframe transport closure terminal and idempotent: ignore late sends,
+  subscriptions and retained callbacks, stop receive fan-out after closure,
+  and preserve closure through reentrant or failing platform cleanup (§8.1.1).
 
 ### Changed
 

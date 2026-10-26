@@ -2,10 +2,32 @@
 
 Date: 2026-10-22
 Last updated: 2026-10-26
-Status: T01–T16 implemented; T17 research published. ADR 0022 replacement and ownership contract accepted on 2026-10-26; T18 authorized. Milestone C is complete.
+Status: T01–T16 implemented; T17 research published; T18 implemented and verified. ADR 0022 accepted revision published as 0397b70. T19–T21 remain. Milestone C is complete.
 Normative source: `SPEC.md`. This plan does not amend the protocol.
 
-## ADR 0022 accepted; T18 authorized — 2026-10-26
+## T18 complete — 2026-10-26
+
+Published the accepted ADR revision as 0397b70. Recorded SPEC §8.1.1 / §9.2 and
+implemented per-Portal served wrappers, terminal iframe transport closure,
+host-held Window/URL/Document binding, strict host-only JSON realm adapters,
+retained app-partitioned providers and complete exception-safe disposal.
+Allowed inner navigation retains §5.1 semantics; same-URL wrapper replacement
+does not rebind. No pure-kernel DOM imports, new guest RPCs or dependencies.
+
+The normal example runs two fixed guest origins concurrently; root pnpm run dev
+starts all three servers and both builds include their HTML entries. Existing
+entry tests mount the real wrapper/kernel and preserve profile/storage/close
+contracts. 1077 tests across 38 files, typechecks, lint and both builds pass.
+Chrome 156 dev/final-preview observations confirm the recorded cases, including
+A-only revocation while B remains pending, storage retained across recreation,
+notifications across realms and persistent scope denial. See
+docs/browser-containment-verification.md and study/23-browser-containment.html.
+
+T18 changes are local after the accepted ADR publication. Existing §11 questions,
+cross-engine/full-scheme verification and production origins are unchanged.
+Next task is T19; full v0.1 completion has not been declared.
+
+## Historical approval checkpoint — 2026-10-26
 
 The maintainer explicitly approved the replacement and ownership companion,
 requested committing/pushing it, then authorized tests-first T18 implementation.
@@ -389,9 +411,9 @@ calls but remains usable after return; load-close both breaks internal navigatio
 and misses pre-load calls. CSP prevented the tested foreign loads while keeping
 allowed reloads usable. docs/navigation-investigation.md links the raw evidence.
 ADR 0022 initially proposed a single-Portal CSP development profile; that draft
-was never approved. The 2026-10-26 replacement proposes per-Portal wrappers
-with explicit kernel/provider ownership. Approval is still required before
-SPEC or T18 runtime changes. SPEC and production code remain unchanged.
+was never approved. The 2026-10-26 replacement was subsequently approved and
+implemented in T18 with explicit kernel/provider ownership. The investigation
+itself changed neither SPEC nor production code; see the T18 checkpoint above.
 Existing 995 tests, typecheck, lint, both builds, and the lab's separate typecheck
 pass. Manual observations are not counted as automated tests or cross-engine
 certification. The explanation is `study/21-navigation-investigation.html`.
@@ -441,7 +463,7 @@ below, rather than inventing a restrictive private manifest format.
 | T15 | Add typed host notification sending for the two specified events. | `portal.lifecycle` and `portal.environmentChanged` produce id-free frames with the specified params; sending does not register a request or timeout. | T01 |
 | T16 | Deliver host notifications through the client. | Subscribers receive known events, can unsubscribe, and are detached on close; unknown methods are tolerated; notifications never settle a pending request. A subscriber failure cannot disable request correlation. | T13, T15 |
 | T17 | Investigate iframe navigation containment in a real browser. | Record what the host can observe for same-origin reload, navigation to another origin, and returning to the original origin. Identify whether SPEC §9.2 can be satisfied with the current platform boundary. Produce an ADR proposal if a design decision or spec change is necessary. | Baseline |
-| T18 | Implement the approved browser containment behavior. | Off-origin navigation tears down the Portal bridge; returning to the allowed origin does not silently revive the old connection; same-origin reload still follows §5.1. Listeners are removed. No DOM access enters the pure kernel. | T17; containment decision |
+| T18 | Completed 2026-10-26: approved browser containment. | Per-Portal CSP wrappers, host-bound realm/provider adapters and terminal cleanup preserve independent Portals and retained app storage. Same-origin reload follows §5.1; revoked instances cannot revive. No DOM enters the pure kernel. Verification: 1077 tests and recorded Chrome 156 dev/preview cases. | T17; accepted ADR 0022 |
 
 T17 is an early investigation and may run before Milestone A is complete.
 Pinned targetOrigin and dropping foreign-origin messages already help protect
@@ -480,12 +502,12 @@ Do not ask for those approvals again. The remaining gates below are separate.
   success as acceptance submitted before invoking dismissal. Subsequent hook
   failures are reported only on the host; no delivery/completion guarantee.
   SPEC §6.2 and ADR 0019 record the contract. Do not ask again.
-- **Browser navigation (T17–T18): replacement ready, unapproved.** Published
-  T17 and multi-Portal evidence; ADR 0022 now proposes independent wrappers,
-  wrapper-local kernel/API ownership, retained outer-host providers and terminal
-  disposal. docs/browser-portal-ownership-proposal.md lists the unimplemented
-  integration and acceptance checks. Approval is required before SPEC/T18 edits.
-  Do not claim unrestricted iframe conformance from origin filtering/load events.
+- **Browser navigation (T17–T18): accepted and implemented.** ADR 0022 was
+  explicitly approved on 2026-10-26 and published as 0397b70. SPEC §8.1.1 and
+  T18 implement independent served wrappers, local kernels/APIs, retained
+  outer providers and terminal disposal. Verification records 1077 tests and
+  selected Chrome 156 dev/preview cases. Do not ask approval again or claim
+  unrestricted iframe conformance from origin filtering/load events.
 
 Do not choose numeric payload/depth limits during this work: the spec defines
 none. Any such policy needs a separate proposal. The document-epoch race,

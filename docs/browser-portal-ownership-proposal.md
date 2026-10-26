@@ -3,6 +3,11 @@
 Date: 2026-10-26
 Status: Accepted design companion to ADR 0022 — approved on 2026-10-26; T18 implementation follows.
 
+Implementation checkpoint: T18 is implemented under SPEC §8.1.1. The original
+proposal text below records its design requirements; see
+[verification](browser-containment-verification.md) for the 1077-test baseline,
+integrated Chrome 156 observations, final built-preview checks and limits.
+
 ## Previous behavior, problem, proposed result
 
 The current iframe transport rejects foreign messages but leaves a connection

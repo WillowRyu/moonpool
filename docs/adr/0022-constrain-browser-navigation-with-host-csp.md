@@ -63,22 +63,28 @@ Production web hosting is a separate, unapproved scope decision.
 
 ## Consequences and implementation gate
 
-This proposal **touches security requirement §9.2**. It defines browser prevention
+This decision **touches security requirement §9.2**. It defines browser prevention
 plus revocation on an enforced violation, not universal current-URL observation
 or synchronous cancellation. Origin filtering alone cannot claim conformance.
 There is no application-wide single-Portal/domain limit. The cost is an extra
 trusted iframe per Portal, explicit realm adapters and complete teardown.
 
 [Integration details and acceptance checks](../browser-portal-ownership-proposal.md)
-separate measured foundations from unimplemented provider/control adapters.
-Those adapters, outer-frame removal and storage across wrapper restart still
-need tests and browser evidence. Approval authorizes recording the development
-contract in SPEC, deriving failing tests, and implementing T18 in small steps.
+separate the original measurements from integration requirements. T18 now
+implements those adapters, full frame cleanup and retained storage, with failing
+tests first and recorded browser evidence. The accepted contract is in SPEC §8.1.1.
 Unsupported/unverified configurations cannot claim
 navigation conformance. SPEC §11 document epochs and peer disconnect stay open.
 
-Keeping the current SPEC instead leaves browser containment unresolved. An
+Retaining the previous SPEC wording would have left browser containment unresolved. An
 outer-host kernel with a wrapper relay could reduce API realm crossings, but
 is unverified and is not this proposal. Neither alternative restores the old
 single-Portal restriction. Acceptance does not by itself establish implementation
 or browser conformance; the checks above remain required.
+
+## T18 verification — 2026-10-26
+
+1077 tests pass. Root/lab typechecks, lint and both builds pass. Development
+and final built-preview observations confirm the selected Chrome 156 cases;
+[the verification report](../browser-containment-verification.md) records
+evidence, diagnostic limitations and the unchanged §11 open questions.

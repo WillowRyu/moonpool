@@ -47,6 +47,29 @@ each platform contributes only a transport adapter implementing a two-method
 interface. Adding React Native, iOS, or Android should mean writing a transport,
 not reimplementing the protocol.
 
+## Run the browser development example
+
+From the workspace root, using the repository's Node/pnpm environment:
+
+```bash
+pnpm install
+pnpm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173). The command starts the host and two fixed mini-app
+origins on ports 5174 and 5175; occupied ports fail instead of drifting. Use
+the host buttons to select storage grants and open the second app concurrently.
+Each Portal has a trusted served wrapper with its own enforcing CSP. Host memory
+storage survives Portal recreation and is partitioned by the host-selected app id;
+reloading the outer host clears it.
+
+The separate [containment checks](http://localhost:5173/containment-check.html)
+exercise navigation, independent revocation and storage/realm ownership using
+the actual adapters. See [T18 verification](docs/browser-containment-verification.md)
+for recorded results and limits. CSP response headers are part of this setup;
+opening built HTML directly or serving it without those headers is not equivalent.
+This remains browser development, not a production web-hosting contract.
+
 ## Roadmap
 
 **v0.1 — protocol, in the browser**

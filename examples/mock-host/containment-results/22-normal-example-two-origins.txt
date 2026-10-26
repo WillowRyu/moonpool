@@ -1,0 +1,114 @@
+Browser tab: 8, Title: "Moonpool Mock Host", URL: "http://localhost:5173/".
+0 AXWebArea Moonpool Mock Host, URL: localhost:5173/
+	1 container app
+		2 container
+			3 heading Moonpool mock host, Value: 1
+				4 text Moonpool mock host
+			5 definition list
+				6 container host origin
+					7 text host origin
+				8 text http://localhost:5173
+				9 container portal origin
+					10 text portal origin
+				11 text http://localhost:5174
+				12 container protocol
+					13 text protocol
+				14 text 0.1
+		15 container Portal configuration
+			16 checkbox Start profile-only Portal, Value: 0, ID: profile-only
+			17 checkbox Start Portal with storage, Value: 1, ID: with-storage
+			18 button Start second app, ID: second-app
+		19 link Description: Navigation containment checks, Value: localhost:5173/containment-check.html
+		20 text Selections replace only their Portal. Host reload clears memory storage.
+		21 container
+			22 heading Hello, Value: 2
+				23 text Hello
+			69 text Configuration: profile + storage
+			70 container com.example.hello
+				71 AXWebArea Trusted Moonpool wrapper, URL: localhost:5173/portal-wrapper.html?app=com.example.hello&instance=3
+					72 container com.example.hello
+						73 AXWebArea Hello mini app, URL: localhost:5174/index.html
+							74 container app
+								75 heading Hello mini app, Value: 1
+									76 text Hello mini app
+								77 definition list
+									78 container origin
+										79 text origin
+									80 text http://localhost:5174
+									81 container protocol
+										82 text protocol
+									83 text 0.1
+									84 container bridge
+										85 text bridge
+									86 text connected to moonpool-mock-host · granted profile, storage
+									87 container profile
+										88 text profile
+									89 text Moonpool Explorer
+								90 container Description: Portal dismissal, ID: dismissal
+									91 heading Portal, Value: 2
+										92 text Portal
+									93 button Close mini app, ID: portal-close
+									94 text ready — request dismissal when finished
+								95 container Description: Storage demo, ID: storage
+									96 heading Storage demo, Value: 2
+										97 text Storage demo
+									98 text storage granted — set, get, and delete are available
+									99 container Description: Stored entry, ID: storage-controls
+										100 text Stored entry
+										101 container
+											102 text Key
+											103 text field (settable) Key, Value: settings, ID: storage-key
+										104 container
+											105 text Value (text)
+											106 text field (settable) Value (text), Value: dark, ID: storage-value
+										107 button Set, ID: storage-set
+										108 button Get, ID: storage-get
+										109 button Delete, ID: storage-delete
+									110 text ready — choose an action
+		66 container
+			67 heading Second app, Value: 2
+				68 text Second app
+			111 text Configuration: profile + storage
+			112 container com.example.second
+				113 AXWebArea Trusted Moonpool wrapper, URL: localhost:5173/portal-wrapper.html?app=com.example.second&instance=2
+					114 container com.example.second
+						115 AXWebArea Hello mini app, URL: localhost:5175/index.html
+							116 container app
+								117 heading Hello mini app, Value: 1
+									118 text Hello mini app
+								119 definition list
+									120 container origin
+										121 text origin
+									122 text http://localhost:5175
+									123 container protocol
+										124 text protocol
+									125 text 0.1
+									126 container bridge
+										127 text bridge
+									128 text connected to moonpool-mock-host · granted profile, storage
+									129 container profile
+										130 text profile
+									131 text Moonpool Explorer
+								132 container Description: Portal dismissal, ID: dismissal
+									133 heading Portal, Value: 2
+										134 text Portal
+									135 button Close mini app, ID: portal-close
+									136 text ready — request dismissal when finished
+								137 container Description: Storage demo, ID: storage
+									138 heading Storage demo, Value: 2
+										139 text Storage demo
+									140 text storage granted — set, get, and delete are available
+									141 container Description: Stored entry, ID: storage-controls
+										142 text Stored entry
+										143 container
+											144 text Key
+											145 text field (settable) Key, Value: settings, ID: storage-key
+										146 container
+											147 text Value (text)
+											148 text field (settable) Value (text), Value: dark, ID: storage-value
+										149 button Set, ID: storage-set
+										150 button Get, ID: storage-get
+										151 button Delete, ID: storage-delete
+									152 text ready — choose an action
+
+The focused UI element is 17 checkbox Start Portal with storage, Value: 1, ID: with-storage

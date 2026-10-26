@@ -1,0 +1,108 @@
+Browser tab: 7, Title: "Moonpool T18 containment checks", URL: "http://localhost:5173/containment-check.html".
+1 AXWebArea Moonpool T18 containment checks, URL: localhost:5173/containment-check.html
+	2 container app
+		3 heading T18 integrated containment checks, Value: 1
+			4 text T18 integrated containment checks
+		5 text Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36
+		6 text Uses the actual browser host, served wrappers, strict JSON boundary, and retained provider.
+		7 container
+			8 button Create fresh A, ID: restart-a
+			9 button Create fresh B, ID: restart-b
+			10 button Create another A, ID: a2
+			11 button Close A, ID: close-a
+			12 button Close extra A, ID: close-a2
+			13 button Recreate B profile-only, ID: restricted-b
+			14 button Notify B dark/ko-KR, ID: notify-b
+			15 button Hold next profile, ID: hold
+			16 button Release held profile, ID: release
+			17 button Reload A wrapper at same URL, ID: wrapper-reload
+			18 button Switch A wrapper to B policy, ID: wrapper-switch
+			19 button Try retired A control, ID: retired
+			20 button Inspect frame footprint, ID: footprint
+			21 text Pending B id
+			22 stepper (settable, integer) Pending B id, Value: 2, ID: reply-id
+			23 button Forge B reply from outer host, ID: forge
+		24 container Description: Guest verification commands, ID: probe-controls
+			25 button A profile
+			26 button B profile
+			27 button A save
+			28 button B save
+			29 button A read
+			30 button B read
+			31 button Extra A read
+			32 button A inner reload
+			33 button A internal page
+			34 button A hash
+			35 button A to B
+			36 button A foreign
+			37 button A foreign form
+			38 button A redirect
+			39 button A silent bounce
+			40 button A host API attempt
+		41 container
+			42 heading A, Value: 2
+				43 text A
+			44 text active: com.example.hello
+			45 container com.example.hello
+				46 AXWebArea Trusted Moonpool wrapper, URL: localhost:5173/portal-wrapper.html?app=com.example.hello&instance=1
+					47 container com.example.hello
+						48 AXWebArea T18 guest probe, URL: localhost:5174/containment-probe.html
+							61 container app
+								62 heading Guest http://localhost:5174, Value: 1
+									63 text Guest http://localhost:5174
+								64 text initialized com.example.hello; grants profile,storage
+								65 button Profile, ID: profile
+								66 button Read shared-key, ID: get
+								67 button Save shared-key, ID: set
+								68 text entry area (settable) Description: Stored JSON value, Value: {"flags":[null,false,0]}, ID: value
+								69 text stored {"value":null}
+								70 button Inner reload, ID: reload
+								71 button Internal page, ID: internal
+								72 button Hash only, ID: hash
+								73 button Navigate to other app, ID: other
+								74 button Navigate foreign, ID: foreign
+								75 button Redirect foreign, ID: redirect
+								76 button Silent foreign bounce, ID: bounce
+								77 button Submit foreign form
+								78 button Attempt host API access, ID: access
+								79 text call 2 storage.get
+
+		49 container
+			50 heading B, Value: 2
+				51 text B
+			52 text active: com.example.second
+			53 container com.example.second
+				54 AXWebArea Trusted Moonpool wrapper, URL: localhost:5173/portal-wrapper.html?app=com.example.second&instance=2
+					55 container com.example.second
+						56 AXWebArea T18 guest probe, URL: localhost:5175/containment-probe.html
+							80 container app
+								81 heading Guest http://localhost:5175, Value: 1
+									82 text Guest http://localhost:5175
+								83 text initialized com.example.second; grants profile,storage
+								84 button Profile, ID: profile
+								85 button Read shared-key, ID: get
+								86 button Save shared-key, ID: set
+								87 text entry area (settable) Description: Stored JSON value, Value: {"flags":[null,false,0]}, ID: value
+								88 text stored {"value":null}
+								89 button Inner reload, ID: reload
+								90 button Internal page, ID: internal
+								91 button Hash only, ID: hash
+								92 button Navigate to other app, ID: other
+								93 button Navigate foreign, ID: foreign
+								94 button Redirect foreign, ID: redirect
+								95 button Silent foreign bounce, ID: bounce
+								96 button Submit foreign form
+								97 button Attempt host API access, ID: access
+								98 text call 2 storage.get
+
+		57 container
+			58 heading Another instance of A, Value: 2
+				59 text Another instance of A
+			60 text Not started
+		99 text wrappers=2 guests=2
+		100 text a host-created
+b host-created
+a fixture command get
+b fixture command get
+
+The focused UI element is 20 button Inspect frame footprint, ID: footprint

@@ -1,0 +1,13 @@
+Built-preview response policies (Node 22.19.0, ports 5173/5174/5175).
+
+200 http://localhost:5173/
+Content-Security-Policy: frame-src http://localhost:5173; object-src 'none'; base-uri 'none'
+
+200 http://localhost:5173/portal-wrapper.html?app=com.example.hello&instance=1
+Content-Security-Policy: frame-src http://localhost:5174; object-src 'none'; base-uri 'none'
+
+200 http://localhost:5173/portal-wrapper.html?app=com.example.second&instance=2
+Content-Security-Policy: frame-src http://localhost:5175; object-src 'none'; base-uri 'none'
+
+200 http://localhost:5173/portal-wrapper.html?app=unknown
+Content-Security-Policy: frame-src 'none'; object-src 'none'; base-uri 'none'

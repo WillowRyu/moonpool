@@ -5,12 +5,13 @@
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
-> T17 investigation complete: 995 tests, typecheck, lint, both builds, and lab typecheck pass.
+> T18 complete: 1077 tests / 38 files, typecheck, lint, both builds, and lab typecheck pass.
 > Multi-Portal research published as 00c0c63 / 76bc212; remote confirmed in sync.
-> ADR 0022 replacement and ownership companion explicitly approved on 2026-10-26.
+> ADR 0022 accepted revision published as 0397b70; remote confirmed in sync.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Current checkpoint: T01–T16 implemented; T17 investigation complete.
-> Publish the accepted revision, then implement T18 tests-first. Approval is no longer pending.
+> Current checkpoint: T01–T16 implemented; T17 investigation complete; T18 implemented.
+> T18 code/SPEC committed as 4aab691; publish its verification/notes, then push both.
+> T19 is explicitly authorized. Build the existing §4.4 matrix without new producer policies.
 > Clarification: one app/screen can contain Portals with different origins.
 > No application-wide single-domain or single-Portal restriction is intended.
 > Accepted ownership: wrapper-local kernel/API, outer-host retained app-partitioned provider.
@@ -28,6 +29,108 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-26 checkpoint — T18 publication requested; T19 authorized
+
+The maintainer requested committing/pushing T18 before starting T19 and asked
+for another easy Korean explanation with code afterward. The implementation,
+approved SPEC and tests are committed as 4aab691. Publish the completed evidence
+and learning notes next, push both commits, and confirm the remote before T19.
+Prior local/unpublished statements below describe the earlier checkpoint.
+
+T19 scope is fixed in docs/implementation-plan.md: all 14 §4.4 codes need meaningful
+client mapping tests, and actual producer behavior where specified. Reserved
+codes use controlled peer frames; do not invent a rate limiter, consent UI,
+host-availability policy or string transport to manufacture errors. Preserve
+the existing error shapes, validation precedence and §11 open questions.
+
+## 2026-10-26 checkpoint — T18 implementation and browser verification complete
+
+Published the accepted ADR 0022 replacement/ownership companion as 0397b70 and
+confirmed origin/master in sync before T18. The maintainer authorized T18;
+SPEC §8.1.1 and §9.2 now record the approved development contract. No further
+approval is pending. T18 changes after that commit are local, not yet published.
+
+Implemented terminal/idempotent iframe transport close, including stale receive
+callbacks, sends, post-close subscriptions, reentrancy and cleanup failure.
+Kernel protocol/client/host APIs and sources remain platform-independent and
+unchanged; Transport still has its original three methods. New browser adapters
+live in examples/mock-host/src: browser-portal registry/retained providers,
+portal-wrapper local kernel/facades/transport, browser-contract metadata/cleanup,
+json-boundary strict descriptor snapshots, and host-selected browser-policy.
+
+Host bootstrap/gateways bind actual wrapper Window, expected URL and Document.
+Host selects origin/id/grants; gateways independently select manifest.id and
+check current binding/scope. Same-app instances share their app partition;
+different apps partition identical keys. Root retains the storage provider
+through close/recreation. Memory still resets with its outer provider.
+Source-realm JSON validation/snapshot/text/parse/validation avoids live foreign
+data objects, getter/toJSON evaluation and repair of malformed guest traffic.
+Raw HostConnection stays local to each wrapper. Revocation invalidates handles
+before all cleanup attempts, removes both frames/listeners and owned refs, and
+suppresses late work. Already-dispatched effects are not rolled back. Private
+facades settle obsolete work without delivering it or reporting normal retirement
+as a provider failure. §11 same-origin epoch/peer-disconnect questions remain.
+
+The normal example can run two different app origins concurrently. pnpm run dev
+from the workspace root starts host 5173, app A 5174, app B 5175 with strict ports
+and separate Vite caches. Both guest origins reuse reference code with distinct
+host-owned manifests. Vite response middleware selects per-wrapper enforcing CSP
+for development and preview; unknown app policy is frame-src 'none'. Multipage
+builds include the trusted wrapper and separate manual integration fixtures.
+
+Tests preceded implementation. Original transport behavior failed five new
+tests; new module contracts initially failed before modules existed. Later
+insertion-failure and inherited optional-field getter tests failed before fixes.
+Existing normal-entry manifest/profile/storage/close tests now mount actual
+wrappers and real kernels with test transports; none were removed. All 1077
+tests (995 + 82) across 38 files, root/lab typechecks, lint and both builds pass.
+Final source fixes were exercised in a fresh built-preview smoke check.
+
+Chrome 156 actual development observations: concurrent A/B, same-key partitions,
+same-app sharing, allowed reload/internal/hash, cross-realm notifications, SOP
+bootstrap denial, wrong-source forged response ignored, A-to-B/foreign/form/
+redirect/silent-bounce revocation, B pending result/data/grants preserved, retained
+storage after CSP/host-close recreation, rejected same-URL/different-policy wrapper
+replacement, late provider completion, retired controls, and outer memory reset.
+Normal example initialized both origins; final built preview repeated storage,
+notification and A-only revocation. Kept 24 rendered snapshots, a screenshot,
+response policies and diagnostics under examples/mock-host/containment-results/.
+
+The input backend could read but not operate nested guest controls. The separate
+manual fixture therefore has top-window-origin/source-checked debug commands,
+not guest SDK RPCs; the real client still checks its immediate wrapper peer.
+No source/server changes occurred inside retained dev sequence 01–20; 21 is a
+host reload, 22 the normal example, and 23–24 a fresh final build. A preview
+capture helper still referenced a closed earlier tab; it was rebound and captured
+existing state without replaying actions. Snapshot 09 footprint text is a prior
+inspection; its storage result is valid. Other explicit counts show both frames
+removed on revocation. Counts are not memory/GC/performance proof.
+
+Tool diagnostics contained one generic MutationObserver.observe error in both
+dev/preview. A separate temporary error-listener investigation in all five page
+contexts captured no matching page ErrorEvent; retain the raw diagnostic without
+claiming attribution or a clean console. Temporary listeners were removed and
+all source HTML restored. Vite's advisory about a future native loader and
+extensionless imports is non-blocking; no loader/dependency change was made.
+Root commands used Node 22.19.0. Shells opened directly inside example folders
+can select an older default Node; use the workspace-root environment. All created
+browser tabs, development and preview servers were stopped.
+
+Added docs/browser-containment-verification.md, study/23-browser-containment.html,
+README run guidance, current roadmap/study checkpoint and accepted ADR verification.
+Final documentation QA: 24 study pages / 384 local references / 41 Markdown links
+resolve; no duplicate ids, prior interactive scripts preserved, evidence whitespace
+clean. Browser screenshots confirm the new lesson and guide layout. Biome checks
+139 files with no fixes. Final diff checks pass; all review tabs/servers stopped.
+Preserve earlier lessons. This is browser-development evidence, not all-engine/
+scheme/history certification or production HTTPS/native-core support. T18 touches
+SPEC §9.2 and must be explained explicitly as a security change.
+
+Next: T19 error-code matrix when requested, then T20 final browser/security review
+and T21 conformance/document reconciliation. Do not declare all of v0.1 complete
+or reopen the approved ADR. Do not commit/push T18 unless requested; the current
+publication request covered the accepted ADR before starting implementation.
 
 ## 2026-10-26 checkpoint — ADR 0022 approved; T18 authorized
 
