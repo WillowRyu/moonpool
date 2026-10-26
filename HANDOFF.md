@@ -1,16 +1,18 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-10-23. The maintainer switched to agent-led implementation
+> Last updated: 2026-10-26. The maintainer switched to agent-led implementation
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
 > T17 investigation complete: 995 tests, typecheck, lint, both builds, and lab typecheck pass.
-> Real-browser evidence and proposed ADR 0022 are ready; no navigation fix shipped.
+> Multi-Portal wrapper evidence is ready; ADR 0022 integration remains unapproved.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
 > Current checkpoint: T01–T16 implemented; T17 investigation complete.
-> The maintainer deferred ADR 0022 review. T18 has not started.
-> Resume with that review only when the maintainer returns to it; do not ask now.
+> ADR 0022 review resumed on 2026-10-26. T18 has not started.
+> Clarification: one app/screen can contain Portals with different origins.
+> No application-wide single-domain or single-Portal restriction is intended.
+> Follow-up measured per-Portal policy isolation; resolve realm/provider ownership before T18.
 > ADR 0022 is PROPOSED, not approved. SPEC and production code remain unchanged.
 > T14 acceptance-before-dismissal policy is approved in SPEC §6.2 / ADR 0019.
 > The per-connect async onCloseRequested hook is implemented. Do not ask again.
@@ -25,6 +27,133 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-26 checkpoint — multi-Portal wrapper investigation complete
+
+The maintainer explicitly authorized the additional investigation and asked
+whether Prettier and comments are in use. Explained the actual configuration:
+Biome 2.5.10 does formatting/lint/import organization, with two spaces, JS
+single quotes, width 100; pnpm run lint checks and lint:fix applies fixes.
+Prettier is not configured. Continue English rationale/security/async comments
+and Korean study notes. No tooling switch or boilerplate-comment pass requested.
+
+Extended the separate manual navigation lab with --multi mode on fixed ports
+5373 coordinator/wrappers, 5374 guest A, 5375 guest B, and 5376 foreign target.
+HTTP headers give the coordinator frame-src :5373, served wrapper A :5374,
+wrapper B :5375. The wrapper documents are trusted host code at host origin;
+the mini apps remain distinct origins. No SDK code, normal example entry,
+normative SPEC, native core, dependency, or automated browser runner changed.
+The experimental wrappers own real createHost/iframe transports; guests use
+real clients against their immediate wrapper parent.
+
+Coordinator bootstrap is a lab-only same-origin host API, unavailable to guests
+through SOP. It pins actual wrapper Window, expected URL, and Document identity,
+then returns public host-owned JSON metadata. Guest slot/grant packets and
+wrapper URL claims are not authority. Primitive lab commands are instrumentation,
+not new guest bridge RPCs. The coordinator reads current wrapper documents only
+because they are trusted/same-origin; this does not relax access to guest DOM.
+
+Measured Chrome/156.0.0.0 in the in-app browser. Both apps initialized and kept
+different values under the same storage key. Guest A inner reload preserved its
+wrapper/kernel/storage and left B unchanged. A-to-B and A-to-third-origin moves
+produced trusted enforce frame-src events and revoked A alone. B's pending
+profile id 6 stayed pending despite an outer-host forged same-origin reply from
+the wrong source window; it later completed with the real wrapper reply.
+B storage and later profile calls kept working. A held provider completed after
+revocation, but the experimental transport guard suppressed that late send.
+
+Fresh coordinator restart created A anew; old Window/Document/API refs did not
+obtain configuration. A guest's direct host API access raised SecurityError and
+its forged bootstrap packet did not alter bindings. Host-simulated wrapper URL
+substitution to the B wrapper was rejected. Same-URL wrapper reload was also
+rejected with sameURL:true / sameDocument:false before a new guest was granted
+configuration; B stayed active. B profile-only grants remained profile-only
+through A revocation (storage -32000, profile success).
+
+Found a cross-realm integration constraint: a root-created changes object
+fails wrapper-owned isJsonValue ordinary-prototype validation. An identical
+colorScheme:dark / locale:ko-KR object created in the wrapper is delivered.
+Kept existing validation intact. The final paired measurement uses identical
+fields; earlier broad comparison snapshots were replaced by that controlled
+pair. Config is host-owned JSON parsed inside the wrapper; guest requests are
+not serialized/repaired. No outer-kernel relay or provider proxy was validated.
+
+Measured structure is two wrappers + two guest iframes; on revocation the
+closed trusted wrapper is retained for late-send inspection, leaving three
+iframe elements. Fixture listener bookkeeping shows close/remove calls, not
+an independent browser listener census or GC/heap/performance measurement.
+Storage is wrapper-local Map: inner reload retains it, outer restart resets it.
+Production outer-wrapper cleanup, stale-ref release, provider lifetime, and
+host API/data realm ownership need explicit integration design before T18.
+Existing SPEC §11 same-origin document epochs and peer disconnect remain open.
+
+Retained 16 normalized rendered snapshots and a real screenshot under
+results-multi/. First segment covered the main sequence. Second segment added
+same-URL wrapper reload and display sizing after closing the first tab and
+restarting. Third segment compared identical notification payloads after closing
+prior tabs and restarting. No code/server changes occurred inside a retained
+sequence. Browser handle recovery affected capture only; the same-URL reload
+was not repeated to fabricate a result. All servers and created tabs cleaned up.
+
+Added docs/multi-portal-investigation.md and updated ADR 0022 with bounded
+positive evidence and integration caveats; its replacement contract is still
+unapproved. The single-Portal original is historical/unapproved and should not
+be adopted as a product-wide restriction. Research authorization was not SPEC
+approval or permission to ship the prototype as T18.
+
+Verified existing 995 tests across 34 files, root and lab typechecks, Biome
+(113 files), both unchanged example builds, and diff checks. The last lab-only
+notification argument/logging refinement was rechecked with targeted browser
+comparison, lab typecheck, and Biome. Manual observations are not new Vitest
+counts, cross-engine certification, or exhaustive navigation validation.
+Added study/22-multi-portal-wrappers.html with tooling/comments explanation;
+archived the original T17 current section at #t17 and linked the prior lesson.
+All 354 local references across 23 study pages and investigation links are
+valid, with no duplicate ids or changes to previous interactive scripts.
+Browser QA confirms the new lesson and current guide. Changes are local;
+no commit or push was requested for this follow-up.
+
+Next: specify a replacement per-Portal containment/integration contract with
+clear kernel/data/provider ownership and teardown, then obtain explicit approval
+before normative edits and T18 implementation. Actual production web hosting
+is not currently specified; preserve per-mini-app production moonpool:// origins
+unless a separate scope change is explicitly approved. Do not claim the current
+manual fixture is production-ready or weaken JSON checks to hide realm issues.
+
+## 2026-10-26 checkpoint — recommended multi-Portal direction
+
+The maintainer asked which direction is appropriate after clarifying multiple
+Portal origins in one app/web page. Recommend preserving that composition and
+checking browser enforcement per Portal before adopting a restriction. ADR 0022
+now labels the original single-Portal proposal unapproved/under reconsideration.
+A host-controlled wrapper document per Portal is an experimental candidate,
+not an accepted or already-proven solution. No browser prototype has been run
+for this candidate yet. The next step is bounded verification of A/B isolation,
+A-to-B/foreign navigation, independent revocation, bridge source/bootstrap
+identity, reload, and cleanup/frame overhead, then a replacement proposal.
+
+Do not promise multiple-origin production web hosting from the current SPEC:
+browser use is presently development-only and production per-app moonpool://
+origins remain a settled invariant. Clarify any expanded deployment scope
+explicitly. Keep SPEC and runtime unchanged until a concrete contract is approved.
+No approval of either old or replacement ADR 0022 was received.
+
+## 2026-10-26 checkpoint — navigation scope clarification
+
+The maintainer asked to continue, then asked what ADR 0022 changes and challenged
+its one-Portal wording. No approval has been given. They clarified that a single
+application or screen can contain multiple Portals belonging to different
+origins. Do not interpret this as approval to force all Portals onto one domain.
+
+The assistant's explanation blurred a browser host HTML document and a native
+application screen. Correct that distinction: the proposed document-wide CSP
+profile is constrained to one browser host document, while the product keeps
+per-mini-app origin isolation. Different Portals can have different origins.
+The current proposal does not solve multiple app origins inside one browser
+host document; do not promise to solve that later without a verified design.
+ADR 0022 now states these scopes explicitly and remains Proposed. SPEC and
+runtime code are unchanged. Continue clarifying the intended development
+coverage before requesting a decision or starting dependent T18 implementation.
 
 ## 2026-10-23 checkpoint — progress summary and deferred policy review
 

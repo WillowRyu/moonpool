@@ -1,9 +1,46 @@
 # Browser v0.1 implementation plan
 
 Date: 2026-10-22
-Last updated: 2026-10-23
-Status: T01–T16 implemented; T17 investigation complete. ADR 0022 review deferred by the maintainer; T18 not started. Milestone C is complete.
+Last updated: 2026-10-26
+Status: T01–T16 implemented; T17 investigation complete. Multi-Portal wrapper investigation complete; ADR 0022 integration contract unapproved; T18 not started. Milestone C is complete.
 Normative source: `SPEC.md`. This plan does not amend the protocol.
+
+## Multi-Portal follow-up result — 2026-10-26
+
+The maintainer authorized the investigation. The served-wrapper candidate ran
+two distinct app origins concurrently and revoked A without affecting B's
+pending request, stored value, or grants. Bootstrap Window/Document binding,
+wrong-source replies, same-URL wrapper replacement, and late sends were exercised.
+A cross-realm API issue was found: an outer object is rejected by the current
+wrapper-owned JSON validator, while a wrapper-created payload succeeds.
+
+See docs/multi-portal-investigation.md and study/22-multi-portal-wrappers.html.
+The prototype keeps the kernel/data in each wrapper and retains closed wrappers
+for inspection; host API ownership, provider lifetime, complete disposal, and
+memory costs need explicit integration design. SDK/SPEC remain unchanged.
+Existing 995 tests and checks pass. This is manual evidence, not T18 completion
+or approval of a replacement contract. Biome remains the formatter/linter.
+
+## Recommended next investigation — 2026-10-26
+
+Preserve multiple origin-bound Portals per app/screen and evaluate the equivalent
+browser composition before adopting ADR 0022. Its original single-Portal profile
+is under reconsideration. A host-controlled wrapper document with per-Portal CSP
+has bounded observations; production integration remains unapproved. Verify independent
+navigation enforcement, origin/source/bootstrap binding, continued B operation
+when A is revoked, reload, and cleanup before writing the replacement contract.
+T18 implementation and normative changes still require approval after evidence.
+Production web hosting is not currently specified by the browser development
+profile; the production custom-scheme invariant remains in force.
+
+## Review clarification — 2026-10-26
+
+One application/screen may contain multiple Portals with distinct origins.
+ADR 0022's original single-origin condition is limited to a browser-development
+host HTML document, not all Portals in an app. It does not replace per-app origin
+isolation or require sharing a domain. Multiple mini-app origins in one browser
+host document remain outside the original proposal and require a separate
+verified design. Review is active, but no approval or T18 implementation exists.
 
 ## Current checkpoint — 2026-10-23
 

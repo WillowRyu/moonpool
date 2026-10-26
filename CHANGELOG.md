@@ -4,6 +4,11 @@
 
 ### Added
 
+- Extend the manual navigation lab with independently policy-bound Portal
+  wrappers, recorded multi-origin isolation/lifetime observations, and a
+  documented cross-realm integration constraint. This remains research and
+  does not change the normative or shipped containment contract.
+
 - Add a manual three-origin navigation research fixture, recorded browser
   observations, and a proposed constrained CSP development profile for T18.
   This records gaps in iframe navigation observability; it does not change

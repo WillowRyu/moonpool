@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — 복수 Portal 보호 문서 실험</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">22 · T17 후속 · 복수 Portal</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#result">이번에 확인한 결과</a>
+    <a href="#structure">Portal마다 보호 문서</a>
+    <a href="#identity">창과 문서의 신원 확인</a>
+    <a href="#realm">다른 실행 문맥의 객체</a>
+    <a href="#tooling">포맷터와 주석</a>
+    <a href="#limits">검증 범위와 다음 결정</a>
+  </nav>
+  <p class="small desktop-only">2026.10.26 조사<br>후속 실험 완료 · T18 계약 미승인<br>기존 995개 테스트 통과</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">Multi-Portal follow-up · Separate policy contexts, keep independent origins</div>
+    <h1>한 화면에 여러 출처를 두고,<br>각 Portal의 보호 경계를 나눴습니다.</h1>
+    <p class="lead">단일 Portal 예제의 제약을 제품 전체의 제한으로 정하지 않고 대안을 실험했습니다. 호스트가 관리하는 보호 문서를 Portal마다 하나씩 두면, 한쪽의 이동 차단이 다른 Portal을 끊지 않는지 확인합니다.</p>
+    <div class="meta"><span class="pill">복수 Portal 실험 완료</span><span class="pill">995 / 995 기존 테스트 통과</span><span class="pill warm">Chrome 156 관찰 · 제품 통합 전</span></div>
+  </header>
+  <section class="section" id="result">
+    <h2>1 · 실제로 A만 닫히고 B는 계속 동작했습니다</h2>
+    <div class="table-wrap"><table><thead><tr><th>실험</th><th>관찰</th></tr></thead><tbody>
+      <tr><td>A·B를 동시에 시작</td><td>서로 다른 출처에서 초기화·프로필·저장소 동작</td></tr>
+      <tr><td>A가 B의 출처로 이동</td><td>A의 CSP가 차단하고 A만 폐기</td></tr>
+      <tr><td>그동안 B의 요청을 대기시킴</td><td>B는 계속 기다리고, 나중에 정상 완료</td></tr>
+      <tr><td>A가 닫힌 뒤 B 저장소 조회</td><td>B에 저장한 값 그대로 유지</td></tr>
+      <tr><td>B를 profile-only로 시작</td><td>A 폐기 전후 모두 저장소는 -32000, 프로필은 정상</td></tr>
+    </tbody></table></div>
+    <figure><img src="../examples/mock-host/navigation-lab/results-multi/a-revoked-b-active.png" alt="왼쪽 Portal A는 차단 후 폐기되고 오른쪽 Portal B는 프로필 요청을 정상 완료한 실제 실험 화면" style="max-width:100%;height:auto"><figcaption>실제 실험 화면 · A는 revoked, B는 active 상태입니다.</figcaption></figure>
+    <p>이것은 실험 후보의 관찰 결과입니다. SDK와 SPEC에 새 구조를 채택했다는 뜻은 아닙니다. <a href="../docs/multi-portal-investigation.md">영문 보고서</a>에 시나리오별 원본 기록과 한계를 연결했습니다.</p>
+  </section>
+  <section class="section" id="structure">
+    <h2>2 · 보호 문서도 호스트가 관리합니다</h2>
+    <div class="flow"><div class="node">바깥 호스트<br>5373</div><span class="sep">→</span><div class="node current">보호 문서 A<br>CSP는 A만 허용</div><span class="sep">→</span><div class="node">미니 앱 A<br>5374</div></div>
+    <div class="flow"><div class="node">같은 바깥 호스트<br>5373</div><span class="sep">→</span><div class="node current">보호 문서 B<br>CSP는 B만 허용</div><span class="sep">→</span><div class="node">미니 앱 B<br>5375</div></div>
+    <pre><code>Wrapper A: Content-Security-Policy: frame-src http://127.0.0.1:5374
+Wrapper B: Content-Security-Policy: frame-src http://127.0.0.1:5375</code></pre>
+    <p>보호 문서는 호스트와 같은 출처의 신뢰된 HTML이며 미니 앱 코드가 아닙니다. 미니 앱은 계속 별도의 출처에 있습니다. 서버가 각 보호 문서에 다른 CSP 응답 헤더를 제공했습니다. 바깥 문서의 한 목록에 A·B 출처를 함께 허용하는 방식과 다릅니다.</p>
+    <p>실험에서는 실제 HTTP로 제공한 문서를 사용합니다. srcdoc는 부모 정책을 물려받으므로 같은 방식이라고 가정하지 않았습니다. <a href="https://html.spec.whatwg.org/multipage/browsers.html#policy-containers">HTML 정책 컨테이너 규칙</a>과 <a href="https://www.w3.org/TR/CSP3/#directive-frame-src">CSP frame-src 규칙</a>을 근거로 후보를 만들고 실제 동작을 확인했습니다.</p>
+    <p>각 보호 문서가 실제 host 커널과 iframe transport를 소유합니다. 바깥 호스트는 각 보호 문서의 초기화 정보와 수명을 관리합니다. 이번에는 프로필에 공개된 실험 문자열만 사용했습니다.</p>
+  </section>
+  <section class="section" id="identity">
+    <h2>3 · 출처가 같아도 올바른 창인지 확인해야 합니다</h2>
+    <p>B가 프로필 응답을 기다릴 때, 바깥 호스트가 같은 호스트 출처와 같은 요청 번호로 가짜 응답을 보냈습니다. B는 계속 기다렸습니다. 실제 부모인 보호 문서가 보낸 응답이 아니기 때문입니다.</p>
+    <pre><code>event.origin === expectedOrigin
+event.source === expectedWindow</code></pre>
+    <p>두 조건을 함께 확인하는 기존 transport 규칙이 이 구조에서도 필요합니다. 실제 B의 보호 문서에서 보낸 응답과 알림은 정상 전달됐습니다.</p>
+    <p>보호 문서 자체의 교체도 다룹니다. 바깥 호스트는 보호 문서와 출처가 같으므로 현재 Document를 읽을 수 있습니다. 창의 바깥 참조가 유지되더라도 문서 객체가 바뀌면 다른 실행 인스턴스입니다.</p>
+    <pre><code>entry.document !== null &amp;&amp; entry.document !== actual</code></pre>
+    <p>실제 초기화 검사 조건의 일부입니다. 같은 URL에서 보호 문서를 새로고침한 실험은 sameURL:true, sameDocument:false로 거절됐습니다. 미니 앱의 내부 페이지 새로고침은 보호 문서가 바뀌지 않아 계속 허용됐고 저장 값도 유지됐습니다.</p>
+    <pre><code>// Identity and grants come from this registry,
+// never from guest IDs or wrapper query claims.</code></pre>
+    <p>코드에 남긴 주석의 뜻은 “초기화 권한과 앱 신원은 호스트의 등록 정보가 결정한다”입니다. 게스트가 다른 앱 id나 권한을 메시지에 적어 보내도 초기화 권한이 생기지 않습니다. 게스트의 바깥 호스트 API 직접 접근은 SecurityError로 막혔습니다.</p>
+  </section>
+  <section class="section" id="realm">
+    <h2>4 · 같은 출처여도 JavaScript의 기준 객체는 다를 수 있습니다</h2>
+    <p>바깥 호스트에서 만든 객체를 보호 문서의 notifyEnvironmentChanged에 직접 넘기면 현재 검사기가 TypeError로 거절했습니다. 보호 문서 안에서 새로 만든 객체는 같은 내용이어도 정상 전달됐습니다.</p>
+    <pre><code>const prototype = Object.getPrototypeOf(current);
+if (prototype !== Object.prototype &amp;&amp; prototype !== null) {
+  return false;
+}</code></pre>
+    <p>기존 JSON 검사 코드입니다. 문서마다 JavaScript 실행 문맥(realm)과 Object.prototype이 따로 있습니다. 같은 출처라는 사실이 같은 실행 문맥이라는 뜻은 아닙니다. 그래서 바깥 문서의 객체가 안쪽 문서 기준으로는 다른 기준 객체를 가질 수 있습니다.</p>
+    <p>이번 실험은 기존 검사를 없애지 않았습니다. 신뢰된 초기화 메타데이터만 JSON 문자열로 전달해 보호 문서에서 읽고, 실제 전송용 객체는 그 문서 안에서 생성했습니다. 잘못된 게스트 요청을 직렬화해서 정상처럼 바꾸는 처리는 하지 않습니다.</p>
+    <div class="callout warm"><strong>제품 통합 전에 정할 것</strong><br>커널·설정·데이터를 어느 문서가 소유할지 명확해야 합니다. 커널을 바깥에 두는 별도 relay나 원격 호출용 proxy를 이번에 검증한 것은 아닙니다. 보호 문서 안의 객체를 바깥 API와 그대로 공유하는 방식으로 제품에 붙이면 안 됩니다.</div>
+  </section>
+  <section class="section" id="tooling">
+    <h2>5 · 포맷터는 Biome이고, 주석도 작성하고 있습니다</h2>
+    <pre><code>pnpm run lint      # biome check .
+pnpm run lint:fix  # biome check --write .</code></pre>
+    <p>현재 Prettier는 사용하지 않습니다. <a href="../biome.json">Biome 설정</a>에서 포맷터와 린트·import 정리가 활성화돼 있습니다. 공백 2칸, JavaScript 작은따옴표, 줄 너비 100자를 사용합니다. 이번 조사에 새 포맷터를 설치하거나 도구를 바꾸지 않았습니다.</p>
+    <p>보안·비동기·정리 순서의 이유를 영어 주석으로 남깁니다. 이번 코드에서는 Document 신원 확인, 게스트 주장을 권한으로 쓰지 않는 이유, 실제 발신 창 검사, 다른 실행 문맥의 객체, 폐기 후 응답 차단을 설명했습니다. 한국어 학습 해설은 study/에 보관합니다.</p>
+  </section>
+  <section class="section" id="limits">
+    <h2>6 · 확인한 범위와 남은 결정</h2>
+    <p>두 Portal에 보호 문서 두 개를 더해 iframe 요소는 총 네 개였습니다. A를 폐기한 뒤에는 늦은 응답을 관찰하려고 닫힌 보호 문서를 잠시 남겼으므로 세 개였습니다. 실제 메모리·속도나 GC를 측정한 결과는 아닙니다.</p>
+    <p>이 실험의 저장소는 보호 문서마다 따로 둔 Map입니다. 안쪽 미니 앱의 새로고침에는 유지되지만 보호 문서를 새로 만들면 초기화됩니다. 제품에서는 저장 담당자의 수명도 별도로 설계해야 합니다. 표시된 리스너 수는 실험의 등록·해제 기록이며 브라우저 전체의 누수 검사 결과가 아닙니다.</p>
+    <div class="callout"><strong>2026.10.26 검증</strong><br>실제 Chrome 156 관찰 기록 보존<br>기존 995개 테스트·타입 검사·Biome·두 예제 빌드 통과<br>실험 코드의 별도 타입 검사 통과<br>실험을 자동 테스트 개수나 모든 브라우저 검증으로 세지 않음</div>
+    <p><a href="../docs/adr/0022-constrain-browser-navigation-with-host-csp.md">ADR 0022</a>에는 단일 Portal 원안과 구분해 이 결과를 반영했습니다. 복수 Portal을 유지하는 방향은 유망하지만, 제품 통합 계약은 아직 미승인입니다. SDK·SPEC에는 아직 적용하지 않았습니다.</p>
+    <p>재현 명령은 <a href="../examples/mock-host/navigation-lab/README.md">실험 안내</a>에 있습니다. 서로 다른 브라우저, 모든 URL·히스토리 방식, 최종 메모리 정리, 호스트 provider 연결까지 검증한 설계는 아닙니다.</p>
+  </section>
+  <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="21-navigation-investigation.html">기존 T17 단일 Portal 조사</a><br>근거: SPEC §3·§5.1·§9, 복수 Portal 실제 관찰, Biome 설정, 수정 중인 ADR 0022.</footer>
+</main>
+</body>
+</html>
