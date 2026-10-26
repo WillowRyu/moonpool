@@ -154,7 +154,8 @@ Already-dispatched effects, document epochs and peer disconnect retain the
 accepted §11 limits. Production HTTPS hosting/native cores remain outside
 this development contract. All created tabs and servers were stopped.
 
-T19 was published as e2354e6 / 8f98da9 before this work. T20 verification,
-instrumentation and learning notes remain local. T21 subsequently reconciled
+T19 was published as e2354e6 / 8f98da9 before this work. T20 source/evidence and
+completion documentation were subsequently published as 321d09d / 1637e3d.
+T21 reconciled
 the public roadmap and [completion record](v0.1-conformance.md), declaring the
 scoped browser milestone complete. This observation record retains its bounds.

@@ -2,8 +2,16 @@
 
 Date: 2026-10-22
 Last updated: 2026-10-26
-Status: T01–T21 complete for the browser v0.1 milestone. T20/T21 remain local after 8f98da9. Completion/evidence: docs/v0.1-conformance.md. Protocol remains draft/unstable.
+Status: T01–T21 complete for the browser v0.1 milestone. T20/T21 published as 321d09d / 1637e3d. Completion/evidence: docs/v0.1-conformance.md. Protocol remains draft/unstable.
 Normative source: `SPEC.md`. This plan does not amend the protocol.
+
+## Git publication — 2026-10-26
+
+At the maintainer's request, committed/pushed T20 source/evidence as 321d09d and
+completion documentation as 1637e3d, then confirmed remote sync. Earlier local/
+unpublished descriptions below record the state at those task checkpoints.
+Private source-package status and the browser-development scope remain in force;
+Git publication is separate from a package release or native/production deployment.
 
 ## T21 complete — 2026-10-26
 

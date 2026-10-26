@@ -14,8 +14,8 @@
 > Current checkpoint: all T01–T21 tasks complete within the reference browser scope.
 > T18 published as 4aab691 / ab98b58; remote confirmed in sync before T19.
 > T19 published as e2354e6 / 8f98da9; clean remote sync confirmed before T20.
-> The maintainer requested committing/pushing T20/T21 on 2026-10-26.
-> T20 verification source/evidence committed as 321d09d; publish the completion docs next.
+> T20/T21 published on 2026-10-26 as 321d09d / 1637e3d; remote sync confirmed.
+> The latest documentation-only checkpoint records that completed publication.
 > Package/tag publication remains separate from this Git publication request.
 > Clarification: one app/screen can contain Portals with different origins.
 > No application-wide single-domain or single-Portal restriction is intended.
@@ -34,6 +34,21 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-26 checkpoint — T20/T21 Git publication confirmed
+
+Committed T20 verification source/evidence as 321d09d and browser-v0.1 completion
+documentation as 1637e3d, pushed both to origin/master and confirmed a clean
+0/0 comparison. This follow-up documentation checkpoint updates current local/
+publication wording in the conformance record, plan and study guide. Confirm
+the checkpoint push before the final response; no implementation change is made.
+
+Answer the maintainer's usability question clearly: the reference browser
+development/PoC setup is usable. Immediate production web/native use is not
+ready: private source packages, missing native transports/cores, undefined
+production HTTPS hosting, memory-only example persistence and accepted document
+epoch/peer-disconnect limits remain. The protocol stays draft/unstable. Git
+publication does not publish npm packages or create a release tag.
 
 ## 2026-10-26 checkpoint — T20/T21 Git publication authorized
 

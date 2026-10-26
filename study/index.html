@@ -63,7 +63,7 @@
 <p>실제 Transport는 세 메서드입니다. 현재 API 예시와 소유권 설명도 구현에 맞췄습니다. 실행 코드·명세는 T20 기준을 유지합니다.</p>
 <a class="card next-card focus" href="26-v0.1-completion.html"><div class="eyebrow">T21 · Milestone and conformance record</div><h3>일곱 완료 조건·남은 명세 질문·배포 상태 읽기 →</h3><p>완료라는 표시를 근거와 연결하고, 브라우저 마일스톤과 운영·패키지 배포의 범위를 구분합니다.</p></a>
 <div class="callout"><strong>기준:</strong> T20의 1,131개 테스트·루트/실험 타입 검사·Biome·두 빌드와 Chrome 156 기록을 유지했습니다. T21은 문서 링크·체크박스·스터디 지도·심볼릭 링크 일치를 확인하는 단계입니다.</div>
-<div class="callout warm"><strong>완료 범위:</strong> 브라우저 개발용 v0.1 마일스톤입니다. 프로토콜은 draft·unstable이며 기존 §11 질문은 남아 있습니다. 현재 패키지는 private 소스 작업공간이고 T20·T21 변경은 로컬에 있습니다. 새 구현 작업은 별도 범위를 정해 이어갑니다.</div></section>
+<div class="callout warm"><strong>완료 범위:</strong> 브라우저 개발용 v0.1 마일스톤입니다. 프로토콜은 draft·unstable이며 기존 §11 질문은 남아 있습니다. T20·T21은 321d09d / 1637e3d로 커밋·푸시했습니다. 현재 패키지는 private 소스 작업공간이며 새 구현 작업과 패키지 배포는 별도 범위입니다.</div></section>
 <section class="section" id="t20"><h2>T20 복습 · 실제 브라우저에서 허용과 차단 함께 확인하기</h2>
 <p>실제 저장소·닫기 UI 컴포넌트를 SDK와 연결해 실행했습니다. 권한 거절이 제공자에 도달하지 않는지, 닫기·알림·늦은 응답이 다른 Portal에 영향을 주지 않는지도 확인했습니다.</p>
 <pre><code>if (event.origin !== peer.origin) { return false; }
