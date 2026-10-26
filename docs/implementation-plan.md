@@ -2,8 +2,39 @@
 
 Date: 2026-10-22
 Last updated: 2026-10-26
-Status: T01–T16 implemented; T17 investigation complete. Multi-Portal wrapper investigation complete; ADR 0022 integration contract unapproved; T18 not started. Milestone C is complete.
+Status: T01–T16 implemented; T17 research published. ADR 0022 replacement and ownership contract accepted on 2026-10-26; T18 authorized. Milestone C is complete.
 Normative source: `SPEC.md`. This plan does not amend the protocol.
+
+## ADR 0022 accepted; T18 authorized — 2026-10-26
+
+The maintainer explicitly approved the replacement and ownership companion,
+requested committing/pushing it, then authorized tests-first T18 implementation.
+Publish the prepared documentation first, record the contract in SPEC, and
+implement the accepted realm/provider/lifetime requirements. Do not ask for
+the same policy approval again. Earlier review-pending sections are historical.
+
+## Historical replacement preparation — 2026-10-26
+
+Published the completed multi-Portal research as 00c0c63 / 76bc212 and confirmed
+origin/master in sync. Then revised ADR 0022 into one per-Portal containment
+proposal and added docs/browser-portal-ownership-proposal.md. These proposal
+edits are local and unapproved; the previous single-Portal draft was never
+accepted. This requested documentation step does not implement T18.
+
+Proposed ownership: each trusted served wrapper owns its kernel, configuration,
+connection sender and transport; the outer host owns registry/provider lifetime
+and app-partitioned data. Host-only async controls/provider facades exchange
+validated JSON snapshots across realms. Keep the strict validator and existing
+guest validation order. The host selects storage identity, and Portal disposal
+does not erase the retained app partition. Same-app instances share data but
+retain independent connections and scope checks. Memory data lasts only as
+long as its provider. Remove both frames and invalidate stale handles on close.
+
+The boundary codec/gateway, retained storage across wrapper recreation and
+complete disposal are requirements awaiting tests and browser evidence, not
+claims about the measured prototype. Approval must precede SPEC edits and
+tests-first T18 integration. This proposal touches SPEC §9.2; production origin
+requirements and §11 open questions remain. The companion lists acceptance checks.
 
 ## Multi-Portal follow-up result — 2026-10-26
 
@@ -21,7 +52,7 @@ memory costs need explicit integration design. SDK/SPEC remain unchanged.
 Existing 995 tests and checks pass. This is manual evidence, not T18 completion
 or approval of a replacement contract. Biome remains the formatter/linter.
 
-## Recommended next investigation — 2026-10-26
+## Historical investigation recommendation — 2026-10-26
 
 Preserve multiple origin-bound Portals per app/screen and evaluate the equivalent
 browser composition before adopting ADR 0022. Its original single-Portal profile
@@ -33,7 +64,7 @@ T18 implementation and normative changes still require approval after evidence.
 Production web hosting is not currently specified by the browser development
 profile; the production custom-scheme invariant remains in force.
 
-## Review clarification — 2026-10-26
+## Historical review clarification — 2026-10-26
 
 One application/screen may contain multiple Portals with distinct origins.
 ADR 0022's original single-origin condition is limited to a browser-development
@@ -42,7 +73,7 @@ isolation or require sharing a domain. Multiple mini-app origins in one browser
 host document remain outside the original proposal and require a separate
 verified design. Review is active, but no approval or T18 implementation exists.
 
-## Current checkpoint — 2026-10-23
+## Historical checkpoint — 2026-10-23
 
 The maintainer requested committing/pushing completed work and will review
 ADR 0022 later. The proposal remains unapproved; no SPEC change or T18
@@ -60,7 +91,7 @@ Current verification: 995 tests across 34 files, root typecheck, lab typecheck,
 lint, and both example builds pass. Manual browser observations are separate.
 Remaining: T18 navigation behavior after approval; T19 error-code matrix;
 T20 final browser/security verification; T21 conformance and document reconciliation.
-Full v0.1 completion has not been declared. Resume at the deferred ADR review.
+Full v0.1 completion has not been declared. The active review is recorded above.
 
 ## Working mode
 
@@ -357,9 +388,10 @@ location/form/redirect/bounce prevention. The current bridge rejects foreign
 calls but remains usable after return; load-close both breaks internal navigation
 and misses pre-load calls. CSP prevented the tested foreign loads while keeping
 allowed reloads usable. docs/navigation-investigation.md links the raw evidence.
-ADR 0022 proposes an explicit single-Portal, single-origin CSP development
-profile and terminal disposal on violations; approval is required before SPEC
-or T18 runtime changes. The original SPEC and production code remain unchanged.
+ADR 0022 initially proposed a single-Portal CSP development profile; that draft
+was never approved. The 2026-10-26 replacement proposes per-Portal wrappers
+with explicit kernel/provider ownership. Approval is still required before
+SPEC or T18 runtime changes. SPEC and production code remain unchanged.
 Existing 995 tests, typecheck, lint, both builds, and the lab's separate typecheck
 pass. Manual observations are not counted as automated tests or cross-engine
 certification. The explanation is `study/21-navigation-investigation.html`.
@@ -448,11 +480,12 @@ Do not ask for those approvals again. The remaining gates below are separate.
   success as acceptance submitted before invoking dismissal. Subsequent hook
   failures are reported only on the host; no delivery/completion guarantee.
   SPEC §6.2 and ADR 0019 record the contract. Do not ask again.
-- **Browser navigation (T17–T18): proposal ready.** T17 observations and
-  limitations are recorded in docs/navigation-investigation.md. ADR 0022
-  proposes a constrained CSP development profile with terminal disposal on
-  enforced violations. Approval is required before SPEC/T18 changes. Do not
-  claim unrestricted iframe conformance from origin filtering or load events.
+- **Browser navigation (T17–T18): replacement ready, unapproved.** Published
+  T17 and multi-Portal evidence; ADR 0022 now proposes independent wrappers,
+  wrapper-local kernel/API ownership, retained outer-host providers and terminal
+  disposal. docs/browser-portal-ownership-proposal.md lists the unimplemented
+  integration and acceptance checks. Approval is required before SPEC/T18 edits.
+  Do not claim unrestricted iframe conformance from origin filtering/load events.
 
 Do not choose numeric payload/depth limits during this work: the spec defines
 none. Any such policy needs a separate proposal. The document-epoch race,

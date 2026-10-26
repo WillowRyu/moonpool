@@ -4,11 +4,14 @@
 
 ### Added
 
+- Accept replacement ADR 0022 for per-Portal browser containment with
+  explicit wrapper/host realm ownership, retained app-partitioned providers,
+  host-only data boundaries and complete disposal acceptance checks. This is
+  an approved design; implementation and verification follow in T18.
 - Extend the manual navigation lab with independently policy-bound Portal
   wrappers, recorded multi-origin isolation/lifetime observations, and a
   documented cross-realm integration constraint. This remains research and
   does not change the normative or shipped containment contract.
-
 - Add a manual three-origin navigation research fixture, recorded browser
   observations, and a proposed constrained CSP development profile for T18.
   This records gaps in iframe navigation observability; it does not change

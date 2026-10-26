@@ -15,10 +15,11 @@
     <a href="#structure">Portal마다 보호 문서</a>
     <a href="#identity">창과 문서의 신원 확인</a>
     <a href="#realm">다른 실행 문맥의 객체</a>
+    <a href="#ownership">커널과 저장소의 소유권</a>
     <a href="#tooling">포맷터와 주석</a>
     <a href="#limits">검증 범위와 다음 결정</a>
   </nav>
-  <p class="small desktop-only">2026.10.26 조사<br>후속 실험 완료 · T18 계약 미승인<br>기존 995개 테스트 통과</p>
+  <p class="small desktop-only">2026.10.26 조사<br>ADR 0022 승인 · T18 구현 예정<br>기존 995개 테스트 통과</p>
 </aside>
 <main>
   <header>
@@ -71,21 +72,45 @@ if (prototype !== Object.prototype &amp;&amp; prototype !== null) {
 }</code></pre>
     <p>기존 JSON 검사 코드입니다. 문서마다 JavaScript 실행 문맥(realm)과 Object.prototype이 따로 있습니다. 같은 출처라는 사실이 같은 실행 문맥이라는 뜻은 아닙니다. 그래서 바깥 문서의 객체가 안쪽 문서 기준으로는 다른 기준 객체를 가질 수 있습니다.</p>
     <p>이번 실험은 기존 검사를 없애지 않았습니다. 신뢰된 초기화 메타데이터만 JSON 문자열로 전달해 보호 문서에서 읽고, 실제 전송용 객체는 그 문서 안에서 생성했습니다. 잘못된 게스트 요청을 직렬화해서 정상처럼 바꾸는 처리는 하지 않습니다.</p>
-    <div class="callout warm"><strong>제품 통합 전에 정할 것</strong><br>커널·설정·데이터를 어느 문서가 소유할지 명확해야 합니다. 커널을 바깥에 두는 별도 relay나 원격 호출용 proxy를 이번에 검증한 것은 아닙니다. 보호 문서 안의 객체를 바깥 API와 그대로 공유하는 방식으로 제품에 붙이면 안 됩니다.</div>
+    <div class="callout warm"><strong>실험에서 발견한 통합 과제</strong><br>커널·설정·데이터를 어느 문서가 소유할지 명확해야 합니다. 아래 수정안은 커널을 보호 문서에 두고, 실행 문맥 사이에 검사한 데이터를 전달하는 방향입니다. 이 전달용 어댑터와 바깥 커널 relay를 실험에서 검증한 것은 아닙니다.</div>
+  </section>
+  <section class="section" id="ownership">
+    <h2>5 · 수정안: 통신 담당자는 안쪽에, 데이터 보관자는 바깥에</h2>
+    <p>보호 문서를 교체할 때 저장소까지 사라지면 앱을 다시 열었을 뿐인데 데이터가 없어집니다. 그래서 연결을 처리하는 커널과 데이터를 보관하는 provider의 수명을 나눕니다. provider는 실제 저장·조회·삭제를 맡는 담당자입니다. 아래 내용은 <strong>2026.10.26 승인된 ADR 0022 설계</strong>입니다. 이제 T18에서 구현하고 검증합니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>소유자</th><th>맡을 일</th></tr></thead><tbody>
+      <tr><td>바깥 호스트</td><td>앱 id·출처·권한 등록 정보, Portal 생성·폐기, 오래 유지할 저장소</td></tr>
+      <tr><td>각 보호 문서</td><td>자기 앱의 CSP, host 커널·설정·연결·transport, 비동기 저장소 전달 함수</td></tr>
+      <tr><td>각 미니 앱</td><td>client와 앱 화면. 저장소 소유자를 직접 선택할 권한은 없음</td></tr>
+    </tbody></table></div>
+    <p>현재 메모리 저장소의 실제 자료 구조를 그대로 활용하는 방향입니다.</p>
+    <pre><code>const apps = new Map&lt;string, Map&lt;string, StorageSetValue&gt;&gt;();
+// Host-selected app id -&gt; this app's keys and values.</code></pre>
+    <p>첫 번째 Map은 “어느 앱의 서랍인가”, 두 번째 Map은 “그 서랍 안의 어느 키인가”를 구분합니다. 앱 id는 호스트가 보관한 manifest.id에서 고릅니다. 게스트가 다른 앱 id를 보내 서랍을 바꿀 수 없습니다. <a href="../examples/mock-host/src/memory-storage.ts">실제 저장소 코드</a>와 <a href="../docs/adr/0003-pass-storage-app-identity-separately.md">기존 ADR 0003</a>의 원칙을 유지합니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>상황</th><th>수정안의 결과</th></tr></thead><tbody>
+      <tr><td>A와 B가 같은 key 사용</td><td>앱 id가 달라 서로 다른 데이터</td></tr>
+      <tr><td>같은 앱 A를 두 번 실행</td><td>저장 데이터 공유, 연결·요청 번호·권한 검사는 각각 유지</td></tr>
+      <tr><td>A를 닫고 호스트가 새 A 생성</td><td>새 연결을 만들고 기존 A의 저장 데이터 사용</td></tr>
+      <tr><td>미니 앱만 내부 새로고침</td><td>기존 반복 초기화 규칙 적용, 권한·저장 데이터 유지</td></tr>
+      <tr><td>바깥 호스트와 메모리 provider도 새로 생성</td><td>메모리 데이터 초기화. 영구 저장을 새로 보장하는 제안은 아님</td></tr>
+    </tbody></table></div>
+    <p>객체 전달도 경계를 정합니다. 바깥에서 만든 객체를 안쪽 함수에 그대로 넘기지 않고, <strong>보내는 곳에서 검사 → 데이터 복사 → 문자열 전달 → 받는 곳에서 읽고 검사</strong>합니다. 그 결과 보호 문서의 커널은 자기 실행 문맥에서 만든 객체를 받습니다. getter·Date·undefined 같은 잘못된 입력을 JSON.stringify로 바꿔 통과시키는 방식은 허용하지 않습니다. 게스트 요청은 기존 단계별 검사를 그대로 거칩니다.</p>
+    <p>폐기할 때는 먼저 해당 Portal을 비활성화하고 옛 함수의 접근을 막습니다. 이어서 연결·리스너·미니 앱 iframe·보호 문서 iframe·호스트 참조를 모두 정리합니다. 늦게 끝난 옛 요청이 새 A로 응답하면 안 됩니다. 이미 실행한 저장 작업까지 되돌리는 기능은 포함하지 않습니다.</p>
+    <div class="callout warm"><strong>확인한 것과 앞으로 확인할 것</strong><br>A만 차단되고 B가 계속 동작하는 기반은 실험했습니다. 바깥 provider 연결, 실행 문맥 사이의 데이터 전달 코드, A를 새로 만든 뒤 데이터 유지, 보호 문서까지 완전히 제거하는 처리는 제안 단계입니다. 승인에 따라 실패하는 테스트부터 작성하고 실제 브라우저에서 확인합니다. 이 수정안은 보안 명세 §9.2에 영향을 줍니다.</div>
+    <p><a href="../docs/adr/0022-constrain-browser-navigation-with-host-csp.md">짧게 정리한 ADR 0022 수정안</a>과 <a href="../docs/browser-portal-ownership-proposal.md">상세 소유권·수명·검증 계획</a>을 함께 남겼습니다. 단일 Portal 원안은 승인된 적이 없고, 복수 Portal 수정안은 2026.10.26 승인됐습니다.</p>
   </section>
   <section class="section" id="tooling">
-    <h2>5 · 포맷터는 Biome이고, 주석도 작성하고 있습니다</h2>
+    <h2>6 · 포맷터는 Biome이고, 주석도 작성하고 있습니다</h2>
     <pre><code>pnpm run lint      # biome check .
 pnpm run lint:fix  # biome check --write .</code></pre>
     <p>현재 Prettier는 사용하지 않습니다. <a href="../biome.json">Biome 설정</a>에서 포맷터와 린트·import 정리가 활성화돼 있습니다. 공백 2칸, JavaScript 작은따옴표, 줄 너비 100자를 사용합니다. 이번 조사에 새 포맷터를 설치하거나 도구를 바꾸지 않았습니다.</p>
     <p>보안·비동기·정리 순서의 이유를 영어 주석으로 남깁니다. 이번 코드에서는 Document 신원 확인, 게스트 주장을 권한으로 쓰지 않는 이유, 실제 발신 창 검사, 다른 실행 문맥의 객체, 폐기 후 응답 차단을 설명했습니다. 한국어 학습 해설은 study/에 보관합니다.</p>
   </section>
   <section class="section" id="limits">
-    <h2>6 · 확인한 범위와 남은 결정</h2>
+    <h2>7 · 확인한 범위와 남은 결정</h2>
     <p>두 Portal에 보호 문서 두 개를 더해 iframe 요소는 총 네 개였습니다. A를 폐기한 뒤에는 늦은 응답을 관찰하려고 닫힌 보호 문서를 잠시 남겼으므로 세 개였습니다. 실제 메모리·속도나 GC를 측정한 결과는 아닙니다.</p>
     <p>이 실험의 저장소는 보호 문서마다 따로 둔 Map입니다. 안쪽 미니 앱의 새로고침에는 유지되지만 보호 문서를 새로 만들면 초기화됩니다. 제품에서는 저장 담당자의 수명도 별도로 설계해야 합니다. 표시된 리스너 수는 실험의 등록·해제 기록이며 브라우저 전체의 누수 검사 결과가 아닙니다.</p>
     <div class="callout"><strong>2026.10.26 검증</strong><br>실제 Chrome 156 관찰 기록 보존<br>기존 995개 테스트·타입 검사·Biome·두 예제 빌드 통과<br>실험 코드의 별도 타입 검사 통과<br>실험을 자동 테스트 개수나 모든 브라우저 검증으로 세지 않음</div>
-    <p><a href="../docs/adr/0022-constrain-browser-navigation-with-host-csp.md">ADR 0022</a>에는 단일 Portal 원안과 구분해 이 결과를 반영했습니다. 복수 Portal을 유지하는 방향은 유망하지만, 제품 통합 계약은 아직 미승인입니다. SDK·SPEC에는 아직 적용하지 않았습니다.</p>
+    <p>조사 결과는 00c0c63 / 76bc212로 커밋·푸시했습니다. 이어서 <a href="../docs/adr/0022-constrain-browser-navigation-with-host-csp.md">ADR 0022</a>를 복수 Portal·실행 문맥·저장소 소유권을 담은 수정 제안으로 정리했습니다. 이후 수정안도 승인됐습니다. 승인된 계약을 명세에 반영하고 T18에서 구현·검증합니다.</p>
     <p>재현 명령은 <a href="../examples/mock-host/navigation-lab/README.md">실험 안내</a>에 있습니다. 서로 다른 브라우저, 모든 URL·히스토리 방식, 최종 메모리 정리, 호스트 provider 연결까지 검증한 설계는 아닙니다.</p>
   </section>
   <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="21-navigation-investigation.html">기존 T17 단일 Portal 조사</a><br>근거: SPEC §3·§5.1·§9, 복수 Portal 실제 관찰, Biome 설정, 수정 중인 ADR 0022.</footer>

@@ -6,14 +6,15 @@
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
 > T17 investigation complete: 995 tests, typecheck, lint, both builds, and lab typecheck pass.
-> Multi-Portal wrapper evidence is ready; ADR 0022 integration remains unapproved.
+> Multi-Portal research published as 00c0c63 / 76bc212; remote confirmed in sync.
+> ADR 0022 replacement and ownership companion explicitly approved on 2026-10-26.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
 > Current checkpoint: T01–T16 implemented; T17 investigation complete.
-> ADR 0022 review resumed on 2026-10-26. T18 has not started.
+> Publish the accepted revision, then implement T18 tests-first. Approval is no longer pending.
 > Clarification: one app/screen can contain Portals with different origins.
 > No application-wide single-domain or single-Portal restriction is intended.
-> Follow-up measured per-Portal policy isolation; resolve realm/provider ownership before T18.
-> ADR 0022 is PROPOSED, not approved. SPEC and production code remain unchanged.
+> Accepted ownership: wrapper-local kernel/API, outer-host retained app-partitioned provider.
+> ADR 0022 is ACCEPTED. Do not ask again about the approved browser containment contract.
 > T14 acceptance-before-dismissal policy is approved in SPEC §6.2 / ADR 0019.
 > The per-connect async onCloseRequested hook is implemented. Do not ask again.
 > T12 published as 1465d03 / f271a2f; remote confirmed in sync before T13.
@@ -27,6 +28,69 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-26 checkpoint — ADR 0022 approved; T18 authorized
+
+The maintainer explicitly approved the complete ADR 0022 replacement, requested
+publishing the revision and authorized T18 implementation with an easy Korean
+code explanation afterward. This includes the ownership companion, host-only
+realm adapters, retained app-partitioned provider, terminal cleanup and browser
+evidence. Record the approved contract in SPEC before deriving failing tests.
+Publish the previously prepared documentation plus this acceptance record
+first. No new policy approval is needed for the accepted contract. Earlier
+unapproved/proposed references below are historical checkpoints.
+
+## 2026-10-26 checkpoint — research published; ADR 0022 replacement prepared
+
+The maintainer requested committing/pushing the completed research, then a
+revised ADR including execution contexts and storage ownership. Published the
+fixture/evidence/report as 00c0c63 and study/progress notes as 76bc212 on master.
+git push succeeded and HEAD...origin/master was 0/0 with a clean tree before
+preparing this new proposal. The following documentation edits remain local.
+
+Replaced the cumulative ADR 0022 with a coherent proposed per-Portal contract;
+the old single-Portal proposal was never approved. Added
+docs/browser-portal-ownership-proposal.md for concrete ownership, boundary
+semantics, lifetime table and acceptance checks. Outer host owns trusted
+registry and retained provider instances; each trusted served wrapper owns
+kernel, HostConfig/HostConnection, transport and async provider facades.
+Keep raw wrapper APIs local. Proposed host-only controls/provider gateways use
+strict source-realm validation and JSON snapshots/text parsed and validated
+in the receiving realm, without repairing guest messages or weakening checks.
+This new gateway/codec is a design requirement, not an already tested result.
+
+Storage remains partitioned by host-selected manifest.id under ADR 0003.
+Facade id must match its binding; outer gateway independently selects that id.
+Two instances of the same app share storage but have separate connection/grant
+checks. Close/revocation/recreation preserves the retained app partition;
+the memory provider still resets when the outer provider is recreated.
+Do not confuse storage.* provider ownership with engine-managed origin storage.
+
+Proposed disposal marks inactive and revokes handles before all cleanup
+attempts, removes both frames/listeners/host refs, rejects retired controls,
+and suppresses late responses. Already-dispatched provider effects cannot be
+rolled back. Unexpected wrapper Document replacement is not automatic restart.
+Same-origin inner reload still follows §5.1; §11 epoch/disconnect limits stay.
+
+This affects SPEC §9.2 if approved. No SPEC/runtime edits, new SDK API,
+production HTTPS hosting, native core or T18 implementation were authorized
+or made. The wrapper gateway, restart storage preservation and full outer-frame
+cleanup need tests and browser evidence after approval. Existing lab results
+are bounded to selected Chrome 156 cases. Updated study/22 and the guide with
+an easy Korean ownership explanation while preserving the earlier material.
+
+Documentation verification: Biome checks 113 files without fixes; all 359 local
+references across 23 study pages and 3 proposal links resolve; ids are unique
+and prior interactive scripts unchanged. Browser screenshot/AX review confirmed
+the new ownership section, tables and code render correctly. Temporary review
+tab/server were closed. git diff checks pass; SPEC.md and packages have no
+changes. The earlier 995-test/typecheck/build baseline remains the last full
+run; it was not rerun for this documentation-only revision.
+
+Next: the maintainer reviews the concrete replacement. If explicitly approved,
+record the development contract in SPEC, derive failing tests and implement
+T18 in small steps. Do not infer approval from this documentation/publication
+request or reopen settled decisions. See the companion's acceptance checklist.
 
 ## 2026-10-26 checkpoint — multi-Portal wrapper investigation complete
 
