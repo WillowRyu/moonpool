@@ -5,6 +5,13 @@ Last updated: 2026-10-26
 Status: T01–T21 complete for the browser v0.1 milestone. T20/T21 published as 321d09d / 1637e3d. Completion/evidence: docs/v0.1-conformance.md. Protocol remains draft/unstable.
 Normative source: `SPEC.md`. This plan does not amend the protocol.
 
+## Post-v0.1 follow-up — 2026-10-26
+
+Both Android and iOS are confirmed targets; the host app/framework is explicitly
+undecided. The [native follow-up plan](native-implementation-plan.md) records
+T22–T65 as 44 planned tasks with acceptance criteria, dependencies and design
+gates. None has started. T22 is next; T01–T21 remain complete and preserved here.
+
 ## Git publication — 2026-10-26
 
 At the maintainer's request, committed/pushed T20 source/evidence as 321d09d and

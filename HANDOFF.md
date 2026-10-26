@@ -11,7 +11,11 @@
 > Multi-Portal research published as 00c0c63 / 76bc212; remote confirmed in sync.
 > ADR 0022 accepted revision published as 0397b70; remote confirmed in sync.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Current checkpoint: all T01–T21 tasks complete within the reference browser scope.
+> Current checkpoint: Android/iOS follow-up plan recorded; T22–T65 planned, none started.
+> Both Android and iOS are required; host app/framework explicitly undecided.
+> Read docs/native-implementation-plan.md for the 44 follow-up tasks and dependencies.
+> The maintainer requested Git publication of this plan and all current documentation.
+> Next task: T22 target/toolchain/support matrix, then T23/T24 native origin probes.
 > T18 published as 4aab691 / ab98b58; remote confirmed in sync before T19.
 > T19 published as e2354e6 / 8f98da9; clean remote sync confirmed before T20.
 > T20/T21 published on 2026-10-26 as 321d09d / 1637e3d; remote sync confirmed.
@@ -34,6 +38,63 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-26 checkpoint — Android/iOS plan Git publication requested
+
+The maintainer explicitly requested committing and pushing all current work,
+including the implementation plan. Publish the eight documentation/learning
+files as one logical Conventional Commit, then verify origin/master matches
+HEAD and the working tree is clean. Native task status remains planned: no
+T22 implementation, protocol change, package release or app distribution is
+part of this publication checkpoint. The local-only statements in earlier
+planning history describe that earlier request, not the current authorization.
+
+## 2026-10-26 checkpoint — Android/iOS follow-up planning complete
+
+The maintainer requested small next-phase tasks for both Android (AOS) and iOS,
+then explicitly chose a common plan with the host app/framework undecided.
+Added docs/native-implementation-plan.md with T22–T65: 44 planned tasks, each
+with a target, deliverable, acceptance criteria and dependencies. No native task
+has started. The browser milestone remains complete through published 91d7b46.
+
+Milestones: T31 measured/approved contracts; T45 both native reference PoCs;
+T61 actual-host/device-verified candidate; T65 evidence-based deployment decision.
+Both platform tracks must pass. Reference PoC, real-app evaluation and release
+readiness are distinct; no release version, minimum OS or schedule is assumed.
+T22 records target/toolchain/device constraints and unknowns. Do not ask the same
+broad framework question again; T27 presents concrete execution/ownership options.
+
+Official platform documentation exposes an early feasibility risk: Android's
+WebViewAssetLoader uses HTTP(S), while SPEC §8 requires moonpool://<mini-app-id>/;
+custom-scheme message-origin allow rules also differ from HTTP(S). Apple custom
+scheme registration likewise does not establish actual origin/storage semantics.
+The plan links primary sources and schedules paired probes before an approved
+origin/loader decision. Documentation research is not device evidence. Keep the
+origin invariant until any necessary change is explicitly approved.
+
+Other gates cover the trusted TypeScript host execution context (not the guest),
+native JSON/text semantics, document identity, terminal close/lifecycle, durable
+storage ownership and the already-accepted ADR 0002 pool responsibilities.
+The security work maps to SPEC §9; no current security policy is changed.
+Concrete ADR/SPEC proposals need approval before dependent implementation, using
+the maintainer's previous behavior → current problem → consequences explanation.
+No placeholder ADRs, native cores, SDK installation, framework scaffolding or
+new runtime policy were added. Existing out-of-scope features remain excluded.
+
+Updated README, CHANGELOG and the browser-plan link; added the Korean follow-up
+lesson study/27-native-roadmap.html and connected the study map while preserving
+earlier lessons. This is documentation-only work; the 1131-test/39-file runtime
+baseline is retained. The initial planning request did not request commit/push;
+the later Git-publication request is recorded above. No native implementation
+task has started.
+
+Planning verification: all 44 ids are sequential; 100 prerequisite edges point
+to earlier tasks, with no cycles. All 470 checked local references across the
+28 study pages and selected Markdown documents resolve; HTML ids are unique.
+The new Korean lesson contains every task. Biome checks 204 files without fixes;
+diff checks pass. Runtime/SPEC/dependency files and instruction symlinks are
+unchanged. Browser layout review confirmed the lesson's milestones/task table
+and the study-map follow-up section; the temporary tab/server were closed.
 
 ## 2026-10-26 checkpoint — T20/T21 Git publication confirmed
 

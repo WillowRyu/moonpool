@@ -115,6 +115,17 @@ uses validated JSON snapshots, while guest requests retain staged validation.
 [implementation plan](docs/implementation-plan.md) ·
 [Korean learning guide](study/index.html)
 
+## Android and iOS follow-up — planned
+
+The [native implementation plan](docs/native-implementation-plan.md) breaks the
+next phase into T22–T65, with both Android and iOS required. The host framework
+remains undecided. Early tasks measure platform constraints and establish the
+trusted TypeScript execution context before native implementation.
+
+The plan separates reference-app PoCs, actual-host/device verification and an
+evidence-based deployment decision. These are planned milestones, not shipped
+native support. Start with T22; see the [Korean roadmap](study/27-native-roadmap.html).
+
 ## Verification
 
 ```sh

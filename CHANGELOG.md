@@ -9,6 +9,11 @@ See [completion evidence and retained limits](docs/v0.1-conformance.md).
 
 ### Added
 
+- Document the Android/iOS follow-up as 44 planned tasks (T22–T65), with paired
+  platform evidence, acceptance criteria and dependencies. Keep the host
+  framework undecided and distinguish reference PoCs, real-app verification
+  and deployment decisions. Add the Korean roadmap; no native implementation
+  or protocol change is included in this planning checkpoint.
 - Reconcile the browser v0.1 checklist, public roadmap, working agreement and
   learning guide with verified behavior. Add a requirement/security evidence map,
   explicit deployment/provider responsibilities and retained §11 limits (T21).
