@@ -15,7 +15,7 @@ if (root === null) {
 }
 root.innerHTML = `
   <h1>T17 navigation observations</h1>
-  <p>Manual research fixture. No navigation protection has been added to Moonpool.</p>
+  <p>Deliberately uncontained transport lab. The normal example uses the approved per-Portal wrapper profile.</p>
   <p id="browser"></p>
   <label>Experimental policy <select id="policy"><option value="baseline">Existing bridge only</option><option value="load">Close on every load after first</option></select></label>
   <div class="controls">
@@ -25,8 +25,10 @@ root.innerHTML = `
     <button id="return">Foreign return without initialize</button><button id="bounce">Silent foreign bounce before load</button>
     <button id="target">Send targetOrigin marker</button><button id="proof">Read fixture server observations</button>
     <button id="form">Child foreign form submission</button><button id="redirect">Allowed URL redirects to foreign</button>
+    <button id="intruder">Other allowed-origin frame calls profile</button><button id="profile">Bound peer profile positive control</button>
+    <button id="foreign-marker">Foreign targetOrigin marker positive control</button>
   </div>
-  <p id="summary"></p><div id="portal"></div><pre id="log"></pre><pre id="server"></pre>
+  <p id="summary"></p><div id="portal"></div><div id="other-frame"></div><pre id="log"></pre><pre id="server"></pre>
 `;
 const portal = root.querySelector<HTMLElement>('#portal');
 const log = root.querySelector<HTMLElement>('#log');
@@ -46,6 +48,7 @@ if (
 }
 browser.textContent = `UA: ${navigator.userAgent} | frame-src restriction: ${location.pathname.includes('csp')}`;
 let frame: HTMLIFrameElement | undefined;
+let intruder: HTMLIFrameElement | undefined;
 let peer: Window | null = null;
 let transport: Transport | undefined;
 let run = '';
@@ -91,11 +94,14 @@ const inspect = () => {
   });
 };
 window.addEventListener('message', (event: MessageEvent<unknown>) => {
-  if (event.source !== peer || !isJsonValue(event.data) || !isJsonObject(event.data)) {
+  const fromPeer = event.source === peer;
+  const fromOther = intruder !== undefined && event.source === intruder.contentWindow;
+  if ((!fromPeer && !fromOther) || !isJsonValue(event.data) || !isJsonObject(event.data)) {
     return;
   }
   record('message', {
     origin: event.origin,
+    role: fromPeer ? 'bound-peer' : 'other-frame',
     sameWindowProxy: event.source === peer,
     passesOriginAndSource: isFromPeer(event, { origin: ALLOWED, window: peer }),
     data: event.data,
@@ -107,6 +113,8 @@ document.addEventListener('securitypolicyviolation', (event) => {
 
 const start = () => {
   transport?.close();
+  intruder?.remove();
+  intruder = undefined;
   rows = [];
   loads = 0;
   calls = 0;
@@ -191,7 +199,21 @@ for (const name of ['same', 'reload', 'hash', 'foreign', 'bounce', 'form', 'redi
 root.querySelector('#return')?.addEventListener('click', () => command('return', FOREIGN));
 root.querySelector('#target')?.addEventListener('click', () => {
   record('marker-attempt');
-  peer?.postMessage({ lab: 'marker' }, ALLOWED);
+  transport?.send({ lab: 'marker' });
+});
+root.querySelector('#foreign-marker')?.addEventListener('click', () => {
+  record('foreign-marker-positive-control');
+  peer?.postMessage({ lab: 'marker' }, FOREIGN);
+});
+root.querySelector('#profile')?.addEventListener('click', () => command('profile'));
+root.querySelector('#intruder')?.addEventListener('click', () => {
+  intruder?.remove();
+  const current = document.createElement('iframe');
+  current.title = 'Other allowed-origin sender';
+  current.src = `${ALLOWED}/probe.html?run=${run}&mode=intruder`;
+  intruder = current;
+  root.querySelector('#other-frame')?.replaceChildren(current);
+  record('other-frame-created', { origin: ALLOWED });
 });
 root.querySelector('#start')?.addEventListener('click', start);
 root.querySelector('#inspect')?.addEventListener('click', inspect);

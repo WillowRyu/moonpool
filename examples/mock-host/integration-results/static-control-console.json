@@ -1,0 +1,12 @@
+{
+  "url": "http://127.0.0.1:5392/outer.html",
+  "description": "Two iframe levels, distinct guest origin, HTML only and no script tags",
+  "rendered": "Browser tab: 18, Title: \"Static nested-frame control\", URL: \"http://127.0.0.1:5392/outer.html\".\n0 AXWebArea Static nested-frame control, URL: 127.0.0.1:5392/outer.html\n\t1 heading No project scripts, Value: 1\n\t\t2 text No project scripts\n\t3 container Static wrapper\n\t\t4 AXWebArea Static wrapper, URL: 127.0.0.1:5392/wrapper.html\n\t\t\t5 heading No wrapper scripts, Value: 1\n\t\t\t\t6 text No wrapper scripts\n\t\t\t7 container Static guest\n\t\t\t\t8 AXWebArea Static guest, URL: 127.0.0.1:5393/guest.html\n\t\t\t\t\t9 heading No guest scripts, Value: 1\n\t\t\t\t\t\t10 text No guest scripts\n\t\t\t\t\t11 text HTML only. No Moonpool, Vite, or application JavaScript.\n\nThe focused UI element is 0 AXWebArea Static nested-frame control, URL: 127.0.0.1:5392/outer.html",
+  "logs": [
+    {
+      "level": "error",
+      "message": "Uncaught TypeError: Failed to execute 'observe' on 'MutationObserver': parameter 1 is not of type 'Node'.",
+      "timestamp": "2026-10-26T07:22:08.977Z"
+    }
+  ]
+}

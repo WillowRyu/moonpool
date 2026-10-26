@@ -6,6 +6,7 @@ const ALLOWED = 'http://127.0.0.1:5274';
 const FOREIGN = 'http://127.0.0.1:5275';
 const params = new URLSearchParams(location.search);
 const run = params.get('run') ?? '';
+let nextProbeId = params.get('mode') === 'resume' ? 101 : 3;
 const status = document.querySelector<HTMLElement>('#status');
 const events = document.querySelector<HTMLElement>('#events');
 if (status === null || events === null) {
@@ -29,6 +30,9 @@ window.addEventListener('message', (event) => {
     return;
   }
   switch (event.data.command) {
+    case 'profile':
+      transport.send({ jsonrpc: '2.0', id: nextProbeId++, method: 'profile.get' });
+      break;
     case 'same':
       location.assign(`${ALLOWED}/probe.html?run=${run}&page=second`);
       break;
@@ -60,7 +64,10 @@ window.addEventListener('message', (event) => {
     }
   }
 });
-if (params.get('mode') === 'resume') {
+if (params.get('mode') === 'intruder') {
+  status.textContent = 'Other allowed-origin frame: raw profile.get id 900';
+  transport.send({ jsonrpc: '2.0', id: 900, method: 'profile.get' });
+} else if (params.get('mode') === 'resume') {
   status.textContent = 'Returned document: profile.get id 100 WITHOUT initialize';
   transport.send({ jsonrpc: '2.0', id: 100, method: 'profile.get' });
 } else {

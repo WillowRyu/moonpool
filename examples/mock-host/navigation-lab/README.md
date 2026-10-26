@@ -64,6 +64,21 @@ The existing 995 Vitest tests are separate from these manual observations.
 The lab does not install a browser automation dependency, so HANDOFF's future
 reportError migration trigger has not been activated.
 
+## T20 transport boundary controls
+
+The baseline host deliberately permits navigation so the two transport gates
+can be measured independently. It is not the conforming contained example.
+"Other allowed-origin frame calls profile" sends id 900 from the correct origin
+but another native source window; the provider count must stay unchanged.
+"Bound peer profile positive control" must then increment it.
+
+Navigate the bound peer foreign: its native source remains the same WindowProxy
+but its origin differs, so its id 50 call must not increment the provider count.
+The targetOrigin marker uses the actual SDK transport; it must not arrive there.
+The separately labeled foreign-origin marker is a fixture positive control for
+the foreign listener, not a change to the SDK's pinned targetOrigin. Return to
+the allowed origin and verify the bound-peer call and SDK marker positive controls.
+
 ## Multi-Portal follow-up (2026-10-26)
 
 ```sh

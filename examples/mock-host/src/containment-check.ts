@@ -11,10 +11,10 @@ const root = document.querySelector<HTMLElement>('#app');
 if (root === null) {
   throw new Error('missing fixture root');
 }
-root.innerHTML = `<h1>T18 integrated containment checks</h1><p id="browser"></p>
+root.innerHTML = `<h1>T18/T20 browser integration checks</h1><p id="browser"></p>
 <p>Uses the actual browser host, served wrappers, strict JSON boundary, and retained provider.</p>
 <div><button id="restart-a">Create fresh A</button><button id="restart-b">Create fresh B</button><button id="a2">Create another A</button>
-<button id="close-a">Close A</button><button id="close-a2">Close extra A</button><button id="restricted-b">Recreate B profile-only</button><button id="notify-b">Notify B dark/ko-KR</button>
+<button id="close-a">Close A</button><button id="close-a2">Close extra A</button><button id="restricted-b">Recreate B profile-only</button><button id="notify-b">Notify B dark/ko-KR</button><button id="pause-b">Notify B paused</button><button id="resume-b">Notify B resumed</button>
 <button id="hold">Hold next profile</button><button id="release">Release held profile</button>
 <button id="wrapper-reload">Reload A wrapper at same URL</button><button id="wrapper-switch">Switch A wrapper to B policy</button>
 <button id="retired">Try retired A control</button><button id="footprint">Inspect frame footprint</button>
@@ -39,12 +39,32 @@ if (browser !== null) {
 let held: (() => void) | undefined;
 let holdNext = false;
 let calls = 0;
+let writes = 0;
+let reads = 0;
+let deletions = 0;
+const memory = createMemoryStorageProvider();
 const host = createBrowserHost({
   origins: MINI_APP_ORIGINS,
   hostInfo: { name: 'T18 integration host', version: '0.1.0', platform: 'browser' },
   environment: { locale: 'en', colorScheme: 'light' },
   capabilities: {
-    storage: createMemoryStorageProvider(),
+    storage: {
+      async get(id, key) {
+        reads += 1;
+        log(`storage read ${reads}: ${id} / ${key}`);
+        return memory.get(id, key);
+      },
+      async set(id, key, value) {
+        writes += 1;
+        log(`storage write ${writes}: ${id} / ${key}`);
+        await memory.set(id, key, value);
+      },
+      async delete(id, key) {
+        deletions += 1;
+        log(`storage delete ${deletions}: ${id} / ${key}`);
+        await memory.delete(id, key);
+      },
+    },
     profile: {
       async get() {
         const number = ++calls;
@@ -56,7 +76,9 @@ const host = createBrowserHost({
           });
         }
         log(`profile ${number} provider completed`);
-        return { displayName: 'Contained public user' };
+        // Dummy private data tests the real public-field projection, never real credentials.
+        const record = { displayName: 'Contained public user', sessionToken: 't20-private-dummy' };
+        return record;
       },
     },
   },
@@ -142,6 +164,21 @@ bind('notify-b', () => {
     .then(() => log('B notification submitted across realms'))
     .catch(reportHostError);
 });
+for (const [id, state] of [
+  ['pause-b', 'paused'],
+  ['resume-b', 'resumed'],
+]) {
+  if (id === undefined || (state !== 'paused' && state !== 'resumed')) {
+    continue;
+  }
+  bind(id, () => {
+    void portals
+      .get('b')
+      ?.notifyLifecycle(state)
+      .then(() => log(`B lifecycle ${state} submitted`))
+      .catch(reportHostError);
+  });
+}
 bind('wrapper-reload', () => {
   portals.get('a')?.frame.contentWindow?.location.reload();
 });
@@ -188,8 +225,27 @@ const commands = [
   ['a', 'redirect', 'A redirect'],
   ['a', 'bounce', 'A silent bounce'],
   ['a', 'access', 'A host API attempt'],
+  ['b', 'access', 'B host API attempt'],
+  ['a', 'demo-set', 'A component set'],
+  ['a', 'demo-get', 'A component get'],
+  ['a', 'demo-delete', 'A component delete'],
+  ['a', 'demo-close', 'A component close'],
+  ['b', 'demo-set', 'B component set'],
+  ['b', 'demo-get', 'B component get'],
+  ['b', 'demo-delete', 'B component delete'],
+  [
+    'a',
+    'demo-set',
+    'A component set markup',
+    '<img src=x onerror="document.body.dataset.t20Injected=1">',
+  ],
+  ['a', 'bad-write', 'A Date write'],
+  ['a', 'bad-version', 'A unsupported version'],
+  ['a', 'good-version', 'A valid version'],
+  ['b', 'unsubscribe', 'Unsubscribe B notifications'],
+  ['b', 'client-close', 'Close B client locally'],
 ];
-for (const [slot, command, label] of commands) {
+for (const [slot, command, label, sampleText] of commands) {
   if (slot === undefined || command === undefined || label === undefined) {
     continue;
   }
@@ -208,7 +264,7 @@ for (const [slot, command, label] of commands) {
         {
           probe: 'moonpool-t18',
           command,
-          text: JSON.stringify({ owner: slot, flags: [null, false, 0] }),
+          text: sampleText ?? JSON.stringify({ owner: slot, flags: [null, false, 0] }),
         },
         origin,
       );

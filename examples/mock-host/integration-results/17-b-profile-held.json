@@ -1,0 +1,33 @@
+{
+  "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+  "frames": "wrappers=2 guests=2",
+  "state": {
+    "a": "active: com.example.hello",
+    "b": "active: com.example.second",
+    "a2": "Not started"
+  },
+  "guests": {
+    "a": {
+      "state": "explicit initialization 0.1 succeeded",
+      "profile": "profile result {\"displayName\":\"Contained public user\"}",
+      "rawStorage": "stored {\"value\":{\"owner\":\"a\",\"flags\":[null,false,0]}}",
+      "componentStorage": "storage.get → \"<img src=x onerror=\\\"document.body.dataset.t20Injected=1\\\">\"",
+      "componentClose": "ready — request dismissal when finished",
+      "events": "call 2 profile.get\ncall 3 storage.set\ncall 4 storage.get\ncall 5 storage.delete\ncall 6 storage.get\ncall 7 storage.set\ncall 8 storage.get\ncall 9 storage.set\ncall 10 storage.set with Date\ncall 11 storage.get\ncall 12 portal.initialize\ncall 13 profile.get\ncall 14 portal.initialize\ncall 15 profile.get\n",
+      "imageElements": 0,
+      "injectionAttribute": null
+    },
+    "b": {
+      "state": "initialized com.example.second; grants profile,storage",
+      "profile": "profile pending id=3",
+      "rawStorage": "",
+      "componentStorage": "storage.get → \"{\\\"owner\\\":\\\"b\\\",\\\"flags\\\":[null,false,0]}\"",
+      "componentClose": "ready — request dismissal when finished",
+      "events": "call 2 storage.get\ncall 3 profile.get\n",
+      "imageElements": 0,
+      "injectionAttribute": null
+    },
+    "a2": null
+  },
+  "hostEvents": "a host-created\nb host-created\na fixture command profile\nprofile 1 provider completed\nb fixture command profile\nprofile 2 provider completed\na fixture command demo-set\nstorage write 1: com.example.hello / settings\nb fixture command demo-set\nstorage write 2: com.example.second / settings\na fixture command demo-get\nb fixture command demo-get\na fixture command demo-delete\na fixture command demo-get\nb fixture command demo-get\na fixture command demo-set\nstorage write 3: com.example.hello / settings\na fixture command demo-get\na fixture command set\nstorage write 4: com.example.hello / shared-key\na fixture command bad-write\na fixture command get\nb revoked: Host recreation\nb host-created\nb fixture command access\nb fixture command demo-set\nb fixture command demo-get\nb fixture command demo-delete\nb revoked: Host recreation\nb host-created\nb fixture command demo-get\na fixture command bad-version\na fixture command profile\na fixture command good-version\na fixture command profile\nprofile 3 provider completed\nnext profile will wait\nb fixture command profile\nprofile 4 held"
+}

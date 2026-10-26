@@ -1,0 +1,24 @@
+{
+  "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36",
+  "frames": "wrappers=1 guests=1",
+  "state": {
+    "a": "revoked: Navigation blocked by Portal policy",
+    "b": "active: com.example.second",
+    "a2": "Not started"
+  },
+  "guests": {
+    "a": null,
+    "b": {
+      "state": "initialized com.example.second; grants profile,storage",
+      "profile": "profile result {\"displayName\":\"Contained public user\"}",
+      "rawStorage": "",
+      "componentStorage": "ready — choose an action",
+      "componentClose": "ready — request dismissal when finished",
+      "events": "call 2 profile.get\ncall 3 profile.get\n",
+      "imageElements": 0,
+      "injectionAttribute": null
+    },
+    "a2": null
+  },
+  "hostEvents": "a host-created\nb host-created\na fixture command profile\nprofile 1 provider completed\nb fixture command profile\nprofile 2 provider completed\na fixture command demo-set\nstorage write 1: com.example.hello / settings\nb fixture command demo-set\nstorage write 2: com.example.second / settings\na fixture command demo-get\nb fixture command demo-get\na fixture command demo-delete\na fixture command demo-get\nb fixture command demo-get\na fixture command demo-set\nstorage write 3: com.example.hello / settings\na fixture command demo-get\na fixture command set\nstorage write 4: com.example.hello / shared-key\na fixture command bad-write\na fixture command get\nb revoked: Host recreation\nb host-created\nb fixture command access\nb fixture command demo-set\nb fixture command demo-get\nb fixture command demo-delete\nb revoked: Host recreation\nb host-created\nb fixture command demo-get\na fixture command bad-version\na fixture command profile\na fixture command good-version\na fixture command profile\nprofile 3 provider completed\nnext profile will wait\nb fixture command profile\nprofile 4 held\nouter forged B response id=3; source must be rejected\nB lifecycle paused submitted\nB lifecycle resumed submitted\nB notification submitted across realms\na fixture command other\na revoked: Navigation blocked by Portal policy\nheld provider released\nprofile 4 provider completed\nb fixture command unsubscribe\nB lifecycle paused submitted\nB notification submitted across realms\na host-created\nnext profile will wait\nb fixture command profile\nprofile 5 held\nb fixture command client-close\nb fixture command profile\nheld provider released\nprofile 5 provider completed\na fixture command profile\nprofile 6 provider completed\nb revoked: Host recreation\nb host-created\nb fixture command profile\nprofile 7 provider completed\na fixture command demo-close\na revoked: finished\nb fixture command profile\nprofile 8 provider completed\na host-created\na fixture command demo-get\na fixture command get\na fixture command reload\na fixture command demo-get\na fixture command get\na fixture command internal\na fixture command get\na revoked: Wrapper binding changed\na host-created\na revoked: Wrapper binding changed\na host-created\na fixture command foreign\na revoked: Navigation blocked by Portal policy\na host-created\na fixture command form\na revoked: Navigation blocked by Portal policy"
+}

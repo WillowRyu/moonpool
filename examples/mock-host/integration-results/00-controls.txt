@@ -1,0 +1,157 @@
+Browser tab: 13, Title: "Moonpool browser integration checks", URL: "http://localhost:5173/containment-check.html".
+0 AXWebArea Moonpool browser integration checks, URL: localhost:5173/containment-check.html
+	1 container app
+		2 heading T18/T20 browser integration checks, Value: 1
+			3 text T18/T20 browser integration checks
+		4 text Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/156.0.0.0 Safari/537.36
+		5 text Uses the actual browser host, served wrappers, strict JSON boundary, and retained provider.
+		6 container
+			7 button Create fresh A, ID: restart-a
+			8 button Create fresh B, ID: restart-b
+			9 button Create another A, ID: a2
+			10 button Close A, ID: close-a
+			11 button Close extra A, ID: close-a2
+			12 button Recreate B profile-only, ID: restricted-b
+			13 button Notify B dark/ko-KR, ID: notify-b
+			14 button Notify B paused, ID: pause-b
+			15 button Notify B resumed, ID: resume-b
+			16 button Hold next profile, ID: hold
+			17 button Release held profile, ID: release
+			18 button Reload A wrapper at same URL, ID: wrapper-reload
+			19 button Switch A wrapper to B policy, ID: wrapper-switch
+			20 button Try retired A control, ID: retired
+			21 button Inspect frame footprint, ID: footprint
+			22 text Pending B id
+			23 stepper (settable, integer) Pending B id, Value: 2, ID: reply-id
+			24 button Forge B reply from outer host, ID: forge
+		25 container Description: Guest verification commands, ID: probe-controls
+			26 button A profile
+			27 button B profile
+			28 button A save
+			29 button B save
+			30 button A read
+			31 button B read
+			32 button Extra A read
+			33 button A inner reload
+			34 button A internal page
+			35 button A hash
+			36 button A to B
+			37 button A foreign
+			38 button A foreign form
+			39 button A redirect
+			40 button A silent bounce
+			41 button A host API attempt
+			42 button B host API attempt
+			43 button A component set
+			44 button A component get
+			45 button A component delete
+			46 button A component close
+			47 button B component set
+			48 button B component get
+			49 button B component delete
+			50 button A component set markup
+			51 button A Date write
+			52 button A unsupported version
+			53 button A valid version
+			54 button Unsubscribe B notifications
+			55 button Close B client locally
+		56 container
+			57 heading A, Value: 2
+				58 text A
+			59 text active: com.example.hello
+			60 container com.example.hello
+				61 AXWebArea Trusted Moonpool wrapper, URL: localhost:5173/portal-wrapper.html?app=com.example.hello&instance=1
+					62 container com.example.hello
+						63 AXWebArea T18 guest probe, URL: localhost:5174/containment-probe.html
+							64 container app
+								65 heading Guest http://localhost:5174, Value: 1
+									66 text Guest http://localhost:5174
+								67 text initialized com.example.hello; grants profile,storage
+								68 button Profile, ID: profile
+								69 button Read shared-key, ID: get
+								70 button Save shared-key, ID: set
+								71 text entry area (settable) Description: Stored JSON value, Value: {"flags":[null,false,0]}, ID: value
+								72 button Inner reload, ID: reload
+								73 button Internal page, ID: internal
+								74 button Hash only, ID: hash
+								75 button Navigate to other app, ID: other
+								76 button Navigate foreign, ID: foreign
+								77 button Redirect foreign, ID: redirect
+								78 button Silent foreign bounce, ID: bounce
+								79 button Submit foreign form
+								80 button Attempt host API access, ID: access
+								81 container Description: Actual storage component, ID: actual-storage
+									82 heading Storage demo, Value: 2
+										83 text Storage demo
+									84 text storage granted — set, get, and delete are available
+									85 container Description: Stored entry, ID: storage-controls
+										86 text Stored entry
+										87 container
+											88 text Key
+											89 text field (settable) Key, Value: settings, ID: storage-key
+											90 text Value (text)
+											91 text field (settable) Value (text), Value: dark, ID: storage-value
+										92 container
+											93 button Set, ID: storage-set
+											94 button Get, ID: storage-get
+											95 button Delete, ID: storage-delete
+									96 text ready — choose an action
+								97 container Description: Actual close component, ID: actual-close
+									98 heading Portal, Value: 2
+										99 text Portal
+									100 button Close mini app, ID: portal-close
+									101 text ready — request dismissal when finished
+		102 container
+			103 heading B, Value: 2
+				104 text B
+			105 text active: com.example.second
+			106 container com.example.second
+				107 AXWebArea Trusted Moonpool wrapper, URL: localhost:5173/portal-wrapper.html?app=com.example.second&instance=2
+					108 container com.example.second
+						109 AXWebArea T18 guest probe, URL: localhost:5175/containment-probe.html
+							110 container app
+								111 heading Guest http://localhost:5175, Value: 1
+									143 text Guest http://localhost:5175
+								144 text initialized com.example.second; grants profile,storage
+								112 button Profile, ID: profile
+								113 button Read shared-key, ID: get
+								114 button Save shared-key, ID: set
+								115 text entry area (settable) Description: Stored JSON value, Value: {"flags":[null,false,0]}, ID: value
+								116 button Inner reload, ID: reload
+								117 button Internal page, ID: internal
+								118 button Hash only, ID: hash
+								119 button Navigate to other app, ID: other
+								120 button Navigate foreign, ID: foreign
+								121 button Redirect foreign, ID: redirect
+								122 button Silent foreign bounce, ID: bounce
+								123 button Submit foreign form
+								124 button Attempt host API access, ID: access
+								125 container Description: Actual storage component, ID: actual-storage
+									126 heading Storage demo, Value: 2
+										145 text Storage demo
+									146 text storage granted — set, get, and delete are available
+									127 container Description: Stored entry, ID: storage-controls
+										147 text Stored entry
+										148 container
+											149 text Key
+											150 text field (settable) Key, Value: settings, ID: storage-key
+											151 text Value (text)
+											152 text field (settable) Value (text), Value: dark, ID: storage-value
+										153 container
+											154 button Set, ID: storage-set
+											155 button Get, ID: storage-get
+											156 button Delete, ID: storage-delete
+									157 text ready — choose an action
+								135 container Description: Actual close component, ID: actual-close
+									136 heading Portal, Value: 2
+										158 text Portal
+									137 button Close mini app, ID: portal-close
+									159 text ready — request dismissal when finished
+		138 container
+			139 heading Another instance of A, Value: 2
+				140 text Another instance of A
+			141 text Not started
+		142 text a host-created
+b host-created
+
+The focused UI element is 0 AXWebArea Moonpool browser integration checks, URL: localhost:5173/containment-check.html
