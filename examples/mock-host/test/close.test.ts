@@ -8,6 +8,7 @@ import {
   createLinkedTransports,
   flush,
 } from '../../../packages/host/test/helpers/memory-transport';
+import { cleanupWrappers, loadMockHost, mountCurrentWrapper } from './helpers/mock-host';
 
 vi.mock('@moonpool/transport-iframe', () => ({ createIframeTransport: vi.fn() }));
 vi.mock('@moonpool/host', async (importOriginal) => {
@@ -58,7 +59,8 @@ function setChildNavigationDisabled(disabled: boolean): boolean {
   return previous;
 }
 
-afterEach(() => {
+afterEach(async () => {
+  await cleanupWrappers();
   for (const bridge of bridges.splice(0)) {
     bridge.a.close();
     bridge.b.close();
@@ -100,7 +102,7 @@ describe('T14 — browser embedder dismissal', () => {
   it('acknowledges the close request and removes only the current iframe', async () => {
     const pair = bridge();
     const close = vi.spyOn(pair.b, 'close');
-    await import('../src/main');
+    await loadMockHost();
     await initialize(pair);
     pair.a.send({ jsonrpc: '2.0', id: 2, method: 'portal.close', params: { reason: 'finished' } });
     await flush();
@@ -115,7 +117,7 @@ describe('T14 — browser embedder dismissal', () => {
 
   it('keeps the Portal open for uninitialized and invalid requests', async () => {
     const pair = bridge();
-    await import('../src/main');
+    await loadMockHost();
     const iframe = document.querySelector('iframe');
     pair.a.send({ jsonrpc: '2.0', id: 1, method: 'portal.close' });
     await flush();
@@ -128,20 +130,27 @@ describe('T14 — browser embedder dismissal', () => {
   });
 
   it('makes repeated dismissal harmless and preserves storage when starting again', async () => {
-    const pair = bridge();
-    const close = vi.spyOn(pair.b, 'close');
-    await import('../src/main');
-    const storage = vi.mocked(createHost).mock.calls[0]?.[0].capabilities?.storage;
-    if (storage === undefined) {
-      throw new Error('storage must be installed');
-    }
-    await storage.set('com.example.hello', 'settings', 'kept');
-    const dismiss = closeHook();
+    bridge();
+    await loadMockHost();
+    const allowed = bridge();
+    document.querySelector<HTMLButtonElement>('#with-storage')?.click();
+    await mountCurrentWrapper();
+    const close = vi.spyOn(allowed.b, 'close');
+    await initialize(allowed);
+    allowed.a.send({
+      jsonrpc: '2.0',
+      id: 2,
+      method: 'storage.set',
+      params: { key: 'settings', value: 'kept' },
+    });
+    await flush(40);
+    const dismiss = closeHook(1);
     await dismiss();
     await dismiss();
     expect(close).toHaveBeenCalledOnce();
     const next = bridge();
     document.querySelector<HTMLButtonElement>('#with-storage')?.click();
+    await mountCurrentWrapper();
     await initialize(next);
     next.a.send({ jsonrpc: '2.0', id: 2, method: 'storage.get', params: { key: 'settings' } });
     await flush();
@@ -151,11 +160,12 @@ describe('T14 — browser embedder dismissal', () => {
 
   it('does not let an old handler dismiss a replacement Portal', async () => {
     bridge();
-    await import('../src/main');
+    await loadMockHost();
     const oldDismiss = closeHook();
     const replacement = bridge();
     const closeReplacement = vi.spyOn(replacement.b, 'close');
     document.querySelector<HTMLButtonElement>('#with-storage')?.click();
+    await mountCurrentWrapper();
     const iframe = document.querySelector('iframe');
     await oldDismiss('late');
     expect(document.querySelector('iframe')).toBe(iframe);
@@ -171,7 +181,7 @@ describe('T14 — browser embedder dismissal', () => {
 
   it('renders a supplied reason as text', async () => {
     const pair = bridge();
-    await import('../src/main');
+    await loadMockHost();
     await initialize(pair);
     const reason = '<img src="x" onerror="alert(1)">';
     pair.a.send({ jsonrpc: '2.0', id: 2, method: 'portal.close', params: { reason } });

@@ -125,6 +125,74 @@ describe('SPEC §9.1 — everything else on the window is dropped', () => {
 });
 
 describe('SPEC §3.1 — unsubscribing and closing', () => {
+  it('suppresses sends and new subscriptions after terminal close (§8.1.1)', () => {
+    const { transport, peerWindow, fromPeer } = setup();
+    transport.close();
+    const late = vi.fn();
+    const unsubscribe = transport.onMessage(late);
+    transport.send(PING);
+    fromPeer(PING);
+    unsubscribe();
+    expect(peerWindow.postMessage).not.toHaveBeenCalled();
+    expect(late).not.toHaveBeenCalled();
+  });
+
+  it('stops a receive snapshot when its first handler closes the transport', () => {
+    const { transport, fromPeer } = setup();
+    const late = vi.fn();
+    transport.onMessage(() => transport.close());
+    transport.onMessage(late);
+    fromPeer(PING);
+    expect(late).not.toHaveBeenCalled();
+  });
+
+  it('skips a handler removed earlier in the same receive snapshot', () => {
+    const { transport, fromPeer } = setup();
+    const late = vi.fn();
+    let unsubscribe = () => {};
+    transport.onMessage(() => unsubscribe());
+    unsubscribe = transport.onMessage(late);
+    fromPeer(PING);
+    expect(late).not.toHaveBeenCalled();
+  });
+
+  it('attempts adapter cleanup only once, including a reentrant close', () => {
+    const { transport } = setup();
+    const original = window.removeEventListener.bind(window);
+    const remove = vi.spyOn(window, 'removeEventListener').mockImplementation((...args) => {
+      transport.close();
+      original(...args);
+    });
+    try {
+      transport.close();
+      transport.close();
+      expect(remove).toHaveBeenCalledOnce();
+    } finally {
+      remove.mockRestore();
+    }
+  });
+
+  it('stays closed if removing the native listener throws', () => {
+    const { transport, peerWindow, fromPeer } = setup();
+    const failure = new Error('cleanup failed');
+    const remove = vi.spyOn(window, 'removeEventListener').mockImplementationOnce(() => {
+      throw failure;
+    });
+    try {
+      expect(() => transport.close()).toThrow(failure);
+      const late = vi.fn();
+      transport.onMessage(late);
+      transport.send(PING);
+      fromPeer(PING);
+      expect(late).not.toHaveBeenCalled();
+      expect(peerWindow.postMessage).not.toHaveBeenCalled();
+      expect(() => transport.close()).not.toThrow();
+      expect(remove).toHaveBeenCalledOnce();
+    } finally {
+      remove.mockRestore();
+    }
+  });
+
   it('stops delivering to a handler that unsubscribed', () => {
     const { transport, fromPeer } = setup();
     const seen: JsonValue[] = [];

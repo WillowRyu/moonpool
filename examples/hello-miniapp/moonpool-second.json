@@ -1,0 +1,9 @@
+{
+  "manifestVersion": 1,
+  "id": "com.example.second",
+  "name": "Second",
+  "version": "1.0.0",
+  "entry": "index.html",
+  "protocolVersion": "0.1",
+  "permissions": ["profile", "storage"]
+}

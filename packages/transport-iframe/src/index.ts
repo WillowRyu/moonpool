@@ -31,8 +31,12 @@ export function createIframeTransport(config: IframeTransportConfig): Transport 
   const localWindow = config.localWindow ?? window;
 
   const handlers = new Set<(message: JsonValue) => void>();
+  let closed = false;
 
   const onWindowMessage = (event: MessageEvent): void => {
+    if (closed) {
+      return;
+    }
     // SPEC §9.1: `window`'s message event is a public mailbox — any frame on
     // the page can post to it. Everything that is not the peer is dropped.
     if (!isFromPeer(event, { origin: peerOrigin, window: peerWindow })) {
@@ -41,6 +45,12 @@ export function createIframeTransport(config: IframeTransportConfig): Transport 
 
     // Snapshot: a handler may unsubscribe while we are iterating.
     for (const handler of [...handlers]) {
+      if (closed) {
+        break;
+      }
+      if (!handlers.has(handler)) {
+        continue;
+      }
       try {
         handler(event.data as JsonValue);
       } catch (error) {
@@ -59,6 +69,11 @@ export function createIframeTransport(config: IframeTransportConfig): Transport 
 
   return {
     send(message) {
+      // SPEC §8.1.1: an old provider may finish after its Portal was revoked.
+      // Never deliver that response or revive the retired connection.
+      if (closed) {
+        return;
+      }
       // The second argument is a browser-enforced delivery condition: if the
       // Portal has navigated away, the frame is not delivered at all. `'*'`
       // would hand every frame to whoever happens to be there instead.
@@ -66,6 +81,9 @@ export function createIframeTransport(config: IframeTransportConfig): Transport 
     },
 
     onMessage(handler) {
+      if (closed) {
+        return () => {};
+      }
       handlers.add(handler);
       return () => {
         handlers.delete(handler);
@@ -73,8 +91,13 @@ export function createIframeTransport(config: IframeTransportConfig): Transport 
     },
 
     close() {
-      localWindow.removeEventListener('message', onWindowMessage);
+      if (closed) {
+        return;
+      }
+      // Invalidate before platform cleanup, including reentrancy or failure.
+      closed = true;
       handlers.clear();
+      localWindow.removeEventListener('message', onWindowMessage);
     },
   };
 }

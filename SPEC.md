@@ -612,6 +612,63 @@ developed.
 This subsection applies to development transports only. Production hosts
 remain bound to the custom-scheme requirement above.
 
+#### 8.1.1 Browser containment and ownership
+
+A conforming browser-development embedder MUST give each Portal a trusted,
+served wrapper document at the host origin, distinct from the mini app origin.
+Before loading the guest, its wrapper MUST enforce a host-selected CSP
+`frame-src` restricted to that app's exact pinned origin and install its
+containment guards. Report-only policies, wildcards, a combined guest-origin
+allowlist, and inherited-policy `srcdoc` are not this profile. Multiple Portals
+with different app origins MAY coexist in one outer host document.
+
+The wrapper owns its host kernel, HostConfig, HostConnection, provider facades,
+and iframe transport in its own JavaScript realm. The outer host owns the
+trusted app/origin/grant registry, Portal lifetime, and retained providers.
+Host-only bootstrap and subsequent control/provider operations MUST be bound
+to the host-created instance, actual wrapper window, expected URL and Document.
+A same-URL replacement Document MUST NOT inherit the old binding. Guest ids,
+URL claims, and messages MUST NOT select identity, grants, or another policy.
+Wrappers are trusted host code, not mutually isolated untrusted apps.
+
+Cross-realm host controls and provider facades MUST be asynchronous and exchange
+validated public JSON snapshots as text, parsed and validated in the receiving
+realm. Validate before encoding and copy own data descriptors without running
+getters/toJSON. Invalid data MUST be rejected, never repaired by serialization.
+Do not share live application data or raw wrapper-owned HostConnection objects.
+No credentials or executable configuration may cross this data boundary.
+The guest bridge and its staged validation (§4.2) remain unchanged.
+
+The host MUST retain storage independently of a disposable wrapper. Storage
+identity is the host-selected manifest id (§6.3); facades MUST verify their
+binding and the outer gateway MUST independently select that id. Same-app
+instances share app data but retain separate connection/scope checks. Closing,
+revoking, or explicitly recreating a Portal MUST NOT erase its app partition.
+An in-memory provider need not survive its own replacement or host restart.
+
+A browser-generated enforcing `frame-src` violation MUST terminally revoke
+only the affected Portal. Explicit close and unauthorized wrapper replacement
+also revoke it. Mark the instance inactive and invalidate its host/provider
+handles before cleanup. Block new dispatch and late sends/receives, remove
+listeners and both guest/wrapper frames, and release owned control/frame
+references. All cleanup steps MUST be attempted even if another step fails;
+failure MUST NOT reopen the instance. Retired host controls reject locally.
+An iframe transport's close MUST be idempotent and terminal: later sends,
+subscriptions and retained receive callbacks MUST have no effect.
+
+Returning to an allowed origin MUST NOT revive a revoked instance. Only an
+explicit host action may create a fresh one. Already-dispatched provider
+effects are not rolled back; remote clients retain their existing timeout
+behavior (§4.5 / §11). Allowed inner navigation retains the wrapper and follows
+§5.1, preserving grants and storage. Do not use `load` as an origin/epoch signal.
+
+This is prevention plus revocation on an enforced violation, not universal
+current-URL observation or synchronous cancellation. Message filtering alone
+does not satisfy §9.2. Embedders MUST verify the integrated policy, realm
+adapters, storage lifetime, and cleanup in their claimed browser configuration;
+unverified configurations MUST NOT claim navigation conformance. This profile
+does not define production HTTPS hosting or resolve §11's epoch/disconnect issues.
+
 ---
 
 ## 9. Security requirements
@@ -624,6 +681,8 @@ These are normative. A host that does not enforce all of them is not conforming.
 2. **Navigation containment.** If a mini app navigates away from its own
    origin, the host MUST tear down the bridge for that Portal. External links
    SHOULD be opened in the system browser rather than in the Portal.
+   Browser-development hosts MUST implement the prevention-and-revocation
+   profile in §8.1.1; production hosts remain subject to this requirement.
 3. **Scope enforcement at dispatch.** The host MUST check the granted scope
    immediately before invoking a handler, not at registration time and not in
    the client. Client-side checks are a UX affordance only.

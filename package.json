@@ -16,7 +16,7 @@
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
     "build": "pnpm --filter \"./examples/*\" build",
-    "dev": "pnpm --parallel --filter \"./examples/*\" dev"
+    "dev": "pnpm --filter moonpool-example-mock-host dev"
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.10",

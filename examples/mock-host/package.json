@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Browser dev host embedding the hello mini app over an iframe Portal.",
   "scripts": {
-    "dev": "vite",
+    "dev": "node dev.mjs",
     "build": "vite build",
     "preview": "vite preview"
   },

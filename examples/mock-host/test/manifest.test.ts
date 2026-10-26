@@ -9,6 +9,7 @@ import {
   flush,
 } from '../../../packages/host/test/helpers/memory-transport';
 import exampleText from '../../hello-miniapp/moonpool.json?raw';
+import { cleanupWrappers, currentGuest, loadMockHost } from './helpers/mock-host';
 
 vi.mock('@moonpool/transport-iframe', () => ({ createIframeTransport: vi.fn() }));
 vi.mock('@moonpool/host', async (importOriginal) => {
@@ -49,7 +50,8 @@ beforeEach(() => {
   vi.mocked(createIframeTransport).mockReturnValue(bridge.b);
 });
 
-afterEach(() => {
+afterEach(async () => {
+  await cleanupWrappers();
   bridge.a.close();
   bridge.b.close();
   vi.restoreAllMocks();
@@ -60,11 +62,11 @@ afterEach(() => {
 
 describe('T07 — actual host-owned moonpool.json', () => {
   it('passes the shipped file text to the real parser before creating the iframe', async () => {
-    await import('../src/main');
+    await loadMockHost();
 
-    expect(parseManifest).toHaveBeenCalledExactlyOnceWith(exampleText);
+    expect(vi.mocked(parseManifest).mock.calls[0]?.[0]).toBe(exampleText);
     expect(createHost).toHaveBeenCalledWith(expect.objectContaining({ manifest: EXAMPLE }));
-    expect(document.querySelector('iframe')?.src).toBe('http://localhost:5174/index.html');
+    expect(currentGuest()?.src).toBe('http://localhost:5174/index.html');
   });
 
   it('uses the file version and declared permissions in the real handshake', async () => {
@@ -72,7 +74,7 @@ describe('T07 — actual host-owned moonpool.json', () => {
     const replies: JsonValue[] = [];
     bridge.a.onMessage((message) => replies.push(message));
 
-    await import('../src/main');
+    await loadMockHost();
     bridge.a.send({
       jsonrpc: '2.0',
       id: 1,
@@ -102,9 +104,9 @@ describe('T07 — actual host-owned moonpool.json', () => {
   ])('resolves $entry from the pinned package-root origin', async ({ entry, url }) => {
     useManifest(JSON.stringify({ ...EXAMPLE, entry }));
 
-    await import('../src/main');
+    await loadMockHost();
 
-    const iframe = document.querySelector('iframe');
+    const iframe = currentGuest();
     expect(iframe?.src).toBe(url);
     expect(iframe?.title).toBe(EXAMPLE.id);
     expect(createIframeTransport).toHaveBeenCalledWith(
@@ -143,14 +145,14 @@ describe('T07 — actual host-owned moonpool.json', () => {
 
   it('attaches the receiver in the same task as inserting the iframe', async () => {
     const listen = vi.spyOn(bridge.b, 'onMessage');
-    const replace = Element.prototype.replaceChildren;
+    const append = Node.prototype.appendChild;
     let attachedBeforeNextMicrotask = false;
-    vi.spyOn(Element.prototype, 'replaceChildren').mockImplementation(function (
-      this: Element,
-      ...nodes: (Node | string)[]
-    ) {
-      replace.apply(this, nodes);
-      if (nodes.some((node) => node instanceof HTMLIFrameElement)) {
+    vi.spyOn(Node.prototype, 'appendChild').mockImplementation(function <T extends Node>(
+      this: Node,
+      node: T,
+    ): T {
+      append.call(this, node);
+      if (node.nodeName === 'IFRAME' && this.ownerDocument !== document) {
         queueMicrotask(() => {
           attachedBeforeNextMicrotask = listen.mock.calls.length > 0;
           bridge.a.send({
@@ -161,11 +163,12 @@ describe('T07 — actual host-owned moonpool.json', () => {
           });
         });
       }
+      return node;
     });
     const replies: JsonValue[] = [];
     bridge.a.onMessage((message) => replies.push(message));
 
-    await import('../src/main');
+    await loadMockHost();
     await flush();
 
     expect(attachedBeforeNextMicrotask).toBe(true);

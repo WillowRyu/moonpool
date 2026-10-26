@@ -14,6 +14,7 @@ import {
   createLinkedTransports,
   flush,
 } from '../../../packages/host/test/helpers/memory-transport';
+import { cleanupWrappers, loadMockHost, mountCurrentWrapper } from './helpers/mock-host';
 
 vi.mock('@moonpool/transport-iframe', () => ({ createIframeTransport: vi.fn() }));
 vi.mock('@moonpool/host', async (importOriginal) => {
@@ -37,7 +38,8 @@ beforeEach(() => {
   vi.mocked(createIframeTransport).mockReturnValue(bridge.b);
 });
 
-afterEach(() => {
+afterEach(async () => {
+  await cleanupWrappers();
   bridge.a.close();
   bridge.b.close();
   for (const extra of extraBridges.splice(0)) {
@@ -53,7 +55,7 @@ describe('mock-host capability providers', () => {
     const replies: JsonValue[] = [];
     bridge.a.onMessage((message) => replies.push(message));
 
-    await import('../src/main');
+    await loadMockHost();
     bridge.a.send({
       jsonrpc: '2.0',
       id: 1,
@@ -76,14 +78,14 @@ describe('mock-host capability providers', () => {
   it('installs usable storage while keeping the default bridge limited to profile', async () => {
     const replies: JsonValue[] = [];
     bridge.a.onMessage((message) => replies.push(message));
-    await import('../src/main');
+    await loadMockHost();
     const storage = vi.mocked(createHost).mock.calls[0]?.[0].capabilities?.storage;
     expect(storage).toBeDefined();
     if (storage === undefined) {
       throw new Error('mock-host must install its development storage provider');
     }
-    await storage.set('com.example.hello', 'theme', 'dark');
-    await expect(storage.get('com.example.hello', 'theme')).resolves.toBe('dark');
+    // The wrapper facade cannot bypass this Portal's grants, even from host tests.
+    await expect(storage.set('com.example.hello', 'theme', 'dark')).rejects.toThrow('not granted');
 
     bridge.a.send({
       jsonrpc: '2.0',
@@ -105,12 +107,11 @@ describe('mock-host capability providers', () => {
   });
 
   it('replaces the Portal for each host configuration and keeps storage across connections', async () => {
-    await import('../src/main');
+    await loadMockHost();
     const storage = vi.mocked(createHost).mock.calls[0]?.[0].capabilities?.storage;
     if (storage === undefined) {
       throw new Error('storage must be installed');
     }
-    await storage.set('com.example.hello', 'settings', 'kept');
     const originalFrame = document.querySelector('iframe');
     const closeOriginal = vi.spyOn(bridge.b, 'close');
     const allowed = createLinkedTransports();
@@ -122,6 +123,7 @@ describe('mock-host capability providers', () => {
     const allowButton = document.querySelector<HTMLButtonElement>('#with-storage');
     expect(allowButton).not.toBeNull();
     allowButton?.click();
+    await mountCurrentWrapper();
 
     expect(closeOriginal).toHaveBeenCalledOnce();
     expect(originalFrame?.isConnected).toBe(false);
@@ -133,13 +135,21 @@ describe('mock-host capability providers', () => {
       params: { protocolVersion: PROTOCOL_VERSION },
     });
     await flush();
-    allowed.a.send({ jsonrpc: '2.0', id: 2, method: 'storage.get', params: { key: 'settings' } });
+    allowed.a.send({
+      jsonrpc: '2.0',
+      id: 2,
+      method: 'storage.set',
+      params: { key: 'settings', value: 'kept' },
+    });
+    await flush(40);
+    allowed.a.send({ jsonrpc: '2.0', id: 3, method: 'storage.get', params: { key: 'settings' } });
     await flush();
     expect(allowedReplies).toEqual([
       expect.objectContaining({
         result: expect.objectContaining({ grantedScopes: ['profile', 'storage'] }),
       }),
-      { jsonrpc: '2.0', id: 2, result: { value: 'kept' } },
+      { jsonrpc: '2.0', id: 2, result: {} },
+      { jsonrpc: '2.0', id: 3, result: { value: 'kept' } },
     ]);
 
     const allowedFrame = document.querySelector('iframe');
@@ -150,6 +160,7 @@ describe('mock-host capability providers', () => {
     denied.a.onMessage((message) => deniedReplies.push(message));
     vi.mocked(createIframeTransport).mockReturnValueOnce(denied.b);
     document.querySelector<HTMLButtonElement>('#profile-only')?.click();
+    await mountCurrentWrapper();
 
     expect(closeAllowed).toHaveBeenCalledOnce();
     expect(allowedFrame?.isConnected).toBe(false);
@@ -168,6 +179,6 @@ describe('mock-host capability providers', () => {
         error: expect.objectContaining({ code: ERROR_CODES.PERMISSION_DENIED }),
       }),
     ]);
-    await expect(storage.get('com.example.hello', 'settings')).resolves.toBe('kept');
+    await expect(storage.get('com.example.hello', 'settings')).rejects.toThrow('inactive');
   });
 });
