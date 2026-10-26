@@ -6,7 +6,9 @@ const root = fileURLToPath(new URL('.', import.meta.url));
 const workspace = fileURLToPath(new URL('../../../', import.meta.url));
 const requests = [];
 const servers = [];
-for (const port of [5273, 5274, 5275]) {
+const multi = process.argv.includes('--multi');
+const ports = multi ? [5373, 5374, 5375, 5376] : [5273, 5274, 5275];
+for (const port of ports) {
   const server = await createServer({
     configFile: false,
     root,
@@ -39,9 +41,21 @@ for (const port of [5273, 5274, 5275]) {
               });
             }
             res.setHeader('Cache-Control', 'no-store');
+            if (multi && port === 5373) {
+              // Each served wrapper gets its own policy; srcdoc inheritance is not used.
+              const frameOrigins = new Map([
+                ['/multi-host.html', 'http://127.0.0.1:5373'],
+                ['/multi-wrapper-a.html', 'http://127.0.0.1:5374'],
+                ['/multi-wrapper-b.html', 'http://127.0.0.1:5375'],
+              ]);
+              const origin = frameOrigins.get(url.pathname);
+              if (origin !== undefined) {
+                res.setHeader('Content-Security-Policy', `frame-src ${origin}`);
+              }
+            }
             if (url.pathname === '/redirect') {
               res.writeHead(302, {
-                Location: `http://127.0.0.1:5275/foreign.html?run=${url.searchParams.get('run')}`,
+                Location: `http://127.0.0.1:${multi ? 5376 : 5275}/foreign.html?run=${url.searchParams.get('run')}`,
               });
               res.end();
               return;
@@ -73,8 +87,12 @@ for (const port of [5273, 5274, 5275]) {
   await server.listen();
   servers.push(server);
 }
-console.log('T17 manual lab: http://127.0.0.1:5273/host.html');
-console.log('CSP comparison: http://127.0.0.1:5273/host-csp.html');
+if (multi) {
+  console.log('Multi-Portal follow-up: http://127.0.0.1:5373/multi-host.html');
+} else {
+  console.log('T17 manual lab: http://127.0.0.1:5273/host.html');
+  console.log('CSP comparison: http://127.0.0.1:5273/host-csp.html');
+}
 process.on('SIGINT', async () => {
   await Promise.all(servers.map((server) => server.close()));
   process.exit(0);

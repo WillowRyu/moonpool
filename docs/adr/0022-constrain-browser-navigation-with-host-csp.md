@@ -1,8 +1,78 @@
 # 22. Define a constrained browser navigation profile
 
 Date: 2026-10-23
-Status: Proposed — awaiting maintainer approval before T18 / SPEC changes
+Status: Proposed — multi-Portal candidate measured; replacement contract still unapproved
 Review: Deferred by the maintainer on 2026-10-23. Committing this proposal does not approve it.
+
+## Scope clarification — 2026-10-26
+
+The maintainer resumed review and clarified that one application or screen can
+contain multiple Portals with different origins. This proposal must not be read
+as requiring those Portals to share one domain or limiting an entire native app
+or native screen to one Portal. Existing per-mini-app origin isolation remains
+an architecture invariant.
+
+The original one-Portal/one-origin condition below applies only to a single
+browser-development host HTML document and its document-wide frame-src policy.
+It is a constraint of the proposed simple browser fixture profile, not the
+product-wide Portal/domain model. Supporting multiple different mini apps in
+one browser host document is a separate requirement that this proposal does
+not yet solve. No promise to remove that constraint later has been approved.
+The proposal remains unapproved; distinguish these scopes before deciding T18.
+
+## Follow-up evidence — 2026-10-26
+
+The maintainer explicitly authorized investigating the multi-Portal direction.
+[The follow-up](../multi-portal-investigation.md) now records a real-browser
+candidate using two host-controlled served wrappers with separate CSP headers.
+A/B initialized concurrently; revoking A left B's request, storage, and grants
+intact. Wrong-source replies, guest bootstrap access, stale bootstrap, wrapper
+URL substitution, and same-URL Document replacement were exercised.
+
+A live outer-realm object failed the existing wrapper-owned JSON validator;
+a wrapper-created payload worked. Kernel/data ownership and host provider
+lifetime therefore need explicit integration design. The experiment retains
+closed wrappers for late-send inspection; it is not full production disposal
+or a memory/GC benchmark. No production transport relay was verified.
+
+The old single-Portal restriction should not be adopted as the product model.
+Prepare the replacement around independently policy-bound Portal instances,
+trusted host-selected bootstrap, preserved origin/source checks, explicit realm
+ownership, terminal disposal, and provider lifetime. Evidence is promising but
+bounded to one engine and selected scenarios; this is not a conformance claim.
+No normative change or T18 production implementation is approved by the
+research authorization alone.
+
+## Revised recommendation for investigation — 2026-10-26
+
+Preserve multiple independently origin-bound Portals in one app/screen, and
+investigate the same composition in one browser host document before adopting
+a browser containment contract. Do not turn the single-Portal fixture into a
+product-wide restriction or assume its limitation can simply be removed later.
+The original proposal below is unapproved and is no longer the preferred
+starting point for the multi-Portal goal.
+
+The first browser candidate to evaluate is a host-controlled wrapper document
+per Portal, each with its own narrow frame-src policy and bound bridge/lifetime.
+This candidate now has bounded measurements below; it is not approved production integration.
+The wrapper must be trusted host code; configuration/authority must stay bound
+to the host-selected Portal rather than guest-provided identifiers or URLs.
+Ordinary served wrapper documents and inherited-policy documents such as srcdoc
+must not be assumed interchangeable. Message origin/source, bootstrap authority,
+reload/replacement, teardown, and additional frame costs need explicit checks.
+
+The bounded follow-up measured the core cases: A/B run concurrently with different
+origins; A cannot navigate to B or a third origin through its own wrapper;
+revoking A leaves B's pending calls and grants intact; allowed-origin reloads
+still work; stale messages/configuration cannot gain another Portal's authority.
+Only after that evidence should a replacement normative proposal be presented
+for approval and T18 implementation begin. No replacement is approved now.
+
+CSP reference: [frame-src](https://www.w3.org/TR/CSP3/#directive-frame-src).
+This direction concerns browser validation first. SPEC currently defines browser
+hosting as development and production origins as moonpool:// per app id;
+production web hosting needs an explicit scope decision rather than an implied
+promise or an unapproved relaxation of that invariant.
 
 ## Context
 
@@ -14,7 +84,7 @@ The tested parent CSP blocked foreign location, form, redirect, and silent-bounc
 loads while allowing same-origin repeat handshakes. This does not prove a generic
 post-navigation observer or complete cross-engine/navigation-scheme coverage.
 
-## Recommended decision for approval
+## Original single-Portal proposal — unapproved, under reconsideration
 
 Add an explicit browser-development profile to SPEC §8.1, referenced from §9.2:
 
@@ -36,7 +106,7 @@ Add an explicit browser-development profile to SPEC §8.1, referenced from §9.2
   Production §9.2 remains unchanged. Other engines/compositions require validation
   before claiming support; T17's single-engine observations are not certification.
 
-T18 would implement this approved contract in the current single-Portal browser
+If separately approved, T18 would implement this contract in the current single-Portal browser
 example and its transport lifecycle. The proposal does not add native cores,
 a navigation RPC, peer-close events, or an epoch protocol. Nor does it promise
 to revoke already-dispatched work before an asynchronous violation is observed.

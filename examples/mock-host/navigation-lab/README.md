@@ -63,3 +63,35 @@ The existing 995 Vitest tests are separate from these manual observations.
 
 The lab does not install a browser automation dependency, so HANDOFF's future
 reportError migration trigger has not been activated.
+
+## Multi-Portal follow-up (2026-10-26)
+
+```sh
+pnpm --filter moonpool-example-mock-host exec node navigation-lab/serve.mjs --multi
+```
+
+Open `http://127.0.0.1:5373/multi-host.html`. This mode uses host/trusted wrappers
+5373, guest A 5374, guest B 5375, and foreign target 5376. It serves separate CSP
+response headers for the coordinator and each wrapper. Old T17 ports, pages,
+and evidence remain available in the default mode.
+
+The coordinator pins each actual wrapper Window/Document and expected URL
+before returning its own public JSON configuration. The wrapper owns the real
+SDK host and its transport; the guest uses the real client against its immediate
+parent. Lab controls/globals are private experimental host instrumentation,
+not new Moonpool wire messages or production APIs. Each wrapper has local
+storage; restarting that outer wrapper resets it.
+
+Reproduce: inspect concurrent startup; reload A's guest; hold B, forge its reply
+from the outer host, hold A, navigate A to B, release A and B; verify B storage.
+Restart A and test stale bootstrap and third-origin navigation. Compare outer-
+object versus wrapper-local notifications. Try wrapper URL substitution and
+same-URL wrapper reload. Restart B profile-only and verify storage denial before
+and after A revocation. `results-multi/` and
+[the follow-up findings](../../../docs/multi-portal-investigation.md) record the
+observations. There is no assertion runner or cross-engine certification.
+
+Revoked guest frames are removed; trusted wrappers are retained temporarily for
+late-send inspection. The displayed listener count is fixture bookkeeping, not
+an independent event-listener or GC measurement. The prototype is not T18
+production integration and must not be imported into the normal example entry.
