@@ -4,7 +4,7 @@ import { createClient, MoonpoolError } from '@moonpool/client';
 import { ERROR_CODES, type StorageSetValue } from '@moonpool/protocol';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { createHost } from '../../../packages/host/src/index';
-import { createLinkedTransports } from '../../../packages/host/test/helpers/memory-transport';
+import { createLinkedTransports } from '../../../test-support/memory-transport';
 import { createMemoryStorageProvider } from '../../mock-host/src/memory-storage';
 import { createStorageDemo } from '../src/storage-demo';
 

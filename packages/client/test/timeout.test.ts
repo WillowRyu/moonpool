@@ -12,7 +12,7 @@
 import { createClient } from '@moonpool/client';
 import { ERROR_CODES, type JsonValue } from '@moonpool/protocol';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { createLinkedTransports, flush } from './helpers/memory-transport';
+import { createLinkedTransports, flush } from '../../../test-support/memory-transport';
 
 /** Shape of a JSON-RPC request, loose on purpose — for assertions only. */
 interface RpcRequest {

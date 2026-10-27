@@ -2,7 +2,7 @@
 import { createHost } from '@moonpool/host';
 import { ERROR_CODES, type JsonValue, type Transport } from '@moonpool/protocol';
 import { describe, expect, it, vi } from 'vitest';
-import { flush } from './helpers/memory-transport';
+import { flush } from '../../../test-support/memory-transport';
 
 function setup(grants = ['profile', 'storage'], provide = true) {
   let receive: ((message: JsonValue) => void) | undefined;

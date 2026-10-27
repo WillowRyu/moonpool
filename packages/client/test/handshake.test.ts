@@ -8,7 +8,7 @@
 import { createClient } from '@moonpool/client';
 import { ERROR_CODES, type InitializeResult, type JsonValue } from '@moonpool/protocol';
 import { describe, expect, it } from 'vitest';
-import { createLinkedTransports, flush } from './helpers/memory-transport';
+import { createLinkedTransports, flush } from '../../../test-support/memory-transport';
 
 /** Shape of a JSON-RPC request, loose on purpose — for assertions only. */
 interface RpcRequest {

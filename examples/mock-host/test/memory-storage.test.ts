@@ -6,7 +6,7 @@ import { createHost, type StorageProvider } from '@moonpool/host';
 import { ERROR_CODES, type StorageSetValue } from '@moonpool/protocol';
 import { afterEach, describe, expect, it } from 'vitest';
 import { createClient } from '../../../packages/client/src/index';
-import { createLinkedTransports } from '../../../packages/host/test/helpers/memory-transport';
+import { createLinkedTransports } from '../../../test-support/memory-transport';
 import { createMemoryStorageProvider } from '../src/memory-storage';
 
 const APP_A = 'com.example.alpha';

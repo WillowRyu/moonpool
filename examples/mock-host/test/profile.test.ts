@@ -10,10 +10,7 @@ import { ERROR_CODES, type JsonValue, PROTOCOL_VERSION } from '@moonpool/protoco
 import { createIframeTransport } from '@moonpool/transport-iframe';
 import type { Window as HappyDomWindow } from 'happy-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import {
-  createLinkedTransports,
-  flush,
-} from '../../../packages/host/test/helpers/memory-transport';
+import { createLinkedTransports, flush } from '../../../test-support/memory-transport';
 import { cleanupWrappers, loadMockHost, mountCurrentWrapper } from './helpers/mock-host';
 
 vi.mock('@moonpool/transport-iframe', () => ({ createIframeTransport: vi.fn() }));

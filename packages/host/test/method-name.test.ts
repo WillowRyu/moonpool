@@ -2,7 +2,7 @@
 import { createHost, type StorageProvider } from '@moonpool/host';
 import { ERROR_CODES, type JsonValue } from '@moonpool/protocol';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { createLinkedTransports, flush } from './helpers/memory-transport';
+import { createLinkedTransports, flush } from '../../../test-support/memory-transport';
 
 const UNKNOWN_VALID = [
   { method: 'profile.readDisplayName', grants: ['profile'], code: ERROR_CODES.METHOD_NOT_FOUND },

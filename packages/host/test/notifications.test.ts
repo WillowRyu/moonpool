@@ -9,8 +9,8 @@ import {
   type Transport,
 } from '@moonpool/protocol';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { createLinkedTransports, flush } from '../../../test-support/memory-transport';
 import { createClient } from '../../client/src/index';
-import { createLinkedTransports, flush } from './helpers/memory-transport';
 
 function config(): HostConfig {
   return {

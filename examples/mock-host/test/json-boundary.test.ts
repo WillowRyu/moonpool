@@ -82,6 +82,24 @@ describe('host-only JSON boundary', () => {
     expect(() => encodeJson(value)).toThrow(TypeError);
   });
 
+  it('does not invoke Array.prototype.toJSON for top-level or nested arrays', () => {
+    const convert = vi.fn(() => 'changed');
+    const original = Object.getOwnPropertyDescriptor(Array.prototype, 'toJSON');
+    Object.defineProperty(Array.prototype, 'toJSON', { value: convert, configurable: true });
+    let text: string;
+    try {
+      text = encodeJson([1, [2, { items: [3] }]]);
+    } finally {
+      if (original === undefined) {
+        Reflect.deleteProperty(Array.prototype, 'toJSON');
+      } else {
+        Object.defineProperty(Array.prototype, 'toJSON', original);
+      }
+    }
+    expect(convert).not.toHaveBeenCalled();
+    expect(text).toBe('[1,[2,{"items":[3]}]]');
+  });
+
   it.each(['{', '{"value":1e999}', undefined, 123])('rejects invalid incoming text: %s', (text) => {
     expect(() => decodeJson(text)).toThrow(TypeError);
   });

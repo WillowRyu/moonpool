@@ -2,8 +2,8 @@
 import { createClient, type MoonpoolClient } from '@moonpool/client';
 import { ERROR_CODES, type JsonValue, type ProfileGetResult } from '@moonpool/protocol';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { createLinkedTransports, flush } from '../../../test-support/memory-transport';
 import { createHost } from '../../host/src/index';
-import { createLinkedTransports, flush } from './helpers/memory-transport';
 
 const UNCORRELATED = {
   jsonrpc: '2.0',

@@ -4,10 +4,7 @@ import { createHost } from '@moonpool/host';
 import type { JsonValue } from '@moonpool/protocol';
 import { createIframeTransport } from '@moonpool/transport-iframe';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import {
-  createLinkedTransports,
-  flush,
-} from '../../../packages/host/test/helpers/memory-transport';
+import { createLinkedTransports, flush } from '../../../test-support/memory-transport';
 import type { ProviderGateway, WrapperControls } from '../src/browser-contract';
 import { encodeJson } from '../src/json-boundary';
 import { isEnforcedFrameViolation, startWrapper } from '../src/portal-wrapper';

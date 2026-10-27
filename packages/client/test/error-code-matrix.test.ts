@@ -6,8 +6,8 @@
 import { createClient, MoonpoolError } from '@moonpool/client';
 import { ERROR_CODES, isJsonObject, type JsonValue } from '@moonpool/protocol';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { createLinkedTransports, flush } from '../../../test-support/memory-transport';
 import { createHost, type HostConfig } from '../../host/src/index';
-import { createLinkedTransports, flush } from './helpers/memory-transport';
 
 const SPEC_CODES = [
   { name: 'PARSE_ERROR', code: -32700 },

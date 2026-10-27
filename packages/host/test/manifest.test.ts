@@ -1,9 +1,9 @@
 /** T06 / SPEC §6.1, §7 — finish manifest admission before loading a Portal. */
 import { ERROR_CODES, PROFILE_METHODS, STORAGE_METHODS } from '@moonpool/protocol';
 import { describe, expect, it } from 'vitest';
+import { createLinkedTransports } from '../../../test-support/memory-transport';
 import { createClient } from '../../client/src/index';
 import { createHost, ManifestError, parseManifest } from '../src/index';
-import { createLinkedTransports } from './helpers/memory-transport';
 
 const VALID = {
   manifestVersion: 1,

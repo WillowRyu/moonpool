@@ -4,10 +4,7 @@ import { createHost, parseManifest } from '@moonpool/host';
 import { type JsonValue, PROTOCOL_VERSION } from '@moonpool/protocol';
 import { createIframeTransport } from '@moonpool/transport-iframe';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import {
-  createLinkedTransports,
-  flush,
-} from '../../../packages/host/test/helpers/memory-transport';
+import { createLinkedTransports, flush } from '../../../test-support/memory-transport';
 import exampleText from '../../hello-miniapp/moonpool.json?raw';
 import { cleanupWrappers, currentGuest, loadMockHost } from './helpers/mock-host';
 

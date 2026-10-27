@@ -2,7 +2,7 @@
 import { createHost, type StorageProvider } from '@moonpool/host';
 import { ERROR_CODES, type JsonValue, type MiniAppManifest } from '@moonpool/protocol';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { createLinkedTransports, flush } from './helpers/memory-transport';
+import { createLinkedTransports, flush } from '../../../test-support/memory-transport';
 
 const MANIFEST: MiniAppManifest = {
   manifestVersion: 1,

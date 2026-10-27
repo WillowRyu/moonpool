@@ -2,8 +2,8 @@
 import { createClient, type MoonpoolClient, MoonpoolError } from '@moonpool/client';
 import { ERROR_CODES, type JsonValue, type Transport } from '@moonpool/protocol';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { createLinkedTransports, flush } from '../../../test-support/memory-transport';
 import { createHost } from '../../host/src/index';
-import { createLinkedTransports, flush } from './helpers/memory-transport';
 
 const clients: MoonpoolClient[] = [];
 

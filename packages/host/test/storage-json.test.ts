@@ -6,7 +6,7 @@
 import { createHost, type HostConfig } from '@moonpool/host';
 import { ERROR_CODES, type JsonValue } from '@moonpool/protocol';
 import { describe, expect, it, vi } from 'vitest';
-import { createLinkedTransports, flush } from './helpers/memory-transport';
+import { createLinkedTransports, flush } from '../../../test-support/memory-transport';
 
 interface RpcResponse {
   jsonrpc: '2.0';

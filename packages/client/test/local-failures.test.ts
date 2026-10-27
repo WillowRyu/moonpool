@@ -2,7 +2,7 @@
 import { createClient, MoonpoolError } from '@moonpool/client';
 import { ERROR_CODES, isJsonRpcRequest, type JsonValue, type Transport } from '@moonpool/protocol';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { flush } from './helpers/memory-transport';
+import { flush } from '../../../test-support/memory-transport';
 
 const cleanups: Array<() => void> = [];
 
