@@ -125,21 +125,32 @@ trusted TypeScript execution context before native implementation.
 The plan separates reference-app PoCs, actual-host/device verification and an
 evidence-based deployment decision. These are planned milestones, not shipped
 native support. T22's [target/toolchain inventory](docs/native-target-matrix.md)
-is complete; T23/T24 are next. See the [Korean roadmap](study/27-native-roadmap.html).
+is complete. T23's [Android probe](docs/android-origin-probe-verification.md)
+records an actual emulator run and a custom-origin isolation failure. T24 is
+paused at the maintainer's request; cleanup proceeds without starting a device.
+See the [Korean roadmap](study/27-native-roadmap.html).
 
 ## Verification
 
 ```sh
 pnpm test
+pnpm run test:probes
 pnpm run typecheck
 pnpm run lint
 pnpm run build
+pnpm run check
 ```
 
 T20 passed 1131 tests across 39 files, both typecheck targets plus the research
 lab typecheck, Biome and both example builds. Native browser observations cover
 the recorded Chrome 156 configuration, including final built-preview checks.
 The conformance record links each requirement to source/tests/browser evidence.
+
+The cleanup checkpoint passes 1134 TypeScript tests plus the Python loopback
+tests. `check` runs tests, typechecks, Biome and both builds in order. Probe
+tests use standard-library unittest (python3 required), temporary files and free
+loopback ports; they do not install an app or start a simulator. See the
+[code-quality workflow](docs/code-quality-workflow.md) for review/refactoring rules.
 
 ## Scope and retained limits
 

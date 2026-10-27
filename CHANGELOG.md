@@ -9,6 +9,20 @@ See [completion evidence and retained limits](docs/v0.1-conformance.md).
 
 ### Added
 
+- Add the code-quality workflow and pnpm check command, including standard-library
+  loopback tests alongside TypeScript tests/typechecks/lint/builds. Consolidate
+  identical test transports and capability execution/error plumbing, make the
+  storage demo's method alternatives explicit, and cover provider receiver state
+  plus inherited array conversion. T24 remains paused.
+- Share experimental loopback controls and fix the unfinished iOS fixture's
+  absolute-path/symlink escapes, first reproduced with failing HTTP tests.
+  Preserve existing native artifacts/evidence and SPEC policies.
+- Add the standalone T23 Android origin/local-content research harness with
+  pinned build tools, public fixtures and retained emulator observations.
+  Record the official loader's custom-scheme rejection and the intercepted
+  moonpool pages' collapsed origin/shared storage/DOM access, with independent
+  HTTPS positive/negative controls. This research does not change SPEC or ship
+  a native SDK; native-origin implementation remains gated on T28.
 - Complete T22's native target/toolchain inventory and pre-code Android/iOS
   origin-probe criteria. Record installed virtual-device candidates, build/boot
   gaps, SDK-tool warnings and unresolved host/support choices; no native runtime

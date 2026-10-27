@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — 코드 정리와 회귀 검사</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">30 · 코드 정리와 검증</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#workflow">정리하는 순서</a>
+    <a href="#shared">공통 코드 분리</a>
+    <a href="#branches">if와 switch 선택</a>
+    <a href="#tests">빠진 테스트와 실제 버그</a>
+    <a href="#check">한 번에 검사하기</a>
+  </nav>
+  <p class="small desktop-only">2026.10.27 정리<br>기존 동작 보존과 회귀 검사<br>T24는 중단 상태 유지</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">Maintenance · Refactor with evidence</div>
+    <h1>정리는 느낌 대신,<br>테스트를 근거로 합니다.</h1>
+    <p class="lead">중복을 줄이고 빠진 검사를 보완했습니다. 테스트 통신과 provider 실행을 공통화하고, 실제로 발견한 실험 서버의 경로 검사 오류도 실패 테스트부터 고쳤습니다.</p>
+    <div class="meta"><span class="pill">TypeScript 1,134개 통과</span><span class="pill">Python HTTP 검사 추가</span><span class="pill warm">T24 재개 전 · 중단 유지</span></div>
+  </header>
+  <section class="section" id="workflow">
+    <h2>1 · 모범 절차는 작은 변경과 검증을 반복하는 것입니다</h2>
+    <div class="flow"><div class="node">현재 동작 확인</div><span class="sep">→</span><div class="node">빠진 테스트 추가</div><span class="sep">→</span><div class="node">작게 정리·수정</div><span class="sep">→</span><div class="node">회귀 검사</div></div>
+    <p>리팩터링은 바깥에서 보이는 동작을 유지하면서 내부 구조를 정리하는 작업입니다. 버그를 고치면 관찰 결과가 바뀌므로, 그 수정은 실패 테스트와 함께 별도로 설명합니다. 이번에는 두 종류를 구분해 기록했습니다.</p>
+    <p>처음 기존 TypeScript 테스트 1,131개가 통과하는지 확인했습니다. 그다음 provider의 인스턴스 상태와 배열의 자동 변환 방지 검사를 추가하고 공통화를 진행했습니다. 실험 서버 테스트는 먼저 네 가지 실패를 재현한 뒤 수정했습니다.</p>
+    <p><a href="../docs/code-quality-workflow.md">반복 사용할 점검 절차 · 영문</a>와 실제 작업 안내에 이 순서를 기록했습니다.</p>
+  </section>
+  <section class="section" id="shared">
+    <h2>2 · 같은 계약을 가진 코드부터 하나로 모았습니다</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>대상</th><th>정리 전</th><th>정리 후</th></tr></thead>
+      <tbody>
+        <tr><td>테스트용 Transport</td><td>host와 client에 같은 파일 두 개</td><td>test-support의 한 파일을 함께 사용</td></tr>
+        <tr><td>provider 실행</td><td>프로필·저장 읽기·쓰기·삭제마다 await/응답/오류 처리가 반복됨</td><td>호스트 안의 invokeCapability로 공통 처리</td></tr>
+        <tr><td>실험 HTTP 응답</td><td>Android와 iOS 서버가 CORS·외부 페이지·응답 쓰기를 반복함</td><td>실험 전용 공통 모듈과 플랫폼별 설정으로 분리</td></tr>
+      </tbody>
+    </table></div>
+    <pre><code>void invokeCapability(
+  id,
+  method,
+  () =&gt; provider.get(config.manifest.id, params.key),
+  (value): StorageGetResult =&gt; ({ value }),
+);</code></pre>
+    <p>각 기능은 “실제로 실행할 일”과 “외부로 보낼 결과 모양”을 넘깁니다. 공통 함수가 완료를 기다리고 응답하며, 실패하면 고정 오류를 보내고 원래 오류는 호스트에만 보고합니다.</p>
+    <p><code>() =&gt; provider.get(...)</code>처럼 호출을 감싼 이유도 있습니다. 메서드만 떼어 넘기면 <code>this</code>가 사라져 provider가 자기 상태를 읽지 못할 수 있습니다. 새 테스트는 실제 상태를 가진 provider 인스턴스로 이 문제를 잡습니다.</p>
+    <p>호스트의 엄격한 알림 입력 검사와 클라이언트의 확장 필드 허용 검사는 이름이 비슷해도 계약이 달라 합치지 않았습니다. 공통화의 기준은 줄 모양보다 입력·오류·순서·책임이 같은지입니다.</p>
+    <p><a href="../packages/host/src/index.ts">정리한 호스트 코드</a> · <a href="../test-support/memory-transport.ts">공유 테스트 통신</a> · <a href="../docs/adr/0023-consolidate-proven-duplicate-implementations.md">선택 이유 · ADR 0023</a></p>
+  </section>
+  <section class="section" id="branches">
+    <h2>3 · 같은 값의 선택지는 switch, 순서 있는 검사는 if</h2>
+    <pre><code>switch (method) {
+  case STORAGE_METHODS.SET:
+    // write and show success
+    break;
+  case STORAGE_METHODS.GET:
+    // read and validate the returned value
+    break;
+  case STORAGE_METHODS.DELETE:
+    // delete and show success
+    break;
+}</code></pre>
+    <p>저장 예제 화면은 같은 <code>method</code>의 세 가지 선택을 나누므로 switch로 바꿨습니다. 삭제 처리가 마지막 else에 숨어 있지 않고 이름으로 드러납니다.</p>
+    <p>초기화 여부·권한·인자 검사처럼 조건이 다르고 실행 순서가 중요한 코드는 if와 조기 반환을 유지했습니다. 명세에서 정한 오류 우선순위를 보기 쉽게 남기는 것이 중요합니다.</p>
+  </section>
+  <section class="section" id="tests">
+    <h2>4 · 빠진 테스트를 추가하니 실제 문제가 보였습니다</h2>
+    <p>중단된 T24의 로컬 실험 서버에서 절대경로와 심볼릭 링크가 지정한 앱 폴더 밖으로 연결될 수 있었습니다. 임시 폴더에 테스트 파일을 만들어 HTTP로 요청하니 네 사례에서 404 대신 200이 반환됐습니다.</p>
+    <pre><code>package_root = (fixtures / group).resolve(strict=True)
+source = (package_root / resource).resolve(strict=True)
+if not source.is_relative_to(package_root):
+    return Response(b"Unknown app or outside package", status=404)</code></pre>
+    <p>파일의 실제 위치를 먼저 확인해 심볼릭 링크까지 풀고, 선택한 앱 루트 안에 있는지 검사합니다. 절대경로도 입구에서 거절합니다. 같은 앱 내부를 가리키는 정상 링크는 계속 읽을 수 있도록 대조군을 두었습니다.</p>
+    <p>이 수정은 기존 보안 요구인 <strong>SPEC §7·§9.6</strong>과 연결됩니다. 실제 사용자 파일 대신 임시 테스트 데이터로 재현했고, 모든 테스트 서버는 비어 있는 로컬 포트를 사용한 뒤 종료됩니다.</p>
+    <p>추가로 배열의 상속된 <code>toJSON</code>이 실행되지 않는지도 검사했습니다. 호출 횟수가 0이고 원래 JSON 값이 유지되는지 확인하는 방식이라 내부 구현 줄을 그대로 따라가는 테스트와는 다릅니다.</p>
+    <p><a href="../experiments/tests/test_loopback_fixtures.py">실제 HTTP 회귀 테스트</a> · <a href="../packages/host/test/provider-receiver.test.ts">provider 상태 검사</a></p>
+  </section>
+  <section class="section" id="check">
+    <h2>5 · 이제 기본 검사를 한 명령으로 실행합니다</h2>
+    <pre><code>pnpm run check</code></pre>
+    <p>TypeScript 테스트 → Python 실험 서버 테스트 → 타입 검사 → Biome → 브라우저 예제 두 빌드를 차례로 실행합니다. 하나라도 실패하면 다음 검사로 넘어가지 않습니다.</p>
+    <p>Biome는 코드 형식과 지원하는 언어의 규칙을 검사합니다. Python 테스트는 표준 라이브러리 unittest로 실행하며 새 패키지를 설치하지 않습니다. 네이티브 앱의 실제 동작 검증은 해당 task가 진행 중일 때 별도로 수행합니다.</p>
+    <div class="callout warm"><strong>현재 진행 위치</strong><br>T24는 계속 중단 상태입니다. 시뮬레이터를 부팅하거나 앱을 설치·실행하지 않았습니다. T23의 실제 출처 격리 실패 기록과 T28 결정 관문도 유지합니다.</div>
+  </section>
+  <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="29-android-origin-probe.html">이전 T23 실험</a><br>근거: 기존 계약 테스트, 추가 회귀 테스트, 코드 품질 절차와 ADR 0023.</footer>
+</main>
+</body>
+</html>

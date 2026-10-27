@@ -87,6 +87,16 @@ sentences. If a change touches §9 of the spec, flag it explicitly.
 **Small commits.** One logical change each. Conventional Commits
 (`feat:`, `fix:`, `docs:`, `test:`, `refactor:`, `chore:`).
 
+**Refactor with evidence.** First pin observable behavior at the existing
+Interface. Add a failing regression test for any discovered bug, then fix it
+separately from behavior-preserving cleanup. Extract common code only when
+actual callers share a contract; similar-looking validation may have different
+ordering or trust requirements. Use `switch` for alternatives of the same value
+and guard clauses for ordered checks. Run `pnpm run check` before handoff;
+platform changes also need their relevant native checks when that task is active.
+See `docs/code-quality-workflow.md`. Never resume a paused device experiment
+just to perform a cleanup check.
+
 **Ask before scope growth.** Generation is cheap; maintenance is not. If a task
 implies work beyond what was requested, surface it rather than building it.
 

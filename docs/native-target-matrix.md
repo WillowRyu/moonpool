@@ -5,6 +5,10 @@ Status: Complete for T22 inventory/planning; native builds and probes have not r
 Baseline: 10d75d3, browser v0.1 complete; 1131 tests / 39 files previously verified.
 Related plan: [T22–T65](native-implementation-plan.md).
 
+Follow-up: [T23 Android measurements](android-origin-probe-verification.md) now
+record an actual build/boot and a custom-origin isolation failure. The inventory
+and Not run labels below preserve the earlier T22 checkpoint.
+
 ## Confirmed requirements and open choices
 
 Android (AOS) and iOS are both required. A host app/page may own multiple Portals

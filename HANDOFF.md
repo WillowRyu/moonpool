@@ -11,12 +11,19 @@
 > Multi-Portal research published as 00c0c63 / 76bc212; remote confirmed in sync.
 > ADR 0022 accepted revision published as 0397b70; remote confirmed in sync.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Current checkpoint: T22 inventory/checklists complete; T23–T65 planned.
+> Current checkpoint: T22/T23 complete; T24 paused at the maintainer's request.
 > Both Android and iOS are required; host app/framework explicitly undecided.
 > Read docs/native-implementation-plan.md for the 44 follow-up tasks and dependencies.
-> Initial native plan published as 10d75d3; T22 commit/push is now explicitly requested.
+> Initial native plan published as 10d75d3; T22 published as db8d6ed.
 > Read docs/native-target-matrix.md for tool versions, gaps and pre-code probe criteria.
-> Next task: T23 Android origin/local-content probe, then matching T24 iOS probe.
+> T23 found collapsed moonpool origins/shared A/B DOM and storage on WebView 145.
+> Read docs/android-origin-probe-verification.md before native origin decisions.
+> Resume T24 only when requested; isolated setup/app build exists, no iOS observations yet.
+> T28 native-origin contract gate remains.
+> Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
+> Run pnpm run check; read docs/code-quality-workflow.md. T24 stays paused.
+> The maintainer requested commit/push of all current research, paused preparation and cleanup.
+> Source commits: 7327536 native probes; e2e3c72 shared tests; 328280d runtime/UI cleanup.
 > T18 published as 4aab691 / ab98b58; remote confirmed in sync before T19.
 > T19 published as e2354e6 / 8f98da9; clean remote sync confirmed before T20.
 > T20/T21 published on 2026-10-26 as 321d09d / 1637e3d; remote sync confirmed.
@@ -39,6 +46,173 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-27 checkpoint — research and cleanup Git publication requested
+
+The maintainer explicitly requested committing and pushing the current work.
+Publish the native research/paused preparation and loopback checks, the shared
+test fixtures/regression cases, the runtime/UI refactor, and the final workflow/
+learning/progress documents as logical Conventional Commits. Then verify remote
+master matches HEAD and the working tree is clean. Earlier local/uncommitted
+statements are historical. T24 remains paused: publication does not authorize
+installing, launching or measuring the iOS probe. No package/tag release.
+
+Committed native research/fixture checks as 7327536, shared test fixtures and
+regression cases as e2e3c72, and runtime/UI refactoring as 328280d. This final
+documentation commit records those results, workflow, learning materials and
+the paused T24 handoff. The generated Windows Gradle wrapper keeps CRLF in
+checkouts via a scoped .gitattributes rule and normalized text in Git; staged
+whitespace checks pass. The full pre-publication pnpm run check again passed
+1134 TS tests, 9 Python tests, typechecks, Biome and both browser builds. Existing
+nonblocking Vite warning remains recorded. Verify push/remote state before the
+final response; no device was resumed for publication.
+
+## 2026-10-27 checkpoint — requested cleanup before T24
+
+The maintainer requested code cleanup (shared code, missing tests, clearer
+branches) and a repeatable best-practice procedure before resuming T24. This
+authorizes maintenance only; T24 remains paused. No commit/push requested.
+
+Read SPEC/relevant ADRs and applied the architecture-review skill's read-only
+exploration. The main model selected/implemented/reviewed the changes. Baseline
+1131 tests / 39 files passed first. Added characterization tests for stateful
+provider receivers and inherited Array.prototype.toJSON before refactoring.
+
+Consolidated byte-identical host/client test Transport Adapters in
+test-support/memory-transport.ts; all test consumers now import the shared file.
+Host capability execution has one private generic await/project/reply/error
+path. Each call site keeps provider invocation in a closure to retain this,
+host-selected app identity and public result projection. Existing initialization,
+grant/params ordering and host-only error reporting remain. The storage UI's
+fixed method alternatives now use switch; ordered guard clauses remain guards.
+
+Added standard-library HTTP tests for both fixture Adapters. Before the fix,
+four subcases returned 200 for absolute/encoded absolute paths and symlinks
+outside the app root (temporary marker files only). Shared loopback controls
+in experiments/probe_support preserve the public control responses. The iOS
+fixture now rejects absolute resources and resolves links before per-app/root
+confinement. Same-app valid links remain supported. This bug fix concerns
+existing SPEC §7 / §9.6; no origin/protocol/security-policy decision is added.
+ADR 0023 records proven commonality versus distinct contracts. Host notification
+validation and tolerant client reading stay separate under ADR 0020/0021.
+
+Added pnpm run test:probes and pnpm run check (TS tests, Python tests, typecheck,
+Biome, browser builds), with the workflow in docs/code-quality-workflow.md and
+real CLAUDE.md. Python 3.13.3 is available; no Python/package/runtime dependency
+was installed. These tests bind free loopback ports and temporary roots, then
+close them; they do not boot/install/launch any simulator app. Updated the
+Korean guide and added study/30-code-quality.html while preserving old lessons.
+
+T23 Android native sources/evidence fingerprints and the paused Swift source
+are preserved. The existing provisional iOS binary's read-only vtool inspection
+shows IOSSIMULATOR, minimum 17.0, SDK 26.4; its earlier compiler warning still
+needs review when T24 resumes. No iOS measurement was performed. Future native
+results must distinguish them from these host-only HTTP checks.
+
+Final cleanup verification: pnpm run check passes 1134 TypeScript tests across
+40 files, 9 Python HTTP tests, both typecheck targets, Biome (225 files, no
+fixes) and both browser builds. The build retains Vite's nonblocking future
+native-config-loader import-extension warning. T23's retained 344-control
+verification and native-source fingerprints still match. All 530 checked
+references across 31 study pages/selected docs resolve; ids, scripts, 44 task
+ids and instruction symlinks are preserved. Reviewed the final source diff and
+the new guide/table/code/current-map layout; the temporary tab/server were
+closed. T24 remains paused and all current work remains uncommitted.
+
+## 2026-10-27 checkpoint — T24 paused by maintainer
+
+The maintainer authorized T24 using a separate simulator, then explicitly asked
+to pause. Stop work here; resume only on request. T23 remains local and complete;
+no commit/push of T23/T24 has been requested.
+
+Recorded P01–P10/profile/scheme-task cancellation criteria before implementation
+in experiments/ios-origin-probe/README.md. Created a dedicated Moonpool T24
+Origin Probe iPhone 17 Pro simulator using installed iOS 26.4 runtime, distinct
+from the maintainer's already-booted iPhone. Local ownership/protected-device ids
+are in ignored experiments/ios-origin-probe/local-results/simulator.json; do not
+commit them or use booted/all aliases for mutations.
+
+Added provisional Probe.swift, build.py, fixture_server.py and run_probe.py.
+Uses public WKURLSchemeHandler, default persistent WKWebsiteDataStore shared
+across A/B, asynchronous native-owned diagnostic polling and loopback HTTP
+controls. T23 fixtures are copied/adapted into ignored build output without
+modifying the Android sources/evidence. No guest-callable bridge or policy
+change is implemented. Swiftc/ad-hoc signing exited 0, but emitted a clang
+sysroot-for-MacOSX/targeting-iPhone warning: verify the SDK/link target before
+claiming a valid simulator app build. The app has not been installed or launched;
+no T24 measurements or conformance results exist yet.
+
+On pause, stopped the loopback fixture server and shut down only the dedicated
+owned simulator. Verified its state is Shutdown and the protected existing
+device remains Booted. Preserve the owned configuration/build for resumption;
+the existing user simulator is never an install/terminate/shutdown target.
+When resuming, recheck actual device states/ownership, inspect the build warning,
+then install/run only on the owned device and complete T22's measurement matrix.
+No SDK/runtime installation, global Xcode selection change or new dependency.
+
+## 2026-10-27 checkpoint — T23 Android research complete
+
+The maintainer requested T23. Started from clean published db8d6ed; no T23
+commit/push requested. Added experiments/android-origin-probe as a standalone
+research app, not a shipped workspace/native core or a replacement dispatcher.
+The T22 P01–P10 criteria and profile expectations were recorded before code.
+Used Java only for WebView/platform observation, public HTML/JS/CSS/SVG markers,
+native-owned asynchronous evaluateJavascript polling, and a loopback CORS fixture.
+No JavascriptInterface, guest-callable capability, credentials, private WebView
+switch, file loading or certificate bypass was introduced.
+
+Built/launched on the existing Pixel 7 Pro AVD without wiping data: Android 17,
+API 37, build CP21.260330.012, arm64-v8a, actual page size 16384. Current WebView
+is com.google.android.webview 145.0.7632.218. Pins: Gradle 9.6.1, AGP 9.3.1,
+Studio JDK 21.0.10, AndroidX WebKit 1.14.0, compile/target SDK 36 and Build-Tools
+36.0.0. No SDK/image installation or global Java configuration change needed.
+Initial offline plugin metadata/lint dependencies required online official
+repository resolution; subsequent offline build/lint pass. Wrapper distribution
+checksum is pinned. Native lint retains 15 documented warnings and Gradle 10
+deprecation notes; no zero-warning or production-readiness claim.
+
+Measured incompatibility: official WebViewAssetLoader lookup returns null for
+moonpool URLs and actual pages fail with unknown-scheme errors. A separate
+public request interceptor can display HTML/JS/CSS/images, but A/B both report
+location.origin and frame-message origin moonpool://. Server-observed Origin
+headers agree. Cross-app loaded-frame DOM reads succeed; localStorage/IndexedDB
+markers collide and persist across process restart. Cookies stay empty and
+custom-scheme bundled JSON fetch fails. This does not satisfy SPEC §8 / §9.1.
+
+HTTPS controls use fixed intercepted .test hosts with the same content. Actual
+cross-app frame loading is confirmed before DOM reads are denied; self-frame
+reads work. Per-app localStorage, IndexedDB and cookies persist across same-app
+second view, reload, view recreation and process restart. Controlled loopback
+CORS fetch succeeds with exact Origin; missing-CORS fetch fails. Missing assets,
+plain/encoded path escape and unknown app behavior are recorded separately.
+With the loopback server stopped, bundled resources still work while explicit
+network controls fail. Harness guards are not claims about future native SDK
+loader policies. Message authentication remains T25/T26.
+
+Seven final runs retain 59 snapshots and raw public callbacks/observations;
+344 control assertions pass while the custom-origin isolation failure remains
+explicit. All reports share the final APK SHA-256; environment.json records
+native-source fingerprints without device identifiers. An image-load timing
+race in the first fixture was fixed, and all phase records rerun from the final
+APK. Android lint's missing includeSubdomains attribute was fixed explicitly.
+
+Added docs/android-origin-probe-verification.md and Korean study lesson 29,
+updated roadmap/HANDOFF/README/CHANGELOG and preserved earlier lessons. T23
+completes bounded research with an incompatibility, not native SDK conformance.
+No SPEC/ADR, pure TypeScript package, root dependency or browser example changes.
+No origin alternative is approved. Next T24; T28 must resolve the native-origin
+contract with explicit approval before dependent native SDK loaders.
+
+Final T23 checks: Android assembleDebug/lintDebug succeed, with the 15 warnings
+described above. Root Biome checks 224 files without fixes. All 519 checked
+local references across 30 study pages/selected docs resolve; ids are unique,
+44 task ids/dependencies and prior study scripts remain intact. Native source
+fingerprints/APK match the retained evidence. Shipped packages/examples, SPEC,
+ADRs and root dependencies are unchanged. Retain the prior 1131-test browser
+baseline without claiming a fresh core test run for this isolated experiment.
+The owned emulator, adb reverse, fixture server, study-review tab and HTTP
+server were stopped; the installed probe/public markers remain on the AVD for
+reproduction. Study lesson/table/code and current-map layout were reviewed.
 
 ## 2026-10-27 checkpoint — T22 Git publication requested
 

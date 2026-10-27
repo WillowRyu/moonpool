@@ -2,11 +2,15 @@
 
 Date: 2026-10-26
 Last updated: 2026-10-27
-Status: T22 complete; T23–T65 planned. No native build/probe has run yet.
+Status: T22/T23 complete; T24 in progress and paused by the maintainer; T25–T65 planned. Android research found an origin-isolation incompatibility.
 Targets confirmed by the maintainer: Android (AOS) and iOS, both required.
 Host application/framework: explicitly undecided; build the common plan first.
 Baseline: browser v0.1 complete, published through 91d7b46; 1131 tests / 39 files.
 Normative source: SPEC.md and accepted ADRs. This plan does not amend them.
+
+Maintenance before T24: the requested [code-quality pass](code-quality-workflow.md)
+consolidates proven duplication and adds regression/loopback tests. T24 remains
+paused; host-only tests do not advance its native measurement status.
 
 ## Scope and completion levels
 
@@ -14,6 +18,8 @@ The maintainer requested detailed next-phase tasks for both mobile platforms.
 This authorizes a post-v0.1 plan, not implementation, SDK installation, a protocol
 change, package publication or app distribution in this planning turn. The
 completed T01–T21 browser plan remains available separately.
+Subsequent task requests authorize their bounded work: T23 adds an experimental
+Android probe, not the native SDK implementation gated by the contracts below.
 
 Use the existing TypeScript protocol/client/host kernel as the common authority.
 Do not duplicate dispatch/permission/correlation logic in Kotlin and Swift as a
@@ -37,7 +43,9 @@ No v0.2/v1.0 number, minimum OS, engine dependency or release date is assigned h
 | Current task range | State | Evidence |
 | --- | --- | --- |
 | T22 | Complete | [Local toolchain/target inventory and T23/T24 criteria](native-target-matrix.md); no native build/boot evidence |
-| T23–T65 | Planned | No native implementation or device verification yet |
+| T23 | Research complete | [Android build/emulator observations](android-origin-probe-verification.md); custom-scheme app isolation fails in the tested configuration |
+| T24 | In progress; paused by maintainer | Isolated simulator setup and provisional app build; no install/launch or iOS observations yet |
+| T25–T65 | Planned | No production native SDK verification yet |
 
 ## Decisions that precede implementation
 
@@ -79,7 +87,7 @@ Use the next free ADR number when the task runs; do not create placeholder ADRs.
 | ID | Target | Task / deliverable | Acceptance | Depends on |
 | --- | --- | --- | --- | --- |
 | T22 | Both/shared | Completed 2026-10-27: target/toolchain inventory and host-framework decision points. | Existing ARM64 API 37 AVD and iOS 26.4 simulator candidates recorded, with tool warnings, unknown WebView/support/device details and P01–P10 probe criteria. [Evidence and handover](native-target-matrix.md). No native build or SDK install. | T21 |
-| T23 | Android | Bounded origin/local-content probe with two app ids. | Record actual origin, DOM storage/fetch behavior, navigation, asset resolution and network fallback for the required scheme; use supported platform paths only as labeled controls. Report incompatibilities, not a conforming claim. | T22 |
+| T23 | Android | Completed 2026-10-27: bounded origin/local-content probe with two app ids. | Real API 37/WebView 145 observations: official loader rejects moonpool; public interception loads assets but collapses A/B origin, DOM and storage. HTTPS positive/negative controls, process restart and fallback observations recorded. [Evidence](android-origin-probe-verification.md). T28 resolution remains required. | T22 |
 | T24 | iOS | Matching WKWebView origin/local-content probe. | Measure the same two-app matrix, custom-scheme task behavior, reload/persistence and actual origin metadata. A handler API existing is not evidence of origin/storage semantics. | T22 |
 | T25 | Android | Native message-channel/authentication probe. | Observe native sender/frame/origin identity, feature availability, first-message timing, navigation and stale callbacks. Include wrong-origin/source/subframe negatives and a working positive control. No @JavascriptInterface fallback. | T23 |
 | T26 | iOS | Native message/reply/authentication probe. | Observe actual WebView/frame/security-origin identity, content-world behavior, reply timing and stale references. Check main-frame policy and negative/positive controls. | T24 |
@@ -210,12 +218,15 @@ These references inform experiment design; they are not device verification.
 
 ## Current checkpoint
 
-T22 inventory/planning is complete. Both platforms are required; the host
-framework remains undecided by the maintainer's choice. Existing tools and
-virtual-device candidates were inspected without installing SDKs or launching
-native apps. Native code, policy and protocol version are unchanged. Next:
-T23 Android origin/local-content probe, with T24 as the matching iOS task.
+T22 inventory and T23 Android research are complete. Both platforms are required;
+the host framework remains undecided. The standalone Android probe runs on the
+existing emulator, with a recorded SPEC §8 / §9 origin-isolation incompatibility.
+This does not implement the native SDK or change the production scheme. T24 is
+paused; its iOS origin/local-content probe is next when resumed. T28 must resolve
+the contract before native SDK loaders.
 
 The initial planning checkpoint was committed/pushed as 10d75d3 at the
 maintainer's request. The maintainer also requested committing and pushing the
-completed T22 documentation checkpoint on 2026-10-27.
+completed T22 documentation checkpoint on 2026-10-27, published as db8d6ed.
+The maintainer requested Git publication of T23, paused T24 preparation and the
+cleanup checkpoint on 2026-10-27. T24 remains paused without iOS measurements.
