@@ -9,6 +9,10 @@ See [completion evidence and retained limits](docs/v0.1-conformance.md).
 
 ### Added
 
+- Complete T22's native target/toolchain inventory and pre-code Android/iOS
+  origin-probe criteria. Record installed virtual-device candidates, build/boot
+  gaps, SDK-tool warnings and unresolved host/support choices; no native runtime
+  code, tool installation or protocol change is included.
 - Document the Android/iOS follow-up as 44 planned tasks (T22–T65), with paired
   platform evidence, acceptance criteria and dependencies. Keep the host
   framework undecided and distinguish reference PoCs, real-app verification

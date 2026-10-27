@@ -1,7 +1,7 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-10-26. The maintainer switched to agent-led implementation
+> Last updated: 2026-10-27. The maintainer switched to agent-led implementation
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
@@ -11,11 +11,12 @@
 > Multi-Portal research published as 00c0c63 / 76bc212; remote confirmed in sync.
 > ADR 0022 accepted revision published as 0397b70; remote confirmed in sync.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Current checkpoint: Android/iOS follow-up plan recorded; T22–T65 planned, none started.
+> Current checkpoint: T22 inventory/checklists complete; T23–T65 planned.
 > Both Android and iOS are required; host app/framework explicitly undecided.
 > Read docs/native-implementation-plan.md for the 44 follow-up tasks and dependencies.
-> The maintainer requested Git publication of this plan and all current documentation.
-> Next task: T22 target/toolchain/support matrix, then T23/T24 native origin probes.
+> Initial native plan published as 10d75d3; T22 commit/push is now explicitly requested.
+> Read docs/native-target-matrix.md for tool versions, gaps and pre-code probe criteria.
+> Next task: T23 Android origin/local-content probe, then matching T24 iOS probe.
 > T18 published as 4aab691 / ab98b58; remote confirmed in sync before T19.
 > T19 published as e2354e6 / 8f98da9; clean remote sync confirmed before T20.
 > T20/T21 published on 2026-10-26 as 321d09d / 1637e3d; remote sync confirmed.
@@ -38,6 +39,63 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-27 checkpoint — T22 Git publication requested
+
+The maintainer explicitly requested committing and pushing the completed T22
+work. Publish the nine documentation/learning files as one logical Conventional
+Commit, then confirm origin/master matches HEAD and the working tree is clean.
+T22 remains complete; the next implementation task is T23. Earlier local-only
+statements describe the state before this publication request.
+
+## 2026-10-27 checkpoint — T22 complete
+
+The maintainer requested T22 after asking when emulator/simulator testing begins.
+Completed the target/toolchain/support matrix and recorded P01–P10 observation
+criteria before native probe code in docs/native-target-matrix.md. The initial
+plan was committed/pushed as 10d75d3, with matching remote HEAD and a clean tree
+confirmed at publication. T22 started from that clean commit. The subsequent
+T22 Git-publication request is recorded above.
+
+Local inventory: Apple silicon macOS 26.6.2; Node 22.19.0/pnpm 11.1.3; Android
+Studio 2025.3, default Zulu JDK 17.0.18 and bundled JDK 21.0.10; SDK platforms
+31/34/35/36/36.1/37.0; Emulator 36.6.11; one API 37.0 Google APIs ARM64 16KB
+Pixel 7 Pro AVD; acceleration check passes. Both installed Android system images
+are API 37.0/16KB. sdkmanager listing succeeds with integer-expression and XML
+v3/v4 mismatch warnings; selected metadata was independently cross-checked.
+Do not infer stable/preview status for every image from the separate Play
+image's Pre-Release description. No tool-warning fix or update was attempted.
+
+Xcode 26.4.1 / 17E202 is selected and first-launch checks pass; iOS device and
+simulator SDK 26.4 are installed. One available simulator runtime is labeled
+iOS 26.4, version 26.4.1 / 23E254a, with six iPhone and five iPad configurations,
+all Shutdown. Android attached-device and Apple devicectl inventories list zero.
+Physical test-device ownership/availability is still unknown, not declared absent.
+Serials/UDIDs and personal device names were omitted from the retained report.
+
+Provisional first probes reuse the existing Android AVD and iPhone 17 Pro
+simulator. Build/boot, actual WebView provider/features and native origin/storage
+semantics are unverified; product minimum OS versions remain undecided. T23
+must pin/check the minimal Android probe's JDK/Gradle/AGP pair. No global Gradle
+or project wrapper is present. The host framework remains explicitly undecided;
+T27 will present concrete runtime/ownership options after paired evidence.
+
+The checklist covers two fixed app ids, loader/resource behavior, storage
+isolation/lifetime, navigation, path confinement/network fallback, origin/CORS
+and repeatable positive/negative controls. This prepares SPEC §8 / §9 security
+verification without changing the contract. Native message authentication is
+still T25/T26. No native project/code, SDK install, AVD/simulator boot, dependency
+change or protocol decision was made. Updated the plan and Korean study guide;
+T22 is 1/44 complete. Next T23, with T24 as the matching iOS experiment.
+
+T22 verification: Biome checks 205 files with no fixes; diff checks pass.
+All 492 checked local references across 29 study pages and selected Markdown
+documents resolve, with unique HTML ids. The 44 task ids/dependencies and prior
+study scripts remain intact. Only nine documentation files differ; runtime,
+SPEC, dependency files and instruction symlinks are unchanged. Retained the
+previous 1131-test runtime baseline without claiming a fresh functional test run
+for this inventory task. Browser review confirmed the new lesson, command
+explanations and study-map T22 status; the temporary tab/server were closed.
 
 ## 2026-10-26 checkpoint — Android/iOS plan Git publication requested
 

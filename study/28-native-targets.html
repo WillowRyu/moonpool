@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — T22 Android·iOS 개발 환경 확인</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">28 · T22 · 환경과 실험 조건</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#result">확인한 결과</a>
+    <a href="#terms">SDK·가상 기기·WebView</a>
+    <a href="#commands">실행한 명령 읽기</a>
+    <a href="#experiments">다음 실험 체크리스트</a>
+    <a href="#next">다음 T23·T24</a>
+  </nav>
+  <p class="small desktop-only">2026.10.27 확인<br>T22 완료 · 1 / 44<br>첫 native 빌드·부팅 전</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">T22 · Native targets and toolchain</div>
+    <h1>실험을 시작하기 전,<br>준비된 도구부터 확인했습니다.</h1>
+    <p class="lead">Android·iOS 개발 도구가 이 Mac에 이미 설치되어 있습니다. 첫 실험 후보와 아직 확인하지 않은 항목을 기록하고, T23·T24에서 무엇을 관찰할지 먼저 정했습니다.</p>
+    <div class="meta"><span class="pill">T22 완료</span><span class="pill">다음 T23 · Android 실험</span><span class="pill warm">호스트 기술·최소 지원 OS 미정</span></div>
+  </header>
+  <section class="section" id="result">
+    <h2>1 · 준비된 환경과 남은 확인</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>항목</th><th>현재 확인한 것</th><th>다음에 확인할 것</th></tr></thead>
+      <tbody>
+        <tr><td>공통</td><td>Apple silicon Mac · Node 22.19.0 · pnpm 11.1.3</td><td>선택한 문맥에서 TypeScript 호스트 커널 실행</td></tr>
+        <tr><td>Android</td><td>Android Studio 2025.3 · JDK 17/21 · Emulator 36.6.11</td><td>실험 프로젝트의 JDK·Gradle·AGP 조합과 빌드</td></tr>
+        <tr><td>Android 가상 기기</td><td>Pixel 7 Pro 프로필 1개 · API 37 ARM64 · 16KB 페이지 구성</td><td>실제 부팅·OS·WebView 버전·기능 지원</td></tr>
+        <tr><td>iOS</td><td>Xcode 26.4.1 · SDK 26.4 · 사용 가능한 시뮬레이터 런타임</td><td>실험 앱의 빌드·설치·실행</td></tr>
+        <tr><td>iOS 가상 기기</td><td>iPhone 6개·iPad 5개 설정 · 모두 종료 상태</td><td>첫 후보 iPhone 17 Pro에서 WKWebView 동작</td></tr>
+        <tr><td>실기기</td><td>두 플랫폼의 기기 목록에 현재 표시된 기기 0개</td><td>보유 여부·연결·테스트할 기기는 추후 확인</td></tr>
+      </tbody>
+    </table></div>
+    <p>iOS 런타임의 표시 이름은 26.4이고 상세 버전은 26.4.1입니다. SDK와 런타임의 상세 버전은 각각 기록했습니다. 지금 설치된 버전이 제품의 최소 지원 버전으로 정해진 것은 아닙니다.</p>
+    <div class="callout warm"><strong>Android에서 발견한 조건</strong><br>설치된 OS 이미지는 API 37의 16KB 구성뿐입니다. 별도 Google Play 이미지에는 Pre-Release 표시도 있어 전체를 일반적인 지원 환경으로 취급하지 않습니다. SDK 목록 조회는 성공했지만 정수 검사·XML 버전 경고가 나왔습니다. 원인은 아직 진단하지 않았고, 로컬 메타데이터와 가상 기기 설정으로 후보 정보를 교차 확인했습니다.</div>
+    <p><a href="../docs/native-target-matrix.md">도구별 버전·확인 근거·남은 조건 · 영문</a>에 상세 기록을 남겼습니다. 이번 task에서는 SDK를 설치하거나 가상 기기를 부팅하지 않았습니다.</p>
+  </section>
+  <section class="section" id="terms">
+    <h2>2 · 설치된 SDK와 실행 가능한 기기는 다릅니다</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>이름</th><th>쉬운 뜻</th><th>이번에 확인한 범위</th></tr></thead>
+      <tbody>
+        <tr><td>SDK</td><td>앱을 만들 때 쓰는 도구와 API 묶음</td><td>어떤 버전이 설치되어 있는지</td></tr>
+        <tr><td>Android 시스템 이미지 / iOS 런타임</td><td>가상 기기가 실행할 운영체제 묶음</td><td>어떤 OS 묶음이 있는지</td></tr>
+        <tr><td>AVD / 시뮬레이터 기기 설정</td><td>화면·기종·OS를 조합한 가상 휴대폰 설정</td><td>만들어 둔 설정과 현재 실행 상태</td></tr>
+        <tr><td>WebView / WKWebView</td><td>앱 안에서 웹 콘텐츠를 실행하는 화면</td><td>실제 앱에서의 로딩·출처·저장 동작은 다음 실험</td></tr>
+      </tbody>
+    </table></div>
+    <p>예를 들어 Android API 34의 SDK가 있다고 해서 API 34 가상 기기도 있는 것은 아닙니다. 또 Android OS 버전만 보고 필요한 WebView 메시지 기능이 지원된다고 판단할 수 없어, T25에서 실행 중인 엔진과 기능 지원을 확인합니다.</p>
+  </section>
+  <section class="section" id="commands">
+    <h2>3 · 이번에는 환경 확인 명령을 읽어봅니다</h2>
+    <pre><code>emulator -list-avds
+emulator -accel-check
+adb devices -l</code></pre>
+    <p>첫 줄은 만들어 둔 Android 가상 기기를 보여줍니다. 둘째 줄은 가상 기기를 빠르게 실행하는 하드웨어 가속 조건을 확인합니다. 셋째 줄은 지금 연결된 기기나 실행 중인 에뮬레이터를 보여줍니다.</p>
+    <p>이 Mac에서는 가상 기기 설정 1개와 가속 가능 상태를 확인했고, 연결 목록은 비어 있었습니다. 이 결과만으로 실험 앱이 실행됐다고 말할 수는 없습니다.</p>
+    <pre><code>xcodebuild -version
+xcodebuild -showsdks
+xcrun simctl list runtimes --json
+xcrun simctl list devices available --json</code></pre>
+    <p>위에서부터 Xcode 버전, 설치된 SDK, 시뮬레이터 OS 묶음, 사용 가능한 기기 설정을 확인합니다. <code>--json</code>은 결과를 프로그램이 읽기 쉬운 구조로 받는 옵션입니다. 기기의 개인 이름·고유 번호는 저장소 기록에서 제외했습니다.</p>
+    <div class="callout"><strong>판단을 나누는 이유</strong><br>도구가 있다 → 빌드가 된다 → 기기가 부팅된다 → 웹 앱이 열린다 → 출처·권한 검사가 맞게 동작한다<br>각 단계는 실제 결과를 따로 확인해야 합니다.</div>
+  </section>
+  <section class="section" id="experiments">
+    <h2>4 · 코드를 쓰기 전에 관찰할 조건을 정했습니다</h2>
+    <p>T23·T24에서는 고정된 앱 A와 B, 공개 테스트 문자열을 사용합니다. 아래는 아직 실행하지 않은 실험 기준이며, 두 OS에서 각각 결과를 기록합니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>실험</th><th>확인할 질문</th></tr></thead>
+      <tbody>
+        <tr><td>P01 · 빌드·부팅</td><td>정확히 어떤 도구·OS 조합으로 앱이 실행됐는가?</td></tr>
+        <tr><td>P02 · 앱별 출처</td><td>A와 B가 서로 다른 안정된 출처를 가지는가?</td></tr>
+        <tr><td>P03 · 로컬 파일</td><td>HTML·JS·CSS와 JSON 파일이 올바르게 로드되는가?</td></tr>
+        <tr><td>P04 · 저장 분리</td><td>B가 A의 저장 값을 읽지 못하는가? 저장 기능 자체가 없는 경우도 구분했는가?</td></tr>
+        <tr><td>P05 · 저장 수명</td><td>새로고침·화면 재생성·앱 프로세스 재실행 때 값이 어떻게 되는가?</td></tr>
+        <tr><td>P06 · 다른 앱 접근</td><td>정상 접근은 되면서 다른 앱의 DOM·저장소 접근은 막히는가?</td></tr>
+        <tr><td>P07 · 페이지 이동</td><td>내부 이동·새로고침·다른 출처 이동과 복귀를 어떻게 관찰하는가?</td></tr>
+        <tr><td>P08 · 경로·네트워크</td><td>패키지 밖 파일을 읽거나 없는 파일을 네트워크에서 찾으려 하지 않는가?</td></tr>
+        <tr><td>P09 · 요청 출처</td><td>브라우저 출처·CORS 동작과 네이티브에서 확인할 신원 정보가 무엇인가?</td></tr>
+        <tr><td>P10 · 재현</td><td>같은 조건으로 다시 실행해 정상·실패 결과를 비교할 수 있는가?</td></tr>
+      </tbody>
+    </table></div>
+    <p>이 항목들은 <strong>보안 명세 §8·§9</strong>와 연결됩니다. 현재 <code>moonpool://&lt;mini-app-id&gt;/</code> 규칙은 유지하고, 플랫폼에서 충족하지 못하는 부분은 결과로 기록해 T28의 구체적인 결정안에 연결합니다. Android의 공식 HTTP(S) 로더를 비교용으로 사용해도 그것이 운영 출처 변경 승인을 뜻하지 않습니다.</p>
+  </section>
+  <section class="section" id="next">
+    <h2>5 · 다음은 T23, 그리고 같은 조건의 T24입니다</h2>
+    <p>T23에서는 기존 Android 가상 기기를 사용해 작은 실험 앱의 빌드·실행과 실제 로딩 동작을 확인합니다. 빌드 도구 조합은 시작할 때 맞춰 고정합니다. T24는 같은 실험을 iOS 시뮬레이터에서 수행합니다.</p>
+    <p>호스트 앱 기술과 TypeScript 커널의 실행 위치는 T27에서 두 플랫폼의 근거를 보고 선택합니다. 제품 최소 OS와 실기기 지원 범위도 현재 설치 목록만으로 확정하지 않습니다.</p>
+    <div class="callout"><strong>T22 완료 결과</strong><br>두 OS의 도구·가상 기기·제약·미정 사항 기록<br>T23·T24의 관찰 기준 P01–P10 기록<br>후속 task 1 / 44 완료 · 브라우저의 기존 1,131개 테스트 기준 유지</div>
+    <p>이번 task는 환경 조사와 문서 작업입니다. 새 기능 코드 테스트를 추가하지 않았으며, 기존 실행 코드·SPEC·의존성은 유지했습니다. 문서 링크와 task 상태, 린트를 확인합니다.</p>
+  </section>
+  <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="27-native-roadmap.html">T22–T65 전체 계획</a><br>근거: 현재 Mac의 도구·기기 목록, SPEC §3·§8·§9, 영문 조사 기록에 연결한 공식 문서.</footer>
+</main>
+</body>
+</html>

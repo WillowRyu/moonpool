@@ -1,7 +1,8 @@
 # Android and iOS follow-up implementation plan
 
 Date: 2026-10-26
-Status: Planning complete; T22–T65 are planned and have not started.
+Last updated: 2026-10-27
+Status: T22 complete; T23–T65 planned. No native build/probe has run yet.
 Targets confirmed by the maintainer: Android (AOS) and iOS, both required.
 Host application/framework: explicitly undecided; build the common plan first.
 Baseline: browser v0.1 complete, published through 91d7b46; 1131 tests / 39 files.
@@ -35,7 +36,8 @@ No v0.2/v1.0 number, minimum OS, engine dependency or release date is assigned h
 
 | Current task range | State | Evidence |
 | --- | --- | --- |
-| T22–T65 | Planned | Planning document only; no native implementation or device verification yet |
+| T22 | Complete | [Local toolchain/target inventory and T23/T24 criteria](native-target-matrix.md); no native build/boot evidence |
+| T23–T65 | Planned | No native implementation or device verification yet |
 
 ## Decisions that precede implementation
 
@@ -76,7 +78,7 @@ Use the next free ADR number when the task runs; do not create placeholder ADRs.
 
 | ID | Target | Task / deliverable | Acceptance | Depends on |
 | --- | --- | --- | --- | --- |
-| T22 | Both/shared | Record target requirements, provisional support/toolchain matrix and host-framework decision points. | Android OS + WebView provider/features and iOS/WebKit versions are distinguished; emulator/simulator/physical-device availability and host unknowns are explicit. No silent SDK install or platform choice. | T21 |
+| T22 | Both/shared | Completed 2026-10-27: target/toolchain inventory and host-framework decision points. | Existing ARM64 API 37 AVD and iOS 26.4 simulator candidates recorded, with tool warnings, unknown WebView/support/device details and P01–P10 probe criteria. [Evidence and handover](native-target-matrix.md). No native build or SDK install. | T21 |
 | T23 | Android | Bounded origin/local-content probe with two app ids. | Record actual origin, DOM storage/fetch behavior, navigation, asset resolution and network fallback for the required scheme; use supported platform paths only as labeled controls. Report incompatibilities, not a conforming claim. | T22 |
 | T24 | iOS | Matching WKWebView origin/local-content probe. | Measure the same two-app matrix, custom-scheme task behavior, reload/persistence and actual origin metadata. A handler API existing is not evidence of origin/storage semantics. | T22 |
 | T25 | Android | Native message-channel/authentication probe. | Observe native sender/frame/origin identity, feature availability, first-message timing, navigation and stale callbacks. Include wrong-origin/source/subframe negatives and a working positive control. No @JavascriptInterface fallback. | T23 |
@@ -171,7 +173,7 @@ scheduled separately, but this plan does not request multi-agent delegation.
 ## Working rules
 
 - Keep the browser v0.1 baseline and previous task ids/lessons. T22–T65 are 44
-  planned tasks, not completed native capability claims. Split a task further
+  follow-up tasks; use the progress ledger for their actual state. Split a task further
   if evidence warrants it; retain its id and record the substeps/dependency change.
 - One task ends with a small verified result and a Korean explanation with code.
   Add failing tests before functional implementation; write observation criteria
@@ -208,8 +210,12 @@ These references inform experiment design; they are not device verification.
 
 ## Current checkpoint
 
-Planning only. Both target platforms are confirmed; the host framework remains
-undecided by the maintainer's choice. No native code, policy, SDK setup or new
-protocol version is implemented. Next executable task: T22, then T23/T24 evidence.
-The maintainer requested committing and pushing this planning checkpoint on
-2026-10-26, including the implementation plan and learning materials.
+T22 inventory/planning is complete. Both platforms are required; the host
+framework remains undecided by the maintainer's choice. Existing tools and
+virtual-device candidates were inspected without installing SDKs or launching
+native apps. Native code, policy and protocol version are unchanged. Next:
+T23 Android origin/local-content probe, with T24 as the matching iOS task.
+
+The initial planning checkpoint was committed/pushed as 10d75d3 at the
+maintainer's request. The maintainer also requested committing and pushing the
+completed T22 documentation checkpoint on 2026-10-27.

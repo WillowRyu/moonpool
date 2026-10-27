@@ -10,7 +10,8 @@ Normative source: `SPEC.md`. This plan does not amend the protocol.
 Both Android and iOS are confirmed targets; the host app/framework is explicitly
 undecided. The [native follow-up plan](native-implementation-plan.md) records
 T22–T65 as 44 planned tasks with acceptance criteria, dependencies and design
-gates. None has started. T22 is next; T01–T21 remain complete and preserved here.
+gates. T22's [target/toolchain inventory](native-target-matrix.md) is complete;
+T23/T24 are next. T01–T21 remain complete and preserved here.
 
 ## Git publication — 2026-10-26
 

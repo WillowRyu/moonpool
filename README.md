@@ -124,7 +124,8 @@ trusted TypeScript execution context before native implementation.
 
 The plan separates reference-app PoCs, actual-host/device verification and an
 evidence-based deployment decision. These are planned milestones, not shipped
-native support. Start with T22; see the [Korean roadmap](study/27-native-roadmap.html).
+native support. T22's [target/toolchain inventory](docs/native-target-matrix.md)
+is complete; T23/T24 are next. See the [Korean roadmap](study/27-native-roadmap.html).
 
 ## Verification
 
