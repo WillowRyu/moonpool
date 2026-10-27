@@ -176,136 +176,31 @@ export function createHost(config: HostConfig): Host {
         }
       }
 
-      // Provider calls live in async helpers so the dispatcher below stays
-      // synchronous: one branch, one reply, `return`.
-      // `await` inside `try` catches a provider that rejects AND one that
-      // throws synchronously; either way the mini app gets exactly one reply,
-      // and the provider's own error text stays on the host side (§4.4).
-      async function invokeProfileGet(id: number, provider: ProfileProvider): Promise<void> {
-        try {
-          const profile = await provider.get();
-          // Allowlist on the way out. A provider that hands back its whole
-          // user record must not leak the extra fields, and an `undefined`
-          // must not cross a structured-clone transport as a non-JSON value.
-          // Only the §6.3 fields, only when set.
-          const result: ProfileGetResult = { displayName: profile.displayName };
-          if (profile.avatarUrl !== undefined) {
-            result.avatarUrl = profile.avatarUrl;
-          }
-          transport.send({ jsonrpc: '2.0', id, result });
-        } catch (error) {
-          transport.send({
-            jsonrpc: '2.0',
-            id,
-            error: {
-              code: ERROR_CODES.INTERNAL_ERROR,
-              message: `${PROFILE_METHODS.GET} failed inside the host`,
-            },
-          });
-          // Isolate, but do not swallow (same decision as the transport's
-          // handler isolation, E2.1). Re-thrown with no caller above it, the
-          // provider's error surfaces as an uncaught error / window.onerror
-          // on the HOST side — never in the reply (§4.4).
-          queueMicrotask(() => {
-            throw error;
-          });
-        }
-      }
-
       /**
-       * SPEC §6.3 — wrap the provider's raw value in the wire result { value }.
-       * Dispatch has already checked scope, key, and provider availability.
-       * Like profile.get, provider failures get one sanitized reply while
-       * the original error remains observable on the host (§4.4).
+       * SPEC §4.4 / §6.3: one awaited provider call, one projected reply, and
+       * one host-only report on failure. Call through a closure so methods
+       * retain their provider instance; grants/params stay in dispatch below.
        */
-      async function invokeStorageGet(
+      async function invokeCapability<T>(
         id: number,
-        key: string,
-        provider: StorageProvider,
+        method: string,
+        operation: () => Promise<T>,
+        project: (value: T) => JsonValue,
       ): Promise<void> {
         try {
-          // Identity comes from host-held configuration, never from params.
-          // Keep it separate from the key so each provider can choose its
-          // own storage layout without changing the bridge contract (ADR 0003).
-          const value = await provider.get(config.manifest.id, key);
-          const result: StorageGetResult = { value };
-          transport.send({ jsonrpc: '2.0', id, result });
+          const value = await operation();
+          transport.send({ jsonrpc: '2.0', id, result: project(value) });
         } catch (error) {
           transport.send({
             jsonrpc: '2.0',
             id,
             error: {
               code: ERROR_CODES.INTERNAL_ERROR,
-              message: `${STORAGE_METHODS.GET} failed inside the host`,
+              message: `${method} failed inside the host`,
             },
           });
-          // Queue the host-side report after sending the error reply, using
-          // the same uncaught-error reporting policy as profile.get.
-          queueMicrotask(() => {
-            throw error;
-          });
-        }
-      }
-
-      /**
-       * SPEC §6.3 — acknowledge the write with {}, only after it completes.
-       * The provider's Promise<void> signals completion; it supplies no wire
-       * result. Input rejection happens before this helper can mutate storage.
-       */
-      async function invokeStorageSet(
-        id: number,
-        key: string,
-        value: StorageSetValue,
-        provider: StorageProvider,
-      ): Promise<void> {
-        try {
-          // Reads and writes must use the same host-selected app identity.
-          // Await completion before telling the mini app its write succeeded.
-          await provider.set(config.manifest.id, key, value);
-          transport.send({ jsonrpc: '2.0', id, result: {} });
-        } catch (error) {
-          transport.send({
-            jsonrpc: '2.0',
-            id,
-            error: {
-              code: ERROR_CODES.INTERNAL_ERROR,
-              message: `${STORAGE_METHODS.SET} failed inside the host`,
-            },
-          });
-          // Keep the original failure visible on the host without exposing
-          // provider error details to the mini app (§4.4, as in the read path).
-          queueMicrotask(() => {
-            throw error;
-          });
-        }
-      }
-
-      /**
-       * SPEC §6.3 — acknowledge deletion with {}, only after it completes.
-       * Dispatch has already checked scope, key, and provider availability.
-       * Provider failures follow the same host-only reporting policy as get/set.
-       */
-      async function invokeStorageDelete(
-        id: number,
-        key: string,
-        provider: StorageProvider,
-      ): Promise<void> {
-        try {
-          // Use the same host-selected identity as reads and writes (ADR 0003).
-          // Await completion before telling the mini app deletion succeeded.
-          await provider.delete(config.manifest.id, key);
-          transport.send({ jsonrpc: '2.0', id, result: {} });
-        } catch (error) {
-          transport.send({
-            jsonrpc: '2.0',
-            id,
-            error: {
-              code: ERROR_CODES.INTERNAL_ERROR,
-              message: `${STORAGE_METHODS.DELETE} failed inside the host`,
-            },
-          });
-          // Report the original failure on the host without exposing provider
-          // error details to the mini app (SPEC §4.4).
+          // The caller receives only a fixed error. Preserve the original
+          // failure on the host, after submitting the error response.
           queueMicrotask(() => {
             throw error;
           });
@@ -567,7 +462,19 @@ export function createHost(config: HostConfig): Host {
             });
             return;
           }
-          void invokeProfileGet(id, provider);
+          void invokeCapability(
+            id,
+            method,
+            () => provider.get(),
+            (profile) => {
+              // Allowlist public fields; never forward the provider's full user record.
+              const result: ProfileGetResult = { displayName: profile.displayName };
+              if (profile.avatarUrl !== undefined) {
+                result.avatarUrl = profile.avatarUrl;
+              }
+              return result;
+            },
+          );
           return;
         }
 
@@ -605,7 +512,13 @@ export function createHost(config: HostConfig): Host {
             return;
           }
 
-          void invokeStorageGet(id, params.key, provider);
+          void invokeCapability(
+            id,
+            method,
+            // ADR 0003: identity stays host-selected and separate from the key.
+            () => provider.get(config.manifest.id, params.key),
+            (value): StorageGetResult => ({ value }),
+          );
           return;
         }
 
@@ -643,7 +556,12 @@ export function createHost(config: HostConfig): Host {
             return;
           }
 
-          void invokeStorageSet(id, params.key, params.value, provider);
+          void invokeCapability(
+            id,
+            method,
+            () => provider.set(config.manifest.id, params.key, params.value),
+            () => ({}),
+          );
           return;
         }
 
@@ -681,7 +599,12 @@ export function createHost(config: HostConfig): Host {
             return;
           }
 
-          void invokeStorageDelete(id, params.key, provider);
+          void invokeCapability(
+            id,
+            method,
+            () => provider.delete(config.manifest.id, params.key),
+            () => ({}),
+          );
           return;
         }
 

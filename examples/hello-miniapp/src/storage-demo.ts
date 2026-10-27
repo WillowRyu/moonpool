@@ -59,26 +59,31 @@ export function createStorageDemo(
     output.textContent = `${method} pending...`;
     const key = keyInput.value;
     try {
-      if (method === STORAGE_METHODS.SET) {
-        // Preserve the exact text, including empty strings; the host validates params.
-        await client.call(method, { key, value: valueInput.value });
-        output.textContent = 'storage.set succeeded';
-      } else if (method === STORAGE_METHODS.GET) {
-        const result = await client.call(method, { key });
-        if (
-          typeof result !== 'object' ||
-          result === null ||
-          Array.isArray(result) ||
-          !('value' in result) ||
-          !isJsonValue(result.value)
-        ) {
-          throw new Error('storage.get returned an invalid value');
+      switch (method) {
+        case STORAGE_METHODS.SET:
+          // Preserve the exact text, including empty strings; the host validates params.
+          await client.call(method, { key, value: valueInput.value });
+          output.textContent = 'storage.set succeeded';
+          break;
+        case STORAGE_METHODS.GET: {
+          const result = await client.call(method, { key });
+          if (
+            typeof result !== 'object' ||
+            result === null ||
+            Array.isArray(result) ||
+            !('value' in result) ||
+            !isJsonValue(result.value)
+          ) {
+            throw new Error('storage.get returned an invalid value');
+          }
+          // Render as text: returned data must never become executable HTML.
+          output.textContent = `storage.get → ${JSON.stringify(result.value)}`;
+          break;
         }
-        // Render as text: returned data must never become executable HTML.
-        output.textContent = `storage.get → ${JSON.stringify(result.value)}`;
-      } else {
-        await client.call(method, { key });
-        output.textContent = 'storage.delete succeeded';
+        case STORAGE_METHODS.DELETE:
+          await client.call(method, { key });
+          output.textContent = 'storage.delete succeeded';
+          break;
       }
     } catch (error) {
       const detail =
