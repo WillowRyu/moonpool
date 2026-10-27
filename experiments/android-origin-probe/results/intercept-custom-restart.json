@@ -1,0 +1,1314 @@
+{
+  "profile": "intercept-custom",
+  "phase": "restart",
+  "sdk": 37,
+  "os": "17",
+  "webView": "145.0.7632.218",
+  "webViewPackage": "com.google.android.webview",
+  "officialLoaderAcceptsCustom": false,
+  "samples": [
+    {
+      "label": "initial-a",
+      "nativeUrl": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+      "observation": {
+        "app": "a",
+        "href": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+        "origin": "moonpool://",
+        "secureContext": false,
+        "cssMarker": "rgb(234, 243, 238)",
+        "imageLoaded": true,
+        "localStorage": {
+          "before": "a",
+          "after": "a"
+        },
+        "indexedDB": {
+          "before": "a",
+          "after": "a"
+        },
+        "cookies": {
+          "before": "",
+          "after": ""
+        },
+        "selfFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "crossFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "missingFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "escapeFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "encodedEscapeFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "corsFetch": {
+          "status": 200,
+          "type": "cors",
+          "body": "{\"publicMarker\": \"loopback-control\", \"originHeader\": \"moonpool://\"}"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "selfFrame": {
+          "loadedMarker": "a",
+          "messageOrigin": "moonpool://",
+          "domMarker": "a"
+        },
+        "crossFrame": {
+          "loadedMarker": "b",
+          "messageOrigin": "moonpool://",
+          "domMarker": "b"
+        }
+      }
+    },
+    {
+      "label": "initial-b",
+      "nativeUrl": "moonpool://com.example.probe.b/assets/index.html?profile=intercept-custom&seed=false",
+      "observation": {
+        "app": "b",
+        "href": "moonpool://com.example.probe.b/assets/index.html?profile=intercept-custom&seed=false",
+        "origin": "moonpool://",
+        "secureContext": false,
+        "cssMarker": "rgb(234, 243, 238)",
+        "imageLoaded": true,
+        "localStorage": {
+          "before": "a",
+          "after": "a"
+        },
+        "indexedDB": {
+          "before": "a",
+          "after": "a"
+        },
+        "cookies": {
+          "before": "",
+          "after": ""
+        },
+        "selfFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "crossFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "missingFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "escapeFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "encodedEscapeFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "corsFetch": {
+          "status": 200,
+          "type": "cors",
+          "body": "{\"publicMarker\": \"loopback-control\", \"originHeader\": \"moonpool://\"}"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "selfFrame": {
+          "loadedMarker": "b",
+          "messageOrigin": "moonpool://",
+          "domMarker": "b"
+        },
+        "crossFrame": {
+          "loadedMarker": "a",
+          "messageOrigin": "moonpool://",
+          "domMarker": "a"
+        }
+      }
+    },
+    {
+      "label": "a-after-b",
+      "nativeUrl": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+      "observation": {
+        "app": "a",
+        "href": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+        "origin": "moonpool://",
+        "secureContext": false,
+        "cssMarker": "rgb(234, 243, 238)",
+        "imageLoaded": true,
+        "localStorage": {
+          "before": "a",
+          "after": "a"
+        },
+        "indexedDB": {
+          "before": "a",
+          "after": "a"
+        },
+        "cookies": {
+          "before": "",
+          "after": ""
+        },
+        "selfFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "crossFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "missingFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "escapeFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "encodedEscapeFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "corsFetch": {
+          "status": 200,
+          "type": "cors",
+          "body": "{\"publicMarker\": \"loopback-control\", \"originHeader\": \"moonpool://\"}"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "selfFrame": {
+          "loadedMarker": "a",
+          "messageOrigin": "moonpool://",
+          "domMarker": "a"
+        },
+        "crossFrame": {
+          "loadedMarker": "b",
+          "messageOrigin": "moonpool://",
+          "domMarker": "b"
+        }
+      }
+    },
+    {
+      "label": "b-after-a",
+      "nativeUrl": "moonpool://com.example.probe.b/assets/index.html?profile=intercept-custom&seed=false",
+      "observation": {
+        "app": "b",
+        "href": "moonpool://com.example.probe.b/assets/index.html?profile=intercept-custom&seed=false",
+        "origin": "moonpool://",
+        "secureContext": false,
+        "cssMarker": "rgb(234, 243, 238)",
+        "imageLoaded": true,
+        "localStorage": {
+          "before": "a",
+          "after": "a"
+        },
+        "indexedDB": {
+          "before": "a",
+          "after": "a"
+        },
+        "cookies": {
+          "before": "",
+          "after": ""
+        },
+        "selfFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "crossFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "missingFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "escapeFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "encodedEscapeFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "corsFetch": {
+          "status": 200,
+          "type": "cors",
+          "body": "{\"publicMarker\": \"loopback-control\", \"originHeader\": \"moonpool://\"}"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "selfFrame": {
+          "loadedMarker": "b",
+          "messageOrigin": "moonpool://",
+          "domMarker": "b"
+        },
+        "crossFrame": {
+          "loadedMarker": "a",
+          "messageOrigin": "moonpool://",
+          "domMarker": "a"
+        }
+      }
+    },
+    {
+      "label": "same-app-second-instance",
+      "nativeUrl": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+      "observation": {
+        "app": "a",
+        "href": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+        "origin": "moonpool://",
+        "secureContext": false,
+        "cssMarker": "rgb(234, 243, 238)",
+        "imageLoaded": true,
+        "localStorage": {
+          "before": "a",
+          "after": "a"
+        },
+        "indexedDB": {
+          "before": "a",
+          "after": "a"
+        },
+        "cookies": {
+          "before": "",
+          "after": ""
+        },
+        "selfFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "crossFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "missingFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "escapeFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "encodedEscapeFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "corsFetch": {
+          "status": 200,
+          "type": "cors",
+          "body": "{\"publicMarker\": \"loopback-control\", \"originHeader\": \"moonpool://\"}"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "selfFrame": {
+          "loadedMarker": "a",
+          "messageOrigin": "moonpool://",
+          "domMarker": "a"
+        },
+        "crossFrame": {
+          "loadedMarker": "b",
+          "messageOrigin": "moonpool://",
+          "domMarker": "b"
+        }
+      }
+    },
+    {
+      "label": "reload-a",
+      "nativeUrl": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+      "observation": {
+        "app": "a",
+        "href": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+        "origin": "moonpool://",
+        "secureContext": false,
+        "cssMarker": "rgb(234, 243, 238)",
+        "imageLoaded": true,
+        "localStorage": {
+          "before": "a",
+          "after": "a"
+        },
+        "indexedDB": {
+          "before": "a",
+          "after": "a"
+        },
+        "cookies": {
+          "before": "",
+          "after": ""
+        },
+        "selfFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "crossFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "missingFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "escapeFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "encodedEscapeFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "corsFetch": {
+          "status": 200,
+          "type": "cors",
+          "body": "{\"publicMarker\": \"loopback-control\", \"originHeader\": \"moonpool://\"}"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "selfFrame": {
+          "loadedMarker": "a",
+          "messageOrigin": "moonpool://",
+          "domMarker": "a"
+        },
+        "crossFrame": {
+          "loadedMarker": "b",
+          "messageOrigin": "moonpool://",
+          "domMarker": "b"
+        }
+      }
+    },
+    {
+      "label": "recreate-a",
+      "nativeUrl": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+      "observation": {
+        "app": "a",
+        "href": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+        "origin": "moonpool://",
+        "secureContext": false,
+        "cssMarker": "rgb(234, 243, 238)",
+        "imageLoaded": true,
+        "localStorage": {
+          "before": "a",
+          "after": "a"
+        },
+        "indexedDB": {
+          "before": "a",
+          "after": "a"
+        },
+        "cookies": {
+          "before": "",
+          "after": ""
+        },
+        "selfFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "crossFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "missingFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "escapeFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "encodedEscapeFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "corsFetch": {
+          "status": 200,
+          "type": "cors",
+          "body": "{\"publicMarker\": \"loopback-control\", \"originHeader\": \"moonpool://\"}"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "selfFrame": {
+          "loadedMarker": "a",
+          "messageOrigin": "moonpool://",
+          "domMarker": "a"
+        },
+        "crossFrame": {
+          "loadedMarker": "b",
+          "messageOrigin": "moonpool://",
+          "domMarker": "b"
+        }
+      }
+    },
+    {
+      "label": "same-app-navigation",
+      "nativeUrl": "moonpool://com.example.probe.a/assets/second.html?profile=intercept-custom&seed=false",
+      "observation": {
+        "app": "a",
+        "href": "moonpool://com.example.probe.a/assets/second.html?profile=intercept-custom&seed=false",
+        "origin": "moonpool://",
+        "secureContext": false,
+        "cssMarker": "rgb(234, 243, 238)",
+        "imageLoaded": true,
+        "localStorage": {
+          "before": "a",
+          "after": "a"
+        },
+        "indexedDB": {
+          "before": "a",
+          "after": "a"
+        },
+        "cookies": {
+          "before": "",
+          "after": ""
+        },
+        "selfFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "crossFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "missingFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "escapeFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "encodedEscapeFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "corsFetch": {
+          "status": 200,
+          "type": "cors",
+          "body": "{\"publicMarker\": \"loopback-control\", \"originHeader\": \"moonpool://\"}"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "selfFrame": {
+          "loadedMarker": "a",
+          "messageOrigin": "moonpool://",
+          "domMarker": "a"
+        },
+        "crossFrame": {
+          "loadedMarker": "b",
+          "messageOrigin": "moonpool://",
+          "domMarker": "b"
+        }
+      }
+    },
+    {
+      "label": "foreign-app-navigation",
+      "nativeUrl": "moonpool://com.example.probe.b/assets/index.html?profile=intercept-custom&seed=false",
+      "observation": {
+        "app": "b",
+        "href": "moonpool://com.example.probe.b/assets/index.html?profile=intercept-custom&seed=false",
+        "origin": "moonpool://",
+        "secureContext": false,
+        "cssMarker": "rgb(234, 243, 238)",
+        "imageLoaded": true,
+        "localStorage": {
+          "before": "a",
+          "after": "a"
+        },
+        "indexedDB": {
+          "before": "a",
+          "after": "a"
+        },
+        "cookies": {
+          "before": "",
+          "after": ""
+        },
+        "selfFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "crossFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "missingFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "escapeFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "encodedEscapeFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "corsFetch": {
+          "status": 200,
+          "type": "cors",
+          "body": "{\"publicMarker\": \"loopback-control\", \"originHeader\": \"moonpool://\"}"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "selfFrame": {
+          "loadedMarker": "b",
+          "messageOrigin": "moonpool://",
+          "domMarker": "b"
+        },
+        "crossFrame": {
+          "loadedMarker": "a",
+          "messageOrigin": "moonpool://",
+          "domMarker": "a"
+        }
+      }
+    },
+    {
+      "label": "external-navigation",
+      "nativeUrl": "http://127.0.0.1:8877/external",
+      "observation": {
+        "external": true,
+        "origin": "http://127.0.0.1:8877",
+        "href": "http://127.0.0.1:8877/external"
+      }
+    },
+    {
+      "label": "return-to-a",
+      "nativeUrl": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+      "observation": {
+        "app": "a",
+        "href": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+        "origin": "moonpool://",
+        "secureContext": false,
+        "cssMarker": "rgb(234, 243, 238)",
+        "imageLoaded": true,
+        "localStorage": {
+          "before": "a",
+          "after": "a"
+        },
+        "indexedDB": {
+          "before": "a",
+          "after": "a"
+        },
+        "cookies": {
+          "before": "",
+          "after": ""
+        },
+        "selfFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "crossFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "missingFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "escapeFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "encodedEscapeFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "corsFetch": {
+          "status": 200,
+          "type": "cors",
+          "body": "{\"publicMarker\": \"loopback-control\", \"originHeader\": \"moonpool://\"}"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "selfFrame": {
+          "loadedMarker": "a",
+          "messageOrigin": "moonpool://",
+          "domMarker": "a"
+        },
+        "crossFrame": {
+          "loadedMarker": "b",
+          "messageOrigin": "moonpool://",
+          "domMarker": "b"
+        }
+      }
+    }
+  ],
+  "events": [
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+      "mainFrame": true,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+      "type": "started"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.a/assets/style.css",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.a/assets/probe.js",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.a/assets/marker.svg",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+      "type": "finished"
+    },
+    {
+      "view": "a",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "originHeader": "moonpool://",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "originHeader": "moonpool://",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/no-cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "mainFrame": false,
+      "type": "navigation"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "mainFrame": false,
+      "type": "navigation"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "moonpool://com.example.probe.b/assets/index.html?profile=intercept-custom&seed=false",
+      "mainFrame": true,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "moonpool://com.example.probe.b/assets/index.html?profile=intercept-custom&seed=false",
+      "type": "started"
+    },
+    {
+      "view": "b",
+      "url": "moonpool://com.example.probe.b/assets/marker.svg",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "moonpool://com.example.probe.b/assets/probe.js",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "moonpool://com.example.probe.b/assets/style.css",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "moonpool://com.example.probe.b/assets/index.html?profile=intercept-custom&seed=false",
+      "type": "finished"
+    },
+    {
+      "view": "b",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "mainFrame": false,
+      "type": "navigation"
+    },
+    {
+      "view": "b",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "mainFrame": false,
+      "type": "navigation"
+    },
+    {
+      "view": "b",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "originHeader": "moonpool://",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "originHeader": "moonpool://",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/cors",
+      "type": "network-control"
+    },
+    {
+      "view": "b",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/no-cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "originHeader": "moonpool://",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "originHeader": "moonpool://",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/no-cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "mainFrame": false,
+      "type": "navigation"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "mainFrame": false,
+      "type": "navigation"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "originHeader": "moonpool://",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/cors",
+      "type": "network-control"
+    },
+    {
+      "view": "b",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "originHeader": "moonpool://",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/no-cors",
+      "type": "network-control"
+    },
+    {
+      "view": "b",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "mainFrame": false,
+      "type": "navigation"
+    },
+    {
+      "view": "b",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "mainFrame": false,
+      "type": "navigation"
+    },
+    {
+      "view": "b",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+      "mainFrame": true,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "originHeader": "moonpool://",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "originHeader": "moonpool://",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/no-cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "mainFrame": false,
+      "type": "navigation"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "mainFrame": false,
+      "type": "navigation"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+      "type": "started"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+      "type": "finished"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+      "mainFrame": true,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+      "type": "started"
+    },
+    {
+      "view": "a",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "originHeader": "moonpool://",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "originHeader": "moonpool://",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/no-cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "mainFrame": false,
+      "type": "navigation"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "mainFrame": false,
+      "type": "navigation"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+      "type": "finished"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+      "mainFrame": true,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+      "type": "started"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+      "type": "finished"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "originHeader": "moonpool://",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "originHeader": "moonpool://",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/no-cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "mainFrame": false,
+      "type": "navigation"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "mainFrame": false,
+      "type": "navigation"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.a/assets/second.html?profile=intercept-custom&seed=false",
+      "mainFrame": true,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.a/assets/second.html?profile=intercept-custom&seed=false",
+      "type": "started"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.a/assets/second.html?profile=intercept-custom&seed=false",
+      "type": "finished"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "originHeader": "moonpool://",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "originHeader": "moonpool://",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/no-cors",
+      "type": "network-control"
+    },
+    {
+      "url": "http://127.0.0.1:8877/cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "mainFrame": false,
+      "type": "navigation"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "mainFrame": false,
+      "type": "navigation"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.b/assets/index.html?profile=intercept-custom&seed=false",
+      "mainFrame": true,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.b/assets/index.html?profile=intercept-custom&seed=false",
+      "type": "started"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.b/assets/index.html?profile=intercept-custom&seed=false",
+      "type": "finished"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "originHeader": "moonpool://",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "originHeader": "moonpool://",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/cors",
+      "type": "network-control"
+    },
+    {
+      "url": "http://127.0.0.1:8877/no-cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "mainFrame": false,
+      "type": "navigation"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "mainFrame": false,
+      "type": "navigation"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/external",
+      "mainFrame": true,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/external",
+      "type": "network-control"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/external",
+      "type": "started"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/external",
+      "type": "finished"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/favicon.ico",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/favicon.ico",
+      "type": "network-control"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+      "mainFrame": true,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+      "type": "started"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=intercept-custom&seed=false",
+      "type": "finished"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "originHeader": "moonpool://",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "originHeader": "moonpool://",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/no-cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "mainFrame": false,
+      "type": "navigation"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "mainFrame": false,
+      "type": "navigation"
+    },
+    {
+      "view": "a-recreated",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    }
+  ],
+  "complete": true,
+  "apkSha256": "4c8270a92d1e4aaeae44f806d5a5fae147fa7fdeab0201f2db16f0969919bd8c"
+}

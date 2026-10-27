@@ -12,6 +12,8 @@
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:probes": "python3 -m unittest discover -s experiments/tests",
+    "check": "pnpm test && pnpm run test:probes && pnpm run typecheck && pnpm run lint && pnpm run build",
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.browser.json",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",

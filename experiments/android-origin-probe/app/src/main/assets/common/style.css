@@ -1,0 +1,12 @@
+body {
+  background: rgb(234, 243, 238);
+  font: 14px sans-serif;
+  padding: 12px;
+}
+pre {
+  white-space: pre-wrap;
+}
+iframe {
+  width: 80px;
+  height: 40px;
+}

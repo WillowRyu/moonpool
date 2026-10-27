@@ -1,0 +1,46 @@
+{
+  "date": "2026-10-27",
+  "scope": "One emulator research configuration; not native SDK conformance",
+  "host": "macOS 26.6.2 arm64",
+  "android": {
+    "release": "17",
+    "sdk": 37,
+    "build": "CP21.260330.012",
+    "abi": "arm64-v8a",
+    "pageSize": 16384,
+    "webViewPackage": "com.google.android.webview",
+    "webViewVersion": "145.0.7632.218"
+  },
+  "tools": {
+    "emulator": "36.6.11.0",
+    "gradle": "9.6.1",
+    "agp": "9.3.1",
+    "jdk": "21.0.10",
+    "compileSdk": 36,
+    "targetSdk": 36,
+    "buildTools": "36.0.0",
+    "webkit": "1.14.0"
+  },
+  "apkSha256": "4c8270a92d1e4aaeae44f806d5a5fae147fa7fdeab0201f2db16f0969919bd8c",
+  "sourceSha256": {
+    "app/build.gradle": "85e2fe33fbd2ad339f58e36b9f57da18e50e23504ad2e21e4435de025462aed1",
+    "app/src/main/AndroidManifest.xml": "a19d614e97b35babece04231d701d3ff788b518405429ad65a108dec8bdeeade",
+    "app/src/main/assets/apps/a/data.json": "59affb50b523d72b4cdec490fd991fbe3733027e14caa87f9a9ac487cbc9456e",
+    "app/src/main/assets/apps/a/frame.html": "c859e109e3d8320145934c347463603e1f45b860f92bc3e0eb92390a359baf1b",
+    "app/src/main/assets/apps/a/index.html": "16ea117975cfeb8993f05db5a3356fa644a2e7cb0419c353d3b8a09ae8736147",
+    "app/src/main/assets/apps/b/data.json": "f330c69ccde2eec9127ca62f2bccf9798594119f59c5662c019284306e6d767f",
+    "app/src/main/assets/apps/b/frame.html": "cca8aa3637c917b9f59c708ceec64ebcce1fe2e79b99b597067dc091deed27e4",
+    "app/src/main/assets/apps/b/index.html": "df6010ea7f372f77e89e1e364123c9d290f9bf58861d52b2a4ab9f5399e05d71",
+    "app/src/main/assets/common/marker.svg": "b0df91fe54638f1806287ae1eee1891d33a061ada7cc8ddff54a977f12a8d6cd",
+    "app/src/main/assets/common/probe.js": "648e6b43617c4828903aaabee9cef944474673f80248977b9781f3449dd088c8",
+    "app/src/main/assets/common/style.css": "7917dd34779d89550f2111acdd12b705f9b9943323b530a805cfe473f66a7013",
+    "app/src/main/assets/outside.json": "09f34c881482ca2b803d4d382149c62fdc46a2eae33b91b07219b8bdb3529618",
+    "app/src/main/java/org/moonpool/originprobe/ProbeActivity.java": "d75ce10de2f717f57d62e628a87988c83c4750ab103bdedfdabb2400e4717ac3",
+    "app/src/main/res/xml/network_security_config.xml": "9fa73b0651987288a63a5997d388394638c02487e941b3829f3897b99841998f",
+    "build.gradle": "6e94fd7d3deb45d681a1a2c33d78e47bfcabcfcfbbebc9edc156791d292006d9",
+    "gradle/wrapper/gradle-wrapper.jar": "497c8c2a7e5031f6aa847f88104aa80a93532ec32ee17bdb8d1d2f67a194a9c7",
+    "gradle/wrapper/gradle-wrapper.properties": "6ca9e44c73e5ffc2656e8110780eed77b023934f5ceb57e9e55658604d3315fd",
+    "gradle.properties": "67eefa02d084d8fd6e2698683ca4d007a344395ca89eed9012a79bac373ba359",
+    "settings.gradle": "092ca0170583def6d85203a315531935a79fded05efaafd08c579374c797b4f7"
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "profile": "asset-loader-custom",
+  "phase": "restart",
+  "sdk": 37,
+  "os": "17",
+  "webView": "145.0.7632.218",
+  "webViewPackage": "com.google.android.webview",
+  "officialLoaderAcceptsCustom": false,
+  "samples": [
+    {
+      "label": "initial-a",
+      "nativeUrl": "moonpool://com.example.probe.a/assets/index.html?profile=asset-loader-custom&seed=false",
+      "observation": {
+        "unavailable": true,
+        "nativeUrl": "moonpool://com.example.probe.a/assets/index.html?profile=asset-loader-custom&seed=false",
+        "reason": "No fixture report before deadline"
+      }
+    },
+    {
+      "label": "initial-b",
+      "nativeUrl": "moonpool://com.example.probe.b/assets/index.html?profile=asset-loader-custom&seed=false",
+      "observation": {
+        "unavailable": true,
+        "nativeUrl": "moonpool://com.example.probe.b/assets/index.html?profile=asset-loader-custom&seed=false",
+        "reason": "No fixture report before deadline"
+      }
+    }
+  ],
+  "events": [
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=asset-loader-custom&seed=false",
+      "mainFrame": true,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=asset-loader-custom&seed=false",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=asset-loader-custom&seed=false",
+      "type": "started"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=asset-loader-custom&seed=false",
+      "mainFrame": true,
+      "code": -10,
+      "description": "net::ERR_UNKNOWN_URL_SCHEME",
+      "type": "load-error"
+    },
+    {
+      "view": "a",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=asset-loader-custom&seed=false",
+      "type": "finished"
+    },
+    {
+      "view": "b",
+      "url": "moonpool://com.example.probe.b/assets/index.html?profile=asset-loader-custom&seed=false",
+      "mainFrame": true,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "moonpool://com.example.probe.b/assets/index.html?profile=asset-loader-custom&seed=false",
+      "type": "loader-miss"
+    },
+    {
+      "view": "b",
+      "url": "moonpool://com.example.probe.b/assets/index.html?profile=asset-loader-custom&seed=false",
+      "type": "started"
+    },
+    {
+      "view": "b",
+      "url": "moonpool://com.example.probe.b/assets/index.html?profile=asset-loader-custom&seed=false",
+      "mainFrame": true,
+      "code": -10,
+      "description": "net::ERR_UNKNOWN_URL_SCHEME",
+      "type": "load-error"
+    },
+    {
+      "view": "b",
+      "url": "moonpool://com.example.probe.b/assets/index.html?profile=asset-loader-custom&seed=false",
+      "type": "finished"
+    }
+  ],
+  "complete": true,
+  "apkSha256": "4c8270a92d1e4aaeae44f806d5a5fae147fa7fdeab0201f2db16f0969919bd8c"
+}

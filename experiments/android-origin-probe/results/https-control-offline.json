@@ -1,0 +1,2165 @@
+{
+  "profile": "https-control",
+  "phase": "restart",
+  "sdk": 37,
+  "os": "17",
+  "webView": "145.0.7632.218",
+  "webViewPackage": "com.google.android.webview",
+  "officialLoaderAcceptsCustom": false,
+  "samples": [
+    {
+      "label": "initial-a",
+      "nativeUrl": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+      "observation": {
+        "app": "a",
+        "href": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+        "origin": "https://com.example.probe.a.test",
+        "secureContext": true,
+        "cssMarker": "rgb(234, 243, 238)",
+        "imageLoaded": true,
+        "localStorage": {
+          "before": "a",
+          "after": "a"
+        },
+        "indexedDB": {
+          "before": "a",
+          "after": "a"
+        },
+        "cookies": {
+          "before": "t23-https-control=a",
+          "after": "t23-https-control=a"
+        },
+        "selfFetch": {
+          "status": 200,
+          "type": "basic",
+          "body": "{ \"publicMarker\": \"a\" }\n"
+        },
+        "crossFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "missingFetch": {
+          "status": 404,
+          "type": "basic",
+          "body": "Missing bundled resource"
+        },
+        "escapeFetch": {
+          "status": 451,
+          "type": "basic",
+          "body": "No network fallback for unmapped hosts or paths"
+        },
+        "encodedEscapeFetch": {
+          "status": 451,
+          "type": "basic",
+          "body": "No network fallback for unmapped hosts or paths"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "corsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "selfFrame": {
+          "loadedMarker": "a",
+          "messageOrigin": "https://com.example.probe.a.test",
+          "domMarker": "a"
+        },
+        "crossFrame": {
+          "loadedMarker": "b",
+          "messageOrigin": "https://com.example.probe.b.test",
+          "domError": "SecurityError: Failed to read a named property 'document' from 'Window': Blocked a frame with origin \"https://com.example.probe.a.test\" from accessing a cross-origin frame."
+        }
+      }
+    },
+    {
+      "label": "initial-b",
+      "nativeUrl": "https://com.example.probe.b.test/assets/index.html?profile=https-control&seed=false",
+      "observation": {
+        "app": "b",
+        "href": "https://com.example.probe.b.test/assets/index.html?profile=https-control&seed=false",
+        "origin": "https://com.example.probe.b.test",
+        "secureContext": true,
+        "cssMarker": "rgb(234, 243, 238)",
+        "imageLoaded": true,
+        "localStorage": {
+          "before": "b",
+          "after": "b"
+        },
+        "indexedDB": {
+          "before": "b",
+          "after": "b"
+        },
+        "cookies": {
+          "before": "t23-https-control=b",
+          "after": "t23-https-control=b"
+        },
+        "selfFetch": {
+          "status": 200,
+          "type": "basic",
+          "body": "{ \"publicMarker\": \"b\" }\n"
+        },
+        "crossFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "missingFetch": {
+          "status": 404,
+          "type": "basic",
+          "body": "Missing bundled resource"
+        },
+        "escapeFetch": {
+          "status": 451,
+          "type": "basic",
+          "body": "No network fallback for unmapped hosts or paths"
+        },
+        "encodedEscapeFetch": {
+          "status": 451,
+          "type": "basic",
+          "body": "No network fallback for unmapped hosts or paths"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "corsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "selfFrame": {
+          "loadedMarker": "b",
+          "messageOrigin": "https://com.example.probe.b.test",
+          "domMarker": "b"
+        },
+        "crossFrame": {
+          "loadedMarker": "a",
+          "messageOrigin": "https://com.example.probe.a.test",
+          "domError": "SecurityError: Failed to read a named property 'document' from 'Window': Blocked a frame with origin \"https://com.example.probe.b.test\" from accessing a cross-origin frame."
+        }
+      }
+    },
+    {
+      "label": "a-after-b",
+      "nativeUrl": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+      "observation": {
+        "app": "a",
+        "href": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+        "origin": "https://com.example.probe.a.test",
+        "secureContext": true,
+        "cssMarker": "rgb(234, 243, 238)",
+        "imageLoaded": true,
+        "localStorage": {
+          "before": "a",
+          "after": "a"
+        },
+        "indexedDB": {
+          "before": "a",
+          "after": "a"
+        },
+        "cookies": {
+          "before": "t23-https-control=a",
+          "after": "t23-https-control=a"
+        },
+        "selfFetch": {
+          "status": 200,
+          "type": "basic",
+          "body": "{ \"publicMarker\": \"a\" }\n"
+        },
+        "crossFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "missingFetch": {
+          "status": 404,
+          "type": "basic",
+          "body": "Missing bundled resource"
+        },
+        "escapeFetch": {
+          "status": 451,
+          "type": "basic",
+          "body": "No network fallback for unmapped hosts or paths"
+        },
+        "encodedEscapeFetch": {
+          "status": 451,
+          "type": "basic",
+          "body": "No network fallback for unmapped hosts or paths"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "corsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "selfFrame": {
+          "loadedMarker": "a",
+          "messageOrigin": "https://com.example.probe.a.test",
+          "domMarker": "a"
+        },
+        "crossFrame": {
+          "loadedMarker": "b",
+          "messageOrigin": "https://com.example.probe.b.test",
+          "domError": "SecurityError: Failed to read a named property 'document' from 'Window': Blocked a frame with origin \"https://com.example.probe.a.test\" from accessing a cross-origin frame."
+        }
+      }
+    },
+    {
+      "label": "b-after-a",
+      "nativeUrl": "https://com.example.probe.b.test/assets/index.html?profile=https-control&seed=false",
+      "observation": {
+        "app": "b",
+        "href": "https://com.example.probe.b.test/assets/index.html?profile=https-control&seed=false",
+        "origin": "https://com.example.probe.b.test",
+        "secureContext": true,
+        "cssMarker": "rgb(234, 243, 238)",
+        "imageLoaded": true,
+        "localStorage": {
+          "before": "b",
+          "after": "b"
+        },
+        "indexedDB": {
+          "before": "b",
+          "after": "b"
+        },
+        "cookies": {
+          "before": "t23-https-control=b",
+          "after": "t23-https-control=b"
+        },
+        "selfFetch": {
+          "status": 200,
+          "type": "basic",
+          "body": "{ \"publicMarker\": \"b\" }\n"
+        },
+        "crossFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "missingFetch": {
+          "status": 404,
+          "type": "basic",
+          "body": "Missing bundled resource"
+        },
+        "escapeFetch": {
+          "status": 451,
+          "type": "basic",
+          "body": "No network fallback for unmapped hosts or paths"
+        },
+        "encodedEscapeFetch": {
+          "status": 451,
+          "type": "basic",
+          "body": "No network fallback for unmapped hosts or paths"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "corsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "selfFrame": {
+          "loadedMarker": "b",
+          "messageOrigin": "https://com.example.probe.b.test",
+          "domMarker": "b"
+        },
+        "crossFrame": {
+          "loadedMarker": "a",
+          "messageOrigin": "https://com.example.probe.a.test",
+          "domError": "SecurityError: Failed to read a named property 'document' from 'Window': Blocked a frame with origin \"https://com.example.probe.b.test\" from accessing a cross-origin frame."
+        }
+      }
+    },
+    {
+      "label": "same-app-second-instance",
+      "nativeUrl": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+      "observation": {
+        "app": "a",
+        "href": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+        "origin": "https://com.example.probe.a.test",
+        "secureContext": true,
+        "cssMarker": "rgb(234, 243, 238)",
+        "imageLoaded": true,
+        "localStorage": {
+          "before": "a",
+          "after": "a"
+        },
+        "indexedDB": {
+          "before": "a",
+          "after": "a"
+        },
+        "cookies": {
+          "before": "t23-https-control=a",
+          "after": "t23-https-control=a"
+        },
+        "selfFetch": {
+          "status": 200,
+          "type": "basic",
+          "body": "{ \"publicMarker\": \"a\" }\n"
+        },
+        "crossFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "missingFetch": {
+          "status": 404,
+          "type": "basic",
+          "body": "Missing bundled resource"
+        },
+        "escapeFetch": {
+          "status": 451,
+          "type": "basic",
+          "body": "No network fallback for unmapped hosts or paths"
+        },
+        "encodedEscapeFetch": {
+          "status": 451,
+          "type": "basic",
+          "body": "No network fallback for unmapped hosts or paths"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "corsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "selfFrame": {
+          "loadedMarker": "a",
+          "messageOrigin": "https://com.example.probe.a.test",
+          "domMarker": "a"
+        },
+        "crossFrame": {
+          "loadedMarker": "b",
+          "messageOrigin": "https://com.example.probe.b.test",
+          "domError": "SecurityError: Failed to read a named property 'document' from 'Window': Blocked a frame with origin \"https://com.example.probe.a.test\" from accessing a cross-origin frame."
+        }
+      }
+    },
+    {
+      "label": "reload-a",
+      "nativeUrl": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+      "observation": {
+        "app": "a",
+        "href": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+        "origin": "https://com.example.probe.a.test",
+        "secureContext": true,
+        "cssMarker": "rgb(234, 243, 238)",
+        "imageLoaded": true,
+        "localStorage": {
+          "before": "a",
+          "after": "a"
+        },
+        "indexedDB": {
+          "before": "a",
+          "after": "a"
+        },
+        "cookies": {
+          "before": "t23-https-control=a",
+          "after": "t23-https-control=a"
+        },
+        "selfFetch": {
+          "status": 200,
+          "type": "basic",
+          "body": "{ \"publicMarker\": \"a\" }\n"
+        },
+        "crossFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "missingFetch": {
+          "status": 404,
+          "type": "basic",
+          "body": "Missing bundled resource"
+        },
+        "escapeFetch": {
+          "status": 451,
+          "type": "basic",
+          "body": "No network fallback for unmapped hosts or paths"
+        },
+        "encodedEscapeFetch": {
+          "status": 451,
+          "type": "basic",
+          "body": "No network fallback for unmapped hosts or paths"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "corsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "selfFrame": {
+          "loadedMarker": "a",
+          "messageOrigin": "https://com.example.probe.a.test",
+          "domMarker": "a"
+        },
+        "crossFrame": {
+          "loadedMarker": "b",
+          "messageOrigin": "https://com.example.probe.b.test",
+          "domError": "SecurityError: Failed to read a named property 'document' from 'Window': Blocked a frame with origin \"https://com.example.probe.a.test\" from accessing a cross-origin frame."
+        }
+      }
+    },
+    {
+      "label": "recreate-a",
+      "nativeUrl": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+      "observation": {
+        "app": "a",
+        "href": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+        "origin": "https://com.example.probe.a.test",
+        "secureContext": true,
+        "cssMarker": "rgb(234, 243, 238)",
+        "imageLoaded": true,
+        "localStorage": {
+          "before": "a",
+          "after": "a"
+        },
+        "indexedDB": {
+          "before": "a",
+          "after": "a"
+        },
+        "cookies": {
+          "before": "t23-https-control=a",
+          "after": "t23-https-control=a"
+        },
+        "selfFetch": {
+          "status": 200,
+          "type": "basic",
+          "body": "{ \"publicMarker\": \"a\" }\n"
+        },
+        "crossFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "missingFetch": {
+          "status": 404,
+          "type": "basic",
+          "body": "Missing bundled resource"
+        },
+        "escapeFetch": {
+          "status": 451,
+          "type": "basic",
+          "body": "No network fallback for unmapped hosts or paths"
+        },
+        "encodedEscapeFetch": {
+          "status": 451,
+          "type": "basic",
+          "body": "No network fallback for unmapped hosts or paths"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "corsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "selfFrame": {
+          "loadedMarker": "a",
+          "messageOrigin": "https://com.example.probe.a.test",
+          "domMarker": "a"
+        },
+        "crossFrame": {
+          "loadedMarker": "b",
+          "messageOrigin": "https://com.example.probe.b.test",
+          "domError": "SecurityError: Failed to read a named property 'document' from 'Window': Blocked a frame with origin \"https://com.example.probe.a.test\" from accessing a cross-origin frame."
+        }
+      }
+    },
+    {
+      "label": "same-app-navigation",
+      "nativeUrl": "https://com.example.probe.a.test/assets/second.html?profile=https-control&seed=false",
+      "observation": {
+        "app": "a",
+        "href": "https://com.example.probe.a.test/assets/second.html?profile=https-control&seed=false",
+        "origin": "https://com.example.probe.a.test",
+        "secureContext": true,
+        "cssMarker": "rgb(234, 243, 238)",
+        "imageLoaded": true,
+        "localStorage": {
+          "before": "a",
+          "after": "a"
+        },
+        "indexedDB": {
+          "before": "a",
+          "after": "a"
+        },
+        "cookies": {
+          "before": "t23-https-control=a",
+          "after": "t23-https-control=a"
+        },
+        "selfFetch": {
+          "status": 200,
+          "type": "basic",
+          "body": "{ \"publicMarker\": \"a\" }\n"
+        },
+        "crossFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "missingFetch": {
+          "status": 404,
+          "type": "basic",
+          "body": "Missing bundled resource"
+        },
+        "escapeFetch": {
+          "status": 451,
+          "type": "basic",
+          "body": "No network fallback for unmapped hosts or paths"
+        },
+        "encodedEscapeFetch": {
+          "status": 451,
+          "type": "basic",
+          "body": "No network fallback for unmapped hosts or paths"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "corsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "selfFrame": {
+          "loadedMarker": "a",
+          "messageOrigin": "https://com.example.probe.a.test",
+          "domMarker": "a"
+        },
+        "crossFrame": {
+          "loadedMarker": "b",
+          "messageOrigin": "https://com.example.probe.b.test",
+          "domError": "SecurityError: Failed to read a named property 'document' from 'Window': Blocked a frame with origin \"https://com.example.probe.a.test\" from accessing a cross-origin frame."
+        }
+      }
+    },
+    {
+      "label": "foreign-app-navigation",
+      "nativeUrl": "https://com.example.probe.b.test/assets/index.html?profile=https-control&seed=false",
+      "observation": {
+        "app": "b",
+        "href": "https://com.example.probe.b.test/assets/index.html?profile=https-control&seed=false",
+        "origin": "https://com.example.probe.b.test",
+        "secureContext": true,
+        "cssMarker": "rgb(234, 243, 238)",
+        "imageLoaded": true,
+        "localStorage": {
+          "before": "b",
+          "after": "b"
+        },
+        "indexedDB": {
+          "before": "b",
+          "after": "b"
+        },
+        "cookies": {
+          "before": "t23-https-control=b",
+          "after": "t23-https-control=b"
+        },
+        "selfFetch": {
+          "status": 200,
+          "type": "basic",
+          "body": "{ \"publicMarker\": \"b\" }\n"
+        },
+        "crossFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "missingFetch": {
+          "status": 404,
+          "type": "basic",
+          "body": "Missing bundled resource"
+        },
+        "escapeFetch": {
+          "status": 451,
+          "type": "basic",
+          "body": "No network fallback for unmapped hosts or paths"
+        },
+        "encodedEscapeFetch": {
+          "status": 451,
+          "type": "basic",
+          "body": "No network fallback for unmapped hosts or paths"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "corsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "selfFrame": {
+          "loadedMarker": "b",
+          "messageOrigin": "https://com.example.probe.b.test",
+          "domMarker": "b"
+        },
+        "crossFrame": {
+          "loadedMarker": "a",
+          "messageOrigin": "https://com.example.probe.a.test",
+          "domError": "SecurityError: Failed to read a named property 'document' from 'Window': Blocked a frame with origin \"https://com.example.probe.b.test\" from accessing a cross-origin frame."
+        }
+      }
+    },
+    {
+      "label": "external-navigation",
+      "nativeUrl": "http://127.0.0.1:8877/external",
+      "observation": {
+        "unavailable": true,
+        "nativeUrl": "http://127.0.0.1:8877/external",
+        "reason": "No fixture report before deadline"
+      }
+    },
+    {
+      "label": "return-to-a",
+      "nativeUrl": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+      "observation": {
+        "app": "a",
+        "href": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+        "origin": "https://com.example.probe.a.test",
+        "secureContext": true,
+        "cssMarker": "rgb(234, 243, 238)",
+        "imageLoaded": true,
+        "localStorage": {
+          "before": "a",
+          "after": "a"
+        },
+        "indexedDB": {
+          "before": "a",
+          "after": "a"
+        },
+        "cookies": {
+          "before": "t23-https-control=a",
+          "after": "t23-https-control=a"
+        },
+        "selfFetch": {
+          "status": 200,
+          "type": "basic",
+          "body": "{ \"publicMarker\": \"a\" }\n"
+        },
+        "crossFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "missingFetch": {
+          "status": 404,
+          "type": "basic",
+          "body": "Missing bundled resource"
+        },
+        "escapeFetch": {
+          "status": 451,
+          "type": "basic",
+          "body": "No network fallback for unmapped hosts or paths"
+        },
+        "encodedEscapeFetch": {
+          "status": 451,
+          "type": "basic",
+          "body": "No network fallback for unmapped hosts or paths"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "corsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Failed to fetch"
+        },
+        "selfFrame": {
+          "loadedMarker": "a",
+          "messageOrigin": "https://com.example.probe.a.test",
+          "domMarker": "a"
+        },
+        "crossFrame": {
+          "loadedMarker": "b",
+          "messageOrigin": "https://com.example.probe.b.test",
+          "domError": "SecurityError: Failed to read a named property 'document' from 'Window': Blocked a frame with origin \"https://com.example.probe.a.test\" from accessing a cross-origin frame."
+        }
+      }
+    }
+  ],
+  "events": [
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+      "mainFrame": true,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/style.css",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/marker.svg",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+      "type": "started"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/probe.js",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+      "type": "finished"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/favicon.ico",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.a.test/favicon.ico",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.b.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/missing.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/outside.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.a.test/outside.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/outside.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.unknown.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.unknown.test/assets/data.json",
+      "type": "loader-miss"
+    },
+    {
+      "url": "https://com.example.probe.a.test/outside.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/no-cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.b.test/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "code": -1,
+      "description": "net::ERR_EMPTY_RESPONSE",
+      "type": "load-error"
+    },
+    {
+      "view": "a",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "code": -1,
+      "description": "net::ERR_EMPTY_RESPONSE",
+      "type": "load-error"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.b.test/assets/index.html?profile=https-control&seed=false",
+      "mainFrame": true,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.b.test/assets/index.html?profile=https-control&seed=false",
+      "type": "started"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.b.test/assets/style.css",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.b.test/assets/marker.svg",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.b.test/assets/probe.js",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.b.test/assets/index.html?profile=https-control&seed=false",
+      "type": "finished"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.b.test/favicon.ico",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.b.test/favicon.ico",
+      "type": "loader-miss"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.b.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.a.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.b.test",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.b.test/assets/missing.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.b.test/outside.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.b.test/outside.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.b.test/outside.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.b.test/outside.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.unknown.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.b.test",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.unknown.test/assets/data.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "b",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.b.test",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/cors",
+      "type": "network-control"
+    },
+    {
+      "view": "b",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.b.test",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/no-cors",
+      "type": "network-control"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.b.test/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.a.test/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "code": -1,
+      "description": "net::ERR_EMPTY_RESPONSE",
+      "type": "load-error"
+    },
+    {
+      "view": "b",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "code": -1,
+      "description": "net::ERR_EMPTY_RESPONSE",
+      "type": "load-error"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.b.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/missing.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/outside.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.a.test/outside.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/outside.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.a.test/outside.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.unknown.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.unknown.test/assets/data.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/no-cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.b.test/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "code": -6,
+      "description": "net::ERR_SOCKET_NOT_CONNECTED",
+      "type": "load-error"
+    },
+    {
+      "view": "a",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "code": -1,
+      "description": "net::ERR_EMPTY_RESPONSE",
+      "type": "load-error"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.b.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.a.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.b.test",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.b.test/assets/missing.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.b.test/outside.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.b.test/outside.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.b.test/outside.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.unknown.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.b.test",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.unknown.test/assets/data.json",
+      "type": "loader-miss"
+    },
+    {
+      "url": "https://com.example.probe.b.test/outside.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "b",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.b.test",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/cors",
+      "type": "network-control"
+    },
+    {
+      "view": "b",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.b.test",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/no-cors",
+      "type": "network-control"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.b.test/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.a.test/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "b",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "code": -6,
+      "description": "net::ERR_SOCKET_NOT_CONNECTED",
+      "type": "load-error"
+    },
+    {
+      "view": "b",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "code": -6,
+      "description": "net::ERR_SOCKET_NOT_CONNECTED",
+      "type": "load-error"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+      "mainFrame": true,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "https://com.example.probe.a.test/assets/style.css",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "https://com.example.probe.a.test/assets/marker.svg",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "https://com.example.probe.a.test/assets/probe.js",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "https://com.example.probe.a.test/favicon.ico",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.a.test/favicon.ico",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "https://com.example.probe.b.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "https://com.example.probe.a.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "https://com.example.probe.a.test/outside.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.a.test/outside.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "https://com.example.probe.a.test/assets/missing.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "https://com.example.probe.a.test/outside.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.a.test/outside.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "https://com.example.probe.unknown.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.unknown.test/assets/data.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/no-cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "https://com.example.probe.a.test/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "https://com.example.probe.b.test/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+      "type": "started"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+      "type": "finished"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "code": -6,
+      "description": "net::ERR_SOCKET_NOT_CONNECTED",
+      "type": "load-error"
+    },
+    {
+      "view": "a-second-instance",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "code": -6,
+      "description": "net::ERR_SOCKET_NOT_CONNECTED",
+      "type": "load-error"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+      "mainFrame": true,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/style.css",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/marker.svg",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/probe.js",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+      "type": "started"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/favicon.ico",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.a.test/favicon.ico",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.b.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/missing.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/outside.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.a.test/outside.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/outside.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.a.test/outside.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.unknown.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.unknown.test/assets/data.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/no-cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.b.test/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+      "type": "finished"
+    },
+    {
+      "view": "a",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "code": -6,
+      "description": "net::ERR_SOCKET_NOT_CONNECTED",
+      "type": "load-error"
+    },
+    {
+      "view": "a",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "code": -6,
+      "description": "net::ERR_SOCKET_NOT_CONNECTED",
+      "type": "load-error"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+      "mainFrame": true,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/style.css",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/marker.svg",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/probe.js",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/favicon.ico",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.a.test/favicon.ico",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.b.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/missing.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/outside.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.a.test/outside.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+      "type": "started"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+      "type": "finished"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/outside.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.a.test/outside.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.unknown.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.unknown.test/assets/data.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/no-cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.b.test/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "code": -6,
+      "description": "net::ERR_SOCKET_NOT_CONNECTED",
+      "type": "load-error"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "code": -1,
+      "description": "net::ERR_EMPTY_RESPONSE",
+      "type": "load-error"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/second.html?profile=https-control&seed=false",
+      "mainFrame": true,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/second.html?profile=https-control&seed=false",
+      "type": "started"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/style.css",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/marker.svg",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/probe.js",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/second.html?profile=https-control&seed=false",
+      "type": "finished"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/favicon.ico",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.a.test/favicon.ico",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.b.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/missing.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/outside.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/outside.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.a.test/outside.json",
+      "type": "loader-miss"
+    },
+    {
+      "url": "https://com.example.probe.a.test/outside.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.unknown.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/no-cors",
+      "type": "network-control"
+    },
+    {
+      "url": "https://com.example.probe.unknown.test/assets/data.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.b.test/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "code": -1,
+      "description": "net::ERR_EMPTY_RESPONSE",
+      "type": "load-error"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "code": -6,
+      "description": "net::ERR_SOCKET_NOT_CONNECTED",
+      "type": "load-error"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.b.test/assets/index.html?profile=https-control&seed=false",
+      "mainFrame": true,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.b.test/assets/style.css",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.b.test/assets/index.html?profile=https-control&seed=false",
+      "type": "started"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.b.test/assets/marker.svg",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.b.test/assets/probe.js",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.b.test/assets/index.html?profile=https-control&seed=false",
+      "type": "finished"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.b.test",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.b.test/assets/missing.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.b.test/outside.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.b.test/outside.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.b.test/outside.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.b.test/outside.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.b.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.unknown.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.b.test",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.unknown.test/assets/data.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.b.test",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.b.test",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/no-cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.b.test/favicon.ico",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.b.test/favicon.ico",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.b.test/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "code": -6,
+      "description": "net::ERR_SOCKET_NOT_CONNECTED",
+      "type": "load-error"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "code": -1,
+      "description": "net::ERR_EMPTY_RESPONSE",
+      "type": "load-error"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/external",
+      "mainFrame": true,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/external",
+      "type": "network-control"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/external",
+      "type": "started"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/external",
+      "mainFrame": true,
+      "code": -1,
+      "description": "net::ERR_EMPTY_RESPONSE",
+      "type": "load-error"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/external",
+      "type": "finished"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+      "mainFrame": true,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+      "type": "started"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/style.css",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/marker.svg",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/probe.js",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/favicon.ico",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.a.test/favicon.ico",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/index.html?profile=https-control&seed=false",
+      "type": "finished"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.b.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/missing.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/outside.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.a.test/outside.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/outside.json",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.a.test/outside.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.unknown.test/assets/data.json",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "url": "https://com.example.probe.unknown.test/assets/data.json",
+      "type": "loader-miss"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "originHeader": "https://com.example.probe.a.test",
+      "type": "request"
+    },
+    {
+      "url": "http://127.0.0.1:8877/no-cors",
+      "type": "network-control"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.a.test/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://com.example.probe.b.test/assets/frame.html",
+      "mainFrame": false,
+      "originHeader": "<absent>",
+      "type": "request"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/cors",
+      "mainFrame": false,
+      "code": -1,
+      "description": "net::ERR_EMPTY_RESPONSE",
+      "type": "load-error"
+    },
+    {
+      "view": "a-recreated",
+      "url": "http://127.0.0.1:8877/no-cors",
+      "mainFrame": false,
+      "code": -1,
+      "description": "net::ERR_EMPTY_RESPONSE",
+      "type": "load-error"
+    }
+  ],
+  "complete": true,
+  "apkSha256": "4c8270a92d1e4aaeae44f806d5a5fae147fa7fdeab0201f2db16f0969919bd8c"
+}
