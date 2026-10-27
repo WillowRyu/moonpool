@@ -22,6 +22,8 @@
 > T28 native-origin contract gate remains.
 > Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
 > Run pnpm run check; read docs/code-quality-workflow.md. T24 stays paused.
+> Scheme discussion: docs/native-origin-options.md; Android HTTPS is a candidate, not approved policy.
+> The maintainer requested publication of the scheme discussion and study additions.
 > The maintainer requested commit/push of all current research, paused preparation and cleanup.
 > Source commits: 7327536 native probes; e2e3c72 shared tests; 328280d runtime/UI cleanup.
 > T18 published as 4aab691 / ab98b58; remote confirmed in sync before T19.
@@ -46,6 +48,40 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-10-27 checkpoint — scheme discussion Git publication requested
+
+The maintainer explicitly requested committing and pushing the scheme review
+and learning-material additions. Publish these five documentation files as one
+Conventional Commit, then verify remote master matches HEAD and the tree is
+clean. This publishes the discussion, not approval of an origin/SPEC change.
+T24 remains paused. The earlier research/cleanup batch is published as 9f6f300.
+
+## 2026-10-27 checkpoint — native scheme/origin discussion
+
+After questions about Android custom schemes, Ionic Portals, bundled loading
+and future OTA, the maintainer deferred OTA and asked to focus on scheme
+handling. Added docs/native-origin-options.md as a discussion note, not an ADR
+approval or SPEC amendment. Android per-app virtual HTTPS is the evidence-backed
+candidate; iOS custom-scheme behavior and native message binding remain unmeasured.
+T24 stays paused; no simulator was booted or app launched for this review.
+
+The note distinguishes actual T23 results from official docs/Portals source
+inspection, local assets from service requests/provider data, and stable app
+identity from physical scheme. Cookie Domain/parent-domain/port semantics need
+separate cases: origin separation alone does not prove cookie separation.
+Do not pick a production hostname suffix or claim an iOS/native contract until
+paired tests and the explicit T28 decision. No OTA task or implementation added.
+Updated the existing Korean T23 lesson/map with the discussion; no new task is
+complete. The initial review did not request commit/push; the subsequent
+publication request is recorded above.
+
+Discussion verification: pnpm run check passes 1134 TS / 9 Python tests,
+typechecks, Biome (225 files) and both builds, retaining the known nonblocking
+Vite warning. All 513 study references across 31 HTML pages resolve with unique
+ids. Only five documentation files changed; SPEC and executable sources remain
+unchanged. Reviewed the new study comparison table; the review tab/server were
+closed. This is not new device evidence or T28 approval.
 
 ## 2026-10-27 checkpoint — research and cleanup Git publication requested
 

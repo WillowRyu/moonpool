@@ -15,6 +15,7 @@
     <a href="#origin">주소와 출처의 차이</a>
     <a href="#code">실험 코드 읽기</a>
     <a href="#controls">정상·실패 대조군</a>
+    <a href="#scheme-options">다음 스킴 설계 후보</a>
     <a href="#next">다음 단계</a>
   </nav>
   <p class="small desktop-only">2026.10.27 실측<br>Android 17 · API 37 · ARM64<br>WebView 145.0.7632.218</p>
@@ -49,6 +50,7 @@ moonpool://com.example.probe.b/assets/index.html
 // Measured location.origin in both pages
 "moonpool://"</code></pre>
     <p>주소에는 서로 다른 앱 이름이 있지만, 측정한 WebView는 둘을 같은 출처로 취급했습니다. 브라우저가 출처를 기준으로 만드는 DOM·저장소의 벽이 A/B 사이에 생기지 않았습니다.</p>
+    <p>일반 HTTP(S)는 스킴·호스트·포트로 출처를 구분하며, 앱 안의 WebView에서도 이 기본 규칙을 사용합니다. 이번 차이는 Android WebView의 커스텀 스킴 처리에서 나왔습니다. Chromium 공식 문서도 같은 커스텀 스킴을 같은 출처로 취급하는 동작을 설명합니다. <a href="https://chromium.googlesource.com/chromium/src/+/HEAD/android_webview/docs/web-platform-compatibility.md#url-and-origin-handling">공식 근거</a></p>
     <pre><code>// A stores its public marker first
 localStorage.setItem(key, 'a');
 
@@ -80,8 +82,21 @@ localStorage.getItem(key); // measured: "a"</code></pre>
     <p>초기 실험 코드에는 이미지가 다 로드되기 전에 상태를 읽는 문제가 있었습니다. load/error를 기다리도록 고친 후 최종 APK로 전체 비교를 다시 수행했습니다. Android 린트의 루프백 주소 설정 오류도 수정했습니다.</p>
     <p><a href="../docs/android-origin-probe-verification.md">환경·P01–P10 결과·실행 명령·남은 경고 · 영문</a> · <a href="../experiments/android-origin-probe/results/">실측 JSON 자료</a></p>
   </section>
+  <section class="section" id="scheme-options">
+    <h2>5 · 같은 스킴보다 실제 앱별 출처 분리가 중요합니다</h2>
+    <p>2026.10.27 대화에서는 OTA를 뒤로 두고, 먼저 스킴과 출처 규칙을 검토하기로 했습니다. 아래는 설계 후보와 확인할 조건이며, 승인된 명세 변경이 아닙니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>대상</th><th>우선 검토할 방향</th><th>확정 전 필요한 것</th></tr></thead><tbody>
+      <tr><td>Android</td><td>로컬 파일을 앱별 고정 HTTPS 주소에 연결</td><td>네이티브 발신자·문서 신원과 이동 정책 검증</td></tr>
+      <tr><td>iOS</td><td>공개 WKURLSchemeHandler 방식 실측</td><td>T24의 출처·저장소·fetch·취소와 T26의 메시지 검증</td></tr>
+      <tr><td>공통 계약</td><td>호스트가 정하는 앱 id와 안정된 출처 매핑</td><td>저장 호환성과 실패 동작을 정리하고 T28에서 승인</td></tr>
+    </tbody></table></div>
+    <p>HTTPS 모양의 주소를 써도 설치된 앱의 HTML·JS·CSS를 로컬에서 읽을 수 있습니다. 별도 네트워크/CDN에서 매번 코드를 받아야 한다는 뜻은 아닙니다. 없는 파일을 외부 네트워크로 찾으러 가는 fallback은 별도로 막고 확인해야 합니다.</p>
+    <p>Ionic Portals도 Capacitor의 플랫폼별 스킴을 사용합니다. 확인한 기본값은 Android의 HTTPS/localhost, iOS의 capacitor/localhost입니다. Portal 이름·연결 분리만으로 출처·웹 저장소가 자동 분리된다고 가정하지 않습니다.</p>
+    <div class="callout warm"><strong>쿠키는 따로 확인합니다</strong><br>서로 다른 origin이면 localStorage를 구분할 수 있어도, 쿠키는 Domain 설정으로 여러 하위 도메인을 포괄할 수 있습니다. 포트도 쿠키 분리 기준이 아닙니다. 따라서 앱별 hostname을 정할 때 쿠키와 실제 저장소 동작을 함께 확인해야 합니다.</div>
+    <p><a href="../docs/native-origin-options.md">현재 근거·설계 후보·검증 항목·공식 출처 · 영문</a>에 정리했습니다. T24는 계속 중단 상태이고, 현재 SPEC의 moonpool 규칙과 SDK 구현은 아직 바꾸지 않았습니다.</p>
+  </section>
   <section class="section" id="next">
-    <h2>5 · 다음은 T24의 iOS 실험입니다</h2>
+    <h2>6 · 다음은 T24의 iOS 실험입니다</h2>
     <p>T24에서 같은 출처·로딩·저장 실험을 WKWebView로 수행합니다. 그다음 네이티브 메시지 인증과 실행 위치를 검증하고, T28에서 두 OS에 적용 가능한 출처 계약을 구체적으로 결정합니다.</p>
     <div class="callout"><strong>이번에 얻은 결과</strong><br>실제 Android 앱 빌드·에뮬레이터 실행과 반복 실측 완료<br>공식 로더의 custom scheme 미지원 확인<br>직접 가로채기로 표시해도 앱별 출처·저장소 격리 실패 확인<br>명세 변경 없이 재현 자료와 다음 결정의 근거 확보</div>
     <p>현재 명세·TypeScript 커널·일반 브라우저 예제는 유지했습니다. task마다 검증 결과를 설명하는 방식으로 이어갑니다.</p>

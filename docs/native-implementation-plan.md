@@ -12,6 +12,10 @@ Maintenance before T24: the requested [code-quality pass](code-quality-workflow.
 consolidates proven duplication and adds regression/loopback tests. T24 remains
 paused; host-only tests do not advance its native measurement status.
 
+The maintainer's [scheme/origin discussion](native-origin-options.md) records
+the Android HTTPS candidate and remaining iOS/message/cookie checks. It does
+not approve a SPEC change or complete T28; T24 remains paused.
+
 ## Scope and completion levels
 
 The maintainer requested detailed next-phase tasks for both mobile platforms.
@@ -230,3 +234,6 @@ maintainer's request. The maintainer also requested committing and pushing the
 completed T22 documentation checkpoint on 2026-10-27, published as db8d6ed.
 The maintainer requested Git publication of T23, paused T24 preparation and the
 cleanup checkpoint on 2026-10-27. T24 remains paused without iOS measurements.
+That batch is published as 9f6f300. The additional scheme discussion and study
+notes are also explicitly requested for Git publication; no origin policy is
+approved by publishing them.
