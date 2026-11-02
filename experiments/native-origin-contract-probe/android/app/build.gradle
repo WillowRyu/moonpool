@@ -1,0 +1,18 @@
+plugins { id 'com.android.application' }
+android {
+ namespace 'org.moonpool.origincontract'
+ compileSdk 36
+ buildToolsVersion '36.0.0'
+ defaultConfig {
+  applicationId 'org.moonpool.origincontract'
+  minSdk 31
+  targetSdk 36
+  versionCode 1
+  versionName '0.0.1-probe'
+ }
+ compileOptions {
+  sourceCompatibility JavaVersion.VERSION_17
+  targetCompatibility JavaVersion.VERSION_17
+ }
+}
+dependencies { implementation 'androidx.webkit:webkit:1.14.0' }

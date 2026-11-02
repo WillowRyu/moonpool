@@ -1,0 +1,671 @@
+{
+  "phase": "seed",
+  "tag": "t28-repeat",
+  "multiProfile": true,
+  "providerPackage": "com.google.android.webview",
+  "providerVersion": "145.0.7632.218",
+  "sdk": 37,
+  "release": "17",
+  "samples": [
+    {
+      "name": "a-initial",
+      "type": "local",
+      "loadAction": "loadUrl",
+      "profile": "moonpool-v1-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq",
+      "document": {
+        "app": "a",
+        "seed": true,
+        "tag": "t28-repeat",
+        "documentToken": "9450cfcc-63f8-497b-b646-d11863b507db",
+        "href": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid/index.html?app=a&seed=true&tag=t28-repeat&other=mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid",
+        "origin": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid",
+        "secureContext": true,
+        "before": {
+          "localStorage": "t28-first-a",
+          "indexedDB": "t28-first-a",
+          "cookie": "t28_local=t28-first-a"
+        },
+        "after": {
+          "localStorage": "t28-repeat-a",
+          "indexedDB": "t28-repeat-a",
+          "cookie": "t28_local=t28-repeat-a"
+        },
+        "ownFrame": {
+          "url": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid/frame.html?app=a",
+          "loaded": true,
+          "ready": {
+            "origin": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid",
+            "marker": "loaded-a"
+          },
+          "access": {
+            "marker": "loaded-a",
+            "localStorage": "t28-repeat-a"
+          }
+        },
+        "crossFrame": {
+          "url": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid/frame.html?app=b",
+          "loaded": true,
+          "ready": {
+            "origin": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid",
+            "marker": "loaded-b"
+          },
+          "access": {
+            "error": "SecurityError"
+          }
+        }
+      },
+      "ownNativeCookies": "t28_local=t28-repeat-a",
+      "siblingNativeCookies": null
+    },
+    {
+      "name": "b-initial",
+      "type": "local",
+      "loadAction": "loadUrl",
+      "profile": "moonpool-v1-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq",
+      "document": {
+        "app": "b",
+        "seed": true,
+        "tag": "t28-repeat",
+        "documentToken": "83da7235-b9cb-4c92-ad20-aa8277b1e382",
+        "href": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid/index.html?app=b&seed=true&tag=t28-repeat&other=mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid",
+        "origin": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid",
+        "secureContext": true,
+        "before": {
+          "localStorage": "t28-first-b",
+          "indexedDB": "t28-first-b",
+          "cookie": "t28_local=t28-first-b"
+        },
+        "after": {
+          "localStorage": "t28-repeat-b",
+          "indexedDB": "t28-repeat-b",
+          "cookie": "t28_local=t28-repeat-b"
+        },
+        "ownFrame": {
+          "url": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid/frame.html?app=b",
+          "loaded": true,
+          "ready": {
+            "origin": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid",
+            "marker": "loaded-b"
+          },
+          "access": {
+            "marker": "loaded-b",
+            "localStorage": "t28-repeat-b"
+          }
+        },
+        "crossFrame": {
+          "url": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid/frame.html?app=a",
+          "loaded": true,
+          "ready": {
+            "origin": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid",
+            "marker": "loaded-a"
+          },
+          "access": {
+            "error": "SecurityError"
+          }
+        }
+      },
+      "ownNativeCookies": "t28_local=t28-repeat-b",
+      "siblingNativeCookies": null
+    },
+    {
+      "name": "a-shared",
+      "type": "local",
+      "loadAction": "loadUrl",
+      "profile": "moonpool-v1-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq",
+      "document": {
+        "app": "a",
+        "seed": false,
+        "tag": "t28-repeat",
+        "documentToken": "0ece6bf3-0bb2-44e4-9c79-0319e41f0f2e",
+        "href": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid/index.html?app=a&seed=false&tag=t28-repeat&other=mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid",
+        "origin": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid",
+        "secureContext": true,
+        "before": {
+          "localStorage": "t28-repeat-a",
+          "indexedDB": "t28-repeat-a",
+          "cookie": "t28_local=t28-repeat-a"
+        },
+        "after": {
+          "localStorage": "t28-repeat-a",
+          "indexedDB": "t28-repeat-a",
+          "cookie": "t28_local=t28-repeat-a"
+        },
+        "ownFrame": {
+          "url": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid/frame.html?app=a",
+          "loaded": true,
+          "ready": {
+            "origin": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid",
+            "marker": "loaded-a"
+          },
+          "access": {
+            "marker": "loaded-a",
+            "localStorage": "t28-repeat-a"
+          }
+        },
+        "crossFrame": {
+          "url": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid/frame.html?app=b",
+          "loaded": true,
+          "ready": {
+            "origin": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid",
+            "marker": "loaded-b"
+          },
+          "access": {
+            "error": "SecurityError"
+          }
+        }
+      },
+      "ownNativeCookies": "t28_local=t28-repeat-a",
+      "siblingNativeCookies": null
+    },
+    {
+      "name": "b-within-a-profile",
+      "type": "local",
+      "loadAction": "loadUrl",
+      "profile": "moonpool-v1-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq",
+      "document": {
+        "app": "b",
+        "seed": false,
+        "tag": "t28-repeat",
+        "documentToken": "693bfebd-4702-411a-969a-258b15c155a1",
+        "href": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid/index.html?app=b&seed=false&tag=t28-repeat&other=mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid",
+        "origin": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid",
+        "secureContext": true,
+        "before": {
+          "localStorage": null,
+          "indexedDB": null,
+          "cookie": ""
+        },
+        "after": {
+          "localStorage": null,
+          "indexedDB": null,
+          "cookie": ""
+        },
+        "ownFrame": {
+          "url": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid/frame.html?app=b",
+          "loaded": true,
+          "ready": {
+            "origin": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid",
+            "marker": "loaded-b"
+          },
+          "access": {
+            "marker": "loaded-b",
+            "localStorage": null
+          }
+        },
+        "crossFrame": {
+          "url": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid/frame.html?app=a",
+          "loaded": true,
+          "ready": {
+            "origin": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid",
+            "marker": "loaded-a"
+          },
+          "access": {
+            "error": "SecurityError"
+          }
+        }
+      },
+      "ownNativeCookies": null,
+      "siblingNativeCookies": "t28_local=t28-repeat-a"
+    },
+    {
+      "name": "a-before-reload",
+      "type": "local",
+      "loadAction": "loadUrl",
+      "profile": "moonpool-v1-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq",
+      "document": {
+        "app": "a",
+        "seed": false,
+        "tag": "t28-repeat",
+        "documentToken": "6d28bb82-4511-4045-a2f9-8ed1d84a64b3",
+        "href": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid/index.html?app=a&seed=false&tag=t28-repeat&other=mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid",
+        "origin": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid",
+        "secureContext": true,
+        "before": {
+          "localStorage": "t28-repeat-a",
+          "indexedDB": "t28-repeat-a",
+          "cookie": "t28_local=t28-repeat-a"
+        },
+        "after": {
+          "localStorage": "t28-repeat-a",
+          "indexedDB": "t28-repeat-a",
+          "cookie": "t28_local=t28-repeat-a"
+        },
+        "ownFrame": {
+          "url": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid/frame.html?app=a",
+          "loaded": true,
+          "ready": {
+            "origin": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid",
+            "marker": "loaded-a"
+          },
+          "access": {
+            "marker": "loaded-a",
+            "localStorage": "t28-repeat-a"
+          }
+        },
+        "crossFrame": {
+          "url": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid/frame.html?app=b",
+          "loaded": true,
+          "ready": {
+            "origin": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid",
+            "marker": "loaded-b"
+          },
+          "access": {
+            "error": "SecurityError"
+          }
+        }
+      },
+      "ownNativeCookies": "t28_local=t28-repeat-a",
+      "siblingNativeCookies": null
+    },
+    {
+      "name": "a-reload",
+      "type": "local",
+      "loadAction": "reload",
+      "profile": "moonpool-v1-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq",
+      "document": {
+        "app": "a",
+        "seed": false,
+        "tag": "t28-repeat",
+        "documentToken": "a59bd093-0ea6-4a02-8389-d1a364c36e4c",
+        "href": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid/index.html?app=a&seed=false&tag=t28-repeat&other=mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid",
+        "origin": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid",
+        "secureContext": true,
+        "before": {
+          "localStorage": "t28-repeat-a",
+          "indexedDB": "t28-repeat-a",
+          "cookie": "t28_local=t28-repeat-a"
+        },
+        "after": {
+          "localStorage": "t28-repeat-a",
+          "indexedDB": "t28-repeat-a",
+          "cookie": "t28_local=t28-repeat-a"
+        },
+        "ownFrame": {
+          "url": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid/frame.html?app=a",
+          "loaded": true,
+          "ready": {
+            "origin": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid",
+            "marker": "loaded-a"
+          },
+          "access": {
+            "marker": "loaded-a",
+            "localStorage": "t28-repeat-a"
+          }
+        },
+        "crossFrame": {
+          "url": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid/frame.html?app=b",
+          "loaded": true,
+          "ready": {
+            "origin": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid",
+            "marker": "loaded-b"
+          },
+          "access": {
+            "error": "SecurityError"
+          }
+        }
+      },
+      "ownNativeCookies": "t28_local=t28-repeat-a",
+      "siblingNativeCookies": null
+    },
+    {
+      "name": "a-recreated",
+      "type": "local",
+      "loadAction": "loadUrl",
+      "profile": "moonpool-v1-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq",
+      "document": {
+        "app": "a",
+        "seed": false,
+        "tag": "t28-repeat",
+        "documentToken": "8d939317-9936-4c28-8f36-ba8deac7cff4",
+        "href": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid/index.html?app=a&seed=false&tag=t28-repeat&other=mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid",
+        "origin": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid",
+        "secureContext": true,
+        "before": {
+          "localStorage": "t28-repeat-a",
+          "indexedDB": "t28-repeat-a",
+          "cookie": "t28_local=t28-repeat-a"
+        },
+        "after": {
+          "localStorage": "t28-repeat-a",
+          "indexedDB": "t28-repeat-a",
+          "cookie": "t28_local=t28-repeat-a"
+        },
+        "ownFrame": {
+          "url": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid/frame.html?app=a",
+          "loaded": true,
+          "ready": {
+            "origin": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid",
+            "marker": "loaded-a"
+          },
+          "access": {
+            "marker": "loaded-a",
+            "localStorage": "t28-repeat-a"
+          }
+        },
+        "crossFrame": {
+          "url": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid/frame.html?app=b",
+          "loaded": true,
+          "ready": {
+            "origin": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid",
+            "marker": "loaded-b"
+          },
+          "access": {
+            "error": "SecurityError"
+          }
+        }
+      },
+      "ownNativeCookies": "t28_local=t28-repeat-a",
+      "siblingNativeCookies": null
+    },
+    {
+      "name": "remote-a",
+      "type": "remote",
+      "profile": "moonpool-v1-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq",
+      "before": {
+        "origin": "https://example.com",
+        "title": "Example Domain",
+        "secureContext": true,
+        "ready": "complete",
+        "before": "t28_remote=t28-first-a"
+      },
+      "after": {
+        "origin": "https://example.com",
+        "title": "Example Domain",
+        "cookie": "t28_remote=t28-repeat-a",
+        "secureContext": true
+      },
+      "nativeCookies": "t28_remote=t28-repeat-a"
+    },
+    {
+      "name": "remote-b",
+      "type": "remote",
+      "profile": "moonpool-v1-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq",
+      "before": {
+        "origin": "https://example.com",
+        "title": "Example Domain",
+        "secureContext": true,
+        "ready": "complete",
+        "before": "t28_remote=t28-first-b"
+      },
+      "after": {
+        "origin": "https://example.com",
+        "title": "Example Domain",
+        "cookie": "t28_remote=t28-repeat-b",
+        "secureContext": true
+      },
+      "nativeCookies": "t28_remote=t28-repeat-b"
+    },
+    {
+      "name": "remote-host",
+      "type": "remote",
+      "profile": "t28-host-public-sentinel",
+      "before": {
+        "origin": "https://example.com",
+        "title": "Example Domain",
+        "secureContext": true,
+        "ready": "complete",
+        "before": "t28_remote=t28-first-host"
+      },
+      "after": {
+        "origin": "https://example.com",
+        "title": "Example Domain",
+        "cookie": "t28_remote=t28-repeat-host",
+        "secureContext": true
+      },
+      "nativeCookies": "t28_remote=t28-repeat-host"
+    },
+    {
+      "name": "remote-a-shared",
+      "type": "remote",
+      "profile": "moonpool-v1-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq",
+      "before": {
+        "origin": "https://example.com",
+        "title": "Example Domain",
+        "secureContext": true,
+        "ready": "complete",
+        "before": "t28_remote=t28-repeat-a"
+      },
+      "after": {
+        "origin": "https://example.com",
+        "title": "Example Domain",
+        "cookie": "t28_remote=t28-repeat-a",
+        "secureContext": true
+      },
+      "nativeCookies": "t28_remote=t28-repeat-a"
+    }
+  ],
+  "events": [
+    {
+      "id": "com.example.a",
+      "profile": "moonpool-v1-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq",
+      "exists": true,
+      "kind": "registration"
+    },
+    {
+      "id": "com.example.b",
+      "profile": "moonpool-v1-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq",
+      "exists": true,
+      "kind": "registration"
+    },
+    {
+      "outcome": "accepted",
+      "kind": "early-settings"
+    },
+    {
+      "outcome": "rejected",
+      "priorProfile": "Default",
+      "exception": "IllegalStateException",
+      "kind": "early-getProfile"
+    },
+    {
+      "view": "a1",
+      "requested": "moonpool-v1-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq",
+      "actual": "moonpool-v1-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq",
+      "kind": "profile-before-use"
+    },
+    {
+      "view": "a2",
+      "requested": "moonpool-v1-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq",
+      "actual": "moonpool-v1-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq",
+      "kind": "profile-before-use"
+    },
+    {
+      "view": "b",
+      "requested": "moonpool-v1-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq",
+      "actual": "moonpool-v1-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq",
+      "kind": "profile-before-use"
+    },
+    {
+      "view": "a1",
+      "url": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid/frame.html?app=a",
+      "kind": "frame-served"
+    },
+    {
+      "view": "a1",
+      "url": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid/frame.html?app=b",
+      "kind": "frame-served"
+    },
+    {
+      "view": "b",
+      "url": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid/frame.html?app=b",
+      "kind": "frame-served"
+    },
+    {
+      "view": "b",
+      "url": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid/frame.html?app=a",
+      "kind": "frame-served"
+    },
+    {
+      "view": "a2",
+      "url": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid/frame.html?app=a",
+      "kind": "frame-served"
+    },
+    {
+      "view": "a2",
+      "url": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid/frame.html?app=b",
+      "kind": "frame-served"
+    },
+    {
+      "view": "b-within-a-profile",
+      "requested": "moonpool-v1-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq",
+      "actual": "moonpool-v1-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq",
+      "kind": "profile-before-use"
+    },
+    {
+      "view": "b-within-a-profile",
+      "url": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid/frame.html?app=b",
+      "kind": "frame-served"
+    },
+    {
+      "view": "b-within-a-profile",
+      "url": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid/frame.html?app=a",
+      "kind": "frame-served"
+    },
+    {
+      "view": "a1",
+      "url": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid/frame.html?app=a",
+      "kind": "frame-served"
+    },
+    {
+      "view": "a1",
+      "url": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid/frame.html?app=b",
+      "kind": "frame-served"
+    },
+    {
+      "view": "a1",
+      "url": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid/frame.html?app=a",
+      "kind": "frame-served"
+    },
+    {
+      "view": "a1",
+      "url": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid/frame.html?app=b",
+      "kind": "frame-served"
+    },
+    {
+      "view": "a-recreated",
+      "requested": "moonpool-v1-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq",
+      "actual": "moonpool-v1-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq",
+      "kind": "profile-before-use"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid/frame.html?app=a",
+      "kind": "frame-served"
+    },
+    {
+      "view": "a-recreated",
+      "url": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid/frame.html?app=b",
+      "kind": "frame-served"
+    },
+    {
+      "view": "remote-a",
+      "requested": "moonpool-v1-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq",
+      "actual": "moonpool-v1-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq",
+      "kind": "profile-before-use"
+    },
+    {
+      "view": "remote-a",
+      "url": "https://example.com/",
+      "mainFrame": true,
+      "kind": "remote-network-request"
+    },
+    {
+      "view": "remote-a",
+      "url": "https://example.com/s.js",
+      "mainFrame": false,
+      "kind": "remote-network-request"
+    },
+    {
+      "view": "remote-b",
+      "requested": "moonpool-v1-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq",
+      "actual": "moonpool-v1-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq",
+      "kind": "profile-before-use"
+    },
+    {
+      "view": "remote-b",
+      "url": "https://example.com/",
+      "mainFrame": true,
+      "kind": "remote-network-request"
+    },
+    {
+      "view": "remote-b",
+      "url": "https://example.com/s.js",
+      "mainFrame": false,
+      "kind": "remote-network-request"
+    },
+    {
+      "view": "remote-host",
+      "requested": "t28-host-public-sentinel",
+      "actual": "t28-host-public-sentinel",
+      "kind": "profile-before-use"
+    },
+    {
+      "view": "remote-host",
+      "url": "https://example.com/",
+      "mainFrame": true,
+      "kind": "remote-network-request"
+    },
+    {
+      "view": "remote-host",
+      "url": "https://example.com/s.js",
+      "mainFrame": false,
+      "kind": "remote-network-request"
+    },
+    {
+      "view": "remote-a-shared",
+      "requested": "moonpool-v1-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq",
+      "actual": "moonpool-v1-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq",
+      "kind": "profile-before-use"
+    },
+    {
+      "view": "remote-a-shared",
+      "url": "https://example.com/",
+      "mainFrame": true,
+      "kind": "remote-network-request"
+    },
+    {
+      "view": "remote-a-shared",
+      "url": "https://example.com/s.js",
+      "mainFrame": false,
+      "kind": "remote-network-request"
+    }
+  ],
+  "a": {
+    "id": "com.example.a",
+    "key": "ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq",
+    "origin": "https://mp-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq.invalid",
+    "profile": "moonpool-v1-ise6u4clw7owqxvnnmc5dvgub5ktylulowmifvqmtnv6o2stnqcq"
+  },
+  "b": {
+    "id": "com.example.b",
+    "key": "e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq",
+    "origin": "https://mp-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq.invalid",
+    "profile": "moonpool-v1-e2phj4aqb6ns7uze3lbrinrm4xbo5qf4l74e4wn3e4br42oxsauq"
+  },
+  "build": {
+    "apkSha256": "fb2ec8dbaf3d1c50f832f3001838cd25e508aa750cb824fb233aa085bfaf0f3b",
+    "sources": {
+      "app/build.gradle": "c20bccc8f69b0be6e46b18ea4e267bfd1ea5cac0e11d50f4230a28d013bfdefe",
+      "app/src/main/AndroidManifest.xml": "d2b1df3523ce57cc031111bfe1ad07d50eed5ebf6703970a11cd218800ab333c",
+      "app/src/main/assets/index.html": "1d45223b9ef7b59806e5b2f3467c3dd6589ad1ebf873ddaade37805d2007231a",
+      "app/src/main/assets/probe.js": "fd05c3f063b8086bf5cd383d0540892d597a8aa890f35d8072ad1b14e122bd0e",
+      "app/src/main/java/org/moonpool/origincontract/ContractActivity.java": "2051e4149b33c6aaf43662b13be66b29fc219efdf16a0fc4175a7983a5a2b64e",
+      "app/src/main/java/org/moonpool/origincontract/Registration.java": "a73cae9d16ed0640a189dcc84681f72d2108a73b00a750c3f94d773a92a380f7",
+      "build.gradle": "bb5d6db0a3f94e7ff33ba91a07fa9146a96994e843ae487ebccadc99b62e722c",
+      "build.py": "32b3fc2325f9533f03c6cf45a2ae92b5b67d5dbc43866a96afea1c6cb95fae91",
+      "gradle.properties": "67eefa02d084d8fd6e2698683ca4d007a344395ca89eed9012a79bac373ba359",
+      "run_probe.py": "fe7aab5d72b78745821a4618d0d220e7456da2998820775817aaff93096d3803",
+      "settings.gradle": "ecd7aca276a5b26260af9ea1d7c4337d76aaa732a9d93e054ab16adb433367aa",
+      "test/RegistrationTest.java": "a61e51794ec2926e71ac49c56816feb4a6520024aeee86205f0a827191615418",
+      "test_contract.py": "4a2ff4afa0d966ff6cffb2f60d9cd4c34f890b09e8f3e0c318da44beb99f4588",
+      "test_verifier.py": "bf7b6a184ed6e8e172bdc93e2a29c716ac79451c5b60bfd1c9768886d381c6fa",
+      "verify_results.py": "24b7ea2dd8093882bf6b1dbbe4d3a79f4684fa7b039f7b2fb9a3483ced870211"
+    },
+    "identityVectorsSha256": "2e24428b68c6e01bd771c01dc989c26ec6701f22c1ab536abd308373aa57039a",
+    "reusedWrapperSha256": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59",
+    "reusedWrapperPropertiesSha256": "6ca9e44c73e5ffc2656e8110780eed77b023934f5ceb57e9e55658604d3315fd"
+  },
+  "installedApkSha256": "fb2ec8dbaf3d1c50f832f3001838cd25e508aa750cb824fb233aa085bfaf0f3b",
+  "restartMethod": "am force-stop then new Activity/process; no data reset",
+  "capturedUtc": "2026-11-02T15:19:05Z"
+}

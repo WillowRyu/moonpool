@@ -1,0 +1,212 @@
+{
+  "description": "Public T28 reference inputs. iOS candidate strings are not claims of native admission; measure native URL and security-origin round trips. SHA-256 and RFC4648 base32 are independently calculated with Python standard-library primitives.",
+  "vectors": [
+    {
+      "name": "app-a",
+      "id": "com.example.probe.a",
+      "manifestValid": true,
+      "key": "glegvjyeewayzrf6mcxl66ksmn64jmicve3dmgsxqdgfquszpj6q",
+      "androidOrigin": "https://mp-glegvjyeewayzrf6mcxl66ksmn64jmicve3dmgsxqdgfquszpj6q.invalid",
+      "androidProfile": "moonpool-v1-glegvjyeewayzrf6mcxl66ksmn64jmicve3dmgsxqdgfquszpj6q",
+      "iosCandidateOrigin": "moonpool://com.example.probe.a"
+    },
+    {
+      "name": "app-b",
+      "id": "com.example.probe.b",
+      "manifestValid": true,
+      "key": "irdoq6nobsxjxu5e5wjsnbrgvg7axskjyeg2oikld7iodxnjm4ha",
+      "androidOrigin": "https://mp-irdoq6nobsxjxu5e5wjsnbrgvg7axskjyeg2oikld7iodxnjm4ha.invalid",
+      "androidProfile": "moonpool-v1-irdoq6nobsxjxu5e5wjsnbrgvg7axskjyeg2oikld7iodxnjm4ha",
+      "iosCandidateOrigin": "moonpool://com.example.probe.b"
+    },
+    {
+      "name": "host-sentinel",
+      "id": "com.example.probe.host",
+      "manifestValid": true,
+      "key": "zaknuun3trrm6ye6eh23mmxxlu5442xvzuqxsdkgcwcw23kdu3na",
+      "androidOrigin": "https://mp-zaknuun3trrm6ye6eh23mmxxlu5442xvzuqxsdkgcwcw23kdu3na.invalid",
+      "androidProfile": "moonpool-v1-zaknuun3trrm6ye6eh23mmxxlu5442xvzuqxsdkgcwcw23kdu3na",
+      "iosCandidateOrigin": "moonpool://com.example.probe.host"
+    },
+    {
+      "name": "ordinary",
+      "id": "com.example.hello",
+      "manifestValid": true,
+      "key": "p3l2tj2dsweug5qqa2vbeqf5mnfngkg26l3iknzmo7hbsunx5pua",
+      "androidOrigin": "https://mp-p3l2tj2dsweug5qqa2vbeqf5mnfngkg26l3iknzmo7hbsunx5pua.invalid",
+      "androidProfile": "moonpool-v1-p3l2tj2dsweug5qqa2vbeqf5mnfngkg26l3iknzmo7hbsunx5pua",
+      "iosCandidateOrigin": "moonpool://com.example.hello"
+    },
+    {
+      "name": "numeric",
+      "id": "1.2",
+      "manifestValid": true,
+      "key": "o6wddg76df46fv4z3htjq7tf722u6ykrdqbvklv25giie3baqwia",
+      "androidOrigin": "https://mp-o6wddg76df46fv4z3htjq7tf722u6ykrdqbvklv25giie3baqwia.invalid",
+      "androidProfile": "moonpool-v1-o6wddg76df46fv4z3htjq7tf722u6ykrdqbvklv25giie3baqwia",
+      "iosCandidateOrigin": "moonpool://1.2"
+    },
+    {
+      "name": "ipv4-shaped",
+      "id": "0.0.0.1",
+      "manifestValid": true,
+      "key": "tnyc5rpspqv55xbsw2hmciku66greqrefu4ek4gfcwwgkj5tmccq",
+      "androidOrigin": "https://mp-tnyc5rpspqv55xbsw2hmciku66greqrefu4ek4gfcwwgkj5tmccq.invalid",
+      "androidProfile": "moonpool-v1-tnyc5rpspqv55xbsw2hmciku66greqrefu4ek4gfcwwgkj5tmccq",
+      "iosCandidateOrigin": "moonpool://0.0.0.1"
+    },
+    {
+      "name": "hyphen-only-label",
+      "id": "com.-",
+      "manifestValid": true,
+      "key": "jrpx5x2tgitwx544xps65oxkc7xr63vcpsmlipimyseroujekvia",
+      "androidOrigin": "https://mp-jrpx5x2tgitwx544xps65oxkc7xr63vcpsmlipimyseroujekvia.invalid",
+      "androidProfile": "moonpool-v1-jrpx5x2tgitwx544xps65oxkc7xr63vcpsmlipimyseroujekvia",
+      "iosCandidateOrigin": "moonpool://com.-"
+    },
+    {
+      "name": "leading-hyphen",
+      "id": "com.-app",
+      "manifestValid": true,
+      "key": "zhfc5rk2w5g3oimwqf645q3rgzi7k4pgb3t5jghoq3ufcxvdx42a",
+      "androidOrigin": "https://mp-zhfc5rk2w5g3oimwqf645q3rgzi7k4pgb3t5jghoq3ufcxvdx42a.invalid",
+      "androidProfile": "moonpool-v1-zhfc5rk2w5g3oimwqf645q3rgzi7k4pgb3t5jghoq3ufcxvdx42a",
+      "iosCandidateOrigin": "moonpool://com.-app"
+    },
+    {
+      "name": "trailing-hyphen",
+      "id": "com.app-",
+      "manifestValid": true,
+      "key": "37tdz46oquxmf6uozaruhpvzza5zbh3w536dookomole4rw3m2kq",
+      "androidOrigin": "https://mp-37tdz46oquxmf6uozaruhpvzza5zbh3w536dookomole4rw3m2kq.invalid",
+      "androidProfile": "moonpool-v1-37tdz46oquxmf6uozaruhpvzza5zbh3w536dookomole4rw3m2kq",
+      "iosCandidateOrigin": "moonpool://com.app-"
+    },
+    {
+      "name": "label-63",
+      "id": "com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "manifestValid": true,
+      "key": "b3k6h2agy7n77quxys357ph7dk5ojble4wc7ly4h2kv7w3hoylmq",
+      "androidOrigin": "https://mp-b3k6h2agy7n77quxys357ph7dk5ojble4wc7ly4h2kv7w3hoylmq.invalid",
+      "androidProfile": "moonpool-v1-b3k6h2agy7n77quxys357ph7dk5ojble4wc7ly4h2kv7w3hoylmq",
+      "iosCandidateOrigin": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "name": "label-64",
+      "id": "com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "manifestValid": true,
+      "key": "p5u3k5qsr4mw5uew6vaes4rotwnoww6c5s7vjxdwzwhqv2ikczaq",
+      "androidOrigin": "https://mp-p5u3k5qsr4mw5uew6vaes4rotwnoww6c5s7vjxdwzwhqv2ikczaq.invalid",
+      "androidProfile": "moonpool-v1-p5u3k5qsr4mw5uew6vaes4rotwnoww6c5s7vjxdwzwhqv2ikczaq",
+      "iosCandidateOrigin": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "name": "total-253",
+      "id": "a.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "manifestValid": true,
+      "key": "cjf5m7lbowc6ag2feblkq3u54m2yhmstz3li2affl6fspukaigbq",
+      "androidOrigin": "https://mp-cjf5m7lbowc6ag2feblkq3u54m2yhmstz3li2affl6fspukaigbq.invalid",
+      "androidProfile": "moonpool-v1-cjf5m7lbowc6ag2feblkq3u54m2yhmstz3li2affl6fspukaigbq",
+      "iosCandidateOrigin": "moonpool://a.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    {
+      "name": "total-254",
+      "id": "aa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "manifestValid": true,
+      "key": "jkom3vf6ed55jqypqqzxqqess6vgpyiiwykrfvgn57q54tck56zq",
+      "androidOrigin": "https://mp-jkom3vf6ed55jqypqqzxqqess6vgpyiiwykrfvgn57q54tck56zq.invalid",
+      "androidProfile": "moonpool-v1-jkom3vf6ed55jqypqqzxqqess6vgpyiiwykrfvgn57q54tck56zq",
+      "iosCandidateOrigin": "moonpool://aa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    {
+      "name": "total-1028",
+      "id": "com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "manifestValid": true,
+      "key": "knodkz7qxir6fkoc6ygjnevk6vw23adylmprfnd3mznorllfu3ka",
+      "androidOrigin": "https://mp-knodkz7qxir6fkoc6ygjnevk6vw23adylmprfnd3mznorllfu3ka.invalid",
+      "androidProfile": "moonpool-v1-knodkz7qxir6fkoc6ygjnevk6vw23adylmprfnd3mznorllfu3ka",
+      "iosCandidateOrigin": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    {
+      "name": "punycode-shaped",
+      "id": "com.xn--",
+      "manifestValid": true,
+      "key": "cnjiyyl5bqcjuzqjwljc3tppaejp7rqpimcs46kcrcfdkh7vty3a",
+      "androidOrigin": "https://mp-cnjiyyl5bqcjuzqjwljc3tppaejp7rqpimcs46kcrcfdkh7vty3a.invalid",
+      "androidProfile": "moonpool-v1-cnjiyyl5bqcjuzqjwljc3tppaejp7rqpimcs46kcrcfdkh7vty3a",
+      "iosCandidateOrigin": "moonpool://com.xn--"
+    },
+    {
+      "name": "uppercase",
+      "id": "com.Example.a",
+      "manifestValid": false,
+      "key": null,
+      "androidOrigin": null,
+      "androidProfile": null,
+      "iosCandidateOrigin": null
+    },
+    {
+      "name": "single-label",
+      "id": "app",
+      "manifestValid": false,
+      "key": null,
+      "androidOrigin": null,
+      "androidProfile": null,
+      "iosCandidateOrigin": null
+    },
+    {
+      "name": "trailing-dot",
+      "id": "com.example.",
+      "manifestValid": false,
+      "key": null,
+      "androidOrigin": null,
+      "androidProfile": null,
+      "iosCandidateOrigin": null
+    },
+    {
+      "name": "port",
+      "id": "com.example:443",
+      "manifestValid": false,
+      "key": null,
+      "androidOrigin": null,
+      "androidProfile": null,
+      "iosCandidateOrigin": null
+    },
+    {
+      "name": "escape",
+      "id": "com.%61",
+      "manifestValid": false,
+      "key": null,
+      "androidOrigin": null,
+      "androidProfile": null,
+      "iosCandidateOrigin": null
+    },
+    {
+      "name": "slash",
+      "id": "com.example/a",
+      "manifestValid": false,
+      "key": null,
+      "androidOrigin": null,
+      "androidProfile": null,
+      "iosCandidateOrigin": null
+    },
+    {
+      "name": "leading-space",
+      "id": " com.example",
+      "manifestValid": false,
+      "key": null,
+      "androidOrigin": null,
+      "androidProfile": null,
+      "iosCandidateOrigin": null
+    },
+    {
+      "name": "empty",
+      "id": "",
+      "manifestValid": false,
+      "key": null,
+      "androidOrigin": null,
+      "androidProfile": null,
+      "iosCandidateOrigin": null
+    }
+  ]
+}

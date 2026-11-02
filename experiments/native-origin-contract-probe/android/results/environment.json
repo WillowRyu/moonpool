@@ -1,0 +1,63 @@
+{
+  "host": {
+    "os": "macOS",
+    "version": "27.0.1",
+    "architecture": "arm64"
+  },
+  "device": {
+    "kind": "Android Emulator",
+    "avd": "Pixel_7_Pro",
+    "androidRelease": "17",
+    "api": 37,
+    "abi": "arm64-v8a",
+    "webViewPackage": "com.google.android.webview",
+    "webViewVersion": "145.0.7632.218",
+    "runtimeMultiProfile": true
+  },
+  "tools": {
+    "java": "OpenJDK 25.0.3 (Android Studio bundled JBR)",
+    "gradle": "9.6.1",
+    "androidGradlePlugin": "9.3.1",
+    "androidxWebkit": "1.14.0",
+    "compileSdk": 36,
+    "targetSdk": 36,
+    "minSdk": 31,
+    "buildTools": "36.0.0",
+    "emulator": "37.1.11.0 (15917651)",
+    "adb": "37.0.1-15733141",
+    "python": "3.12.2"
+  },
+  "checks": {
+    "standaloneJvmRegistrationSuite": "passed; 23 shared reference vectors plus mapping and simulated rejection controls",
+    "androidAssembleDebug": "passed",
+    "androidLintDebug": "passed; warnings retained",
+    "androidLintErrors": 0,
+    "androidLintWarningsById": {
+      "OldTargetApi": 1,
+      "RequiresFeature": 22,
+      "GradleDependency": 2,
+      "SetJavaScriptEnabled": 1,
+      "DataExtractionRules": 1,
+      "MissingApplicationIcon": 1
+    },
+    "biome": "passed after Android-only formatting; direct cookie assignment explicitly justified as research target"
+  },
+  "deviceOwnership": {
+    "baselineConnectedDevices": 0,
+    "bootedExistingShutdownAvd": "Pixel_7_Pro",
+    "otherAvdsTouched": false,
+    "avdWipeOrDataReset": false,
+    "saveSnapshotOnExit": false,
+    "shutdown": "owned emulator stopped; serial absent from adb inventory"
+  },
+  "evidenceScope": {
+    "actualRemoteOrigin": "https://example.com",
+    "remotePath": "normal WebView HTTPS/TLS load, no interception or TLS bypass",
+    "remoteAssertions": "first-party document.cookie plus profile-specific CookieManager public t28_ markers; not server-received Cookie headers or third-party fetch policy",
+    "localCrossAppResolver": "test-only deliberate foreign local-frame resolution, not a production loader or containment implementation",
+    "versionStability": "mapping excludes version; no installed application/package-upgrade cycle claimed",
+    "unsupportedProvider": "runtime is supported; missing MULTI_PROFILE tested by pure admission simulation, not another real provider",
+    "dataLifecycle": "public exploratory markers predate first retained seed; retained sequence never clears package/profile/AVD data"
+  },
+  "apkSha256": "fb2ec8dbaf3d1c50f832f3001838cd25e508aa750cb824fb233aa085bfaf0f3b"
+}
