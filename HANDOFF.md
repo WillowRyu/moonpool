@@ -39,6 +39,8 @@
 > C01–C12 paired evidence and final contract approval remain. All devices stopped.
 > T28 research/contracts Git publication requested; see the latest publication
 > checkpoint for commit grouping. Package/tag release and T28 acceptance are separate.
+> Publication through 05c6974 verified; development-environment cleanup completed
+> on 2026-11-03. Resume at common cookie/HTTP review, not crash reproduction.
 > The maintainer reported repeated crash dialogs. Do not rerun crash controls
 > without an explicit request; routine verification reads retained reports.
 > Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
@@ -71,6 +73,32 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-03 checkpoint — publication verified and development environment cleaned
+
+The maintainer requested commit/push and development-environment cleanup. The
+four T28 commits through 05c6974 were already pushed; HEAD, origin/master and the
+live remote master matched, with a clean working tree, before this cleanup note.
+The earlier source/contract/study publication is preserved without reaccepting
+ADR 0026/0027 or marking T28 complete.
+
+Checked repository-owned process/listener state and device ownership. No Vite,
+Python preview/fixture server, Gradle daemon, native probe or probe runner remained.
+The dedicated iOS simulator is Shutdown; no simulator is Booted and no Android
+device was attached. No simulator, emulator or native app was launched for cleanup.
+The task-started ADB server had no devices or connected clients; stopped it and
+verified port 5037 closed without invoking adb again. Computer-use temporary tabs
+were already absent; reset this task's computer-use session and verified its two
+helper processes exited. Existing user apps/tabs and unrelated services were kept.
+
+No build cache, dependency, raw crash file, owned device configuration or retained
+evidence was deleted. No global setting or system crash reporter was changed.
+Native crash experiments remain stopped and must not be resumed automatically.
+This note is the only repository change for cleanup. Runtime/source validation
+from the preceding publication remains applicable; git diff --check passes.
+Push this cleanup record and verify remote equality/clean tree as the final step.
+Then stop; next work remains review of the proposed common cookie/HTTP contract
+and C01–C12 evidence gates, subject to the existing scope and device restrictions.
 
 ## 2026-11-03 checkpoint — T28 research and cookie-design Git publication
 
