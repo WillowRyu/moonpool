@@ -24,6 +24,14 @@ script = script.replace(
     "fetchResult(params.get('unknown') || `${location.protocol}//com.example.probe.unknown/assets/data.json`)",
 )
 assert script != base_script and "params.get('cross')" in script and "params.get('unknown')" in script
+frame_anchor = "      removeEventListener('message', finish);"
+assert script.count(frame_anchor) == 1
+script = script.replace(frame_anchor, """      try {
+        result.storageMarker = frame.contentWindow.localStorage.getItem(key);
+      } catch (error) {
+        result.storageError = `${error.name}: ${error.message}`;
+      }
+""" + frame_anchor)
 (fixtures / "common/probe.js").write_text(script)
 for html in fixtures.glob("apps/*/*.html"):
     html.write_text(html.read_text().replace("T23", "T24").replace("t23", "t24"))
@@ -39,13 +47,19 @@ info = {
 with (app / "Info.plist").open("wb") as file:
     plistlib.dump(info, file)
 sdk = subprocess.check_output(["xcrun", "--sdk", "iphonesimulator", "--show-sdk-path"], text=True).strip()
-subprocess.run(["xcrun", "swiftc", "-swift-version", "5", "-parse-as-library", "-sdk", sdk,
+subprocess.run(["xcrun", "--sdk", "iphonesimulator", "swiftc", "-swift-version", "5", "-parse-as-library", "-sdk", sdk,
     "-target", "arm64-apple-ios17.0-simulator", "-framework", "UIKit", "-framework", "WebKit",
     str(root / "Probe.swift"), "-o", str(app / "OriginProbe")], check=True)
 subprocess.run(["codesign", "--force", "--sign", "-", str(app)], check=True)
+build_version = subprocess.check_output(["xcrun", "vtool", "-show-build", str(app / "OriginProbe")], text=True)
+assert "platform IOSSIMULATOR" in build_version and "minos 17.0" in build_version and "sdk 26.4" in build_version
 metadata = {"baseAndroidScriptSha256": hashlib.sha256(base_script.encode()).hexdigest(),
     "executableSha256": hashlib.sha256((app / "OriginProbe").read_bytes()).hexdigest(),
     "probeSwiftSha256": hashlib.sha256((root / "Probe.swift").read_bytes()).hexdigest(),
-    "adaptedScriptSha256": hashlib.sha256(script.encode()).hexdigest()}
+    "adaptedScriptSha256": hashlib.sha256(script.encode()).hexdigest(),
+    "sources": {name: hashlib.sha256((root / name).read_bytes()).hexdigest()
+                for name in ["Probe.swift", "build.py", "run_probe.py", "fixture_server.py"]},
+    "fixtures": {str(path.relative_to(fixtures)): hashlib.sha256(path.read_bytes()).hexdigest()
+                 for path in sorted(fixtures.rglob("*")) if path.is_file()}}
 (root / "build/build-metadata.json").write_text(json.dumps(metadata, indent=2) + "\n")
 print("Built and ad-hoc signed arm64 simulator research app.")

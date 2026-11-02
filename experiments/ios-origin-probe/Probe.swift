@@ -5,6 +5,7 @@ import WebKit
 @MainActor
 final class SchemeHandler: NSObject, WKURLSchemeHandler {
     var record: (([String: Any]) -> Void)?
+    var onStart: (() -> Void)?
     private var pending: [ObjectIdentifier: Int] = [:]
     private var sequence = 0
     var pendingCount: Int { pending.count }
@@ -16,6 +17,7 @@ final class SchemeHandler: NSObject, WKURLSchemeHandler {
         pending[key] = number
         let url = task.request.url!
         record?(["type": "scheme-start", "task": number, "url": url.absoluteString])
+        onStart?()
         let delay = url.lastPathComponent == "delayed.html" ? 1.5 : 0.01
         DispatchQueue.main.asyncAfter(deadline: .now() + delay) { [weak self] in
             guard let self else { return }
@@ -225,9 +227,21 @@ final class ProbeController: UIViewController, WKNavigationDelegate {
         if profile == "custom-scheme" {
             steps.append { next in
                 let cancel = self.makeView("cancelled-resource")
+                var started = false
+                self.handlers.last!.onStart = {
+                    guard !started else { return }
+                    started = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.05) { self.remove(cancel) }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.8) { next() }
+                }
                 cancel.load(URLRequest(url: self.url("a", "delayed.html")))
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { self.remove(cancel) }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.9) { next() }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 6) {
+                    guard !started else { return }
+                    started = true
+                    self.events.append(["type": "cancellation-unavailable", "view": "cancelled-resource"])
+                    self.remove(cancel)
+                    next()
+                }
             }
         }
         next()

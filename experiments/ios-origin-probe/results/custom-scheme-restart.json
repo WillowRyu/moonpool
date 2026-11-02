@@ -1,0 +1,2711 @@
+{
+  "complete": true,
+  "dataStore": "default persistent store shared by A/B",
+  "dataStorePersistent": true,
+  "events": [
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": ""
+      },
+      "targetMainFrame": true,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a"
+    },
+    {
+      "task": 1,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a"
+    },
+    {
+      "status": 200,
+      "task": 1,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a"
+    },
+    {
+      "type": "committed",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a"
+    },
+    {
+      "task": 2,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/style.css",
+      "view": "a"
+    },
+    {
+      "task": 3,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/marker.svg",
+      "view": "a"
+    },
+    {
+      "task": 4,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/probe.js",
+      "view": "a"
+    },
+    {
+      "status": 200,
+      "task": 2,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/style.css",
+      "view": "a"
+    },
+    {
+      "status": 200,
+      "task": 3,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/marker.svg",
+      "view": "a"
+    },
+    {
+      "status": 200,
+      "task": 4,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/probe.js",
+      "view": "a"
+    },
+    {
+      "type": "finished",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a"
+    },
+    {
+      "task": 5,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/data.json",
+      "view": "a"
+    },
+    {
+      "task": 6,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/data.json",
+      "view": "a"
+    },
+    {
+      "task": 7,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/missing.json",
+      "view": "a"
+    },
+    {
+      "task": 8,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a"
+    },
+    {
+      "task": 9,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a"
+    },
+    {
+      "task": 10,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.a",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": false,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.a",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": false,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a"
+    },
+    {
+      "task": 11,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a"
+    },
+    {
+      "task": 12,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a"
+    },
+    {
+      "status": 200,
+      "task": 5,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/data.json",
+      "view": "a"
+    },
+    {
+      "status": 200,
+      "task": 6,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/data.json",
+      "view": "a"
+    },
+    {
+      "status": 404,
+      "task": 7,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/missing.json",
+      "view": "a"
+    },
+    {
+      "status": 404,
+      "task": 8,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a"
+    },
+    {
+      "status": 404,
+      "task": 9,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a"
+    },
+    {
+      "status": 404,
+      "task": 10,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a"
+    },
+    {
+      "status": 200,
+      "task": 11,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a"
+    },
+    {
+      "status": 200,
+      "task": 12,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": ""
+      },
+      "targetMainFrame": true,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.b/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.a/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "b"
+    },
+    {
+      "task": 1,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.a/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "b"
+    },
+    {
+      "status": 200,
+      "task": 1,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.a/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "b"
+    },
+    {
+      "type": "committed",
+      "url": "moonpool://com.example.probe.b/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.a/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "b"
+    },
+    {
+      "task": 2,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/style.css",
+      "view": "b"
+    },
+    {
+      "task": 3,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/marker.svg",
+      "view": "b"
+    },
+    {
+      "task": 4,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/probe.js",
+      "view": "b"
+    },
+    {
+      "status": 200,
+      "task": 2,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/style.css",
+      "view": "b"
+    },
+    {
+      "status": 200,
+      "task": 3,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/marker.svg",
+      "view": "b"
+    },
+    {
+      "status": 200,
+      "task": 4,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/probe.js",
+      "view": "b"
+    },
+    {
+      "type": "finished",
+      "url": "moonpool://com.example.probe.b/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.a/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "b"
+    },
+    {
+      "task": 5,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/data.json",
+      "view": "b"
+    },
+    {
+      "task": 6,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/data.json",
+      "view": "b"
+    },
+    {
+      "task": 7,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/missing.json",
+      "view": "b"
+    },
+    {
+      "task": 8,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/outside.json",
+      "view": "b"
+    },
+    {
+      "task": 9,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/outside.json",
+      "view": "b"
+    },
+    {
+      "task": 10,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "b"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.b",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": false,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "b"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.b",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": false,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "b"
+    },
+    {
+      "task": 11,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "b"
+    },
+    {
+      "task": 12,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "b"
+    },
+    {
+      "status": 200,
+      "task": 5,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/data.json",
+      "view": "b"
+    },
+    {
+      "status": 200,
+      "task": 6,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/data.json",
+      "view": "b"
+    },
+    {
+      "status": 404,
+      "task": 7,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/missing.json",
+      "view": "b"
+    },
+    {
+      "status": 404,
+      "task": 8,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/outside.json",
+      "view": "b"
+    },
+    {
+      "status": 404,
+      "task": 9,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/outside.json",
+      "view": "b"
+    },
+    {
+      "status": 404,
+      "task": 10,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "b"
+    },
+    {
+      "status": 200,
+      "task": 11,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "b"
+    },
+    {
+      "status": 200,
+      "task": 12,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "b"
+    },
+    {
+      "task": 13,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/data.json",
+      "view": "a"
+    },
+    {
+      "task": 14,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/data.json",
+      "view": "a"
+    },
+    {
+      "task": 15,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/missing.json",
+      "view": "a"
+    },
+    {
+      "task": 16,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a"
+    },
+    {
+      "task": 17,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a"
+    },
+    {
+      "task": 18,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.a",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": false,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.a",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": false,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a"
+    },
+    {
+      "task": 19,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a"
+    },
+    {
+      "status": 200,
+      "task": 13,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/data.json",
+      "view": "a"
+    },
+    {
+      "status": 200,
+      "task": 14,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/data.json",
+      "view": "a"
+    },
+    {
+      "status": 404,
+      "task": 15,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/missing.json",
+      "view": "a"
+    },
+    {
+      "status": 404,
+      "task": 16,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a"
+    },
+    {
+      "status": 404,
+      "task": 17,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a"
+    },
+    {
+      "status": 404,
+      "task": 18,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a"
+    },
+    {
+      "task": 20,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a"
+    },
+    {
+      "status": 200,
+      "task": 19,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a"
+    },
+    {
+      "status": 200,
+      "task": 20,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a"
+    },
+    {
+      "task": 13,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/data.json",
+      "view": "b"
+    },
+    {
+      "task": 14,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/data.json",
+      "view": "b"
+    },
+    {
+      "task": 15,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/missing.json",
+      "view": "b"
+    },
+    {
+      "task": 16,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/outside.json",
+      "view": "b"
+    },
+    {
+      "task": 17,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/outside.json",
+      "view": "b"
+    },
+    {
+      "task": 18,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "b"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.b",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": false,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "b"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.b",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": false,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "b"
+    },
+    {
+      "task": 19,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "b"
+    },
+    {
+      "task": 20,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "b"
+    },
+    {
+      "status": 200,
+      "task": 13,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/data.json",
+      "view": "b"
+    },
+    {
+      "status": 200,
+      "task": 14,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/data.json",
+      "view": "b"
+    },
+    {
+      "status": 404,
+      "task": 15,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/missing.json",
+      "view": "b"
+    },
+    {
+      "status": 404,
+      "task": 16,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/outside.json",
+      "view": "b"
+    },
+    {
+      "status": 404,
+      "task": 17,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/outside.json",
+      "view": "b"
+    },
+    {
+      "status": 404,
+      "task": 18,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "b"
+    },
+    {
+      "status": 200,
+      "task": 19,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "b"
+    },
+    {
+      "status": 200,
+      "task": 20,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "b"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": ""
+      },
+      "targetMainFrame": true,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-second-instance"
+    },
+    {
+      "task": 1,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-second-instance"
+    },
+    {
+      "status": 200,
+      "task": 1,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-second-instance"
+    },
+    {
+      "type": "committed",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-second-instance"
+    },
+    {
+      "task": 2,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/style.css",
+      "view": "a-second-instance"
+    },
+    {
+      "task": 3,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/marker.svg",
+      "view": "a-second-instance"
+    },
+    {
+      "task": 4,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/probe.js",
+      "view": "a-second-instance"
+    },
+    {
+      "status": 200,
+      "task": 2,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/style.css",
+      "view": "a-second-instance"
+    },
+    {
+      "status": 200,
+      "task": 3,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/marker.svg",
+      "view": "a-second-instance"
+    },
+    {
+      "status": 200,
+      "task": 4,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/probe.js",
+      "view": "a-second-instance"
+    },
+    {
+      "type": "finished",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-second-instance"
+    },
+    {
+      "task": 5,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/data.json",
+      "view": "a-second-instance"
+    },
+    {
+      "task": 6,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/data.json",
+      "view": "a-second-instance"
+    },
+    {
+      "task": 7,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/missing.json",
+      "view": "a-second-instance"
+    },
+    {
+      "task": 8,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a-second-instance"
+    },
+    {
+      "task": 9,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a-second-instance"
+    },
+    {
+      "task": 10,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-second-instance"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.a",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": false,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a-second-instance"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.a",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": false,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a-second-instance"
+    },
+    {
+      "task": 11,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a-second-instance"
+    },
+    {
+      "task": 12,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a-second-instance"
+    },
+    {
+      "status": 200,
+      "task": 5,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/data.json",
+      "view": "a-second-instance"
+    },
+    {
+      "status": 200,
+      "task": 6,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/data.json",
+      "view": "a-second-instance"
+    },
+    {
+      "status": 404,
+      "task": 7,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/missing.json",
+      "view": "a-second-instance"
+    },
+    {
+      "status": 404,
+      "task": 8,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a-second-instance"
+    },
+    {
+      "status": 404,
+      "task": 9,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a-second-instance"
+    },
+    {
+      "status": 404,
+      "task": 10,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-second-instance"
+    },
+    {
+      "status": 200,
+      "task": 11,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a-second-instance"
+    },
+    {
+      "status": 200,
+      "task": 12,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a-second-instance"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.a",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": true,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a"
+    },
+    {
+      "task": 21,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a"
+    },
+    {
+      "status": 200,
+      "task": 21,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a"
+    },
+    {
+      "type": "committed",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a"
+    },
+    {
+      "task": 22,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/style.css",
+      "view": "a"
+    },
+    {
+      "task": 23,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/marker.svg",
+      "view": "a"
+    },
+    {
+      "task": 24,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/probe.js",
+      "view": "a"
+    },
+    {
+      "status": 200,
+      "task": 22,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/style.css",
+      "view": "a"
+    },
+    {
+      "status": 200,
+      "task": 23,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/marker.svg",
+      "view": "a"
+    },
+    {
+      "status": 200,
+      "task": 24,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/probe.js",
+      "view": "a"
+    },
+    {
+      "type": "finished",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a"
+    },
+    {
+      "task": 25,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/data.json",
+      "view": "a"
+    },
+    {
+      "task": 26,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/data.json",
+      "view": "a"
+    },
+    {
+      "task": 27,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/missing.json",
+      "view": "a"
+    },
+    {
+      "task": 28,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a"
+    },
+    {
+      "task": 29,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a"
+    },
+    {
+      "task": 30,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.a",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": false,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.a",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": false,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a"
+    },
+    {
+      "task": 31,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a"
+    },
+    {
+      "task": 32,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a"
+    },
+    {
+      "status": 200,
+      "task": 25,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/data.json",
+      "view": "a"
+    },
+    {
+      "status": 200,
+      "task": 26,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/data.json",
+      "view": "a"
+    },
+    {
+      "status": 404,
+      "task": 27,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/missing.json",
+      "view": "a"
+    },
+    {
+      "status": 404,
+      "task": 28,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a"
+    },
+    {
+      "status": 404,
+      "task": 29,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a"
+    },
+    {
+      "status": 404,
+      "task": 30,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a"
+    },
+    {
+      "status": 200,
+      "task": 31,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a"
+    },
+    {
+      "status": 200,
+      "task": 32,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": ""
+      },
+      "targetMainFrame": true,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 1,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 1,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "type": "committed",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 2,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/style.css",
+      "view": "a-recreated"
+    },
+    {
+      "task": 3,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/marker.svg",
+      "view": "a-recreated"
+    },
+    {
+      "task": 4,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/probe.js",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 2,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/style.css",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 3,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/marker.svg",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 4,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/probe.js",
+      "view": "a-recreated"
+    },
+    {
+      "type": "finished",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 5,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 6,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 7,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/missing.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 8,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 9,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 10,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.a",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": false,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.a",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": false,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "task": 11,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "task": 12,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 5,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 6,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 404,
+      "task": 7,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/missing.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 404,
+      "task": 8,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 404,
+      "task": 9,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 404,
+      "task": 10,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 11,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 12,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.a",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": true,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/second.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 13,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/second.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 13,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/second.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "type": "committed",
+      "url": "moonpool://com.example.probe.a/assets/second.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 14,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/style.css",
+      "view": "a-recreated"
+    },
+    {
+      "task": 15,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/marker.svg",
+      "view": "a-recreated"
+    },
+    {
+      "task": 16,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/probe.js",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 14,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/style.css",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 15,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/marker.svg",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 16,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/probe.js",
+      "view": "a-recreated"
+    },
+    {
+      "type": "finished",
+      "url": "moonpool://com.example.probe.a/assets/second.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 17,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 18,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 19,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/missing.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 20,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 21,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 22,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.a",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": false,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.a",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": false,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "task": 23,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "task": 24,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 17,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 18,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 404,
+      "task": 19,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/missing.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 404,
+      "task": 20,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 404,
+      "task": 21,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 404,
+      "task": 22,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 23,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 24,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.a",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": true,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.b/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.a/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 25,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.a/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 25,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.a/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "type": "committed",
+      "url": "moonpool://com.example.probe.b/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.a/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 26,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/style.css",
+      "view": "a-recreated"
+    },
+    {
+      "task": 27,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/marker.svg",
+      "view": "a-recreated"
+    },
+    {
+      "task": 28,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/probe.js",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 26,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/style.css",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 27,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/marker.svg",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 28,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/probe.js",
+      "view": "a-recreated"
+    },
+    {
+      "type": "finished",
+      "url": "moonpool://com.example.probe.b/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.a/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 29,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 30,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 31,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/missing.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 32,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/outside.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 33,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/outside.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 34,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.b",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": false,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.b",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": false,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "task": 35,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "task": 36,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 29,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 30,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 404,
+      "task": 31,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/missing.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 404,
+      "task": 32,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/outside.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 404,
+      "task": 33,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/outside.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 404,
+      "task": 34,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 35,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 36,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.b",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": true,
+      "type": "navigation",
+      "url": "http://127.0.0.1:8877/external",
+      "view": "a-recreated"
+    },
+    {
+      "type": "committed",
+      "url": "http://127.0.0.1:8877/external",
+      "view": "a-recreated"
+    },
+    {
+      "type": "finished",
+      "url": "http://127.0.0.1:8877/external",
+      "view": "a-recreated"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "127.0.0.1",
+        "mainFrame": true,
+        "port": 8877,
+        "protocol": "http"
+      },
+      "targetMainFrame": true,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 37,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 37,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "type": "committed",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 38,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/style.css",
+      "view": "a-recreated"
+    },
+    {
+      "task": 39,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/marker.svg",
+      "view": "a-recreated"
+    },
+    {
+      "task": 40,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/probe.js",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 38,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/style.css",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 39,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/marker.svg",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 40,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/probe.js",
+      "view": "a-recreated"
+    },
+    {
+      "type": "finished",
+      "url": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 41,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 42,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 43,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/missing.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 44,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 45,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a-recreated"
+    },
+    {
+      "task": 46,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "127.0.0.1",
+        "mainFrame": true,
+        "port": 8877,
+        "protocol": "http"
+      },
+      "targetMainFrame": false,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "com.example.probe.a",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": "moonpool"
+      },
+      "targetMainFrame": false,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "task": 47,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "task": 48,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 41,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 42,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 404,
+      "task": 43,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/missing.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 404,
+      "task": 44,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 404,
+      "task": 45,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/outside.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 404,
+      "task": 46,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 47,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.a/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "status": 200,
+      "task": 48,
+      "type": "scheme-finished",
+      "url": "moonpool://com.example.probe.b/assets/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "allowed": true,
+      "sourceFrame": {
+        "host": "",
+        "mainFrame": true,
+        "port": 0,
+        "protocol": ""
+      },
+      "targetMainFrame": true,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/delayed.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "cancelled-resource"
+    },
+    {
+      "task": 1,
+      "type": "scheme-start",
+      "url": "moonpool://com.example.probe.a/assets/delayed.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "cancelled-resource"
+    },
+    {
+      "task": 1,
+      "type": "scheme-stop",
+      "url": "moonpool://com.example.probe.a/assets/delayed.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "view": "cancelled-resource"
+    },
+    {
+      "task": 1,
+      "type": "scheme-suppressed-after-stop",
+      "view": "cancelled-resource"
+    }
+  ],
+  "os": "26.4.1",
+  "pendingSchemeTasks": 0,
+  "phase": "restart",
+  "profile": "custom-scheme",
+  "samples": [
+    {
+      "label": "initial-a",
+      "nativeUrl": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "observation": {
+        "app": "a",
+        "cookies": {
+          "after": "",
+          "before": ""
+        },
+        "corsFetch": {
+          "body": "{\"publicMarker\": \"loopback-control\", \"originHeader\": \"moonpool://com.example.probe.a\"}",
+          "status": 200,
+          "type": "cors"
+        },
+        "crossFetch": {
+          "error": "TypeError: Load failed"
+        },
+        "crossFrame": {
+          "domError": "SecurityError: Blocked a frame with origin \"moonpool://com.example.probe.a\" from accessing a cross-origin frame. Protocols, domains, and ports must match.",
+          "loadedMarker": "b",
+          "messageOrigin": "moonpool://com.example.probe.b",
+          "storageError": "SecurityError: Blocked a frame with origin \"moonpool://com.example.probe.a\" from accessing a cross-origin frame. Protocols, domains, and ports must match."
+        },
+        "cssMarker": "rgb(234, 243, 238)",
+        "encodedEscapeFetch": {
+          "body": "Unknown app or outside package",
+          "status": 404,
+          "type": "basic"
+        },
+        "escapeFetch": {
+          "body": "Unknown app or outside package",
+          "status": 404,
+          "type": "basic"
+        },
+        "href": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+        "imageLoaded": true,
+        "indexedDB": {
+          "after": "a",
+          "before": "a"
+        },
+        "localStorage": {
+          "after": "a",
+          "before": "a"
+        },
+        "missingFetch": {
+          "body": "Missing bundled resource",
+          "status": 404,
+          "type": "basic"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Load failed"
+        },
+        "origin": "moonpool://com.example.probe.a",
+        "secureContext": true,
+        "selfFetch": {
+          "body": "{ \"publicMarker\": \"a\" }\n",
+          "status": 200,
+          "type": "basic"
+        },
+        "selfFrame": {
+          "domMarker": "a",
+          "loadedMarker": "a",
+          "messageOrigin": "moonpool://com.example.probe.a",
+          "storageMarker": "a"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Load failed"
+        }
+      }
+    },
+    {
+      "label": "initial-b",
+      "nativeUrl": "moonpool://com.example.probe.b/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.a/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "observation": {
+        "app": "b",
+        "cookies": {
+          "after": "",
+          "before": ""
+        },
+        "corsFetch": {
+          "body": "{\"publicMarker\": \"loopback-control\", \"originHeader\": \"moonpool://com.example.probe.b\"}",
+          "status": 200,
+          "type": "cors"
+        },
+        "crossFetch": {
+          "error": "TypeError: Load failed"
+        },
+        "crossFrame": {
+          "domError": "SecurityError: Blocked a frame with origin \"moonpool://com.example.probe.b\" from accessing a cross-origin frame. Protocols, domains, and ports must match.",
+          "loadedMarker": "a",
+          "messageOrigin": "moonpool://com.example.probe.a",
+          "storageError": "SecurityError: Blocked a frame with origin \"moonpool://com.example.probe.b\" from accessing a cross-origin frame. Protocols, domains, and ports must match."
+        },
+        "cssMarker": "rgb(234, 243, 238)",
+        "encodedEscapeFetch": {
+          "body": "Unknown app or outside package",
+          "status": 404,
+          "type": "basic"
+        },
+        "escapeFetch": {
+          "body": "Unknown app or outside package",
+          "status": 404,
+          "type": "basic"
+        },
+        "href": "moonpool://com.example.probe.b/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.a/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+        "imageLoaded": true,
+        "indexedDB": {
+          "after": "b",
+          "before": "b"
+        },
+        "localStorage": {
+          "after": "b",
+          "before": "b"
+        },
+        "missingFetch": {
+          "body": "Missing bundled resource",
+          "status": 404,
+          "type": "basic"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Load failed"
+        },
+        "origin": "moonpool://com.example.probe.b",
+        "secureContext": true,
+        "selfFetch": {
+          "body": "{ \"publicMarker\": \"b\" }\n",
+          "status": 200,
+          "type": "basic"
+        },
+        "selfFrame": {
+          "domMarker": "b",
+          "loadedMarker": "b",
+          "messageOrigin": "moonpool://com.example.probe.b",
+          "storageMarker": "b"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Load failed"
+        }
+      }
+    },
+    {
+      "label": "a-after-b",
+      "nativeUrl": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "observation": {
+        "app": "a",
+        "cookies": {
+          "after": "",
+          "before": ""
+        },
+        "corsFetch": {
+          "body": "{\"publicMarker\": \"loopback-control\", \"originHeader\": \"moonpool://com.example.probe.a\"}",
+          "status": 200,
+          "type": "cors"
+        },
+        "crossFetch": {
+          "error": "TypeError: Load failed"
+        },
+        "crossFrame": {
+          "domError": "SecurityError: Blocked a frame with origin \"moonpool://com.example.probe.a\" from accessing a cross-origin frame. Protocols, domains, and ports must match.",
+          "loadedMarker": "b",
+          "messageOrigin": "moonpool://com.example.probe.b",
+          "storageError": "SecurityError: Blocked a frame with origin \"moonpool://com.example.probe.a\" from accessing a cross-origin frame. Protocols, domains, and ports must match."
+        },
+        "cssMarker": "rgb(234, 243, 238)",
+        "encodedEscapeFetch": {
+          "body": "Unknown app or outside package",
+          "status": 404,
+          "type": "basic"
+        },
+        "escapeFetch": {
+          "body": "Unknown app or outside package",
+          "status": 404,
+          "type": "basic"
+        },
+        "href": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+        "imageLoaded": true,
+        "indexedDB": {
+          "after": "a",
+          "before": "a"
+        },
+        "localStorage": {
+          "after": "a",
+          "before": "a"
+        },
+        "missingFetch": {
+          "body": "Missing bundled resource",
+          "status": 404,
+          "type": "basic"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Load failed"
+        },
+        "origin": "moonpool://com.example.probe.a",
+        "secureContext": true,
+        "selfFetch": {
+          "body": "{ \"publicMarker\": \"a\" }\n",
+          "status": 200,
+          "type": "basic"
+        },
+        "selfFrame": {
+          "domMarker": "a",
+          "loadedMarker": "a",
+          "messageOrigin": "moonpool://com.example.probe.a",
+          "storageMarker": "a"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Load failed"
+        }
+      }
+    },
+    {
+      "label": "b-after-a",
+      "nativeUrl": "moonpool://com.example.probe.b/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.a/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "observation": {
+        "app": "b",
+        "cookies": {
+          "after": "",
+          "before": ""
+        },
+        "corsFetch": {
+          "body": "{\"publicMarker\": \"loopback-control\", \"originHeader\": \"moonpool://com.example.probe.b\"}",
+          "status": 200,
+          "type": "cors"
+        },
+        "crossFetch": {
+          "error": "TypeError: Load failed"
+        },
+        "crossFrame": {
+          "domError": "SecurityError: Blocked a frame with origin \"moonpool://com.example.probe.b\" from accessing a cross-origin frame. Protocols, domains, and ports must match.",
+          "loadedMarker": "a",
+          "messageOrigin": "moonpool://com.example.probe.a",
+          "storageError": "SecurityError: Blocked a frame with origin \"moonpool://com.example.probe.b\" from accessing a cross-origin frame. Protocols, domains, and ports must match."
+        },
+        "cssMarker": "rgb(234, 243, 238)",
+        "encodedEscapeFetch": {
+          "body": "Unknown app or outside package",
+          "status": 404,
+          "type": "basic"
+        },
+        "escapeFetch": {
+          "body": "Unknown app or outside package",
+          "status": 404,
+          "type": "basic"
+        },
+        "href": "moonpool://com.example.probe.b/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.a/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+        "imageLoaded": true,
+        "indexedDB": {
+          "after": "b",
+          "before": "b"
+        },
+        "localStorage": {
+          "after": "b",
+          "before": "b"
+        },
+        "missingFetch": {
+          "body": "Missing bundled resource",
+          "status": 404,
+          "type": "basic"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Load failed"
+        },
+        "origin": "moonpool://com.example.probe.b",
+        "secureContext": true,
+        "selfFetch": {
+          "body": "{ \"publicMarker\": \"b\" }\n",
+          "status": 200,
+          "type": "basic"
+        },
+        "selfFrame": {
+          "domMarker": "b",
+          "loadedMarker": "b",
+          "messageOrigin": "moonpool://com.example.probe.b",
+          "storageMarker": "b"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Load failed"
+        }
+      }
+    },
+    {
+      "label": "same-app-second-instance",
+      "nativeUrl": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "observation": {
+        "app": "a",
+        "cookies": {
+          "after": "",
+          "before": ""
+        },
+        "corsFetch": {
+          "body": "{\"publicMarker\": \"loopback-control\", \"originHeader\": \"moonpool://com.example.probe.a\"}",
+          "status": 200,
+          "type": "cors"
+        },
+        "crossFetch": {
+          "error": "TypeError: Load failed"
+        },
+        "crossFrame": {
+          "domError": "SecurityError: Blocked a frame with origin \"moonpool://com.example.probe.a\" from accessing a cross-origin frame. Protocols, domains, and ports must match.",
+          "loadedMarker": "b",
+          "messageOrigin": "moonpool://com.example.probe.b",
+          "storageError": "SecurityError: Blocked a frame with origin \"moonpool://com.example.probe.a\" from accessing a cross-origin frame. Protocols, domains, and ports must match."
+        },
+        "cssMarker": "rgb(234, 243, 238)",
+        "encodedEscapeFetch": {
+          "body": "Unknown app or outside package",
+          "status": 404,
+          "type": "basic"
+        },
+        "escapeFetch": {
+          "body": "Unknown app or outside package",
+          "status": 404,
+          "type": "basic"
+        },
+        "href": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+        "imageLoaded": true,
+        "indexedDB": {
+          "after": "a",
+          "before": "a"
+        },
+        "localStorage": {
+          "after": "a",
+          "before": "a"
+        },
+        "missingFetch": {
+          "body": "Missing bundled resource",
+          "status": 404,
+          "type": "basic"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Load failed"
+        },
+        "origin": "moonpool://com.example.probe.a",
+        "secureContext": true,
+        "selfFetch": {
+          "body": "{ \"publicMarker\": \"a\" }\n",
+          "status": 200,
+          "type": "basic"
+        },
+        "selfFrame": {
+          "domMarker": "a",
+          "loadedMarker": "a",
+          "messageOrigin": "moonpool://com.example.probe.a",
+          "storageMarker": "a"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Load failed"
+        }
+      }
+    },
+    {
+      "label": "reload-a",
+      "nativeUrl": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "observation": {
+        "app": "a",
+        "cookies": {
+          "after": "",
+          "before": ""
+        },
+        "corsFetch": {
+          "body": "{\"publicMarker\": \"loopback-control\", \"originHeader\": \"moonpool://com.example.probe.a\"}",
+          "status": 200,
+          "type": "cors"
+        },
+        "crossFetch": {
+          "error": "TypeError: Load failed"
+        },
+        "crossFrame": {
+          "domError": "SecurityError: Blocked a frame with origin \"moonpool://com.example.probe.a\" from accessing a cross-origin frame. Protocols, domains, and ports must match.",
+          "loadedMarker": "b",
+          "messageOrigin": "moonpool://com.example.probe.b",
+          "storageError": "SecurityError: Blocked a frame with origin \"moonpool://com.example.probe.a\" from accessing a cross-origin frame. Protocols, domains, and ports must match."
+        },
+        "cssMarker": "rgb(234, 243, 238)",
+        "encodedEscapeFetch": {
+          "body": "Unknown app or outside package",
+          "status": 404,
+          "type": "basic"
+        },
+        "escapeFetch": {
+          "body": "Unknown app or outside package",
+          "status": 404,
+          "type": "basic"
+        },
+        "href": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+        "imageLoaded": true,
+        "indexedDB": {
+          "after": "a",
+          "before": "a"
+        },
+        "localStorage": {
+          "after": "a",
+          "before": "a"
+        },
+        "missingFetch": {
+          "body": "Missing bundled resource",
+          "status": 404,
+          "type": "basic"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Load failed"
+        },
+        "origin": "moonpool://com.example.probe.a",
+        "secureContext": true,
+        "selfFetch": {
+          "body": "{ \"publicMarker\": \"a\" }\n",
+          "status": 200,
+          "type": "basic"
+        },
+        "selfFrame": {
+          "domMarker": "a",
+          "loadedMarker": "a",
+          "messageOrigin": "moonpool://com.example.probe.a",
+          "storageMarker": "a"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Load failed"
+        }
+      }
+    },
+    {
+      "label": "recreate-a",
+      "nativeUrl": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "observation": {
+        "app": "a",
+        "cookies": {
+          "after": "",
+          "before": ""
+        },
+        "corsFetch": {
+          "body": "{\"publicMarker\": \"loopback-control\", \"originHeader\": \"moonpool://com.example.probe.a\"}",
+          "status": 200,
+          "type": "cors"
+        },
+        "crossFetch": {
+          "error": "TypeError: Load failed"
+        },
+        "crossFrame": {
+          "domError": "SecurityError: Blocked a frame with origin \"moonpool://com.example.probe.a\" from accessing a cross-origin frame. Protocols, domains, and ports must match.",
+          "loadedMarker": "b",
+          "messageOrigin": "moonpool://com.example.probe.b",
+          "storageError": "SecurityError: Blocked a frame with origin \"moonpool://com.example.probe.a\" from accessing a cross-origin frame. Protocols, domains, and ports must match."
+        },
+        "cssMarker": "rgb(234, 243, 238)",
+        "encodedEscapeFetch": {
+          "body": "Unknown app or outside package",
+          "status": 404,
+          "type": "basic"
+        },
+        "escapeFetch": {
+          "body": "Unknown app or outside package",
+          "status": 404,
+          "type": "basic"
+        },
+        "href": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+        "imageLoaded": true,
+        "indexedDB": {
+          "after": "a",
+          "before": "a"
+        },
+        "localStorage": {
+          "after": "a",
+          "before": "a"
+        },
+        "missingFetch": {
+          "body": "Missing bundled resource",
+          "status": 404,
+          "type": "basic"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Load failed"
+        },
+        "origin": "moonpool://com.example.probe.a",
+        "secureContext": true,
+        "selfFetch": {
+          "body": "{ \"publicMarker\": \"a\" }\n",
+          "status": 200,
+          "type": "basic"
+        },
+        "selfFrame": {
+          "domMarker": "a",
+          "loadedMarker": "a",
+          "messageOrigin": "moonpool://com.example.probe.a",
+          "storageMarker": "a"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Load failed"
+        }
+      }
+    },
+    {
+      "label": "same-app-navigation",
+      "nativeUrl": "moonpool://com.example.probe.a/assets/second.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "observation": {
+        "app": "a",
+        "cookies": {
+          "after": "",
+          "before": ""
+        },
+        "corsFetch": {
+          "body": "{\"publicMarker\": \"loopback-control\", \"originHeader\": \"moonpool://com.example.probe.a\"}",
+          "status": 200,
+          "type": "cors"
+        },
+        "crossFetch": {
+          "error": "TypeError: Load failed"
+        },
+        "crossFrame": {
+          "domError": "SecurityError: Blocked a frame with origin \"moonpool://com.example.probe.a\" from accessing a cross-origin frame. Protocols, domains, and ports must match.",
+          "loadedMarker": "b",
+          "messageOrigin": "moonpool://com.example.probe.b",
+          "storageError": "SecurityError: Blocked a frame with origin \"moonpool://com.example.probe.a\" from accessing a cross-origin frame. Protocols, domains, and ports must match."
+        },
+        "cssMarker": "rgb(234, 243, 238)",
+        "encodedEscapeFetch": {
+          "body": "Unknown app or outside package",
+          "status": 404,
+          "type": "basic"
+        },
+        "escapeFetch": {
+          "body": "Unknown app or outside package",
+          "status": 404,
+          "type": "basic"
+        },
+        "href": "moonpool://com.example.probe.a/assets/second.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+        "imageLoaded": true,
+        "indexedDB": {
+          "after": "a",
+          "before": "a"
+        },
+        "localStorage": {
+          "after": "a",
+          "before": "a"
+        },
+        "missingFetch": {
+          "body": "Missing bundled resource",
+          "status": 404,
+          "type": "basic"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Load failed"
+        },
+        "origin": "moonpool://com.example.probe.a",
+        "secureContext": true,
+        "selfFetch": {
+          "body": "{ \"publicMarker\": \"a\" }\n",
+          "status": 200,
+          "type": "basic"
+        },
+        "selfFrame": {
+          "domMarker": "a",
+          "loadedMarker": "a",
+          "messageOrigin": "moonpool://com.example.probe.a",
+          "storageMarker": "a"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Load failed"
+        }
+      }
+    },
+    {
+      "label": "foreign-app-navigation",
+      "nativeUrl": "moonpool://com.example.probe.b/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.a/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "observation": {
+        "app": "b",
+        "cookies": {
+          "after": "",
+          "before": ""
+        },
+        "corsFetch": {
+          "body": "{\"publicMarker\": \"loopback-control\", \"originHeader\": \"moonpool://com.example.probe.b\"}",
+          "status": 200,
+          "type": "cors"
+        },
+        "crossFetch": {
+          "error": "TypeError: Load failed"
+        },
+        "crossFrame": {
+          "domError": "SecurityError: Blocked a frame with origin \"moonpool://com.example.probe.b\" from accessing a cross-origin frame. Protocols, domains, and ports must match.",
+          "loadedMarker": "a",
+          "messageOrigin": "moonpool://com.example.probe.a",
+          "storageError": "SecurityError: Blocked a frame with origin \"moonpool://com.example.probe.b\" from accessing a cross-origin frame. Protocols, domains, and ports must match."
+        },
+        "cssMarker": "rgb(234, 243, 238)",
+        "encodedEscapeFetch": {
+          "body": "Unknown app or outside package",
+          "status": 404,
+          "type": "basic"
+        },
+        "escapeFetch": {
+          "body": "Unknown app or outside package",
+          "status": 404,
+          "type": "basic"
+        },
+        "href": "moonpool://com.example.probe.b/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.a/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+        "imageLoaded": true,
+        "indexedDB": {
+          "after": "b",
+          "before": "b"
+        },
+        "localStorage": {
+          "after": "b",
+          "before": "b"
+        },
+        "missingFetch": {
+          "body": "Missing bundled resource",
+          "status": 404,
+          "type": "basic"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Load failed"
+        },
+        "origin": "moonpool://com.example.probe.b",
+        "secureContext": true,
+        "selfFetch": {
+          "body": "{ \"publicMarker\": \"b\" }\n",
+          "status": 200,
+          "type": "basic"
+        },
+        "selfFrame": {
+          "domMarker": "b",
+          "loadedMarker": "b",
+          "messageOrigin": "moonpool://com.example.probe.b",
+          "storageMarker": "b"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Load failed"
+        }
+      }
+    },
+    {
+      "label": "external-navigation",
+      "nativeUrl": "http://127.0.0.1:8877/external",
+      "observation": {
+        "external": true,
+        "href": "http://127.0.0.1:8877/external",
+        "origin": "http://127.0.0.1:8877"
+      }
+    },
+    {
+      "label": "return-to-a",
+      "nativeUrl": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+      "observation": {
+        "app": "a",
+        "cookies": {
+          "after": "",
+          "before": ""
+        },
+        "corsFetch": {
+          "body": "{\"publicMarker\": \"loopback-control\", \"originHeader\": \"moonpool://com.example.probe.a\"}",
+          "status": 200,
+          "type": "cors"
+        },
+        "crossFetch": {
+          "error": "TypeError: Load failed"
+        },
+        "crossFrame": {
+          "domError": "SecurityError: Blocked a frame with origin \"moonpool://com.example.probe.a\" from accessing a cross-origin frame. Protocols, domains, and ports must match.",
+          "loadedMarker": "b",
+          "messageOrigin": "moonpool://com.example.probe.b",
+          "storageError": "SecurityError: Blocked a frame with origin \"moonpool://com.example.probe.a\" from accessing a cross-origin frame. Protocols, domains, and ports must match."
+        },
+        "cssMarker": "rgb(234, 243, 238)",
+        "encodedEscapeFetch": {
+          "body": "Unknown app or outside package",
+          "status": 404,
+          "type": "basic"
+        },
+        "escapeFetch": {
+          "body": "Unknown app or outside package",
+          "status": 404,
+          "type": "basic"
+        },
+        "href": "moonpool://com.example.probe.a/assets/index.html?profile=custom-scheme&seed=false&cross=moonpool://com.example.probe.b/assets/&unknown=moonpool://com.example.probe.unknown/assets/data.json",
+        "imageLoaded": true,
+        "indexedDB": {
+          "after": "a",
+          "before": "a"
+        },
+        "localStorage": {
+          "after": "a",
+          "before": "a"
+        },
+        "missingFetch": {
+          "body": "Missing bundled resource",
+          "status": 404,
+          "type": "basic"
+        },
+        "noCorsFetch": {
+          "error": "TypeError: Load failed"
+        },
+        "origin": "moonpool://com.example.probe.a",
+        "secureContext": true,
+        "selfFetch": {
+          "body": "{ \"publicMarker\": \"a\" }\n",
+          "status": 200,
+          "type": "basic"
+        },
+        "selfFrame": {
+          "domMarker": "a",
+          "loadedMarker": "a",
+          "messageOrigin": "moonpool://com.example.probe.a",
+          "storageMarker": "a"
+        },
+        "unknownAppFetch": {
+          "error": "TypeError: Load failed"
+        }
+      }
+    }
+  ],
+  "webkitHandlesHTTPS": true,
+  "webkitHandlesMoonpool": false,
+  "websiteDataRecords": [
+    {
+      "name": "localhost",
+      "types": ["WKWebsiteDataTypeIndexedDBDatabases", "WKWebsiteDataTypeLocalStorage"]
+    },
+    {
+      "name": "127.0.0.1",
+      "types": ["WKWebsiteDataTypeIndexedDBDatabases", "WKWebsiteDataTypeLocalStorage"]
+    }
+  ],
+  "buildMetadata": {
+    "baseAndroidScriptSha256": "648e6b43617c4828903aaabee9cef944474673f80248977b9781f3449dd088c8",
+    "executableSha256": "0c0725339a1b2c9bd50b8069f5a332a25aee4d8b09b3283b70c8c617f606c758",
+    "probeSwiftSha256": "ba76eb7f4bf4113d52c862fcd2986f29832eafdbe53a8174d31f969ee73528ba",
+    "adaptedScriptSha256": "bad193e0d97621bbb4237bdad337ee180a7a594508138b1d7d77c9b9aacd146f",
+    "sources": {
+      "Probe.swift": "ba76eb7f4bf4113d52c862fcd2986f29832eafdbe53a8174d31f969ee73528ba",
+      "build.py": "5de8e6fb00abf323cca6cb63fc622f5826cafad3a1ed20f62fca136970192f4a",
+      "run_probe.py": "4fea9754947a4cb41fceb944ac926cf8714ddc7579f59645de37b419392c680c",
+      "fixture_server.py": "318ea1c4f2dca22a941d9f4b8956d99d5c0347647bf6302fed19b55a6839bcdb"
+    },
+    "fixtures": {
+      "apps/a/data.json": "59affb50b523d72b4cdec490fd991fbe3733027e14caa87f9a9ac487cbc9456e",
+      "apps/a/frame.html": "e44f7e2d41474aef38cc82829e8e77bbf71924a44cc1ee3a7c61f5951b881b52",
+      "apps/a/index.html": "a47e633f2f882e290083b247e3e3b03c591cb0b3afb83bb59af193fb90678cfb",
+      "apps/b/data.json": "f330c69ccde2eec9127ca62f2bccf9798594119f59c5662c019284306e6d767f",
+      "apps/b/frame.html": "0a88c854a537eed086b87edf9ba8c01c98798c5a3aa16ac01a65bf1955666f07",
+      "apps/b/index.html": "fa0dcb3c84d9eb4eab68fe9d088684f4e475360430f7352e7bd0906b206b4b3c",
+      "common/marker.svg": "b0df91fe54638f1806287ae1eee1891d33a061ada7cc8ddff54a977f12a8d6cd",
+      "common/probe.js": "bad193e0d97621bbb4237bdad337ee180a7a594508138b1d7d77c9b9aacd146f",
+      "common/style.css": "7917dd34779d89550f2111acdd12b705f9b9943323b530a805cfe473f66a7013",
+      "outside.json": "09f34c881482ca2b803d4d382149c62fdc46a2eae33b91b07219b8bdb3529618"
+    }
+  }
+}

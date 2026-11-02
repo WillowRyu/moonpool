@@ -4,6 +4,10 @@ Standalone platform research, not a Moonpool native SDK or a new dispatcher.
 T23's local work and recorded Android evidence are preserved. The pure
 TypeScript kernel and normative origin contract remain unchanged.
 
+T24 research completed on 2026-11-02 after explicit resumption. Read the
+[verification record](../../docs/ios-origin-probe-verification.md) and retained
+results/ for the measured scope, custom-cookie gap and remaining T26/T28 gates.
+
 ## Criteria recorded before implementation
 
 Use T22's P01–P10 criteria with the same public app ids/markers as T23. Measure
@@ -57,3 +61,45 @@ pnpm run test:probes from the repository root: tests verify public CORS/control
 responses and app-root confinement with temporary files/free ports. Absolute
 paths and symlinks escaping the selected root were reproduced before the fix.
 These tests do not boot/install/launch a simulator app or complete T24.
+
+## Reproduce the completed experiment
+
+Keep local-results/simulator.json with owned and protected ids on the machine
+where ownership was established. Recheck actual states before use. On another
+machine, create a new dedicated simulator and record ownership locally first;
+never copy another machine's id or select an arbitrary existing device.
+
+From the workspace root, using the installed pinned toolchain:
+
+```sh
+python3 experiments/ios-origin-probe/build.py
+# Replace <owned-id> with the verified local owned id in every simctl command.
+xcrun simctl boot <owned-id>
+xcrun simctl bootstatus <owned-id> -b
+xcrun simctl install <owned-id> experiments/ios-origin-probe/build/OriginProbe.app
+python3 experiments/ios-origin-probe/fixture_server.py
+```
+
+With that loopback server running, execute each profile's seed then restart:
+
+```sh
+python3 experiments/ios-origin-probe/run_probe.py --profile custom-scheme --phase seed --output experiments/ios-origin-probe/local-results/custom-scheme-seed.json
+python3 experiments/ios-origin-probe/run_probe.py --profile custom-scheme --phase restart --output experiments/ios-origin-probe/local-results/custom-scheme-restart.json
+python3 experiments/ios-origin-probe/run_probe.py --profile http-control --phase seed --output experiments/ios-origin-probe/local-results/http-control-seed.json
+python3 experiments/ios-origin-probe/run_probe.py --profile http-control --phase restart --output experiments/ios-origin-probe/local-results/http-control-restart.json
+```
+
+Stop only this session's server, confirm ports 8877–8879 have no listener, then:
+
+```sh
+python3 experiments/ios-origin-probe/run_probe.py --profile custom-scheme --phase restart --output experiments/ios-origin-probe/local-results/custom-scheme-offline.json
+python3 experiments/ios-origin-probe/verify_results.py experiments/ios-origin-probe/local-results
+xcrun simctl terminate <owned-id> org.moonpool.iosoriginprobe
+xcrun simctl shutdown <owned-id>
+```
+
+Preserve new runs separately from historical results/. Retained build metadata
+must describe the actually installed artifact, not a later rebuild. Reports use
+native-owned asynchronous polling of public fixtures, not an authenticated bridge.
+Cookie emptiness is not an isolation pass. T24's final five runs contain 55
+snapshots; preliminary timing/setup runs are not part of that evidence set.
