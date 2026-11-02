@@ -1,0 +1,79 @@
+{
+  "date": "2026-11-02",
+  "baselineCommit": "b4b7721",
+  "host": {
+    "macOS": "26.6.2",
+    "architecture": "arm64"
+  },
+  "ios": {
+    "Xcode": "26.4.1 / 17E202",
+    "SDK": "26.4",
+    "runtime": "26.4.1 / 23E254a",
+    "architecture": "arm64",
+    "minimumProbeOS": "17.0",
+    "engine": "JavaScriptCore",
+    "executor": "one serial native queue and VM per owner"
+  },
+  "android": {
+    "os": "17 / API 37",
+    "build": "CP21.260330.012",
+    "pageSize": 16384,
+    "webView": "145.0.7632.218",
+    "engineLibrary": "androidx.javascriptengine:javascriptengine:1.1.1",
+    "Gradle": "9.6.1",
+    "AGP": "9.3.1",
+    "JDK": "21.0.10",
+    "compileSdk": 36,
+    "targetSdk": 36,
+    "minimumProbeAPI": 31,
+    "executor": "single native executor; per-owner isolate in one sandbox"
+  },
+  "nodeContractTests": 2,
+  "nativeReports": 4,
+  "runtimeOwners": 12,
+  "commonKernelVectors": 180,
+  "evidenceChecks": 120,
+  "lint": {
+    "counts": {
+      "OldTargetApi": 1,
+      "GradleDependency": 1,
+      "DataExtractionRules": 1,
+      "MissingApplicationIcon": 1,
+      "SetTextI18n": 7
+    },
+    "severities": {
+      "Warning": 11
+    }
+  },
+  "scope": {
+    "providers": "JS test doubles; native fixture snapshot seeding",
+    "scheduler": "probe-only poll-driven adapter; production semantics/performance not established",
+    "guest": "separate diagnostic realm, not an integrated guest transport",
+    "frameworkModel": "framework-neutral Swift/Kotlin facade selected; RN/Flutter bindings remain separate adapters"
+  },
+  "common": {
+    "bundleSha256": "c71bf823bebe949c106e2d14eed418f6437074c3763530a5512b446e281a471b",
+    "schedulerSha256": "c49f5ff4a6e288b102e179988c32d29ee45f6f838e3ff4eabd6308eca328fe77",
+    "sources": {
+      "experiments/trusted-runtime-probe/kernel-probe.ts": "0eb9c2453f40fa7721256e43ec6031edddb8d21420bf6fdc9d6e7ce32e7479f9",
+      "experiments/trusted-runtime-probe/timer-adapter.js": "c49f5ff4a6e288b102e179988c32d29ee45f6f838e3ff4eabd6308eca328fe77",
+      "experiments/trusted-runtime-probe/vite.config.mjs": "bb13baca79daceb68d9403e3b87843e02169102dba7c6c0e1269824c6094b4d0",
+      "examples/mock-host/src/json-boundary.ts": "52aa55e3f9ca26ad59742d2b4a4b2b7373479fd0e4b3246f0d3163577b95f1e4",
+      "packages/protocol/src/index.ts": "3f7cff3aab29d06f3a6d662a13e7e08399fb702cfd7e2f0733eb2f97f655d350",
+      "packages/client/src/index.ts": "3fcd6104bb91ebe65d5efaf90cc604ea875fec25a6c8622802511ca3c786d901",
+      "packages/client/src/notifications.ts": "7dc21017bb5d8b6409936775354475ab8468b1ffaf6c1c23eaf89731d6070da4",
+      "packages/host/src/incoming-request.ts": "1bcc41ed520dae1671efc183543b502350df8dddb5de46d361da2f9b5413d9da",
+      "packages/host/src/index.ts": "65ed114d1b5c79a40c2e1fdce713a7c85f06157fdb402caa29ca7634bdc14e3b",
+      "packages/host/src/manifest-fields.ts": "bc2a2034c06e990a7f7054765271d78ba39f7bc3cebe7f3c46421c860865040a",
+      "packages/host/src/manifest.ts": "ba9221d47ac3283e8336a37418ffdcb29e10ce9c2b6c5272b5be4b759ff6a4d5",
+      "packages/host/src/notifications.ts": "0479d9951fa52d32f0c32e7bb61921fd1f7ebcc1490c314aa585ecbd16293b0e"
+    }
+  },
+  "cleanup": {
+    "ownedIOSShutdown": true,
+    "otherIOSStatesUnchanged": true,
+    "preexistingAndroidStillRunning": true,
+    "signatureVerified": true,
+    "ownedAndroidStopped": true
+  }
+}

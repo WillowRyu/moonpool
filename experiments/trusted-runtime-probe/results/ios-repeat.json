@@ -1,0 +1,309 @@
+{
+  "complete": true,
+  "engine": "JavaScriptCore",
+  "events": [
+    {
+      "owner": "a-first",
+      "type": "owner-executor-confirmed"
+    },
+    {
+      "owner": "a-recreated",
+      "type": "owner-executor-confirmed"
+    },
+    {
+      "owner": "a-first",
+      "type": "late-control-dropped"
+    },
+    {
+      "owner": "b-independent",
+      "type": "owner-executor-confirmed"
+    },
+    {
+      "owner": "a-recreated",
+      "type": "late-control-dropped"
+    },
+    {
+      "owner": "b-independent",
+      "type": "late-control-dropped"
+    }
+  ],
+  "executor": "one serial queue per runtime owner",
+  "os": "26.4.1",
+  "platform": "ios",
+  "providerScope": "JS provider test doubles; native snapshot seeding only",
+  "run": "repeat",
+  "samples": [
+    {
+      "appId": "com.example.runtime.a",
+      "common": {
+        "appId": "com.example.runtime.a",
+        "checks": [
+          {
+            "label": "language primitives",
+            "passed": true
+          },
+          {
+            "label": "recursive JSON inspection",
+            "passed": true
+          },
+          {
+            "label": "getter rejected without evaluation",
+            "passed": true
+          },
+          {
+            "label": "real kernel handshake",
+            "passed": true
+          },
+          {
+            "label": "real kernel ping",
+            "passed": true
+          },
+          {
+            "label": "public profile projection",
+            "passed": true
+          },
+          {
+            "label": "initial public fixture snapshot",
+            "passed": true
+          },
+          {
+            "label": "storage provider fixture",
+            "passed": true
+          },
+          {
+            "label": "invalid JSON rejected before provider",
+            "passed": true
+          },
+          {
+            "label": "permission enforced before provider",
+            "passed": true
+          },
+          {
+            "label": "notification delivery",
+            "passed": true
+          },
+          {
+            "label": "provider error stays in host diagnostic sink",
+            "passed": true
+          },
+          {
+            "label": "client timer timeout",
+            "passed": true
+          },
+          {
+            "label": "timer cancellation",
+            "passed": true
+          },
+          {
+            "label": "microtask before later timer",
+            "passed": true
+          }
+        ],
+        "closed": false,
+        "complete": true,
+        "globals": {
+          "document": false,
+          "microtask": true,
+          "timeout": true,
+          "window": false
+        },
+        "initialValue": null,
+        "protocolVersion": "0.1",
+        "storedValue": "saved-A"
+      },
+      "guestProbeGlobalAbsent": true,
+      "name": "a-first",
+      "schedulerAfterClose": "{\"pendingTimers\":0,\"hostDiagnosticCount\":1}"
+    },
+    {
+      "appId": "com.example.runtime.a",
+      "common": {
+        "appId": "com.example.runtime.a",
+        "checks": [
+          {
+            "label": "language primitives",
+            "passed": true
+          },
+          {
+            "label": "recursive JSON inspection",
+            "passed": true
+          },
+          {
+            "label": "getter rejected without evaluation",
+            "passed": true
+          },
+          {
+            "label": "real kernel handshake",
+            "passed": true
+          },
+          {
+            "label": "real kernel ping",
+            "passed": true
+          },
+          {
+            "label": "public profile projection",
+            "passed": true
+          },
+          {
+            "label": "initial public fixture snapshot",
+            "passed": true
+          },
+          {
+            "label": "storage provider fixture",
+            "passed": true
+          },
+          {
+            "label": "invalid JSON rejected before provider",
+            "passed": true
+          },
+          {
+            "label": "permission enforced before provider",
+            "passed": true
+          },
+          {
+            "label": "notification delivery",
+            "passed": true
+          },
+          {
+            "label": "provider error stays in host diagnostic sink",
+            "passed": true
+          },
+          {
+            "label": "client timer timeout",
+            "passed": true
+          },
+          {
+            "label": "timer cancellation",
+            "passed": true
+          },
+          {
+            "label": "microtask before later timer",
+            "passed": true
+          }
+        ],
+        "closed": false,
+        "complete": true,
+        "globals": {
+          "document": false,
+          "microtask": true,
+          "timeout": true,
+          "window": false
+        },
+        "initialValue": "saved-A",
+        "protocolVersion": "0.1",
+        "storedValue": "saved-A"
+      },
+      "guestProbeGlobalAbsent": true,
+      "name": "a-recreated",
+      "schedulerAfterClose": "{\"pendingTimers\":0,\"hostDiagnosticCount\":1}"
+    },
+    {
+      "appId": "com.example.runtime.b",
+      "common": {
+        "appId": "com.example.runtime.b",
+        "checks": [
+          {
+            "label": "language primitives",
+            "passed": true
+          },
+          {
+            "label": "recursive JSON inspection",
+            "passed": true
+          },
+          {
+            "label": "getter rejected without evaluation",
+            "passed": true
+          },
+          {
+            "label": "real kernel handshake",
+            "passed": true
+          },
+          {
+            "label": "real kernel ping",
+            "passed": true
+          },
+          {
+            "label": "public profile projection",
+            "passed": true
+          },
+          {
+            "label": "initial public fixture snapshot",
+            "passed": true
+          },
+          {
+            "label": "storage provider fixture",
+            "passed": true
+          },
+          {
+            "label": "invalid JSON rejected before provider",
+            "passed": true
+          },
+          {
+            "label": "permission enforced before provider",
+            "passed": true
+          },
+          {
+            "label": "notification delivery",
+            "passed": true
+          },
+          {
+            "label": "provider error stays in host diagnostic sink",
+            "passed": true
+          },
+          {
+            "label": "client timer timeout",
+            "passed": true
+          },
+          {
+            "label": "timer cancellation",
+            "passed": true
+          },
+          {
+            "label": "microtask before later timer",
+            "passed": true
+          }
+        ],
+        "closed": false,
+        "complete": true,
+        "globals": {
+          "document": false,
+          "microtask": true,
+          "timeout": true,
+          "window": false
+        },
+        "initialValue": null,
+        "protocolVersion": "0.1",
+        "storedValue": "saved-B"
+      },
+      "guestProbeGlobalAbsent": true,
+      "name": "b-independent",
+      "schedulerAfterClose": "{\"pendingTimers\":0,\"hostDiagnosticCount\":1}"
+    }
+  ],
+  "buildMetadata": {
+    "common": {
+      "bundleSha256": "c71bf823bebe949c106e2d14eed418f6437074c3763530a5512b446e281a471b",
+      "schedulerSha256": "c49f5ff4a6e288b102e179988c32d29ee45f6f838e3ff4eabd6308eca328fe77",
+      "sources": {
+        "experiments/trusted-runtime-probe/kernel-probe.ts": "0eb9c2453f40fa7721256e43ec6031edddb8d21420bf6fdc9d6e7ce32e7479f9",
+        "experiments/trusted-runtime-probe/timer-adapter.js": "c49f5ff4a6e288b102e179988c32d29ee45f6f838e3ff4eabd6308eca328fe77",
+        "experiments/trusted-runtime-probe/vite.config.mjs": "bb13baca79daceb68d9403e3b87843e02169102dba7c6c0e1269824c6094b4d0",
+        "examples/mock-host/src/json-boundary.ts": "52aa55e3f9ca26ad59742d2b4a4b2b7373479fd0e4b3246f0d3163577b95f1e4",
+        "packages/protocol/src/index.ts": "3f7cff3aab29d06f3a6d662a13e7e08399fb702cfd7e2f0733eb2f97f655d350",
+        "packages/client/src/index.ts": "3fcd6104bb91ebe65d5efaf90cc604ea875fec25a6c8622802511ca3c786d901",
+        "packages/client/src/notifications.ts": "7dc21017bb5d8b6409936775354475ab8468b1ffaf6c1c23eaf89731d6070da4",
+        "packages/host/src/incoming-request.ts": "1bcc41ed520dae1671efc183543b502350df8dddb5de46d361da2f9b5413d9da",
+        "packages/host/src/index.ts": "65ed114d1b5c79a40c2e1fdce713a7c85f06157fdb402caa29ca7634bdc14e3b",
+        "packages/host/src/manifest-fields.ts": "bc2a2034c06e990a7f7054765271d78ba39f7bc3cebe7f3c46421c860865040a",
+        "packages/host/src/manifest.ts": "ba9221d47ac3283e8336a37418ffdcb29e10ce9c2b6c5272b5be4b759ff6a4d5",
+        "packages/host/src/notifications.ts": "0479d9951fa52d32f0c32e7bb61921fd1f7ebcc1490c314aa585ecbd16293b0e"
+      }
+    },
+    "executableSha256": "acaf08b24bdb8889a523974e6dd87a8a204c61f3f96196218dcdb5cab35eaa3c",
+    "sources": {
+      "Probe.swift": "9f3f0cfb1c0ca087a3c7d7aebb21ec64783ed3ee4a1a9450db54328355907c70",
+      "build.py": "9b28ec0405aa8b5f9209707237496ba7ecb28d4b052a8f17f9483edf43f942b6",
+      "run_probe.py": "2fc5007f133b9698e0e195324dcfed7319f2669df3d553b79269df2327333cb0"
+    }
+  }
+}
