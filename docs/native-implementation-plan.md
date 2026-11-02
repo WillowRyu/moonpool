@@ -1,20 +1,21 @@
 # Android and iOS follow-up implementation plan
 
 Date: 2026-10-26
-Last updated: 2026-10-27
-Status: T22/T23 complete; T24 in progress and paused by the maintainer; T25–T65 planned. Android research found an origin-isolation incompatibility.
+Last updated: 2026-11-02
+Status: T22–T24 complete; T25–T65 planned. Android custom origins fail isolation; the tested iOS custom origins separate DOM/storage, with cookie limitations.
 Targets confirmed by the maintainer: Android (AOS) and iOS, both required.
 Host application/framework: explicitly undecided; build the common plan first.
 Baseline: browser v0.1 complete, published through 91d7b46; 1131 tests / 39 files.
 Normative source: SPEC.md and accepted ADRs. This plan does not amend them.
 
 Maintenance before T24: the requested [code-quality pass](code-quality-workflow.md)
-consolidates proven duplication and adds regression/loopback tests. T24 remains
-paused; host-only tests do not advance its native measurement status.
+consolidates proven duplication and adds regression/loopback tests. The later
+[T24 iOS experiment](ios-origin-probe-verification.md) resumed on request and
+records independent simulator evidence; host-only tests remain separate.
 
 The maintainer's [scheme/origin discussion](native-origin-options.md) records
 the Android HTTPS candidate and remaining iOS/message/cookie checks. It does
-not approve a SPEC change or complete T28; T24 remains paused.
+not approve a SPEC change or complete T28; T25/T26 message evidence remains open.
 
 ## Scope and completion levels
 
@@ -48,7 +49,7 @@ No v0.2/v1.0 number, minimum OS, engine dependency or release date is assigned h
 | --- | --- | --- |
 | T22 | Complete | [Local toolchain/target inventory and T23/T24 criteria](native-target-matrix.md); no native build/boot evidence |
 | T23 | Research complete | [Android build/emulator observations](android-origin-probe-verification.md); custom-scheme app isolation fails in the tested configuration |
-| T24 | In progress; paused by maintainer | Isolated simulator setup and provisional app build; no install/launch or iOS observations yet |
+| T24 | Research complete | [iOS simulator observations](ios-origin-probe-verification.md); distinct custom origins/DOM/storage, unavailable custom cookies and observed HTTP session-cookie loss |
 | T25–T65 | Planned | No production native SDK verification yet |
 
 ## Decisions that precede implementation
@@ -92,7 +93,7 @@ Use the next free ADR number when the task runs; do not create placeholder ADRs.
 | --- | --- | --- | --- | --- |
 | T22 | Both/shared | Completed 2026-10-27: target/toolchain inventory and host-framework decision points. | Existing ARM64 API 37 AVD and iOS 26.4 simulator candidates recorded, with tool warnings, unknown WebView/support/device details and P01–P10 probe criteria. [Evidence and handover](native-target-matrix.md). No native build or SDK install. | T21 |
 | T23 | Android | Completed 2026-10-27: bounded origin/local-content probe with two app ids. | Real API 37/WebView 145 observations: official loader rejects moonpool; public interception loads assets but collapses A/B origin, DOM and storage. HTTPS positive/negative controls, process restart and fallback observations recorded. [Evidence](android-origin-probe-verification.md). T28 resolution remains required. | T22 |
-| T24 | iOS | Matching WKWebView origin/local-content probe. | Measure the same two-app matrix, custom-scheme task behavior, reload/persistence and actual origin metadata. A handler API existing is not evidence of origin/storage semantics. | T22 |
+| T24 | iOS | Completed 2026-11-02: matching WKWebView origin/local-content probe. | Five final runs / 55 observations: distinct A/B custom origins, DOM/storage denial, localStorage/IndexedDB persistence, cookie limitations, offline delivery and started-task cancellation. [Evidence](ios-origin-probe-verification.md). T26/T28 remain open. | T22 |
 | T25 | Android | Native message-channel/authentication probe. | Observe native sender/frame/origin identity, feature availability, first-message timing, navigation and stale callbacks. Include wrong-origin/source/subframe negatives and a working positive control. No @JavascriptInterface fallback. | T23 |
 | T26 | iOS | Native message/reply/authentication probe. | Observe actual WebView/frame/security-origin identity, content-world behavior, reply timing and stale references. Check main-frame policy and negative/positive controls. | T24 |
 | T27 | Both/shared | ADR for trusted TypeScript kernel execution and native facade ownership. | Select the host/runtime model using both probes and maintainer input. Prove common-kernel execution and required JS primitives/timers; define threads/actors, instance lifetime, credential boundary and bundle ownership. Host framework must be resolved or the gate stays pending. | T22–T26 |

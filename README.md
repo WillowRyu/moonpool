@@ -126,8 +126,11 @@ The plan separates reference-app PoCs, actual-host/device verification and an
 evidence-based deployment decision. These are planned milestones, not shipped
 native support. T22's [target/toolchain inventory](docs/native-target-matrix.md)
 is complete. T23's [Android probe](docs/android-origin-probe-verification.md)
-records an actual emulator run and a custom-origin isolation failure. T24 is
-paused at the maintainer's request; cleanup proceeds without starting a device.
+records an actual emulator run and a custom-origin isolation failure. T24's
+[iOS probe](docs/ios-origin-probe-verification.md) records distinct custom origins,
+DOM/storage isolation and storage persistence on the tested simulator, with
+explicit cookie limitations. T22–T24 research is complete; message authentication
+and the approved native-origin contract remain T25/T26/T28 work.
 See the [Korean roadmap](study/27-native-roadmap.html).
 
 ## Verification

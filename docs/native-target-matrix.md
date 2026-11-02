@@ -9,6 +9,10 @@ Follow-up: [T23 Android measurements](android-origin-probe-verification.md) now
 record an actual build/boot and a custom-origin isolation failure. The inventory
 and Not run labels below preserve the earlier T22 checkpoint.
 
+[T24 iOS measurements](ios-origin-probe-verification.md), completed 2026-11-02
+after explicit resumption, now record actual simulator build/boot and the paired
+origin/storage/cookie/cancellation observations. The inventory below is historical.
+
 ## Confirmed requirements and open choices
 
 Android (AOS) and iOS are both required. A host app/page may own multiple Portals

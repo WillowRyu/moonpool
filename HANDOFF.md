@@ -1,7 +1,7 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-10-27. The maintainer switched to agent-led implementation
+> Last updated: 2026-11-02. The maintainer switched to agent-led implementation
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
@@ -11,25 +11,27 @@
 > Multi-Portal research published as 00c0c63 / 76bc212; remote confirmed in sync.
 > ADR 0022 accepted revision published as 0397b70; remote confirmed in sync.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Current checkpoint: T22/T23 complete; T24 paused at the maintainer's request.
+> Current checkpoint: T22–T24 research complete; next T25/T26 message probes.
 > Both Android and iOS are required; host app/framework explicitly undecided.
 > Read docs/native-implementation-plan.md for the 44 follow-up tasks and dependencies.
 > Initial native plan published as 10d75d3; T22 published as db8d6ed.
 > Read docs/native-target-matrix.md for tool versions, gaps and pre-code probe criteria.
 > T23 found collapsed moonpool origins/shared A/B DOM and storage on WebView 145.
 > Read docs/android-origin-probe-verification.md before native origin decisions.
-> Resume T24 only when requested; isolated setup/app build exists, no iOS observations yet.
+> T24 resumed on request and completed on 2026-11-02; read docs/ios-origin-probe-verification.md.
+> iOS 26.4.1 separates custom origins/DOM/storage; cookie limitations remain explicit.
+> Five final runs / 55 snapshots; 790 control assertions pass. Owned simulator shut down.
 > T28 native-origin contract gate remains.
 > Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
-> Run pnpm run check; read docs/code-quality-workflow.md. T24 stays paused.
+> Run pnpm run check; read docs/code-quality-workflow.md. Native task checks remain separate.
 > Scheme discussion: docs/native-origin-options.md; Android HTTPS is a candidate, not approved policy.
-> The maintainer requested publication of the scheme discussion and study additions.
-> The maintainer requested commit/push of all current research, paused preparation and cleanup.
+> The earlier scheme discussion and cleanup were published through 4225453.
+> The maintainer requested commit/push of the completed T24 research and study updates.
 > Source commits: 7327536 native probes; e2e3c72 shared tests; 328280d runtime/UI cleanup.
 > T18 published as 4aab691 / ab98b58; remote confirmed in sync before T19.
 > T19 published as e2354e6 / 8f98da9; clean remote sync confirmed before T20.
 > T20/T21 published on 2026-10-26 as 321d09d / 1637e3d; remote sync confirmed.
-> The latest documentation-only checkpoint records that completed publication.
+> See the latest publication checkpoint for the T24 commit grouping and verification.
 > Package/tag publication remains separate from this Git publication request.
 > Clarification: one app/screen can contain Portals with different origins.
 > No application-wide single-domain or single-Portal restriction is intended.
@@ -48,6 +50,101 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-02 checkpoint — T24 Git publication requested
+
+The maintainer explicitly requested committing and pushing all completed T24
+work before considering the next step. Publish the iOS research source/retained
+evidence and its documentation/study/progress updates as separate logical
+Conventional Commits. T25/T26 remain unstarted; this request does not approve
+an origin/SPEC change or package/tag release.
+
+Fresh pre-publication pnpm run check passes 1134 TypeScript tests / 40 files,
+9 Python tests, both typechecks, Biome (232 files) and both browser builds,
+with the existing nonblocking Vite warning. The retained simulator reports pass
+790 control assertions and source-fingerprint checks; retained JSON contains no
+user paths or device ids. No simulator or probe app was restarted for publication.
+Verify origin/master matches HEAD and the tree is clean after the requested push.
+Earlier local-only/no-publication statements describe the prior checkpoint.
+
+Committed the standalone iOS source, runner verification and five retained runs
+as 5bc8770. The following documentation commit records the result, learning
+materials and roadmap. The scheme comparison remains a candidate: Android
+per-app HTTPS hosts and iOS per-app moonpool URLs, with message/cookie checks
+and explicit T28 approval still required. Next discussion is T25's Android
+sender/frame/document binding; no new native implementation was requested.
+
+## 2026-11-02 checkpoint — T24 research complete
+
+The maintainer explicitly resumed T24 from published 4225453. Reused only the
+dedicated retained iPhone 17 Pro simulator, actual iOS 26.4.1 / 23E254a with
+Xcode 26.4.1 / 17E202 and Simulator SDK 26.4. No SDK/runtime/dependency install,
+global Xcode change, user-device mutation or app-data reset. At resumption all
+other simulators were Shutdown; their current states, not the historical Booted
+state, were preserved.
+
+Reproduced the old clang SDK warning, selected iphonesimulator at xcrun as well
+as swiftc, and checked vtool's IOSSIMULATOR/minimum 17.0/SDK 26.4 metadata. The
+build now has no compiler warning. Installed executable hash and ad-hoc signature
+were verified. The minimum is a probe setting, not a product support promise.
+
+First added evidence verification; its delayed-resource start assertion failed
+because the original 100ms cancellation removed the view before the request
+started. Changed the harness to wait for scheme-start before stop/remove; each
+custom run now records start→stop→suppressed-after-stop, no finish for that task,
+and zero pending tasks. Adapted the iOS fixture to test frame localStorage reads
+separately from DOM. Android sources and retained results remain unchanged.
+
+Five final runs (custom seed/restart/offline and HTTP seed/restart) retain 55
+snapshots and identical artifact/source hashes under experiments/ios-origin-probe/
+results. 790 control assertions pass. iOS retains per-app moonpool origins in
+pages, loaded-frame messages, navigation sourceFrame metadata and CORS Origin.
+Self-frame DOM/storage access works; loaded foreign-frame access throws
+SecurityError. Bundled resources/fetch work; missing/escape/unknown paths are
+denied. Same-app second view/reload/recreation/native app restart retain separate
+localStorage/IndexedDB markers using one default persistent data store.
+
+Custom-scheme cookies remain empty. HTTP session-cookie writes succeed in initial
+A/B pages, but foreign navigation and restarted pages report empty cookies.
+The fixture has no Expires/Max-Age: do not claim persistent-cookie coverage or
+treat empty cookies as successful isolation. Domain/parent-domain cases remain
+T28 inputs. Data-record enumeration omits custom hosts despite successful
+guest storage rereads; existing HTTP control records remain listed. App-process
+restart is not forced WebKit process loss, OS upgrade, simulator reboot,
+power-loss or storage.* provider evidence.
+
+Offline stops only the three loopback listeners; bundled resources/local 404s
+continue while HTTP fetches and external navigation fail. No authenticated
+native bridge or containment policy is installed. Navigation-action source
+metadata is not per-message authentication. SPEC §8 / §9 observations are
+recorded, not amended; T25/T26 and explicit T27/T28 gates remain.
+
+Added docs/ios-origin-probe-verification.md and study/31-ios-origin-probe.html;
+updated the guide/roadmaps while preserving previous lessons/checkpoints.
+pnpm run check passes 1134 TS tests / 40 files, 9 Python tests, typechecks,
+Biome and both browser builds, retaining the known nonblocking Vite warning.
+Only the owned app was terminated and owned simulator shut down; every other
+simulator state is unchanged. Fixture listeners are stopped. No Git publication
+is requested; T25/T26 were not started.
+
+Final review: retained JSON was formatted without changing decoded observations;
+final Biome passes 232 files. All 564 local references across 32 study pages and
+selected docs resolve; ids, 44 task ids, prior scripts and instruction symlinks
+are preserved. Reviewed the new lesson's comparison table/cancellation code and
+the updated study map in the browser; the temporary tab/server were closed.
+Verified retained fixture/base/native-source fingerprints and installed binary
+equivalence; no user paths/device ids are retained. SPEC, accepted ADRs, shipped
+packages/examples and root dependencies are unchanged. git diff --check passes.
+
+## 2026-11-02 checkpoint — T24 resumption authorization
+
+The maintainer explicitly requested T24 resumption. Rechecked the retained
+owned simulator and installed Xcode 26.4.1/iOS 26.4 runtime. Both the owned and
+previously protected devices were Shutdown before this session; preserve the
+current state of all other devices, rather than the historical Booted state.
+Only the owned T24 device may be booted, installed, launched or shut down.
+Record measurements and public evidence before declaring research complete.
+No origin/SPEC change, T25/T26 work or Git publication is requested.
 
 ## 2026-10-27 checkpoint — scheme discussion Git publication requested
 

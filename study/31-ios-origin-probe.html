@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — T24 iOS 출처·저장소 실험</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">31 · T24 · iOS 실험</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#result">무엇을 확인했나</a>
+    <a href="#origin">주소와 실제 출처</a>
+    <a href="#storage">저장소를 나누어 읽기</a>
+    <a href="#cancel">요청 취소 검증</a>
+    <a href="#evidence">반복과 오프라인 대조군</a>
+    <a href="#next">다음 단계</a>
+  </nav>
+  <p class="small desktop-only">2026.11.02 조사 완료<br>전용 iOS 26.4.1 시뮬레이터<br>명세 변경과 SDK 구현은 별도</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">T24 · WKWebView origin and local content</div>
+    <h1>같은 스킴이어도,<br>운영체제의 결과는 달랐습니다.</h1>
+    <p class="lead">실제 iOS 시뮬레이터에서 앱 두 개를 띄워 출처·DOM·저장소를 시험했습니다. Android에서 합쳐졌던 moonpool 출처가 이번 iOS 구성에서는 앱별로 분리됐습니다. 쿠키의 한계와 아직 검증하지 않은 메시지 인증도 함께 기록합니다.</p>
+    <div class="meta"><span class="pill">T24 조사 완료 · 3 / 44</span><span class="pill">최종 5회 실행 · 55개 관찰</span><span class="pill warm">custom scheme 쿠키는 빈 값</span></div>
+  </header>
+  <section class="section" id="result">
+    <h2>1 · 이번에 확인한 결과</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>확인 항목</th><th>T23 Android</th><th>T24 iOS</th></tr></thead>
+      <tbody>
+        <tr><td>실제 moonpool 출처</td><td>A와 B 모두 moonpool://</td><td>앱 ID를 포함한 서로 다른 출처</td></tr>
+        <tr><td>다른 앱 프레임 DOM 읽기</td><td>읽힘 · 격리 실패</td><td>실제 로드된 뒤 SecurityError</td></tr>
+        <tr><td>localStorage·IndexedDB</td><td>같은 키가 충돌함</td><td>자기 앱 값 유지 · 앱 재시작 후에도 유지</td></tr>
+        <tr><td>번들 JSON fetch</td><td>custom scheme에서 실패</td><td>같은 앱은 성공 · 다른 앱은 차단</td></tr>
+        <tr><td>document.cookie</td><td>빈 값</td><td>빈 값 · 쿠키 격리 성공으로 세지 않음</td></tr>
+      </tbody>
+    </table></div>
+    <p>비교 대상은 T23의 WebView 145와 이번 iOS 26.4.1 시뮬레이터입니다. 모든 Android·iOS 버전이나 실기기로 결과를 넓혀 말하지 않습니다. 운영 출처 계약은 두 결과와 후속 메시지 실험을 모아 T28에서 결정합니다.</p>
+    <p><a href="../docs/ios-origin-probe-verification.md">영문 검증 기록</a> · <a href="../experiments/ios-origin-probe/results/environment.json">실제 도구와 빌드 지문</a></p>
+  </section>
+  <section class="section" id="origin">
+    <h2>2 · URL을 받아 주는 것과 격리는 다른 검사입니다</h2>
+    <pre><code>configuration.setURLSchemeHandler(handler, forURLScheme: "moonpool")
+// Measured page origins:
+"moonpool://com.example.probe.a"
+"moonpool://com.example.probe.b"</code></pre>
+    <p>WKURLSchemeHandler는 moonpool 주소의 요청에 번들 파일을 공급하는 담당자입니다. HTML이 화면에 보인다는 사실만으로 보안 출처까지 분리됐다고 단정할 수 없어, 실제 페이지의 origin과 서버가 받은 Origin 헤더를 따로 확인했습니다.</p>
+    <pre><code>// A can read its own loaded frame.
+selfFrame.domMarker;     // "a"
+selfFrame.storageMarker; // "a"
+
+// B really loaded; A still cannot read B's DOM or localStorage.
+crossFrame.loadedMarker; // "b"
+crossFrame.domError;     // "SecurityError: ..."
+crossFrame.storageError; // "SecurityError: ..."</code></pre>
+    <p>다른 앱의 프레임이 로드되지 않았다면 접근 실패의 원인을 구분할 수 없습니다. 그래서 프레임의 공개 메시지로 로드를 확인하고, 같은 앱 접근은 성공하는지 대조한 뒤 다른 앱 접근의 차단을 확인했습니다.</p>
+    <div class="callout warm"><strong>보안 명세 §9:</strong> 탐색 콜백의 sourceFrame.securityOrigin도 관찰했지만, 이것은 실제 브리지 메시지의 발신자 인증이 아닙니다. 이번 앱에는 게스트가 호출하는 네이티브 핸들러가 없습니다. 메시지·프레임·문서 신원은 T26에서 따로 시험합니다.</div>
+  </section>
+  <section class="section" id="storage">
+    <h2>3 · 저장소 세 종류를 따로 판정했습니다</h2>
+    <pre><code>let store = WKWebsiteDataStore.default()
+configuration.websiteDataStore = store // Same store for A and B.
+
+// A and B write the SAME key with different public values.
+localStorage.setItem(key, app); // A writes "a"; B writes "b".</code></pre>
+    <p>별도 데이터 저장소를 앱마다 만들어 주면 원래 출처의 격리 능력을 확인하기 어렵습니다. 이번에는 기본 영구 저장소 하나를 함께 사용했습니다. A에 값을 쓴 뒤 B에 같은 키를 쓰고, A를 다시 읽어도 a가 남는지 확인했습니다. IndexedDB도 같은 방식으로 검사했습니다.</p>
+    <p>같은 앱의 두 번째 WebView, 새로고침, WebView 재생성, 네이티브 앱 프로세스 종료·재실행에서도 자기 앱 값이 유지됐습니다. 시뮬레이터 재부팅·OS 업데이트·강제 WebKit 프로세스 종료나 전원 손실까지 검증한 것은 아닙니다.</p>
+    <p>쿠키는 custom scheme에서 쓴 뒤에도 빈 문자열이었습니다. HTTP 대조군의 localhost와 127.0.0.1에서는 첫 페이지에서 각 앱 쿠키가 저장됐지만, 다른 앱으로 이동한 관찰과 앱 재시작 뒤에는 비었습니다. 만료기한 없는 세션 쿠키를 사용했으므로 영구 쿠키의 지속성까지 검증한 것은 아닙니다. 포트만 다르게 하면 쿠키를 나눌 수 없으므로 호스트 이름도 다르게 정한 대조군입니다.</p>
+    <div class="callout"><strong>storage.*와 구분하기:</strong> 이번 검사는 웹 엔진의 localStorage·IndexedDB·cookie입니다. Moonpool의 storage.get/set은 호스트가 앱 ID로 나누는 별도 provider이며, 이번 실험에는 연결하지 않았습니다.</div>
+  </section>
+  <section class="section" id="cancel">
+    <h2>4 · 시작을 확인한 뒤에 취소해야 합니다</h2>
+    <p>처음에는 load 후 100ms가 지나면 WebView를 제거했습니다. 그런데 실제 리소스 요청이 시작되기 전이라 취소 콜백을 검증하지 못했습니다. 먼저 “지연 요청이 실제 시작돼야 한다”는 검사를 추가하니 실패했습니다.</p>
+    <div class="flow"><div class="node">scheme-start 관찰</div><span class="sep">→</span><div class="node">stopLoading·뷰 제거</div><span class="sep">→</span><div class="node">scheme-stop</div><span class="sep">→</span><div class="node">늦은 전달 억제</div></div>
+    <pre><code>guard self.pending.removeValue(forKey: key) != nil else {
+    // The stopped task no longer owns permission to receive callbacks.
+    self.record?(["type": "scheme-suppressed-after-stop", "task": number])
+    return
+}
+task.didReceive(response)
+task.didReceive(data)
+task.didFinish()</code></pre>
+    <p>이제 실제 시작 콜백을 받은 뒤 중단합니다. 늦게 실행된 작업은 pending 목록에서 자기 항목이 사라진 것을 보고 응답·데이터·완료를 전달하지 않습니다. 최종 custom scheme 세 실행 모두 start → stop → suppressed를 기록했고 남은 작업은 0개였습니다.</p>
+    <p>이 코드는 실험 리소스의 취소 확인입니다. Moonpool의 연결 종료·앱 수명 계약 전체는 후속 task에서 정합니다.</p>
+  </section>
+  <section class="section" id="evidence">
+    <h2>5 · 반복과 오프라인 대조군을 남겼습니다</h2>
+    <p>같은 최종 앱으로 custom scheme의 seed·restart, HTTP의 seed·restart, 서버를 끈 custom scheme까지 다섯 번 실행했습니다. 각 실행은 A/B 첫 관찰·재읽기·같은 앱 두 번째 뷰·새로고침·재생성·앱 간 이동·외부 이동·복귀의 11개 관찰을 남깁니다.</p>
+    <p>서버를 끄면 외부 HTTP 요청과 이동은 실패하지만 번들 HTML·JS·CSS·이미지·JSON은 계속 읽혔습니다. 누락 파일과 경로 탈출 요청은 로컬 404로 남았습니다. 이는 로컬 파일 공급과 테스트 서버 요청을 구분한 실험이며, 기기 전체 인터넷을 끈 실험은 아닙니다.</p>
+    <pre><code>python3 experiments/ios-origin-probe/verify_results.py \
+  experiments/ios-origin-probe/results
+pnpm run check</code></pre>
+    <p>빌드의 SDK 경고도 재현한 뒤 xcrun 단계에서 iphonesimulator를 명시해 해결했습니다. 바이너리의 대상·SDK를 검사하고 실제 설치·실행까지 확인했습니다. 새 SDK나 패키지를 설치하지 않았고, 전용 시뮬레이터만 사용한 뒤 종료했습니다.</p>
+    <p><a href="../experiments/ios-origin-probe/Probe.swift">실험 Swift 코드</a> · <a href="../experiments/ios-origin-probe/verify_results.py">증거 검증 코드</a> · <a href="../experiments/ios-origin-probe/README.md">재현 절차</a></p>
+  </section>
+  <section class="section" id="next">
+    <h2>6 · 다음은 실제 메시지의 발신자 검증입니다</h2>
+    <p>T22·T23·T24를 마쳐 후속 44개 task 중 3개가 완료됐습니다. 다음 T25는 Android 메시지 채널·인증, T26은 iOS 메시지·응답·콘텐츠 실행 문맥의 실험입니다. 이후 T27에서 신뢰된 TypeScript 커널의 실행 위치를 정하고, T28에서 출처 계약을 승인받습니다.</p>
+    <div class="callout warm"><strong>현재 의미:</strong> iOS의 출처·DOM·저장소 동작을 실측했습니다. 쿠키의 한계는 남았고, 메시지 인증·이동 차단·실기기·운영 SDK는 아직 후속 단계입니다. 현재 SPEC과 이전 ADR은 유지했습니다.</div>
+  </section>
+  <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="30-code-quality.html">이전 코드 정리 기록</a> · <a href="29-android-origin-probe.html">Android 실험 비교</a><br>근거: T24 최종 다섯 실행의 공개 JSON·네이티브 콜백과 영문 검증 기록.</footer>
+</main>
+</body>
+</html>

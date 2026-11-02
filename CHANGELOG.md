@@ -9,11 +9,17 @@ See [completion evidence and retained limits](docs/v0.1-conformance.md).
 
 ### Added
 
+- Complete T24's bounded iOS origin/local-content research on a dedicated
+  iOS 26.4.1 simulator. Retain five runs / 55 snapshots, source/artifact hashes,
+  distinct custom origins, loaded foreign-frame DOM/storage denial, app storage
+  persistence, CORS/offline controls and scheme-task cancellation. Record empty
+  custom cookies and HTTP session-cookie loss separately. Correct the probe SDK
+  invocation and cancellation timing; preserve SPEC and native SDK decision gates.
 - Add the code-quality workflow and pnpm check command, including standard-library
   loopback tests alongside TypeScript tests/typechecks/lint/builds. Consolidate
   identical test transports and capability execution/error plumbing, make the
   storage demo's method alternatives explicit, and cover provider receiver state
-  plus inherited array conversion. T24 remains paused.
+  plus inherited array conversion. This cleanup ran while T24 was paused.
 - Share experimental loopback controls and fix the unfinished iOS fixture's
   absolute-path/symlink escapes, first reproduced with failing HTTP tests.
   Preserve existing native artifacts/evidence and SPEC policies.
