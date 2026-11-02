@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — Android·iOS 공통 쿠키와 HTTP 설계</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">37 · 공통 쿠키·HTTP 설계</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#choice">1번과 개발자 편의성</a>
+    <a href="#async">쿠키가 비동기여도 되는 이유</a>
+    <a href="#owner">앱별 보관함과 로그인 쿠키</a>
+    <a href="#web">기본 웹 API는 어떻게 되나</a>
+    <a href="#limits">요청 권한과 호환 범위</a>
+    <a href="#tests">다음 검증 기준</a>
+  </nav>
+  <p class="small desktop-only">2026.11.03 · 설계 제안<br>ADR 0027 · 구현 전<br>T28 공통 동작 조건 추가</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">Proposed · Common async cookie and HTTP contract</div>
+    <h1>쿠키와 요청을,<br>두 OS에서 같은 규칙으로.</h1>
+    <p class="lead">Android에서는 되고 iOS에서는 안 되는 쿠키 기능을 제품의 차이로 남기지 않기로 했습니다. 공통 비동기 SDK를 우선안으로 설계하고, 기존 웹 코드를 옮길 때의 수정 범위와 보안 경계도 함께 적었습니다.</p>
+    <div class="meta"><span class="pill">공통 SDK 우선안</span><span class="pill warm">제안 · 미구현·미검증</span><span class="pill">T28 완료 수는 그대로 6 / 44</span></div>
+  </header>
+  <section class="section" id="choice">
+    <h2>1 · 기존 개발자는 어떤 부분을 바꿔야 하나요?</h2>
+    <div class="table-wrap"><table><thead><tr><th style="width: 24%">앱의 구조</th><th>필요한 변경</th></tr></thead><tbody>
+      <tr><td>새로 만드는 미니 앱</td><td>처음부터 같은 Moonpool API를 사용</td></tr>
+      <tr><td>요청 코드가 API 클라이언트 한 곳에 모인 앱</td><td>지원되는 경우 그 요청 함수를 교체</td></tr>
+      <tr><td>요청 함수 주입을 지원하는 라이브러리</td><td>지원 범위가 명시된 어댑터를 연결</td></tr>
+      <tr><td>document.cookie나 전역 fetch를 직접 쓰는 라이브러리</td><td>직접 수정하거나 대체 경로가 필요 · 자동 호환을 보장하지 않음</td></tr>
+    </tbody></table></div>
+    <p>1번을 택하면 기존 코드 수정이 생깁니다. 이를 줄이기 위해 공통 SDK 위에 선택적으로 붙이는 요청 어댑터를 제안합니다. 전역 fetch를 몰래 바꾸거나 모든 라이브러리가 그대로 동작한다고 약속하지 않습니다.</p>
+  </section>
+  <section class="section" id="async">
+    <h2>2 · 일반 로그인에서는 쿠키를 직접 읽을 필요가 없습니다</h2>
+    <p>API 이름은 아직 설계 예시입니다. 로그인 응답의 쿠키는 네이티브가 저장하고, 다음 요청에는 그 앱의 쿠키를 자동으로 붙입니다.</p>
+    <pre><code>// 제안 API — 아직 구현된 함수가 아닙니다.
+await moonpool.http.request({
+  url: 'https://api.example.com/login',
+  method: 'POST',
+  json: { username, password },
+});
+
+const me = await moonpool.http.request({
+  url: 'https://api.example.com/me',
+});</code></pre>
+    <p>서버가 쓰는 Cookie·Set-Cookie 형식은 그대로입니다. 개발자가 수동 쿠키 작업을 할 때만 <code>await moonpool.cookies.set(...)</code>처럼 완료를 기다립니다. 저장 완료 후 다음 요청이 새 값을 보도록 공통 순서를 정합니다.</p>
+    <p><code>document.cookie</code>는 값을 즉시 반환하는 기존 API이므로 Promise로 바꾸면 같은 API가 아닙니다. 공통 비동기 API는 별도로 제공하고, 기존 코드의 호환 한계를 명시합니다.</p>
+  </section>
+  <section class="section" id="owner">
+    <h2>3 · 실제 쿠키의 주인은 네이티브의 앱별 보관함입니다</h2>
+    <section class="flow" aria-label="두 OS의 미니 앱은 같은 SDK와 네이티브 쿠키 담당자를 사용하며, 앱마다 쿠키 보관함을 분리한다.">
+      <div class="node">Android / iOS<br>같은 미니 앱 코드</div><span class="sep">→</span><div class="node current">공통 SDK<br>네이티브 HTTP 담당자</div><span class="sep">→</span><div class="node">앱별 쿠키 보관함<br>허용된 HTTPS API</div>
+    </section>
+    <p>A의 여러 화면은 A 보관함을 함께 쓰고 B·호스트 앱과는 분리합니다. 호스트의 로그인 쿠키나 기본 HTTP 클라이언트 세션을 가져오지 않습니다. 보관함의 주인은 메시지 안의 앱 id가 아니라 호스트가 확인한 Portal 신원으로 결정합니다.</p>
+    <p><code>HttpOnly</code> 쿠키는 서버 요청에 쓸 수 있지만, 쿠키 조회 API·응답 헤더·오류 등에 직접 노출하지 않습니다. 서버가 자기 응답 본문에 쿠키 값을 반사하는 것까지 HttpOnly가 막아주지는 않습니다.</p>
+    <p>세션 초기화가 끝난 뒤 이전 요청의 늦은 Set-Cookie가 로그인을 되살리지 못하도록 네이티브의 세션 세대를 바꿉니다. 화면을 닫는 것, 앱 쿠키를 지우는 것, 서버에서 로그아웃하는 것은 각각 다른 작업입니다.</p>
+  </section>
+  <section class="section" id="web">
+    <h2>4 · 기본 document.cookie도 두 OS에서 같게 제한합니다</h2>
+    <p>추천안은 WebView의 쿠키를 양쪽에서 비활성화하고 네이티브 쿠키 보관함만 사용하는 것입니다. 기본 document.cookie는 빈 값을 읽고 쓰기가 반영되지 않는 상태를 목표로 합니다. Android에서만 기본 쿠키로 우회하지 않도록 해야 합니다.</p>
+    <div class="callout warm"><strong>아직 증명하지 않은 조건:</strong> iOS에는 보관함별 정책 API가 있고 Android에는 선택한 Profile의 CookieManager가 있지만, 호스트와 다른 앱에 영향을 주지 않는지 새 검증이 필요합니다. JS로 속성을 감싸는 코드만으로 보안을 보장하지 않습니다. 이전 96개 관측은 이 새 정책이나 공통 네이티브 쿠키 저장소를 검증한 결과가 아닙니다.</div>
+    <p>세션을 사용하는 API 요청은 SDK로 통일합니다. 원격 fetch·XHR·form이 다른 경로로 요청하지 못하게 하고, 별도로 허용한 정적 리소스 요청에는 네이티브 쿠키를 붙이지 않습니다. 허용된 외부 스크립트가 앱 안에서 실행되면 그 앱의 SDK 권한을 쓸 수 있다는 신뢰 경계도 유지합니다.</p>
+  </section>
+  <section class="section" id="limits">
+    <h2>5 · 브라우저 전체를 그대로 복제하는 설계는 아닙니다</h2>
+    <p>이 SDK는 호스트가 허용한 HTTPS 서비스에 접속하는 네이티브 클라이언트입니다. 요청에는 http 권한이 필요하고, 쿠키를 직접 읽거나 수정하려면 cookies 권한도 필요합니다. 호스트가 지정하지 않은 API 주소나 게스트가 주장한 쿠키 보관함을 사용할 수 없습니다.</p>
+    <p>허용된 서비스의 자체 세션으로 쿠키를 선택하므로, 브라우저의 교차 사이트 SameSite·CORS 차단을 그대로 재현하지 않습니다. 이 차이는 명시적인 설계 선택이며 검토가 필요합니다. 초기안은 자동 리다이렉트를 하지 않고 3xx 응답을 돌려주므로, 브라우저 리다이렉트 기반 로그인도 그대로 호환되지 않습니다.</p>
+    <p>일반 요청은 쿠키 포함이 기본값이고, omit을 지정하면 보내지도 저장하지도 않는 안입니다. 세션 쿠키는 화면 재생성 동안 유지하되 네이티브 프로세스 재시작 때 끝내고, 영구 쿠키는 만료 규칙에 따라 유지합니다. 이 세부 정책들도 제안 상태입니다.</p>
+  </section>
+  <section class="section" id="tests">
+    <h2>6 · 설계를 승인하기 전에 확인할 결과가 명확해야 합니다</h2>
+    <p>동일한 C01–C12 기준으로 앱별 격리, 서버가 실제로 받은 쿠키, HttpOnly 보호, 만료·삭제, 늦은 응답과 세션 초기화, WebView 우회 방지, 호스트에 영향 없는 쿠키 차단, 기존 API 클라이언트의 어댑터 사용을 검사해야 합니다.</p>
+    <p>이번에는 이 계약과 이행 순서를 설계했습니다. 새로운 기능 구현·기기 재실행·추가 충돌 재현은 하지 않았습니다. 현재 SPEC·프로토콜 0.1은 유지하며, T28에 공통 쿠키 설계 관문을 추가했습니다.</p>
+    <div class="callout"><a href="../docs/native-cookie-http-contract.md">상세 계약·API·수용 기준</a> · <a href="../docs/adr/0027-unify-cookie-sessions-through-async-native-http.md">제안 ADR 0027</a> · <a href="36-native-origin-contract.html">이전 출처 실측과 초기화 제약</a></div>
+  </section>
+  <footer class="footer"><a href="index.html">← 전체 스터디 지도</a><br>근거: 현재 SPEC, 제안 ADR 0027, HTML·HTTP 쿠키·Fetch 표준과 공식 플랫폼 API 문서. 이 페이지는 설계 제안이며 공통 쿠키 기능의 구현·검증 완료 기록이 아닙니다.</footer>
+</main>
+</body>
+</html>

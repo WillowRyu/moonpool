@@ -1,8 +1,8 @@
 # Android and iOS follow-up implementation plan
 
 Date: 2026-10-26
-Last updated: 2026-11-02
-Status: T22–T27 complete; T28–T65 planned. Private native host runtimes selected; origin/cookie, codec, document and lifecycle contract gates remain explicit.
+Last updated: 2026-11-03
+Status: T22–T27 complete; T28 origin evidence complete; common cookie/HTTP design proposed; T29–T65 planned. Private native host runtimes selected; origin/cookie, codec, document and lifecycle contract gates remain explicit.
 Targets confirmed by the maintainer: Android (AOS) and iOS, both required.
 SDK/reference-host model: framework-neutral Swift/Kotlin facade with private JavaScriptCore / JavaScriptSandbox runtimes (ADR 0025). Actual consumer app/framework remains a T56 decision.
 Baseline: browser v0.1 complete, published through 91d7b46; 1131 tests / 39 files.
@@ -69,7 +69,8 @@ No v0.2/v1.0 number, minimum OS, engine dependency or release date is assigned h
 | T25 | Research complete | [Android message observations](android-message-probe-verification.md); metadata and authenticated initial port handoff work, origin-only replacement and transferable-port provenance gaps remain |
 | T26 | Research complete | [iOS replies/worlds](ios-message-probe-verification.md); direct native replies stay with their original Promise; global/old-frame execution can reach the replacement document |
 | T27 | Complete | [Accepted runtime/ownership model and paired evidence](trusted-runtime-verification.md); 12 native runtime owners, 180 kernel vectors, 120 evidence checks and two Node VM tests |
-| T28–T65 | Planned | No production native SDK verification yet |
+| T28 | In progress / expanded contract | [Origin evidence](native-origin-contract-verification.md): Android 44 / iOS 52 samples, six startup controls. Maintainer now requires cookie parity; [ADR 0027/common async cookie and HTTP design](native-cookie-http-contract.md) proposed; C01–C12 paired evidence and final approval pending |
+| T29–T65 | Planned | No production native SDK verification yet |
 
 ## Decisions that precede implementation
 
@@ -101,6 +102,16 @@ No v0.2/v1.0 number, minimum OS, engine dependency or release date is assigned h
    pool/resource defaults before their implementations. Numeric limits and error
    mappings are not chosen just to make a test pass.
 
+T28 now includes a common-cookie/HTTP substep under its existing id. The
+maintainer requires the same application-facing behavior on Android/iOS and
+prefers a common async SDK, with explicit developer compatibility review.
+[ADR 0027](adr/0027-unify-cookie-sessions-through-async-native-http.md) proposes
+native jar ownership, automatic sessions, browser-cookie suppression and C01–C12.
+No raw iOS-cookie limitation may be treated as completion of this requirement.
+Cookie setters/HTTP requests are new capability proposals, not current exports
+or manifest scopes. Keep SPEC, runtime and protocol version unchanged until the
+contracts are approved; no device or crash experiment is resumed by this design.
+
 Decision tasks finish when the concrete outcome is recorded and the required
 maintainer approval is explicit. A proposed ADR alone does not open a dependent
 implementation gate. Present previous behavior, the new problem and each option's
@@ -117,10 +128,10 @@ Use the next free ADR number when the task runs; do not create placeholder ADRs.
 | T25 | Android | Completed 2026-11-02: native message-channel/authentication probe. | Four runs / 44 snapshots, 175 controls and 11 JVM gate cases. Actual listener origin/frame/instance metadata, exact injection, native/guest-created ports, replacement/reload/late reply, proof/delegation and retirement observations. [Evidence](android-message-probe-verification.md). No production authentication or transport approval. | T23 |
 | T26 | iOS | Completed 2026-11-02: native message/reply/world probe. | Four runs / 80 snapshots, 187 controls and ten Swift admission cases. Native view/origin/frame/world checks, direct versus global/old-frame replies, replacement/reload, isolated globals/shared DOM and retirement/removal observations. [Evidence](ios-message-probe-verification.md). No production epoch/runtime decision. | T24 |
 | T27 | Both/shared | Completed 2026-11-02: accepted ADR 0025 for trusted runtime/native facade ownership. | Maintainer selected the generic Swift/Kotlin SDK model. Unchanged common kernel passes in iOS JSC / Android JavaScriptSandbox, with explicit executor, lifetime, credential and bundle ownership. [Evidence](trusted-runtime-verification.md): four runs, 12 owners / 180 vectors, 120 checks, two Node tests. Production scheduler/providers, framework bindings and real consumer app remain later work. | T22–T26 |
-| T28 | Both/shared | ADR for native origin, local loader and bootstrap authority. | Resolve SPEC/platform discrepancies explicitly; define stable per-app identity, path confinement, network fallback, main/subframe policy, navigation and support failure behavior. Approve any SPEC change before native loaders. | T23–T26 |
-| T29 | Both/shared | ADR for lossless native JSON/text boundary and errors. | Define codec ownership, invalid-data handling, parse-error correlation, send/receive failures and compatibility. Cover finite numbers, large-number behavior, Unicode edge cases, null/falsy values and getters/toJSON without coercive repair. | T25–T28 |
+| T28 | Both/shared | Proposed ADR 0026 origin/loader/bootstrap plus [ADR 0027 common cookie/HTTP contract](native-cookie-http-contract.md); not complete. | Keep origin evidence; finalize shared async API and compatibility cost, cookie/native-network authority, equal browser-cookie policy and C01–C12 acceptance. Paired evidence and explicit SPEC approval precede implementation. | T23–T27 |
+| T29 | Both/shared | ADR for lossless native JSON/text boundary and errors. | Define codec ownership, invalid-data handling, parse-error correlation, send/receive failures and compatibility, including proposed cookie/HTTP body/header/error schemas. Cover finite numbers, large-number behavior, Unicode edge cases, null/falsy values and getters/toJSON without coercive repair. | T25–T28 |
 | T30 | Both/shared | Document generations selected on 2026-11-02; full contract pending. | ADR 0024 accepts explicit generation ownership, retirement and captured work identity. Real-kernel regression probe has two controls passing and three safety assertions red under 0.1. Finalize authoritative bootstrap, metadata/validation, retry/reentry and version migration after prerequisites; coordinate pending/close rules with T31. | T25–T29 |
-| T31 | Both/shared | ADR for close, renderer loss and lifecycle/eviction semantics. | Define pending-call disposition, local versus peer close, restart authority, notification/receipt limits and orderly versus abrupt teardown. Reconcile ADR 0002 and §11 using both native probes. | T25–T30 |
+| T31 | Both/shared | ADR for close, renderer loss and lifecycle/eviction semantics. | Define pending-call disposition, local versus peer close, restart authority, notification/receipt limits and orderly versus abrupt teardown; coordinate native HTTP session-reset rejection without confusing it with terminal bridge close. Reconcile ADR 0002 and §11 using both native probes. | T25–T30 |
 
 T22's first output is a small target matrix and the T23/T24 experiment checklists.
 It retained the then-undecided host framework. T27 subsequently selected a
@@ -137,7 +148,7 @@ URL or load callback alone is not an authority check.
 | T32 | Shared | Implement the approved document-identity contract in the pure kernel. | Failing tests first for stale initialization/results/errors/notifications and reused ids; implement only approved wire/version semantics; retain permission/storage state correctly. | T29–T31 |
 | T33 | Shared | Implement the approved terminal-close/pending-call contract. | Close/reentrancy/failure/peer-loss tests pass; all pending work is settled as specified, old callbacks cannot reach replacements, and browser regression behavior follows the approved migration. | T31, T32 |
 | T34 | Shared | Implement the approved native codec boundary and reusable conformance vectors. | JSON round trips and malformed-input/error cases have normative expected outcomes usable by TypeScript and both native test harnesses. No platform API enters the kernel. | T29, T32, T33 |
-| T35 | Shared | Produce the trusted host/client bundle and native-facing entry contract. | Reproducible artifacts run in the selected trusted execution model; public data/callback boundaries, source maps/types and version metadata are documented without exposing host credentials. | T27, T34 |
+| T35 | Shared | Produce the trusted host/client bundle and native-facing entry contract. | Reproducible artifacts run in the selected trusted execution model; public data/callback boundaries, source maps/types and version metadata are documented without exposing host credentials; define explicit provider outcomes for proposed native HTTP errors rather than relying on throws. | T27, T34 |
 
 ## C. Android/iOS reference PoCs — T36–T45
 
@@ -145,12 +156,12 @@ URL or load callback alone is not an authority check.
 | --- | --- | --- | --- | --- |
 | T36 | Android | Boot the selected trusted host runtime in a minimal native module/reference app. | Clean build and create/destroy cycle; common bundle executes in the trusted owner; no live guest authority before configuration. | T28, T35 |
 | T37 | iOS | Matching trusted host runtime/reference app. | The same ownership and create/destroy checks pass with explicit actor/thread handling. | T28, T35 |
-| T38 | Android | Implement the approved manifest/asset loader and pinned app origins. | Valid bundled app loads; traversal, wrong app, missing resource and unintended network fallback fail closed; policy hooks are installed before enabling the guest bridge. | T23, T28, T36 |
-| T39 | iOS | Matching native resource/scheme loader. | Same admission/confinement cases plus cancellation/cleanup of outstanding resource tasks; no file:// fallback. | T24, T28, T37 |
+| T38 | Android | Implement the approved manifest/asset loader and pinned app origins. | Valid bundled app loads; traversal, wrong app, missing resource and unintended network fallback fail closed; policy hooks, including approved cookie suppression/network rules, are verified before enabling the guest bridge. | T23, T28, T36 |
+| T39 | iOS | Matching native resource/scheme loader. | Same admission/confinement cases plus approved store-specific cookie suppression, network guards and cancellation/cleanup of outstanding resource tasks; no file:// fallback. | T24, T28, T37 |
 | T40 | Android | Implement native Transport with authenticated instance/frame binding. | Actual messages preserve order/data and use approved codec/authentication; unsupported features fail closed; stale or unauthorized senders cannot dispatch. | T25, T28, T34, T38 |
 | T41 | iOS | Matching authenticated native Transport. | Same vector outcomes and sender/document binding with actual WKWebView replies; no unguarded string interpolation or stale reply delivery. | T26, T28, T34, T39 |
-| T42 | Android | Connect the real kernel to sample profile and app-partitioned memory providers. | First initialize, ping, profile, storage success/denial and all specified producer errors run through actual native transport; no duplicate native dispatcher. | T40 |
-| T43 | iOS | Matching capability integration. | Same observable results, grants and app identity as Android, including two distinct app ids. | T41 |
+| T42 | Android | Connect the real kernel to sample profile and app-partitioned memory providers. | First initialize, ping, profile, storage success/denial and all specified producer errors run through actual native transport; no duplicate native dispatcher; after contract approval integrate the proposed app-owned native cookie/HTTP providers and C01–C12 controls. | T40 |
+| T43 | iOS | Matching capability integration. | Same observable results, grants and app identity as Android, including two distinct app ids and the approved native cookie/HTTP provider vectors. | T41 |
 | T44 | Android | Complete native navigation containment and guest-requested dismissal. | Redirect/form/subframe/foreign and same-origin reload cases follow the approved contract; close acceptance/teardown order, stale handles and A/B independence pass. | T31, T42 |
 | T45 | iOS | Matching containment/dismissal verification. | Equivalent negative/positive cases and cleanup pass; new instances never inherit retired authority. Record iOS evidence for the joint M2 gate. | T31, T43 |
 
@@ -188,7 +199,7 @@ handling per affected instance and retain data in its independent owner.
 | T58 | iOS | Matching real-app screen integration. | Equivalent function/data/lifetime behavior in the selected iOS host, with explicit platform differences documented. | T55, T56 |
 | T59 | Android | Verify the declared real-device/OS/WebView matrix. | Physical-device evidence covers lifecycle, process loss, storage, navigation, sender identity and unsupported-feature paths, with exact versions and reproducible traces. | T57 |
 | T60 | iOS | Verify the declared real-device/OS matrix. | Physical-device evidence covers the same contract, memory/termination conditions and current/minimum supported versions; simulator results are labeled separately. | T58 |
-| T61 | Both/shared | Reconcile cross-platform conformance and run browser/native regressions. | Both device matrices, shared vectors and existing browser tests agree with the approved versioned contract; differences and failures are resolved or explicitly exclude a configuration. | T34, T59, T60 |
+| T61 | Both/shared | Reconcile cross-platform conformance and run browser/native regressions. | Both device matrices, shared vectors (including approved C01–C12 cookie/HTTP cases) and existing browser tests agree with the approved versioned contract; differences and failures are resolved or explicitly exclude a configuration. | T34, T59, T60 |
 
 T56 can be prepared once its prerequisites are ready; it need not wait for
 all later-numbered implementation work. Independent platform tasks may be
@@ -247,13 +258,37 @@ T22–T27 are complete (six of 44 tasks). T23–T26 retain independent native or
 message and document-lifetime evidence. T27 accepts the generic native facade
 and private host engines in ADR 0025; actual providers, authenticated guest
 transport and framework bindings are not implemented by its compatibility probe.
-Next is T28. The Android origin incompatibility still requires an approved
-contract before native SDK loaders; SPEC and protocol 0.1 are unchanged.
+T28 is in progress. [The review draft](native-origin-contract.md) proposes Android
+local HTTPS, retained iOS custom origins, persistent per-app guest website stores
+and per-message native sender admission. The new namespace/store/cookie cases
+now have [bounded supplementary evidence](native-origin-contract-verification.md).
+Android four runs/44 samples and iOS four runs/52 samples plus six startup controls
+are independently verified. Retain the measured iOS enumeration/startup ordering
+limit. The maintainer reported disruptive crash dialogs; all device/crash work is
+stopped and future routine verification reads retained evidence only. Final
+evidence/contract approval remains required before
+T28 completion or SPEC changes. T29 and native SDK loaders stay gated; protocol
+0.1 and the pure kernel are unchanged.
+
+The subsequent cookie discussion adds [ADR 0027](native-cookie-http-contract.md):
+common async SDK preferred, same behavior required on both OSes. The origin
+measurements do not test the new native broker or cookie suppression. T28 is
+open for final cookie/HTTP design and C01–C12 evidence, not only a publication
+or origin-approval checkpoint. No new task ids were added.
+
+
+The maintainer requested Git publication of the current T28 research and cookie
+proposal on 2026-11-03. Android/shared probes are e40b95c; iOS probes are 44b5550;
+contracts/reports are b7c25fc. The following study/progress checkpoint records
+this grouping. Publication preserves proposed status and does not complete T28,
+authorize new device experiments or publish packages/tags. Resume at the open
+common-cookie/HTTP design and evidence gates after the requested Git handoff.
 
 The requested T25/T26/generation publication is confirmed through b4b7721 after
 four logical commits. The maintainer subsequently requested T27 publication:
 42ece91 retains probes/evidence, followed by the decision/study documentation
-checkpoint. Resume later at T28; no package/tag release or T28 implementation.
+checkpoint f585961. The current session resumed T28 as a proposal; no package/tag
+release, new Git publication or production native implementation is implied.
 
 ## Earlier publication checkpoints
 

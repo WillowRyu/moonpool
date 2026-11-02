@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — T28 출처·저장소·초기 연결 계약안</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">36 · T28 실측과 계약안</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#evidence">이번 실측 결과</a>
+    <a href="#startup">iOS 종료 알림의 원인</a>
+    <a href="#problem">기존 규칙과 실제 결과</a>
+    <a href="#origin">플랫폼별 주소 제안</a>
+    <a href="#stores">주소와 쿠키 보관함</a>
+    <a href="#loader">파일을 읽는 경계</a>
+    <a href="#authority">매번 발신자 확인</a>
+    <a href="#decision">선택 결과와 남은 검증</a>
+  </nav>
+  <p class="small desktop-only">2026.11.03 · 보완 실측 완료<br>최종 계약 승인 대기 · 기기 종료<br>현재 명세·구현은 그대로</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">T28 evidence · Paired probes complete / contract review pending</div>
+    <h1>앱의 주소와 보관함,<br>호스트에 닿는 통로를 정합니다.</h1>
+    <p class="lead">Android와 iOS에서 앱별 출처와 웹 데이터 보관함을 실측했습니다. 정상 분리·재시작 유지와 함께, iOS의 초기화 순서에 따른 종료 문제도 기록했습니다. 최종 계약에는 이 검증 범위와 제약을 함께 반영해야 합니다.</p>
+    <div class="meta"><span class="pill">T22–T27 · 6 / 44 완료</span><span class="pill warm">Android 44개 · iOS 52개 관측</span><span class="pill">SPEC §3·§7·§8·§9 영향</span></div>
+  </header>
+  <div class="callout warm"><strong>이후 요구사항:</strong> 두 OS의 쿠키 동작도 같아야 한다는 요청에 따라 <a href="37-common-cookie-http.html">공통 비동기 쿠키·HTTP 설계</a>를 추가했습니다. 아래 관측값은 기존 설정의 실측이며, iOS 기본 쿠키가 안 된다는 사실만으로 제품 계약을 완료하지 않습니다. 새 보관함·양쪽 WebView 쿠키 제한·서버 수신 검증은 아직 남아 있습니다.</div>
+  <section class="section" id="evidence">
+    <h2>이번 결과 · 앱별 주소와 보관함 분리가 작동했습니다</h2>
+    <div class="table-wrap"><table><thead><tr><th>대상</th><th>실제 확인</th><th>범위</th></tr></thead><tbody>
+      <tr><td>Android</td><td>로컬 HTTPS·앱별 Profile, 저장값·쿠키 분리와 재시작 유지</td><td>4회 · 44개 관측 · Android 17 / WebView 145</td></tr>
+      <tr><td>iOS</td><td>moonpool 출처·앱별 영구 보관함, 저장값·HTTPS 쿠키 분리와 재시작 유지</td><td>4회 · 52개 관측 · iOS 26.4.1 / SDK 27</td></tr>
+      <tr><td>앱 id</td><td>공통 23개 사례 · iOS는 유효 15개의 실제 native origin까지 확인</td><td>Android의 긴 id는 JVM 매핑 검사 · 유한한 사례이며 모든 이름 지원을 뜻하지 않음</td></tr>
+      <tr><td>검증 도구</td><td>결과를 바꿔치기하면 실패하는 부정 테스트도 통과</td><td>Android 7개 · iOS 정상 1개+부정 5개 · Swift 등록 검사 37개</td></tr>
+    </tbody></table></div>
+    <p>같은 A의 두 화면은 A의 값을 함께 읽고, B는 별도 값을 읽었습니다. 같은 외부 HTTPS 사이트에서도 A·B·호스트 대조군의 쿠키는 달랐습니다. 실제 로그인 정보는 사용하지 않고 공개 테스트 표식만 넣었습니다.</p>
+    <pre><code>// 서로 다른 웹 데이터 보관함, 같은 외부 사이트
+A → https://example.com → A의 테스트 쿠키
+B → https://example.com → B의 테스트 쿠키
+호스트 대조군          → 호스트의 테스트 쿠키</code></pre>
+    <p>이 검사는 외부 사이트를 최상위 페이지로 열었을 때의 쿠키 분리를 확인합니다. 서버가 받은 Cookie 헤더나 로컬 미니 앱의 교차 출처 fetch·추적 방지 정책까지 검증한 것은 아닙니다. <a href="../docs/native-origin-contract-verification.md">실측 결과와 한계 전체 보기</a></p>
+  </section>
+  <section class="section" id="startup">
+    <h2>iOS 종료 알림 · 초기화 순서를 비교한 실험이었습니다</h2>
+    <p>이 환경에서는 WebKit의 첫 작업으로 저장소 목록을 조회하면 실험 앱이 종료됐습니다. 비동기 API 2회와 콜백 API 2회에서 같은 종료 신호를 확인했습니다. 빈 비영구 WebView를 먼저 만들고, 게스트를 열지 않은 채 조회한 2회 대조군은 성공했습니다.</p>
+    <pre><code>저장소 목록 조회부터 시작 → 종료 (두 호출 방식 × 각 2회)
+빈 WebView로 엔진 초기화 → 목록 조회 → 성공 (2회)
+→ 임시 뷰 해제 → 실제 게스트는 지정한 영구 보관함에서만 실행</code></pre>
+    <p>정상 전체 실험은 확인한 초기화 순서를 사용했습니다. 임시 뷰는 엔진을 준비하는 용도이며 게스트나 브리지를 열지 않습니다. iOS 26.4.1 시뮬레이터·SDK 27 조합에서 관찰한 결과이고, 모든 iOS의 필수 규칙이나 내부 원인을 확정한 것은 아닙니다.</p>
+    <div class="callout warm"><strong>반복 팝업 조치:</strong> 충돌 재현이 macOS의 “OriginContractProbe 응용 프로그램이 예기치 않게 종료되었습니다” 알림을 만들었습니다. 사용자가 반복 알림을 알려준 뒤 모든 충돌 재현을 중단했고 실험 앱·스크립트의 종료와 전용 시뮬레이터 Shutdown을 확인했습니다. 이후 기본 검증은 저장된 결과만 읽습니다. 시스템 알림 창은 도구 접근 제한으로 직접 닫지 못했으며 시스템 설정은 변경하지 않았습니다.</div>
+  </section>
+  <section class="section" id="problem">
+    <h2>1 · 같은 주소 규칙이 두 OS에서 다르게 작동했습니다</h2>
+    <p>기존 명세는 두 OS 모두 <code>moonpool://앱-id/</code>를 사용하도록 정했습니다. 그런데 T23의 Android에서는 A와 B가 모두 <code>moonpool://</code>로 취급되어 서로의 DOM과 저장소에 접근했습니다. T24의 iOS에서는 앱별 출처와 저장소가 분리됐지만, 커스텀 스킴의 쿠키는 사용할 수 없었습니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>규칙</th><th>실측</th><th>이번 제안</th></tr></thead><tbody>
+      <tr><td>양쪽 모두 moonpool 스킴</td><td>Android에서 앱 간 경계가 무너짐</td><td>Android만 로컬 HTTPS 출처로 전환</td></tr>
+      <tr><td>출처가 있으면 쿠키도 사용 가능</td><td>iOS 커스텀 쿠키는 빈 값</td><td>기본 쿠키 차이를 근거로 공통 SDK·네이티브 HTTP 설계 추가</td></tr>
+      <tr><td>초기 포트 전달 때 발신자 확인</td><td>받은 포트·증명을 다른 프레임에 넘길 수 있음</td><td>모든 메시지에서 네이티브 발신 정보 확인</td></tr>
+    </tbody></table></div>
+    <p><a href="29-android-origin-probe.html">Android 출처 실험</a> · <a href="31-ios-origin-probe.html">iOS 출처 실험</a> · <a href="32-android-message-probe.html">포트 재전달 실험</a></p>
+  </section>
+  <section class="section" id="origin">
+    <h2>2 · 앱 id는 유지하고, Android의 실제 주소를 바꿉니다</h2>
+    <pre><code>앱의 신원: com.example.hello
+Android 주소 제안: https://mp-&lt;앱 id로 만든 고정 키&gt;.invalid/
+iOS 주소 유지:     moonpool://com.example.hello/
+storage.*의 저장소 이름: 원래 앱 id</code></pre>
+    <p>Android의 키는 앱 id 전체를 SHA-256으로 계산한 뒤 base32 소문자로 표현한 52글자입니다. 앱 버전이나 Portal 개수에 따라 바뀌지 않습니다. 키는 공개된 이름이며 비밀번호가 아닙니다. 원래 id와의 대응을 확인하고 충돌하면 앱 등록을 거절합니다.</p>
+    <p><code>.invalid</code>는 실제 사이트로 등록하지 못하도록 예약된 이름입니다. HTTPS처럼 보이는 주소로 설치된 파일을 읽으며 서버나 CDN을 만들지 않습니다. 이번 Android 실측에서 이 주소의 정상 쿠키와 부모·다른 앱 도메인 쿠키 거절을 확인했습니다. 다른 WebView 버전은 별도 검증이 필요합니다.</p>
+    <p>iOS에서는 기존 주소를 유지합니다. 매니페스트 문법상 유효하더라도 네이티브 URL로 정확히 표현할 수 없는 id는 등록 단계에서 거절하는 안입니다. 다른 이름으로 몰래 고치면 기존 저장소와의 연결이 바뀌기 때문입니다.</p>
+  </section>
+  <section class="section" id="stores">
+    <h2>3 · 주소가 달라도 쿠키 보관함은 따로 확인해야 합니다</h2>
+    <p>서로 다른 하위 도메인은 부모 도메인의 쿠키를 공유할 수 있습니다. A와 B가 똑같은 외부 API에 접속하면 그 API의 쿠키도 문제가 됩니다. 호스트 앱이 로그인할 때 사용한 기본 WebView 보관함까지 공유해서는 안 됩니다.</p>
+    <section class="flow" aria-label="호스트 로그인과 미니 앱 A, B는 각각 다른 웹 데이터 보관함을 사용한다.">
+      <div class="node">호스트 로그인<br>호스트 전용 보관함</div><span class="sep">≠</span><div class="node current">미니 앱 A<br>A 전용 보관함</div><span class="sep">≠</span><div class="node">미니 앱 B<br>B 전용 보관함</div>
+    </section>
+    <p>Android는 앱별 <code>Profile</code>, iOS는 앱별 영구 <code>WKWebsiteDataStore</code>를 사용하는 안입니다. A의 창을 두 개 열면 A 보관함을 함께 사용하고, 창을 닫아도 지우지 않습니다. iOS의 보관함 UUID도 앱 등록 때 저장하고 다시 사용해야 합니다.</p>
+    <div class="callout warm"><strong>선택의 비용:</strong> 해당 OS·WebView가 보관함 분리를 지원해야 하며 관리할 저장소와 자원이 늘어납니다. 미지원 환경에서는 Portal을 열지 않습니다. 이번 실험은 앱별 보관함의 실제 분리·재시작을 검증했습니다. 초기 등록 준비를 거친 결과이며 새 설치의 원자성·전원 손실·백업 복원은 증명하지 않습니다.</div>
+  </section>
+  <section class="section" id="loader">
+    <h2>4 · 로더는 자신에게 배정된 앱 폴더만 읽습니다</h2>
+    <pre><code>A의 Portal → A의 등록 정보 → A의 패키지 폴더
+정상 파일       → 로컬 파일 응답
+없는 파일       → 로컬 실패 응답
+다른 앱·폴더 밖 → 거절
+로컬 실패       → 인터넷에서 대신 찾지 않음</code></pre>
+    <p>경로 문자열만 확인하지 않고 심볼릭 링크를 포함한 실제 파일 위치가 폴더 안인지 확인합니다. URL의 퍼센트 인코딩은 한 번만 해석하고, 해석 결과로 폴더 밖을 가리키지 못하게 합니다. 앱의 API 통신은 이 로컬 파일 로딩과 별도입니다.</p>
+    <p>정상 이동·새로고침은 허용하지만 다른 출처로의 이동과 새 창이 기존 권한을 물려받아서는 안 됩니다. 가드를 먼저 설치하고 게스트를 실행해야 합니다. Android의 한 콜백이 모든 이동을 감지한다고 가정하지 않고 POST·리다이렉트·프레임까지 후속 테스트에 포함했습니다.</p>
+  </section>
+  <section class="section" id="authority">
+    <h2>5 · 메시지가 주장하는 신원보다 실제 발신 정보를 봅니다</h2>
+    <pre><code>활성 Portal인가?
+→ 등록한 실제 WebView인가?
+→ 등록한 실제 출처인가?
+→ 최상위 프레임인가?
+→ 현재 문서에 묶인 호출인가? (T30 상세 계약)
+→ JSON·초기화·권한 검사 → 기능 실행</code></pre>
+    <p>Android는 매 메시지에 실제 출처와 프레임 정보를 주는 <code>WebMessageListener</code>를 제안합니다. iOS는 기존 <code>WKScriptMessageHandlerWithReply</code>와 실제 프레임 검사를 사용합니다. 포트를 받았다는 사실이나 메시지 안의 <code>isMainFrame: true</code>는 권한의 근거가 아닙니다.</p>
+    <p>이 검사는 직접 호출한 프레임을 확인합니다. 같은 출처의 하위 프레임은 최상위 페이지의 객체에 접근할 수 있어 같은 앱 신뢰 범위에 속합니다. 허용된 최상위 페이지가 다른 곳의 데이터를 대신 요청하는 것까지 구분하지는 못합니다. 최종 기능 실행 권한은 여전히 호스트가 부여한 scope입니다. 문서 세대·오래된 응답 처리는 승인된 ADR 0024 방향을 유지하며 T30/T31에서 상세히 정합니다.</p>
+  </section>
+  <section class="section" id="decision">
+    <h2>6 · 설계안과 검증 완료를 구분합니다</h2>
+    <p>추천안은 <strong>Android 로컬 HTTPS + iOS 기존 스킴 + 앱별 영구 웹 데이터 보관함 + 매 메시지 발신자 확인</strong>입니다. Android에서 기존 스킴을 유지하면 이미 관찰한 격리 실패가 남습니다. 기본 쿠키 보관함을 공유하면 호스트와 다른 앱의 세션을 분리했다는 근거가 없습니다.</p>
+    <p>기존 설정의 보완 실측과 독립 검증을 마쳤습니다. 미지원 API·저장소 손실의 거절은 별도 모의 검사이며, 실제 구형 OS에서 검증한 것으로 표현하지 않습니다. 이후 추가된 공통 쿠키·HTTP 계약과 새 검증 기준까지 충족하고 최종 계약을 승인한 뒤 T28을 완료합니다. 현재 제품 코드·SPEC·프로토콜 0.1은 그대로입니다.</p>
+    <div class="callout"><strong>검토할 문서:</strong> <a href="../docs/adr/0026-bind-native-origins-loaders-and-bootstrap.md">ADR 0026 제안</a> · <a href="../docs/native-origin-contract.md">상세 계약·명세 변경 위치·O01–O10 검증 기준</a></div>
+    <p>브라우저 개발 계약, 공통 커널, 기존 공부 자료와 T27의 범용 SDK 선택은 유지합니다. 출처나 보관함을 바꾸면 브라우저 저장소가 달라지므로 기존 데이터를 자동 이동하거나 삭제하지 않습니다.</p>
+  </section>
+  <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="35-trusted-runtime-ownership.html">이전 T27 실행 위치</a><br>근거: T23–T27 기록, 제안 ADR 0026 및 공식 Android·WebKit·RFC 문서. 보완 연구는 완료했으며 제품 구현·최종 계약 승인은 별도입니다.</footer>
+</main>
+</body>
+</html>

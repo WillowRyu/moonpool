@@ -1,7 +1,7 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-11-02. The maintainer switched to agent-led implementation
+> Last updated: 2026-11-03. The maintainer switched to agent-led implementation
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
@@ -33,7 +33,14 @@
 > Captured WK reply closures exclude new documents; global and captured-frame execution can reach them.
 > Read docs/ios-message-probe-verification.md and docs/native-document-lifetime-comparison.md.
 > Similar-runtime findings are pinned public-source evidence, not vendor device testing.
-> T28 native-origin contract gate remains.
+> T28 origin evidence complete: Android 44 / iOS 52 samples, six iOS controls.
+> Maintainer now requires matching cookie behavior; async SDK option 1 preferred
+> with developer compatibility questions. ADR 0027/common-cookie design proposed;
+> C01–C12 paired evidence and final contract approval remain. All devices stopped.
+> T28 research/contracts Git publication requested; see the latest publication
+> checkpoint for commit grouping. Package/tag release and T28 acceptance are separate.
+> The maintainer reported repeated crash dialogs. Do not rerun crash controls
+> without an explicit request; routine verification reads retained reports.
 > Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
 > Run pnpm run check; read docs/code-quality-workflow.md. Native task checks remain separate.
 > Scheme discussion: docs/native-origin-options.md; Android HTTPS is a candidate, not approved policy.
@@ -64,6 +71,201 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-03 checkpoint — T28 research and cookie-design Git publication
+
+The maintainer requested committing and pushing the current work before
+continuing later. Retained Android source/evidence and shared criteria/vectors
+are committed as e40b95c; iOS source/evidence is 44b5550. Origin and async-cookie
+contract proposals/reports are committed as b7c25fc. This following progress/study
+checkpoint records the publication grouping and the preserved pending decisions.
+Verify live origin/master equals HEAD and the working tree is clean after push.
+
+Publication does not accept ADR 0026/0027 or complete T28. The maintainer requires
+matching Android/iOS cookie behavior and prefers a common async SDK, with developer
+compatibility questions retained. Resume at final cookie/HTTP contract review and
+C01–C12 planning/evidence; T29–T31 and implementation gates remain. No protocol,
+SPEC, instruction invariant or production runtime changed. No further native
+implementation, package/tag release or new task is requested in this checkpoint.
+
+Fresh publication validation passes pnpm run check with Node 22.19.0 / pnpm 11.1.3:
+1134 TypeScript tests in 40 files, nine Python tests, both typechecks, Biome 289
+files and both browser builds; the known Vite warning remains. Android retained
+verification passes four runs/44 samples and seven mutation tests. iOS retained
+verification passes 1344 assertions/52 samples/92 identity rows/six startup controls
+and six verifier tests. These commands read existing evidence and never boot a
+device or rerun a crash control. Existing stopped-device/crash restrictions remain.
+
+All 652 local references across 38 study pages resolve, and prior scripts, unique
+ids, all 44 task ids and instruction symlinks are preserved. Sixteen retained JSON
+files parse and exclude local paths/owned or protected device ids. Publication
+excludes ignored builds, raw crash files, ownership records, local logs and
+machine settings. Final git diff --check passes. Finish the requested Git push
+and remote/clean-tree verification, then stop this publication-only task.
+
+## 2026-11-03 checkpoint — common cookie/HTTP behavior required; design proposed
+
+The maintainer explicitly requested designing cookie support with matching
+Android/iOS behavior. The previous raw iOS-cookie limitation is evidence, not an
+acceptable final product difference. Do not ask again whether parity is required.
+After comparing an async SDK with transparent document.cookie/fetch support, the
+maintainer prefers option 1 and asked about developer friction and async validity.
+Explained that centralized request adapters can reduce migration where supported;
+automatic native session handling avoids manual login-cookie reads; arbitrary
+browser libraries do not become compatible automatically.
+
+Proposed ADR 0027 and docs/native-cookie-http-contract.md now define one native
+jar per app, automatic HTTP Cookie/Set-Cookie flow, protected HttpOnly handling,
+scoped/approved HTTPS services, deterministic include/omit, returned 3xx without
+following, explicit native first-party service context (not browser CORS/SameSite
+CSRF behavior), serialized response-header commits and app-wide session reset
+that fences actual stale writes. Browser cookies must be equally unavailable;
+per-profile/store suppression and managed network paths require new proof.
+A JS cookie wrapper is diagnostic only; allowed executable resources join app
+trust. Protected-cookie promises exclude server-controlled body reflection.
+
+All details are PROPOSED. User preference for option 1 is not final approval of
+the native HTTP context, API schemas, resource limits or compatibility costs.
+No new capabilities/manifest scopes, runtime, SPEC/protocol changes or native
+measurements are implemented. T28 has a cookie-parity substep under the same id;
+T29/T31/T35 and native integration/durability/resource gates are updated. The
+current Host maps provider throws to fixed -32603; proposed -32007 native-error
+outcomes need explicit later dispatch/provider-result work, not throwing today.
+
+Independent read-only review corrected HttpOnly/body-reflection wording, executable
+resource trust, target-free reset authorization, mandatory eligible 3xx cookie
+commit and the received-response-header queue order. Original T23–T28 source and
+measurements are preserved; they do not test this new broker or cookie policy.
+Study lesson 37 explains API migration, async use, automatic login, trust and
+limits; index, roadmap and old T28 proposal link to it. No device, native app or
+crash control was launched. Do not resume stopped crash controls. All work remains
+local/uncommitted; no commit/push or publication requested.
+
+Final design validation: Node 22.19.0 / pnpm 11.1.3 pnpm run check passes 1134 TS
+in 40 files, nine Python tests, both typechecks, Biome 289 files and both builds;
+the known Vite warning remains. All 652 local references across 38 study pages
+resolve; prior scripts, unique ids, all 44 task ids and instruction symlinks are
+preserved. Independent final read-only review found no remaining material
+contradiction. The new guide's migration table, async login example and ownership
+diagram were inspected in the browser; temporary tab/server closed. SPEC,
+CLAUDE.md, runtime packages, dependencies and historical native probes remain
+unchanged; git diff --check passes. No new cookie conformance or device execution
+is implied by these documentation checks.
+
+## 2026-11-03 checkpoint — T28 evidence complete; crash experiments stopped
+
+Supplementary research is complete in experiments/native-origin-contract-probe/.
+Android retains four runs/44 raw snapshots, shared 23 identity vectors, JVM
+admission tests and seven verifier mutation tests. iOS retains four runs/52
+snapshots/92 identity rows, six no-guest startup controls, 37 Swift checks,
+1,344 independent raw assertions and six verifier tests. Main and independent
+reviewer reran retained-evidence checks successfully. Both native builds and
+artifact/source/asset/signature checks pass; Android lint has 28 recorded warnings.
+
+The measured Android .invalid origin/Profile and iOS moonpool/identified-store
+models isolate local storage and shared remote first-party cookies, retaining
+same-app data across controlled reload/recreation/process restart. Remote tests
+load example.com with public sentinel cookies only; they do not establish server
+Cookie-header receipt, cross-origin guest fetch, ITP or real host authentication.
+Android unusual ids are JVM/URI cases; iOS 15 valid vectors have actual exact
+native origins, with 8 invalid registration cases and 3 authorityless diagnostics.
+Native production loader/navigation/transport, wire/close and durability gates
+remain unchanged. Existing T23–T27 source/evidence is untouched.
+
+The iOS 26.4.1 / Xcode 27 SDK 27 first-WebKit-call store-enumeration path crashes:
+cold async two and explicit MainActor callback two controls retain launch-correlated
+EXC_BAD_ACCESS/SIGSEGV stacks. Two empty-nonpersistent-WebView initialization
+controls succeed with no guest loads. Full runs use that observed working order;
+all guests still use assigned persistent stores. Do not claim an Apple-wide
+workaround, crash recovery or internal root cause. Preparatory same-artifact
+registration precedes final reopening/persistence evidence; no fresh-install
+atomicity or power-loss guarantee is asserted.
+
+The maintainer reported repeated OriginContractProbe unexpected-quit dialogs.
+Crash reproduction has ended. Verified no probe app or execution-script process
+remains; the owned iOS simulator is Shutdown and owned Android serial absent.
+All 25 pre-existing simulator states are preserved. Do not rerun intentional
+crash controls without an explicit request. Computer use denied access to
+com.apple.UserNotificationCenter, so queued system dialogs could not be dismissed;
+the user was told they can close remaining alerts. No global crash setting or
+system crash-reporting service was changed. Continue only retained verification
+and documentation unless new device work is explicitly requested.
+
+Read docs/native-origin-contract-verification.md, updated ADR 0026/contract and
+study lesson 36 for results, exact support limits and O01–O06 coverage. Direction/probe
+work was authorized; final normative contract review/approval remains before
+SPEC/CLAUDE changes or T28 completion (six of 44 native tasks remain complete).
+All work is local/uncommitted; no commit/push or package publication was requested.
+
+Final root check passes: 1134 TS tests/40 files, nine Python tests, both typechecks,
+Biome 288 files and both browser builds (the known Vite config warning remains).
+After result-only JSON formatting, both native evidence verifiers pass with source
+fingerprints unchanged. All 10 Python scripts compile. All 636 local references
+across 37 study pages resolve; previous scripts, unique ids, all 44 task ids and
+instruction symlinks remain intact. Sixteen retained JSON files parse and contain
+no local user paths or owned/protected device identifiers. Browser-reviewed the
+new results table and status; temporary documentation tab/server closed. Final
+git diff --check passes. No device or crash control ran during final validation.
+
+## 2026-11-03 checkpoint — T28 supplementary probes authorized and started
+
+After reviewing the T28 explanation, the maintainer explicitly requested that
+T28 proceed. The proposed direction is authorized for bounded O01–O06 native
+probes; do not ask for that same authorization again. Final normative contract
+approval follows review of the new evidence. SPEC/CLAUDE.md and production
+packages remain unchanged during this research.
+
+New work is isolated under experiments/native-origin-contract-probe/ with
+platform-owned android/ and ios/ harnesses. Shared identity-vectors.json supplies
+23 public normal/boundary/invalid ids; platform tests precede helper code.
+Historical T23–T27 source/results and the pre-existing local T28 documentation
+are preserved. Read the platform READMEs for build/test/ownership commands.
+
+The current checkout lacks old ignored device/build ownership files. All listed
+iOS simulators were Shutdown and adb initially listed no devices. iOS gets a
+new dedicated simulator with the installed iOS26.4 runtime; Android records the
+explicit shutdown Pixel_7_Pro AVD before any boot. Other devices are protected.
+Actual installed tools differ from prior evidence and must be recorded afresh.
+Do not reuse historical source/artifact hashes as new measurements.
+
+## 2026-11-02 checkpoint — T28 origin/loader/bootstrap proposal prepared
+
+The maintainer asked to inspect the latest commit and continue. HEAD f585961
+records T27 completion, with a clean tree at session start. Resumed T28 as a
+concrete proposal in docs/adr/0026-bind-native-origins-loaders-and-bootstrap.md
+and docs/native-origin-contract.md; no normative or production code changed.
+
+The recommended draft uses stable per-app .invalid HTTPS origins on Android,
+retains iOS moonpool origins with exact native-id admission, and requires
+persistent per-app guest website-data stores separate from host authentication.
+The store requirement addresses both parent-domain cookies and shared remote API
+cookies, which different local origins alone do not isolate. Proposed Android
+per-message ingress is WebMessageListener with actual origin/frame/instance checks;
+port possession and guest claims cannot grant authority. Loader path confinement,
+local misses, navigation, bootstrap ownership, migration and unsupported cases
+are specified with O01–O10 acceptance criteria and exact SPEC amendment locations.
+
+ADR 0026 is PROPOSED, not accepted. T28 remains in progress (six of 44 tasks
+complete). Select the concrete direction before bounded supplementary namespace,
+profile/store and cookie probes. Review those new measurements and obtain explicit
+contract approval before marking T28 complete or changing SPEC/CLAUDE.md. The
+existing T23/T24 shared-store evidence does not verify these new store APIs.
+T29–T31 and production loaders remain gated. T27/ADR 0025 and ADR 0024 are retained.
+No device was resumed, no dependency installed, and no commit/push requested.
+Study lesson 36, the guide, roadmap and origin discussion reflect proposal status.
+
+Final verification (handoff 2026-11-03): Node 22.19.0 / pnpm 11.1.3 root
+pnpm run check passes 1134 TS tests / 40 files, nine Python tests, typechecks,
+Biome (267 files) and both builds; the existing Vite config warning remains.
+The new diagram's ARIA lint issue was corrected using a semantic section before
+this passing run. All 633 local references across 37 study pages resolve; unique
+ids, 44 roadmap task ids, prior scripts and instruction symlinks are preserved.
+Independent read-only review clarified remote-script/same-origin-frame app trust
+and pinned the distinction between cancelled host-handled external links and
+terminal containment violations. Browser review confirmed the lesson, diagram
+and guide's proposed status. Temporary tab/server closed. SPEC, CLAUDE.md,
+runtime packages, dependencies and historical experiment evidence are unchanged;
+git diff --check passes. All T28 work is local and uncommitted.
 
 ## 2026-11-02 checkpoint — T27 Git publication; resume at T28
 

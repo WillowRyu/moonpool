@@ -2,7 +2,16 @@
 
 Date: 2026-10-27
 Status: Discussion note, not an accepted ADR or SPEC amendment.
-Updated: 2026-11-02. T22–T26 are complete; shared native contracts remain open.
+Updated: 2026-11-02. T22–T27 are complete; T28 now has a concrete
+[contract proposal](native-origin-contract.md) and proposed
+[ADR 0026](adr/0026-bind-native-origins-loaders-and-bootstrap.md). Neither is
+approved as a final contract. The selected direction now has
+[supplementary namespace/store/cookie evidence](native-origin-contract-verification.md),
+including a measured iOS startup-order limit; final contract review remains.
+The maintainer subsequently required cookie parity and preferred a common
+asynchronous interface. [ADR 0027/common-cookie design](native-cookie-http-contract.md)
+is proposed; raw custom-cookie unavailability no longer completes T28.
+
 
 T24's [measured iOS result](ios-origin-probe-verification.md) now shows distinct
 custom origins and DOM/storage isolation on iOS 26.4.1, with empty custom cookies
@@ -41,7 +50,7 @@ must be measured separately. This note does not resume a simulator or add code.
 | --- | --- | --- |
 | Android | Prefer supported local asset loading under fixed, distinct per-app HTTPS hosts | Resolve T25 document/delegation findings and native navigation behavior in the approved shared contracts |
 | iOS | Continue evaluating public WKURLSchemeHandler; T24 origins/storage and T26 direct reply scoping are measured | Cookie requirements, approved world/document/lifecycle rules and broader runtime/device evidence |
-| Shared contract | A stable host-selected app-id→effective-origin mapping, with the pure TypeScript kernel unchanged | T27 ownership/runtime model and explicit T28 ADR/SPEC approval |
+| Shared contract | A stable host-selected app-id→effective-origin mapping, with the pure TypeScript kernel unchanged | Accepted ADR 0025 ownership plus explicit T28 ADR/SPEC approval |
 
 The Android HTTPS row is a recommendation from the recorded evidence and
 official loading API, not an adopted production hostname or a claim across all
@@ -97,10 +106,12 @@ current scope. No updater, CDN, signing or distribution work is introduced.
 
 ## Next decision gate
 
-T24–T26 completed after explicit task requests. Use the paired native evidence
-and T27 ownership outcome for T28's concrete proposal explaining previous behavior,
-the problem and each option's consequences. Required approvals precede any
-normative or native SDK loader change. This discussion completes no new task.
+T24–T27 are complete. The concrete T28 proposal now includes a per-app website
+store boundary because distinct local origins do not isolate a common remote
+service's cookies or an integrating host's default WebView credentials. Review
+ADR 0026 and the detailed O01–O10 acceptance cases. The maintainer selected the direction and both supplementary probes are complete.
+Review their evidence, including the measured iOS startup constraint, and approve
+the final contract before any normative or native SDK loader change. T28 is not complete.
 
 ## Primary sources
 
