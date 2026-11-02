@@ -2,9 +2,9 @@
 
 Date: 2026-10-26
 Last updated: 2026-11-02
-Status: T22–T26 complete; T27–T65 planned. Android custom origins fail isolation; messaging retains document/delegation gaps. iOS direct reply closures stay scoped to the original Promise, while generic/frame-targeted execution can reach the new document. Origin/cookie/native-contract limits remain explicit.
+Status: T22–T27 complete; T28–T65 planned. Private native host runtimes selected; origin/cookie, codec, document and lifecycle contract gates remain explicit.
 Targets confirmed by the maintainer: Android (AOS) and iOS, both required.
-Host application/framework: explicitly undecided; build the common plan first.
+SDK/reference-host model: framework-neutral Swift/Kotlin facade with private JavaScriptCore / JavaScriptSandbox runtimes (ADR 0025). Actual consumer app/framework remains a T56 decision.
 Baseline: browser v0.1 complete, published through 91d7b46; 1131 tests / 39 files.
 Normative source: SPEC.md and accepted ADRs. This plan does not amend them.
 
@@ -27,6 +27,11 @@ in [ADR 0024](adr/0024-bind-rpc-work-to-document-generations.md). This accepts
 the design direction for T30 and supplies an [isolated kernel regression probe](../experiments/document-generation-contract/README.md).
 T30's versioned wire/bootstrap contract and T31's pending/close semantics remain
 open; T32 implementation has not started. T27–T29 dependencies still apply.
+
+T27 selects [private native host runtimes](adr/0025-own-native-kernels-in-private-runtimes.md)
+after [paired common-kernel probes](trusted-runtime-verification.md). Native,
+RN and Flutter apps can use the native facade; framework bindings are separate,
+unimplemented work. The consumer app is not selected by this SDK model decision.
 
 ## Scope and completion levels
 
@@ -63,7 +68,8 @@ No v0.2/v1.0 number, minimum OS, engine dependency or release date is assigned h
 | T24 | Research complete | [iOS simulator observations](ios-origin-probe-verification.md); distinct custom origins/DOM/storage, unavailable custom cookies and observed HTTP session-cookie loss |
 | T25 | Research complete | [Android message observations](android-message-probe-verification.md); metadata and authenticated initial port handoff work, origin-only replacement and transferable-port provenance gaps remain |
 | T26 | Research complete | [iOS replies/worlds](ios-message-probe-verification.md); direct native replies stay with their original Promise; global/old-frame execution can reach the replacement document |
-| T27–T65 | Planned | No production native SDK verification yet |
+| T27 | Complete | [Accepted runtime/ownership model and paired evidence](trusted-runtime-verification.md); 12 native runtime owners, 180 kernel vectors, 120 evidence checks and two Node VM tests |
+| T28–T65 | Planned | No production native SDK verification yet |
 
 ## Decisions that precede implementation
 
@@ -76,10 +82,11 @@ No v0.2/v1.0 number, minimum OS, engine dependency or release date is assigned h
    host pattern. These are concrete feasibility risks, not proof that the current
    invariant works or permission to replace it. T23/T24 measure; T28 must resolve
    any conflict in an approved ADR/SPEC decision before implementation.
-3. **Trusted kernel location:** T27 selects the TypeScript execution context and
-   native facade ownership for both targets. A React Native host runtime is not
-   assumed. The kernel must not share an untrusted guest execution context or
-   receive authority from guest ids, URLs or injected objects.
+3. **Trusted kernel location:** T27 selected framework-neutral native facades,
+   per-Portal private JSC VM/context on iOS and an isolate in one app-owned Android
+   JavaScriptSandbox. Native owners serialize controls and retain credentials/
+   providers outside the disposable runtime. The kernel must not share an
+   untrusted guest context or receive authority from guest ids/URLs/objects.
 4. **Wire/codec:** T29 assigns text encoding, decoding and error ownership. Native
    conversion must not silently repair invalid values or change JSON semantics,
    validation precedence, numbers/Unicode or the meaning of a send failure.
@@ -109,16 +116,16 @@ Use the next free ADR number when the task runs; do not create placeholder ADRs.
 | T24 | iOS | Completed 2026-11-02: matching WKWebView origin/local-content probe. | Five final runs / 55 observations: distinct A/B custom origins, DOM/storage denial, localStorage/IndexedDB persistence, cookie limitations, offline delivery and started-task cancellation. [Evidence](ios-origin-probe-verification.md). T26/T28 remain open. | T22 |
 | T25 | Android | Completed 2026-11-02: native message-channel/authentication probe. | Four runs / 44 snapshots, 175 controls and 11 JVM gate cases. Actual listener origin/frame/instance metadata, exact injection, native/guest-created ports, replacement/reload/late reply, proof/delegation and retirement observations. [Evidence](android-message-probe-verification.md). No production authentication or transport approval. | T23 |
 | T26 | iOS | Completed 2026-11-02: native message/reply/world probe. | Four runs / 80 snapshots, 187 controls and ten Swift admission cases. Native view/origin/frame/world checks, direct versus global/old-frame replies, replacement/reload, isolated globals/shared DOM and retirement/removal observations. [Evidence](ios-message-probe-verification.md). No production epoch/runtime decision. | T24 |
-| T27 | Both/shared | ADR for trusted TypeScript kernel execution and native facade ownership. | Select the host/runtime model using both probes and maintainer input. Prove common-kernel execution and required JS primitives/timers; define threads/actors, instance lifetime, credential boundary and bundle ownership. Host framework must be resolved or the gate stays pending. | T22–T26 |
+| T27 | Both/shared | Completed 2026-11-02: accepted ADR 0025 for trusted runtime/native facade ownership. | Maintainer selected the generic Swift/Kotlin SDK model. Unchanged common kernel passes in iOS JSC / Android JavaScriptSandbox, with explicit executor, lifetime, credential and bundle ownership. [Evidence](trusted-runtime-verification.md): four runs, 12 owners / 180 vectors, 120 checks, two Node tests. Production scheduler/providers, framework bindings and real consumer app remain later work. | T22–T26 |
 | T28 | Both/shared | ADR for native origin, local loader and bootstrap authority. | Resolve SPEC/platform discrepancies explicitly; define stable per-app identity, path confinement, network fallback, main/subframe policy, navigation and support failure behavior. Approve any SPEC change before native loaders. | T23–T26 |
 | T29 | Both/shared | ADR for lossless native JSON/text boundary and errors. | Define codec ownership, invalid-data handling, parse-error correlation, send/receive failures and compatibility. Cover finite numbers, large-number behavior, Unicode edge cases, null/falsy values and getters/toJSON without coercive repair. | T25–T28 |
 | T30 | Both/shared | Document generations selected on 2026-11-02; full contract pending. | ADR 0024 accepts explicit generation ownership, retirement and captured work identity. Real-kernel regression probe has two controls passing and three safety assertions red under 0.1. Finalize authoritative bootstrap, metadata/validation, retry/reentry and version migration after prerequisites; coordinate pending/close rules with T31. | T25–T29 |
 | T31 | Both/shared | ADR for close, renderer loss and lifecycle/eviction semantics. | Define pending-call disposition, local versus peer close, restart authority, notification/receipt limits and orderly versus abrupt teardown. Reconcile ADR 0002 and §11 using both native probes. | T25–T30 |
 
 T22's first output is a small target matrix and the T23/T24 experiment checklists.
-It records the user's current host-framework choice as undecided rather than
-asking the same broad question again. Targeted decisions follow concrete options
-in T27. Probe code is experimental evidence; it is not a production native core.
+It retained the then-undecided host framework. T27 subsequently selected a
+concrete generic native SDK model, without choosing T56's consumer app or adding
+RN/Flutter bindings. Probe code is experimental evidence, not a production core.
 If a candidate channel lacks origin/frame metadata on each message, T25/T26
 must demonstrate authenticated channel bootstrap and document binding. A cached
 URL or load callback alone is not an authority check.
@@ -236,18 +243,26 @@ These references inform experiment design; they are not device verification.
 
 ## Current checkpoint
 
-T22 inventory and T23 Android research are complete. Both platforms are required;
-the host framework remains undecided. The standalone Android probe runs on the
-existing emulator, with a recorded SPEC §8 / §9 origin-isolation incompatibility.
-This does not implement the native SDK or change the production scheme. T24 is
-paused; its iOS origin/local-content probe is next when resumed. T28 must resolve
-the contract before native SDK loaders.
+T22–T27 are complete (six of 44 tasks). T23–T26 retain independent native origin,
+message and document-lifetime evidence. T27 accepts the generic native facade
+and private host engines in ADR 0025; actual providers, authenticated guest
+transport and framework bindings are not implemented by its compatibility probe.
+Next is T28. The Android origin incompatibility still requires an approved
+contract before native SDK loaders; SPEC and protocol 0.1 are unchanged.
+
+The requested T25/T26/generation publication is confirmed through b4b7721 after
+four logical commits. The maintainer subsequently requested T27 publication:
+42ece91 retains probes/evidence, followed by the decision/study documentation
+checkpoint. Resume later at T28; no package/tag release or T28 implementation.
+
+## Earlier publication checkpoints
 
 The initial planning checkpoint was committed/pushed as 10d75d3 at the
 maintainer's request. The maintainer also requested committing and pushing the
 completed T22 documentation checkpoint on 2026-10-27, published as db8d6ed.
 The maintainer requested Git publication of T23, paused T24 preparation and the
-cleanup checkpoint on 2026-10-27. T24 remains paused without iOS measurements.
+cleanup checkpoint on 2026-10-27. T24 was paused without iOS measurements then;
+it resumed and completed on 2026-11-02.
 That batch is published as 9f6f300. The additional scheme discussion and study
 notes are also explicitly requested for Git publication; no origin policy is
 approved by publishing them.

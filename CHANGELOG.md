@@ -9,6 +9,15 @@ See [completion evidence and retained limits](docs/v0.1-conformance.md).
 
 ### Added
 
+- Complete T27's trusted runtime/ownership decision in ADR 0025: generic native
+  facades, private per-Portal JSC VM/context on iOS and an isolate in one app-owned
+  Android JavaScriptSandbox. Retain four runs / 12 owners / 180 real-kernel vectors,
+  120 evidence assertions and two Node VM tests. Native-owned public snapshots,
+  executor and retired-owner fencing are tested with explicit provider/scheduler
+  fixtures. RN/Flutter bindings, real providers, production scheduler, guest
+  integration and remaining native contracts are separate work. The standalone
+  Android experiment pins JavaScriptEngine 1.1.1; root/kernel dependencies and
+  protocol 0.1 remain unchanged.
 - Record ADR 0024's selected document-generation direction, preserving request-id,
   app storage/grant and native sender-check invariants. Add an isolated real-kernel
   regression probe: unknown-id and retained-write/grant controls pass; stale

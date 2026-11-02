@@ -11,11 +11,12 @@
 > Multi-Portal research published as 00c0c63 / 76bc212; remote confirmed in sync.
 > ADR 0022 accepted revision published as 0397b70; remote confirmed in sync.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Current checkpoint: T22–T26 research complete; next T27 trusted runtime/ownership decision.
+> Current checkpoint: T22–T27 complete; T27 private native runtime/facade model selected.
 > Document-generation design direction selected on 2026-11-02; see accepted ADR 0024.
 > T30/T31 detailed wire/bootstrap/lifetime contracts remain open; T32 not started.
 > Isolated real-kernel probe: 2 controls pass / 3 safety assertions RED under current 0.1.
-> Both Android and iOS are required; host app/framework explicitly undecided.
+> Both Android and iOS are required; generic Swift/Kotlin SDK model selected in ADR 0025.
+> Actual consumer app/framework remains T56; RN/Flutter bindings are not implemented.
 > Read docs/native-implementation-plan.md for the 44 follow-up tasks and dependencies.
 > Initial native plan published as 10d75d3; T22 published as db8d6ed.
 > Read docs/native-target-matrix.md for tool versions, gaps and pre-code probe criteria.
@@ -63,6 +64,92 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-02 checkpoint — T27 Git publication; resume at T28
+
+The maintainer requested committing/pushing the completed T27 work and continuing
+later. Source/evidence is committed as 42ece91; this documentation checkpoint
+records the accepted decision, verification report and study/progress updates.
+Both commits form the requested Git publication. Fresh pnpm run check passes
+1134 TS tests / 40 files, nine Python tests, typechecks, Biome and both builds.
+The separate T27 tests (two), DOM-free typecheck and evidence checks (120) pass;
+retained native artifact hashes match. No device was resumed. No package/tag release
+or further task implementation is requested. Resume at T28's native origin,
+local-loader and bootstrap-authority contract. Keep ADR 0025's generic native
+SDK/private-runtime choice and ADR 0024's document-generation direction; their
+remaining production/support/wire gates are unchanged. Owned probe devices stay
+stopped; do not resume them for this publication-only checkpoint. Stop after
+publication and remote/clean-tree verification; do not begin T28 automatically.
+
+## 2026-11-02 checkpoint — T27 native runtime/ownership model selected
+
+The maintainer selected the generic native option while confirming applicability
+to RN, Flutter and native apps. ADR 0025 accepts Swift/Kotlin native facades with
+private host JS runtimes: per-Portal JSC VM/context and serial queue on iOS; one
+app-owned JavaScriptSandbox with per-Portal isolates and serialized native
+commands on Android. Framework bindings are separate work, not implemented or
+verified here. Actual consumer app/framework selection remains T56. Do not ask
+again whether the SDK must require RN. Next is T28; six of 44 native tasks complete.
+
+Native host managers retain app registry/providers/credentials and the packaged
+host bundle. Public JSON snapshots cross into the private runtime; guest scripts
+and credentials do not. Guest WebViews own Client; host runtimes retain Host/
+HostConnection across allowed document replacement. Terminal Portal retirement
+invalidates owner-bound controls, with no rollback promise for accepted effects.
+This decision concerns SPEC §3 / §9 ownership; no normative/wire change is made.
+T28–T31, production bundle/scheduler ABI T35, real providers T42/T43 and resource
+defaults T53 remain gates. No product minimum OS or numeric resource cap chosen.
+
+Added experiments/trusted-runtime-probe with R01–R12 criteria and a failing-then-
+passing Node VM contract before native harnesses. Same unchanged real kernel /
+37 KB bundle runs on iOS 26.4.1 JSC and Android API 37 / WebView 145 with pinned
+JavaScriptEngine 1.1.1. Four first/repeat reports cover 12 runtime owners / 180
+common-kernel vectors; 120 evidence/source assertions and two Node VM tests pass.
+DOM-free kernel typecheck passes. Native executors and captured old-owner late
+control drops are observed. Native fixture snapshots seed recreated A, separate
+from B. Client/providers are colocated JS test fixtures only; native providers,
+authenticated guest integration, simultaneous storage and durability are unproven.
+
+Scheduler is a probe-only native-polling adapter with a private diagnostic sink.
+It establishes tested functional vectors, not production task/error semantics,
+background behavior or performance. Android support is checked first; sandbox
+loss can affect multiple isolates. iOS JSC is in the app process. No blanket
+process-isolation/recovery claim. The isolated generation probe stays 2-pass /
+3-fail under unchanged 0.1 and root test discovery remains unchanged.
+
+Native builds pass. Android lint's initial min-API readAllBytes error was fixed
+with a compatible stream read; final lint has 11 documented warnings. Dependency
+resolution used official Google Maven once, then the build/lint succeeds offline.
+No root/kernel dependency changed. Source/installed artifact/signature/common
+asset hashes verified. Only owned probe apps/devices were used and stopped;
+other simulator states and the pre-existing user Android emulator were preserved.
+
+Read docs/trusted-runtime-verification.md, accepted ADR 0025 and study lesson 35.
+Study guide/roadmap preserve earlier lessons and distinguish generic SDK reach
+from unimplemented RN/Flutter adapters. Final root check passes 1134 TS tests / 40 files, nine Python tests, both
+typechecks, Biome (266 files) and both browser builds; the known Vite config
+warning remains. T27 Node VM tests, DOM-free typecheck and 120 evidence checks
+also pass. Verified native artifact hashes and Python harness syntax. All 613
+local references across 36 study pages resolve, unique ids / 44 task ids / prior
+scripts / instruction symlinks remain intact, and retained JSON excludes local
+paths/device identifiers. Reviewed the framework table, diagram and current
+status in the browser; the temporary tab/server are closed. git diff --check
+passes. T27 remains local, outside the prior four-commit push.
+
+## 2026-11-02 checkpoint — publication verified; T27 started (historical)
+
+Published Android research as 2d680b6, iOS research as ff6bdf2, generation
+regressions as 23b2b73 and reports/ADR/study/progress as b4b7721. Live remote
+master, origin/master and HEAD matched, with a clean tree verified before T27.
+No package/tag release. New T27 work is local and not included in that push.
+
+T27 will compare a framework-neutral native facade with private host execution
+against an RN-host-runtime model, then present a concrete reviewed decision.
+The common kernel must never execute in the untrusted guest realm. Initial
+compatibility candidates use installed JavaScriptCore on iOS and an app-owned
+trusted WebView realm on Android, with explicit overhead/support limits; these
+are experimental candidates, not an adopted production model. No new engine
+dependency or RN wrapper is assumed. Required runtime tests precede probes.
 
 ## 2026-11-02 checkpoint — publish current work, then T27 requested
 

@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — T27 공통 네이티브 SDK와 커널 실행 위치</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">35 · T27 실행 위치·소유권</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#decision">범용 네이티브 SDK 선택</a>
+    <a href="#locations">호스트와 게스트의 실행 위치</a>
+    <a href="#engines">두 엔진에서 같은 커널 실행</a>
+    <a href="#owners">스레드와 소유권</a>
+    <a href="#evidence">검증한 것과 남은 것</a>
+    <a href="#next">다음은 T28</a>
+  </nav>
+  <p class="small desktop-only">2026.11.02 · T27 완료<br>ADR 0025 · 범용 네이티브 모델<br>RN·Flutter 연결 모듈은 후속 범위</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">T27 complete · Native facade and private host runtime</div>
+    <h1>앱 기술이 달라도,<br>같은 네이티브 기반을 사용합니다.</h1>
+    <p class="lead">Swift/Kotlin API를 공통 기반으로 선택했습니다. 공통 TypeScript 호스트 커널은 게스트 웹 페이지 바깥의 전용 JavaScript 환경에서 실행합니다. RN·Flutter도 네이티브 API에 연결할 수 있지만, 이번 작업에서 해당 연결 모듈까지 구현한 것은 아닙니다.</p>
+    <div class="meta"><span class="pill">T22–T27 · 6 / 44 완료</span><span class="pill">두 OS · 12개 런타임 소유자</span><span class="pill warm">SDK 기반 결정 · 실제 앱은 T56</span></div>
+  </header>
+  <section class="section" id="decision">
+    <h2>1 · RN 앱에만 묶이지 않는 쪽을 선택했습니다</h2>
+    <p>호스트가 RN이라고 정하면 RN의 앱용 JS 환경을 재사용할 수 있습니다. 다만 순수 네이티브나 Flutter 앱에는 그 환경이 없습니다. 이번에는 Moonpool 네이티브 SDK가 자체 호스트 실행 환경을 소유하는 모델을 골랐습니다. 실제 사용 앱의 저장소와 화면은 T56에서 선택합니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>앱의 기술</th><th>선택한 SDK에 연결하는 경로</th><th>이번 검증 범위</th></tr></thead><tbody>
+      <tr><td>Swift / Kotlin</td><td>각 OS의 네이티브 API를 직접 호출</td><td>호스트 런타임 호환성 실험 완료 · 제품 SDK는 후속 구현</td></tr>
+      <tr><td>React Native</td><td>RN 연결 모듈 → 같은 네이티브 API</td><td>연결 모듈 미구현 · Hermes 실측 없음</td></tr>
+      <tr><td>Flutter</td><td>Flutter 연결 모듈 → 같은 네이티브 API</td><td>연결 모듈 미구현 · Flutter 연동 실측 없음</td></tr>
+    </tbody></table></div>
+    <p><strong>Facade</strong>는 내부 엔진을 직접 다루지 않아도 되도록 제공하는 진입점이라는 뜻입니다. 앱 화면은 네이티브 API를 호출하고, SDK가 Portal과 커널의 생성·연결·폐기를 맡습니다. 아래 그림은 소유권 설명이며 아직 설치 가능한 공개 API의 모양은 아닙니다.</p>
+    <section class="flow" aria-label="순수 네이티브 앱은 직접, RN과 Flutter 앱은 각 연결 모듈을 통해 같은 네이티브 Moonpool SDK를 사용한다.">
+      <div class="node">순수 네이티브 앱<br>또는 RN·Flutter 연결 모듈</div><span class="sep">→</span><div class="node current">Swift / Kotlin API<br>Moonpool 네이티브 SDK</div><span class="sep">→</span><div class="node">전용 호스트 커널<br>+ 게스트 WebView</div>
+    </section>
+    <div class="callout warm">공통 기반을 선택했다는 뜻입니다. 모든 프레임워크의 설치·화면·수명 연동이 이미 검증됐다는 뜻으로 읽으면 안 됩니다. RN·Flutter 연결 모듈은 필요할 때 별도 범위로 다룹니다.</div>
+  </section>
+  <section class="section" id="locations">
+    <h2>2 · 네이티브 앱에도 JS 커널을 돌릴 엔진이 필요합니다</h2>
+    <p>TypeScript는 JavaScript로 묶어 실행합니다. Swift/Kotlin 앱이 그 코드를 저절로 실행하지는 않으므로 JS 엔진을 연결해야 합니다. 게스트 페이지의 엔진에 호스트 커널까지 넣으면 미니 앱의 수명과 호스트 권한이 섞입니다. 전용 환경에는 앱이 패키징한 신뢰된 호스트 코드만 넣습니다.</p>
+    <div class="grid2">
+      <div class="card focus"><div class="eyebrow">Trusted host</div><h3>네이티브 SDK + 전용 JS 환경</h3><p>네이티브 관리자가 앱 설정·권한·실제 제공자·자격 증명을 소유합니다. JS 환경의 Host는 공통 권한 검사와 요청 처리를 맡습니다. 제공자 연결에는 공개 JSON 값만 전달합니다.</p><p><code>Host / HostConnection</code><br>iOS JavaScriptCore<br>Android JavaScriptSandbox의 isolate</p></div>
+      <div class="card"><div class="eyebrow">Guest</div><h3>별도의 WebView</h3><p>미니 앱과 Client가 실행됩니다. 실제 발신자의 출처·프레임·인스턴스를 네이티브 통로에서 확인한 뒤, 해당 Portal의 호스트 커널로 데이터를 전달합니다.</p><p><code>Mini app / Client</code><br>게스트가 호스트 설정·권한·저장 파티션을 선택하지 못함</p></div>
+    </div>
+    <p>호스트가 가진 로그인 토큰을 JS 커널이나 미니 앱에 복사할 필요는 없습니다. 네이티브 제공자가 토큰을 사용해 작업하고, 허용한 공개 결과만 돌려줍니다. 이 결정은 SPEC §3의 플랫폼 경계와 §9의 신뢰 경계를 다룹니다. 기존 JSON-RPC 형식과 세 메서드 Transport 인터페이스는 유지했습니다.</p>
+  </section>
+  <section class="section" id="engines">
+    <h2>3 · 기존 커널을 고치지 않고 두 엔진에서 실행했습니다</h2>
+    <p>약 37 KB의 같은 실험 번들에 실제 protocol·client·host 코드를 포함했습니다. 실험에서는 Client와 JS 제공자 대역을 함께 두어 실제 핸드셰이크·권한·오류 처리를 호출했습니다. 제품 Client는 게스트에 놓이며, 이번 배치는 실제 네이티브 제공자나 게스트 통로의 완성 검사가 아닙니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>OS</th><th>실측 환경</th><th>선택한 실행 소유권</th></tr></thead><tbody>
+      <tr><td>iOS</td><td>iOS 26.4.1 전용 시뮬레이터 · JavaScriptCore</td><td>Portal별 VM/context와 전용 직렬 큐</td></tr>
+      <tr><td>Android</td><td>Android 17 / API 37 전용 에뮬레이터 · JavaScriptEngine 1.1.1 지원 확인</td><td>앱별 sandbox 하나 · Portal별 isolate · 직렬 native executor</td></tr>
+    </tbody></table></div>
+    <p><strong>VM/context</strong>와 <strong>isolate</strong>는 여기서 호스트 JS 전역과 실행 상태를 따로 보관하는 단위입니다. Android는 제공자의 엔진 지원을 먼저 확인하고 미지원이면 차단합니다. Android sandbox가 죽으면 여러 isolate가 함께 영향을 받을 수 있고, iOS JSC는 앱 프로세스 안에서 실행됩니다. 분리된 JS 전역만으로 모든 프로세스 장애가 격리되는 것은 아닙니다.</p>
+    <pre><code>native owner A → private host runtime A → Host A
+native owner B → private host runtime B → Host B
+
+guest document replacement: keep the Portal's host owner
+Portal retirement: retire that host owner terminally</code></pre>
+    <p>전용 엔진을 소유하면 앱 프레임워크에 덜 의존하지만 엔진 생성·타이머·제공자 연결과 자원 관리 비용이 생깁니다. 메모리·Pool 기본값과 지원 최소 OS는 이번 작은 실험으로 정하지 않았습니다.</p>
+  </section>
+  <section class="section" id="owners">
+    <h2>4 · 현재 문서를 찾지 않고 원래 소유자에게 돌아갑니다</h2>
+    <p>네이티브에서 예약한 작업도 자신이 속한 소유자를 붙잡아야 합니다. 이전 소유자의 작업이 늦게 끝났을 때 전역의 ‘현재 Portal’을 찾아 보내면 새 소유자에게 잘못 전달할 수 있습니다. 실험은 이전 소유자를 캡처한 뒤 폐기 상태를 확인해 제어 호출을 버렸습니다.</p>
+    <pre><code>// From the iOS probe: captured owner, not a current-runtime lookup.
+self.queue.asyncAfter(deadline: .now() + 0.04) {
+    guard self.active else {
+        self.note(self.name, "late-control-dropped")
+        return
+    }
+    self.note(self.name, "late-control-unexpectedly-active")
+}</code></pre>
+    <p>런타임 소유자는 Portal 단위이고 문서 세대는 게스트 문서의 연결 단위입니다. 허용된 A→B 문서 교체에서 호스트 런타임을 매번 없애는 모델은 아닙니다. 이전 문서의 응답을 막는 세대 계약은 T30/T31에서 더 정합니다. 이미 시작한 네이티브 저장이나 다른 효과를 자동 취소·복구한다는 규칙도 추가하지 않았습니다.</p>
+    <p>저장 제공자는 버려지는 Portal 바깥에서 앱별로 유지합니다. 이번 실험은 A의 공개 스냅샷을 네이티브 관리자가 보관해 새 A에 넣고 B에는 넣지 않는 흐름만 확인했습니다. 실제 디스크 저장·동시 제공자 공유는 아직 검증하지 않았습니다.</p>
+  </section>
+  <section class="section" id="evidence">
+    <h2>5 · 통과한 검사와 남은 구현을 구분합니다</h2>
+    <div class="stats"><div class="stat"><strong>12</strong><span>두 OS 첫 실행·재실행의 소유자</span></div><div class="stat"><strong>180</strong><span>소유자마다 15개 커널 검사</span></div><div class="stat"><strong>120</strong><span>관찰 결과·소스 해시 검증</span></div></div>
+    <p>실제 커널의 초기화·ping·프로필 공개 필드·저장·권한 거절·알림·제공자 오류 숨김을 확인했습니다. Promise·Map·Reflect·속성 검사·JSON, 타임아웃·타이머 취소·microtask 순서도 두 엔진에서 통과했습니다. Node VM 계약 테스트 두 개도 통과합니다.</p>
+    <div class="callout warm"><strong>실험용 타이머:</strong> 네이티브가 주기적으로 tick을 호출하는 작은 대역입니다. 커널 실행에 필요한 동작을 확인했으며, 제품의 타이머 방식·모든 작업 순서·백그라운드·성능 정책까지 승인한 것은 아닙니다. 제품 스케줄러는 T35에서 구현·검증합니다.</div>
+    <pre><code>python3 experiments/trusted-runtime-probe/build_bundle.py
+pnpm exec vitest run --config experiments/trusted-runtime-probe/vitest.config.ts
+pnpm exec tsc --noEmit -p experiments/trusted-runtime-probe/tsconfig.kernel.json
+python3 experiments/trusted-runtime-probe/verify_results.py experiments/trusted-runtime-probe/results</code></pre>
+    <p>기존 사용자 기기를 제외한 실험 소유 기기만 사용하고 종료했습니다. Android 실험에만 엔진 라이브러리를 추가했으며 루트·순수 커널 의존성과 프로토콜 0.1은 그대로입니다. 문서 세대의 별도 안전성 테스트 세 개도 아직 RED입니다.</p>
+    <p><a href="../docs/trusted-runtime-verification.md">영문 환경·결과·한계</a> · <a href="../experiments/trusted-runtime-probe/README.md">실행법과 사전 검사 기준</a> · <a href="../docs/adr/0025-own-native-kernels-in-private-runtimes.md">승인된 ADR 0025</a></p>
+  </section>
+  <section class="section" id="next">
+    <h2>6 · 다음은 T28 출처·로더·초기화 권한입니다</h2>
+    <p>T27은 실행 위치와 소유권을 결정한 작업입니다. 이제 T28에서 Android 출처 문제와 iOS의 실측을 함께 보고 로컬 콘텐츠·앱 신원·경로 제한·네트워크 전환·초기화 권한을 정합니다. 필요한 명세 변경은 구현 전에 승인받습니다.</p>
+    <p>T29의 JSON 경계, T30의 문서 세대, T31의 종료 계약을 마친 뒤 공통 구현으로 넘어갑니다. 이 실험을 제품 SDK·RN/Flutter 지원 완료나 실제 앱 배포 준비 완료로 세지 않습니다.</p>
+    <a class="card next-card" href="27-native-roadmap.html#t28"><div class="eyebrow">Next · T28</div><h3>남은 출처·로더 계약과 44개 task 보기 →</h3><p>현재 T22–T27 완료 · 6 / 44 · 실제 앱 선택은 T56</p></a>
+  </section>
+  <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="34-document-generation-direction.html">이전 문서 세대 결정</a><br>근거: ADR 0025, 실제 공통 커널의 두 OS 실험, 공식 JavaScriptCore·Android JavaScriptEngine 문서.</footer>
+</main>
+</body>
+</html>

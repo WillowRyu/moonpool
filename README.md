@@ -118,9 +118,9 @@ uses validated JSON snapshots, while guest requests retain staged validation.
 ## Android and iOS follow-up — planned
 
 The [native implementation plan](docs/native-implementation-plan.md) breaks the
-next phase into T22–T65, with both Android and iOS required. The host framework
-remains undecided. Early tasks measure platform constraints and establish the
-trusted TypeScript execution context before native implementation.
+next phase into T22–T65, with both Android and iOS required. T27 selected a
+framework-neutral Swift/Kotlin SDK model with private host JavaScript runtimes.
+The actual consumer app/framework remains a later integration decision.
 
 The plan separates reference-app PoCs, actual-host/device verification and an
 evidence-based deployment decision. These are planned milestones, not shipped
@@ -135,7 +135,14 @@ replacement/delegation gaps. T26's [iOS reply/world probe](docs/ios-message-prob
 compares captured native reply closures with global/old-frame execution across
 document replacement. A [pinned-source comparison](docs/native-document-lifetime-comparison.md)
 covers Portals/Capacitor, Tauri and React Native WebView separately from device
-evidence. T22–T26 research is complete; approved native contracts remain T27–T31 work.
+evidence. T22–T27 are complete; native contracts remain T28–T31 work.
+
+T27's [runtime/ownership decision](docs/adr/0025-own-native-kernels-in-private-runtimes.md)
+keeps the host kernel in private iOS JavaScriptCore / Android JavaScriptSandbox
+runtimes. [Paired probes](docs/trusted-runtime-verification.md) execute the same
+kernel across 12 owners / 180 checks. Native, RN and Flutter apps can build on
+the native facade, but framework bindings and production SDK integration are
+not implemented or verified by this experiment.
 
 The maintainer selected [explicit document generations](docs/adr/0024-bind-rpc-work-to-document-generations.md)
 as the shared lifetime direction. The versioned bootstrap/wire/retirement contract
