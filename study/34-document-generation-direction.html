@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — 문서 세대 방식 채택과 회귀 기준</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">34 · 문서 세대 방향 채택</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#decision">이번에 정한 것</a>
+    <a href="#lifetime">A로 돌아와도 새로운 세대</a>
+    <a href="#regression">실제 커널에서 확인한 혼선</a>
+    <a href="#preserve">무효화와 작업 취소</a>
+    <a href="#remaining">남은 명세와 구현 단계</a>
+  </nav>
+  <p class="small desktop-only">2026.11.02 방향 승인<br>ADR 0024 · 구현 전 계약 준비<br>프로토콜 0.1의 한계는 아직 남음</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">Decision · Explicit document generations</div>
+    <h1>문서의 수명을,<br>요청 번호와 따로 구분하기로 했습니다.</h1>
+    <p class="lead">확장 시 알림·콜백·연결을 문서 단위로 관리하기 위해 문서 세대 방식을 선택했습니다. 실제 Host/Client로 현재의 응답 혼선을 재현하고, 유지해야 할 동작도 대조군으로 확인했습니다.</p>
+    <div class="meta"><span class="pill">문서 세대 방향 채택 완료</span><span class="pill">실제 커널 대조군 2개 통과</span><span class="pill warm">안전성 회귀 3개는 현재 RED</span></div>
+  </header>
+  <section class="section" id="decision">
+    <h2>1 · 선택한 방향과 실제 구현 상태를 나눕니다</h2>
+    <p><a href="../docs/adr/0024-bind-rpc-work-to-document-generations.md">ADR 0024</a>에 문서 세대 방식을 채택한 결정을 기록했습니다. 양의 정수로 증가하는 기존 요청 id를 유지하고, 문서 세대와 함께 작업 소속을 확인하는 방향입니다.</p>
+    <p>새 문서의 초기화 응답부터 결과·오류·알림까지 소속을 구분하고, 이전 세대의 연결·콜백을 무효화합니다. 문서 식별자는 실제 출처·프레임·인스턴스 검사에 묶여야 하며, 그 문자열을 보냈다는 이유로 앱 ID·권한·저장 파티션을 선택하지 못합니다.</p>
+    <div class="callout warm"><strong>현재 상태:</strong> 설계 방향을 승인한 단계입니다. 필드·발급 주체·초기화·무효화 시점·버전 계약은 T30/T31에서 확정하고, 공통 커널 구현은 T32에서 진행합니다. 현재 0.1 코드에 문서 세대 기능이 적용된 상태는 아닙니다.</div>
+  </section>
+  <section class="section" id="lifetime">
+    <h2>2 · 페이지 이름을 문서 세대로 재사용하지 않습니다</h2>
+    <pre><code>// Conceptual ownership only; actual metadata shape is pending.
+First A:  generation 101 / request 2
+B:        generation 102 / request 1
+Fresh A:  generation 103 / request 2
+
+Old result (101, 2) must not satisfy fresh request (103, 2).</code></pre>
+    <p>A는 페이지 이름이나 URL이고, 세대는 연결의 수명입니다. 다시 A에 들어와 새 연결을 만들면 이전 A와 다른 소속으로 취급해야 합니다. 뒤로가기 복원·재시도에서도 세대를 언제 새로 만들지 명확한 규칙이 필요합니다.</p>
+    <p>요청을 받을 때의 소속을 보관해야 합니다. 작업이 늦게 끝났다고 현재 문서 번호를 붙이면 이전 결과를 새 결과로 둔갑시키게 됩니다. 새 문서의 요청 번호가 같아도 이전 세대라면 적용하지 않는 것이 선택한 목표입니다.</p>
+  </section>
+  <section class="section" id="regression">
+    <h2>3 · 설명용 가정에서 실제 커널 재현으로 옮겼습니다</h2>
+    <p>별도 실험의 <a href="../experiments/document-generation-contract/document-generation.test.ts">회귀 테스트</a>는 실제 createHost와 createClient를 사용합니다. 기존 메모리 Transport 위에 문서별로 닫히는 작은 facade만 두고, 물리적 연결은 유지해 늦은 호스트 응답이 새 문서에 도착하게 했습니다. 새로운 디스패처나 프로토콜을 만든 것은 아닙니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>실험</th><th>현재 0.1 결과</th><th>의미</th></tr></thead><tbody>
+      <tr><td>새 문서에 대응하는 요청 번호가 아직 없음</td><td>통과 · 이전 응답 무시</td><td>항상 혼선이 생기는 것은 아님</td></tr>
+      <tr><td>이미 시작한 저장 작업과 기존 권한 유지</td><td>통과 · 저장 완료 후 새 문서가 읽음</td><td>문서 교체가 저장 취소·권한 초기화를 뜻하지 않음</td></tr>
+      <tr><td>이전 초기화 응답과 새 초기화의 id 1 중복</td><td>RED · 새 문서가 이전 환경 정보를 받음</td><td>초기화 응답부터 구분해야 함</td></tr>
+      <tr><td>A의 요청 2와 B의 요청 2 중복</td><td>RED · 새 초안 대신 이전 초안을 받음</td><td>요청 id만으로는 문서 소속을 구분하지 못함</td></tr>
+      <tr><td>A→B→새 A에서 요청 2 중복</td><td>RED · 첫 A의 결과가 새 A에 연결됨</td><td>같은 페이지로 돌아오는 경우도 회귀 기준에 포함</td></tr>
+    </tbody></table></div>
+    <pre><code>pnpm exec vitest run --config experiments/document-generation-contract/vitest.config.ts
+// Current expected result: 2 passed / 3 failed.
+pnpm exec tsc --noEmit -p experiments/document-generation-contract/tsconfig.json</code></pre>
+    <p>세 실패는 아직 구현하지 않은 안전성 요구를 보여 주는 별도 테스트입니다. skip이나 expected-failure 표시로 숨기지 않았습니다. 현재 프로필의 기존 루트 검사와 구분하며, 승인된 계약을 구현할 때 이 테스트들을 일반 회귀 검사로 옮겨 모두 통과시켜야 합니다.</p>
+  </section>
+  <section class="section" id="preserve">
+    <h2>4 · 늦은 응답을 막는 것과 저장을 되돌리는 것은 다릅니다</h2>
+    <p>저장 작업이 호스트에서 시작된 뒤 A를 닫고 B를 열었습니다. A의 클라이언트 대기 요청은 닫힘 오류로 정리됐지만, 이미 시작한 호스트 저장 작업은 끝났고 B도 그 값을 읽을 수 있었습니다. 앱 저장값·기존 권한의 수명과 문서 통신의 수명이 다르기 때문입니다.</p>
+    <p>문서 세대 방식도 이미 실행된 저장을 자동으로 취소하거나 되돌리는 규칙은 아닙니다. 실제 취소가 가능한 작업, 살아 있는 이전 문서의 대기 Promise 처리, 이미 접수된 Portal 닫기의 처리는 기존 계약과 함께 T31에서 정해야 합니다.</p>
+  </section>
+  <section class="section" id="remaining">
+    <h2>5 · 다음은 실행 위치·소유권과 상세 계약입니다</h2>
+    <p>네이티브 연구 완료 수는 T22–T26의 5 / 44로 유지됩니다. 이번 방향 선택만으로 T30 전체나 T32 구현을 완료 처리하지 않았습니다. 다음 T27에서 신뢰된 TypeScript 실행 위치·네이티브 API 소유권을 정하고, T28/T29의 통로·JSON 경계와 연결해 T30/T31 계약을 확정합니다.</p>
+    <ul>
+      <li>세대를 누가 만들고 실제 문서·채널에 어떻게 검증해 묶는가</li>
+      <li>첫 초기화 응답·재시도·새로고침·복원에서 이전 세대를 어떻게 배제하는가</li>
+      <li>어떤 메시지 필드·검사 순서·호환성 규칙을 사용할 것인가</li>
+      <li>교체 시 살아 있는 대기 요청과 이미 접수된 효과를 어떻게 처리할 것인가</li>
+    </ul>
+    <p><a href="../experiments/document-generation-contract/README.md">분리된 재현 테스트의 범위와 실행법</a> · <a href="../docs/native-implementation-plan.md">기존 단계와 구현 조건</a></p>
+  </section>
+  <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="33-ios-message-and-lifetime.html">이전 iOS·외부 구현 조사</a><br>근거: 유지보수자의 방향 승인, ADR 0024, 현재 0.1 실제 커널 회귀 재현.</footer>
+</main>
+</body>
+</html>

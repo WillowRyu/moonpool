@@ -14,7 +14,12 @@ gates. T22's [target/toolchain inventory](native-target-matrix.md) is complete;
 T23's [Android origin probe](android-origin-probe-verification.md) is also complete
 with an incompatibility finding. T24's [iOS experiment](ios-origin-probe-verification.md)
 is complete with independent origin/storage evidence and cookie limitations.
-T25/T26 message probes are next. T01–T21 remain complete here.
+T25's [Android message probe](android-message-probe-verification.md) is also
+complete, recording callback metadata, port bootstrap and provenance gaps.
+T26's [iOS reply/world probe](ios-message-probe-verification.md) is complete;
+[other-runtime source research](native-document-lifetime-comparison.md) is
+recorded separately. T27's runtime/ownership decision is next. T01–T21 remain
+complete here.
 
 ## Git publication — 2026-10-26
 

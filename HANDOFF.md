@@ -11,7 +11,10 @@
 > Multi-Portal research published as 00c0c63 / 76bc212; remote confirmed in sync.
 > ADR 0022 accepted revision published as 0397b70; remote confirmed in sync.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
-> Current checkpoint: T22–T24 research complete; next T25/T26 message probes.
+> Current checkpoint: T22–T26 research complete; next T27 trusted runtime/ownership decision.
+> Document-generation design direction selected on 2026-11-02; see accepted ADR 0024.
+> T30/T31 detailed wire/bootstrap/lifetime contracts remain open; T32 not started.
+> Isolated real-kernel probe: 2 controls pass / 3 safety assertions RED under current 0.1.
 > Both Android and iOS are required; host app/framework explicitly undecided.
 > Read docs/native-implementation-plan.md for the 44 follow-up tasks and dependencies.
 > Initial native plan published as 10d75d3; T22 published as db8d6ed.
@@ -21,12 +24,22 @@
 > T24 resumed on request and completed on 2026-11-02; read docs/ios-origin-probe-verification.md.
 > iOS 26.4.1 separates custom origins/DOM/storage; cookie limitations remain explicit.
 > Five final runs / 55 snapshots; 790 control assertions pass. Owned simulator shut down.
+> T25: actual Android listener origin/frame/instance metadata and initial port handoff observed.
+> Port callbacks lack ongoing origin/frame provenance; origin-only replacement and delegation gaps remain.
+> Four final T25 runs / 44 snapshots; 175 controls and 11 JVM admission cases pass.
+> Read docs/android-message-probe-verification.md; only the session-owned Android emulator stopped.
+> T26: four runs / 80 snapshots, 187 native controls and ten Swift admission cases pass.
+> Captured WK reply closures exclude new documents; global and captured-frame execution can reach them.
+> Read docs/ios-message-probe-verification.md and docs/native-document-lifetime-comparison.md.
+> Similar-runtime findings are pinned public-source evidence, not vendor device testing.
 > T28 native-origin contract gate remains.
 > Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
 > Run pnpm run check; read docs/code-quality-workflow.md. Native task checks remain separate.
 > Scheme discussion: docs/native-origin-options.md; Android HTTPS is a candidate, not approved policy.
 > The earlier scheme discussion and cleanup were published through 4225453.
 > The maintainer requested commit/push of the completed T24 research and study updates.
+> T24 was published as 5bc8770 / 6c5576e.
+> The maintainer requested publication of T25/T26/review/generation work, then T27.
 > Source commits: 7327536 native probes; e2e3c72 shared tests; 328280d runtime/UI cleanup.
 > T18 published as 4aab691 / ab98b58; remote confirmed in sync before T19.
 > T19 published as e2354e6 / 8f98da9; clean remote sync confirmed before T20.
@@ -50,6 +63,268 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-02 checkpoint — publish current work, then T27 requested
+
+The maintainer explicitly requested commit/push of the completed T25/T26 native
+research, comparative source review and accepted generation direction/regression
+preparation, then T27. Publish standalone Android, iOS and generation probes as
+logical commits, followed by the reports/ADR/progress/study checkpoint. Preserve
+the isolated probe's intentional 2-pass/3-fail result separately from the green
+0.1 root suite. No package/tag publication or production generation code is implied.
+Verify remote master equals HEAD and the tree is clean before starting T27.
+
+Publication grouping: 2d680b6 retains Android messaging source/evidence;
+ff6bdf2 retains iOS reply/world source/evidence; 23b2b73 pins the isolated
+generation regression probe. The following documentation checkpoint records
+the reports, selected direction and preserved study material. Fresh root check
+passes 1134 TS / nine Python tests, typechecks, Biome and both builds; retained
+native verifiers pass 175/187 controls. The isolated probe is deliberately
+2-pass/3-fail, typechecks, and is not part of the current 0.1 suite. No device
+was resumed for publication.
+
+T27 must prepare concrete trusted-runtime/native-facade options using paired
+evidence, prove the common kernel's primitives/timers in the proposed contexts,
+and record ownership/threads/lifetime/credential/bundle boundaries. Host framework
+was explicitly undecided; do not ask that same broad question again. Present a
+specific reviewed model for the maintainer's decision. T27's new work remains
+local unless separately requested for publication.
+
+## 2026-11-02 checkpoint — document generations selected
+
+The maintainer explicitly selected document generations after discussing random
+callback ids, native operation lifetime, A→B→A and future expansion. Record the
+direction as accepted in ADR 0024; do not ask again whether to use generations.
+The agreed scope is common generation/request ownership, initialization/result/
+error/notification binding and retirement, preserving app storage, connection
+grants/consent and already-dispatched effects. Native origin/frame/instance
+checks remain necessary. No generation string is itself an authority credential.
+
+The existing roadmap still requires T27–T29 ownership/channel/codec outcomes,
+T30's exact bootstrap/metadata/validation/migration contract and T31's pending/
+close rules before T32 implementation. Direction acceptance does not settle
+those details or silently amend the versioned wire contract. SPEC §11 now links
+the accepted direction while retaining the current 0.1 limitation; no runtime
+API, protocol version or envelope field changed. Do not mark T30 or T32 complete.
+
+Added experiments/document-generation-contract using the real Host/Client and
+shared memory transport. Each fresh document owns a terminal facade while the
+physical link stays open, so delayed replies reach the replacement receiver.
+The isolated suite has two passing controls (unknown old id, retained grants and
+already-dispatched write) and three explicitly failing safety assertions: old
+initialize id 1 supplies the old locale, A request 2 supplies B's old draft, and
+first A request 2 supplies fresh A's old draft after A→B→A. Failures are exact
+value mismatches, not missing APIs/timeouts. This makes previously discussed
+kernel failures concrete without fabricating a parallel dispatcher or a native
+authentication claim. The isolated test command intentionally exits 1; do not
+hide the failures with skips or expected-failure flags.
+
+Probe typecheck passes. The root Vitest include/config remains unchanged so the
+current 0.1 suite and its isolated future-safety probe are reported separately.
+T32 must migrate these assertions into the regular regression suite and make
+them pass under the approved contract. No platform experiment was resumed,
+no new dependency was added, and existing T25/T26 work/evidence is preserved.
+Study lesson 34 and the current guide/plan record the direction and remaining
+gates. Next remains T27; no commit/push was requested for this work.
+
+Final checks: isolated probe typecheck and Biome pass. Its final run has exactly
+two passing controls / three failing safety assertions (old en-US instead of
+ko-KR initialization metadata, plus two old-draft/new-draft mismatches), with
+captured outgoing ids proving the intended 1/2 reuse. The current root pnpm run
+check passes 1134 TS tests / 40 files, nine Python tests, typechecks, Biome
+(254 files) and both builds; the known Vite warning remains. Root test discovery,
+runtime packages/APIs, protocol version and dependencies are unchanged. All 637
+checked references across 35 study pages/selected docs resolve, with prior
+scripts, unique ids, all 44 task ids and instruction symlinks preserved. Reviewed
+the decision/status and regression table in the browser; the temporary tab/server
+are closed. No simulator/device work occurred. git diff --check passes.
+
+## 2026-11-02 checkpoint — T26 and comparative research complete
+
+The maintainer requested the iOS counterpart and other-runtime research after
+the document-id/invalidation discussion. Preserved the existing local T25 work
+and earlier sources/evidence. Added experiments/ios-message-probe as a separate
+org.moonpool.iosmessageprobe simulator app, with N01–N12 criteria and a failing
+then passing ten-case Swift metadata-admission contract before implementation.
+No dispatcher/capability, approved wire field, SPEC change or native SDK is added.
+
+Reused Xcode 26.4.1 / 17E202, Swift 6.3.1 in language mode 5, arm64 Simulator
+SDK 26.4 / minimum 17.0 probe target, and the dedicated retained iPhone 17 Pro
+simulator with actual iOS 26.4.1 / 23E254a. Ownership and all other available
+device states were rechecked locally. The owned device returned to Shutdown
+during preparation and was rechecked/booted immediately before installation;
+no cause is assumed. Only the owned device/new app was mutated; no SDK/runtime,
+dependency, global Xcode or private/security setting was changed.
+
+Actual messages carry WebView/frame origin/main-frame/world metadata independently
+of forged body claims. Same/foreign subframes and foreign main navigation are
+rejected; same-origin other-view host replay is explicitly labeled. Page globals
+and named-world handler/globals are isolated, DOM is shared. The main-only script
+flag limits injection but does not turn the page handler into a main-frame gate.
+This does not select the trusted kernel runtime for T27.
+
+Captured WKScriptMessageHandlerWithReply completions for old A do not resolve
+new B's pending Promise, despite reused diagnostic payload id 2. B's own reply
+succeeds. A controlled global evaluateJavaScript receiver does resolve B's id 2
+with A's old marker; this is an actual diagnostic collision, not a Moonpool
+storage overwrite. Captured old WKFrameInfo callAsyncJavaScript executes in B
+after replacement and actual same-URL reload. Frame handles/URL snapshots do
+not prove document generation; generic evaluation and direct reply semantics
+must be kept distinct. Old native work is not claimed cancelled or rolled back.
+
+Explicit retirement rejects real later calls. Removing page handlers causes
+the retained JS reference to reject. The first removal observation failed
+because messageHandlers itself disappeared and the diagnostic getter threw;
+the verifier caught unavailable data. Guarded lookup records the namespace
+error separately and the final runs retain all observations. All held reply
+blocks are completed at most once and bookkeeping is complete.
+
+Four final all-frames/main-only first/repeat runs retain 80 snapshots with one
+installed executable/source fingerprint set. 187 control assertions and ten
+Swift gate checks pass. Build/signature/simulator target and installed hash
+were verified. Only the owned app was terminated and simulator shut down; other
+simulator states are unchanged. T23/T24/T25 sources and retained results remain
+unchanged. No user paths/device ids are retained.
+
+The requested comparison pins five repositories / 18 public files: Portals iOS
+0.14.1, Portals Android 0.14.0, Capacitor 8.6.0, Tauri tauri-v2.12.5 and React
+Native WebView v16.0.0. Portals declares Capacitor 8 ranges; exact consumer versions
+are unknown. Capacitor randomizes its JS callback counter start, uses a callback
+Map, clears stored calls/listeners on navigation, and delivers iOS results through
+global fromNative evaluation. Android's inspected response uses a retained proxy
+field rather than an immutable per-request proxy. These observations do not prove
+all asynchronous work is cancelled. Tauri's inspected callback/eval path uses
+random Uint32 ids and ignores/warns on missing callbacks, with distinct platform
+channel branches. RN WebView supplies string events/injection, not a built-in RPC
+document epoch. No vendor package was installed/executed; source review and own
+device measurements are separated. See the comparison report/source manifest.
+
+Added the two English reports, source provenance manifest and study lesson 33;
+updated maps/roadmaps while preserving earlier lessons. T27 is next; T28–T31
+remain explicit origin/channel/codec/document/lifecycle decision gates. Common
+document generation remains an unapproved SPEC §11/T30 candidate. Invalidation
+does not undo completed writes, and old results must keep request-time ownership.
+No commit/push is requested for this work.
+
+Final verification: pnpm run check passes 1134 TypeScript tests / 40 files,
+nine Python tests, both typechecks, Biome (250 files) and both browser builds,
+retaining the existing nonblocking Vite warning. T26's 187 native controls and
+ten Swift cases pass. All 619 checked local references across 34 study pages
+and selected docs resolve; ids, 44 task ids, previous scripts and instruction
+symlinks are preserved. Native sources/fixtures/executable and all 18 reviewed
+vendor-file hashes match the retained manifests. Reports contain no user paths
+or device ids. Reviewed lesson 33's native-path/source-comparison tables and the
+updated map in the browser; temporary tab/server are closed. Only the owned T26
+app/simulator was stopped; other simulator states were preserved. SPEC, accepted
+ADRs, shipped packages/examples, root dependencies and earlier native source/
+results remain unchanged. git diff --check passes.
+
+## 2026-11-02 checkpoint — T26 and comparative research requested
+
+The maintainer requested the iOS counterpart plus investigation of Ionic Portals
+and similar runtimes' document replacement/late-response handling. Preserve local
+T25 work and earlier results. Record T26 criteria and failing native-admission
+tests before the standalone harness. Reuse only the retained owned simulator,
+with a separate package and actual device-state check. Compare primary docs and
+pinned public sources; distinguish source evidence, inference and actual device
+measurements. No production epoch field, SPEC/ADR approval or Git publication
+is implied by this research request.
+
+## 2026-11-02 checkpoint — T25 research complete
+
+The maintainer requested T25 from clean published 6c5576e. Added a separate
+experiments/android-message-probe app (org.moonpool.messageprobe), with M01–M13
+criteria before native implementation and 11 Admission JVM contract cases first
+verified failing, then passing. No protocol/capability dispatcher is duplicated;
+the small classifier checks only actual native sender metadata. No new ADR or
+production authentication/origin/runtime policy is adopted.
+
+Built offline with T23's unchanged Gradle 9.6.1 wrapper, AGP 9.3.1, Studio JDK
+21.0.10, WebKit 1.14.0, compile/target SDK 36 and Build-Tools 36.0.0. Reused the
+shutdown Pixel 7 Pro / API 37 ARM64 16KB AVD on a separate explicit port, leaving
+the already-running user emulator untouched. Actual Android 17 / API 37,
+CP21.260330.012 and WebView 145.0.7632.218 match the T23 pairing. No SDK/image,
+runtime dependency, global tool selection or certificate/security relaxation.
+An official pinned source JAR was inspected locally as API documentation only.
+
+Native listener callbacks distinguish actual WebView/sourceOrigin/isMainFrame
+from deliberately forged page claims. Inline first messages precede page-finished.
+Exact HTTPS injection excludes foreign frames; same-origin iframes receive the
+object and require native frame checks. A labeled host-routing replay of a real
+second WebView's metadata is rejected even at the same origin. Custom hostname
+rules throw IllegalArgumentException and native custom origins collapse to
+moonpool://; no fallback admits them as separate app identities.
+
+Native-created and guest-created port channels exchange three ordered strings
+and replies. Guest-created port transfer through an origin/frame-attested
+listener proves the offering frame at handoff, not the later peer's provenance.
+An origin-only held native transfer reaches the replacement same-origin document.
+Document-scoped reply-proxy proof rejects the old proof after replacement/reload,
+with current-proof positives; late old-proxy replies do not reach the new document.
+Deliberate top-frame transfer of a port and proof to loaded foreign iframe B
+still passes the proof: native port callbacks lack per-message origin/frame
+metadata. Initial authentication does not remove this provenance gap. These
+diagnostic proof/label fields are not proposed Moonpool wire fields.
+
+The first port instrumentation compared Java wrapper references and blocked
+valid messages; six snapshots were unavailable and the verifier failed. Actual
+AndroidX callback wrappers differ. Binding by the native callback registration
+fixes that instrumentation; wrapper equality remains an observation. Explicit
+retirement rejects real later listener calls and labeled host-replayed callbacks.
+Close is repeatable; posting after close throws. This is not renderer-loss,
+automatic production document retirement or general codec conformance.
+
+Four final runs (HTTPS/custom first/repeat) retain 44 snapshots with identical
+APK/source/runner fingerprints in results/. The installed APK hash is checked
+before every launch. All 175 control assertions and 11 JVM gate cases pass.
+Raw random proof values, local serials and user paths are excluded. Native
+build/lint succeeds with 29 warnings (16 aggregate RequiresFeature, 8 UI text,
+5 other probe warnings) and Gradle 10 deprecation notes; no zero-warning claim.
+Only the new probe package was force-stopped and the session-owned emulator
+shut down; the pre-existing user emulator remains running. No fixture/reverse
+port is used. Prior T23/T24 packages, sources and retained evidence are preserved.
+
+Added docs/android-message-probe-verification.md and Korean study lesson 32;
+updated the map, roadmaps, README and changelog while preserving prior lessons.
+pnpm run check passes 1134 TypeScript tests / 40 files, nine Python tests,
+typechecks, Biome and both browser builds, with the existing Vite warning.
+T26 is next; T27–T31 remain required shared decision gates. No commit/push was
+requested for T25, and no iOS experiment or production native SDK task was started.
+
+Final review: after pinning native observations, changed fixed message-kind
+alternatives to switch with guarded case checks and reran all four profiles from
+the rebuilt final APK. All 44 snapshots / 175 controls and 11 JVM checks pass.
+Final pnpm run check passes again, including Biome on 240 files. Retained JSON
+formatting preserves decoded data; APK assets/source/runner hashes agree and no
+raw proof values, user paths or device ids are retained. All 588 checked local
+references across 33 study pages/selected docs resolve; ids, 44 roadmap task ids,
+prior scripts and instruction symlinks remain intact. Reviewed the lesson's
+comparison/code and current map in the browser; the review tab/server are closed.
+Owned emulator shutdown is confirmed; the pre-existing user emulator remains
+connected. SPEC, accepted ADRs, shipped packages/examples, root dependencies and
+T23/T24 sources/results are unchanged. git diff --check passes.
+
+Follow-up explanation: distinguish new-document recognition (repeat initialize
+and id reset) from a verified per-document response/port binding. Same-app,
+same-origin document replacement is primarily a correctness/lifetime issue,
+not automatically a cross-app authority leak; SPEC §11 already accepts the
+stale-response id-collision limitation. Added a conditional draft:post-1 versus
+draft:post-2 example to study lesson 32: old id 2 data could satisfy new id 2 if
+the transport forwards it into the new document, and app autosave could then
+write wrong data. T25 did not measure that overwrite. Old reply proxies in T25
+did not deliver to the replacement, and experimental proof rejected stale
+bootstrap; no universal absence of document protections should be claimed.
+No policy, SPEC, production code or new native experiment changed in this Q&A.
+
+## 2026-11-02 checkpoint — T25 requested
+
+The maintainer explicitly requested T25 after T24 publication (5bc8770/6c5576e,
+remote master and clean tree verified). Start a separate bounded Android message
+probe; preserve previous sources/evidence and pure packages/SPEC. Record criteria
+and native-admission tests before code. Existing user emulator is not a target;
+reuse the shutdown Pixel_7_Pro_Dev AVD separately with explicit ownership/serial.
+T26 and origin/kernel/codec/document/lifecycle decisions remain future work.
+No Git publication is requested for this new task.
 
 ## 2026-11-02 checkpoint — T24 Git publication requested
 

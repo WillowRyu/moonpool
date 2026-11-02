@@ -9,6 +9,29 @@ See [completion evidence and retained limits](docs/v0.1-conformance.md).
 
 ### Added
 
+- Record ADR 0024's selected document-generation direction, preserving request-id,
+  app storage/grant and native sender-check invariants. Add an isolated real-kernel
+  regression probe: unknown-id and retained-write/grant controls pass; stale
+  initialization, A→B and A→B→fresh A safety assertions fail under current 0.1.
+  Detailed T30/T31 contracts and T32 implementation remain open; no new wire
+  metadata, public API or protocol version is introduced by this decision note.
+- Complete T26's standalone iOS message/reply/content-world probe: four runs /
+  80 snapshots, 187 native controls and ten Swift admission cases. Record native
+  view/origin/frame/world checks, old direct replies excluded from new Promises,
+  controlled stale-id global delivery, captured-frame execution in replacement
+  documents, isolated globals/shared DOM, retirement and handler removal.
+- Add a pinned public-source document-lifetime comparison for Portals/Capacitor,
+  Tauri and React Native WebView, distinguishing callback-id randomization,
+  navigation cleanup and lower-level messaging from document-generation and
+  native-operation cancellation guarantees. No vendor runtime was installed or
+  device-tested; no wire epoch, native contract or SPEC change is adopted.
+- Complete T25's bounded Android message-channel research with a standalone
+  pinned/offline-built probe. Retain four runs / 44 snapshots, 175 controls and
+  11 native-admission contract cases. Record real sender/frame/origin metadata,
+  first-message injection, native/guest-created port handoff, stale origin-only
+  bootstrap, document proof and deliberate delegation gaps. Correct callback
+  wrapper assumptions, retain native lint warnings and preserve SPEC/native SDK
+  decision gates; no JavascriptInterface or privileged capability is introduced.
 - Complete T24's bounded iOS origin/local-content research on a dedicated
   iOS 26.4.1 simulator. Retain five runs / 55 snapshots, source/artifact hashes,
   distinct custom origins, loaded foreign-frame DOM/storage denial, app storage

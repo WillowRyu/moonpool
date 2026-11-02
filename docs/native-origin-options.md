@@ -2,11 +2,23 @@
 
 Date: 2026-10-27
 Status: Discussion note, not an accepted ADR or SPEC amendment.
-Updated: 2026-11-02. T22–T24 are complete; T25/T26 evidence is outstanding.
+Updated: 2026-11-02. T22–T26 are complete; shared native contracts remain open.
 
 T24's [measured iOS result](ios-origin-probe-verification.md) now shows distinct
 custom origins and DOM/storage isolation on iOS 26.4.1, with empty custom cookies
 and HTTP session-cookie lifetime limitations. This adds evidence, not approval.
+
+[T25 Android messaging](android-message-probe-verification.md) adds actual HTTPS
+listener origin/frame/instance metadata and authenticated initial port handoff.
+Origin-only transfer can reach a replacement document; transferable port/proof
+delegation lacks ongoing sender provenance. Custom listener origins still
+collapse and hostname rules fail. No production transport decision follows.
+
+[T26 iOS messaging](ios-message-probe-verification.md) confirms actual
+view/origin/frame/world metadata and document-scoped native Promise replies in
+the tested simulator. Generic global and captured-frame execution can reach the
+replacement document. These measured differences inform T27–T31; they do not
+select the trusted runtime, wire epoch or production lifecycle policy.
 
 ## Problem and measured evidence
 
@@ -27,8 +39,8 @@ must be measured separately. This note does not resume a simulator or add code.
 
 | Area | Direction to evaluate | Evidence still required |
 | --- | --- | --- |
-| Android | Prefer supported local asset loading under fixed, distinct per-app HTTPS hosts | T25 authenticated message/channel binding, feature support and native navigation behavior |
-| iOS | Continue evaluating public WKURLSchemeHandler; T24's tested origins/DOM/storage separate | Cookie requirements and T26 per-message/reply identity; broader runtime/device evidence |
+| Android | Prefer supported local asset loading under fixed, distinct per-app HTTPS hosts | Resolve T25 document/delegation findings and native navigation behavior in the approved shared contracts |
+| iOS | Continue evaluating public WKURLSchemeHandler; T24 origins/storage and T26 direct reply scoping are measured | Cookie requirements, approved world/document/lifecycle rules and broader runtime/device evidence |
 | Shared contract | A stable host-selected app-id→effective-origin mapping, with the pure TypeScript kernel unchanged | T27 ownership/runtime model and explicit T28 ADR/SPEC approval |
 
 The Android HTTPS row is a recommendation from the recorded evidence and
@@ -85,8 +97,8 @@ current scope. No updater, CDN, signing or distribution work is introduced.
 
 ## Next decision gate
 
-T24 resumed at the maintainer's request and completed. Obtain T25/T26 message
-evidence, and use T28 for a concrete proposal explaining previous behavior,
+T24–T26 completed after explicit task requests. Use the paired native evidence
+and T27 ownership outcome for T28's concrete proposal explaining previous behavior,
 the problem and each option's consequences. Required approvals precede any
 normative or native SDK loader change. This discussion completes no new task.
 

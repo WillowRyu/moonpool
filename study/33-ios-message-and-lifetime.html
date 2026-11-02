@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — T26 iOS 응답과 문서 수명 비교</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">33 · T26 · iOS와 다른 브리지</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#result">응답 방법에 따른 차이</a>
+    <a href="#native">실제 발신자 정보</a>
+    <a href="#world">콘텐츠 실행 문맥</a>
+    <a href="#comparison">Portals·Tauri·WebView 비교</a>
+    <a href="#decision">문서 식별자를 넣어야 할까</a>
+    <a href="#evidence">검증과 다음 단계</a>
+  </nav>
+  <p class="small desktop-only">2026.11.02 조사 완료<br>iOS 26.4.1 시뮬레이터 실측<br>외부 구현은 버전 고정 소스 조사</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">T26 · Replies and document lifetime</div>
+    <h1>응답을 어디에 보내는지가,<br>문서가 바뀌면 중요해집니다.</h1>
+    <p class="lead">iOS에서 원래 Promise에 답하는 방법과 현재 페이지에 JavaScript를 실행하는 방법을 비교했습니다. 같은 출처·같은 요청 번호여도 응답 경로에 따라 결과가 달랐습니다. 다른 런타임의 콜백 관리 방식도 공개 소스로 확인했습니다.</p>
+    <div class="meta"><span class="pill">T26 조사 완료 · 5 / 44</span><span class="pill">4회 실행 · 80개 관찰</span><span class="pill warm">187개 대조군 · Swift 계약 10개</span></div>
+  </header>
+  <section class="section" id="result">
+    <h2>1 · 같은 iOS에서도 응답 방법에 따라 달랐습니다</h2>
+    <div class="table-wrap"><table><thead><tr><th>응답 경로</th><th>문서 A를 B로 바꾼 뒤</th><th>확인한 의미</th></tr></thead><tbody>
+      <tr><td>캡처한 replyHandler</td><td>A의 늦은 답이 B의 Promise에 들어가지 않음</td><td>원래 호출에 묶인 응답 경로가 유용함</td></tr>
+      <tr><td>일반 evaluateJavaScript</td><td>B의 같은 id 2 수신기가 A의 값을 받음</td><td>현재 페이지에 실행하면 늦은 결과가 섞일 수 있음</td></tr>
+      <tr><td>이전 WKFrameInfo를 지정한 실행</td><td>실제로 B에서 실행됨</td><td>프레임을 가리키는 것과 문서 세대 구분은 다름</td></tr>
+    </tbody></table></div>
+    <pre><code>// Native Promise reply: completion captured for the original call.
+replyHandler(publicResult, nil)
+
+// Controlled legacy receiver in the CURRENT page:
+webView.evaluateJavaScript("window.t26ReceiveLegacy(oldResponse)")</code></pre>
+    <p>실험에서는 A와 B의 공개 진단 요청 모두 id 2를 사용했습니다. A의 직접 응답은 B에게 들어가지 않았고, B 자신의 직접 응답은 정상적으로 왔습니다. 반면 일반 JavaScript 실행은 B의 진단 수신기를 이전 값으로 완료시켰습니다. 실제 저장 데이터를 덮어쓰거나 다른 회사 제품을 공격한 실험은 아닙니다.</p>
+    <div class="callout"><strong>같은 앱의 문제를 구분하기:</strong> 같은 origin의 문서 교체 자체가 다른 앱으로의 권한 유출은 아닙니다. 이전 작업 결과와 새 작업을 잘못 연결하는 정확성·수명 문제가 핵심이며, 처리 방식에 따라 차단할 수 있습니다.</div>
+  </section>
+  <section class="section" id="native">
+    <h2>2 · 페이지의 주장과 별개로 네이티브 정보를 검사했습니다</h2>
+    <pre><code>message.webView
+message.frameInfo.securityOrigin
+message.frameInfo.isMainFrame
+message.world</code></pre>
+    <p>본문에는 일부러 거짓 출처와 메인 프레임 주장을 넣었습니다. 실제 WebView·출처·프레임·콘텐츠 실행 문맥을 사용하니 다른 출처, iframe, 다른 인스턴스의 콜백을 구분할 수 있었습니다. HTML head의 첫 메시지는 로드 완료보다 빨리 도착했습니다.</p>
+    <p>다른 출처로 이동한 페이지는 거절됐고, 같은 앱으로 돌아와 새로 호출한 정상 요청은 성공했습니다. 명시적으로 연결을 폐기한 뒤 실제 들어온 요청도 거절됐습니다. 이 실험은 이동을 관찰하도록 허용했으므로 제품의 이동 차단 구현 완료를 뜻하지 않습니다.</p>
+    <p>이전 WKFrameInfo에는 예전 URL 정보가 남아 있어도 그 대상으로 실행한 코드는 새 문서에서 동작했습니다. 과거 URL 스냅샷이나 프레임 핸들만으로 문서 세대를 확인했다고 해석하면 안 됩니다.</p>
+  </section>
+  <section class="section" id="world">
+    <h2>3 · 콘텐츠 실행 문맥은 전역 변수를 나누지만 DOM은 공유합니다</h2>
+    <p>페이지 문맥과 MoonpoolT26이라는 별도 문맥에 각각 메시지 핸들러를 등록했습니다. 페이지에서는 별도 문맥의 변수와 핸들러를 볼 수 없었고, 네이티브가 그 문맥을 지정해 실행하면 볼 수 있었습니다. 별도 문맥이 HTML에 남긴 공개 속성은 페이지에서도 보였습니다.</p>
+    <pre><code>// Page world:
+typeof window.__t26WorldValue // "undefined"
+
+// Native evaluation in the named world:
+window.__t26WorldValue // "isolated-public-marker"
+
+// Shared DOM marker is visible from the page.
+document.documentElement.dataset.t26World // "shared-dom-marker"</code></pre>
+    <p>forMainFrameOnly 옵션을 바꾸면 주입한 별도 문맥 스크립트가 iframe에서 실행되는지는 달라졌습니다. 하지만 페이지용 핸들러는 여전히 iframe에도 있었으므로 네이티브의 메인 프레임 검사가 필요했습니다. 이 결과만으로 호스트 커널을 어디서 실행할지 확정하지는 않았습니다.</p>
+  </section>
+  <section class="section" id="comparison">
+    <h2>4 · 다른 구현도 모두 문서 ID를 넣는 방식은 아니었습니다</h2>
+    <div class="table-wrap"><table><thead><tr><th>조사 대상</th><th>확인한 처리 방식</th><th>해석할 때 주의할 범위</th></tr></thead><tbody>
+      <tr><td>Ionic Portals / Capacitor 8.6.0</td><td>문서별 콜백 맵, 무작위 시작 번호 후 증가, 탐색 시 저장 호출·리스너 정리</td><td>진행 중인 모든 네이티브 작업의 취소나 명시적 문서 세대 검증과 같지는 않음</td></tr>
+      <tr><td>Tauri 2.12.5</td><td>무작위 콜백 ID와 현재 문서의 맵; 없는 ID는 실행하지 않고 재로딩 관련 경고</td><td>일부 응답은 eval, 일부는 채널을 사용하므로 모든 경로를 동일하게 단정하지 않음</td></tr>
+      <tr><td>React Native WebView 16.0.0</td><td>문자열 메시지와 JavaScript 주입 통로 제공</td><td>요청·응답 대응과 문서 세대 규칙은 앱이나 상위 RPC 계층이 맡음</td></tr>
+    </tbody></table></div>
+    <p>Portals의 공개 코드가 Capacitor 8 계열에 의존하는 것을 확인하고, 그 범위 안의 8.6.0 소스를 조사했습니다. iOS 결과 전달은 전역 fromNative 함수 실행을 사용합니다. Android에는 메인 프레임 검사와 reply proxy가 있지만, 조사한 코드에서는 요청마다 따로 캡처한 프록시 대신 MessageHandler의 필드를 사용합니다. API 자체의 성질과 그것을 감싼 런타임의 보장을 구분해야 합니다.</p>
+    <p>외부 제품을 설치·실행한 결과가 아니라 버전과 커밋을 고정한 소스 조사입니다. 전체 제품의 안전성이나 결함을 단정하지 않습니다. 상세 경로와 원문 링크는 <a href="../docs/native-document-lifetime-comparison.md">영문 비교 보고서</a>에 있고, <a href="../experiments/ios-message-probe/results/vendor-source-manifest.json">조사한 파일의 커밋·해시</a>도 보관했습니다.</p>
+  </section>
+  <section class="section" id="decision">
+    <h2>5 · 문서 식별자를 넣을지는 전달 보장과 함께 정해야 합니다</h2>
+    <p>기존 id는 요청 번호입니다. 추가 문서 세대를 쓴다면 (문서 A, 2)와 (문서 B, 2)를 구분할 수 있습니다. 다만 값만 넣는 것으로 끝나지 않습니다. 실제 문서·채널과의 결합, 새 문서 확인 시점, 옛 콜백 폐기와 재초기화·재시도 규칙을 함께 정해야 합니다.</p>
+    <pre><code>// Conceptual ownership, not an approved wire format:
+capture(documentA, request2)
+// Later, while document B is current:
+oldResult belongs to documentA
+// Never relabel oldResult with documentB simply because it is current.</code></pre>
+    <p>iOS의 직접 reply 경로처럼 문서에 묶인 기능을 활용할 근거가 생겼습니다. 이후 문서 세대 방향을 <a href="34-document-generation-direction.html">ADR 0024로 채택했습니다.</a> SPEC §11·T30의 상세 필드와 초기화 계약은 아직 확정 전입니다. 다른 구현의 무작위 콜백 번호를 Moonpool의 승인된 요청 번호 규칙에 그대로 대입하지는 않습니다.</p>
+    <p>무효화는 이미 완료한 저장이나 서버 작업을 되돌리는 기능과도 구분합니다. 앱의 저장값·권한은 유지하면서 옛 통신과 새 문서의 작업이 섞이지 않게 하는 계약이 필요합니다. 문서 세대라는 방향은 승인됐고, 실제 필드·버전·소유권·대기 요청 처리의 상세 계약은 T30/T31에서 확정합니다.</p>
+  </section>
+  <section class="section" id="evidence">
+    <h2>6 · 이제 양쪽 플랫폼의 메시지 근거가 준비됐습니다</h2>
+    <p>최종 앱으로 두 프로필을 두 번씩 실행해 80개 관찰·187개 검증 항목을 확인했고 Swift 발신자 계약 10개도 통과했습니다. 시뮬레이터 대상·설치 바이너리·소스 해시를 검사했고, 끝난 뒤 전용 앱과 시뮬레이터만 종료했습니다. 다른 시뮬레이터 상태는 유지됐습니다.</p>
+    <p>처음 핸들러 제거 뒤 진단 수집이 실패한 이유도 확인했습니다. 네임스페이스가 사라졌는데 그 속성을 읽어 getter가 예외를 냈습니다. 안전하게 관찰하도록 고친 뒤 실제 보관된 핸들러 참조의 Promise 거절과 속성 접근 오류를 따로 기록했습니다.</p>
+    <p><a href="../docs/ios-message-probe-verification.md">T26 영문 검증 기록</a> · <a href="../experiments/ios-message-probe/README.md">재현 절차</a> · <a href="../experiments/ios-message-probe/Probe.swift">Swift 실험 코드</a></p>
+    <div class="callout warm"><strong>현재 위치:</strong> T22–T26의 5 / 44를 마쳤습니다. 다음 T27은 신뢰된 TypeScript 커널의 실행 위치와 네이티브 API 소유권 결정입니다. T28–T31에서 출처·통로·JSON·문서 신원·종료 규칙을 승인받고 그 뒤 구현합니다. 실기기·다른 OS 버전과 제품 SDK는 아직 후속 단계입니다.</div>
+  </section>
+  <p><a href="34-document-generation-direction.html">다음 기록 · 문서 세대 방향 채택과 실제 커널 회귀 기준 →</a></p>
+  <footer class="footer"><a href="index.html">← 전체 스터디 지도</a> · <a href="32-android-message-probe.html">이전 T25 Android 메시지 실험</a><br>근거: 실제 iOS 시뮬레이터 관찰과 커밋을 고정한 공개 소스 조사. 두 종류의 근거를 구분합니다.</footer>
+</main>
+</body>
+</html>

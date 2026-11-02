@@ -9,6 +9,17 @@ Follow-up: [T23 Android measurements](android-origin-probe-verification.md) now
 record an actual build/boot and a custom-origin isolation failure. The inventory
 and Not run labels below preserve the earlier T22 checkpoint.
 
+[T25 Android message observations](android-message-probe-verification.md),
+completed 2026-11-02, now add the actual messaging feature matrix, callback
+metadata, initial port handoff and document/delegation limitations. This does
+not complete the later shared contract/native SDK gates.
+
+[T26 iOS reply/world observations](ios-message-probe-verification.md) complete
+the paired messaging research on 2026-11-02. Direct native reply closures and
+generic/frame execution have different document-lifetime behavior; the
+[comparison](native-document-lifetime-comparison.md) separately records pinned
+public-source evidence from similar runtimes. T27–T31 decisions remain open.
+
 [T24 iOS measurements](ios-origin-probe-verification.md), completed 2026-11-02
 after explicit resumption, now record actual simulator build/boot and the paired
 origin/storage/cookie/cancellation observations. The inventory below is historical.

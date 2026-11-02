@@ -2,7 +2,7 @@
 
 Date: 2026-10-26
 Last updated: 2026-11-02
-Status: T22–T24 complete; T25–T65 planned. Android custom origins fail isolation; the tested iOS custom origins separate DOM/storage, with cookie limitations.
+Status: T22–T26 complete; T27–T65 planned. Android custom origins fail isolation; messaging retains document/delegation gaps. iOS direct reply closures stay scoped to the original Promise, while generic/frame-targeted execution can reach the new document. Origin/cookie/native-contract limits remain explicit.
 Targets confirmed by the maintainer: Android (AOS) and iOS, both required.
 Host application/framework: explicitly undecided; build the common plan first.
 Baseline: browser v0.1 complete, published through 91d7b46; 1131 tests / 39 files.
@@ -15,7 +15,18 @@ records independent simulator evidence; host-only tests remain separate.
 
 The maintainer's [scheme/origin discussion](native-origin-options.md) records
 the Android HTTPS candidate and remaining iOS/message/cookie checks. It does
-not approve a SPEC change or complete T28; T25/T26 message evidence remains open.
+not approve a SPEC change or complete T28. [T25 Android message evidence](android-message-probe-verification.md)
+now records origin/frame-aware callbacks, port bootstrap and provenance gaps;
+[T26 iOS message evidence](ios-message-probe-verification.md) now adds per-world
+metadata and direct-reply versus generic-execution behavior. The separate
+[runtime comparison](native-document-lifetime-comparison.md) is source research,
+not vendor-device testing or a production contract decision.
+
+After the comparison, the maintainer selected explicit document generations
+in [ADR 0024](adr/0024-bind-rpc-work-to-document-generations.md). This accepts
+the design direction for T30 and supplies an [isolated kernel regression probe](../experiments/document-generation-contract/README.md).
+T30's versioned wire/bootstrap contract and T31's pending/close semantics remain
+open; T32 implementation has not started. T27–T29 dependencies still apply.
 
 ## Scope and completion levels
 
@@ -50,7 +61,9 @@ No v0.2/v1.0 number, minimum OS, engine dependency or release date is assigned h
 | T22 | Complete | [Local toolchain/target inventory and T23/T24 criteria](native-target-matrix.md); no native build/boot evidence |
 | T23 | Research complete | [Android build/emulator observations](android-origin-probe-verification.md); custom-scheme app isolation fails in the tested configuration |
 | T24 | Research complete | [iOS simulator observations](ios-origin-probe-verification.md); distinct custom origins/DOM/storage, unavailable custom cookies and observed HTTP session-cookie loss |
-| T25–T65 | Planned | No production native SDK verification yet |
+| T25 | Research complete | [Android message observations](android-message-probe-verification.md); metadata and authenticated initial port handoff work, origin-only replacement and transferable-port provenance gaps remain |
+| T26 | Research complete | [iOS replies/worlds](ios-message-probe-verification.md); direct native replies stay with their original Promise; global/old-frame execution can reach the replacement document |
+| T27–T65 | Planned | No production native SDK verification yet |
 
 ## Decisions that precede implementation
 
@@ -94,12 +107,12 @@ Use the next free ADR number when the task runs; do not create placeholder ADRs.
 | T22 | Both/shared | Completed 2026-10-27: target/toolchain inventory and host-framework decision points. | Existing ARM64 API 37 AVD and iOS 26.4 simulator candidates recorded, with tool warnings, unknown WebView/support/device details and P01–P10 probe criteria. [Evidence and handover](native-target-matrix.md). No native build or SDK install. | T21 |
 | T23 | Android | Completed 2026-10-27: bounded origin/local-content probe with two app ids. | Real API 37/WebView 145 observations: official loader rejects moonpool; public interception loads assets but collapses A/B origin, DOM and storage. HTTPS positive/negative controls, process restart and fallback observations recorded. [Evidence](android-origin-probe-verification.md). T28 resolution remains required. | T22 |
 | T24 | iOS | Completed 2026-11-02: matching WKWebView origin/local-content probe. | Five final runs / 55 observations: distinct A/B custom origins, DOM/storage denial, localStorage/IndexedDB persistence, cookie limitations, offline delivery and started-task cancellation. [Evidence](ios-origin-probe-verification.md). T26/T28 remain open. | T22 |
-| T25 | Android | Native message-channel/authentication probe. | Observe native sender/frame/origin identity, feature availability, first-message timing, navigation and stale callbacks. Include wrong-origin/source/subframe negatives and a working positive control. No @JavascriptInterface fallback. | T23 |
-| T26 | iOS | Native message/reply/authentication probe. | Observe actual WebView/frame/security-origin identity, content-world behavior, reply timing and stale references. Check main-frame policy and negative/positive controls. | T24 |
+| T25 | Android | Completed 2026-11-02: native message-channel/authentication probe. | Four runs / 44 snapshots, 175 controls and 11 JVM gate cases. Actual listener origin/frame/instance metadata, exact injection, native/guest-created ports, replacement/reload/late reply, proof/delegation and retirement observations. [Evidence](android-message-probe-verification.md). No production authentication or transport approval. | T23 |
+| T26 | iOS | Completed 2026-11-02: native message/reply/world probe. | Four runs / 80 snapshots, 187 controls and ten Swift admission cases. Native view/origin/frame/world checks, direct versus global/old-frame replies, replacement/reload, isolated globals/shared DOM and retirement/removal observations. [Evidence](ios-message-probe-verification.md). No production epoch/runtime decision. | T24 |
 | T27 | Both/shared | ADR for trusted TypeScript kernel execution and native facade ownership. | Select the host/runtime model using both probes and maintainer input. Prove common-kernel execution and required JS primitives/timers; define threads/actors, instance lifetime, credential boundary and bundle ownership. Host framework must be resolved or the gate stays pending. | T22–T26 |
 | T28 | Both/shared | ADR for native origin, local loader and bootstrap authority. | Resolve SPEC/platform discrepancies explicitly; define stable per-app identity, path confinement, network fallback, main/subframe policy, navigation and support failure behavior. Approve any SPEC change before native loaders. | T23–T26 |
 | T29 | Both/shared | ADR for lossless native JSON/text boundary and errors. | Define codec ownership, invalid-data handling, parse-error correlation, send/receive failures and compatibility. Cover finite numbers, large-number behavior, Unicode edge cases, null/falsy values and getters/toJSON without coercive repair. | T25–T28 |
-| T30 | Both/shared | ADR for document identity and stale-response prevention. | Reproduce old/new-document id collisions; specify identity provenance, bootstrap/reload/retry rules, old-frame rejection and protocol-version migration with tests to be implemented. | T25–T29 |
+| T30 | Both/shared | Document generations selected on 2026-11-02; full contract pending. | ADR 0024 accepts explicit generation ownership, retirement and captured work identity. Real-kernel regression probe has two controls passing and three safety assertions red under 0.1. Finalize authoritative bootstrap, metadata/validation, retry/reentry and version migration after prerequisites; coordinate pending/close rules with T31. | T25–T29 |
 | T31 | Both/shared | ADR for close, renderer loss and lifecycle/eviction semantics. | Define pending-call disposition, local versus peer close, restart authority, notification/receipt limits and orderly versus abrupt teardown. Reconcile ADR 0002 and §11 using both native probes. | T25–T30 |
 
 T22's first output is a small target matrix and the T23/T24 experiment checklists.

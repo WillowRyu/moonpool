@@ -743,6 +743,13 @@ Tracked here rather than decided prematurely. Each SHOULD become an ADR in
   alternative (refusing repeat handshakes) breaks multi-page mini apps
   outright. Closing it properly needs a per-document epoch in the envelope,
   which is a wire change and wants its own ADR.
+
+  The maintainer selected explicit document generations as the design direction
+  on 2026-11-02; see [ADR 0024](docs/adr/0024-bind-rpc-work-to-document-generations.md).
+  Generation ownership/bootstrap, message metadata, validation order, pending-call
+  behavior and version migration remain to be specified in T30/T31 before T32
+  implementation. This decision note does not add a field to the current 0.1
+  profile or claim the existing limitation is fixed.
 - **Peer-initiated disconnect.** `Transport` (§3.1) gives neither side a way to
   learn that the other is gone, so §4.6 covers only a client-initiated close.
   This matters only where the mini app's context outlives the bridge — a host

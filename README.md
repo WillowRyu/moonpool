@@ -129,8 +129,18 @@ is complete. T23's [Android probe](docs/android-origin-probe-verification.md)
 records an actual emulator run and a custom-origin isolation failure. T24's
 [iOS probe](docs/ios-origin-probe-verification.md) records distinct custom origins,
 DOM/storage isolation and storage persistence on the tested simulator, with
-explicit cookie limitations. T22–T24 research is complete; message authentication
-and the approved native-origin contract remain T25/T26/T28 work.
+explicit cookie limitations. T25's [Android message probe](docs/android-message-probe-verification.md)
+adds real origin/frame/instance metadata and port handoff, with explicit document
+replacement/delegation gaps. T26's [iOS reply/world probe](docs/ios-message-probe-verification.md)
+compares captured native reply closures with global/old-frame execution across
+document replacement. A [pinned-source comparison](docs/native-document-lifetime-comparison.md)
+covers Portals/Capacitor, Tauri and React Native WebView separately from device
+evidence. T22–T26 research is complete; approved native contracts remain T27–T31 work.
+
+The maintainer selected [explicit document generations](docs/adr/0024-bind-rpc-work-to-document-generations.md)
+as the shared lifetime direction. The versioned bootstrap/wire/retirement contract
+remains T30/T31 work before T32 implementation; current protocol 0.1 still has
+the documented stale-response limitation.
 See the [Korean roadmap](study/27-native-roadmap.html).
 
 ## Verification
