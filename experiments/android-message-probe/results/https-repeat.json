@@ -1,0 +1,2889 @@
+{
+  "profile": "https",
+  "run": "repeat",
+  "sdk": 37,
+  "os": "17",
+  "features": {
+    "WEB_MESSAGE_LISTENER": true,
+    "CREATE_WEB_MESSAGE_CHANNEL": true,
+    "POST_WEB_MESSAGE": true,
+    "WEB_MESSAGE_PORT_POST_MESSAGE": true,
+    "WEB_MESSAGE_PORT_SET_MESSAGE_CALLBACK": true,
+    "WEB_MESSAGE_PORT_CLOSE": true
+  },
+  "webView": "145.0.7632.218",
+  "webViewPackage": "com.google.android.webview",
+  "samples": [
+    {
+      "label": "initial-a",
+      "view": "a",
+      "observation": {
+        "doc": "a1",
+        "origin": "https://com.example.probe.a.test",
+        "href": "https://com.example.probe.a.test/assets/index.html?doc=a1&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+        "mainFrame": true,
+        "observerPresent": true,
+        "pinnedPresent": true,
+        "replies": [
+          {
+            "kind": "pinned-ack",
+            "doc": "a1"
+          }
+        ],
+        "frames": [
+          {
+            "kind": "frame-ready",
+            "doc": "a1:self",
+            "origin": "https://com.example.probe.a.test",
+            "observerPresent": true,
+            "pinnedPresent": true,
+            "messageOrigin": "https://com.example.probe.a.test"
+          },
+          {
+            "kind": "frame-ready",
+            "doc": "a1:foreign",
+            "origin": "https://com.example.probe.b.test",
+            "observerPresent": true,
+            "pinnedPresent": false,
+            "messageOrigin": "https://com.example.probe.b.test"
+          }
+        ],
+        "bootstraps": [],
+        "portReplies": [],
+        "challengeReceived": true,
+        "ready": true
+      }
+    },
+    {
+      "label": "initial-b",
+      "view": "b",
+      "observation": {
+        "doc": "b1",
+        "origin": "https://com.example.probe.b.test",
+        "href": "https://com.example.probe.b.test/assets/index.html?doc=b1&self=https%3A%2F%2Fcom.example.probe.b.test&other=https%3A%2F%2Fcom.example.probe.a.test",
+        "mainFrame": true,
+        "observerPresent": true,
+        "pinnedPresent": true,
+        "replies": [
+          {
+            "kind": "pinned-ack",
+            "doc": "b1"
+          }
+        ],
+        "frames": [
+          {
+            "kind": "frame-ready",
+            "doc": "b1:self",
+            "origin": "https://com.example.probe.b.test",
+            "observerPresent": true,
+            "pinnedPresent": true,
+            "messageOrigin": "https://com.example.probe.b.test"
+          },
+          {
+            "kind": "frame-ready",
+            "doc": "b1:foreign",
+            "origin": "https://com.example.probe.a.test",
+            "observerPresent": true,
+            "pinnedPresent": false,
+            "messageOrigin": "https://com.example.probe.a.test"
+          }
+        ],
+        "bootstraps": [],
+        "portReplies": [],
+        "challengeReceived": true,
+        "ready": true
+      }
+    },
+    {
+      "label": "same-origin-other-view",
+      "view": "same-origin-other-view",
+      "observation": {
+        "doc": "c1",
+        "origin": "https://com.example.probe.a.test",
+        "href": "https://com.example.probe.a.test/assets/index.html?doc=c1&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+        "mainFrame": true,
+        "observerPresent": true,
+        "pinnedPresent": true,
+        "replies": [
+          {
+            "kind": "pinned-ack",
+            "doc": "c1"
+          }
+        ],
+        "frames": [
+          {
+            "kind": "frame-ready",
+            "doc": "c1:self",
+            "origin": "https://com.example.probe.a.test",
+            "observerPresent": true,
+            "pinnedPresent": true,
+            "messageOrigin": "https://com.example.probe.a.test"
+          },
+          {
+            "kind": "frame-ready",
+            "doc": "c1:foreign",
+            "origin": "https://com.example.probe.b.test",
+            "observerPresent": true,
+            "pinnedPresent": false,
+            "messageOrigin": "https://com.example.probe.b.test"
+          }
+        ],
+        "bootstraps": [],
+        "portReplies": [],
+        "challengeReceived": true,
+        "ready": true
+      }
+    },
+    {
+      "label": "wrong-target",
+      "view": "a",
+      "observation": {
+        "doc": "a1",
+        "origin": "https://com.example.probe.a.test",
+        "href": "https://com.example.probe.a.test/assets/index.html?doc=a1&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+        "mainFrame": true,
+        "observerPresent": true,
+        "pinnedPresent": true,
+        "replies": [
+          {
+            "kind": "pinned-ack",
+            "doc": "a1"
+          },
+          {
+            "kind": "pinned-ack",
+            "doc": "a1"
+          }
+        ],
+        "frames": [
+          {
+            "kind": "frame-ready",
+            "doc": "a1:self",
+            "origin": "https://com.example.probe.a.test",
+            "observerPresent": true,
+            "pinnedPresent": true,
+            "messageOrigin": "https://com.example.probe.a.test"
+          },
+          {
+            "kind": "frame-ready",
+            "doc": "a1:foreign",
+            "origin": "https://com.example.probe.b.test",
+            "observerPresent": true,
+            "pinnedPresent": false,
+            "messageOrigin": "https://com.example.probe.b.test"
+          }
+        ],
+        "bootstraps": [],
+        "portReplies": [],
+        "challengeReceived": true,
+        "ready": true
+      }
+    },
+    {
+      "label": "raw-positive",
+      "view": "a",
+      "observation": {
+        "doc": "a1",
+        "origin": "https://com.example.probe.a.test",
+        "href": "https://com.example.probe.a.test/assets/index.html?doc=a1&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+        "mainFrame": true,
+        "observerPresent": true,
+        "pinnedPresent": true,
+        "replies": [
+          {
+            "kind": "pinned-ack",
+            "doc": "a1"
+          },
+          {
+            "kind": "pinned-ack",
+            "doc": "a1"
+          }
+        ],
+        "frames": [
+          {
+            "kind": "frame-ready",
+            "doc": "a1:self",
+            "origin": "https://com.example.probe.a.test",
+            "observerPresent": true,
+            "pinnedPresent": true,
+            "messageOrigin": "https://com.example.probe.a.test"
+          },
+          {
+            "kind": "frame-ready",
+            "doc": "a1:foreign",
+            "origin": "https://com.example.probe.b.test",
+            "observerPresent": true,
+            "pinnedPresent": false,
+            "messageOrigin": "https://com.example.probe.b.test"
+          }
+        ],
+        "bootstraps": ["raw-positive"],
+        "portReplies": [
+          {
+            "label": "raw-positive",
+            "data": "ack:raw-positive:0"
+          },
+          {
+            "label": "raw-positive",
+            "data": "ack:raw-positive:1"
+          },
+          {
+            "label": "raw-positive",
+            "data": "ack:raw-positive:2"
+          }
+        ],
+        "challengeReceived": true,
+        "ready": true
+      }
+    },
+    {
+      "label": "proof-positive",
+      "view": "a",
+      "observation": {
+        "doc": "a1",
+        "origin": "https://com.example.probe.a.test",
+        "href": "https://com.example.probe.a.test/assets/index.html?doc=a1&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+        "mainFrame": true,
+        "observerPresent": true,
+        "pinnedPresent": true,
+        "replies": [
+          {
+            "kind": "pinned-ack",
+            "doc": "a1"
+          },
+          {
+            "kind": "pinned-ack",
+            "doc": "a1"
+          }
+        ],
+        "frames": [
+          {
+            "kind": "frame-ready",
+            "doc": "a1:self",
+            "origin": "https://com.example.probe.a.test",
+            "observerPresent": true,
+            "pinnedPresent": true,
+            "messageOrigin": "https://com.example.probe.a.test"
+          },
+          {
+            "kind": "frame-ready",
+            "doc": "a1:foreign",
+            "origin": "https://com.example.probe.b.test",
+            "observerPresent": true,
+            "pinnedPresent": false,
+            "messageOrigin": "https://com.example.probe.b.test"
+          }
+        ],
+        "bootstraps": ["raw-positive", "proof-positive"],
+        "portReplies": [
+          {
+            "label": "raw-positive",
+            "data": "ack:raw-positive:0"
+          },
+          {
+            "label": "raw-positive",
+            "data": "ack:raw-positive:1"
+          },
+          {
+            "label": "raw-positive",
+            "data": "ack:raw-positive:2"
+          },
+          {
+            "label": "proof-positive",
+            "data": "ack:proof-positive:0"
+          },
+          {
+            "label": "proof-positive",
+            "data": "ack:proof-positive:1"
+          },
+          {
+            "label": "proof-positive",
+            "data": "ack:proof-positive:2"
+          }
+        ],
+        "challengeReceived": true,
+        "ready": true
+      }
+    },
+    {
+      "label": "listener-offer",
+      "view": "a",
+      "observation": {
+        "doc": "a1",
+        "origin": "https://com.example.probe.a.test",
+        "href": "https://com.example.probe.a.test/assets/index.html?doc=a1&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+        "mainFrame": true,
+        "observerPresent": true,
+        "pinnedPresent": true,
+        "replies": [
+          {
+            "kind": "pinned-ack",
+            "doc": "a1"
+          },
+          {
+            "kind": "pinned-ack",
+            "doc": "a1"
+          },
+          {
+            "kind": "pinned-ack",
+            "doc": "a1"
+          }
+        ],
+        "frames": [
+          {
+            "kind": "frame-ready",
+            "doc": "a1:self",
+            "origin": "https://com.example.probe.a.test",
+            "observerPresent": true,
+            "pinnedPresent": true,
+            "messageOrigin": "https://com.example.probe.a.test"
+          },
+          {
+            "kind": "frame-ready",
+            "doc": "a1:foreign",
+            "origin": "https://com.example.probe.b.test",
+            "observerPresent": true,
+            "pinnedPresent": false,
+            "messageOrigin": "https://com.example.probe.b.test"
+          }
+        ],
+        "bootstraps": ["raw-positive", "proof-positive"],
+        "portReplies": [
+          {
+            "label": "raw-positive",
+            "data": "ack:raw-positive:0"
+          },
+          {
+            "label": "raw-positive",
+            "data": "ack:raw-positive:1"
+          },
+          {
+            "label": "raw-positive",
+            "data": "ack:raw-positive:2"
+          },
+          {
+            "label": "proof-positive",
+            "data": "ack:proof-positive:0"
+          },
+          {
+            "label": "proof-positive",
+            "data": "ack:proof-positive:1"
+          },
+          {
+            "label": "proof-positive",
+            "data": "ack:proof-positive:2"
+          },
+          {
+            "label": "listener-offer",
+            "data": "ack:listener-offer:0"
+          },
+          {
+            "label": "listener-offer",
+            "data": "ack:listener-offer:1"
+          },
+          {
+            "label": "listener-offer",
+            "data": "ack:listener-offer:2"
+          }
+        ],
+        "challengeReceived": true,
+        "ready": true
+      }
+    },
+    {
+      "label": "proof-delegated",
+      "view": "a",
+      "observation": {
+        "doc": "a1",
+        "origin": "https://com.example.probe.a.test",
+        "href": "https://com.example.probe.a.test/assets/index.html?doc=a1&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+        "mainFrame": true,
+        "observerPresent": true,
+        "pinnedPresent": true,
+        "replies": [
+          {
+            "kind": "pinned-ack",
+            "doc": "a1"
+          },
+          {
+            "kind": "pinned-ack",
+            "doc": "a1"
+          },
+          {
+            "kind": "pinned-ack",
+            "doc": "a1"
+          }
+        ],
+        "frames": [
+          {
+            "kind": "frame-ready",
+            "doc": "a1:self",
+            "origin": "https://com.example.probe.a.test",
+            "observerPresent": true,
+            "pinnedPresent": true,
+            "messageOrigin": "https://com.example.probe.a.test"
+          },
+          {
+            "kind": "frame-ready",
+            "doc": "a1:foreign",
+            "origin": "https://com.example.probe.b.test",
+            "observerPresent": true,
+            "pinnedPresent": false,
+            "messageOrigin": "https://com.example.probe.b.test"
+          }
+        ],
+        "bootstraps": ["raw-positive", "proof-positive", "proof-delegated"],
+        "portReplies": [
+          {
+            "label": "raw-positive",
+            "data": "ack:raw-positive:0"
+          },
+          {
+            "label": "raw-positive",
+            "data": "ack:raw-positive:1"
+          },
+          {
+            "label": "raw-positive",
+            "data": "ack:raw-positive:2"
+          },
+          {
+            "label": "proof-positive",
+            "data": "ack:proof-positive:0"
+          },
+          {
+            "label": "proof-positive",
+            "data": "ack:proof-positive:1"
+          },
+          {
+            "label": "proof-positive",
+            "data": "ack:proof-positive:2"
+          },
+          {
+            "label": "listener-offer",
+            "data": "ack:listener-offer:0"
+          },
+          {
+            "label": "listener-offer",
+            "data": "ack:listener-offer:1"
+          },
+          {
+            "label": "listener-offer",
+            "data": "ack:listener-offer:2"
+          },
+          {
+            "label": "proof-delegated",
+            "data": "ack:proof-delegated:0",
+            "messageOrigin": "https://com.example.probe.b.test"
+          },
+          {
+            "label": "proof-delegated",
+            "data": "ack:proof-delegated:1",
+            "messageOrigin": "https://com.example.probe.b.test"
+          },
+          {
+            "label": "proof-delegated",
+            "data": "ack:proof-delegated:2",
+            "messageOrigin": "https://com.example.probe.b.test"
+          }
+        ],
+        "challengeReceived": true,
+        "ready": true
+      }
+    },
+    {
+      "label": "same-origin-replacement",
+      "view": "a",
+      "observation": {
+        "doc": "a2",
+        "origin": "https://com.example.probe.a.test",
+        "href": "https://com.example.probe.a.test/assets/index.html?doc=a2&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+        "mainFrame": true,
+        "observerPresent": true,
+        "pinnedPresent": true,
+        "replies": [
+          {
+            "kind": "pinned-ack",
+            "doc": "a2"
+          }
+        ],
+        "frames": [
+          {
+            "kind": "frame-ready",
+            "doc": "a2:foreign",
+            "origin": "https://com.example.probe.b.test",
+            "observerPresent": true,
+            "pinnedPresent": false,
+            "messageOrigin": "https://com.example.probe.b.test"
+          },
+          {
+            "kind": "frame-ready",
+            "doc": "a2:self",
+            "origin": "https://com.example.probe.a.test",
+            "observerPresent": true,
+            "pinnedPresent": true,
+            "messageOrigin": "https://com.example.probe.a.test"
+          }
+        ],
+        "bootstraps": [],
+        "portReplies": [],
+        "challengeReceived": true,
+        "ready": true
+      }
+    },
+    {
+      "label": "late-proxy-replacement",
+      "view": "a",
+      "observation": {
+        "doc": "a2",
+        "origin": "https://com.example.probe.a.test",
+        "href": "https://com.example.probe.a.test/assets/index.html?doc=a2&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+        "mainFrame": true,
+        "observerPresent": true,
+        "pinnedPresent": true,
+        "replies": [
+          {
+            "kind": "pinned-ack",
+            "doc": "a2"
+          }
+        ],
+        "frames": [
+          {
+            "kind": "frame-ready",
+            "doc": "a2:foreign",
+            "origin": "https://com.example.probe.b.test",
+            "observerPresent": true,
+            "pinnedPresent": false,
+            "messageOrigin": "https://com.example.probe.b.test"
+          },
+          {
+            "kind": "frame-ready",
+            "doc": "a2:self",
+            "origin": "https://com.example.probe.a.test",
+            "observerPresent": true,
+            "pinnedPresent": true,
+            "messageOrigin": "https://com.example.probe.a.test"
+          }
+        ],
+        "bootstraps": [],
+        "portReplies": [],
+        "challengeReceived": true,
+        "ready": true
+      }
+    },
+    {
+      "label": "stale-origin-only",
+      "view": "a",
+      "observation": {
+        "doc": "a2",
+        "origin": "https://com.example.probe.a.test",
+        "href": "https://com.example.probe.a.test/assets/index.html?doc=a2&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+        "mainFrame": true,
+        "observerPresent": true,
+        "pinnedPresent": true,
+        "replies": [
+          {
+            "kind": "pinned-ack",
+            "doc": "a2"
+          }
+        ],
+        "frames": [
+          {
+            "kind": "frame-ready",
+            "doc": "a2:foreign",
+            "origin": "https://com.example.probe.b.test",
+            "observerPresent": true,
+            "pinnedPresent": false,
+            "messageOrigin": "https://com.example.probe.b.test"
+          },
+          {
+            "kind": "frame-ready",
+            "doc": "a2:self",
+            "origin": "https://com.example.probe.a.test",
+            "observerPresent": true,
+            "pinnedPresent": true,
+            "messageOrigin": "https://com.example.probe.a.test"
+          }
+        ],
+        "bootstraps": ["stale-origin-only"],
+        "portReplies": [
+          {
+            "label": "stale-origin-only",
+            "data": "ack:stale-origin-only:0"
+          },
+          {
+            "label": "stale-origin-only",
+            "data": "ack:stale-origin-only:1"
+          },
+          {
+            "label": "stale-origin-only",
+            "data": "ack:stale-origin-only:2"
+          }
+        ],
+        "challengeReceived": true,
+        "ready": true
+      }
+    },
+    {
+      "label": "stale-proof",
+      "view": "a",
+      "observation": {
+        "doc": "a2",
+        "origin": "https://com.example.probe.a.test",
+        "href": "https://com.example.probe.a.test/assets/index.html?doc=a2&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+        "mainFrame": true,
+        "observerPresent": true,
+        "pinnedPresent": true,
+        "replies": [
+          {
+            "kind": "pinned-ack",
+            "doc": "a2"
+          }
+        ],
+        "frames": [
+          {
+            "kind": "frame-ready",
+            "doc": "a2:foreign",
+            "origin": "https://com.example.probe.b.test",
+            "observerPresent": true,
+            "pinnedPresent": false,
+            "messageOrigin": "https://com.example.probe.b.test"
+          },
+          {
+            "kind": "frame-ready",
+            "doc": "a2:self",
+            "origin": "https://com.example.probe.a.test",
+            "observerPresent": true,
+            "pinnedPresent": true,
+            "messageOrigin": "https://com.example.probe.a.test"
+          }
+        ],
+        "bootstraps": ["stale-origin-only", "stale-proof"],
+        "portReplies": [
+          {
+            "label": "stale-origin-only",
+            "data": "ack:stale-origin-only:0"
+          },
+          {
+            "label": "stale-origin-only",
+            "data": "ack:stale-origin-only:1"
+          },
+          {
+            "label": "stale-origin-only",
+            "data": "ack:stale-origin-only:2"
+          }
+        ],
+        "challengeReceived": true,
+        "ready": true
+      }
+    },
+    {
+      "label": "replacement-proof-positive",
+      "view": "a",
+      "observation": {
+        "doc": "a2",
+        "origin": "https://com.example.probe.a.test",
+        "href": "https://com.example.probe.a.test/assets/index.html?doc=a2&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+        "mainFrame": true,
+        "observerPresent": true,
+        "pinnedPresent": true,
+        "replies": [
+          {
+            "kind": "pinned-ack",
+            "doc": "a2"
+          }
+        ],
+        "frames": [
+          {
+            "kind": "frame-ready",
+            "doc": "a2:foreign",
+            "origin": "https://com.example.probe.b.test",
+            "observerPresent": true,
+            "pinnedPresent": false,
+            "messageOrigin": "https://com.example.probe.b.test"
+          },
+          {
+            "kind": "frame-ready",
+            "doc": "a2:self",
+            "origin": "https://com.example.probe.a.test",
+            "observerPresent": true,
+            "pinnedPresent": true,
+            "messageOrigin": "https://com.example.probe.a.test"
+          }
+        ],
+        "bootstraps": ["stale-origin-only", "stale-proof", "replacement-proof-positive"],
+        "portReplies": [
+          {
+            "label": "stale-origin-only",
+            "data": "ack:stale-origin-only:0"
+          },
+          {
+            "label": "stale-origin-only",
+            "data": "ack:stale-origin-only:1"
+          },
+          {
+            "label": "stale-origin-only",
+            "data": "ack:stale-origin-only:2"
+          },
+          {
+            "label": "replacement-proof-positive",
+            "data": "ack:replacement-proof-positive:0"
+          },
+          {
+            "label": "replacement-proof-positive",
+            "data": "ack:replacement-proof-positive:1"
+          },
+          {
+            "label": "replacement-proof-positive",
+            "data": "ack:replacement-proof-positive:2"
+          }
+        ],
+        "challengeReceived": true,
+        "ready": true
+      }
+    },
+    {
+      "label": "same-url-reload",
+      "view": "a",
+      "observation": {
+        "doc": "a2",
+        "origin": "https://com.example.probe.a.test",
+        "href": "https://com.example.probe.a.test/assets/index.html?doc=a2&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+        "mainFrame": true,
+        "observerPresent": true,
+        "pinnedPresent": true,
+        "replies": [
+          {
+            "kind": "pinned-ack",
+            "doc": "a2"
+          }
+        ],
+        "frames": [
+          {
+            "kind": "frame-ready",
+            "doc": "a2:self",
+            "origin": "https://com.example.probe.a.test",
+            "observerPresent": true,
+            "pinnedPresent": true,
+            "messageOrigin": "https://com.example.probe.a.test"
+          },
+          {
+            "kind": "frame-ready",
+            "doc": "a2:foreign",
+            "origin": "https://com.example.probe.b.test",
+            "observerPresent": true,
+            "pinnedPresent": false,
+            "messageOrigin": "https://com.example.probe.b.test"
+          }
+        ],
+        "bootstraps": [],
+        "portReplies": [],
+        "challengeReceived": true,
+        "ready": true
+      }
+    },
+    {
+      "label": "late-proxy-reload",
+      "view": "a",
+      "observation": {
+        "doc": "a2",
+        "origin": "https://com.example.probe.a.test",
+        "href": "https://com.example.probe.a.test/assets/index.html?doc=a2&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+        "mainFrame": true,
+        "observerPresent": true,
+        "pinnedPresent": true,
+        "replies": [
+          {
+            "kind": "pinned-ack",
+            "doc": "a2"
+          }
+        ],
+        "frames": [
+          {
+            "kind": "frame-ready",
+            "doc": "a2:self",
+            "origin": "https://com.example.probe.a.test",
+            "observerPresent": true,
+            "pinnedPresent": true,
+            "messageOrigin": "https://com.example.probe.a.test"
+          },
+          {
+            "kind": "frame-ready",
+            "doc": "a2:foreign",
+            "origin": "https://com.example.probe.b.test",
+            "observerPresent": true,
+            "pinnedPresent": false,
+            "messageOrigin": "https://com.example.probe.b.test"
+          }
+        ],
+        "bootstraps": [],
+        "portReplies": [],
+        "challengeReceived": true,
+        "ready": true
+      }
+    },
+    {
+      "label": "reload-stale-proof",
+      "view": "a",
+      "observation": {
+        "doc": "a2",
+        "origin": "https://com.example.probe.a.test",
+        "href": "https://com.example.probe.a.test/assets/index.html?doc=a2&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+        "mainFrame": true,
+        "observerPresent": true,
+        "pinnedPresent": true,
+        "replies": [
+          {
+            "kind": "pinned-ack",
+            "doc": "a2"
+          }
+        ],
+        "frames": [
+          {
+            "kind": "frame-ready",
+            "doc": "a2:self",
+            "origin": "https://com.example.probe.a.test",
+            "observerPresent": true,
+            "pinnedPresent": true,
+            "messageOrigin": "https://com.example.probe.a.test"
+          },
+          {
+            "kind": "frame-ready",
+            "doc": "a2:foreign",
+            "origin": "https://com.example.probe.b.test",
+            "observerPresent": true,
+            "pinnedPresent": false,
+            "messageOrigin": "https://com.example.probe.b.test"
+          }
+        ],
+        "bootstraps": ["reload-stale-proof"],
+        "portReplies": [],
+        "challengeReceived": true,
+        "ready": true
+      }
+    },
+    {
+      "label": "foreign-navigation",
+      "view": "a",
+      "observation": {
+        "doc": "a-foreign",
+        "origin": "https://com.example.probe.b.test",
+        "href": "https://com.example.probe.b.test/assets/index.html?doc=a-foreign&self=https%3A%2F%2Fcom.example.probe.b.test&other=https%3A%2F%2Fcom.example.probe.a.test",
+        "mainFrame": true,
+        "observerPresent": true,
+        "pinnedPresent": false,
+        "replies": [],
+        "frames": [
+          {
+            "kind": "frame-ready",
+            "doc": "a-foreign:self",
+            "origin": "https://com.example.probe.b.test",
+            "observerPresent": true,
+            "pinnedPresent": false,
+            "messageOrigin": "https://com.example.probe.b.test"
+          },
+          {
+            "kind": "frame-ready",
+            "doc": "a-foreign:foreign",
+            "origin": "https://com.example.probe.a.test",
+            "observerPresent": true,
+            "pinnedPresent": true,
+            "messageOrigin": "https://com.example.probe.a.test"
+          }
+        ],
+        "bootstraps": [],
+        "portReplies": [],
+        "challengeReceived": false,
+        "ready": true
+      }
+    },
+    {
+      "label": "return-navigation",
+      "view": "a",
+      "observation": {
+        "doc": "a-return",
+        "origin": "https://com.example.probe.a.test",
+        "href": "https://com.example.probe.a.test/assets/index.html?doc=a-return&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+        "mainFrame": true,
+        "observerPresent": true,
+        "pinnedPresent": true,
+        "replies": [
+          {
+            "kind": "pinned-ack",
+            "doc": "a-return"
+          }
+        ],
+        "frames": [
+          {
+            "kind": "frame-ready",
+            "doc": "a-return:self",
+            "origin": "https://com.example.probe.a.test",
+            "observerPresent": true,
+            "pinnedPresent": true,
+            "messageOrigin": "https://com.example.probe.a.test"
+          },
+          {
+            "kind": "frame-ready",
+            "doc": "a-return:foreign",
+            "origin": "https://com.example.probe.b.test",
+            "observerPresent": true,
+            "pinnedPresent": false,
+            "messageOrigin": "https://com.example.probe.b.test"
+          }
+        ],
+        "bootstraps": [],
+        "portReplies": [],
+        "challengeReceived": true,
+        "ready": true
+      }
+    },
+    {
+      "label": "retired-binding",
+      "view": "a",
+      "observation": {
+        "doc": "a-return",
+        "origin": "https://com.example.probe.a.test",
+        "href": "https://com.example.probe.a.test/assets/index.html?doc=a-return&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+        "mainFrame": true,
+        "observerPresent": true,
+        "pinnedPresent": true,
+        "replies": [
+          {
+            "kind": "pinned-ack",
+            "doc": "a-return"
+          }
+        ],
+        "frames": [
+          {
+            "kind": "frame-ready",
+            "doc": "a-return:self",
+            "origin": "https://com.example.probe.a.test",
+            "observerPresent": true,
+            "pinnedPresent": true,
+            "messageOrigin": "https://com.example.probe.a.test"
+          },
+          {
+            "kind": "frame-ready",
+            "doc": "a-return:foreign",
+            "origin": "https://com.example.probe.b.test",
+            "observerPresent": true,
+            "pinnedPresent": false,
+            "messageOrigin": "https://com.example.probe.b.test"
+          }
+        ],
+        "bootstraps": [],
+        "portReplies": [],
+        "challengeReceived": true,
+        "ready": true
+      }
+    }
+  ],
+  "events": [
+    {
+      "view": "a",
+      "rule": "https://com.example.probe.a.test",
+      "accepted": true,
+      "type": "pinned-registration",
+      "sequence": 1,
+      "elapsedMs": 162
+    },
+    {
+      "view": "b",
+      "rule": "https://com.example.probe.b.test",
+      "accepted": true,
+      "type": "pinned-registration",
+      "sequence": 2,
+      "elapsedMs": 166
+    },
+    {
+      "view": "same-origin-other-view",
+      "rule": "https://com.example.probe.a.test",
+      "accepted": true,
+      "type": "pinned-registration",
+      "sequence": 3,
+      "elapsedMs": 172
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/index.html?doc=a1&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+      "type": "page-started",
+      "sequence": 4,
+      "elapsedMs": 309
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": true,
+      "decision": "accepted",
+      "kind": "inline",
+      "doc": "a1",
+      "proxy": 1,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "loading",
+      "type": "listener",
+      "sequence": 5,
+      "elapsedMs": 315
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": true,
+      "decision": "accepted",
+      "kind": "ready",
+      "doc": "a1",
+      "proxy": 1,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 6,
+      "elapsedMs": 337
+    },
+    {
+      "view": "a",
+      "proofId": 1,
+      "proxy": 1,
+      "type": "challenge-sent",
+      "sequence": 7,
+      "elapsedMs": 338
+    },
+    {
+      "view": "a",
+      "channel": "pinned",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": true,
+      "decision": "accepted",
+      "kind": "ready",
+      "doc": "a1",
+      "proxy": 2,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 8,
+      "elapsedMs": 339
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": false,
+      "decision": "subframe",
+      "kind": "inline",
+      "doc": "a1:self",
+      "proxy": 3,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "loading",
+      "type": "listener",
+      "sequence": 9,
+      "elapsedMs": 354
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.b.test",
+      "mainFrame": false,
+      "decision": "wrong-origin",
+      "kind": "inline",
+      "doc": "a1:foreign",
+      "proxy": 4,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "loading",
+      "type": "listener",
+      "sequence": 10,
+      "elapsedMs": 354
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": false,
+      "decision": "subframe",
+      "kind": "ready",
+      "doc": "a1:self",
+      "proxy": 3,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 11,
+      "elapsedMs": 354
+    },
+    {
+      "view": "a",
+      "channel": "pinned",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": false,
+      "decision": "subframe",
+      "kind": "ready",
+      "doc": "a1:self",
+      "proxy": 5,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 12,
+      "elapsedMs": 355
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.b.test",
+      "mainFrame": false,
+      "decision": "wrong-origin",
+      "kind": "ready",
+      "doc": "a1:foreign",
+      "proxy": 4,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 13,
+      "elapsedMs": 358
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/index.html?doc=a1&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+      "type": "page-finished",
+      "sequence": 14,
+      "elapsedMs": 358
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/favicon.ico",
+      "type": "blocked-resource",
+      "sequence": 15,
+      "elapsedMs": 359
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.b.test/assets/index.html?doc=b1&self=https%3A%2F%2Fcom.example.probe.b.test&other=https%3A%2F%2Fcom.example.probe.a.test",
+      "type": "page-started",
+      "sequence": 16,
+      "elapsedMs": 435
+    },
+    {
+      "view": "b",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.b.test",
+      "mainFrame": true,
+      "decision": "accepted",
+      "kind": "inline",
+      "doc": "b1",
+      "proxy": 6,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "loading",
+      "type": "listener",
+      "sequence": 17,
+      "elapsedMs": 436
+    },
+    {
+      "view": "b",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.b.test",
+      "mainFrame": true,
+      "decision": "accepted",
+      "kind": "ready",
+      "doc": "b1",
+      "proxy": 6,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 18,
+      "elapsedMs": 441
+    },
+    {
+      "view": "b",
+      "proofId": 2,
+      "proxy": 6,
+      "type": "challenge-sent",
+      "sequence": 19,
+      "elapsedMs": 441
+    },
+    {
+      "view": "b",
+      "channel": "pinned",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.b.test",
+      "mainFrame": true,
+      "decision": "accepted",
+      "kind": "ready",
+      "doc": "b1",
+      "proxy": 7,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 20,
+      "elapsedMs": 441
+    },
+    {
+      "view": "b",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.b.test",
+      "mainFrame": false,
+      "decision": "subframe",
+      "kind": "inline",
+      "doc": "b1:self",
+      "proxy": 8,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "loading",
+      "type": "listener",
+      "sequence": 21,
+      "elapsedMs": 453
+    },
+    {
+      "view": "b",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": false,
+      "decision": "wrong-origin",
+      "kind": "inline",
+      "doc": "b1:foreign",
+      "proxy": 9,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "loading",
+      "type": "listener",
+      "sequence": 22,
+      "elapsedMs": 460
+    },
+    {
+      "view": "b",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.b.test",
+      "mainFrame": false,
+      "decision": "subframe",
+      "kind": "ready",
+      "doc": "b1:self",
+      "proxy": 8,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 23,
+      "elapsedMs": 461
+    },
+    {
+      "view": "b",
+      "channel": "pinned",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.b.test",
+      "mainFrame": false,
+      "decision": "subframe",
+      "kind": "ready",
+      "doc": "b1:self",
+      "proxy": 10,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 24,
+      "elapsedMs": 461
+    },
+    {
+      "view": "b",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": false,
+      "decision": "wrong-origin",
+      "kind": "ready",
+      "doc": "b1:foreign",
+      "proxy": 9,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 25,
+      "elapsedMs": 462
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.b.test/assets/index.html?doc=b1&self=https%3A%2F%2Fcom.example.probe.b.test&other=https%3A%2F%2Fcom.example.probe.a.test",
+      "type": "page-finished",
+      "sequence": 26,
+      "elapsedMs": 462
+    },
+    {
+      "view": "b",
+      "url": "https://com.example.probe.b.test/favicon.ico",
+      "type": "blocked-resource",
+      "sequence": 27,
+      "elapsedMs": 463
+    },
+    {
+      "view": "same-origin-other-view",
+      "url": "https://com.example.probe.a.test/assets/index.html?doc=c1&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+      "type": "page-started",
+      "sequence": 28,
+      "elapsedMs": 526
+    },
+    {
+      "view": "same-origin-other-view",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": true,
+      "decision": "accepted",
+      "kind": "inline",
+      "doc": "c1",
+      "proxy": 11,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "loading",
+      "type": "listener",
+      "sequence": 29,
+      "elapsedMs": 529
+    },
+    {
+      "view": "same-origin-other-view",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": true,
+      "decision": "accepted",
+      "kind": "ready",
+      "doc": "c1",
+      "proxy": 11,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 30,
+      "elapsedMs": 532
+    },
+    {
+      "view": "same-origin-other-view",
+      "proofId": 3,
+      "proxy": 11,
+      "type": "challenge-sent",
+      "sequence": 31,
+      "elapsedMs": 532
+    },
+    {
+      "view": "same-origin-other-view",
+      "channel": "pinned",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": true,
+      "decision": "accepted",
+      "kind": "ready",
+      "doc": "c1",
+      "proxy": 12,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 32,
+      "elapsedMs": 532
+    },
+    {
+      "view": "same-origin-other-view",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": false,
+      "decision": "subframe",
+      "kind": "inline",
+      "doc": "c1:self",
+      "proxy": 13,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "loading",
+      "type": "listener",
+      "sequence": 33,
+      "elapsedMs": 541
+    },
+    {
+      "view": "same-origin-other-view",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": false,
+      "decision": "subframe",
+      "kind": "ready",
+      "doc": "c1:self",
+      "proxy": 13,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 34,
+      "elapsedMs": 543
+    },
+    {
+      "view": "same-origin-other-view",
+      "channel": "pinned",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": false,
+      "decision": "subframe",
+      "kind": "ready",
+      "doc": "c1:self",
+      "proxy": 14,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 35,
+      "elapsedMs": 543
+    },
+    {
+      "view": "same-origin-other-view",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.b.test",
+      "mainFrame": false,
+      "decision": "wrong-origin",
+      "kind": "inline",
+      "doc": "c1:foreign",
+      "proxy": 15,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "loading",
+      "type": "listener",
+      "sequence": 36,
+      "elapsedMs": 543
+    },
+    {
+      "view": "same-origin-other-view",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.b.test",
+      "mainFrame": false,
+      "decision": "wrong-origin",
+      "kind": "ready",
+      "doc": "c1:foreign",
+      "proxy": 15,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 37,
+      "elapsedMs": 547
+    },
+    {
+      "view": "same-origin-other-view",
+      "url": "https://com.example.probe.a.test/assets/index.html?doc=c1&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+      "type": "page-finished",
+      "sequence": 38,
+      "elapsedMs": 547
+    },
+    {
+      "view": "same-origin-other-view",
+      "url": "https://com.example.probe.a.test/favicon.ico",
+      "type": "blocked-resource",
+      "sequence": 39,
+      "elapsedMs": 547
+    },
+    {
+      "actualView": "same-origin-other-view",
+      "targetView": "a",
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "decision": "wrong-view",
+      "type": "host-route-replay",
+      "sequence": 40,
+      "elapsedMs": 585
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": true,
+      "decision": "accepted",
+      "kind": "repeat",
+      "doc": "a1",
+      "proxy": 1,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": false,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 41,
+      "elapsedMs": 589
+    },
+    {
+      "view": "a",
+      "channel": "pinned",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": true,
+      "decision": "accepted",
+      "kind": "repeat",
+      "doc": "a1",
+      "proxy": 2,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": false,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 42,
+      "elapsedMs": 589
+    },
+    {
+      "view": "a",
+      "label": "wrong-target",
+      "targetOrigin": "https://com.example.probe.b.test",
+      "proofId": 1,
+      "requireProof": false,
+      "forward": false,
+      "type": "port-transfer",
+      "sequence": 43,
+      "elapsedMs": 692
+    },
+    {
+      "view": "a",
+      "label": "raw-positive",
+      "targetOrigin": "https://com.example.probe.a.test",
+      "proofId": 1,
+      "requireProof": false,
+      "forward": false,
+      "type": "port-transfer",
+      "sequence": 44,
+      "elapsedMs": 950
+    },
+    {
+      "view": "a",
+      "label": "raw-positive",
+      "provenance": "platform",
+      "claimedDoc": "a1",
+      "claimedOrigin": "https://com.example.probe.a.test",
+      "messageSequence": 0,
+      "decision": "accepted",
+      "proofMatches": false,
+      "callbackWrapperMatches": false,
+      "requireProof": false,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 45,
+      "elapsedMs": 967
+    },
+    {
+      "view": "a",
+      "label": "raw-positive",
+      "provenance": "platform",
+      "claimedDoc": "a1",
+      "claimedOrigin": "https://com.example.probe.a.test",
+      "messageSequence": 1,
+      "decision": "accepted",
+      "proofMatches": false,
+      "callbackWrapperMatches": false,
+      "requireProof": false,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 46,
+      "elapsedMs": 967
+    },
+    {
+      "view": "a",
+      "label": "raw-positive",
+      "provenance": "platform",
+      "claimedDoc": "a1",
+      "claimedOrigin": "https://com.example.probe.a.test",
+      "messageSequence": 2,
+      "decision": "accepted",
+      "proofMatches": false,
+      "callbackWrapperMatches": false,
+      "requireProof": false,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 47,
+      "elapsedMs": 967
+    },
+    {
+      "view": "a",
+      "label": "proof-positive",
+      "targetOrigin": "https://com.example.probe.a.test",
+      "proofId": 1,
+      "requireProof": true,
+      "forward": false,
+      "type": "port-transfer",
+      "sequence": 48,
+      "elapsedMs": 1033
+    },
+    {
+      "view": "a",
+      "label": "proof-positive",
+      "provenance": "platform",
+      "claimedDoc": "a1",
+      "claimedOrigin": "https://com.example.probe.a.test",
+      "messageSequence": 0,
+      "decision": "accepted",
+      "proofMatches": true,
+      "callbackWrapperMatches": false,
+      "requireProof": true,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 49,
+      "elapsedMs": 1052
+    },
+    {
+      "view": "a",
+      "label": "proof-positive",
+      "provenance": "platform",
+      "claimedDoc": "a1",
+      "claimedOrigin": "https://com.example.probe.a.test",
+      "messageSequence": 1,
+      "decision": "accepted",
+      "proofMatches": true,
+      "callbackWrapperMatches": false,
+      "requireProof": true,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 50,
+      "elapsedMs": 1052
+    },
+    {
+      "view": "a",
+      "label": "proof-positive",
+      "provenance": "platform",
+      "claimedDoc": "a1",
+      "claimedOrigin": "https://com.example.probe.a.test",
+      "messageSequence": 2,
+      "decision": "accepted",
+      "proofMatches": true,
+      "callbackWrapperMatches": false,
+      "requireProof": true,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 51,
+      "elapsedMs": 1052
+    },
+    {
+      "view": "a",
+      "channel": "pinned",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": true,
+      "decision": "accepted",
+      "kind": "offer",
+      "doc": "a1",
+      "proxy": 2,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": false,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 52,
+      "elapsedMs": 1117
+    },
+    {
+      "view": "a",
+      "count": 1,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": true,
+      "proxy": 2,
+      "type": "listener-port-offer",
+      "sequence": 53,
+      "elapsedMs": 1117
+    },
+    {
+      "view": "a",
+      "label": "listener-offer",
+      "provenance": "platform",
+      "claimedDoc": "a1",
+      "claimedOrigin": "https://com.example.probe.a.test",
+      "messageSequence": 0,
+      "decision": "accepted",
+      "proofMatches": false,
+      "callbackWrapperMatches": false,
+      "requireProof": false,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 54,
+      "elapsedMs": 1118
+    },
+    {
+      "view": "a",
+      "label": "listener-offer",
+      "provenance": "platform",
+      "claimedDoc": "a1",
+      "claimedOrigin": "https://com.example.probe.a.test",
+      "messageSequence": 1,
+      "decision": "accepted",
+      "proofMatches": false,
+      "callbackWrapperMatches": false,
+      "requireProof": false,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 55,
+      "elapsedMs": 1118
+    },
+    {
+      "view": "a",
+      "label": "listener-offer",
+      "provenance": "platform",
+      "claimedDoc": "a1",
+      "claimedOrigin": "https://com.example.probe.a.test",
+      "messageSequence": 2,
+      "decision": "accepted",
+      "proofMatches": false,
+      "callbackWrapperMatches": false,
+      "requireProof": false,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 56,
+      "elapsedMs": 1118
+    },
+    {
+      "view": "a",
+      "label": "proof-delegated",
+      "targetOrigin": "https://com.example.probe.a.test",
+      "proofId": 1,
+      "requireProof": true,
+      "forward": true,
+      "type": "port-transfer",
+      "sequence": 57,
+      "elapsedMs": 1200
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.b.test",
+      "mainFrame": false,
+      "decision": "wrong-origin",
+      "kind": "delegated-port-received",
+      "doc": "a1:foreign",
+      "proxy": 4,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": false,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 58,
+      "elapsedMs": 1217
+    },
+    {
+      "view": "a",
+      "label": "proof-delegated",
+      "provenance": "platform",
+      "claimedDoc": "a1:foreign",
+      "claimedOrigin": "https://com.example.probe.b.test",
+      "messageSequence": 0,
+      "decision": "accepted",
+      "proofMatches": true,
+      "callbackWrapperMatches": false,
+      "requireProof": true,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 59,
+      "elapsedMs": 1217
+    },
+    {
+      "view": "a",
+      "label": "proof-delegated",
+      "provenance": "platform",
+      "claimedDoc": "a1:foreign",
+      "claimedOrigin": "https://com.example.probe.b.test",
+      "messageSequence": 1,
+      "decision": "accepted",
+      "proofMatches": true,
+      "callbackWrapperMatches": false,
+      "requireProof": true,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 60,
+      "elapsedMs": 1217
+    },
+    {
+      "view": "a",
+      "label": "proof-delegated",
+      "provenance": "platform",
+      "claimedDoc": "a1:foreign",
+      "claimedOrigin": "https://com.example.probe.b.test",
+      "messageSequence": 2,
+      "decision": "accepted",
+      "proofMatches": true,
+      "callbackWrapperMatches": false,
+      "requireProof": true,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 61,
+      "elapsedMs": 1217
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/index.html?doc=a2&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+      "type": "page-started",
+      "sequence": 62,
+      "elapsedMs": 1302
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": true,
+      "decision": "accepted",
+      "kind": "inline",
+      "doc": "a2",
+      "proxy": 16,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "loading",
+      "type": "listener",
+      "sequence": 63,
+      "elapsedMs": 1302
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": true,
+      "decision": "accepted",
+      "kind": "ready",
+      "doc": "a2",
+      "proxy": 16,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 64,
+      "elapsedMs": 1304
+    },
+    {
+      "view": "a",
+      "proofId": 4,
+      "proxy": 16,
+      "type": "challenge-sent",
+      "sequence": 65,
+      "elapsedMs": 1304
+    },
+    {
+      "view": "a",
+      "channel": "pinned",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": true,
+      "decision": "accepted",
+      "kind": "ready",
+      "doc": "a2",
+      "proxy": 17,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 66,
+      "elapsedMs": 1305
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.b.test",
+      "mainFrame": false,
+      "decision": "wrong-origin",
+      "kind": "inline",
+      "doc": "a2:foreign",
+      "proxy": 18,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "loading",
+      "type": "listener",
+      "sequence": 67,
+      "elapsedMs": 1308
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": false,
+      "decision": "subframe",
+      "kind": "inline",
+      "doc": "a2:self",
+      "proxy": 19,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "loading",
+      "type": "listener",
+      "sequence": 68,
+      "elapsedMs": 1309
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.b.test",
+      "mainFrame": false,
+      "decision": "wrong-origin",
+      "kind": "ready",
+      "doc": "a2:foreign",
+      "proxy": 18,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 69,
+      "elapsedMs": 1309
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": false,
+      "decision": "subframe",
+      "kind": "ready",
+      "doc": "a2:self",
+      "proxy": 19,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 70,
+      "elapsedMs": 1311
+    },
+    {
+      "view": "a",
+      "channel": "pinned",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": false,
+      "decision": "subframe",
+      "kind": "ready",
+      "doc": "a2:self",
+      "proxy": 20,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 71,
+      "elapsedMs": 1311
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/index.html?doc=a2&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+      "type": "page-finished",
+      "sequence": 72,
+      "elapsedMs": 1311
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/favicon.ico",
+      "type": "blocked-resource",
+      "sequence": 73,
+      "elapsedMs": 1312
+    },
+    {
+      "label": "replacement",
+      "sameProxy": false,
+      "type": "proxy-comparison",
+      "sequence": 74,
+      "elapsedMs": 1354
+    },
+    {
+      "label": "replacement",
+      "type": "old-proxy-post",
+      "sequence": 75,
+      "elapsedMs": 1354
+    },
+    {
+      "view": "a",
+      "label": "stale-origin-only",
+      "targetOrigin": "https://com.example.probe.a.test",
+      "proofId": 1,
+      "requireProof": false,
+      "forward": false,
+      "type": "port-transfer",
+      "sequence": 76,
+      "elapsedMs": 1570
+    },
+    {
+      "view": "a",
+      "label": "stale-origin-only",
+      "provenance": "platform",
+      "claimedDoc": "a2",
+      "claimedOrigin": "https://com.example.probe.a.test",
+      "messageSequence": 0,
+      "decision": "accepted",
+      "proofMatches": false,
+      "callbackWrapperMatches": false,
+      "requireProof": false,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 77,
+      "elapsedMs": 1585
+    },
+    {
+      "view": "a",
+      "label": "stale-origin-only",
+      "provenance": "platform",
+      "claimedDoc": "a2",
+      "claimedOrigin": "https://com.example.probe.a.test",
+      "messageSequence": 1,
+      "decision": "accepted",
+      "proofMatches": false,
+      "callbackWrapperMatches": false,
+      "requireProof": false,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 78,
+      "elapsedMs": 1585
+    },
+    {
+      "view": "a",
+      "label": "stale-origin-only",
+      "provenance": "platform",
+      "claimedDoc": "a2",
+      "claimedOrigin": "https://com.example.probe.a.test",
+      "messageSequence": 2,
+      "decision": "accepted",
+      "proofMatches": false,
+      "callbackWrapperMatches": false,
+      "requireProof": false,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 79,
+      "elapsedMs": 1585
+    },
+    {
+      "view": "a",
+      "label": "stale-proof",
+      "targetOrigin": "https://com.example.probe.a.test",
+      "proofId": 1,
+      "requireProof": true,
+      "forward": false,
+      "type": "port-transfer",
+      "sequence": 80,
+      "elapsedMs": 1649
+    },
+    {
+      "view": "a",
+      "label": "stale-proof",
+      "provenance": "platform",
+      "claimedDoc": "a2",
+      "claimedOrigin": "https://com.example.probe.a.test",
+      "messageSequence": 0,
+      "decision": "wrong-document-proof",
+      "proofMatches": false,
+      "callbackWrapperMatches": false,
+      "requireProof": true,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 81,
+      "elapsedMs": 1672
+    },
+    {
+      "view": "a",
+      "label": "stale-proof",
+      "provenance": "platform",
+      "claimedDoc": "a2",
+      "claimedOrigin": "https://com.example.probe.a.test",
+      "messageSequence": 1,
+      "decision": "wrong-document-proof",
+      "proofMatches": false,
+      "callbackWrapperMatches": false,
+      "requireProof": true,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 82,
+      "elapsedMs": 1672
+    },
+    {
+      "view": "a",
+      "label": "stale-proof",
+      "provenance": "platform",
+      "claimedDoc": "a2",
+      "claimedOrigin": "https://com.example.probe.a.test",
+      "messageSequence": 2,
+      "decision": "wrong-document-proof",
+      "proofMatches": false,
+      "callbackWrapperMatches": false,
+      "requireProof": true,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 83,
+      "elapsedMs": 1672
+    },
+    {
+      "view": "a",
+      "label": "replacement-proof-positive",
+      "targetOrigin": "https://com.example.probe.a.test",
+      "proofId": 4,
+      "requireProof": true,
+      "forward": false,
+      "type": "port-transfer",
+      "sequence": 84,
+      "elapsedMs": 1672
+    },
+    {
+      "view": "a",
+      "label": "replacement-proof-positive",
+      "provenance": "platform",
+      "claimedDoc": "a2",
+      "claimedOrigin": "https://com.example.probe.a.test",
+      "messageSequence": 0,
+      "decision": "accepted",
+      "proofMatches": true,
+      "callbackWrapperMatches": false,
+      "requireProof": true,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 85,
+      "elapsedMs": 1683
+    },
+    {
+      "view": "a",
+      "label": "replacement-proof-positive",
+      "provenance": "platform",
+      "claimedDoc": "a2",
+      "claimedOrigin": "https://com.example.probe.a.test",
+      "messageSequence": 1,
+      "decision": "accepted",
+      "proofMatches": true,
+      "callbackWrapperMatches": false,
+      "requireProof": true,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 86,
+      "elapsedMs": 1684
+    },
+    {
+      "view": "a",
+      "label": "replacement-proof-positive",
+      "provenance": "platform",
+      "claimedDoc": "a2",
+      "claimedOrigin": "https://com.example.probe.a.test",
+      "messageSequence": 2,
+      "decision": "accepted",
+      "proofMatches": true,
+      "callbackWrapperMatches": false,
+      "requireProof": true,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 87,
+      "elapsedMs": 1684
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/index.html?doc=a2&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+      "type": "page-started",
+      "sequence": 88,
+      "elapsedMs": 1768
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": true,
+      "decision": "accepted",
+      "kind": "inline",
+      "doc": "a2",
+      "proxy": 21,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "loading",
+      "type": "listener",
+      "sequence": 89,
+      "elapsedMs": 1768
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": true,
+      "decision": "accepted",
+      "kind": "ready",
+      "doc": "a2",
+      "proxy": 21,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 90,
+      "elapsedMs": 1768
+    },
+    {
+      "view": "a",
+      "proofId": 5,
+      "proxy": 21,
+      "type": "challenge-sent",
+      "sequence": 91,
+      "elapsedMs": 1768
+    },
+    {
+      "view": "a",
+      "channel": "pinned",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": true,
+      "decision": "accepted",
+      "kind": "ready",
+      "doc": "a2",
+      "proxy": 22,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 92,
+      "elapsedMs": 1768
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": false,
+      "decision": "subframe",
+      "kind": "inline",
+      "doc": "a2:self",
+      "proxy": 23,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "loading",
+      "type": "listener",
+      "sequence": 93,
+      "elapsedMs": 1773
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.b.test",
+      "mainFrame": false,
+      "decision": "wrong-origin",
+      "kind": "inline",
+      "doc": "a2:foreign",
+      "proxy": 24,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "loading",
+      "type": "listener",
+      "sequence": 94,
+      "elapsedMs": 1773
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": false,
+      "decision": "subframe",
+      "kind": "ready",
+      "doc": "a2:self",
+      "proxy": 23,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 95,
+      "elapsedMs": 1773
+    },
+    {
+      "view": "a",
+      "channel": "pinned",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": false,
+      "decision": "subframe",
+      "kind": "ready",
+      "doc": "a2:self",
+      "proxy": 25,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 96,
+      "elapsedMs": 1773
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.b.test",
+      "mainFrame": false,
+      "decision": "wrong-origin",
+      "kind": "ready",
+      "doc": "a2:foreign",
+      "proxy": 24,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 97,
+      "elapsedMs": 1773
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/index.html?doc=a2&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+      "type": "page-finished",
+      "sequence": 98,
+      "elapsedMs": 1774
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/favicon.ico",
+      "type": "blocked-resource",
+      "sequence": 99,
+      "elapsedMs": 1775
+    },
+    {
+      "label": "reload",
+      "sameProxy": false,
+      "type": "proxy-comparison",
+      "sequence": 100,
+      "elapsedMs": 1850
+    },
+    {
+      "label": "reload",
+      "type": "old-proxy-post",
+      "sequence": 101,
+      "elapsedMs": 1850
+    },
+    {
+      "view": "a",
+      "label": "reload-stale-proof",
+      "targetOrigin": "https://com.example.probe.a.test",
+      "proofId": 4,
+      "requireProof": true,
+      "forward": false,
+      "type": "port-transfer",
+      "sequence": 102,
+      "elapsedMs": 2083
+    },
+    {
+      "view": "a",
+      "label": "reload-stale-proof",
+      "provenance": "platform",
+      "claimedDoc": "a2",
+      "claimedOrigin": "https://com.example.probe.a.test",
+      "messageSequence": 0,
+      "decision": "wrong-document-proof",
+      "proofMatches": false,
+      "callbackWrapperMatches": false,
+      "requireProof": true,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 103,
+      "elapsedMs": 2101
+    },
+    {
+      "view": "a",
+      "label": "reload-stale-proof",
+      "provenance": "platform",
+      "claimedDoc": "a2",
+      "claimedOrigin": "https://com.example.probe.a.test",
+      "messageSequence": 1,
+      "decision": "wrong-document-proof",
+      "proofMatches": false,
+      "callbackWrapperMatches": false,
+      "requireProof": true,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 104,
+      "elapsedMs": 2101
+    },
+    {
+      "view": "a",
+      "label": "reload-stale-proof",
+      "provenance": "platform",
+      "claimedDoc": "a2",
+      "claimedOrigin": "https://com.example.probe.a.test",
+      "messageSequence": 2,
+      "decision": "wrong-document-proof",
+      "proofMatches": false,
+      "callbackWrapperMatches": false,
+      "requireProof": true,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 105,
+      "elapsedMs": 2101
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.b.test/assets/index.html?doc=a-foreign&self=https%3A%2F%2Fcom.example.probe.b.test&other=https%3A%2F%2Fcom.example.probe.a.test",
+      "type": "page-started",
+      "sequence": 106,
+      "elapsedMs": 2117
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.b.test",
+      "mainFrame": true,
+      "decision": "wrong-origin",
+      "kind": "inline",
+      "doc": "a-foreign",
+      "proxy": 26,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "loading",
+      "type": "listener",
+      "sequence": 107,
+      "elapsedMs": 2118
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.b.test",
+      "mainFrame": true,
+      "decision": "wrong-origin",
+      "kind": "ready",
+      "doc": "a-foreign",
+      "proxy": 26,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 108,
+      "elapsedMs": 2118
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.b.test",
+      "mainFrame": false,
+      "decision": "wrong-origin",
+      "kind": "inline",
+      "doc": "a-foreign:self",
+      "proxy": 27,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "loading",
+      "type": "listener",
+      "sequence": 109,
+      "elapsedMs": 2126
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": false,
+      "decision": "subframe",
+      "kind": "inline",
+      "doc": "a-foreign:foreign",
+      "proxy": 28,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "loading",
+      "type": "listener",
+      "sequence": 110,
+      "elapsedMs": 2126
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.b.test",
+      "mainFrame": false,
+      "decision": "wrong-origin",
+      "kind": "ready",
+      "doc": "a-foreign:self",
+      "proxy": 27,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 111,
+      "elapsedMs": 2126
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": false,
+      "decision": "subframe",
+      "kind": "ready",
+      "doc": "a-foreign:foreign",
+      "proxy": 28,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 112,
+      "elapsedMs": 2127
+    },
+    {
+      "view": "a",
+      "channel": "pinned",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": false,
+      "decision": "subframe",
+      "kind": "ready",
+      "doc": "a-foreign:foreign",
+      "proxy": 29,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 113,
+      "elapsedMs": 2127
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.b.test/assets/index.html?doc=a-foreign&self=https%3A%2F%2Fcom.example.probe.b.test&other=https%3A%2F%2Fcom.example.probe.a.test",
+      "type": "page-finished",
+      "sequence": 114,
+      "elapsedMs": 2128
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.b.test/favicon.ico",
+      "type": "blocked-resource",
+      "sequence": 115,
+      "elapsedMs": 2128
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/index.html?doc=a-return&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+      "type": "page-started",
+      "sequence": 116,
+      "elapsedMs": 2201
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": true,
+      "decision": "accepted",
+      "kind": "inline",
+      "doc": "a-return",
+      "proxy": 30,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "loading",
+      "type": "listener",
+      "sequence": 117,
+      "elapsedMs": 2201
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": true,
+      "decision": "accepted",
+      "kind": "ready",
+      "doc": "a-return",
+      "proxy": 30,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 118,
+      "elapsedMs": 2201
+    },
+    {
+      "view": "a",
+      "proofId": 6,
+      "proxy": 30,
+      "type": "challenge-sent",
+      "sequence": 119,
+      "elapsedMs": 2201
+    },
+    {
+      "view": "a",
+      "channel": "pinned",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": true,
+      "decision": "accepted",
+      "kind": "ready",
+      "doc": "a-return",
+      "proxy": 31,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 120,
+      "elapsedMs": 2201
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": false,
+      "decision": "subframe",
+      "kind": "inline",
+      "doc": "a-return:self",
+      "proxy": 32,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "loading",
+      "type": "listener",
+      "sequence": 121,
+      "elapsedMs": 2209
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.b.test",
+      "mainFrame": false,
+      "decision": "wrong-origin",
+      "kind": "inline",
+      "doc": "a-return:foreign",
+      "proxy": 33,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "loading",
+      "type": "listener",
+      "sequence": 122,
+      "elapsedMs": 2209
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": false,
+      "decision": "subframe",
+      "kind": "ready",
+      "doc": "a-return:self",
+      "proxy": 32,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 123,
+      "elapsedMs": 2210
+    },
+    {
+      "view": "a",
+      "channel": "pinned",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": false,
+      "decision": "subframe",
+      "kind": "ready",
+      "doc": "a-return:self",
+      "proxy": 34,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 124,
+      "elapsedMs": 2210
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.b.test",
+      "mainFrame": false,
+      "decision": "wrong-origin",
+      "kind": "ready",
+      "doc": "a-return:foreign",
+      "proxy": 33,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": true,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 125,
+      "elapsedMs": 2210
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/assets/index.html?doc=a-return&self=https%3A%2F%2Fcom.example.probe.a.test&other=https%3A%2F%2Fcom.example.probe.b.test",
+      "type": "page-finished",
+      "sequence": 126,
+      "elapsedMs": 2211
+    },
+    {
+      "view": "a",
+      "url": "https://com.example.probe.a.test/favicon.ico",
+      "type": "blocked-resource",
+      "sequence": 127,
+      "elapsedMs": 2211
+    },
+    {
+      "view": "a",
+      "decision": "retired",
+      "type": "host-listener-replay",
+      "sequence": 128,
+      "elapsedMs": 2270
+    },
+    {
+      "view": "a",
+      "label": "raw-positive",
+      "provenance": "host-replay",
+      "claimedDoc": "a1",
+      "claimedOrigin": "https://com.example.probe.a.test",
+      "messageSequence": 2,
+      "decision": "retired",
+      "proofMatches": false,
+      "callbackWrapperMatches": true,
+      "requireProof": false,
+      "originMetadataAvailable": false,
+      "frameMetadataAvailable": false,
+      "type": "port-message",
+      "sequence": 129,
+      "elapsedMs": 2270
+    },
+    {
+      "threw": true,
+      "error": "IllegalStateException",
+      "type": "post-after-close",
+      "sequence": 130,
+      "elapsedMs": 2270
+    },
+    {
+      "view": "a",
+      "channel": "observer",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": true,
+      "decision": "retired",
+      "kind": "after-retire",
+      "doc": "a-return",
+      "proxy": 30,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": false,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 131,
+      "elapsedMs": 2272
+    },
+    {
+      "view": "a",
+      "channel": "pinned",
+      "senderMatches": true,
+      "sourceOrigin": "https://com.example.probe.a.test",
+      "mainFrame": true,
+      "decision": "retired",
+      "kind": "after-retire",
+      "doc": "a-return",
+      "proxy": 31,
+      "claimedOrigin": "https://forged.invalid",
+      "claimedMainFrame": true,
+      "beforePageFinished": false,
+      "readyState": "",
+      "type": "listener",
+      "sequence": 132,
+      "elapsedMs": 2272
+    }
+  ],
+  "complete": true,
+  "buildMetadata": {
+    "apkSha256": "63991027b94cfc89c8cc35336f3a5c183d10611672deb31e19194cfb2483fe99",
+    "sources": {
+      "app/build.gradle": "2c6cf1035a6dce89594e6471e923e2b2569693baa2e68a6c415b200c5bd1d857",
+      "app/src/main/AndroidManifest.xml": "ef3d0a132e36d1924454c27fb805e884e972bcec9a3b39ae6078070f9dc85c43",
+      "app/src/main/assets/index.html": "0b5dfd604cd7c9520bc5a05b4df74042db54c10a6eb4871734f466be9a8536f0",
+      "app/src/main/assets/probe.js": "d78be868a7ce7ecca91c30140f537d985b678cc9a224d55f7f6d5aa863549639",
+      "app/src/main/java/org/moonpool/messageprobe/Admission.java": "4beb5219fe78da3ed5920b704adaf70924e9e42bc199772aabbaa2e86148f035",
+      "app/src/main/java/org/moonpool/messageprobe/MessageProbeActivity.java": "8ac558e36ac03129382bb36da83495016a1d84b847ee049c8c6deca78a551160",
+      "build.gradle": "bb5d6db0a3f94e7ff33ba91a07fa9146a96994e843ae487ebccadc99b62e722c",
+      "build.py": "c3a75df0f062387d3fcd380f3cc5616c7395c1059e8a2af0a5acec3d427e9a8c",
+      "gradle.properties": "67eefa02d084d8fd6e2698683ca4d007a344395ca89eed9012a79bac373ba359",
+      "run_probe.py": "522555bce680e99bc7e593ee32059d04b3c1575e7e8b8d19c67eb873f35a5ffd",
+      "settings.gradle": "bdbcfcb313c9c3f576c8d3e67189f7e27b7b5c7a799708155ff89ae81da65636"
+    },
+    "reusedWrapperSha256": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59",
+    "reusedWrapperPropertiesSha256": "6ca9e44c73e5ffc2656e8110780eed77b023934f5ceb57e9e55658604d3315fd"
+  }
+}

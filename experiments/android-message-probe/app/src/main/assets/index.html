@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Moonpool T25 message probe</title>
+  <script>
+    if (typeof T25Observe !== 'undefined') {
+      T25Observe.postMessage(JSON.stringify({kind: 'inline', doc: new URLSearchParams(location.search).get('doc'),
+        claimedOrigin: 'https://forged.invalid', claimedMainFrame: true, readyState: document.readyState}));
+    }
+  </script>
+  <script src="probe.js"></script>
+  <style>
+    body { font: 14px system-ui; background: #eaf3ee; padding: 12px; color: #193b31; }
+    pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 11px; }
+    iframe { width: 44%; height: 70px; border: 1px solid #8aafa0; }
+  </style>
+</head>
+<body><h1>Moonpool T25 · public diagnostics</h1><p>No capabilities or host credentials.</p><pre></pre></body>
+</html>

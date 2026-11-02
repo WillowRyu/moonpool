@@ -1,0 +1,86 @@
+{
+  "date": "2026-11-02",
+  "baselineCommit": "6c5576e6d537a806ad3a57d6afef4ccf3fbc8634",
+  "host": {
+    "macOS": "26.6.2",
+    "architecture": "arm64"
+  },
+  "android": {
+    "release": "17",
+    "api": "37",
+    "build": "CP21.260330.012",
+    "architecture": "arm64-v8a",
+    "pageSize": 16384
+  },
+  "emulator": "36.6.11.0; existing Pixel 7 Pro AVD; no wipe/no snapshot save",
+  "build": {
+    "Gradle": "9.6.1",
+    "AGP": "9.3.1",
+    "JDK": "Studio OpenJDK 21.0.10",
+    "AndroidXWebKit": "1.14.0",
+    "compileSdk": 36,
+    "targetSdk": 36,
+    "buildTools": "36.0.0",
+    "minSdkProbeOnly": 31,
+    "offline": true
+  },
+  "webView": {
+    "package": "com.google.android.webview",
+    "version": "145.0.7632.218"
+  },
+  "features": {
+    "WEB_MESSAGE_LISTENER": true,
+    "CREATE_WEB_MESSAGE_CHANNEL": true,
+    "POST_WEB_MESSAGE": true,
+    "WEB_MESSAGE_PORT_POST_MESSAGE": true,
+    "WEB_MESSAGE_PORT_SET_MESSAGE_CALLBACK": true,
+    "WEB_MESSAGE_PORT_CLOSE": true
+  },
+  "nativeGateChecks": 11,
+  "controlChecks": 175,
+  "finalRuns": 4,
+  "snapshots": 44,
+  "lint": {
+    "issues": 29,
+    "byId": {
+      "OldTargetApi": 1,
+      "RequiresFeature": 16,
+      "GradleDependency": 1,
+      "SetJavaScriptEnabled": 1,
+      "DataExtractionRules": 1,
+      "MissingApplicationIcon": 1,
+      "SetTextI18n": 8
+    },
+    "severity": {
+      "Warning": 29
+    }
+  },
+  "pinnedSourceInspection": {
+    "url": "https://dl.google.com/dl/android/maven2/androidx/webkit/webkit/1.14.0/webkit-1.14.0-sources.jar",
+    "sha256": "714bc9cebdba29d5e336e026367c50ff235bd0090e1949efcbd81537a213176e"
+  },
+  "buildMetadata": {
+    "apkSha256": "63991027b94cfc89c8cc35336f3a5c183d10611672deb31e19194cfb2483fe99",
+    "sources": {
+      "app/build.gradle": "2c6cf1035a6dce89594e6471e923e2b2569693baa2e68a6c415b200c5bd1d857",
+      "app/src/main/AndroidManifest.xml": "ef3d0a132e36d1924454c27fb805e884e972bcec9a3b39ae6078070f9dc85c43",
+      "app/src/main/assets/index.html": "0b5dfd604cd7c9520bc5a05b4df74042db54c10a6eb4871734f466be9a8536f0",
+      "app/src/main/assets/probe.js": "d78be868a7ce7ecca91c30140f537d985b678cc9a224d55f7f6d5aa863549639",
+      "app/src/main/java/org/moonpool/messageprobe/Admission.java": "4beb5219fe78da3ed5920b704adaf70924e9e42bc199772aabbaa2e86148f035",
+      "app/src/main/java/org/moonpool/messageprobe/MessageProbeActivity.java": "8ac558e36ac03129382bb36da83495016a1d84b847ee049c8c6deca78a551160",
+      "build.gradle": "bb5d6db0a3f94e7ff33ba91a07fa9146a96994e843ae487ebccadc99b62e722c",
+      "build.py": "c3a75df0f062387d3fcd380f3cc5616c7395c1059e8a2af0a5acec3d427e9a8c",
+      "gradle.properties": "67eefa02d084d8fd6e2698683ca4d007a344395ca89eed9012a79bac373ba359",
+      "run_probe.py": "522555bce680e99bc7e593ee32059d04b3c1575e7e8b8d19c67eb873f35a5ffd",
+      "settings.gradle": "bdbcfcb313c9c3f576c8d3e67189f7e27b7b5c7a799708155ff89ae81da65636"
+    },
+    "reusedWrapperSha256": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59",
+    "reusedWrapperPropertiesSha256": "6ca9e44c73e5ffc2656e8110780eed77b023934f5ceb57e9e55658604d3315fd"
+  },
+  "cleanup": {
+    "ownedProbeForceStopped": true,
+    "ownedEmulatorStopped": true,
+    "preexistingEmulatorStillRunning": true,
+    "previousProbePackagesUntouched": true
+  }
+}
