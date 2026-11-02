@@ -1,0 +1,3629 @@
+{
+  "complete": true,
+  "events": [
+    {
+      "allowed": true,
+      "sequence": 1,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/index.html?doc=a1&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+      "view": "a"
+    },
+    {
+      "sequence": 2,
+      "type": "page-commit",
+      "url": "moonpool://com.example.probe.a/assets/index.html?doc=a1&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+      "view": "a"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "a1",
+      "expectedWorld": "MoonpoolT26",
+      "handler": "t26Isolated",
+      "instance": "",
+      "kind": "world-start",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 3,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "MoonpoolT26"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "a1",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "",
+      "kind": "inline",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "loading",
+      "sequence": 4,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "a1",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-zt7qp269n2",
+      "kind": "ready",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 5,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "a1",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-zt7qp269n2",
+      "kind": "normal",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 6,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "a1",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-zt7qp269n2",
+      "kind": "hold",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 7,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "doc": "a1",
+      "id": 2,
+      "instance": "page-zt7qp269n2",
+      "sequence": 8,
+      "type": "reply-held",
+      "view": "a"
+    },
+    {
+      "allowed": true,
+      "sequence": 9,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/index.html?doc=a1%3Aself&frame=1&parent=moonpool%3A%2F%2Fcom.example.probe.a",
+      "view": "a"
+    },
+    {
+      "allowed": true,
+      "sequence": 10,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.b/assets/index.html?doc=a1%3Aforeign&frame=1&parent=moonpool%3A%2F%2Fcom.example.probe.a",
+      "view": "a"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "subframe",
+      "doc": "a1:self",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "",
+      "kind": "inline",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "loading",
+      "sequence": 11,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "a1:foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "",
+      "kind": "inline",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "loading",
+      "sequence": 12,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "subframe",
+      "doc": "a1:self",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-htb0oj5w7gr",
+      "kind": "ready",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 13,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "subframe",
+      "doc": "a1:self",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-htb0oj5w7gr",
+      "kind": "normal",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 14,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "a1:foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-hxnjm733k1",
+      "kind": "ready",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 15,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "a1:foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-hxnjm733k1",
+      "kind": "normal",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 16,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "sequence": 17,
+      "type": "page-finished",
+      "url": "moonpool://com.example.probe.a/assets/index.html?doc=a1&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+      "view": "a"
+    },
+    {
+      "allowed": true,
+      "sequence": 18,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.b/assets/index.html?doc=b1&self=moonpool://com.example.probe.b&other=moonpool://com.example.probe.a",
+      "view": "b"
+    },
+    {
+      "sequence": 19,
+      "type": "page-commit",
+      "url": "moonpool://com.example.probe.b/assets/index.html?doc=b1&self=moonpool://com.example.probe.b&other=moonpool://com.example.probe.a",
+      "view": "b"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "b1",
+      "expectedWorld": "MoonpoolT26",
+      "handler": "t26Isolated",
+      "instance": "",
+      "kind": "world-start",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 20,
+      "type": "message",
+      "view": "b",
+      "webViewMatches": true,
+      "world": "MoonpoolT26"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "b1",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "",
+      "kind": "inline",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "loading",
+      "sequence": 21,
+      "type": "message",
+      "view": "b",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "b1",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-9ga4oihrqx",
+      "kind": "ready",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 22,
+      "type": "message",
+      "view": "b",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "b1",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-9ga4oihrqx",
+      "kind": "normal",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 23,
+      "type": "message",
+      "view": "b",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "b1",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-9ga4oihrqx",
+      "kind": "hold",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 24,
+      "type": "message",
+      "view": "b",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "doc": "b1",
+      "id": 2,
+      "instance": "page-9ga4oihrqx",
+      "sequence": 25,
+      "type": "reply-held",
+      "view": "b"
+    },
+    {
+      "allowed": true,
+      "sequence": 26,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.b/assets/index.html?doc=b1%3Aself&frame=1&parent=moonpool%3A%2F%2Fcom.example.probe.b",
+      "view": "b"
+    },
+    {
+      "allowed": true,
+      "sequence": 27,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/index.html?doc=b1%3Aforeign&frame=1&parent=moonpool%3A%2F%2Fcom.example.probe.b",
+      "view": "b"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "subframe",
+      "doc": "b1:self",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "",
+      "kind": "inline",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "loading",
+      "sequence": 28,
+      "type": "message",
+      "view": "b",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "b1:foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "",
+      "kind": "inline",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "loading",
+      "sequence": 29,
+      "type": "message",
+      "view": "b",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "subframe",
+      "doc": "b1:self",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-ecvr5g9bkqj",
+      "kind": "ready",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 30,
+      "type": "message",
+      "view": "b",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "subframe",
+      "doc": "b1:self",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-ecvr5g9bkqj",
+      "kind": "normal",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 31,
+      "type": "message",
+      "view": "b",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "b1:foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-54oy1t1y9dk",
+      "kind": "ready",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 32,
+      "type": "message",
+      "view": "b",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "b1:foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-54oy1t1y9dk",
+      "kind": "normal",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 33,
+      "type": "message",
+      "view": "b",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "sequence": 34,
+      "type": "page-finished",
+      "url": "moonpool://com.example.probe.b/assets/index.html?doc=b1&self=moonpool://com.example.probe.b&other=moonpool://com.example.probe.a",
+      "view": "b"
+    },
+    {
+      "allowed": true,
+      "sequence": 35,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/index.html?doc=c1&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+      "view": "same-origin-other-view"
+    },
+    {
+      "sequence": 36,
+      "type": "page-commit",
+      "url": "moonpool://com.example.probe.a/assets/index.html?doc=c1&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+      "view": "same-origin-other-view"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "c1",
+      "expectedWorld": "MoonpoolT26",
+      "handler": "t26Isolated",
+      "instance": "",
+      "kind": "world-start",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 37,
+      "type": "message",
+      "view": "same-origin-other-view",
+      "webViewMatches": true,
+      "world": "MoonpoolT26"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "c1",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "",
+      "kind": "inline",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "loading",
+      "sequence": 38,
+      "type": "message",
+      "view": "same-origin-other-view",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "c1",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-wh67avet3ph",
+      "kind": "ready",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 39,
+      "type": "message",
+      "view": "same-origin-other-view",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "c1",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-wh67avet3ph",
+      "kind": "normal",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 40,
+      "type": "message",
+      "view": "same-origin-other-view",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "c1",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-wh67avet3ph",
+      "kind": "hold",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 41,
+      "type": "message",
+      "view": "same-origin-other-view",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "doc": "c1",
+      "id": 2,
+      "instance": "page-wh67avet3ph",
+      "sequence": 42,
+      "type": "reply-held",
+      "view": "same-origin-other-view"
+    },
+    {
+      "allowed": true,
+      "sequence": 43,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/index.html?doc=c1%3Aself&frame=1&parent=moonpool%3A%2F%2Fcom.example.probe.a",
+      "view": "same-origin-other-view"
+    },
+    {
+      "allowed": true,
+      "sequence": 44,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.b/assets/index.html?doc=c1%3Aforeign&frame=1&parent=moonpool%3A%2F%2Fcom.example.probe.a",
+      "view": "same-origin-other-view"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "subframe",
+      "doc": "c1:self",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "",
+      "kind": "inline",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "loading",
+      "sequence": 45,
+      "type": "message",
+      "view": "same-origin-other-view",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "c1:foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "",
+      "kind": "inline",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "loading",
+      "sequence": 46,
+      "type": "message",
+      "view": "same-origin-other-view",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "subframe",
+      "doc": "c1:self",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-rya7tu56gpd",
+      "kind": "ready",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 47,
+      "type": "message",
+      "view": "same-origin-other-view",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "subframe",
+      "doc": "c1:self",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-rya7tu56gpd",
+      "kind": "normal",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 48,
+      "type": "message",
+      "view": "same-origin-other-view",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "c1:foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-ybkyhlxo7hk",
+      "kind": "ready",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 49,
+      "type": "message",
+      "view": "same-origin-other-view",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "c1:foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-ybkyhlxo7hk",
+      "kind": "normal",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 50,
+      "type": "message",
+      "view": "same-origin-other-view",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "sequence": 51,
+      "type": "page-finished",
+      "url": "moonpool://com.example.probe.a/assets/index.html?doc=c1&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+      "view": "same-origin-other-view"
+    },
+    {
+      "decision": "wrong-view",
+      "sequence": 52,
+      "sourceView": "same-origin-other-view",
+      "targetView": "a",
+      "type": "host-route-replay"
+    },
+    {
+      "capturedURL": "moonpool://com.example.probe.a/assets/index.html?doc=a1&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+      "label": "current-frame-positive",
+      "sequence": 53,
+      "type": "frame-eval-attempt"
+    },
+    {
+      "label": "current-frame-positive",
+      "result": {
+        "doc": "a1",
+        "instance": "page-zt7qp269n2"
+      },
+      "sequence": 54,
+      "success": true,
+      "type": "frame-eval-result"
+    },
+    {
+      "sequence": 55,
+      "success": true,
+      "type": "world-eval",
+      "value": "{\"value\":\"isolated-public-marker\",\"replies\":[{\"sourceDoc\":\"a1\",\"world\":\"MoonpoolT26\",\"marker\":\"immediate:world-start\"}],\"doc\":\"a1\"}"
+    },
+    {
+      "allowed": true,
+      "sequence": 56,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/index.html?doc=a2&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+      "view": "a"
+    },
+    {
+      "sequence": 57,
+      "type": "page-commit",
+      "url": "moonpool://com.example.probe.a/assets/index.html?doc=a2&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+      "view": "a"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "a2",
+      "expectedWorld": "MoonpoolT26",
+      "handler": "t26Isolated",
+      "instance": "",
+      "kind": "world-start",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 58,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "MoonpoolT26"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "a2",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "",
+      "kind": "inline",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "loading",
+      "sequence": 59,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "a2",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-86v77y1iboa",
+      "kind": "ready",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 60,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "a2",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-86v77y1iboa",
+      "kind": "normal",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 61,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "a2",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-86v77y1iboa",
+      "kind": "hold",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 62,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "doc": "a2",
+      "id": 2,
+      "instance": "page-86v77y1iboa",
+      "sequence": 63,
+      "type": "reply-held",
+      "view": "a"
+    },
+    {
+      "allowed": true,
+      "sequence": 64,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/index.html?doc=a2%3Aself&frame=1&parent=moonpool%3A%2F%2Fcom.example.probe.a",
+      "view": "a"
+    },
+    {
+      "allowed": true,
+      "sequence": 65,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.b/assets/index.html?doc=a2%3Aforeign&frame=1&parent=moonpool%3A%2F%2Fcom.example.probe.a",
+      "view": "a"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "subframe",
+      "doc": "a2:self",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "",
+      "kind": "inline",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "loading",
+      "sequence": 66,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "a2:foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "",
+      "kind": "inline",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "loading",
+      "sequence": 67,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "subframe",
+      "doc": "a2:self",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-mojshwnr1jf",
+      "kind": "ready",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 68,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "subframe",
+      "doc": "a2:self",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-mojshwnr1jf",
+      "kind": "normal",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 69,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "a2:foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-i59f1n4xl8e",
+      "kind": "ready",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 70,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "a2:foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-i59f1n4xl8e",
+      "kind": "normal",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 71,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "sequence": 72,
+      "type": "page-finished",
+      "url": "moonpool://com.example.probe.a/assets/index.html?doc=a2&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+      "view": "a"
+    },
+    {
+      "doc": "a1",
+      "instance": "page-zt7qp269n2",
+      "label": "old-reply-replacement",
+      "sequence": 73,
+      "type": "old-reply-called"
+    },
+    {
+      "label": "legacy-global-replacement",
+      "sequence": 74,
+      "sourceDoc": "a1",
+      "type": "legacy-eval-attempt"
+    },
+    {
+      "label": "legacy-global-replacement",
+      "result": {
+        "doc": "a2",
+        "instance": "page-86v77y1iboa"
+      },
+      "sequence": 75,
+      "success": true,
+      "type": "legacy-eval-result"
+    },
+    {
+      "capturedURL": "moonpool://com.example.probe.a/assets/index.html?doc=a1&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+      "label": "stale-frame-replacement",
+      "sequence": 76,
+      "type": "frame-eval-attempt"
+    },
+    {
+      "label": "stale-frame-replacement",
+      "result": {
+        "doc": "a2",
+        "instance": "page-86v77y1iboa"
+      },
+      "sequence": 77,
+      "success": true,
+      "type": "frame-eval-result"
+    },
+    {
+      "label": "replacement-positive",
+      "sequence": 78,
+      "type": "current-reply-called"
+    },
+    {
+      "beforePageFinished": false,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "a2",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-86v77y1iboa",
+      "kind": "hold",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 79,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "doc": "a2",
+      "id": 2,
+      "instance": "page-86v77y1iboa",
+      "sequence": 80,
+      "type": "reply-held",
+      "view": "a"
+    },
+    {
+      "allowed": true,
+      "sequence": 81,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/index.html?doc=a2&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+      "view": "a"
+    },
+    {
+      "sequence": 82,
+      "type": "page-commit",
+      "url": "moonpool://com.example.probe.a/assets/index.html?doc=a2&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+      "view": "a"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "a2",
+      "expectedWorld": "MoonpoolT26",
+      "handler": "t26Isolated",
+      "instance": "",
+      "kind": "world-start",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 83,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "MoonpoolT26"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "a2",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "",
+      "kind": "inline",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "loading",
+      "sequence": 84,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "a2",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-t2ez3z8hpvb",
+      "kind": "ready",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 85,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "a2",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-t2ez3z8hpvb",
+      "kind": "normal",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 86,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "a2",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-t2ez3z8hpvb",
+      "kind": "hold",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 87,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "doc": "a2",
+      "id": 2,
+      "instance": "page-t2ez3z8hpvb",
+      "sequence": 88,
+      "type": "reply-held",
+      "view": "a"
+    },
+    {
+      "allowed": true,
+      "sequence": 89,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/index.html?doc=a2%3Aself&frame=1&parent=moonpool%3A%2F%2Fcom.example.probe.a",
+      "view": "a"
+    },
+    {
+      "allowed": true,
+      "sequence": 90,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.b/assets/index.html?doc=a2%3Aforeign&frame=1&parent=moonpool%3A%2F%2Fcom.example.probe.a",
+      "view": "a"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "subframe",
+      "doc": "a2:self",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "",
+      "kind": "inline",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "loading",
+      "sequence": 91,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "a2:foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "",
+      "kind": "inline",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "loading",
+      "sequence": 92,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "subframe",
+      "doc": "a2:self",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-9md3d2gzajo",
+      "kind": "ready",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 93,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "subframe",
+      "doc": "a2:self",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-9md3d2gzajo",
+      "kind": "normal",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 94,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "a2:foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-2h8k5v6egxs",
+      "kind": "ready",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 95,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "a2:foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-2h8k5v6egxs",
+      "kind": "normal",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 96,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "sequence": 97,
+      "type": "page-finished",
+      "url": "moonpool://com.example.probe.a/assets/index.html?doc=a2&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+      "view": "a"
+    },
+    {
+      "doc": "a2",
+      "instance": "page-86v77y1iboa",
+      "label": "old-reply-reload",
+      "sequence": 98,
+      "type": "old-reply-called"
+    },
+    {
+      "label": "legacy-global-reload",
+      "sequence": 99,
+      "sourceDoc": "a2",
+      "type": "legacy-eval-attempt"
+    },
+    {
+      "label": "legacy-global-reload",
+      "result": {
+        "doc": "a2",
+        "instance": "page-t2ez3z8hpvb"
+      },
+      "sequence": 100,
+      "success": true,
+      "type": "legacy-eval-result"
+    },
+    {
+      "capturedURL": "moonpool://com.example.probe.a/assets/index.html?doc=a2&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+      "label": "stale-frame-reload",
+      "sequence": 101,
+      "type": "frame-eval-attempt"
+    },
+    {
+      "label": "stale-frame-reload",
+      "result": {
+        "doc": "a2",
+        "instance": "page-t2ez3z8hpvb"
+      },
+      "sequence": 102,
+      "success": true,
+      "type": "frame-eval-result"
+    },
+    {
+      "label": "reload-positive",
+      "sequence": 103,
+      "type": "current-reply-called"
+    },
+    {
+      "allowed": true,
+      "sequence": 104,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.b/assets/index.html?doc=a-foreign&self=moonpool://com.example.probe.b&other=moonpool://com.example.probe.a",
+      "view": "a"
+    },
+    {
+      "sequence": 105,
+      "type": "page-commit",
+      "url": "moonpool://com.example.probe.b/assets/index.html?doc=a-foreign&self=moonpool://com.example.probe.b&other=moonpool://com.example.probe.a",
+      "view": "a"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "a-foreign",
+      "expectedWorld": "MoonpoolT26",
+      "handler": "t26Isolated",
+      "instance": "",
+      "kind": "world-start",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 106,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "MoonpoolT26"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "a-foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "",
+      "kind": "inline",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "loading",
+      "sequence": 107,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "a-foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-xp279yfsnw",
+      "kind": "ready",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 108,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "a-foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-xp279yfsnw",
+      "kind": "normal",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 109,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "a-foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-xp279yfsnw",
+      "kind": "hold",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 110,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "allowed": true,
+      "sequence": 111,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.b/assets/index.html?doc=a-foreign%3Aself&frame=1&parent=moonpool%3A%2F%2Fcom.example.probe.b",
+      "view": "a"
+    },
+    {
+      "allowed": true,
+      "sequence": 112,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/index.html?doc=a-foreign%3Aforeign&frame=1&parent=moonpool%3A%2F%2Fcom.example.probe.b",
+      "view": "a"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "a-foreign:self",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "",
+      "kind": "inline",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "loading",
+      "sequence": 113,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "subframe",
+      "doc": "a-foreign:foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "",
+      "kind": "inline",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "loading",
+      "sequence": 114,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "a-foreign:self",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-r65bdxbdbd",
+      "kind": "ready",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 115,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "a-foreign:self",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-r65bdxbdbd",
+      "kind": "normal",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 116,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "subframe",
+      "doc": "a-foreign:foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-xj58bnmvej",
+      "kind": "ready",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 117,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "subframe",
+      "doc": "a-foreign:foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-xj58bnmvej",
+      "kind": "normal",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 118,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "sequence": 119,
+      "type": "page-finished",
+      "url": "moonpool://com.example.probe.b/assets/index.html?doc=a-foreign&self=moonpool://com.example.probe.b&other=moonpool://com.example.probe.a",
+      "view": "a"
+    },
+    {
+      "allowed": true,
+      "sequence": 120,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/index.html?doc=a-return&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+      "view": "a"
+    },
+    {
+      "sequence": 121,
+      "type": "page-commit",
+      "url": "moonpool://com.example.probe.a/assets/index.html?doc=a-return&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+      "view": "a"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "a-return",
+      "expectedWorld": "MoonpoolT26",
+      "handler": "t26Isolated",
+      "instance": "",
+      "kind": "world-start",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 122,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "MoonpoolT26"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "a-return",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "",
+      "kind": "inline",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "loading",
+      "sequence": 123,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "a-return",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-xfzzht5h0t",
+      "kind": "ready",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 124,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "a-return",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-xfzzht5h0t",
+      "kind": "normal",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 125,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "accepted",
+      "doc": "a-return",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-xfzzht5h0t",
+      "kind": "hold",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 126,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "doc": "a-return",
+      "id": 2,
+      "instance": "page-xfzzht5h0t",
+      "sequence": 127,
+      "type": "reply-held",
+      "view": "a"
+    },
+    {
+      "allowed": true,
+      "sequence": 128,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.a/assets/index.html?doc=a-return%3Aself&frame=1&parent=moonpool%3A%2F%2Fcom.example.probe.a",
+      "view": "a"
+    },
+    {
+      "allowed": true,
+      "sequence": 129,
+      "type": "navigation",
+      "url": "moonpool://com.example.probe.b/assets/index.html?doc=a-return%3Aforeign&frame=1&parent=moonpool%3A%2F%2Fcom.example.probe.a",
+      "view": "a"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "subframe",
+      "doc": "a-return:self",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "",
+      "kind": "inline",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "loading",
+      "sequence": 130,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "a-return:foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "",
+      "kind": "inline",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "loading",
+      "sequence": 131,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "subframe",
+      "doc": "a-return:self",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-8u620o4gxzu",
+      "kind": "ready",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 132,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "subframe",
+      "doc": "a-return:self",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-8u620o4gxzu",
+      "kind": "normal",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 133,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "a-return:foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-8pz8c86htyn",
+      "kind": "ready",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 134,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "beforePageFinished": true,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "wrong-origin",
+      "doc": "a-return:foreign",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-8pz8c86htyn",
+      "kind": "normal",
+      "mainFrame": false,
+      "origin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 135,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "sequence": 136,
+      "type": "page-finished",
+      "url": "moonpool://com.example.probe.a/assets/index.html?doc=a-return&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+      "view": "a"
+    },
+    {
+      "beforePageFinished": false,
+      "claimedMainFrame": true,
+      "claimedOrigin": "moonpool://forged.invalid",
+      "decision": "retired",
+      "doc": "a-return",
+      "expectedWorld": "page",
+      "handler": "t26Page",
+      "instance": "page-xfzzht5h0t",
+      "kind": "after-retire",
+      "mainFrame": true,
+      "origin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "readyState": "",
+      "sequence": 137,
+      "type": "message",
+      "view": "a",
+      "webViewMatches": true,
+      "world": "page"
+    },
+    {
+      "sequence": 138,
+      "type": "handlers-removed",
+      "view": "a"
+    }
+  ],
+  "heldCompletionsCalled": true,
+  "os": "26.4.1",
+  "profile": "main-only",
+  "run": "first",
+  "samples": [
+    {
+      "label": "initial-a",
+      "observation": {
+        "doc": "a1",
+        "early": [
+          {
+            "marker": "immediate:inline",
+            "sourceDoc": "a1",
+            "world": "page"
+          }
+        ],
+        "frames": [
+          {
+            "doc": "a1:self",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.a",
+            "origin": "moonpool://com.example.probe.a",
+            "pageHandlerVisible": true
+          },
+          {
+            "doc": "a1:foreign",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.b",
+            "origin": "moonpool://com.example.probe.b",
+            "pageHandlerVisible": true
+          }
+        ],
+        "handlerLookupErrors": {},
+        "heldResults": [],
+        "href": "moonpool://com.example.probe.a/assets/index.html?doc=a1&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+        "instance": "page-zt7qp269n2",
+        "isolatedGlobalVisible": false,
+        "isolatedHandlerVisible": false,
+        "legacyMessages": [],
+        "legacyResult": null,
+        "mainFrame": true,
+        "origin": "moonpool://com.example.probe.a",
+        "pageHandlerVisible": true,
+        "ready": true,
+        "rejected": [],
+        "removalAttempted": false,
+        "removedReference": [],
+        "replies": [
+          {
+            "kind": "ready",
+            "value": {
+              "marker": "immediate:ready",
+              "sourceDoc": "a1",
+              "world": "page"
+            }
+          },
+          {
+            "kind": "normal",
+            "value": {
+              "marker": "immediate:normal",
+              "sourceDoc": "a1",
+              "world": "page"
+            }
+          }
+        ],
+        "sharedDOMMarker": "shared-dom-marker"
+      },
+      "view": "a"
+    },
+    {
+      "label": "initial-b",
+      "observation": {
+        "doc": "b1",
+        "early": [
+          {
+            "marker": "immediate:inline",
+            "sourceDoc": "b1",
+            "world": "page"
+          }
+        ],
+        "frames": [
+          {
+            "doc": "b1:self",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.b",
+            "origin": "moonpool://com.example.probe.b",
+            "pageHandlerVisible": true
+          },
+          {
+            "doc": "b1:foreign",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.a",
+            "origin": "moonpool://com.example.probe.a",
+            "pageHandlerVisible": true
+          }
+        ],
+        "handlerLookupErrors": {},
+        "heldResults": [],
+        "href": "moonpool://com.example.probe.b/assets/index.html?doc=b1&self=moonpool://com.example.probe.b&other=moonpool://com.example.probe.a",
+        "instance": "page-9ga4oihrqx",
+        "isolatedGlobalVisible": false,
+        "isolatedHandlerVisible": false,
+        "legacyMessages": [],
+        "legacyResult": null,
+        "mainFrame": true,
+        "origin": "moonpool://com.example.probe.b",
+        "pageHandlerVisible": true,
+        "ready": true,
+        "rejected": [],
+        "removalAttempted": false,
+        "removedReference": [],
+        "replies": [
+          {
+            "kind": "ready",
+            "value": {
+              "marker": "immediate:ready",
+              "sourceDoc": "b1",
+              "world": "page"
+            }
+          },
+          {
+            "kind": "normal",
+            "value": {
+              "marker": "immediate:normal",
+              "sourceDoc": "b1",
+              "world": "page"
+            }
+          }
+        ],
+        "sharedDOMMarker": "shared-dom-marker"
+      },
+      "view": "b"
+    },
+    {
+      "label": "same-origin-other-view",
+      "observation": {
+        "doc": "c1",
+        "early": [
+          {
+            "marker": "immediate:inline",
+            "sourceDoc": "c1",
+            "world": "page"
+          }
+        ],
+        "frames": [
+          {
+            "doc": "c1:self",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.a",
+            "origin": "moonpool://com.example.probe.a",
+            "pageHandlerVisible": true
+          },
+          {
+            "doc": "c1:foreign",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.b",
+            "origin": "moonpool://com.example.probe.b",
+            "pageHandlerVisible": true
+          }
+        ],
+        "handlerLookupErrors": {},
+        "heldResults": [],
+        "href": "moonpool://com.example.probe.a/assets/index.html?doc=c1&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+        "instance": "page-wh67avet3ph",
+        "isolatedGlobalVisible": false,
+        "isolatedHandlerVisible": false,
+        "legacyMessages": [],
+        "legacyResult": null,
+        "mainFrame": true,
+        "origin": "moonpool://com.example.probe.a",
+        "pageHandlerVisible": true,
+        "ready": true,
+        "rejected": [],
+        "removalAttempted": false,
+        "removedReference": [],
+        "replies": [
+          {
+            "kind": "ready",
+            "value": {
+              "marker": "immediate:ready",
+              "sourceDoc": "c1",
+              "world": "page"
+            }
+          },
+          {
+            "kind": "normal",
+            "value": {
+              "marker": "immediate:normal",
+              "sourceDoc": "c1",
+              "world": "page"
+            }
+          }
+        ],
+        "sharedDOMMarker": "shared-dom-marker"
+      },
+      "view": "same-origin-other-view"
+    },
+    {
+      "label": "current-frame-positive",
+      "observation": {
+        "doc": "a1",
+        "early": [
+          {
+            "marker": "immediate:inline",
+            "sourceDoc": "a1",
+            "world": "page"
+          }
+        ],
+        "frames": [
+          {
+            "doc": "a1:self",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.a",
+            "origin": "moonpool://com.example.probe.a",
+            "pageHandlerVisible": true
+          },
+          {
+            "doc": "a1:foreign",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.b",
+            "origin": "moonpool://com.example.probe.b",
+            "pageHandlerVisible": true
+          }
+        ],
+        "handlerLookupErrors": {},
+        "heldResults": [],
+        "href": "moonpool://com.example.probe.a/assets/index.html?doc=a1&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+        "instance": "page-zt7qp269n2",
+        "isolatedGlobalVisible": false,
+        "isolatedHandlerVisible": false,
+        "legacyMessages": [
+          {
+            "id": 999,
+            "marker": "frame:current-frame-positive"
+          }
+        ],
+        "legacyResult": null,
+        "mainFrame": true,
+        "origin": "moonpool://com.example.probe.a",
+        "pageHandlerVisible": true,
+        "ready": true,
+        "rejected": [],
+        "removalAttempted": false,
+        "removedReference": [],
+        "replies": [
+          {
+            "kind": "ready",
+            "value": {
+              "marker": "immediate:ready",
+              "sourceDoc": "a1",
+              "world": "page"
+            }
+          },
+          {
+            "kind": "normal",
+            "value": {
+              "marker": "immediate:normal",
+              "sourceDoc": "a1",
+              "world": "page"
+            }
+          }
+        ],
+        "sharedDOMMarker": "shared-dom-marker"
+      },
+      "view": "a"
+    },
+    {
+      "label": "isolated-world",
+      "observation": {
+        "doc": "a1",
+        "early": [
+          {
+            "marker": "immediate:inline",
+            "sourceDoc": "a1",
+            "world": "page"
+          }
+        ],
+        "frames": [
+          {
+            "doc": "a1:self",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.a",
+            "origin": "moonpool://com.example.probe.a",
+            "pageHandlerVisible": true
+          },
+          {
+            "doc": "a1:foreign",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.b",
+            "origin": "moonpool://com.example.probe.b",
+            "pageHandlerVisible": true
+          }
+        ],
+        "handlerLookupErrors": {},
+        "heldResults": [],
+        "href": "moonpool://com.example.probe.a/assets/index.html?doc=a1&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+        "instance": "page-zt7qp269n2",
+        "isolatedGlobalVisible": false,
+        "isolatedHandlerVisible": false,
+        "legacyMessages": [
+          {
+            "id": 999,
+            "marker": "frame:current-frame-positive"
+          }
+        ],
+        "legacyResult": null,
+        "mainFrame": true,
+        "origin": "moonpool://com.example.probe.a",
+        "pageHandlerVisible": true,
+        "ready": true,
+        "rejected": [],
+        "removalAttempted": false,
+        "removedReference": [],
+        "replies": [
+          {
+            "kind": "ready",
+            "value": {
+              "marker": "immediate:ready",
+              "sourceDoc": "a1",
+              "world": "page"
+            }
+          },
+          {
+            "kind": "normal",
+            "value": {
+              "marker": "immediate:normal",
+              "sourceDoc": "a1",
+              "world": "page"
+            }
+          }
+        ],
+        "sharedDOMMarker": "shared-dom-marker"
+      },
+      "view": "a"
+    },
+    {
+      "label": "same-origin-replacement",
+      "observation": {
+        "doc": "a2",
+        "early": [
+          {
+            "marker": "immediate:inline",
+            "sourceDoc": "a2",
+            "world": "page"
+          }
+        ],
+        "frames": [
+          {
+            "doc": "a2:self",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.a",
+            "origin": "moonpool://com.example.probe.a",
+            "pageHandlerVisible": true
+          },
+          {
+            "doc": "a2:foreign",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.b",
+            "origin": "moonpool://com.example.probe.b",
+            "pageHandlerVisible": true
+          }
+        ],
+        "handlerLookupErrors": {},
+        "heldResults": [],
+        "href": "moonpool://com.example.probe.a/assets/index.html?doc=a2&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+        "instance": "page-86v77y1iboa",
+        "isolatedGlobalVisible": false,
+        "isolatedHandlerVisible": false,
+        "legacyMessages": [],
+        "legacyResult": null,
+        "mainFrame": true,
+        "origin": "moonpool://com.example.probe.a",
+        "pageHandlerVisible": true,
+        "ready": true,
+        "rejected": [],
+        "removalAttempted": false,
+        "removedReference": [],
+        "replies": [
+          {
+            "kind": "ready",
+            "value": {
+              "marker": "immediate:ready",
+              "sourceDoc": "a2",
+              "world": "page"
+            }
+          },
+          {
+            "kind": "normal",
+            "value": {
+              "marker": "immediate:normal",
+              "sourceDoc": "a2",
+              "world": "page"
+            }
+          }
+        ],
+        "sharedDOMMarker": "shared-dom-marker"
+      },
+      "view": "a"
+    },
+    {
+      "label": "old-reply-replacement",
+      "observation": {
+        "doc": "a2",
+        "early": [
+          {
+            "marker": "immediate:inline",
+            "sourceDoc": "a2",
+            "world": "page"
+          }
+        ],
+        "frames": [
+          {
+            "doc": "a2:self",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.a",
+            "origin": "moonpool://com.example.probe.a",
+            "pageHandlerVisible": true
+          },
+          {
+            "doc": "a2:foreign",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.b",
+            "origin": "moonpool://com.example.probe.b",
+            "pageHandlerVisible": true
+          }
+        ],
+        "handlerLookupErrors": {},
+        "heldResults": [],
+        "href": "moonpool://com.example.probe.a/assets/index.html?doc=a2&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+        "instance": "page-86v77y1iboa",
+        "isolatedGlobalVisible": false,
+        "isolatedHandlerVisible": false,
+        "legacyMessages": [],
+        "legacyResult": null,
+        "mainFrame": true,
+        "origin": "moonpool://com.example.probe.a",
+        "pageHandlerVisible": true,
+        "ready": true,
+        "rejected": [],
+        "removalAttempted": false,
+        "removedReference": [],
+        "replies": [
+          {
+            "kind": "ready",
+            "value": {
+              "marker": "immediate:ready",
+              "sourceDoc": "a2",
+              "world": "page"
+            }
+          },
+          {
+            "kind": "normal",
+            "value": {
+              "marker": "immediate:normal",
+              "sourceDoc": "a2",
+              "world": "page"
+            }
+          }
+        ],
+        "sharedDOMMarker": "shared-dom-marker"
+      },
+      "view": "a"
+    },
+    {
+      "label": "legacy-global-replacement",
+      "observation": {
+        "doc": "a2",
+        "early": [
+          {
+            "marker": "immediate:inline",
+            "sourceDoc": "a2",
+            "world": "page"
+          }
+        ],
+        "frames": [
+          {
+            "doc": "a2:self",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.a",
+            "origin": "moonpool://com.example.probe.a",
+            "pageHandlerVisible": true
+          },
+          {
+            "doc": "a2:foreign",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.b",
+            "origin": "moonpool://com.example.probe.b",
+            "pageHandlerVisible": true
+          }
+        ],
+        "handlerLookupErrors": {},
+        "heldResults": [],
+        "href": "moonpool://com.example.probe.a/assets/index.html?doc=a2&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+        "instance": "page-86v77y1iboa",
+        "isolatedGlobalVisible": false,
+        "isolatedHandlerVisible": false,
+        "legacyMessages": [
+          {
+            "id": 2,
+            "marker": "old:legacy-global-replacement",
+            "sourceDoc": "a1"
+          }
+        ],
+        "legacyResult": "old:legacy-global-replacement",
+        "mainFrame": true,
+        "origin": "moonpool://com.example.probe.a",
+        "pageHandlerVisible": true,
+        "ready": true,
+        "rejected": [],
+        "removalAttempted": false,
+        "removedReference": [],
+        "replies": [
+          {
+            "kind": "ready",
+            "value": {
+              "marker": "immediate:ready",
+              "sourceDoc": "a2",
+              "world": "page"
+            }
+          },
+          {
+            "kind": "normal",
+            "value": {
+              "marker": "immediate:normal",
+              "sourceDoc": "a2",
+              "world": "page"
+            }
+          }
+        ],
+        "sharedDOMMarker": "shared-dom-marker"
+      },
+      "view": "a"
+    },
+    {
+      "label": "stale-frame-replacement",
+      "observation": {
+        "doc": "a2",
+        "early": [
+          {
+            "marker": "immediate:inline",
+            "sourceDoc": "a2",
+            "world": "page"
+          }
+        ],
+        "frames": [
+          {
+            "doc": "a2:self",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.a",
+            "origin": "moonpool://com.example.probe.a",
+            "pageHandlerVisible": true
+          },
+          {
+            "doc": "a2:foreign",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.b",
+            "origin": "moonpool://com.example.probe.b",
+            "pageHandlerVisible": true
+          }
+        ],
+        "handlerLookupErrors": {},
+        "heldResults": [],
+        "href": "moonpool://com.example.probe.a/assets/index.html?doc=a2&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+        "instance": "page-86v77y1iboa",
+        "isolatedGlobalVisible": false,
+        "isolatedHandlerVisible": false,
+        "legacyMessages": [
+          {
+            "id": 2,
+            "marker": "old:legacy-global-replacement",
+            "sourceDoc": "a1"
+          },
+          {
+            "id": 999,
+            "marker": "frame:stale-frame-replacement"
+          }
+        ],
+        "legacyResult": "old:legacy-global-replacement",
+        "mainFrame": true,
+        "origin": "moonpool://com.example.probe.a",
+        "pageHandlerVisible": true,
+        "ready": true,
+        "rejected": [],
+        "removalAttempted": false,
+        "removedReference": [],
+        "replies": [
+          {
+            "kind": "ready",
+            "value": {
+              "marker": "immediate:ready",
+              "sourceDoc": "a2",
+              "world": "page"
+            }
+          },
+          {
+            "kind": "normal",
+            "value": {
+              "marker": "immediate:normal",
+              "sourceDoc": "a2",
+              "world": "page"
+            }
+          }
+        ],
+        "sharedDOMMarker": "shared-dom-marker"
+      },
+      "view": "a"
+    },
+    {
+      "label": "replacement-positive",
+      "observation": {
+        "doc": "a2",
+        "early": [
+          {
+            "marker": "immediate:inline",
+            "sourceDoc": "a2",
+            "world": "page"
+          }
+        ],
+        "frames": [
+          {
+            "doc": "a2:self",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.a",
+            "origin": "moonpool://com.example.probe.a",
+            "pageHandlerVisible": true
+          },
+          {
+            "doc": "a2:foreign",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.b",
+            "origin": "moonpool://com.example.probe.b",
+            "pageHandlerVisible": true
+          }
+        ],
+        "handlerLookupErrors": {},
+        "heldResults": [
+          {
+            "id": 2,
+            "marker": "current:replacement-positive",
+            "sourceDoc": "a2",
+            "sourceInstance": "page-86v77y1iboa"
+          }
+        ],
+        "href": "moonpool://com.example.probe.a/assets/index.html?doc=a2&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+        "instance": "page-86v77y1iboa",
+        "isolatedGlobalVisible": false,
+        "isolatedHandlerVisible": false,
+        "legacyMessages": [
+          {
+            "id": 2,
+            "marker": "old:legacy-global-replacement",
+            "sourceDoc": "a1"
+          },
+          {
+            "id": 999,
+            "marker": "frame:stale-frame-replacement"
+          }
+        ],
+        "legacyResult": "old:legacy-global-replacement",
+        "mainFrame": true,
+        "origin": "moonpool://com.example.probe.a",
+        "pageHandlerVisible": true,
+        "ready": true,
+        "rejected": [],
+        "removalAttempted": false,
+        "removedReference": [],
+        "replies": [
+          {
+            "kind": "ready",
+            "value": {
+              "marker": "immediate:ready",
+              "sourceDoc": "a2",
+              "world": "page"
+            }
+          },
+          {
+            "kind": "normal",
+            "value": {
+              "marker": "immediate:normal",
+              "sourceDoc": "a2",
+              "world": "page"
+            }
+          }
+        ],
+        "sharedDOMMarker": "shared-dom-marker"
+      },
+      "view": "a"
+    },
+    {
+      "label": "prepare-reload",
+      "observation": {
+        "doc": "a2",
+        "early": [
+          {
+            "marker": "immediate:inline",
+            "sourceDoc": "a2",
+            "world": "page"
+          }
+        ],
+        "frames": [
+          {
+            "doc": "a2:self",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.a",
+            "origin": "moonpool://com.example.probe.a",
+            "pageHandlerVisible": true
+          },
+          {
+            "doc": "a2:foreign",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.b",
+            "origin": "moonpool://com.example.probe.b",
+            "pageHandlerVisible": true
+          }
+        ],
+        "handlerLookupErrors": {},
+        "heldResults": [
+          {
+            "id": 2,
+            "marker": "current:replacement-positive",
+            "sourceDoc": "a2",
+            "sourceInstance": "page-86v77y1iboa"
+          }
+        ],
+        "href": "moonpool://com.example.probe.a/assets/index.html?doc=a2&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+        "instance": "page-86v77y1iboa",
+        "isolatedGlobalVisible": false,
+        "isolatedHandlerVisible": false,
+        "legacyMessages": [
+          {
+            "id": 2,
+            "marker": "old:legacy-global-replacement",
+            "sourceDoc": "a1"
+          },
+          {
+            "id": 999,
+            "marker": "frame:stale-frame-replacement"
+          }
+        ],
+        "legacyResult": "old:legacy-global-replacement",
+        "mainFrame": true,
+        "origin": "moonpool://com.example.probe.a",
+        "pageHandlerVisible": true,
+        "ready": true,
+        "rejected": [],
+        "removalAttempted": false,
+        "removedReference": [],
+        "replies": [
+          {
+            "kind": "ready",
+            "value": {
+              "marker": "immediate:ready",
+              "sourceDoc": "a2",
+              "world": "page"
+            }
+          },
+          {
+            "kind": "normal",
+            "value": {
+              "marker": "immediate:normal",
+              "sourceDoc": "a2",
+              "world": "page"
+            }
+          }
+        ],
+        "sharedDOMMarker": "shared-dom-marker"
+      },
+      "view": "a"
+    },
+    {
+      "label": "same-url-reload",
+      "observation": {
+        "doc": "a2",
+        "early": [
+          {
+            "marker": "immediate:inline",
+            "sourceDoc": "a2",
+            "world": "page"
+          }
+        ],
+        "frames": [
+          {
+            "doc": "a2:self",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.a",
+            "origin": "moonpool://com.example.probe.a",
+            "pageHandlerVisible": true
+          },
+          {
+            "doc": "a2:foreign",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.b",
+            "origin": "moonpool://com.example.probe.b",
+            "pageHandlerVisible": true
+          }
+        ],
+        "handlerLookupErrors": {},
+        "heldResults": [],
+        "href": "moonpool://com.example.probe.a/assets/index.html?doc=a2&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+        "instance": "page-t2ez3z8hpvb",
+        "isolatedGlobalVisible": false,
+        "isolatedHandlerVisible": false,
+        "legacyMessages": [],
+        "legacyResult": null,
+        "mainFrame": true,
+        "origin": "moonpool://com.example.probe.a",
+        "pageHandlerVisible": true,
+        "ready": true,
+        "rejected": [],
+        "removalAttempted": false,
+        "removedReference": [],
+        "replies": [
+          {
+            "kind": "ready",
+            "value": {
+              "marker": "immediate:ready",
+              "sourceDoc": "a2",
+              "world": "page"
+            }
+          },
+          {
+            "kind": "normal",
+            "value": {
+              "marker": "immediate:normal",
+              "sourceDoc": "a2",
+              "world": "page"
+            }
+          }
+        ],
+        "sharedDOMMarker": "shared-dom-marker"
+      },
+      "view": "a"
+    },
+    {
+      "label": "old-reply-reload",
+      "observation": {
+        "doc": "a2",
+        "early": [
+          {
+            "marker": "immediate:inline",
+            "sourceDoc": "a2",
+            "world": "page"
+          }
+        ],
+        "frames": [
+          {
+            "doc": "a2:self",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.a",
+            "origin": "moonpool://com.example.probe.a",
+            "pageHandlerVisible": true
+          },
+          {
+            "doc": "a2:foreign",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.b",
+            "origin": "moonpool://com.example.probe.b",
+            "pageHandlerVisible": true
+          }
+        ],
+        "handlerLookupErrors": {},
+        "heldResults": [],
+        "href": "moonpool://com.example.probe.a/assets/index.html?doc=a2&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+        "instance": "page-t2ez3z8hpvb",
+        "isolatedGlobalVisible": false,
+        "isolatedHandlerVisible": false,
+        "legacyMessages": [],
+        "legacyResult": null,
+        "mainFrame": true,
+        "origin": "moonpool://com.example.probe.a",
+        "pageHandlerVisible": true,
+        "ready": true,
+        "rejected": [],
+        "removalAttempted": false,
+        "removedReference": [],
+        "replies": [
+          {
+            "kind": "ready",
+            "value": {
+              "marker": "immediate:ready",
+              "sourceDoc": "a2",
+              "world": "page"
+            }
+          },
+          {
+            "kind": "normal",
+            "value": {
+              "marker": "immediate:normal",
+              "sourceDoc": "a2",
+              "world": "page"
+            }
+          }
+        ],
+        "sharedDOMMarker": "shared-dom-marker"
+      },
+      "view": "a"
+    },
+    {
+      "label": "legacy-global-reload",
+      "observation": {
+        "doc": "a2",
+        "early": [
+          {
+            "marker": "immediate:inline",
+            "sourceDoc": "a2",
+            "world": "page"
+          }
+        ],
+        "frames": [
+          {
+            "doc": "a2:self",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.a",
+            "origin": "moonpool://com.example.probe.a",
+            "pageHandlerVisible": true
+          },
+          {
+            "doc": "a2:foreign",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.b",
+            "origin": "moonpool://com.example.probe.b",
+            "pageHandlerVisible": true
+          }
+        ],
+        "handlerLookupErrors": {},
+        "heldResults": [],
+        "href": "moonpool://com.example.probe.a/assets/index.html?doc=a2&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+        "instance": "page-t2ez3z8hpvb",
+        "isolatedGlobalVisible": false,
+        "isolatedHandlerVisible": false,
+        "legacyMessages": [
+          {
+            "id": 2,
+            "marker": "old:legacy-global-reload",
+            "sourceDoc": "a2"
+          }
+        ],
+        "legacyResult": "old:legacy-global-reload",
+        "mainFrame": true,
+        "origin": "moonpool://com.example.probe.a",
+        "pageHandlerVisible": true,
+        "ready": true,
+        "rejected": [],
+        "removalAttempted": false,
+        "removedReference": [],
+        "replies": [
+          {
+            "kind": "ready",
+            "value": {
+              "marker": "immediate:ready",
+              "sourceDoc": "a2",
+              "world": "page"
+            }
+          },
+          {
+            "kind": "normal",
+            "value": {
+              "marker": "immediate:normal",
+              "sourceDoc": "a2",
+              "world": "page"
+            }
+          }
+        ],
+        "sharedDOMMarker": "shared-dom-marker"
+      },
+      "view": "a"
+    },
+    {
+      "label": "stale-frame-reload",
+      "observation": {
+        "doc": "a2",
+        "early": [
+          {
+            "marker": "immediate:inline",
+            "sourceDoc": "a2",
+            "world": "page"
+          }
+        ],
+        "frames": [
+          {
+            "doc": "a2:self",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.a",
+            "origin": "moonpool://com.example.probe.a",
+            "pageHandlerVisible": true
+          },
+          {
+            "doc": "a2:foreign",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.b",
+            "origin": "moonpool://com.example.probe.b",
+            "pageHandlerVisible": true
+          }
+        ],
+        "handlerLookupErrors": {},
+        "heldResults": [],
+        "href": "moonpool://com.example.probe.a/assets/index.html?doc=a2&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+        "instance": "page-t2ez3z8hpvb",
+        "isolatedGlobalVisible": false,
+        "isolatedHandlerVisible": false,
+        "legacyMessages": [
+          {
+            "id": 2,
+            "marker": "old:legacy-global-reload",
+            "sourceDoc": "a2"
+          },
+          {
+            "id": 999,
+            "marker": "frame:stale-frame-reload"
+          }
+        ],
+        "legacyResult": "old:legacy-global-reload",
+        "mainFrame": true,
+        "origin": "moonpool://com.example.probe.a",
+        "pageHandlerVisible": true,
+        "ready": true,
+        "rejected": [],
+        "removalAttempted": false,
+        "removedReference": [],
+        "replies": [
+          {
+            "kind": "ready",
+            "value": {
+              "marker": "immediate:ready",
+              "sourceDoc": "a2",
+              "world": "page"
+            }
+          },
+          {
+            "kind": "normal",
+            "value": {
+              "marker": "immediate:normal",
+              "sourceDoc": "a2",
+              "world": "page"
+            }
+          }
+        ],
+        "sharedDOMMarker": "shared-dom-marker"
+      },
+      "view": "a"
+    },
+    {
+      "label": "reload-positive",
+      "observation": {
+        "doc": "a2",
+        "early": [
+          {
+            "marker": "immediate:inline",
+            "sourceDoc": "a2",
+            "world": "page"
+          }
+        ],
+        "frames": [
+          {
+            "doc": "a2:self",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.a",
+            "origin": "moonpool://com.example.probe.a",
+            "pageHandlerVisible": true
+          },
+          {
+            "doc": "a2:foreign",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.b",
+            "origin": "moonpool://com.example.probe.b",
+            "pageHandlerVisible": true
+          }
+        ],
+        "handlerLookupErrors": {},
+        "heldResults": [
+          {
+            "id": 2,
+            "marker": "current:reload-positive",
+            "sourceDoc": "a2",
+            "sourceInstance": "page-t2ez3z8hpvb"
+          }
+        ],
+        "href": "moonpool://com.example.probe.a/assets/index.html?doc=a2&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+        "instance": "page-t2ez3z8hpvb",
+        "isolatedGlobalVisible": false,
+        "isolatedHandlerVisible": false,
+        "legacyMessages": [
+          {
+            "id": 2,
+            "marker": "old:legacy-global-reload",
+            "sourceDoc": "a2"
+          },
+          {
+            "id": 999,
+            "marker": "frame:stale-frame-reload"
+          }
+        ],
+        "legacyResult": "old:legacy-global-reload",
+        "mainFrame": true,
+        "origin": "moonpool://com.example.probe.a",
+        "pageHandlerVisible": true,
+        "ready": true,
+        "rejected": [],
+        "removalAttempted": false,
+        "removedReference": [],
+        "replies": [
+          {
+            "kind": "ready",
+            "value": {
+              "marker": "immediate:ready",
+              "sourceDoc": "a2",
+              "world": "page"
+            }
+          },
+          {
+            "kind": "normal",
+            "value": {
+              "marker": "immediate:normal",
+              "sourceDoc": "a2",
+              "world": "page"
+            }
+          }
+        ],
+        "sharedDOMMarker": "shared-dom-marker"
+      },
+      "view": "a"
+    },
+    {
+      "label": "foreign-navigation",
+      "observation": {
+        "doc": "a-foreign",
+        "early": [],
+        "frames": [
+          {
+            "doc": "a-foreign:self",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.b",
+            "origin": "moonpool://com.example.probe.b",
+            "pageHandlerVisible": true
+          },
+          {
+            "doc": "a-foreign:foreign",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.a",
+            "origin": "moonpool://com.example.probe.a",
+            "pageHandlerVisible": true
+          }
+        ],
+        "handlerLookupErrors": {},
+        "heldResults": [],
+        "href": "moonpool://com.example.probe.b/assets/index.html?doc=a-foreign&self=moonpool://com.example.probe.b&other=moonpool://com.example.probe.a",
+        "instance": "page-xp279yfsnw",
+        "isolatedGlobalVisible": false,
+        "isolatedHandlerVisible": false,
+        "legacyMessages": [],
+        "legacyResult": null,
+        "mainFrame": true,
+        "origin": "moonpool://com.example.probe.b",
+        "pageHandlerVisible": true,
+        "ready": true,
+        "rejected": [
+          {
+            "kind": "ready",
+            "message": "denied:wrong-origin"
+          },
+          {
+            "kind": "normal",
+            "message": "denied:wrong-origin"
+          },
+          {
+            "kind": "hold",
+            "message": "denied:wrong-origin"
+          }
+        ],
+        "removalAttempted": false,
+        "removedReference": [],
+        "replies": [],
+        "sharedDOMMarker": "shared-dom-marker"
+      },
+      "view": "a"
+    },
+    {
+      "label": "return-navigation",
+      "observation": {
+        "doc": "a-return",
+        "early": [
+          {
+            "marker": "immediate:inline",
+            "sourceDoc": "a-return",
+            "world": "page"
+          }
+        ],
+        "frames": [
+          {
+            "doc": "a-return:self",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.a",
+            "origin": "moonpool://com.example.probe.a",
+            "pageHandlerVisible": true
+          },
+          {
+            "doc": "a-return:foreign",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.b",
+            "origin": "moonpool://com.example.probe.b",
+            "pageHandlerVisible": true
+          }
+        ],
+        "handlerLookupErrors": {},
+        "heldResults": [],
+        "href": "moonpool://com.example.probe.a/assets/index.html?doc=a-return&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+        "instance": "page-xfzzht5h0t",
+        "isolatedGlobalVisible": false,
+        "isolatedHandlerVisible": false,
+        "legacyMessages": [],
+        "legacyResult": null,
+        "mainFrame": true,
+        "origin": "moonpool://com.example.probe.a",
+        "pageHandlerVisible": true,
+        "ready": true,
+        "rejected": [],
+        "removalAttempted": false,
+        "removedReference": [],
+        "replies": [
+          {
+            "kind": "ready",
+            "value": {
+              "marker": "immediate:ready",
+              "sourceDoc": "a-return",
+              "world": "page"
+            }
+          },
+          {
+            "kind": "normal",
+            "value": {
+              "marker": "immediate:normal",
+              "sourceDoc": "a-return",
+              "world": "page"
+            }
+          }
+        ],
+        "sharedDOMMarker": "shared-dom-marker"
+      },
+      "view": "a"
+    },
+    {
+      "label": "retired-binding",
+      "observation": {
+        "doc": "a-return",
+        "early": [
+          {
+            "marker": "immediate:inline",
+            "sourceDoc": "a-return",
+            "world": "page"
+          }
+        ],
+        "frames": [
+          {
+            "doc": "a-return:self",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.a",
+            "origin": "moonpool://com.example.probe.a",
+            "pageHandlerVisible": true
+          },
+          {
+            "doc": "a-return:foreign",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.b",
+            "origin": "moonpool://com.example.probe.b",
+            "pageHandlerVisible": true
+          }
+        ],
+        "handlerLookupErrors": {},
+        "heldResults": [],
+        "href": "moonpool://com.example.probe.a/assets/index.html?doc=a-return&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+        "instance": "page-xfzzht5h0t",
+        "isolatedGlobalVisible": false,
+        "isolatedHandlerVisible": false,
+        "legacyMessages": [],
+        "legacyResult": null,
+        "mainFrame": true,
+        "origin": "moonpool://com.example.probe.a",
+        "pageHandlerVisible": true,
+        "ready": true,
+        "rejected": [
+          {
+            "kind": "after-retire",
+            "message": "denied:retired"
+          }
+        ],
+        "removalAttempted": false,
+        "removedReference": [],
+        "replies": [
+          {
+            "kind": "ready",
+            "value": {
+              "marker": "immediate:ready",
+              "sourceDoc": "a-return",
+              "world": "page"
+            }
+          },
+          {
+            "kind": "normal",
+            "value": {
+              "marker": "immediate:normal",
+              "sourceDoc": "a-return",
+              "world": "page"
+            }
+          }
+        ],
+        "sharedDOMMarker": "shared-dom-marker"
+      },
+      "view": "a"
+    },
+    {
+      "label": "removed-reference",
+      "observation": {
+        "doc": "a-return",
+        "early": [
+          {
+            "marker": "immediate:inline",
+            "sourceDoc": "a-return",
+            "world": "page"
+          }
+        ],
+        "frames": [
+          {
+            "doc": "a-return:self",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.a",
+            "origin": "moonpool://com.example.probe.a",
+            "pageHandlerVisible": true
+          },
+          {
+            "doc": "a-return:foreign",
+            "kind": "frame-ready",
+            "messageOrigin": "moonpool://com.example.probe.b",
+            "origin": "moonpool://com.example.probe.b",
+            "pageHandlerVisible": true
+          }
+        ],
+        "handlerLookupErrors": {
+          "t26Isolated": "undefined is not an object (evaluating 'window.webkit.messageHandlers')",
+          "t26Page": "undefined is not an object (evaluating 'window.webkit.messageHandlers')"
+        },
+        "heldResults": [],
+        "href": "moonpool://com.example.probe.a/assets/index.html?doc=a-return&self=moonpool://com.example.probe.a&other=moonpool://com.example.probe.b",
+        "instance": "page-xfzzht5h0t",
+        "isolatedGlobalVisible": false,
+        "isolatedHandlerVisible": false,
+        "legacyMessages": [],
+        "legacyResult": null,
+        "mainFrame": true,
+        "origin": "moonpool://com.example.probe.a",
+        "pageHandlerVisible": false,
+        "ready": true,
+        "rejected": [
+          {
+            "kind": "after-retire",
+            "message": "denied:retired"
+          }
+        ],
+        "removalAttempted": true,
+        "removedReference": [
+          {
+            "rejected": "The object does not support the operation or argument."
+          }
+        ],
+        "replies": [
+          {
+            "kind": "ready",
+            "value": {
+              "marker": "immediate:ready",
+              "sourceDoc": "a-return",
+              "world": "page"
+            }
+          },
+          {
+            "kind": "normal",
+            "value": {
+              "marker": "immediate:normal",
+              "sourceDoc": "a-return",
+              "world": "page"
+            }
+          }
+        ],
+        "sharedDOMMarker": "shared-dom-marker"
+      },
+      "view": "a"
+    }
+  ],
+  "buildMetadata": {
+    "executableSha256": "e882c0de734ea7a08c7bd977d0888d9459da02073b9310aca51b1ac9494aa998",
+    "sources": {
+      "Admission.swift": "b5ee085b20fab6847609b28c68ad008a04f5dea678c603176a6cbf33bab73972",
+      "Probe.swift": "04b9aa8bf1d2acc4cc8ba8371f573443b251c8d3a0f8603c1395bb0c25c81153",
+      "build.py": "8abad18857d997f70b23e2762edef673e42b14b718260cf0ee79ec8c71d96dcc",
+      "run_probe.py": "e7a8f0f0c3d29d44b30b50c41bd2d4920ca07b2e9326070f3287a9878f71d45a",
+      "fixtures/index.html": "9b74bc6d58a320e73737b1c99a3d3a4f39185970366467d22202789b2009a835",
+      "fixtures/isolated.js": "8c98db9d8c63f8b18ff130274aebccb5230d4549523ebed67864af75947974be",
+      "fixtures/probe.js": "ea0838914a18932799175a023d48d39a565515a800fec0a33c13fea0be2b0857"
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "date": "2026-11-02",
+  "baselineCommit": "6c5576e6d537a806ad3a57d6afef4ccf3fbc8634",
+  "sourceState": "Existing local T25 work preserved; T26 is separate research.",
+  "host": {
+    "macOS": "26.6.2",
+    "architecture": "arm64"
+  },
+  "xcode": "Xcode 26.4.1\nBuild version 17E202",
+  "swift": "Apple Swift version 6.3.1 (swiftlang-6.3.1.1.2 clang-2100.0.123.102)",
+  "runtime": {
+    "name": "iOS 26.4",
+    "version": "26.4.1",
+    "buildversion": "23E254a",
+    "supportedArchitectures": ["arm64"]
+  },
+  "simulator": "Dedicated existing iPhone 17 Pro; reused Moonpool research device",
+  "platform": "IOSSIMULATOR",
+  "sdk": "26.4",
+  "minimumProbeOS": "17.0",
+  "package": "org.moonpool.iosmessageprobe",
+  "finalRuns": 4,
+  "snapshots": 80,
+  "nativeControls": 187,
+  "swiftAdmissionChecks": 10,
+  "buildMetadata": {
+    "executableSha256": "e882c0de734ea7a08c7bd977d0888d9459da02073b9310aca51b1ac9494aa998",
+    "sources": {
+      "Admission.swift": "b5ee085b20fab6847609b28c68ad008a04f5dea678c603176a6cbf33bab73972",
+      "Probe.swift": "04b9aa8bf1d2acc4cc8ba8371f573443b251c8d3a0f8603c1395bb0c25c81153",
+      "build.py": "8abad18857d997f70b23e2762edef673e42b14b718260cf0ee79ec8c71d96dcc",
+      "run_probe.py": "e7a8f0f0c3d29d44b30b50c41bd2d4920ca07b2e9326070f3287a9878f71d45a",
+      "fixtures/index.html": "9b74bc6d58a320e73737b1c99a3d3a4f39185970366467d22202789b2009a835",
+      "fixtures/isolated.js": "8c98db9d8c63f8b18ff130274aebccb5230d4549523ebed67864af75947974be",
+      "fixtures/probe.js": "ea0838914a18932799175a023d48d39a565515a800fec0a33c13fea0be2b0857"
+    }
+  },
+  "cleanup": {
+    "ownedProbeTerminated": true,
+    "ownedSimulatorShutdown": true,
+    "otherSimulatorStatesUnchanged": true,
+    "signatureVerified": true
+  }
+}

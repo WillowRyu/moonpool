@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Moonpool T26 message probe</title>
+  <script>
+    window.t26Early = [];
+    window.webkit.messageHandlers.t26Page.postMessage({kind:'inline',doc:new URLSearchParams(location.search).get('doc'),
+      claimedOrigin:'moonpool://forged.invalid',claimedMainFrame:true,readyState:document.readyState})
+      .then(value => window.t26Early.push(value), () => {});
+  </script>
+  <script src="probe.js"></script>
+  <style>
+    body { font:14px system-ui; color:#193b31; background:#eaf3ee; padding:10px; }
+    pre { white-space:pre-wrap; overflow-wrap:anywhere; font-size:11px; }
+    iframe { width:44%; height:70px; border:1px solid #8aafa0; }
+  </style>
+</head>
+<body><h1>Moonpool T26 · public diagnostics</h1><pre></pre></body>
+</html>

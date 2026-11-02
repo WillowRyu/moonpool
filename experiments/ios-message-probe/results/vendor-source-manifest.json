@@ -1,0 +1,131 @@
+{
+  "date": "2026-11-02",
+  "evidenceKind": "Pinned public-source review; no vendor runtime/device conformance test",
+  "repositories": [
+    {
+      "repo": "ionic-team/capacitor",
+      "versionTag": "8.6.0",
+      "inspectedCommit": "ef3ce6e4edfbc90b678f37138f387d1f524d6b35",
+      "files": [
+        {
+          "path": "android/capacitor/src/main/java/com/getcapacitor/Bridge.java",
+          "sha256": "619700a31548504d7f81552c696273d652c655ebe317a006bda3f9398bdecdf5",
+          "url": "https://github.com/ionic-team/capacitor/blob/ef3ce6e4edfbc90b678f37138f387d1f524d6b35/android/capacitor/src/main/java/com/getcapacitor/Bridge.java"
+        },
+        {
+          "path": "android/capacitor/src/main/java/com/getcapacitor/BridgeWebViewClient.java",
+          "sha256": "c9098b2e7f1586d24acdd767a8af9962b7f78023a0484026a983b943b2b6b3e0",
+          "url": "https://github.com/ionic-team/capacitor/blob/ef3ce6e4edfbc90b678f37138f387d1f524d6b35/android/capacitor/src/main/java/com/getcapacitor/BridgeWebViewClient.java"
+        },
+        {
+          "path": "android/capacitor/src/main/java/com/getcapacitor/MessageHandler.java",
+          "sha256": "5fa05c9148c4e24958f72b2d81747b416a73356693a8cb99249c557fdc9dec1a",
+          "url": "https://github.com/ionic-team/capacitor/blob/ef3ce6e4edfbc90b678f37138f387d1f524d6b35/android/capacitor/src/main/java/com/getcapacitor/MessageHandler.java"
+        },
+        {
+          "path": "core/native-bridge.ts",
+          "sha256": "dc9bbc067b4b8b0f8156c097d8e50fd8255988f2e39474400564703a217b7c47",
+          "url": "https://github.com/ionic-team/capacitor/blob/ef3ce6e4edfbc90b678f37138f387d1f524d6b35/core/native-bridge.ts"
+        },
+        {
+          "path": "ios/Capacitor/Capacitor/CapacitorBridge.swift",
+          "sha256": "d6b89d0edc97a62476d9985f23e7988fd101883c4b73c35893d847df1aef5bdd",
+          "url": "https://github.com/ionic-team/capacitor/blob/ef3ce6e4edfbc90b678f37138f387d1f524d6b35/ios/Capacitor/Capacitor/CapacitorBridge.swift"
+        },
+        {
+          "path": "ios/Capacitor/Capacitor/WebViewDelegationHandler.swift",
+          "sha256": "913ee4bfcdeb4d44ca8c3719ef8f2dacc12568211c4184dc6555930a5f54ca0c",
+          "url": "https://github.com/ionic-team/capacitor/blob/ef3ce6e4edfbc90b678f37138f387d1f524d6b35/ios/Capacitor/Capacitor/WebViewDelegationHandler.swift"
+        }
+      ]
+    },
+    {
+      "repo": "ionic-team/ionic-portals-android",
+      "versionTag": "0.14.0",
+      "inspectedCommit": "e4c62bce1d6118b3b515542477a109718f3533ed",
+      "files": [
+        {
+          "path": "IonicPortals/build.gradle.kts",
+          "sha256": "49055d07cfa99fca26061dbfdecbed8549a7e70b6b8371be581a61531b32a32b",
+          "url": "https://github.com/ionic-team/ionic-portals-android/blob/e4c62bce1d6118b3b515542477a109718f3533ed/IonicPortals/build.gradle.kts"
+        },
+        {
+          "path": "IonicPortals/src/main/kotlin/io/ionic/portals/PortalFragment.kt",
+          "sha256": "f349f41b20159fb6c564c5521c71e571a6ad4fb26cb61efd980faea169a92ec3",
+          "url": "https://github.com/ionic-team/ionic-portals-android/blob/e4c62bce1d6118b3b515542477a109718f3533ed/IonicPortals/src/main/kotlin/io/ionic/portals/PortalFragment.kt"
+        }
+      ]
+    },
+    {
+      "repo": "ionic-team/ionic-portals-ios",
+      "versionTag": "0.14.1",
+      "inspectedCommit": "2dbeb34a68bbdde46f79232e75002e47269f0795",
+      "files": [
+        {
+          "path": "Package.swift",
+          "sha256": "750c5030ec3d5769efcf01521ed960bdc6a632b8c899e8430f747b71514d8a2c",
+          "url": "https://github.com/ionic-team/ionic-portals-ios/blob/2dbeb34a68bbdde46f79232e75002e47269f0795/Package.swift"
+        },
+        {
+          "path": "Sources/IonicPortals/PortalView/PortalUIView.swift",
+          "sha256": "e48141856b6d085cd7186d94c9d1eafc128c3e30d3a81284e1507d5d238a0429",
+          "url": "https://github.com/ionic-team/ionic-portals-ios/blob/2dbeb34a68bbdde46f79232e75002e47269f0795/Sources/IonicPortals/PortalView/PortalUIView.swift"
+        }
+      ]
+    },
+    {
+      "repo": "react-native-webview/react-native-webview",
+      "versionTag": "v16.0.0",
+      "inspectedCommit": "f3fbb205cb176c1073e247babcbbf62df9b5132f",
+      "files": [
+        {
+          "path": "android/src/main/java/com/reactnativecommunity/webview/RNCWebView.java",
+          "sha256": "3fd04aab5f1758832bcc4a606cb2c11d1e1f0669c3d962be1cd35562f201a362",
+          "url": "https://github.com/react-native-webview/react-native-webview/blob/f3fbb205cb176c1073e247babcbbf62df9b5132f/android/src/main/java/com/reactnativecommunity/webview/RNCWebView.java"
+        },
+        {
+          "path": "apple/RNCWebViewImpl.m",
+          "sha256": "850f01b6e92d24c1675ea4754480108b405ccfbfa1746fced4eb52fa0b03b63b",
+          "url": "https://github.com/react-native-webview/react-native-webview/blob/f3fbb205cb176c1073e247babcbbf62df9b5132f/apple/RNCWebViewImpl.m"
+        },
+        {
+          "path": "docs/Reference.md",
+          "sha256": "6526855d08890ff36295e0f18292a4d68db3b9f333500a64904c051201582064",
+          "url": "https://github.com/react-native-webview/react-native-webview/blob/f3fbb205cb176c1073e247babcbbf62df9b5132f/docs/Reference.md"
+        }
+      ]
+    },
+    {
+      "repo": "tauri-apps/tauri",
+      "versionTag": "tauri-v2.12.5",
+      "inspectedCommit": "993038c49185307dfc895ab7657d77ca0d5ed7c7",
+      "files": [
+        {
+          "path": "crates/tauri/scripts/core.js",
+          "sha256": "71056442a732cca1f03572ccae96d68e16104c3a591c64de9618cd304e063070",
+          "url": "https://github.com/tauri-apps/tauri/blob/993038c49185307dfc895ab7657d77ca0d5ed7c7/crates/tauri/scripts/core.js"
+        },
+        {
+          "path": "crates/tauri/src/ipc/format_callback.rs",
+          "sha256": "e9de68956b9437f440291d37292bb9544b6c0b180029e6d2772685aa768a494d",
+          "url": "https://github.com/tauri-apps/tauri/blob/993038c49185307dfc895ab7657d77ca0d5ed7c7/crates/tauri/src/ipc/format_callback.rs"
+        },
+        {
+          "path": "crates/tauri/src/ipc/mod.rs",
+          "sha256": "6aa3624871ec604883e799e728346e6f474808589ab5b67c1db7bc600ef0068b",
+          "url": "https://github.com/tauri-apps/tauri/blob/993038c49185307dfc895ab7657d77ca0d5ed7c7/crates/tauri/src/ipc/mod.rs"
+        },
+        {
+          "path": "crates/tauri/src/ipc/protocol.rs",
+          "sha256": "bf93dc095490db290d5d3fc2a3c81fa0778ca8142911a7c2f97dcbcc98b3be97",
+          "url": "https://github.com/tauri-apps/tauri/blob/993038c49185307dfc895ab7657d77ca0d5ed7c7/crates/tauri/src/ipc/protocol.rs"
+        },
+        {
+          "path": "packages/api/src/core.ts",
+          "sha256": "123b0643d1e24e00a8c32410fd896539bcb00323aed394a03d42a0eb66e00064",
+          "url": "https://github.com/tauri-apps/tauri/blob/993038c49185307dfc895ab7657d77ca0d5ed7c7/packages/api/src/core.ts"
+        }
+      ]
+    }
+  ]
+}
