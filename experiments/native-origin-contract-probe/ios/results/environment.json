@@ -1,0 +1,43 @@
+{
+  "architecture": "arm64",
+  "buildPlatform": ["platform IOSSIMULATOR", "minos 17.0", "sdk 27.0"],
+  "deploymentTarget": "17.0",
+  "deviceIdentifiersRetained": false,
+  "deviceType": "iPhone 17 Pro simulator",
+  "executableSha256": "a77f25653a6abd8dc4580f418b986162311f1fd9d23b1022ef7a4b87e194e438",
+  "fullRuns": 4,
+  "fullSamples": 52,
+  "identityRows": 92,
+  "independentRawAssertions": 1344,
+  "installedExecutableAndSignatureVerifiedInEachRun": true,
+  "macOS": "27.0.1",
+  "ownedSimulatorFinalState": "Shutdown",
+  "preparation": "A same-artifact seed is retained only under ignored local-results before final reopen/persistence controls",
+  "privatePathsRetained": false,
+  "protectedAllInitiallyShutdown": true,
+  "protectedSimulatorCount": 25,
+  "protectedStatesPreserved": true,
+  "recordedAtUTC": "2026-11-02T15:28:55.858846+00:00",
+  "retainedLimits": [
+    "No fresh-install atomicity or power-loss durability claim",
+    "No older/newer runtime or hardware support claim",
+    "No server Cookie-header receipt or local-guest cross-origin fetch/ITP claim",
+    "Unsupported API and destructive store-loss branches are modeled only",
+    "No production loader/SDK, SPEC amendment, credential use, default guest store fallback or data erasure"
+  ],
+  "runtime": "26.4.1",
+  "scope": "Dedicated simulator-only T28 supplementary research; public fixture markers only",
+  "signatureSha256": "51bd09fbe07507e953631eeaf5ed0d498ef5128f174841553202b80015bf3bfb",
+  "simulatorSDK": "27.0",
+  "sourceAndFixtureHashes": "Embedded in all ten reports; exact current key sets and digests independently checked",
+  "startupControls": 6,
+  "startupResults": {
+    "coldExplicitMainActorCompletionHandler": "2/2 SIGSEGV with launch-correlated API/RunLoop stack",
+    "coldSwiftAsync": "2/2 SIGSEGV with launch-correlated API/RunLoop stack",
+    "emptyNonpersistentWebViewThenEnumeration": "2/2 completed; zero guest loads"
+  },
+  "swift": "Apple Swift version 6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)\nTarget: arm64-apple-macosx27.0.0",
+  "swiftAdmissionRegistryAssertions": 37,
+  "verifierTests": 6,
+  "xcode": "Xcode 27.0\nBuild version 27A266a"
+}

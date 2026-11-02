@@ -1,0 +1,97 @@
+{
+  "beforeCall": {
+    "customCookieStatus": "unavailable; empty is not isolation evidence",
+    "guestLoads": 0,
+    "os": "26.4.1",
+    "phase": "startup",
+    "remoteHost": "https://example.com",
+    "run": "repeat",
+    "securityScope": "Public sentinel markers only; no authentication or TLS override",
+    "startupControl": "cold-callback",
+    "storeAPI": "WKWebsiteDataStore(forIdentifier:)"
+  },
+  "buildMetadata": {
+    "buildPlatform": ["platform IOSSIMULATOR", "minos 17.0", "sdk 27.0"],
+    "bundleSignatureSha256": "51bd09fbe07507e953631eeaf5ed0d498ef5128f174841553202b80015bf3bfb",
+    "codesignVerified": true,
+    "executableSha256": "a77f25653a6abd8dc4580f418b986162311f1fd9d23b1022ef7a4b87e194e438",
+    "fixtures": {
+      "identity-vectors.json": "2e24428b68c6e01bd771c01dc989c26ec6701f22c1ab536abd308373aa57039a",
+      "index.html": "0527ed8ea1181dc37865497e3a9c40df5219c98e6fc71114c5078b68fbe5251c",
+      "probe.js": "60945d3741afaa25452f8c14eaa7f5efe184a2259b744ba50fe06edebec46bfe"
+    },
+    "sdk": "27.0",
+    "sources": {
+      "Admission.swift": "365ce1f4677effbeeda7e768430d2ed630a49ca8c2a9f88f3e63a68a6c78c76e",
+      "Probe.swift": "b0fe5590fa77dde226cda1a00aa0cb0df4a48538ab2c9889e620e92ad2a88c64",
+      "StoreRegistry.swift": "e63b24786a54fa0ea4e4d4a56a2c927c9c9e3bfa017c11c982a288614b77404f",
+      "build.py": "81d593cacd4ca8bdd4fa82967c98a6c1530287962f1ef43ddef3f778d5023d09",
+      "fixtures/index.html": "0527ed8ea1181dc37865497e3a9c40df5219c98e6fc71114c5078b68fbe5251c",
+      "fixtures/probe.js": "60945d3741afaa25452f8c14eaa7f5efe184a2259b744ba50fe06edebec46bfe",
+      "run_probe.py": "19324fef1d13417355862aafcd65f7de5dece2441168045a1eb6921025061603",
+      "startup_control.py": "f9534bc868ef7d5a0931297c83365a9fd05d93ab6d8a6589bfc7eae28ddea48d",
+      "test/ContractTest.swift": "6f2902669a66bfc85369c7b4f0e581785006535ae77d9e4a33ab191db849c288",
+      "test_verifier.py": "e70dd5f48beed61782afd888abf966df43c5277b55392bfd5625073e51a2cfe9",
+      "verify_results.py": "45c663d5ddb5498b9e41e716116bc8891aa0451963662196e3c058a825010079"
+    },
+    "swift": "Apple Swift version 6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)\nTarget: arm64-apple-macosx27.0.0",
+    "xcode": "Xcode 27.0\nBuild version 27A266a"
+  },
+  "crash": {
+    "exceptionType": "EXC_BAD_ACCESS",
+    "frames": [
+      {
+        "image": "libsystem_platform.dylib",
+        "symbol": "os_unfair_lock_lock"
+      },
+      {
+        "image": "JavaScriptCore",
+        "symbol": "WTF::RunLoop::dispatch(WTF::Function<void ()>&&)"
+      },
+      {
+        "image": "WebKit",
+        "symbol": "WTF::Detail::CallableWrapper<WebKit::WebsiteDataStore::fetchAllDataStoreIdentifiers(WTF::CompletionHandler<void (WTF::Vector<WTF::UUID, 0ul, WTF::CrashOnOverflow, 16ul, WTF::FastMalloc>&&)>&&)::$_0, void>::call()"
+      },
+      {
+        "image": "JavaScriptCore",
+        "symbol": "void WTF::dispatchWorkItem<WTF::(anonymous namespace)::DispatchWorkItem>(void*)"
+      },
+      {
+        "image": "libdispatch.dylib",
+        "symbol": "_dispatch_client_callout"
+      },
+      {
+        "image": "libdispatch.dylib",
+        "symbol": "_dispatch_lane_serial_drain"
+      },
+      {
+        "image": "libdispatch.dylib",
+        "symbol": "_dispatch_lane_invoke"
+      },
+      {
+        "image": "libdispatch.dylib",
+        "symbol": "_dispatch_root_queue_drain_deferred_wlh"
+      },
+      {
+        "image": "libdispatch.dylib",
+        "symbol": "_dispatch_workloop_worker_thread"
+      },
+      {
+        "image": "libsystem_pthread.dylib",
+        "symbol": "_pthread_wqthread"
+      },
+      {
+        "image": "libsystem_pthread.dylib",
+        "symbol": "start_wqthread"
+      }
+    ],
+    "signal": "SIGSEGV"
+  },
+  "crashMatchedLaunchProcess": true,
+  "installedExecutableSha256": "a77f25653a6abd8dc4580f418b986162311f1fd9d23b1022ef7a4b87e194e438",
+  "installedSignatureVerified": true,
+  "mode": "cold-callback",
+  "outcome": "crashed",
+  "repeat": "repeat",
+  "scope": "API-order diagnostic; zero guest document loads; no default store"
+}

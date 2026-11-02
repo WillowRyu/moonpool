@@ -1,0 +1,2820 @@
+{
+  "assignments": {
+    "a": "A6F6858D-36F6-4B6C-AE4D-BC529FB0B466",
+    "b": "FD74A237-0E30-43FC-AC69-E7BCF2B8980A",
+    "diagnostics": "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6",
+    "host": "8F9B131B-1392-4729-A9F5-0631CAE5A7B8"
+  },
+  "buildMetadata": {
+    "buildPlatform": ["platform IOSSIMULATOR", "minos 17.0", "sdk 27.0"],
+    "bundleSignatureSha256": "51bd09fbe07507e953631eeaf5ed0d498ef5128f174841553202b80015bf3bfb",
+    "codesignVerified": true,
+    "executableSha256": "a77f25653a6abd8dc4580f418b986162311f1fd9d23b1022ef7a4b87e194e438",
+    "fixtures": {
+      "identity-vectors.json": "2e24428b68c6e01bd771c01dc989c26ec6701f22c1ab536abd308373aa57039a",
+      "index.html": "0527ed8ea1181dc37865497e3a9c40df5219c98e6fc71114c5078b68fbe5251c",
+      "probe.js": "60945d3741afaa25452f8c14eaa7f5efe184a2259b744ba50fe06edebec46bfe"
+    },
+    "sdk": "27.0",
+    "sources": {
+      "Admission.swift": "365ce1f4677effbeeda7e768430d2ed630a49ca8c2a9f88f3e63a68a6c78c76e",
+      "Probe.swift": "b0fe5590fa77dde226cda1a00aa0cb0df4a48538ab2c9889e620e92ad2a88c64",
+      "StoreRegistry.swift": "e63b24786a54fa0ea4e4d4a56a2c927c9c9e3bfa017c11c982a288614b77404f",
+      "build.py": "81d593cacd4ca8bdd4fa82967c98a6c1530287962f1ef43ddef3f778d5023d09",
+      "fixtures/index.html": "0527ed8ea1181dc37865497e3a9c40df5219c98e6fc71114c5078b68fbe5251c",
+      "fixtures/probe.js": "60945d3741afaa25452f8c14eaa7f5efe184a2259b744ba50fe06edebec46bfe",
+      "run_probe.py": "19324fef1d13417355862aafcd65f7de5dece2441168045a1eb6921025061603",
+      "startup_control.py": "f9534bc868ef7d5a0931297c83365a9fd05d93ab6d8a6589bfc7eae28ddea48d",
+      "test/ContractTest.swift": "6f2902669a66bfc85369c7b4f0e581785006535ae77d9e4a33ab191db849c288",
+      "test_verifier.py": "e70dd5f48beed61782afd888abf966df43c5277b55392bfd5625073e51a2cfe9",
+      "verify_results.py": "45c663d5ddb5498b9e41e716116bc8891aa0451963662196e3c058a825010079"
+    },
+    "swift": "Apple Swift version 6.4 (swiftlang-6.4.0.34.1 clang-2100.3.34.1)\nTarget: arm64-apple-macosx27.0.0",
+    "xcode": "Xcode 27.0\nBuild version 27A266a"
+  },
+  "complete": true,
+  "customCookieStatus": "unavailable; empty is not isolation evidence",
+  "enumerationInitialization": "Empty nonpersistent WKWebView, never loaded; no guest or default-store fallback",
+  "events": [
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6",
+      "view": "diagnostic-app-a"
+    },
+    {
+      "bytes": 160,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.a/diagnostic.html",
+      "view": "diagnostic-app-a"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.a/diagnostic.html",
+      "view": "diagnostic-app-a"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6",
+      "view": "diagnostic-app-b"
+    },
+    {
+      "bytes": 160,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.b/diagnostic.html",
+      "view": "diagnostic-app-b"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.b/diagnostic.html",
+      "view": "diagnostic-app-b"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6",
+      "view": "diagnostic-host-sentinel"
+    },
+    {
+      "bytes": 160,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.host/diagnostic.html",
+      "view": "diagnostic-host-sentinel"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.host/diagnostic.html",
+      "view": "diagnostic-host-sentinel"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6",
+      "view": "diagnostic-ordinary"
+    },
+    {
+      "bytes": 160,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.hello/diagnostic.html",
+      "view": "diagnostic-ordinary"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.hello/diagnostic.html",
+      "view": "diagnostic-ordinary"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6",
+      "view": "diagnostic-numeric"
+    },
+    {
+      "bytes": 160,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://1.2/diagnostic.html",
+      "view": "diagnostic-numeric"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://1.2/diagnostic.html",
+      "view": "diagnostic-numeric"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6",
+      "view": "diagnostic-ipv4-shaped"
+    },
+    {
+      "bytes": 160,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://0.0.0.1/diagnostic.html",
+      "view": "diagnostic-ipv4-shaped"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://0.0.0.1/diagnostic.html",
+      "view": "diagnostic-ipv4-shaped"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6",
+      "view": "diagnostic-hyphen-only-label"
+    },
+    {
+      "bytes": 160,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.-/diagnostic.html",
+      "view": "diagnostic-hyphen-only-label"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.-/diagnostic.html",
+      "view": "diagnostic-hyphen-only-label"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6",
+      "view": "diagnostic-leading-hyphen"
+    },
+    {
+      "bytes": 160,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.-app/diagnostic.html",
+      "view": "diagnostic-leading-hyphen"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.-app/diagnostic.html",
+      "view": "diagnostic-leading-hyphen"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6",
+      "view": "diagnostic-trailing-hyphen"
+    },
+    {
+      "bytes": 160,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.app-/diagnostic.html",
+      "view": "diagnostic-trailing-hyphen"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.app-/diagnostic.html",
+      "view": "diagnostic-trailing-hyphen"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6",
+      "view": "diagnostic-label-63"
+    },
+    {
+      "bytes": 160,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/diagnostic.html",
+      "view": "diagnostic-label-63"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/diagnostic.html",
+      "view": "diagnostic-label-63"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6",
+      "view": "diagnostic-label-64"
+    },
+    {
+      "bytes": 160,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/diagnostic.html",
+      "view": "diagnostic-label-64"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/diagnostic.html",
+      "view": "diagnostic-label-64"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6",
+      "view": "diagnostic-total-253"
+    },
+    {
+      "bytes": 160,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://a.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb/diagnostic.html",
+      "view": "diagnostic-total-253"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://a.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb/diagnostic.html",
+      "view": "diagnostic-total-253"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6",
+      "view": "diagnostic-total-254"
+    },
+    {
+      "bytes": 160,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://aa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb/diagnostic.html",
+      "view": "diagnostic-total-254"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://aa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb/diagnostic.html",
+      "view": "diagnostic-total-254"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6",
+      "view": "diagnostic-total-1028"
+    },
+    {
+      "bytes": 160,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/diagnostic.html",
+      "view": "diagnostic-total-1028"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/diagnostic.html",
+      "view": "diagnostic-total-1028"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6",
+      "view": "diagnostic-punycode-shaped"
+    },
+    {
+      "bytes": 160,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.xn--/diagnostic.html",
+      "view": "diagnostic-punycode-shaped"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.xn--/diagnostic.html",
+      "view": "diagnostic-punycode-shaped"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6",
+      "view": "diagnostic-uppercase"
+    },
+    {
+      "bytes": 160,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.Example.a/diagnostic.html",
+      "view": "diagnostic-uppercase"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.Example.a/diagnostic.html",
+      "view": "diagnostic-uppercase"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6",
+      "view": "diagnostic-port"
+    },
+    {
+      "bytes": 160,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example:443/diagnostic.html",
+      "view": "diagnostic-port"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example:443/diagnostic.html",
+      "view": "diagnostic-port"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6",
+      "view": "diagnostic-escape"
+    },
+    {
+      "bytes": 160,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.%61/diagnostic.html",
+      "view": "diagnostic-escape"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.%61/diagnostic.html",
+      "view": "diagnostic-escape"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "A6F6858D-36F6-4B6C-AE4D-BC529FB0B466",
+      "view": "a"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "FD74A237-0E30-43FC-AC69-E7BCF2B8980A",
+      "view": "b"
+    },
+    {
+      "bytes": 132,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.a/?seed=false&run=first",
+      "view": "a"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.a/?seed=false&run=first",
+      "view": "a"
+    },
+    {
+      "bytes": 3319,
+      "event": "scheme-delivered",
+      "mime": "text/javascript",
+      "url": "moonpool://com.example.probe.a/probe.js",
+      "view": "a"
+    },
+    {
+      "bytes": 153,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.a/frame.html",
+      "view": "a"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": false,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.a/frame.html",
+      "view": "a"
+    },
+    {
+      "bytes": 153,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.b/frame.html",
+      "view": "a"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": false,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.b/frame.html",
+      "view": "a"
+    },
+    {
+      "bytes": 132,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.b/?seed=false&run=first",
+      "view": "b"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.b/?seed=false&run=first",
+      "view": "b"
+    },
+    {
+      "bytes": 3319,
+      "event": "scheme-delivered",
+      "mime": "text/javascript",
+      "url": "moonpool://com.example.probe.b/probe.js",
+      "view": "b"
+    },
+    {
+      "bytes": 153,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.b/frame.html",
+      "view": "b"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": false,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.b/frame.html",
+      "view": "b"
+    },
+    {
+      "bytes": 153,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.a/frame.html",
+      "view": "b"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": false,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.a/frame.html",
+      "view": "b"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "A6F6858D-36F6-4B6C-AE4D-BC529FB0B466",
+      "view": "a-second"
+    },
+    {
+      "bytes": 132,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.a/?seed=false&run=first",
+      "view": "a-second"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.a/?seed=false&run=first",
+      "view": "a-second"
+    },
+    {
+      "bytes": 3319,
+      "event": "scheme-delivered",
+      "mime": "text/javascript",
+      "url": "moonpool://com.example.probe.a/probe.js",
+      "view": "a-second"
+    },
+    {
+      "bytes": 153,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.a/frame.html",
+      "view": "a-second"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": false,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.a/frame.html",
+      "view": "a-second"
+    },
+    {
+      "bytes": 153,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.b/frame.html",
+      "view": "a-second"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": false,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.b/frame.html",
+      "view": "a-second"
+    },
+    {
+      "bytes": 132,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.a/?seed=false&run=first",
+      "view": "a"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.a/?seed=false&run=first",
+      "view": "a"
+    },
+    {
+      "bytes": 3319,
+      "event": "scheme-delivered",
+      "mime": "text/javascript",
+      "url": "moonpool://com.example.probe.a/probe.js",
+      "view": "a"
+    },
+    {
+      "bytes": 153,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.a/frame.html",
+      "view": "a"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": false,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.a/frame.html",
+      "view": "a"
+    },
+    {
+      "bytes": 153,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.b/frame.html",
+      "view": "a"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": false,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.b/frame.html",
+      "view": "a"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "A6F6858D-36F6-4B6C-AE4D-BC529FB0B466",
+      "view": "a-recreated"
+    },
+    {
+      "bytes": 132,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.a/?seed=false&run=first",
+      "view": "a-recreated"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.a/?seed=false&run=first",
+      "view": "a-recreated"
+    },
+    {
+      "bytes": 3319,
+      "event": "scheme-delivered",
+      "mime": "text/javascript",
+      "url": "moonpool://com.example.probe.a/probe.js",
+      "view": "a-recreated"
+    },
+    {
+      "bytes": 153,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.a/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": false,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.a/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "bytes": 153,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.b/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": false,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.b/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "A6F6858D-36F6-4B6C-AE4D-BC529FB0B466",
+      "view": "b-under-a-store"
+    },
+    {
+      "bytes": 132,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.b/?seed=false&run=first",
+      "view": "b-under-a-store"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.b/?seed=false&run=first",
+      "view": "b-under-a-store"
+    },
+    {
+      "bytes": 3319,
+      "event": "scheme-delivered",
+      "mime": "text/javascript",
+      "url": "moonpool://com.example.probe.b/probe.js",
+      "view": "b-under-a-store"
+    },
+    {
+      "bytes": 153,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.b/frame.html",
+      "view": "b-under-a-store"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": false,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.b/frame.html",
+      "view": "b-under-a-store"
+    },
+    {
+      "bytes": 153,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.a/frame.html",
+      "view": "b-under-a-store"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": false,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.a/frame.html",
+      "view": "b-under-a-store"
+    },
+    {
+      "bytes": 132,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.a/?seed=false&run=first",
+      "view": "a-recreated"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.a/?seed=false&run=first",
+      "view": "a-recreated"
+    },
+    {
+      "bytes": 153,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.a/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": false,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.a/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "bytes": 153,
+      "event": "scheme-delivered",
+      "mime": "text/html",
+      "url": "moonpool://com.example.probe.b/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": false,
+      "mime": "text/html",
+      "status": 0,
+      "url": "moonpool://com.example.probe.b/frame.html",
+      "view": "a-recreated"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "A6F6858D-36F6-4B6C-AE4D-BC529FB0B466",
+      "view": "remote-a"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 200,
+      "url": "https://example.com/?moonpool-t28=public-fixture",
+      "view": "remote-a"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "FD74A237-0E30-43FC-AC69-E7BCF2B8980A",
+      "view": "remote-b"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 200,
+      "url": "https://example.com/?moonpool-t28=public-fixture",
+      "view": "remote-b"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "8F9B131B-1392-4729-A9F5-0631CAE5A7B8",
+      "view": "remote-host"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 200,
+      "url": "https://example.com/?moonpool-t28=public-fixture",
+      "view": "remote-host"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "A6F6858D-36F6-4B6C-AE4D-BC529FB0B466",
+      "view": "remote-recreated-a"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 200,
+      "url": "https://example.com/?moonpool-t28=public-fixture",
+      "view": "remote-recreated-a"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "FD74A237-0E30-43FC-AC69-E7BCF2B8980A",
+      "view": "remote-recreated-b"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 200,
+      "url": "https://example.com/?moonpool-t28=public-fixture",
+      "view": "remote-recreated-b"
+    },
+    {
+      "event": "view-created",
+      "persistent": true,
+      "storeIdentifier": "8F9B131B-1392-4729-A9F5-0631CAE5A7B8",
+      "view": "remote-recreated-host"
+    },
+    {
+      "event": "navigation-response",
+      "mainFrame": true,
+      "mime": "text/html",
+      "status": 200,
+      "url": "https://example.com/?moonpool-t28=public-fixture",
+      "view": "remote-recreated-host"
+    }
+  ],
+  "existingStoreIdentifiersBeforeOpen": [
+    "8F9B131B-1392-4729-A9F5-0631CAE5A7B8",
+    "A6F6858D-36F6-4B6C-AE4D-BC529FB0B466",
+    "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6",
+    "FD74A237-0E30-43FC-AC69-E7BCF2B8980A"
+  ],
+  "identity": [
+    {
+      "diagnosticOnly": true,
+      "id": "com.example.probe.a",
+      "manifestValid": true,
+      "measuredAdmission": true,
+      "message": {
+        "body": {
+          "host": "com.example.probe.a",
+          "href": "moonpool://com.example.probe.a/diagnostic.html",
+          "kind": "diagnostic",
+          "origin": "moonpool://com.example.probe.a"
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "com.example.probe.a",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "diagnostic-app-a"
+      },
+      "name": "app-a",
+      "nativeURL": "moonpool://com.example.probe.a/diagnostic.html",
+      "urlAdmission": true
+    },
+    {
+      "diagnosticOnly": true,
+      "id": "com.example.probe.b",
+      "manifestValid": true,
+      "measuredAdmission": true,
+      "message": {
+        "body": {
+          "host": "com.example.probe.b",
+          "href": "moonpool://com.example.probe.b/diagnostic.html",
+          "kind": "diagnostic",
+          "origin": "moonpool://com.example.probe.b"
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "com.example.probe.b",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "diagnostic-app-b"
+      },
+      "name": "app-b",
+      "nativeURL": "moonpool://com.example.probe.b/diagnostic.html",
+      "urlAdmission": true
+    },
+    {
+      "diagnosticOnly": true,
+      "id": "com.example.probe.host",
+      "manifestValid": true,
+      "measuredAdmission": true,
+      "message": {
+        "body": {
+          "host": "com.example.probe.host",
+          "href": "moonpool://com.example.probe.host/diagnostic.html",
+          "kind": "diagnostic",
+          "origin": "moonpool://com.example.probe.host"
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "com.example.probe.host",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "diagnostic-host-sentinel"
+      },
+      "name": "host-sentinel",
+      "nativeURL": "moonpool://com.example.probe.host/diagnostic.html",
+      "urlAdmission": true
+    },
+    {
+      "diagnosticOnly": true,
+      "id": "com.example.hello",
+      "manifestValid": true,
+      "measuredAdmission": true,
+      "message": {
+        "body": {
+          "host": "com.example.hello",
+          "href": "moonpool://com.example.hello/diagnostic.html",
+          "kind": "diagnostic",
+          "origin": "moonpool://com.example.hello"
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "com.example.hello",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "diagnostic-ordinary"
+      },
+      "name": "ordinary",
+      "nativeURL": "moonpool://com.example.hello/diagnostic.html",
+      "urlAdmission": true
+    },
+    {
+      "diagnosticOnly": true,
+      "id": "1.2",
+      "manifestValid": true,
+      "measuredAdmission": true,
+      "message": {
+        "body": {
+          "host": "1.2",
+          "href": "moonpool://1.2/diagnostic.html",
+          "kind": "diagnostic",
+          "origin": "moonpool://1.2"
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "1.2",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "diagnostic-numeric"
+      },
+      "name": "numeric",
+      "nativeURL": "moonpool://1.2/diagnostic.html",
+      "urlAdmission": true
+    },
+    {
+      "diagnosticOnly": true,
+      "id": "0.0.0.1",
+      "manifestValid": true,
+      "measuredAdmission": true,
+      "message": {
+        "body": {
+          "host": "0.0.0.1",
+          "href": "moonpool://0.0.0.1/diagnostic.html",
+          "kind": "diagnostic",
+          "origin": "moonpool://0.0.0.1"
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "0.0.0.1",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "diagnostic-ipv4-shaped"
+      },
+      "name": "ipv4-shaped",
+      "nativeURL": "moonpool://0.0.0.1/diagnostic.html",
+      "urlAdmission": true
+    },
+    {
+      "diagnosticOnly": true,
+      "id": "com.-",
+      "manifestValid": true,
+      "measuredAdmission": true,
+      "message": {
+        "body": {
+          "host": "com.-",
+          "href": "moonpool://com.-/diagnostic.html",
+          "kind": "diagnostic",
+          "origin": "moonpool://com.-"
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "com.-",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "diagnostic-hyphen-only-label"
+      },
+      "name": "hyphen-only-label",
+      "nativeURL": "moonpool://com.-/diagnostic.html",
+      "urlAdmission": true
+    },
+    {
+      "diagnosticOnly": true,
+      "id": "com.-app",
+      "manifestValid": true,
+      "measuredAdmission": true,
+      "message": {
+        "body": {
+          "host": "com.-app",
+          "href": "moonpool://com.-app/diagnostic.html",
+          "kind": "diagnostic",
+          "origin": "moonpool://com.-app"
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "com.-app",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "diagnostic-leading-hyphen"
+      },
+      "name": "leading-hyphen",
+      "nativeURL": "moonpool://com.-app/diagnostic.html",
+      "urlAdmission": true
+    },
+    {
+      "diagnosticOnly": true,
+      "id": "com.app-",
+      "manifestValid": true,
+      "measuredAdmission": true,
+      "message": {
+        "body": {
+          "host": "com.app-",
+          "href": "moonpool://com.app-/diagnostic.html",
+          "kind": "diagnostic",
+          "origin": "moonpool://com.app-"
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "com.app-",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "diagnostic-trailing-hyphen"
+      },
+      "name": "trailing-hyphen",
+      "nativeURL": "moonpool://com.app-/diagnostic.html",
+      "urlAdmission": true
+    },
+    {
+      "diagnosticOnly": true,
+      "id": "com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "manifestValid": true,
+      "measuredAdmission": true,
+      "message": {
+        "body": {
+          "host": "com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "href": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/diagnostic.html",
+          "kind": "diagnostic",
+          "origin": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "diagnostic-label-63"
+      },
+      "name": "label-63",
+      "nativeURL": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/diagnostic.html",
+      "urlAdmission": true
+    },
+    {
+      "diagnosticOnly": true,
+      "id": "com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "manifestValid": true,
+      "measuredAdmission": true,
+      "message": {
+        "body": {
+          "host": "com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "href": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/diagnostic.html",
+          "kind": "diagnostic",
+          "origin": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "diagnostic-label-64"
+      },
+      "name": "label-64",
+      "nativeURL": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/diagnostic.html",
+      "urlAdmission": true
+    },
+    {
+      "diagnosticOnly": true,
+      "id": "a.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "manifestValid": true,
+      "measuredAdmission": true,
+      "message": {
+        "body": {
+          "host": "a.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "href": "moonpool://a.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb/diagnostic.html",
+          "kind": "diagnostic",
+          "origin": "moonpool://a.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "a.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "diagnostic-total-253"
+      },
+      "name": "total-253",
+      "nativeURL": "moonpool://a.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb/diagnostic.html",
+      "urlAdmission": true
+    },
+    {
+      "diagnosticOnly": true,
+      "id": "aa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "manifestValid": true,
+      "measuredAdmission": true,
+      "message": {
+        "body": {
+          "host": "aa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "href": "moonpool://aa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb/diagnostic.html",
+          "kind": "diagnostic",
+          "origin": "moonpool://aa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "aa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "diagnostic-total-254"
+      },
+      "name": "total-254",
+      "nativeURL": "moonpool://aa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb/diagnostic.html",
+      "urlAdmission": true
+    },
+    {
+      "diagnosticOnly": true,
+      "id": "com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "manifestValid": true,
+      "measuredAdmission": true,
+      "message": {
+        "body": {
+          "host": "com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "href": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/diagnostic.html",
+          "kind": "diagnostic",
+          "origin": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "diagnostic-total-1028"
+      },
+      "name": "total-1028",
+      "nativeURL": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/diagnostic.html",
+      "urlAdmission": true
+    },
+    {
+      "diagnosticOnly": true,
+      "id": "com.xn--",
+      "manifestValid": true,
+      "measuredAdmission": true,
+      "message": {
+        "body": {
+          "host": "com.xn--",
+          "href": "moonpool://com.xn--/diagnostic.html",
+          "kind": "diagnostic",
+          "origin": "moonpool://com.xn--"
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "com.xn--",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "diagnostic-punycode-shaped"
+      },
+      "name": "punycode-shaped",
+      "nativeURL": "moonpool://com.xn--/diagnostic.html",
+      "urlAdmission": true
+    },
+    {
+      "diagnosticOnly": true,
+      "id": "com.Example.a",
+      "manifestValid": false,
+      "measuredAdmission": false,
+      "message": {
+        "body": {
+          "host": "com.Example.a",
+          "href": "moonpool://com.Example.a/diagnostic.html",
+          "kind": "diagnostic",
+          "origin": "moonpool://com.example.a"
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "com.example.a",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "diagnostic-uppercase"
+      },
+      "name": "uppercase",
+      "nativeURL": "moonpool://com.Example.a/diagnostic.html",
+      "urlAdmission": false
+    },
+    {
+      "id": "app",
+      "manifestValid": false,
+      "name": "single-label",
+      "urlAdmission": false
+    },
+    {
+      "id": "com.example.",
+      "manifestValid": false,
+      "name": "trailing-dot",
+      "urlAdmission": false
+    },
+    {
+      "diagnosticOnly": true,
+      "id": "com.example:443",
+      "manifestValid": false,
+      "measuredAdmission": false,
+      "message": {
+        "body": {
+          "host": "com.example",
+          "href": "moonpool://com.example:443/diagnostic.html",
+          "kind": "diagnostic",
+          "origin": "moonpool://com.example:443"
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "com.example",
+          "port": 443,
+          "scheme": "moonpool"
+        },
+        "view": "diagnostic-port"
+      },
+      "name": "port",
+      "nativeURL": "moonpool://com.example:443/diagnostic.html",
+      "urlAdmission": false
+    },
+    {
+      "diagnosticOnly": true,
+      "id": "com.%61",
+      "manifestValid": false,
+      "measuredAdmission": false,
+      "message": {
+        "body": {
+          "host": "com.%61",
+          "href": "moonpool://com.%61/diagnostic.html",
+          "kind": "diagnostic",
+          "origin": "moonpool://com.%61"
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "com.%61",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "diagnostic-escape"
+      },
+      "name": "escape",
+      "nativeURL": "moonpool://com.%61/diagnostic.html",
+      "urlAdmission": false
+    },
+    {
+      "id": "com.example/a",
+      "manifestValid": false,
+      "name": "slash",
+      "urlAdmission": false
+    },
+    {
+      "id": " com.example",
+      "manifestValid": false,
+      "name": "leading-space",
+      "urlAdmission": false
+    },
+    {
+      "id": "",
+      "manifestValid": false,
+      "name": "empty",
+      "urlAdmission": false
+    }
+  ],
+  "installedExecutableSha256": "a77f25653a6abd8dc4580f418b986162311f1fd9d23b1022ef7a4b87e194e438",
+  "installedSignatureVerified": true,
+  "knownStoreAssignmentsBeforeOpen": {
+    "com.example.probe.a": "A6F6858D-36F6-4B6C-AE4D-BC529FB0B466",
+    "com.example.probe.b": "FD74A237-0E30-43FC-AC69-E7BCF2B8980A",
+    "com.example.probe.diagnostics": "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6",
+    "com.example.probe.host": "8F9B131B-1392-4729-A9F5-0631CAE5A7B8"
+  },
+  "messages": [
+    {
+      "body": {
+        "host": "com.example.probe.a",
+        "href": "moonpool://com.example.probe.a/diagnostic.html",
+        "kind": "diagnostic",
+        "origin": "moonpool://com.example.probe.a"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "diagnostic-app-a"
+    },
+    {
+      "body": {
+        "host": "com.example.probe.b",
+        "href": "moonpool://com.example.probe.b/diagnostic.html",
+        "kind": "diagnostic",
+        "origin": "moonpool://com.example.probe.b"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "diagnostic-app-b"
+    },
+    {
+      "body": {
+        "host": "com.example.probe.host",
+        "href": "moonpool://com.example.probe.host/diagnostic.html",
+        "kind": "diagnostic",
+        "origin": "moonpool://com.example.probe.host"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "com.example.probe.host",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "diagnostic-host-sentinel"
+    },
+    {
+      "body": {
+        "host": "com.example.hello",
+        "href": "moonpool://com.example.hello/diagnostic.html",
+        "kind": "diagnostic",
+        "origin": "moonpool://com.example.hello"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "com.example.hello",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "diagnostic-ordinary"
+    },
+    {
+      "body": {
+        "host": "1.2",
+        "href": "moonpool://1.2/diagnostic.html",
+        "kind": "diagnostic",
+        "origin": "moonpool://1.2"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "1.2",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "diagnostic-numeric"
+    },
+    {
+      "body": {
+        "host": "0.0.0.1",
+        "href": "moonpool://0.0.0.1/diagnostic.html",
+        "kind": "diagnostic",
+        "origin": "moonpool://0.0.0.1"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "0.0.0.1",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "diagnostic-ipv4-shaped"
+    },
+    {
+      "body": {
+        "host": "com.-",
+        "href": "moonpool://com.-/diagnostic.html",
+        "kind": "diagnostic",
+        "origin": "moonpool://com.-"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "com.-",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "diagnostic-hyphen-only-label"
+    },
+    {
+      "body": {
+        "host": "com.-app",
+        "href": "moonpool://com.-app/diagnostic.html",
+        "kind": "diagnostic",
+        "origin": "moonpool://com.-app"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "com.-app",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "diagnostic-leading-hyphen"
+    },
+    {
+      "body": {
+        "host": "com.app-",
+        "href": "moonpool://com.app-/diagnostic.html",
+        "kind": "diagnostic",
+        "origin": "moonpool://com.app-"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "com.app-",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "diagnostic-trailing-hyphen"
+    },
+    {
+      "body": {
+        "host": "com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "href": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/diagnostic.html",
+        "kind": "diagnostic",
+        "origin": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "diagnostic-label-63"
+    },
+    {
+      "body": {
+        "host": "com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "href": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/diagnostic.html",
+        "kind": "diagnostic",
+        "origin": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "diagnostic-label-64"
+    },
+    {
+      "body": {
+        "host": "a.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "href": "moonpool://a.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb/diagnostic.html",
+        "kind": "diagnostic",
+        "origin": "moonpool://a.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "a.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "diagnostic-total-253"
+    },
+    {
+      "body": {
+        "host": "aa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "href": "moonpool://aa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb/diagnostic.html",
+        "kind": "diagnostic",
+        "origin": "moonpool://aa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "aa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "diagnostic-total-254"
+    },
+    {
+      "body": {
+        "host": "com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "href": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/diagnostic.html",
+        "kind": "diagnostic",
+        "origin": "moonpool://com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "com.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "diagnostic-total-1028"
+    },
+    {
+      "body": {
+        "host": "com.xn--",
+        "href": "moonpool://com.xn--/diagnostic.html",
+        "kind": "diagnostic",
+        "origin": "moonpool://com.xn--"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "com.xn--",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "diagnostic-punycode-shaped"
+    },
+    {
+      "body": {
+        "host": "com.Example.a",
+        "href": "moonpool://com.Example.a/diagnostic.html",
+        "kind": "diagnostic",
+        "origin": "moonpool://com.example.a"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "com.example.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "diagnostic-uppercase"
+    },
+    {
+      "body": {
+        "host": "com.example",
+        "href": "moonpool://com.example:443/diagnostic.html",
+        "kind": "diagnostic",
+        "origin": "moonpool://com.example:443"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "com.example",
+        "port": 443,
+        "scheme": "moonpool"
+      },
+      "view": "diagnostic-port"
+    },
+    {
+      "body": {
+        "host": "com.%61",
+        "href": "moonpool://com.%61/diagnostic.html",
+        "kind": "diagnostic",
+        "origin": "moonpool://com.%61"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "com.%61",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "diagnostic-escape"
+    },
+    {
+      "body": {
+        "kind": "local",
+        "report": {
+          "cross": {
+            "domError": "TypeError",
+            "loaded": {
+              "eventOrigin": "moonpool://com.example.probe.b",
+              "host": "com.example.probe.b",
+              "kind": "t28-frame"
+            },
+            "storageError": "SecurityError"
+          },
+          "customCookie": "",
+          "documentToken": "1793633259133-0.3469642151229204",
+          "host": "com.example.probe.a",
+          "href": "moonpool://com.example.probe.a/?seed=false&run=first",
+          "idb": "com.example.probe.a:first",
+          "local": "com.example.probe.a:first",
+          "localBefore": "com.example.probe.a:first",
+          "origin": "moonpool://com.example.probe.a",
+          "self": {
+            "dom": "com.example.probe.a",
+            "loaded": {
+              "eventOrigin": "moonpool://com.example.probe.a",
+              "host": "com.example.probe.a",
+              "kind": "t28-frame"
+            },
+            "storage": "com.example.probe.a:first"
+          }
+        }
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "a"
+    },
+    {
+      "body": {
+        "kind": "local",
+        "report": {
+          "cross": {
+            "domError": "TypeError",
+            "loaded": {
+              "eventOrigin": "moonpool://com.example.probe.a",
+              "host": "com.example.probe.a",
+              "kind": "t28-frame"
+            },
+            "storageError": "SecurityError"
+          },
+          "customCookie": "",
+          "documentToken": "1793633259223-0.7616475807488631",
+          "host": "com.example.probe.b",
+          "href": "moonpool://com.example.probe.b/?seed=false&run=first",
+          "idb": "com.example.probe.b:first",
+          "local": "com.example.probe.b:first",
+          "localBefore": "com.example.probe.b:first",
+          "origin": "moonpool://com.example.probe.b",
+          "self": {
+            "dom": "com.example.probe.b",
+            "loaded": {
+              "eventOrigin": "moonpool://com.example.probe.b",
+              "host": "com.example.probe.b",
+              "kind": "t28-frame"
+            },
+            "storage": "com.example.probe.b:first"
+          }
+        }
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "b"
+    },
+    {
+      "body": {
+        "kind": "local",
+        "report": {
+          "cross": {
+            "domError": "TypeError",
+            "loaded": {
+              "eventOrigin": "moonpool://com.example.probe.b",
+              "host": "com.example.probe.b",
+              "kind": "t28-frame"
+            },
+            "storageError": "SecurityError"
+          },
+          "customCookie": "",
+          "documentToken": "1793633259553-0.727710640981897",
+          "host": "com.example.probe.a",
+          "href": "moonpool://com.example.probe.a/?seed=false&run=first",
+          "idb": "com.example.probe.a:first",
+          "local": "com.example.probe.a:first",
+          "localBefore": "com.example.probe.a:first",
+          "origin": "moonpool://com.example.probe.a",
+          "self": {
+            "dom": "com.example.probe.a",
+            "loaded": {
+              "eventOrigin": "moonpool://com.example.probe.a",
+              "host": "com.example.probe.a",
+              "kind": "t28-frame"
+            },
+            "storage": "com.example.probe.a:first"
+          }
+        }
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "a-second"
+    },
+    {
+      "body": {
+        "kind": "local",
+        "report": {
+          "cross": {
+            "domError": "TypeError",
+            "loaded": {
+              "eventOrigin": "moonpool://com.example.probe.b",
+              "host": "com.example.probe.b",
+              "kind": "t28-frame"
+            },
+            "storageError": "SecurityError"
+          },
+          "customCookie": "",
+          "documentToken": "1793633259622-0.6607829342908783",
+          "host": "com.example.probe.a",
+          "href": "moonpool://com.example.probe.a/?seed=false&run=first",
+          "idb": "com.example.probe.a:first",
+          "local": "com.example.probe.a:first",
+          "localBefore": "com.example.probe.a:first",
+          "origin": "moonpool://com.example.probe.a",
+          "self": {
+            "dom": "com.example.probe.a",
+            "loaded": {
+              "eventOrigin": "moonpool://com.example.probe.a",
+              "host": "com.example.probe.a",
+              "kind": "t28-frame"
+            },
+            "storage": "com.example.probe.a:first"
+          }
+        }
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "a"
+    },
+    {
+      "body": {
+        "kind": "local",
+        "report": {
+          "cross": {
+            "domError": "TypeError",
+            "loaded": {
+              "eventOrigin": "moonpool://com.example.probe.b",
+              "host": "com.example.probe.b",
+              "kind": "t28-frame"
+            },
+            "storageError": "SecurityError"
+          },
+          "customCookie": "",
+          "documentToken": "1793633259989-0.11978527445963427",
+          "host": "com.example.probe.a",
+          "href": "moonpool://com.example.probe.a/?seed=false&run=first",
+          "idb": "com.example.probe.a:first",
+          "local": "com.example.probe.a:first",
+          "localBefore": "com.example.probe.a:first",
+          "origin": "moonpool://com.example.probe.a",
+          "self": {
+            "dom": "com.example.probe.a",
+            "loaded": {
+              "eventOrigin": "moonpool://com.example.probe.a",
+              "host": "com.example.probe.a",
+              "kind": "t28-frame"
+            },
+            "storage": "com.example.probe.a:first"
+          }
+        }
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "a-recreated"
+    },
+    {
+      "body": {
+        "kind": "local",
+        "report": {
+          "cross": {
+            "domError": "TypeError",
+            "loaded": {
+              "eventOrigin": "moonpool://com.example.probe.a",
+              "host": "com.example.probe.a",
+              "kind": "t28-frame"
+            },
+            "storageError": "SecurityError"
+          },
+          "customCookie": "",
+          "documentToken": "1793633260301-0.994385329894941",
+          "host": "com.example.probe.b",
+          "href": "moonpool://com.example.probe.b/?seed=false&run=first",
+          "idb": null,
+          "local": null,
+          "localBefore": null,
+          "origin": "moonpool://com.example.probe.b",
+          "self": {
+            "dom": "com.example.probe.b",
+            "loaded": {
+              "eventOrigin": "moonpool://com.example.probe.b",
+              "host": "com.example.probe.b",
+              "kind": "t28-frame"
+            },
+            "storage": null
+          }
+        }
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "com.example.probe.b",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "b-under-a-store"
+    },
+    {
+      "body": {
+        "kind": "local",
+        "report": {
+          "cross": {
+            "domError": "TypeError",
+            "loaded": {
+              "eventOrigin": "moonpool://com.example.probe.b",
+              "host": "com.example.probe.b",
+              "kind": "t28-frame"
+            },
+            "storageError": "SecurityError"
+          },
+          "customCookie": "",
+          "documentToken": "1793633260377-0.9532687890748269",
+          "host": "com.example.probe.a",
+          "href": "moonpool://com.example.probe.a/?seed=false&run=first",
+          "idb": "com.example.probe.a:first",
+          "local": "com.example.probe.a:first",
+          "localBefore": "com.example.probe.a:first",
+          "origin": "moonpool://com.example.probe.a",
+          "self": {
+            "dom": "com.example.probe.a",
+            "loaded": {
+              "eventOrigin": "moonpool://com.example.probe.a",
+              "host": "com.example.probe.a",
+              "kind": "t28-frame"
+            },
+            "storage": "com.example.probe.a:first"
+          }
+        }
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "com.example.probe.a",
+        "port": 0,
+        "scheme": "moonpool"
+      },
+      "view": "a-recreated"
+    },
+    {
+      "body": {
+        "host": "example.com",
+        "href": "https://example.com/?moonpool-t28=public-fixture",
+        "kind": "https-control",
+        "title": "Example Domain"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "example.com",
+        "port": 0,
+        "scheme": "https"
+      },
+      "view": "remote-a"
+    },
+    {
+      "body": {
+        "host": "example.com",
+        "href": "https://example.com/?moonpool-t28=public-fixture",
+        "kind": "https-control",
+        "title": "Example Domain"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "example.com",
+        "port": 0,
+        "scheme": "https"
+      },
+      "view": "remote-b"
+    },
+    {
+      "body": {
+        "host": "example.com",
+        "href": "https://example.com/?moonpool-t28=public-fixture",
+        "kind": "https-control",
+        "title": "Example Domain"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "example.com",
+        "port": 0,
+        "scheme": "https"
+      },
+      "view": "remote-host"
+    },
+    {
+      "body": {
+        "host": "example.com",
+        "href": "https://example.com/?moonpool-t28=public-fixture",
+        "kind": "https-control",
+        "title": "Example Domain"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "example.com",
+        "port": 0,
+        "scheme": "https"
+      },
+      "view": "remote-recreated-a"
+    },
+    {
+      "body": {
+        "host": "example.com",
+        "href": "https://example.com/?moonpool-t28=public-fixture",
+        "kind": "https-control",
+        "title": "Example Domain"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "example.com",
+        "port": 0,
+        "scheme": "https"
+      },
+      "view": "remote-recreated-b"
+    },
+    {
+      "body": {
+        "host": "example.com",
+        "href": "https://example.com/?moonpool-t28=public-fixture",
+        "kind": "https-control",
+        "title": "Example Domain"
+      },
+      "mainFrame": true,
+      "nativeOrigin": {
+        "host": "example.com",
+        "port": 0,
+        "scheme": "https"
+      },
+      "view": "remote-recreated-host"
+    }
+  ],
+  "os": "26.4.1",
+  "phase": "restart",
+  "registry": [
+    {
+      "id": "com.example.probe.a",
+      "uuid": "A6F6858D-36F6-4B6C-AE4D-BC529FB0B466"
+    },
+    {
+      "id": "com.example.probe.b",
+      "uuid": "FD74A237-0E30-43FC-AC69-E7BCF2B8980A"
+    },
+    {
+      "id": "com.example.probe.host",
+      "uuid": "8F9B131B-1392-4729-A9F5-0631CAE5A7B8"
+    },
+    {
+      "id": "com.example.probe.diagnostics",
+      "uuid": "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6"
+    }
+  ],
+  "remoteHost": "https://example.com",
+  "restartBoundary": "terminated app process then launched same installed app and durable stores",
+  "run": "first",
+  "samples": [
+    {
+      "freshNativeMessage": {
+        "body": {
+          "kind": "local",
+          "report": {
+            "cross": {
+              "domError": "TypeError",
+              "loaded": {
+                "eventOrigin": "moonpool://com.example.probe.b",
+                "host": "com.example.probe.b",
+                "kind": "t28-frame"
+              },
+              "storageError": "SecurityError"
+            },
+            "customCookie": "",
+            "documentToken": "1793633259133-0.3469642151229204",
+            "host": "com.example.probe.a",
+            "href": "moonpool://com.example.probe.a/?seed=false&run=first",
+            "idb": "com.example.probe.a:first",
+            "local": "com.example.probe.a:first",
+            "localBefore": "com.example.probe.a:first",
+            "origin": "moonpool://com.example.probe.a",
+            "self": {
+              "dom": "com.example.probe.a",
+              "loaded": {
+                "eventOrigin": "moonpool://com.example.probe.a",
+                "host": "com.example.probe.a",
+                "kind": "t28-frame"
+              },
+              "storage": "com.example.probe.a:first"
+            }
+          }
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "com.example.probe.a",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "a"
+      },
+      "kind": "local",
+      "label": "initial-a",
+      "loadErrors": [],
+      "observation": {
+        "cross": {
+          "domError": "TypeError",
+          "loaded": {
+            "eventOrigin": "moonpool://com.example.probe.b",
+            "host": "com.example.probe.b",
+            "kind": "t28-frame"
+          },
+          "storageError": "SecurityError"
+        },
+        "customCookie": "",
+        "documentToken": "1793633259133-0.3469642151229204",
+        "host": "com.example.probe.a",
+        "href": "moonpool://com.example.probe.a/?seed=false&run=first",
+        "idb": "com.example.probe.a:first",
+        "local": "com.example.probe.a:first",
+        "localBefore": "com.example.probe.a:first",
+        "origin": "moonpool://com.example.probe.a",
+        "self": {
+          "dom": "com.example.probe.a",
+          "loaded": {
+            "eventOrigin": "moonpool://com.example.probe.a",
+            "host": "com.example.probe.a",
+            "kind": "t28-frame"
+          },
+          "storage": "com.example.probe.a:first"
+        }
+      },
+      "observedFreshLocalMessage": true,
+      "storeIdentifier": "A6F6858D-36F6-4B6C-AE4D-BC529FB0B466",
+      "url": "moonpool://com.example.probe.a/?seed=false&run=first"
+    },
+    {
+      "freshNativeMessage": {
+        "body": {
+          "kind": "local",
+          "report": {
+            "cross": {
+              "domError": "TypeError",
+              "loaded": {
+                "eventOrigin": "moonpool://com.example.probe.a",
+                "host": "com.example.probe.a",
+                "kind": "t28-frame"
+              },
+              "storageError": "SecurityError"
+            },
+            "customCookie": "",
+            "documentToken": "1793633259223-0.7616475807488631",
+            "host": "com.example.probe.b",
+            "href": "moonpool://com.example.probe.b/?seed=false&run=first",
+            "idb": "com.example.probe.b:first",
+            "local": "com.example.probe.b:first",
+            "localBefore": "com.example.probe.b:first",
+            "origin": "moonpool://com.example.probe.b",
+            "self": {
+              "dom": "com.example.probe.b",
+              "loaded": {
+                "eventOrigin": "moonpool://com.example.probe.b",
+                "host": "com.example.probe.b",
+                "kind": "t28-frame"
+              },
+              "storage": "com.example.probe.b:first"
+            }
+          }
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "com.example.probe.b",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "b"
+      },
+      "kind": "local",
+      "label": "initial-b",
+      "loadErrors": [],
+      "observation": {
+        "cross": {
+          "domError": "TypeError",
+          "loaded": {
+            "eventOrigin": "moonpool://com.example.probe.a",
+            "host": "com.example.probe.a",
+            "kind": "t28-frame"
+          },
+          "storageError": "SecurityError"
+        },
+        "customCookie": "",
+        "documentToken": "1793633259223-0.7616475807488631",
+        "host": "com.example.probe.b",
+        "href": "moonpool://com.example.probe.b/?seed=false&run=first",
+        "idb": "com.example.probe.b:first",
+        "local": "com.example.probe.b:first",
+        "localBefore": "com.example.probe.b:first",
+        "origin": "moonpool://com.example.probe.b",
+        "self": {
+          "dom": "com.example.probe.b",
+          "loaded": {
+            "eventOrigin": "moonpool://com.example.probe.b",
+            "host": "com.example.probe.b",
+            "kind": "t28-frame"
+          },
+          "storage": "com.example.probe.b:first"
+        }
+      },
+      "observedFreshLocalMessage": true,
+      "storeIdentifier": "FD74A237-0E30-43FC-AC69-E7BCF2B8980A",
+      "url": "moonpool://com.example.probe.b/?seed=false&run=first"
+    },
+    {
+      "freshNativeMessage": {
+        "body": {
+          "kind": "local",
+          "report": {
+            "cross": {
+              "domError": "TypeError",
+              "loaded": {
+                "eventOrigin": "moonpool://com.example.probe.b",
+                "host": "com.example.probe.b",
+                "kind": "t28-frame"
+              },
+              "storageError": "SecurityError"
+            },
+            "customCookie": "",
+            "documentToken": "1793633259553-0.727710640981897",
+            "host": "com.example.probe.a",
+            "href": "moonpool://com.example.probe.a/?seed=false&run=first",
+            "idb": "com.example.probe.a:first",
+            "local": "com.example.probe.a:first",
+            "localBefore": "com.example.probe.a:first",
+            "origin": "moonpool://com.example.probe.a",
+            "self": {
+              "dom": "com.example.probe.a",
+              "loaded": {
+                "eventOrigin": "moonpool://com.example.probe.a",
+                "host": "com.example.probe.a",
+                "kind": "t28-frame"
+              },
+              "storage": "com.example.probe.a:first"
+            }
+          }
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "com.example.probe.a",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "a-second"
+      },
+      "kind": "local",
+      "label": "same-app-second",
+      "loadErrors": [],
+      "observation": {
+        "cross": {
+          "domError": "TypeError",
+          "loaded": {
+            "eventOrigin": "moonpool://com.example.probe.b",
+            "host": "com.example.probe.b",
+            "kind": "t28-frame"
+          },
+          "storageError": "SecurityError"
+        },
+        "customCookie": "",
+        "documentToken": "1793633259553-0.727710640981897",
+        "host": "com.example.probe.a",
+        "href": "moonpool://com.example.probe.a/?seed=false&run=first",
+        "idb": "com.example.probe.a:first",
+        "local": "com.example.probe.a:first",
+        "localBefore": "com.example.probe.a:first",
+        "origin": "moonpool://com.example.probe.a",
+        "self": {
+          "dom": "com.example.probe.a",
+          "loaded": {
+            "eventOrigin": "moonpool://com.example.probe.a",
+            "host": "com.example.probe.a",
+            "kind": "t28-frame"
+          },
+          "storage": "com.example.probe.a:first"
+        }
+      },
+      "observedFreshLocalMessage": true,
+      "storeIdentifier": "A6F6858D-36F6-4B6C-AE4D-BC529FB0B466",
+      "url": "moonpool://com.example.probe.a/?seed=false&run=first"
+    },
+    {
+      "freshNativeMessage": {
+        "body": {
+          "kind": "local",
+          "report": {
+            "cross": {
+              "domError": "TypeError",
+              "loaded": {
+                "eventOrigin": "moonpool://com.example.probe.b",
+                "host": "com.example.probe.b",
+                "kind": "t28-frame"
+              },
+              "storageError": "SecurityError"
+            },
+            "customCookie": "",
+            "documentToken": "1793633259622-0.6607829342908783",
+            "host": "com.example.probe.a",
+            "href": "moonpool://com.example.probe.a/?seed=false&run=first",
+            "idb": "com.example.probe.a:first",
+            "local": "com.example.probe.a:first",
+            "localBefore": "com.example.probe.a:first",
+            "origin": "moonpool://com.example.probe.a",
+            "self": {
+              "dom": "com.example.probe.a",
+              "loaded": {
+                "eventOrigin": "moonpool://com.example.probe.a",
+                "host": "com.example.probe.a",
+                "kind": "t28-frame"
+              },
+              "storage": "com.example.probe.a:first"
+            }
+          }
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "com.example.probe.a",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "a"
+      },
+      "kind": "local",
+      "label": "reload-a",
+      "loadErrors": [],
+      "observation": {
+        "cross": {
+          "domError": "TypeError",
+          "loaded": {
+            "eventOrigin": "moonpool://com.example.probe.b",
+            "host": "com.example.probe.b",
+            "kind": "t28-frame"
+          },
+          "storageError": "SecurityError"
+        },
+        "customCookie": "",
+        "documentToken": "1793633259622-0.6607829342908783",
+        "host": "com.example.probe.a",
+        "href": "moonpool://com.example.probe.a/?seed=false&run=first",
+        "idb": "com.example.probe.a:first",
+        "local": "com.example.probe.a:first",
+        "localBefore": "com.example.probe.a:first",
+        "origin": "moonpool://com.example.probe.a",
+        "self": {
+          "dom": "com.example.probe.a",
+          "loaded": {
+            "eventOrigin": "moonpool://com.example.probe.a",
+            "host": "com.example.probe.a",
+            "kind": "t28-frame"
+          },
+          "storage": "com.example.probe.a:first"
+        }
+      },
+      "observedFreshLocalMessage": true,
+      "storeIdentifier": "A6F6858D-36F6-4B6C-AE4D-BC529FB0B466",
+      "url": "moonpool://com.example.probe.a/?seed=false&run=first"
+    },
+    {
+      "freshNativeMessage": {
+        "body": {
+          "kind": "local",
+          "report": {
+            "cross": {
+              "domError": "TypeError",
+              "loaded": {
+                "eventOrigin": "moonpool://com.example.probe.b",
+                "host": "com.example.probe.b",
+                "kind": "t28-frame"
+              },
+              "storageError": "SecurityError"
+            },
+            "customCookie": "",
+            "documentToken": "1793633259989-0.11978527445963427",
+            "host": "com.example.probe.a",
+            "href": "moonpool://com.example.probe.a/?seed=false&run=first",
+            "idb": "com.example.probe.a:first",
+            "local": "com.example.probe.a:first",
+            "localBefore": "com.example.probe.a:first",
+            "origin": "moonpool://com.example.probe.a",
+            "self": {
+              "dom": "com.example.probe.a",
+              "loaded": {
+                "eventOrigin": "moonpool://com.example.probe.a",
+                "host": "com.example.probe.a",
+                "kind": "t28-frame"
+              },
+              "storage": "com.example.probe.a:first"
+            }
+          }
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "com.example.probe.a",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "a-recreated"
+      },
+      "kind": "local",
+      "label": "recreate-a",
+      "loadErrors": [],
+      "observation": {
+        "cross": {
+          "domError": "TypeError",
+          "loaded": {
+            "eventOrigin": "moonpool://com.example.probe.b",
+            "host": "com.example.probe.b",
+            "kind": "t28-frame"
+          },
+          "storageError": "SecurityError"
+        },
+        "customCookie": "",
+        "documentToken": "1793633259989-0.11978527445963427",
+        "host": "com.example.probe.a",
+        "href": "moonpool://com.example.probe.a/?seed=false&run=first",
+        "idb": "com.example.probe.a:first",
+        "local": "com.example.probe.a:first",
+        "localBefore": "com.example.probe.a:first",
+        "origin": "moonpool://com.example.probe.a",
+        "self": {
+          "dom": "com.example.probe.a",
+          "loaded": {
+            "eventOrigin": "moonpool://com.example.probe.a",
+            "host": "com.example.probe.a",
+            "kind": "t28-frame"
+          },
+          "storage": "com.example.probe.a:first"
+        }
+      },
+      "observedFreshLocalMessage": true,
+      "storeIdentifier": "A6F6858D-36F6-4B6C-AE4D-BC529FB0B466",
+      "url": "moonpool://com.example.probe.a/?seed=false&run=first"
+    },
+    {
+      "freshNativeMessage": {
+        "body": {
+          "kind": "local",
+          "report": {
+            "cross": {
+              "domError": "TypeError",
+              "loaded": {
+                "eventOrigin": "moonpool://com.example.probe.a",
+                "host": "com.example.probe.a",
+                "kind": "t28-frame"
+              },
+              "storageError": "SecurityError"
+            },
+            "customCookie": "",
+            "documentToken": "1793633260301-0.994385329894941",
+            "host": "com.example.probe.b",
+            "href": "moonpool://com.example.probe.b/?seed=false&run=first",
+            "idb": null,
+            "local": null,
+            "localBefore": null,
+            "origin": "moonpool://com.example.probe.b",
+            "self": {
+              "dom": "com.example.probe.b",
+              "loaded": {
+                "eventOrigin": "moonpool://com.example.probe.b",
+                "host": "com.example.probe.b",
+                "kind": "t28-frame"
+              },
+              "storage": null
+            }
+          }
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "com.example.probe.b",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "b-under-a-store"
+      },
+      "kind": "local",
+      "label": "b-under-a-store",
+      "loadErrors": [],
+      "observation": {
+        "cross": {
+          "domError": "TypeError",
+          "loaded": {
+            "eventOrigin": "moonpool://com.example.probe.a",
+            "host": "com.example.probe.a",
+            "kind": "t28-frame"
+          },
+          "storageError": "SecurityError"
+        },
+        "customCookie": "",
+        "documentToken": "1793633260301-0.994385329894941",
+        "host": "com.example.probe.b",
+        "href": "moonpool://com.example.probe.b/?seed=false&run=first",
+        "idb": null,
+        "local": null,
+        "localBefore": null,
+        "origin": "moonpool://com.example.probe.b",
+        "self": {
+          "dom": "com.example.probe.b",
+          "loaded": {
+            "eventOrigin": "moonpool://com.example.probe.b",
+            "host": "com.example.probe.b",
+            "kind": "t28-frame"
+          },
+          "storage": null
+        }
+      },
+      "observedFreshLocalMessage": true,
+      "storeIdentifier": "A6F6858D-36F6-4B6C-AE4D-BC529FB0B466",
+      "url": "moonpool://com.example.probe.b/?seed=false&run=first"
+    },
+    {
+      "freshNativeMessage": {
+        "body": {
+          "kind": "local",
+          "report": {
+            "cross": {
+              "domError": "TypeError",
+              "loaded": {
+                "eventOrigin": "moonpool://com.example.probe.b",
+                "host": "com.example.probe.b",
+                "kind": "t28-frame"
+              },
+              "storageError": "SecurityError"
+            },
+            "customCookie": "",
+            "documentToken": "1793633260377-0.9532687890748269",
+            "host": "com.example.probe.a",
+            "href": "moonpool://com.example.probe.a/?seed=false&run=first",
+            "idb": "com.example.probe.a:first",
+            "local": "com.example.probe.a:first",
+            "localBefore": "com.example.probe.a:first",
+            "origin": "moonpool://com.example.probe.a",
+            "self": {
+              "dom": "com.example.probe.a",
+              "loaded": {
+                "eventOrigin": "moonpool://com.example.probe.a",
+                "host": "com.example.probe.a",
+                "kind": "t28-frame"
+              },
+              "storage": "com.example.probe.a:first"
+            }
+          }
+        },
+        "mainFrame": true,
+        "nativeOrigin": {
+          "host": "com.example.probe.a",
+          "port": 0,
+          "scheme": "moonpool"
+        },
+        "view": "a-recreated"
+      },
+      "kind": "local",
+      "label": "a-after-origin-control",
+      "loadErrors": [],
+      "observation": {
+        "cross": {
+          "domError": "TypeError",
+          "loaded": {
+            "eventOrigin": "moonpool://com.example.probe.b",
+            "host": "com.example.probe.b",
+            "kind": "t28-frame"
+          },
+          "storageError": "SecurityError"
+        },
+        "customCookie": "",
+        "documentToken": "1793633260377-0.9532687890748269",
+        "host": "com.example.probe.a",
+        "href": "moonpool://com.example.probe.a/?seed=false&run=first",
+        "idb": "com.example.probe.a:first",
+        "local": "com.example.probe.a:first",
+        "localBefore": "com.example.probe.a:first",
+        "origin": "moonpool://com.example.probe.a",
+        "self": {
+          "dom": "com.example.probe.a",
+          "loaded": {
+            "eventOrigin": "moonpool://com.example.probe.a",
+            "host": "com.example.probe.a",
+            "kind": "t28-frame"
+          },
+          "storage": "com.example.probe.a:first"
+        }
+      },
+      "observedFreshLocalMessage": true,
+      "storeIdentifier": "A6F6858D-36F6-4B6C-AE4D-BC529FB0B466",
+      "url": "moonpool://com.example.probe.a/?seed=false&run=first"
+    },
+    {
+      "beforeCookie": "t28_remote=a_first",
+      "beforeNativeCookies": [
+        {
+          "domain": "example.com",
+          "expires": 1793719647,
+          "name": "t28_remote",
+          "path": "/",
+          "secure": true,
+          "sessionOnly": false,
+          "value": "a_first"
+        }
+      ],
+      "kind": "https",
+      "label": "https-initial-a",
+      "loaded": true,
+      "nativeCookies": [
+        {
+          "domain": "example.com",
+          "expires": 1793719647,
+          "name": "t28_remote",
+          "path": "/",
+          "secure": true,
+          "sessionOnly": false,
+          "value": "a_first"
+        }
+      ],
+      "observation": {
+        "cookie": "t28_remote=a_first",
+        "host": "example.com",
+        "href": "https://example.com/?moonpool-t28=public-fixture",
+        "ready": "complete",
+        "scheme": "https:",
+        "title": "Example Domain"
+      },
+      "owner": "a",
+      "storeIdentifier": "A6F6858D-36F6-4B6C-AE4D-BC529FB0B466",
+      "url": "https://example.com/?moonpool-t28=public-fixture"
+    },
+    {
+      "beforeCookie": "t28_remote=b_first",
+      "beforeNativeCookies": [
+        {
+          "domain": "example.com",
+          "expires": 1793719647,
+          "name": "t28_remote",
+          "path": "/",
+          "secure": true,
+          "sessionOnly": false,
+          "value": "b_first"
+        }
+      ],
+      "kind": "https",
+      "label": "https-initial-b",
+      "loaded": true,
+      "nativeCookies": [
+        {
+          "domain": "example.com",
+          "expires": 1793719647,
+          "name": "t28_remote",
+          "path": "/",
+          "secure": true,
+          "sessionOnly": false,
+          "value": "b_first"
+        }
+      ],
+      "observation": {
+        "cookie": "t28_remote=b_first",
+        "host": "example.com",
+        "href": "https://example.com/?moonpool-t28=public-fixture",
+        "ready": "complete",
+        "scheme": "https:",
+        "title": "Example Domain"
+      },
+      "owner": "b",
+      "storeIdentifier": "FD74A237-0E30-43FC-AC69-E7BCF2B8980A",
+      "url": "https://example.com/?moonpool-t28=public-fixture"
+    },
+    {
+      "beforeCookie": "t28_remote=host_first",
+      "beforeNativeCookies": [
+        {
+          "domain": "example.com",
+          "expires": 1793719648,
+          "name": "t28_remote",
+          "path": "/",
+          "secure": true,
+          "sessionOnly": false,
+          "value": "host_first"
+        }
+      ],
+      "kind": "https",
+      "label": "https-initial-host",
+      "loaded": true,
+      "nativeCookies": [
+        {
+          "domain": "example.com",
+          "expires": 1793719648,
+          "name": "t28_remote",
+          "path": "/",
+          "secure": true,
+          "sessionOnly": false,
+          "value": "host_first"
+        }
+      ],
+      "observation": {
+        "cookie": "t28_remote=host_first",
+        "host": "example.com",
+        "href": "https://example.com/?moonpool-t28=public-fixture",
+        "ready": "complete",
+        "scheme": "https:",
+        "title": "Example Domain"
+      },
+      "owner": "host",
+      "storeIdentifier": "8F9B131B-1392-4729-A9F5-0631CAE5A7B8",
+      "url": "https://example.com/?moonpool-t28=public-fixture"
+    },
+    {
+      "beforeCookie": "t28_remote=a_first",
+      "beforeNativeCookies": [
+        {
+          "domain": "example.com",
+          "expires": 1793719647,
+          "name": "t28_remote",
+          "path": "/",
+          "secure": true,
+          "sessionOnly": false,
+          "value": "a_first"
+        }
+      ],
+      "kind": "https",
+      "label": "https-recreated-a",
+      "loaded": true,
+      "nativeCookies": [
+        {
+          "domain": "example.com",
+          "expires": 1793719647,
+          "name": "t28_remote",
+          "path": "/",
+          "secure": true,
+          "sessionOnly": false,
+          "value": "a_first"
+        }
+      ],
+      "observation": {
+        "cookie": "t28_remote=a_first",
+        "host": "example.com",
+        "href": "https://example.com/?moonpool-t28=public-fixture",
+        "ready": "complete",
+        "scheme": "https:",
+        "title": "Example Domain"
+      },
+      "owner": "a",
+      "storeIdentifier": "A6F6858D-36F6-4B6C-AE4D-BC529FB0B466",
+      "url": "https://example.com/?moonpool-t28=public-fixture"
+    },
+    {
+      "beforeCookie": "t28_remote=b_first",
+      "beforeNativeCookies": [
+        {
+          "domain": "example.com",
+          "expires": 1793719647,
+          "name": "t28_remote",
+          "path": "/",
+          "secure": true,
+          "sessionOnly": false,
+          "value": "b_first"
+        }
+      ],
+      "kind": "https",
+      "label": "https-recreated-b",
+      "loaded": true,
+      "nativeCookies": [
+        {
+          "domain": "example.com",
+          "expires": 1793719647,
+          "name": "t28_remote",
+          "path": "/",
+          "secure": true,
+          "sessionOnly": false,
+          "value": "b_first"
+        }
+      ],
+      "observation": {
+        "cookie": "t28_remote=b_first",
+        "host": "example.com",
+        "href": "https://example.com/?moonpool-t28=public-fixture",
+        "ready": "complete",
+        "scheme": "https:",
+        "title": "Example Domain"
+      },
+      "owner": "b",
+      "storeIdentifier": "FD74A237-0E30-43FC-AC69-E7BCF2B8980A",
+      "url": "https://example.com/?moonpool-t28=public-fixture"
+    },
+    {
+      "beforeCookie": "t28_remote=host_first",
+      "beforeNativeCookies": [
+        {
+          "domain": "example.com",
+          "expires": 1793719648,
+          "name": "t28_remote",
+          "path": "/",
+          "secure": true,
+          "sessionOnly": false,
+          "value": "host_first"
+        }
+      ],
+      "kind": "https",
+      "label": "https-recreated-host",
+      "loaded": true,
+      "nativeCookies": [
+        {
+          "domain": "example.com",
+          "expires": 1793719648,
+          "name": "t28_remote",
+          "path": "/",
+          "secure": true,
+          "sessionOnly": false,
+          "value": "host_first"
+        }
+      ],
+      "observation": {
+        "cookie": "t28_remote=host_first",
+        "host": "example.com",
+        "href": "https://example.com/?moonpool-t28=public-fixture",
+        "ready": "complete",
+        "scheme": "https:",
+        "title": "Example Domain"
+      },
+      "owner": "host",
+      "storeIdentifier": "8F9B131B-1392-4729-A9F5-0631CAE5A7B8",
+      "url": "https://example.com/?moonpool-t28=public-fixture"
+    }
+  ],
+  "securityScope": "Public sentinel markers only; no authentication or TLS override",
+  "storeAPI": "WKWebsiteDataStore(forIdentifier:)",
+  "stores": {
+    "a": {
+      "identifier": "A6F6858D-36F6-4B6C-AE4D-BC529FB0B466",
+      "persistent": true
+    },
+    "b": {
+      "identifier": "FD74A237-0E30-43FC-AC69-E7BCF2B8980A",
+      "persistent": true
+    },
+    "diagnostics": {
+      "identifier": "EDEEF9D4-7298-4A7F-859A-9EB80809DAB6",
+      "persistent": true
+    },
+    "host": {
+      "identifier": "8F9B131B-1392-4729-A9F5-0631CAE5A7B8",
+      "persistent": true
+    }
+  }
+}
