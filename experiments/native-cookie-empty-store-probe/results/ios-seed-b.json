@@ -1,0 +1,1353 @@
+{
+  "base": "https://localhost:51989",
+  "build": {
+    "caSha256": "09d74bbb8dcc228cfab993553d9082f65ef5c70e0310497d2633186c3ea25900",
+    "executableSha256": "e881fcac3893d089f1dbaaf3e1ec4573069b2ff4b898ba024c6aa908dbe39a6d",
+    "fixtureConfigSha256": "e1d936e5a1a41bbe3ad4895ebfcab98caeac70dcd4c28a029b7f952386514e93",
+    "sdk": "26.4",
+    "signatureSha256": "f7ed0d153187b34e0b18444140a479e45bae82bd220d03b4dcbf43956a5d5f29",
+    "sources": {
+      "build.py": "7b203ea68289a9f2dc4659028d47bea6ef887be249fdb12c02a46196e58ef6c7",
+      "fixture.py": "53bf2f3a02ec46c397113b20aa727ac7cc92f71eebbc1e3d82534dce95dbf5da",
+      "frame.html": "d6ba27bb66312ec92828bae9f56a94e79eec26f546bed1a3f667e3477fea4abd",
+      "ios/Probe.swift": "016821be1273cfab0d12eb348ae2d4f863fde853206de0c462925627e0d47a19",
+      "storage.html": "f38ab0a30b76b2035c7d563c25c97ce5d114f796f5b6e85799fda57a72754f35",
+      "store_kinds.json": "c68492f24414468e9e16a2f283090db7d047bdbd50c4bf108735132dccf091c4",
+      "vectors.py": "fc084aff410f3d338af4b71d1ecd2e5f1bc80449cf10f97578de526fcc352f07"
+    },
+    "xcode": "Xcode 26.4.1\nBuild version 17E202"
+  },
+  "capturedUtc": "2026-11-03T06:11:03Z",
+  "checks": [],
+  "complete": true,
+  "errors": [],
+  "installedArtifactSha256": "e881fcac3893d089f1dbaaf3e1ec4573069b2ff4b898ba024c6aa908dbe39a6d",
+  "mode": "seed",
+  "os": "26.4.1",
+  "platform": "ios",
+  "requests": [
+    {
+      "case": "network-visit-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "network-visit-denied-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "blocked-write-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "server-expired-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "server-expired-r1",
+      "cookie": "t28e_server-expired=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "expire",
+      "tls": true
+    },
+    {
+      "case": "short-lived-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "session-only-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "cookie-denied-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "cookie-never-denied-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "httponly-denied-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-denied-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-allowed-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-moonpool-denied-r1",
+      "cookie": "",
+      "host": "localhost:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "hazard-control-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-default-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "network-visit-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "network-visit-denied-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "blocked-write-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "server-expired-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "server-expired-n1",
+      "cookie": "t28e_server-expired=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "expire",
+      "tls": true
+    },
+    {
+      "case": "short-lived-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "session-only-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "cookie-denied-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "cookie-never-denied-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "httponly-denied-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-denied-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-allowed-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-moonpool-denied-n1",
+      "cookie": "",
+      "host": "localhost:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "hazard-control-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-default-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "network-visit-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "network-visit-denied-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "blocked-write-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "server-expired-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "server-expired-r2",
+      "cookie": "t28e_server-expired=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "expire",
+      "tls": true
+    },
+    {
+      "case": "short-lived-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "session-only-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "cookie-denied-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "cookie-never-denied-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "httponly-denied-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-denied-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-allowed-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-moonpool-denied-r2",
+      "cookie": "",
+      "host": "localhost:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "hazard-control-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-default-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "network-visit-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "network-visit-denied-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "blocked-write-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "server-expired-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "server-expired-n2",
+      "cookie": "t28e_server-expired=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "expire",
+      "tls": true
+    },
+    {
+      "case": "short-lived-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "session-only-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "cookie-denied-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "cookie-never-denied-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "httponly-denied-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-denied-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-allowed-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-moonpool-denied-n2",
+      "cookie": "",
+      "host": "localhost:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "hazard-control-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-default-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "late-never-denied-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "late-denied-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "late-never-denied-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "late-denied-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "late-never-denied-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "late-denied-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "late-never-denied-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "late-denied-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-seed-b",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    }
+  ],
+  "run": "ios-seed-b",
+  "seeded": [
+    {
+      "case": "untouched-r1",
+      "inventoryAfterSeed": [],
+      "kind": "untouched",
+      "partition": "B7407971-A9B0-4717-AB7A-3FA0A5DE130E",
+      "storageReady": null,
+      "visitsLoaded": []
+    },
+    {
+      "case": "untouched-denied-r1",
+      "inventoryAfterSeed": [],
+      "kind": "untouched-denied",
+      "partition": "70E344B6-F533-4C82-808B-557CEB9BF04D",
+      "storageReady": null,
+      "visitsLoaded": []
+    },
+    {
+      "case": "local-data-r1",
+      "inventoryAfterSeed": [],
+      "kind": "local-data",
+      "partition": "4C4FDFB3-1740-4EC8-AD9D-E24ABD500499",
+      "storageReady": true,
+      "visitsLoaded": []
+    },
+    {
+      "case": "local-data-denied-r1",
+      "inventoryAfterSeed": [],
+      "kind": "local-data-denied",
+      "partition": "232A8DEC-3029-48D3-8C68-F9CD98E6CD0B",
+      "storageReady": true,
+      "visitsLoaded": []
+    },
+    {
+      "case": "network-visit-r1",
+      "inventoryAfterSeed": [],
+      "kind": "network-visit",
+      "partition": "6A8D23CA-396B-402D-80E7-04037D7F8D8A",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "network-visit-denied-r1",
+      "inventoryAfterSeed": [],
+      "kind": "network-visit-denied",
+      "partition": "D3D58DB4-CE49-4B8F-BB86-6801ADA173EA",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "blocked-write-r1",
+      "inventoryAfterSeed": [],
+      "kind": "blocked-write",
+      "partition": "2A44A6EF-16A8-492C-A131-1B698D5A1E8C",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "server-expired-r1",
+      "inventoryAfterSeed": [],
+      "kind": "server-expired",
+      "partition": "8D740A3B-CA64-4E92-B3C4-0BF190E219E7",
+      "storageReady": null,
+      "visitsLoaded": [true, true]
+    },
+    {
+      "case": "short-lived-r1",
+      "inventoryAfterSeed": ["t28e_short-lived"],
+      "kind": "short-lived",
+      "partition": "129421A1-B745-4B05-ACFF-B0DAB14AC86F",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "session-only-r1",
+      "inventoryAfterSeed": ["t28e_session-only"],
+      "kind": "session-only",
+      "partition": "525CD5A4-C464-44C7-A520-D6DF694849BD",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "cookie-denied-r1",
+      "inventoryAfterSeed": ["t28e_cookie-denied"],
+      "kind": "cookie-denied",
+      "partition": "1428BEC3-8828-499B-A7E0-4A5A2C16C241",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "cookie-never-denied-r1",
+      "inventoryAfterSeed": ["t28e_cookie-never-denied"],
+      "kind": "cookie-never-denied",
+      "partition": "3CD28AB4-21BE-4043-905A-E74692B5742F",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "httponly-denied-r1",
+      "inventoryAfterSeed": ["t28e_httponly-denied"],
+      "kind": "httponly-denied",
+      "partition": "0F932E40-626B-47DA-AD1C-EDFC56DF41E8",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-denied-r1",
+      "inventoryAfterSeed": ["t28e_partitioned-denied"],
+      "kind": "partitioned-denied",
+      "partition": "0ED9BCEE-1536-4633-95D7-30260C230E3E",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-allowed-r1",
+      "inventoryAfterSeed": ["t28e_partitioned-allowed"],
+      "kind": "partitioned-allowed",
+      "partition": "1C1BABBB-E4EE-4534-9DEF-3D9EEF7E1297",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-moonpool-denied-r1",
+      "inventoryAfterSeed": ["t28e_partitioned-moonpool-denied"],
+      "kind": "partitioned-moonpool-denied",
+      "partition": "77045A2B-34A6-463A-82EE-0702D2C493B5",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "hazard-control-r1",
+      "inventoryAfterSeed": ["t28e_hazard-control"],
+      "kind": "hazard-control",
+      "partition": "CD15B053-727C-4AF6-A0EA-47BB64016C2F",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-default-r1",
+      "inventoryAfterSeed": [],
+      "kind": "partitioned-default",
+      "partition": "8F624AE9-0F17-499F-9612-33FCBD6E6BF4",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "untouched-n1",
+      "inventoryAfterSeed": [],
+      "kind": "untouched",
+      "partition": "5B17C28A-96D2-454A-955E-2E3320F02259",
+      "storageReady": null,
+      "visitsLoaded": []
+    },
+    {
+      "case": "untouched-denied-n1",
+      "inventoryAfterSeed": [],
+      "kind": "untouched-denied",
+      "partition": "F865AAC9-7E16-4117-9B41-9DD84DAA0A73",
+      "storageReady": null,
+      "visitsLoaded": []
+    },
+    {
+      "case": "local-data-n1",
+      "inventoryAfterSeed": [],
+      "kind": "local-data",
+      "partition": "1212D137-471A-44EE-B092-7588EF12EA3C",
+      "storageReady": true,
+      "visitsLoaded": []
+    },
+    {
+      "case": "local-data-denied-n1",
+      "inventoryAfterSeed": [],
+      "kind": "local-data-denied",
+      "partition": "2B74091C-112F-4787-84C4-1114C2ADD7F1",
+      "storageReady": true,
+      "visitsLoaded": []
+    },
+    {
+      "case": "network-visit-n1",
+      "inventoryAfterSeed": [],
+      "kind": "network-visit",
+      "partition": "5C5ADCCE-1D7F-4433-BCEC-CD8C43B5D61F",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "network-visit-denied-n1",
+      "inventoryAfterSeed": [],
+      "kind": "network-visit-denied",
+      "partition": "67F1F239-A54A-499A-947B-E2A86E066DAF",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "blocked-write-n1",
+      "inventoryAfterSeed": [],
+      "kind": "blocked-write",
+      "partition": "47E9BF0F-C5A6-4ED2-BF3A-458BE73E2FE3",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "server-expired-n1",
+      "inventoryAfterSeed": [],
+      "kind": "server-expired",
+      "partition": "303C49FD-CF8D-47AE-94D3-1CA77A63BFFB",
+      "storageReady": null,
+      "visitsLoaded": [true, true]
+    },
+    {
+      "case": "short-lived-n1",
+      "inventoryAfterSeed": ["t28e_short-lived"],
+      "kind": "short-lived",
+      "partition": "F83BE31E-55E7-4CFC-8116-927E6940F92A",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "session-only-n1",
+      "inventoryAfterSeed": ["t28e_session-only"],
+      "kind": "session-only",
+      "partition": "6BB5CDF2-5089-4864-862F-3817109FFEB8",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "cookie-denied-n1",
+      "inventoryAfterSeed": ["t28e_cookie-denied"],
+      "kind": "cookie-denied",
+      "partition": "E3061347-C47E-4634-BB97-5FA96B3274EE",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "cookie-never-denied-n1",
+      "inventoryAfterSeed": ["t28e_cookie-never-denied"],
+      "kind": "cookie-never-denied",
+      "partition": "7138395A-FBB0-417B-84D1-A64A582D8554",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "httponly-denied-n1",
+      "inventoryAfterSeed": ["t28e_httponly-denied"],
+      "kind": "httponly-denied",
+      "partition": "1446FA69-027C-4A7B-BB93-4C7A0E754EB7",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-denied-n1",
+      "inventoryAfterSeed": ["t28e_partitioned-denied"],
+      "kind": "partitioned-denied",
+      "partition": "31466418-D620-4F1D-B4E8-B3A850FD21DB",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-allowed-n1",
+      "inventoryAfterSeed": ["t28e_partitioned-allowed"],
+      "kind": "partitioned-allowed",
+      "partition": "A1824F2C-5398-413E-B9DD-BABAD49CC26A",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-moonpool-denied-n1",
+      "inventoryAfterSeed": ["t28e_partitioned-moonpool-denied"],
+      "kind": "partitioned-moonpool-denied",
+      "partition": "1990927F-BC4D-442B-B3BF-4F5FA915A180",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "hazard-control-n1",
+      "inventoryAfterSeed": ["t28e_hazard-control"],
+      "kind": "hazard-control",
+      "partition": "25D9B981-61C5-412C-BD99-D6766E288E63",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-default-n1",
+      "inventoryAfterSeed": [],
+      "kind": "partitioned-default",
+      "partition": "87D0167C-FDD2-4E5D-AB51-5B19651E615C",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "untouched-r2",
+      "inventoryAfterSeed": [],
+      "kind": "untouched",
+      "partition": "474E417E-FFB7-4627-8724-1EACF4D0A802",
+      "storageReady": null,
+      "visitsLoaded": []
+    },
+    {
+      "case": "untouched-denied-r2",
+      "inventoryAfterSeed": [],
+      "kind": "untouched-denied",
+      "partition": "3BC08C35-0FE0-4123-B000-C7CFC7121237",
+      "storageReady": null,
+      "visitsLoaded": []
+    },
+    {
+      "case": "local-data-r2",
+      "inventoryAfterSeed": [],
+      "kind": "local-data",
+      "partition": "BA3713E2-714A-4336-BADF-92184B8EA904",
+      "storageReady": true,
+      "visitsLoaded": []
+    },
+    {
+      "case": "local-data-denied-r2",
+      "inventoryAfterSeed": [],
+      "kind": "local-data-denied",
+      "partition": "86AA8038-9A6B-4191-A910-7BF305A11497",
+      "storageReady": true,
+      "visitsLoaded": []
+    },
+    {
+      "case": "network-visit-r2",
+      "inventoryAfterSeed": [],
+      "kind": "network-visit",
+      "partition": "6AEB2A84-78D8-43D2-A238-931DCCE57F33",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "network-visit-denied-r2",
+      "inventoryAfterSeed": [],
+      "kind": "network-visit-denied",
+      "partition": "F7A6C752-066B-454E-B515-72601F3535D1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "blocked-write-r2",
+      "inventoryAfterSeed": [],
+      "kind": "blocked-write",
+      "partition": "7A5483B4-B0C9-422C-8B25-10333DF609EF",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "server-expired-r2",
+      "inventoryAfterSeed": [],
+      "kind": "server-expired",
+      "partition": "944F5AFB-A034-4876-AE9A-6CF27ACE690E",
+      "storageReady": null,
+      "visitsLoaded": [true, true]
+    },
+    {
+      "case": "short-lived-r2",
+      "inventoryAfterSeed": ["t28e_short-lived"],
+      "kind": "short-lived",
+      "partition": "22B8FAE8-00EA-42D5-B632-5DAAE89D7D83",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "session-only-r2",
+      "inventoryAfterSeed": ["t28e_session-only"],
+      "kind": "session-only",
+      "partition": "5647D0B5-C10A-4CC6-8F78-B0AAE11FA7D0",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "cookie-denied-r2",
+      "inventoryAfterSeed": ["t28e_cookie-denied"],
+      "kind": "cookie-denied",
+      "partition": "FDB437AD-1106-425E-9908-7D444E551A92",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "cookie-never-denied-r2",
+      "inventoryAfterSeed": ["t28e_cookie-never-denied"],
+      "kind": "cookie-never-denied",
+      "partition": "169AAEC6-FF15-4D04-8DCF-6592E651BC89",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "httponly-denied-r2",
+      "inventoryAfterSeed": ["t28e_httponly-denied"],
+      "kind": "httponly-denied",
+      "partition": "2ECB5200-8FBE-4920-8833-9BCAB47A16B3",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-denied-r2",
+      "inventoryAfterSeed": ["t28e_partitioned-denied"],
+      "kind": "partitioned-denied",
+      "partition": "F09749A5-C1EA-41AD-8371-D48E34A718B0",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-allowed-r2",
+      "inventoryAfterSeed": ["t28e_partitioned-allowed"],
+      "kind": "partitioned-allowed",
+      "partition": "665A2788-0925-419E-AEEF-2D6D4530B25F",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-moonpool-denied-r2",
+      "inventoryAfterSeed": ["t28e_partitioned-moonpool-denied"],
+      "kind": "partitioned-moonpool-denied",
+      "partition": "98B497D4-115D-4B9A-A943-8DB3A2214315",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "hazard-control-r2",
+      "inventoryAfterSeed": ["t28e_hazard-control"],
+      "kind": "hazard-control",
+      "partition": "84DA5B1A-04AA-4337-A95C-872B1D425C29",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-default-r2",
+      "inventoryAfterSeed": [],
+      "kind": "partitioned-default",
+      "partition": "3DF12798-7C67-4B06-89CD-97BC18D7683B",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "untouched-n2",
+      "inventoryAfterSeed": [],
+      "kind": "untouched",
+      "partition": "18650D7E-F7E2-4F2F-B585-08EFDD8B674B",
+      "storageReady": null,
+      "visitsLoaded": []
+    },
+    {
+      "case": "untouched-denied-n2",
+      "inventoryAfterSeed": [],
+      "kind": "untouched-denied",
+      "partition": "FF3A61A7-3225-4816-B1C0-432994C4153E",
+      "storageReady": null,
+      "visitsLoaded": []
+    },
+    {
+      "case": "local-data-n2",
+      "inventoryAfterSeed": [],
+      "kind": "local-data",
+      "partition": "618E5E57-E678-4A95-AD5F-97C454BD98D1",
+      "storageReady": true,
+      "visitsLoaded": []
+    },
+    {
+      "case": "local-data-denied-n2",
+      "inventoryAfterSeed": [],
+      "kind": "local-data-denied",
+      "partition": "B5A960E6-849B-4FF6-86BF-E8AA0F26BAB6",
+      "storageReady": true,
+      "visitsLoaded": []
+    },
+    {
+      "case": "network-visit-n2",
+      "inventoryAfterSeed": [],
+      "kind": "network-visit",
+      "partition": "9CC3BF65-D54E-484B-B37C-BD6642FCCEE0",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "network-visit-denied-n2",
+      "inventoryAfterSeed": [],
+      "kind": "network-visit-denied",
+      "partition": "4B702164-86FA-41AE-83AF-EB37BFBC569D",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "blocked-write-n2",
+      "inventoryAfterSeed": [],
+      "kind": "blocked-write",
+      "partition": "ECC6F75D-A15B-4A59-B19B-9C5B8829B347",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "server-expired-n2",
+      "inventoryAfterSeed": [],
+      "kind": "server-expired",
+      "partition": "F13AE58D-5D6A-4824-A23E-30087C0F8844",
+      "storageReady": null,
+      "visitsLoaded": [true, true]
+    },
+    {
+      "case": "short-lived-n2",
+      "inventoryAfterSeed": ["t28e_short-lived"],
+      "kind": "short-lived",
+      "partition": "7163F22E-837A-412A-BEA7-66BD3740ADC0",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "session-only-n2",
+      "inventoryAfterSeed": ["t28e_session-only"],
+      "kind": "session-only",
+      "partition": "0E1BD473-6F05-4595-A760-CF9C8D7FB508",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "cookie-denied-n2",
+      "inventoryAfterSeed": ["t28e_cookie-denied"],
+      "kind": "cookie-denied",
+      "partition": "3D61CA88-FE93-4E39-91CE-43617FD1F9CB",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "cookie-never-denied-n2",
+      "inventoryAfterSeed": ["t28e_cookie-never-denied"],
+      "kind": "cookie-never-denied",
+      "partition": "3EA06974-9B27-43EC-A8C3-A52C74588D2B",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "httponly-denied-n2",
+      "inventoryAfterSeed": ["t28e_httponly-denied"],
+      "kind": "httponly-denied",
+      "partition": "1B9A3585-6197-46AE-A97B-66D88A8AEC9C",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-denied-n2",
+      "inventoryAfterSeed": ["t28e_partitioned-denied"],
+      "kind": "partitioned-denied",
+      "partition": "0849EAFB-848F-4AA9-8F7B-7783D33ACE11",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-allowed-n2",
+      "inventoryAfterSeed": ["t28e_partitioned-allowed"],
+      "kind": "partitioned-allowed",
+      "partition": "CFA57BA8-89E7-40A3-BC0E-BB1C95E718D6",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-moonpool-denied-n2",
+      "inventoryAfterSeed": ["t28e_partitioned-moonpool-denied"],
+      "kind": "partitioned-moonpool-denied",
+      "partition": "7BCDA33C-E87F-4C7C-B32B-5759C438BCC0",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "hazard-control-n2",
+      "inventoryAfterSeed": ["t28e_hazard-control"],
+      "kind": "hazard-control",
+      "partition": "73C2341A-5655-43E5-8490-91A62BC5AFBA",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-default-n2",
+      "inventoryAfterSeed": [],
+      "kind": "partitioned-default",
+      "partition": "7BBDBF10-DCD2-4C6D-889F-6E4F459B3AAC",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "late-never-denied-r1",
+      "inventoryAfterSeed": ["t28e_late-never-denied"],
+      "kind": "late-never-denied",
+      "partition": "659C9A7A-5C21-47FA-BC6D-D48605B9FCCD",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "late-denied-r1",
+      "inventoryAfterSeed": ["t28e_late-denied"],
+      "kind": "late-denied",
+      "partition": "02027A65-CCFA-4DB6-9598-051B3B419D03",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "late-never-denied-n1",
+      "inventoryAfterSeed": ["t28e_late-never-denied"],
+      "kind": "late-never-denied",
+      "partition": "7EA87E75-4F09-41C0-9399-9E4314C5C467",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "late-denied-n1",
+      "inventoryAfterSeed": ["t28e_late-denied"],
+      "kind": "late-denied",
+      "partition": "E1287937-5B7B-4C4C-8EFB-A0558F9BEA73",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "late-never-denied-r2",
+      "inventoryAfterSeed": ["t28e_late-never-denied"],
+      "kind": "late-never-denied",
+      "partition": "F54D0E76-2A17-4EFA-B3A3-ECE3787CF034",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "late-denied-r2",
+      "inventoryAfterSeed": ["t28e_late-denied"],
+      "kind": "late-denied",
+      "partition": "B028F681-FADE-4B82-B281-6F8B24ABCEEF",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "late-never-denied-n2",
+      "inventoryAfterSeed": ["t28e_late-never-denied"],
+      "kind": "late-never-denied",
+      "partition": "C918CE69-B69F-420D-90A2-5365B58E68D6",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "late-denied-n2",
+      "inventoryAfterSeed": ["t28e_late-denied"],
+      "kind": "late-denied",
+      "partition": "CC430205-334F-4BE3-AAB7-97B6DD7BA269",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    }
+  ]
+}

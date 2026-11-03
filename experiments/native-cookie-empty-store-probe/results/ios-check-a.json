@@ -1,0 +1,3337 @@
+{
+  "base": "https://localhost:51989",
+  "build": {
+    "caSha256": "09d74bbb8dcc228cfab993553d9082f65ef5c70e0310497d2633186c3ea25900",
+    "executableSha256": "e881fcac3893d089f1dbaaf3e1ec4573069b2ff4b898ba024c6aa908dbe39a6d",
+    "fixtureConfigSha256": "e1d936e5a1a41bbe3ad4895ebfcab98caeac70dcd4c28a029b7f952386514e93",
+    "sdk": "26.4",
+    "signatureSha256": "f7ed0d153187b34e0b18444140a479e45bae82bd220d03b4dcbf43956a5d5f29",
+    "sources": {
+      "build.py": "7b203ea68289a9f2dc4659028d47bea6ef887be249fdb12c02a46196e58ef6c7",
+      "fixture.py": "53bf2f3a02ec46c397113b20aa727ac7cc92f71eebbc1e3d82534dce95dbf5da",
+      "frame.html": "d6ba27bb66312ec92828bae9f56a94e79eec26f546bed1a3f667e3477fea4abd",
+      "ios/Probe.swift": "016821be1273cfab0d12eb348ae2d4f863fde853206de0c462925627e0d47a19",
+      "storage.html": "f38ab0a30b76b2035c7d563c25c97ce5d114f796f5b6e85799fda57a72754f35",
+      "store_kinds.json": "c68492f24414468e9e16a2f283090db7d047bdbd50c4bf108735132dccf091c4",
+      "vectors.py": "fc084aff410f3d338af4b71d1ecd2e5f1bc80449cf10f97578de526fcc352f07"
+    },
+    "xcode": "Xcode 26.4.1\nBuild version 17E202"
+  },
+  "capturedUtc": "2026-11-03T06:09:05Z",
+  "checks": [
+    {
+      "case": "brand-new-r1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "brand-new",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "402836B4-B6E6-430E-9A8F-0158641FADA9",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "untouched-r1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "untouched",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "BA30F1A9-3351-4F8E-8BE6-1D5C3EF34548",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "untouched-denied-r1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "untouched-denied",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "88F34222-CE9E-468E-963C-63624A63B914",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "local-data-r1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "local-data",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "A7B3C467-9EDC-43E2-8F42-0DA5BF0CDD8A",
+      "policyAllowsAfterRule": false,
+      "storage": {
+        "indexed": "local-data-r1",
+        "local": "local-data-r1"
+      },
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "local-data-denied-r1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "local-data-denied",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "BC0313CC-D0AC-4AC0-B502-470867F71BAF",
+      "policyAllowsAfterRule": false,
+      "storage": {
+        "indexed": "local-data-denied-r1",
+        "local": "local-data-denied-r1"
+      },
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "network-visit-r1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "network-visit",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "F5769079-8489-43FF-BA13-699CB4672A32",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "network-visit-denied-r1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "network-visit-denied",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "E6AEC1F8-3ACB-4185-9989-A8B99334A49A",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "blocked-write-r1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "blocked-write",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "DEB44FE8-1042-4890-AE1F-E051C78C0F2A",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "server-expired-r1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "server-expired",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "8E7110B4-A80A-47C6-8F11-93E016AB5E57",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "short-lived-r1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "short-lived",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "55F9BE72-D0A1-4A21-9DFD-D07F5B80D43A",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "session-only-r1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "session-only",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "62E9F73A-63C5-4BAB-BCCE-1610FB69980D",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "cookie-denied-r1",
+      "first": {
+        "names": ["t28e_cookie-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_cookie-denied"],
+      "kind": "cookie-denied",
+      "later": {
+        "names": ["t28e_cookie-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "records-first",
+      "partition": "48F87657-1572-4521-9736-2EFB32B05940",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "cookie-never-denied-r1",
+      "first": {
+        "names": ["t28e_cookie-never-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_cookie-never-denied"],
+      "kind": "cookie-never-denied",
+      "later": {
+        "names": ["t28e_cookie-never-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "records-first",
+      "partition": "0C106DCC-2A1A-4836-81B6-21FB4251432C",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "httponly-denied-r1",
+      "first": {
+        "names": ["t28e_httponly-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_httponly-denied"],
+      "kind": "httponly-denied",
+      "later": {
+        "names": ["t28e_httponly-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "records-first",
+      "partition": "1D83A1B4-56FD-4BEF-AF49-47DA98E17AB7",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "partitioned-denied-r1",
+      "first": {
+        "names": ["t28e_partitioned-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_partitioned-denied"],
+      "kind": "partitioned-denied",
+      "later": {
+        "names": ["t28e_partitioned-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "records-first",
+      "partition": "7019BD2B-5BAA-4786-A6E2-36E83E71679B",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "partitioned-allowed-r1",
+      "first": {
+        "names": ["t28e_partitioned-allowed"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_partitioned-allowed"],
+      "kind": "partitioned-allowed",
+      "later": {
+        "names": ["t28e_partitioned-allowed"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "records-first",
+      "partition": "D4481E5B-AB06-4D36-A958-C1A3D14B7DCB",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "partitioned-moonpool-denied-r1",
+      "first": {
+        "names": ["t28e_partitioned-moonpool-denied"],
+        "records": ["localhost"]
+      },
+      "inventoryFinal": ["t28e_partitioned-moonpool-denied"],
+      "kind": "partitioned-moonpool-denied",
+      "later": {
+        "names": ["t28e_partitioned-moonpool-denied"],
+        "records": ["localhost"]
+      },
+      "order": "records-first",
+      "partition": "C07DE559-877E-41F6-B903-0AAE6B8177ED",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "hazard-control-r1",
+      "first": {
+        "names": ["t28e_hazard-control"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_hazard-control"],
+      "kind": "hazard-control",
+      "later": {
+        "names": ["t28e_hazard-control"],
+        "records": ["127.0.0.1"]
+      },
+      "namesBeforePolicy": [],
+      "order": "records-first",
+      "partition": "35C7EFB4-D70E-4BFB-896B-42B5920F2870",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "partitioned-default-r1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "partitioned-default",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "3F9B049E-2666-4040-99EF-9728BF127C48",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "late-never-denied-r1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "late-never-denied",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "764FC592-A2E7-46DA-8418-562EA7CE1319",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "late-denied-r1",
+      "first": {
+        "names": ["t28e_late-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_late-denied"],
+      "kind": "late-denied",
+      "later": {
+        "names": ["t28e_late-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "records-first",
+      "partition": "85D308DC-EFDD-46D5-B20B-C03192F860DB",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "brand-new-n1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "brand-new",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "F5F3A1E8-EF59-422F-91AE-8A4342D53682",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "untouched-n1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "untouched",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "F7B40A86-995D-45DA-A286-8F0DF6475132",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "untouched-denied-n1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "untouched-denied",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "FC0B8854-6734-4AB4-851C-FDFB7574D3D7",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "local-data-n1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "local-data",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "90B212D5-B196-4756-8D0C-9ADCBE7E736E",
+      "policyAllowsAfterRule": false,
+      "storage": {
+        "indexed": "local-data-n1",
+        "local": "local-data-n1"
+      },
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "local-data-denied-n1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "local-data-denied",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "FA625F76-5E67-4768-BAD8-7E2DF81D6687",
+      "policyAllowsAfterRule": false,
+      "storage": {
+        "indexed": "local-data-denied-n1",
+        "local": "local-data-denied-n1"
+      },
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "network-visit-n1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "network-visit",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "D8464679-336D-4597-8FE3-855C5E0DC4FE",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "network-visit-denied-n1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "network-visit-denied",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "7330A6F3-61C1-4228-B29F-A95F1400F3C7",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "blocked-write-n1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "blocked-write",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "4F56D62A-1313-4CB3-903D-B34B08A50D6B",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "server-expired-n1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "server-expired",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "BE3A89CD-1187-4E91-B33B-6D836D6B33A9",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "short-lived-n1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "short-lived",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "5475E864-21EA-49D1-9EE9-6DDFF9C81989",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "session-only-n1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "session-only",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "81483E55-6C53-48F5-96B5-682834D20845",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "cookie-denied-n1",
+      "first": {
+        "names": ["t28e_cookie-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_cookie-denied"],
+      "kind": "cookie-denied",
+      "later": {
+        "names": ["t28e_cookie-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "names-first",
+      "partition": "8F10CEA0-FD14-49C9-9E7E-E21873DADCA5",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "cookie-never-denied-n1",
+      "first": {
+        "names": ["t28e_cookie-never-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_cookie-never-denied"],
+      "kind": "cookie-never-denied",
+      "later": {
+        "names": ["t28e_cookie-never-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "names-first",
+      "partition": "5220686B-C230-44CB-882C-4333F2B5B487",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "httponly-denied-n1",
+      "first": {
+        "names": ["t28e_httponly-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_httponly-denied"],
+      "kind": "httponly-denied",
+      "later": {
+        "names": ["t28e_httponly-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "names-first",
+      "partition": "2DB8239B-ABD2-4A69-BAEB-DD5D458A8DEC",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "partitioned-denied-n1",
+      "first": {
+        "names": ["t28e_partitioned-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_partitioned-denied"],
+      "kind": "partitioned-denied",
+      "later": {
+        "names": ["t28e_partitioned-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "names-first",
+      "partition": "4141B5C3-7D58-41D5-9E8A-5965EE457B1A",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "partitioned-allowed-n1",
+      "first": {
+        "names": ["t28e_partitioned-allowed"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_partitioned-allowed"],
+      "kind": "partitioned-allowed",
+      "later": {
+        "names": ["t28e_partitioned-allowed"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "names-first",
+      "partition": "4AB6D836-1AD3-446C-86D5-5C63297DBF18",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "partitioned-moonpool-denied-n1",
+      "first": {
+        "names": ["t28e_partitioned-moonpool-denied"],
+        "records": ["localhost"]
+      },
+      "inventoryFinal": ["t28e_partitioned-moonpool-denied"],
+      "kind": "partitioned-moonpool-denied",
+      "later": {
+        "names": ["t28e_partitioned-moonpool-denied"],
+        "records": ["localhost"]
+      },
+      "order": "names-first",
+      "partition": "28689662-6B89-4E21-8298-5ADB83885F87",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "hazard-control-n1",
+      "first": {
+        "names": ["t28e_hazard-control"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_hazard-control"],
+      "kind": "hazard-control",
+      "later": {
+        "names": ["t28e_hazard-control"],
+        "records": ["127.0.0.1"]
+      },
+      "namesBeforePolicy": [],
+      "order": "names-first",
+      "partition": "097F76D2-C29E-4013-838C-86829305B9C0",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "partitioned-default-n1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "partitioned-default",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "7639B63D-4137-4C7F-B225-88B44C899FD4",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "late-never-denied-n1",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "late-never-denied",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "66678AF1-2112-42CA-8681-28E1441D4CAF",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "late-denied-n1",
+      "first": {
+        "names": ["t28e_late-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_late-denied"],
+      "kind": "late-denied",
+      "later": {
+        "names": ["t28e_late-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "names-first",
+      "partition": "E3460E5D-FA37-4161-AFA5-5E48F56024A7",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "brand-new-r2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "brand-new",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "D95AE52B-4C84-45BC-9E2A-034956055613",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "untouched-r2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "untouched",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "583A1A30-073A-489A-B6E6-D54AEC1E557D",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "untouched-denied-r2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "untouched-denied",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "EF4E04EE-5FDC-433C-B70E-A4C48C827D9D",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "local-data-r2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "local-data",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "68ACEDA1-E396-4A0E-BC76-0B6B80D81031",
+      "policyAllowsAfterRule": false,
+      "storage": {
+        "indexed": "local-data-r2",
+        "local": "local-data-r2"
+      },
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "local-data-denied-r2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "local-data-denied",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "DC01264E-D602-413F-B1B7-3BD7AB0F8BC4",
+      "policyAllowsAfterRule": false,
+      "storage": {
+        "indexed": "local-data-denied-r2",
+        "local": "local-data-denied-r2"
+      },
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "network-visit-r2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "network-visit",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "B7D1DA6B-05E3-41F3-88E2-8BB033ED6B86",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "network-visit-denied-r2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "network-visit-denied",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "61F08A66-62F6-4BC9-A201-AA44AE2C84DC",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "blocked-write-r2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "blocked-write",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "E1BD975D-37C9-4994-85BE-3E104BBAD18E",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "server-expired-r2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "server-expired",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "0DC67504-8775-42DC-9B12-D7E756962E89",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "short-lived-r2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "short-lived",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "B3276C86-A792-4823-879E-0324D81D289B",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "session-only-r2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "session-only",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "7357C7E4-6C84-4924-975D-CA8236CF8A4A",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "cookie-denied-r2",
+      "first": {
+        "names": ["t28e_cookie-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_cookie-denied"],
+      "kind": "cookie-denied",
+      "later": {
+        "names": ["t28e_cookie-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "records-first",
+      "partition": "141E446F-74CE-4243-A778-5B6C482A38C8",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "cookie-never-denied-r2",
+      "first": {
+        "names": ["t28e_cookie-never-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_cookie-never-denied"],
+      "kind": "cookie-never-denied",
+      "later": {
+        "names": ["t28e_cookie-never-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "records-first",
+      "partition": "72C42820-CFDF-4B9A-A3DE-201A83C85F83",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "httponly-denied-r2",
+      "first": {
+        "names": ["t28e_httponly-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_httponly-denied"],
+      "kind": "httponly-denied",
+      "later": {
+        "names": ["t28e_httponly-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "records-first",
+      "partition": "9046BB7A-5469-40D9-9A96-0D564E774DAC",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "partitioned-denied-r2",
+      "first": {
+        "names": ["t28e_partitioned-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_partitioned-denied"],
+      "kind": "partitioned-denied",
+      "later": {
+        "names": ["t28e_partitioned-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "records-first",
+      "partition": "56D1BD21-B0CD-4210-A0C3-A1B57C0370D2",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "partitioned-allowed-r2",
+      "first": {
+        "names": ["t28e_partitioned-allowed"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_partitioned-allowed"],
+      "kind": "partitioned-allowed",
+      "later": {
+        "names": ["t28e_partitioned-allowed"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "records-first",
+      "partition": "36CD1B87-E833-4FC1-ACD7-EEF68446A411",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "partitioned-moonpool-denied-r2",
+      "first": {
+        "names": ["t28e_partitioned-moonpool-denied"],
+        "records": ["localhost"]
+      },
+      "inventoryFinal": ["t28e_partitioned-moonpool-denied"],
+      "kind": "partitioned-moonpool-denied",
+      "later": {
+        "names": ["t28e_partitioned-moonpool-denied"],
+        "records": ["localhost"]
+      },
+      "order": "records-first",
+      "partition": "0B9283D1-6B7F-42E9-AE6D-1A3DF35AED46",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "hazard-control-r2",
+      "first": {
+        "names": ["t28e_hazard-control"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_hazard-control"],
+      "kind": "hazard-control",
+      "later": {
+        "names": ["t28e_hazard-control"],
+        "records": ["127.0.0.1"]
+      },
+      "namesBeforePolicy": [],
+      "order": "records-first",
+      "partition": "2C0B69EC-4BC5-439E-9E4E-7C8329CD558C",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "partitioned-default-r2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "partitioned-default",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "C6039DE9-0E0E-4898-9AFD-0D3EF372E6CF",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "late-never-denied-r2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "late-never-denied",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "records-first",
+      "partition": "0E47538D-BCDE-4D88-93EE-6C74C1FDABF5",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "late-denied-r2",
+      "first": {
+        "names": ["t28e_late-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_late-denied"],
+      "kind": "late-denied",
+      "later": {
+        "names": ["t28e_late-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "records-first",
+      "partition": "738D64BF-6A8E-4C1D-B3C7-8342CAE62CAA",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "brand-new-n2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "brand-new",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "834F9F62-990C-4AC6-8A58-668FC3994D4E",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "untouched-n2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "untouched",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "589035B9-D6CA-4D30-B427-23B94259E550",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "untouched-denied-n2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "untouched-denied",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "BE47EBF6-92E7-4616-B10D-48B22967D5D9",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "local-data-n2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "local-data",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "17663C09-1FAA-4CA3-95B5-F9E1E8310DA6",
+      "policyAllowsAfterRule": false,
+      "storage": {
+        "indexed": "local-data-n2",
+        "local": "local-data-n2"
+      },
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "local-data-denied-n2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "local-data-denied",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "F0F08B46-3211-4378-A90C-5F001FFFEFD6",
+      "policyAllowsAfterRule": false,
+      "storage": {
+        "indexed": "local-data-denied-n2",
+        "local": "local-data-denied-n2"
+      },
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "network-visit-n2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "network-visit",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "2C46ECFB-C72C-4199-AF6A-8D5AE6F09D5F",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "network-visit-denied-n2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "network-visit-denied",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "4A39F9E3-D360-4DA8-BB55-FE0F3797E779",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "blocked-write-n2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "blocked-write",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "816D7744-B20E-47FB-B573-FC5F4F572C64",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "server-expired-n2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "server-expired",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "DE61929E-82B6-4BFD-B56A-95DB37177FAD",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "short-lived-n2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "short-lived",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "683110F6-94FE-4F30-9C65-775B3E6F8F3C",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "session-only-n2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "session-only",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "1A55BF6E-EC1D-4DFD-8C2A-E99CBD076EA8",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "cookie-denied-n2",
+      "first": {
+        "names": ["t28e_cookie-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_cookie-denied"],
+      "kind": "cookie-denied",
+      "later": {
+        "names": ["t28e_cookie-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "names-first",
+      "partition": "59789D0D-E588-4817-9663-DD364A35C36D",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "cookie-never-denied-n2",
+      "first": {
+        "names": ["t28e_cookie-never-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_cookie-never-denied"],
+      "kind": "cookie-never-denied",
+      "later": {
+        "names": ["t28e_cookie-never-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "names-first",
+      "partition": "4D0B1674-5D57-4DCC-9EBC-578BC55C337E",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "httponly-denied-n2",
+      "first": {
+        "names": ["t28e_httponly-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_httponly-denied"],
+      "kind": "httponly-denied",
+      "later": {
+        "names": ["t28e_httponly-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "names-first",
+      "partition": "4A6B8A04-A192-4059-AD9D-DC2BE308374A",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "partitioned-denied-n2",
+      "first": {
+        "names": ["t28e_partitioned-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_partitioned-denied"],
+      "kind": "partitioned-denied",
+      "later": {
+        "names": ["t28e_partitioned-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "names-first",
+      "partition": "D280E57A-2E35-45C6-B1B2-24CB440B95E9",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "partitioned-allowed-n2",
+      "first": {
+        "names": ["t28e_partitioned-allowed"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_partitioned-allowed"],
+      "kind": "partitioned-allowed",
+      "later": {
+        "names": ["t28e_partitioned-allowed"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "names-first",
+      "partition": "CCB03056-46F7-4BAB-9627-F8864221D3C7",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "partitioned-moonpool-denied-n2",
+      "first": {
+        "names": ["t28e_partitioned-moonpool-denied"],
+        "records": ["localhost"]
+      },
+      "inventoryFinal": ["t28e_partitioned-moonpool-denied"],
+      "kind": "partitioned-moonpool-denied",
+      "later": {
+        "names": ["t28e_partitioned-moonpool-denied"],
+        "records": ["localhost"]
+      },
+      "order": "names-first",
+      "partition": "47C2371C-3801-44E8-8067-D1E2CAA52430",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "hazard-control-n2",
+      "first": {
+        "names": ["t28e_hazard-control"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_hazard-control"],
+      "kind": "hazard-control",
+      "later": {
+        "names": ["t28e_hazard-control"],
+        "records": ["127.0.0.1"]
+      },
+      "namesBeforePolicy": [],
+      "order": "names-first",
+      "partition": "0BD31E0E-6576-4A27-B219-EE96504F792D",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "partitioned-default-n2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "partitioned-default",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "579C8F0D-9CF9-45F0-88CD-CD139B8E51BF",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "late-never-denied-n2",
+      "first": {
+        "names": [],
+        "records": []
+      },
+      "inventoryFinal": [],
+      "kind": "late-never-denied",
+      "later": {
+        "names": [],
+        "records": []
+      },
+      "order": "names-first",
+      "partition": "60C8CBCE-C6E8-441A-B1A8-E43EDB7F2248",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    },
+    {
+      "case": "late-denied-n2",
+      "first": {
+        "names": ["t28e_late-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "inventoryFinal": ["t28e_late-denied"],
+      "kind": "late-denied",
+      "later": {
+        "names": ["t28e_late-denied"],
+        "records": ["127.0.0.1"]
+      },
+      "order": "names-first",
+      "partition": "7057B8BE-7A73-4520-8098-70CA07ED98A7",
+      "policyAllowsAfterRule": false,
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    }
+  ],
+  "complete": true,
+  "errors": [],
+  "installedArtifactSha256": "e881fcac3893d089f1dbaaf3e1ec4573069b2ff4b898ba024c6aa908dbe39a6d",
+  "mode": "check",
+  "os": "26.4.1",
+  "platform": "ios",
+  "requests": [
+    {
+      "case": "brand-new-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "brand-new-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "untouched-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "untouched-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "untouched-denied-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "untouched-denied-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "local-data-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "local-data-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "local-data-denied-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "local-data-denied-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "network-visit-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "network-visit-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "network-visit-denied-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "network-visit-denied-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "blocked-write-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "blocked-write-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "server-expired-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "server-expired-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "short-lived-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "short-lived-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "session-only-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "session-only-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "cookie-denied-r1",
+      "cookie": "t28e_cookie-denied=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "cookie-denied-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "cookie-never-denied-r1",
+      "cookie": "t28e_cookie-never-denied=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "cookie-never-denied-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "httponly-denied-r1",
+      "cookie": "t28e_httponly-denied=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "httponly-denied-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "partitioned-denied-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "partitioned-denied-r1",
+      "cookie": "t28e_partitioned-denied=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "partitioned-allowed-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "partitioned-allowed-r1",
+      "cookie": "t28e_partitioned-allowed=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "partitioned-moonpool-denied-r1",
+      "cookie": "",
+      "host": "localhost:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "partitioned-moonpool-denied-r1",
+      "cookie": "t28e_partitioned-moonpool-denied=public",
+      "host": "localhost:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "hazard-control-r1",
+      "cookie": "t28e_hazard-control=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "hazard-control-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "partitioned-default-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "partitioned-default-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "late-never-denied-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "late-never-denied-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "late-denied-r1",
+      "cookie": "t28e_late-denied=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "late-denied-r1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "brand-new-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "brand-new-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "untouched-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "untouched-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "untouched-denied-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "untouched-denied-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "local-data-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "local-data-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "local-data-denied-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "local-data-denied-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "network-visit-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "network-visit-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "network-visit-denied-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "network-visit-denied-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "blocked-write-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "blocked-write-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "server-expired-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "server-expired-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "short-lived-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "short-lived-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "session-only-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "session-only-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "cookie-denied-n1",
+      "cookie": "t28e_cookie-denied=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "cookie-denied-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "cookie-never-denied-n1",
+      "cookie": "t28e_cookie-never-denied=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "cookie-never-denied-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "httponly-denied-n1",
+      "cookie": "t28e_httponly-denied=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "httponly-denied-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "partitioned-denied-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "partitioned-denied-n1",
+      "cookie": "t28e_partitioned-denied=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "partitioned-allowed-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "partitioned-allowed-n1",
+      "cookie": "t28e_partitioned-allowed=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "partitioned-moonpool-denied-n1",
+      "cookie": "",
+      "host": "localhost:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "partitioned-moonpool-denied-n1",
+      "cookie": "t28e_partitioned-moonpool-denied=public",
+      "host": "localhost:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "hazard-control-n1",
+      "cookie": "t28e_hazard-control=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "hazard-control-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "partitioned-default-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "partitioned-default-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "late-never-denied-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "late-never-denied-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "late-denied-n1",
+      "cookie": "t28e_late-denied=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "late-denied-n1",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "brand-new-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "brand-new-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "untouched-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "untouched-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "untouched-denied-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "untouched-denied-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "local-data-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "local-data-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "local-data-denied-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "local-data-denied-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "network-visit-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "network-visit-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "network-visit-denied-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "network-visit-denied-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "blocked-write-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "blocked-write-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "server-expired-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "server-expired-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "short-lived-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "short-lived-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "session-only-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "session-only-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "cookie-denied-r2",
+      "cookie": "t28e_cookie-denied=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "cookie-denied-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "cookie-never-denied-r2",
+      "cookie": "t28e_cookie-never-denied=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "cookie-never-denied-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "httponly-denied-r2",
+      "cookie": "t28e_httponly-denied=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "httponly-denied-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "partitioned-denied-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "partitioned-denied-r2",
+      "cookie": "t28e_partitioned-denied=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "partitioned-allowed-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "partitioned-allowed-r2",
+      "cookie": "t28e_partitioned-allowed=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "partitioned-moonpool-denied-r2",
+      "cookie": "",
+      "host": "localhost:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "partitioned-moonpool-denied-r2",
+      "cookie": "t28e_partitioned-moonpool-denied=public",
+      "host": "localhost:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "hazard-control-r2",
+      "cookie": "t28e_hazard-control=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "hazard-control-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "partitioned-default-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "partitioned-default-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "late-never-denied-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "late-never-denied-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "late-denied-r2",
+      "cookie": "t28e_late-denied=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "late-denied-r2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "brand-new-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "brand-new-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "untouched-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "untouched-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "untouched-denied-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "untouched-denied-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "local-data-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "local-data-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "local-data-denied-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "local-data-denied-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "network-visit-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "network-visit-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "network-visit-denied-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "network-visit-denied-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "blocked-write-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "blocked-write-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "server-expired-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "server-expired-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "short-lived-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "short-lived-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "session-only-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "session-only-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "cookie-denied-n2",
+      "cookie": "t28e_cookie-denied=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "cookie-denied-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "cookie-never-denied-n2",
+      "cookie": "t28e_cookie-never-denied=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "cookie-never-denied-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "httponly-denied-n2",
+      "cookie": "t28e_httponly-denied=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "httponly-denied-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "partitioned-denied-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "partitioned-denied-n2",
+      "cookie": "t28e_partitioned-denied=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "partitioned-allowed-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "partitioned-allowed-n2",
+      "cookie": "t28e_partitioned-allowed=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "partitioned-moonpool-denied-n2",
+      "cookie": "",
+      "host": "localhost:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "partitioned-moonpool-denied-n2",
+      "cookie": "t28e_partitioned-moonpool-denied=public",
+      "host": "localhost:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "hazard-control-n2",
+      "cookie": "t28e_hazard-control=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "hazard-control-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "partitioned-default-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "partitioned-default-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "late-never-denied-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "late-never-denied-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    },
+    {
+      "case": "late-denied-n2",
+      "cookie": "t28e_late-denied=public",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "late-denied-n2",
+      "cookie": "",
+      "host": "127.0.0.1:51989",
+      "run": "ios-check-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    }
+  ],
+  "run": "ios-check-a",
+  "seeded": []
+}
