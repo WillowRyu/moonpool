@@ -1,0 +1,17 @@
+[
+  { "id": "hold-navigation-allow", "kind": "hold", "request": "navigation", "action": "none" },
+  { "id": "hold-navigation-deny", "kind": "hold", "request": "navigation", "action": "deny" },
+  { "id": "hold-fetch-deny", "kind": "hold", "request": "fetch", "action": "deny" },
+  { "id": "hold-fetch-allow", "kind": "hold", "request": "fetch", "action": "none" },
+  {
+    "id": "hold-navigation-teardown",
+    "kind": "hold",
+    "request": "navigation",
+    "action": "teardown"
+  },
+  { "id": "burst-document-deny", "kind": "burst", "api": "document" },
+  { "id": "burst-cookiestore-deny", "kind": "burst", "api": "cookiestore" },
+  { "id": "native-unawaited", "kind": "native-unawaited" },
+  { "id": "native-under-deny", "kind": "native-under-deny" },
+  { "id": "second-handle", "kind": "second-handle" }
+]

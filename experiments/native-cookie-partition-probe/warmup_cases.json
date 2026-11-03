@@ -1,0 +1,96 @@
+[
+  { "id": "warmup-none-1", "action": "none", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-policy-1", "action": "policy", "service": "127.0.0.1", "seedTop": "localhost" },
+  {
+    "id": "warmup-get-policy-1",
+    "action": "get-policy",
+    "service": "127.0.0.1",
+    "seedTop": "localhost"
+  },
+  { "id": "warmup-twice-1", "action": "twice", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-records-1", "action": "records", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-none-2", "action": "none", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-policy-2", "action": "policy", "service": "127.0.0.1", "seedTop": "localhost" },
+  {
+    "id": "warmup-get-policy-2",
+    "action": "get-policy",
+    "service": "127.0.0.1",
+    "seedTop": "localhost"
+  },
+  { "id": "warmup-twice-2", "action": "twice", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-records-2", "action": "records", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-none-3", "action": "none", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-policy-3", "action": "policy", "service": "127.0.0.1", "seedTop": "localhost" },
+  {
+    "id": "warmup-get-policy-3",
+    "action": "get-policy",
+    "service": "127.0.0.1",
+    "seedTop": "localhost"
+  },
+  { "id": "warmup-twice-3", "action": "twice", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-records-3", "action": "records", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-none-4", "action": "none", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-policy-4", "action": "policy", "service": "127.0.0.1", "seedTop": "localhost" },
+  {
+    "id": "warmup-get-policy-4",
+    "action": "get-policy",
+    "service": "127.0.0.1",
+    "seedTop": "localhost"
+  },
+  { "id": "warmup-twice-4", "action": "twice", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-records-4", "action": "records", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-none-5", "action": "none", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-policy-5", "action": "policy", "service": "127.0.0.1", "seedTop": "localhost" },
+  {
+    "id": "warmup-get-policy-5",
+    "action": "get-policy",
+    "service": "127.0.0.1",
+    "seedTop": "localhost"
+  },
+  { "id": "warmup-twice-5", "action": "twice", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-records-5", "action": "records", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-none-6", "action": "none", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-policy-6", "action": "policy", "service": "127.0.0.1", "seedTop": "localhost" },
+  {
+    "id": "warmup-get-policy-6",
+    "action": "get-policy",
+    "service": "127.0.0.1",
+    "seedTop": "localhost"
+  },
+  { "id": "warmup-twice-6", "action": "twice", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-records-6", "action": "records", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-none-7", "action": "none", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-policy-7", "action": "policy", "service": "127.0.0.1", "seedTop": "localhost" },
+  {
+    "id": "warmup-get-policy-7",
+    "action": "get-policy",
+    "service": "127.0.0.1",
+    "seedTop": "localhost"
+  },
+  { "id": "warmup-twice-7", "action": "twice", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-records-7", "action": "records", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-none-8", "action": "none", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-policy-8", "action": "policy", "service": "127.0.0.1", "seedTop": "localhost" },
+  {
+    "id": "warmup-get-policy-8",
+    "action": "get-policy",
+    "service": "127.0.0.1",
+    "seedTop": "localhost"
+  },
+  { "id": "warmup-twice-8", "action": "twice", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-records-8", "action": "records", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-wait-only", "action": "wait", "service": "127.0.0.1", "seedTop": "localhost" },
+  { "id": "warmup-blank-load", "action": "blank", "service": "127.0.0.1", "seedTop": "localhost" },
+  {
+    "id": "warmup-scheme-load",
+    "action": "scheme",
+    "service": "127.0.0.1",
+    "seedTop": "localhost"
+  },
+  {
+    "id": "warmup-network-load",
+    "action": "network",
+    "service": "127.0.0.1",
+    "seedTop": "localhost"
+  }
+]

@@ -1,0 +1,1966 @@
+{
+  "base": "https://localhost:64607",
+  "build": {
+    "caSha256": "3b2a21ea655638b60438bcf8cba338ff05ede3630f3674874e0110ec4ccfc0ce",
+    "executableSha256": "1fa1a0eff32b01066daa9a297611c721584e4bb353c1882afd989c0006dd456b",
+    "fixtureConfigSha256": "c5857875609a82dc4ba4a3fbfcc59eeef18a425e2ba2dabf00de2a6d1f88ded0",
+    "sdk": "26.4",
+    "signatureSha256": "97f04fa7d357798007365e21c88ec5f10766b6a1bd0845cf117d5752a0c4b5c7",
+    "sources": {
+      "build.py": "6c304f91d476c5b7c2e5073b063ee01aed54a94cc7cbf52fa5f5d43f49b98821",
+      "fixture.py": "ca62b1deac55fcd7b5e60f852ad540585d4544354427e339f07cbe4167bb2fe7",
+      "frame.html": "d6ba27bb66312ec92828bae9f56a94e79eec26f546bed1a3f667e3477fea4abd",
+      "ios/Probe.swift": "5eb07f16797d79cf3a784f61e31b91a9b90eaa8a7b3526c5bd72e7140c0d9774",
+      "partition_cases.json": "22269c33ca3b6247227d7c51c1f8861dfc05240f09067f4b0d3be2c1871209a6",
+      "warmup_cases.json": "db624edf065f10a47cb7c4193f1549d9875fb9396ac3dd519802f1b8c5980916",
+      "writer_cases.json": "cc14bb74f3c578ab61b3d5f772f9862726f3bc8d31ce8e54c38d987d8e2c927e"
+    },
+    "xcode": "Xcode 26.4.1\nBuild version 17E202"
+  },
+  "capturedUtc": "2026-11-03T05:28:20Z",
+  "complete": true,
+  "errors": [],
+  "installedArtifactSha256": "1fa1a0eff32b01066daa9a297611c721584e4bb353c1882afd989c0006dd456b",
+  "mode": "collect",
+  "os": "26.4.1",
+  "platform": "ios",
+  "reopened": [],
+  "requests": [
+    {
+      "case": "empty",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "empty",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-same",
+      "tls": true
+    },
+    {
+      "case": "empty",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-other",
+      "tls": true
+    },
+    {
+      "case": "empty",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "read-first",
+      "tls": true
+    },
+    {
+      "case": "empty",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-same-deny",
+      "tls": true
+    },
+    {
+      "case": "firstparty-plain",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "firstparty-plain",
+      "cookie": "t28p_firstparty-plain=public_firstparty-plain",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "read-same",
+      "tls": true
+    },
+    {
+      "case": "firstparty-plain",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-other",
+      "tls": true
+    },
+    {
+      "case": "firstparty-plain",
+      "cookie": "t28p_firstparty-plain=public_firstparty-plain",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "read-first",
+      "tls": true
+    },
+    {
+      "case": "firstparty-plain",
+      "cookie": "t28p_firstparty-plain=public_firstparty-plain",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "read-same-deny",
+      "tls": true
+    },
+    {
+      "case": "firstparty-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "firstparty-partitioned",
+      "cookie": "t28p_firstparty-partitioned=public_firstparty-partitioned",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "read-same",
+      "tls": true
+    },
+    {
+      "case": "firstparty-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-other",
+      "tls": true
+    },
+    {
+      "case": "firstparty-partitioned",
+      "cookie": "t28p_firstparty-partitioned=public_firstparty-partitioned",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "read-first",
+      "tls": true
+    },
+    {
+      "case": "firstparty-partitioned",
+      "cookie": "t28p_firstparty-partitioned=public_firstparty-partitioned",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "read-same-deny",
+      "tls": true
+    },
+    {
+      "case": "xsite-header-plain",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "xsite-header-plain",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-same",
+      "tls": true
+    },
+    {
+      "case": "xsite-header-plain",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-other",
+      "tls": true
+    },
+    {
+      "case": "xsite-header-plain",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "read-first",
+      "tls": true
+    },
+    {
+      "case": "xsite-header-plain",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-same-deny",
+      "tls": true
+    },
+    {
+      "case": "xsite-header-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "xsite-header-partitioned",
+      "cookie": "t28p_xsite-header-partitioned=public_xsite-header-partitioned",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-same",
+      "tls": true
+    },
+    {
+      "case": "xsite-header-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-other",
+      "tls": true
+    },
+    {
+      "case": "xsite-header-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "read-first",
+      "tls": true
+    },
+    {
+      "case": "xsite-header-partitioned",
+      "cookie": "t28p_xsite-header-partitioned=public_xsite-header-partitioned",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-same-deny",
+      "tls": true
+    },
+    {
+      "case": "xsite-script-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "xsite-script-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-same",
+      "tls": true
+    },
+    {
+      "case": "xsite-script-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-other",
+      "tls": true
+    },
+    {
+      "case": "xsite-script-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "read-first",
+      "tls": true
+    },
+    {
+      "case": "xsite-script-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-same-deny",
+      "tls": true
+    },
+    {
+      "case": "xsite-cookiestore-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "xsite-cookiestore-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-same",
+      "tls": true
+    },
+    {
+      "case": "xsite-cookiestore-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-other",
+      "tls": true
+    },
+    {
+      "case": "xsite-cookiestore-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "read-first",
+      "tls": true
+    },
+    {
+      "case": "xsite-cookiestore-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-same-deny",
+      "tls": true
+    },
+    {
+      "case": "moonpool-header-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "moonpool-header-partitioned",
+      "cookie": "t28p_moonpool-header-partitioned=public_moonpool-header-partitioned",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-same",
+      "tls": true
+    },
+    {
+      "case": "moonpool-header-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-other",
+      "tls": true
+    },
+    {
+      "case": "moonpool-header-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "read-first",
+      "tls": true
+    },
+    {
+      "case": "moonpool-header-partitioned",
+      "cookie": "t28p_moonpool-header-partitioned=public_moonpool-header-partitioned",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-same-deny",
+      "tls": true
+    },
+    {
+      "case": "moonpool-script-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "moonpool-script-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-same",
+      "tls": true
+    },
+    {
+      "case": "moonpool-script-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-other",
+      "tls": true
+    },
+    {
+      "case": "moonpool-script-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "read-first",
+      "tls": true
+    },
+    {
+      "case": "moonpool-script-partitioned",
+      "cookie": "",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "read-same-deny",
+      "tls": true
+    },
+    {
+      "case": "hold-navigation-allow",
+      "cookie": "",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/hold",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "hold",
+      "tls": true
+    },
+    {
+      "case": "hold-navigation-allow",
+      "clientClosed": false,
+      "cookie": "",
+      "event": "released",
+      "host": "localhost:64607",
+      "path": "/hold",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "hold",
+      "tls": true
+    },
+    {
+      "case": "hold-navigation-allow",
+      "cookie": "t28w_hold-navigation-allow=public",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "echo",
+      "tls": true
+    },
+    {
+      "case": "hold-navigation-deny",
+      "cookie": "",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/hold",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "hold",
+      "tls": true
+    },
+    {
+      "case": "hold-navigation-deny",
+      "clientClosed": false,
+      "cookie": "",
+      "event": "released",
+      "host": "localhost:64607",
+      "path": "/hold",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "hold",
+      "tls": true
+    },
+    {
+      "case": "hold-navigation-deny",
+      "cookie": "",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "echo",
+      "tls": true
+    },
+    {
+      "case": "hold-fetch-deny",
+      "cookie": "",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "host",
+      "tls": true
+    },
+    {
+      "case": "hold-fetch-deny",
+      "cookie": "",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/hold",
+      "run": "ios-first",
+      "secFetchDest": "empty",
+      "secFetchSite": "same-origin",
+      "step": "hold",
+      "tls": true
+    },
+    {
+      "case": "hold-fetch-deny",
+      "clientClosed": false,
+      "cookie": "",
+      "event": "released",
+      "host": "localhost:64607",
+      "path": "/hold",
+      "run": "ios-first",
+      "secFetchDest": "empty",
+      "secFetchSite": "same-origin",
+      "step": "hold",
+      "tls": true
+    },
+    {
+      "case": "hold-fetch-deny",
+      "cookie": "",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "echo",
+      "tls": true
+    },
+    {
+      "case": "hold-fetch-allow",
+      "cookie": "",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "host",
+      "tls": true
+    },
+    {
+      "case": "hold-fetch-allow",
+      "cookie": "",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/hold",
+      "run": "ios-first",
+      "secFetchDest": "empty",
+      "secFetchSite": "same-origin",
+      "step": "hold",
+      "tls": true
+    },
+    {
+      "case": "hold-fetch-allow",
+      "clientClosed": false,
+      "cookie": "",
+      "event": "released",
+      "host": "localhost:64607",
+      "path": "/hold",
+      "run": "ios-first",
+      "secFetchDest": "empty",
+      "secFetchSite": "same-origin",
+      "step": "hold",
+      "tls": true
+    },
+    {
+      "case": "hold-fetch-allow",
+      "cookie": "t28w_hold-fetch-allow=public",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "echo",
+      "tls": true
+    },
+    {
+      "case": "hold-navigation-teardown",
+      "cookie": "",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/hold",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "hold",
+      "tls": true
+    },
+    {
+      "case": "hold-navigation-teardown",
+      "clientClosed": true,
+      "cookie": "",
+      "event": "released",
+      "host": "localhost:64607",
+      "path": "/hold",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "hold",
+      "tls": true
+    },
+    {
+      "case": "hold-navigation-teardown",
+      "cookie": "",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "echo",
+      "tls": true
+    },
+    {
+      "case": "burst-document-deny",
+      "cookie": "",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/writer",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "burst",
+      "tls": true
+    },
+    {
+      "case": "burst-document-deny",
+      "cookie": "t28w_burst-document-deny_1=x; t28w_burst-document-deny_10=x; t28w_burst-document-deny_11=x; t28w_burst-document-deny_12=x; t28w_burst-document-deny_13=x; t28w_burst-document-deny_14=x; t28w_burst-document-deny_15=x; t28w_burst-document-deny_16=x; t28w_burst-document-deny_17=x; t28w_burst-document-deny_18=x; t28w_burst-document-deny_19=x; t28w_burst-document-deny_2=x; t28w_burst-document-deny_20=x; t28w_burst-document-deny_21=x; t28w_burst-document-deny_22=x; t28w_burst-document-deny_23=x; t28w_burst-document-deny_24=x; t28w_burst-document-deny_25=x; t28w_burst-document-deny_3=x; t28w_burst-document-deny_4=x; t28w_burst-document-deny_5=x; t28w_burst-document-deny_6=x; t28w_burst-document-deny_7=x; t28w_burst-document-deny_8=x; t28w_burst-document-deny_9=x",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "echo",
+      "tls": true
+    },
+    {
+      "case": "burst-cookiestore-deny",
+      "cookie": "",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/writer",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "burst",
+      "tls": true
+    },
+    {
+      "case": "burst-cookiestore-deny",
+      "cookie": "t28w_burst-cookiestore-deny_1=x; t28w_burst-cookiestore-deny_10=x; t28w_burst-cookiestore-deny_11=x; t28w_burst-cookiestore-deny_12=x; t28w_burst-cookiestore-deny_13=x; t28w_burst-cookiestore-deny_14=x; t28w_burst-cookiestore-deny_15=x; t28w_burst-cookiestore-deny_16=x; t28w_burst-cookiestore-deny_17=x; t28w_burst-cookiestore-deny_18=x; t28w_burst-cookiestore-deny_19=x; t28w_burst-cookiestore-deny_2=x; t28w_burst-cookiestore-deny_20=x; t28w_burst-cookiestore-deny_21=x; t28w_burst-cookiestore-deny_22=x; t28w_burst-cookiestore-deny_23=x; t28w_burst-cookiestore-deny_24=x; t28w_burst-cookiestore-deny_25=x; t28w_burst-cookiestore-deny_3=x; t28w_burst-cookiestore-deny_4=x; t28w_burst-cookiestore-deny_5=x; t28w_burst-cookiestore-deny_6=x; t28w_burst-cookiestore-deny_7=x; t28w_burst-cookiestore-deny_8=x; t28w_burst-cookiestore-deny_9=x",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "echo",
+      "tls": true
+    },
+    {
+      "case": "native-under-deny",
+      "cookie": "t28w_native-under-deny=public",
+      "event": "arrived",
+      "host": "localhost:64607",
+      "path": "/page",
+      "run": "ios-first",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "echo",
+      "tls": true
+    }
+  ],
+  "run": "ios-first",
+  "samples": [
+    {
+      "case": "empty",
+      "cookies": [],
+      "inventoryAfterDeny": [],
+      "inventoryAfterReads": [],
+      "inventoryAfterSeed": [],
+      "inventoryFinal": [],
+      "partition": "2B9829B7-2426-4C21-9724-16C996936205",
+      "policyAllowsAfterDeny": false,
+      "visits": {
+        "read-first": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": false,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=empty&step=read-first&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "127.0.0.1"
+        },
+        "read-other": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=empty&step=read-other&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "moonpool"
+        },
+        "read-same": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=empty&step=read-same&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "localhost"
+        },
+        "read-same-deny": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=empty&step=read-same-deny&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "localhost"
+        },
+        "seed": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=empty&step=seed&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "localhost"
+        }
+      }
+    },
+    {
+      "case": "firstparty-plain",
+      "cookies": [
+        {
+          "Created": "815376453",
+          "Domain": "127.0.0.1",
+          "Expires": "2026-11-04 05:27:33 +0000",
+          "Name": "t28p_firstparty-plain",
+          "Path": "/",
+          "Secure": "TRUE",
+          "Value": "public_firstparty-plain",
+          "Version": "1"
+        }
+      ],
+      "inventoryAfterDeny": ["t28p_firstparty-plain"],
+      "inventoryAfterReads": ["t28p_firstparty-plain"],
+      "inventoryAfterSeed": ["t28p_firstparty-plain"],
+      "inventoryFinal": ["t28p_firstparty-plain"],
+      "partition": "C8C578AC-8859-4824-A23C-2A957D6550A9",
+      "policyAllowsAfterDeny": false,
+      "visits": {
+        "read-first": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "t28p_firstparty-plain=public_firstparty-plain",
+            "framed": false,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=firstparty-plain&step=read-first&write=none",
+            "storeError": null,
+            "storeNames": [
+              {
+                "name": "t28p_firstparty-plain",
+                "partitioned": null
+              }
+            ],
+            "writeError": null
+          },
+          "top": "127.0.0.1"
+        },
+        "read-other": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=firstparty-plain&step=read-other&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "localhost"
+        },
+        "read-same": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "t28p_firstparty-plain=public_firstparty-plain",
+            "framed": false,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=firstparty-plain&step=read-same&write=none",
+            "storeError": null,
+            "storeNames": [
+              {
+                "name": "t28p_firstparty-plain",
+                "partitioned": null
+              }
+            ],
+            "writeError": null
+          },
+          "top": "127.0.0.1"
+        },
+        "read-same-deny": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "t28p_firstparty-plain=public_firstparty-plain",
+            "framed": false,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=firstparty-plain&step=read-same-deny&write=none",
+            "storeError": null,
+            "storeNames": [
+              {
+                "name": "t28p_firstparty-plain",
+                "partitioned": null
+              }
+            ],
+            "writeError": null
+          },
+          "top": "127.0.0.1"
+        },
+        "seed": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "t28p_firstparty-plain=public_firstparty-plain",
+            "framed": false,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=firstparty-plain&step=seed&write=header",
+            "storeError": null,
+            "storeNames": [
+              {
+                "name": "t28p_firstparty-plain",
+                "partitioned": null
+              }
+            ],
+            "writeError": null
+          },
+          "top": "127.0.0.1"
+        }
+      }
+    },
+    {
+      "case": "firstparty-partitioned",
+      "cookies": [
+        {
+          "Created": "815376456",
+          "Domain": "127.0.0.1",
+          "Expires": "2026-11-04 05:27:36 +0000",
+          "Name": "t28p_firstparty-partitioned",
+          "Path": "/",
+          "Secure": "TRUE",
+          "Value": "public_firstparty-partitioned",
+          "Version": "1"
+        }
+      ],
+      "inventoryAfterDeny": ["t28p_firstparty-partitioned"],
+      "inventoryAfterReads": ["t28p_firstparty-partitioned"],
+      "inventoryAfterSeed": ["t28p_firstparty-partitioned"],
+      "inventoryFinal": ["t28p_firstparty-partitioned"],
+      "partition": "760929E3-42F5-461B-9BE2-9A1A0A3DCD44",
+      "policyAllowsAfterDeny": false,
+      "visits": {
+        "read-first": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "t28p_firstparty-partitioned=public_firstparty-partitioned",
+            "framed": false,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=firstparty-partitioned&step=read-first&write=none",
+            "storeError": null,
+            "storeNames": [
+              {
+                "name": "t28p_firstparty-partitioned",
+                "partitioned": null
+              }
+            ],
+            "writeError": null
+          },
+          "top": "127.0.0.1"
+        },
+        "read-other": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=firstparty-partitioned&step=read-other&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "localhost"
+        },
+        "read-same": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "t28p_firstparty-partitioned=public_firstparty-partitioned",
+            "framed": false,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=firstparty-partitioned&step=read-same&write=none",
+            "storeError": null,
+            "storeNames": [
+              {
+                "name": "t28p_firstparty-partitioned",
+                "partitioned": null
+              }
+            ],
+            "writeError": null
+          },
+          "top": "127.0.0.1"
+        },
+        "read-same-deny": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "t28p_firstparty-partitioned=public_firstparty-partitioned",
+            "framed": false,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=firstparty-partitioned&step=read-same-deny&write=none",
+            "storeError": null,
+            "storeNames": [
+              {
+                "name": "t28p_firstparty-partitioned",
+                "partitioned": null
+              }
+            ],
+            "writeError": null
+          },
+          "top": "127.0.0.1"
+        },
+        "seed": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "t28p_firstparty-partitioned=public_firstparty-partitioned",
+            "framed": false,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=firstparty-partitioned&step=seed&write=header",
+            "storeError": null,
+            "storeNames": [
+              {
+                "name": "t28p_firstparty-partitioned",
+                "partitioned": null
+              }
+            ],
+            "writeError": null
+          },
+          "top": "127.0.0.1"
+        }
+      }
+    },
+    {
+      "case": "xsite-header-plain",
+      "cookies": [],
+      "inventoryAfterDeny": [],
+      "inventoryAfterReads": [],
+      "inventoryAfterSeed": [],
+      "inventoryFinal": [],
+      "partition": "1E16E331-B066-42A0-AE9B-DAB18104B9D2",
+      "policyAllowsAfterDeny": false,
+      "visits": {
+        "read-first": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": false,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=xsite-header-plain&step=read-first&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "127.0.0.1"
+        },
+        "read-other": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=xsite-header-plain&step=read-other&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "moonpool"
+        },
+        "read-same": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=xsite-header-plain&step=read-same&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "localhost"
+        },
+        "read-same-deny": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=xsite-header-plain&step=read-same-deny&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "localhost"
+        },
+        "seed": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=xsite-header-plain&step=seed&write=header",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "localhost"
+        }
+      }
+    },
+    {
+      "case": "xsite-header-partitioned",
+      "cookies": [
+        {
+          "Created": "815376462",
+          "Domain": "127.0.0.1",
+          "Expires": "2026-11-04 05:27:42 +0000",
+          "Name": "t28p_xsite-header-partitioned",
+          "Path": "/",
+          "Secure": "TRUE",
+          "Value": "public_xsite-header-partitioned",
+          "Version": "1"
+        }
+      ],
+      "inventoryAfterDeny": ["t28p_xsite-header-partitioned"],
+      "inventoryAfterReads": ["t28p_xsite-header-partitioned"],
+      "inventoryAfterSeed": ["t28p_xsite-header-partitioned"],
+      "inventoryFinal": ["t28p_xsite-header-partitioned"],
+      "partition": "DDF67216-F1E2-48FC-A002-122C26CE6EC2",
+      "policyAllowsAfterDeny": false,
+      "visits": {
+        "read-first": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": false,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=xsite-header-partitioned&step=read-first&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "127.0.0.1"
+        },
+        "read-other": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=xsite-header-partitioned&step=read-other&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "moonpool"
+        },
+        "read-same": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "t28p_xsite-header-partitioned=public_xsite-header-partitioned",
+            "framed": true,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=xsite-header-partitioned&step=read-same&write=none",
+            "storeError": null,
+            "storeNames": [
+              {
+                "name": "t28p_xsite-header-partitioned",
+                "partitioned": null
+              }
+            ],
+            "writeError": null
+          },
+          "top": "localhost"
+        },
+        "read-same-deny": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "t28p_xsite-header-partitioned=public_xsite-header-partitioned",
+            "framed": true,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=xsite-header-partitioned&step=read-same-deny&write=none",
+            "storeError": null,
+            "storeNames": [
+              {
+                "name": "t28p_xsite-header-partitioned",
+                "partitioned": null
+              }
+            ],
+            "writeError": null
+          },
+          "top": "localhost"
+        },
+        "seed": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "t28p_xsite-header-partitioned=public_xsite-header-partitioned",
+            "framed": true,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=xsite-header-partitioned&step=seed&write=header",
+            "storeError": null,
+            "storeNames": [
+              {
+                "name": "t28p_xsite-header-partitioned",
+                "partitioned": null
+              }
+            ],
+            "writeError": null
+          },
+          "top": "localhost"
+        }
+      }
+    },
+    {
+      "case": "xsite-script-partitioned",
+      "cookies": [],
+      "inventoryAfterDeny": [],
+      "inventoryAfterReads": [],
+      "inventoryAfterSeed": [],
+      "inventoryFinal": [],
+      "partition": "F3656E0C-D40E-476D-8DB5-C2BF2C2C62E7",
+      "policyAllowsAfterDeny": false,
+      "visits": {
+        "read-first": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": false,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=xsite-script-partitioned&step=read-first&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "127.0.0.1"
+        },
+        "read-other": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=xsite-script-partitioned&step=read-other&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "moonpool"
+        },
+        "read-same": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=xsite-script-partitioned&step=read-same&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "localhost"
+        },
+        "read-same-deny": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=xsite-script-partitioned&step=read-same-deny&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "localhost"
+        },
+        "seed": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=xsite-script-partitioned&step=seed&write=script",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "localhost"
+        }
+      }
+    },
+    {
+      "case": "xsite-cookiestore-partitioned",
+      "cookies": [],
+      "inventoryAfterDeny": [],
+      "inventoryAfterReads": [],
+      "inventoryAfterSeed": [],
+      "inventoryFinal": [],
+      "partition": "B4DD15B5-0AAE-4DD6-B89B-EA54FE9F4FE5",
+      "policyAllowsAfterDeny": false,
+      "visits": {
+        "read-first": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": false,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=xsite-cookiestore-partitioned&step=read-first&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "127.0.0.1"
+        },
+        "read-other": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=xsite-cookiestore-partitioned&step=read-other&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "moonpool"
+        },
+        "read-same": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=xsite-cookiestore-partitioned&step=read-same&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "localhost"
+        },
+        "read-same-deny": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=xsite-cookiestore-partitioned&step=read-same-deny&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "localhost"
+        },
+        "seed": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://127.0.0.1:64607/page?run=ios-first&case=xsite-cookiestore-partitioned&step=seed&write=cookiestore",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "localhost"
+        }
+      }
+    },
+    {
+      "case": "moonpool-header-partitioned",
+      "cookies": [
+        {
+          "Created": "815376474",
+          "Domain": "localhost",
+          "Expires": "2026-11-04 05:27:54 +0000",
+          "Name": "t28p_moonpool-header-partitioned",
+          "Path": "/",
+          "Secure": "TRUE",
+          "Value": "public_moonpool-header-partitioned",
+          "Version": "1"
+        }
+      ],
+      "inventoryAfterDeny": ["t28p_moonpool-header-partitioned"],
+      "inventoryAfterReads": ["t28p_moonpool-header-partitioned"],
+      "inventoryAfterSeed": ["t28p_moonpool-header-partitioned"],
+      "inventoryFinal": ["t28p_moonpool-header-partitioned"],
+      "partition": "CC97DC64-93CA-405E-BE0C-A7FFF46704EF",
+      "policyAllowsAfterDeny": false,
+      "visits": {
+        "read-first": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": false,
+            "href": "https://localhost:64607/page?run=ios-first&case=moonpool-header-partitioned&step=read-first&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "localhost"
+        },
+        "read-other": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://localhost:64607/page?run=ios-first&case=moonpool-header-partitioned&step=read-other&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "127.0.0.1"
+        },
+        "read-same": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "t28p_moonpool-header-partitioned=public_moonpool-header-partitioned",
+            "framed": true,
+            "href": "https://localhost:64607/page?run=ios-first&case=moonpool-header-partitioned&step=read-same&write=none",
+            "storeError": null,
+            "storeNames": [
+              {
+                "name": "t28p_moonpool-header-partitioned",
+                "partitioned": null
+              }
+            ],
+            "writeError": null
+          },
+          "top": "moonpool"
+        },
+        "read-same-deny": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "t28p_moonpool-header-partitioned=public_moonpool-header-partitioned",
+            "framed": true,
+            "href": "https://localhost:64607/page?run=ios-first&case=moonpool-header-partitioned&step=read-same-deny&write=none",
+            "storeError": null,
+            "storeNames": [
+              {
+                "name": "t28p_moonpool-header-partitioned",
+                "partitioned": null
+              }
+            ],
+            "writeError": null
+          },
+          "top": "moonpool"
+        },
+        "seed": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "t28p_moonpool-header-partitioned=public_moonpool-header-partitioned",
+            "framed": true,
+            "href": "https://localhost:64607/page?run=ios-first&case=moonpool-header-partitioned&step=seed&write=header",
+            "storeError": null,
+            "storeNames": [
+              {
+                "name": "t28p_moonpool-header-partitioned",
+                "partitioned": null
+              }
+            ],
+            "writeError": null
+          },
+          "top": "moonpool"
+        }
+      }
+    },
+    {
+      "case": "moonpool-script-partitioned",
+      "cookies": [],
+      "inventoryAfterDeny": [],
+      "inventoryAfterReads": [],
+      "inventoryAfterSeed": [],
+      "inventoryFinal": [],
+      "partition": "6825785F-1DA1-45C5-A187-514687B64625",
+      "policyAllowsAfterDeny": false,
+      "visits": {
+        "read-first": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": false,
+            "href": "https://localhost:64607/page?run=ios-first&case=moonpool-script-partitioned&step=read-first&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "localhost"
+        },
+        "read-other": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://localhost:64607/page?run=ios-first&case=moonpool-script-partitioned&step=read-other&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "127.0.0.1"
+        },
+        "read-same": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://localhost:64607/page?run=ios-first&case=moonpool-script-partitioned&step=read-same&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "moonpool"
+        },
+        "read-same-deny": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://localhost:64607/page?run=ios-first&case=moonpool-script-partitioned&step=read-same-deny&write=none",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "moonpool"
+        },
+        "seed": {
+          "loaded": true,
+          "result": {
+            "cookieStoreAvailable": true,
+            "documentCookie": "",
+            "framed": true,
+            "href": "https://localhost:64607/page?run=ios-first&case=moonpool-script-partitioned&step=seed&write=script",
+            "storeError": null,
+            "storeNames": [],
+            "writeError": null
+          },
+          "top": "moonpool"
+        }
+      }
+    }
+  ],
+  "seeded": [],
+  "warmups": [],
+  "writers": [
+    {
+      "case": "hold-navigation-allow",
+      "heldObserved": true,
+      "inventoryAfterRelease": ["t28w_hold-navigation-allow"],
+      "inventoryBeforeRelease": [],
+      "inventoryFinal": ["t28w_hold-navigation-allow"],
+      "kind": "hold",
+      "observerChangesAfterCheck": 0,
+      "policyAllows": true,
+      "responseDelivered": true
+    },
+    {
+      "case": "hold-navigation-deny",
+      "heldObserved": true,
+      "inventoryAfterRelease": [],
+      "inventoryBeforeRelease": [],
+      "inventoryFinal": [],
+      "kind": "hold",
+      "observerChangesAfterCheck": 0,
+      "policyAllows": false,
+      "responseDelivered": true
+    },
+    {
+      "case": "hold-fetch-deny",
+      "heldObserved": true,
+      "inventoryAfterRelease": [],
+      "inventoryBeforeRelease": [],
+      "inventoryFinal": [],
+      "kind": "hold",
+      "observerChangesAfterCheck": 0,
+      "policyAllows": false,
+      "responseDelivered": true
+    },
+    {
+      "case": "hold-fetch-allow",
+      "heldObserved": true,
+      "inventoryAfterRelease": ["t28w_hold-fetch-allow"],
+      "inventoryBeforeRelease": [],
+      "inventoryFinal": ["t28w_hold-fetch-allow"],
+      "kind": "hold",
+      "observerChangesAfterCheck": 0,
+      "policyAllows": true,
+      "responseDelivered": true
+    },
+    {
+      "case": "hold-navigation-teardown",
+      "heldObserved": true,
+      "inventoryAfterRelease": [],
+      "inventoryBeforeRelease": [],
+      "inventoryFinal": [],
+      "kind": "hold",
+      "observerChangesAfterCheck": 0,
+      "policyAllows": true,
+      "responseDelivered": false
+    },
+    {
+      "case": "burst-document-deny",
+      "inventoryAtCompletion": [
+        "t28w_burst-document-deny_1",
+        "t28w_burst-document-deny_10",
+        "t28w_burst-document-deny_11",
+        "t28w_burst-document-deny_12",
+        "t28w_burst-document-deny_13",
+        "t28w_burst-document-deny_14",
+        "t28w_burst-document-deny_15",
+        "t28w_burst-document-deny_16",
+        "t28w_burst-document-deny_17",
+        "t28w_burst-document-deny_18",
+        "t28w_burst-document-deny_19",
+        "t28w_burst-document-deny_2",
+        "t28w_burst-document-deny_20",
+        "t28w_burst-document-deny_21",
+        "t28w_burst-document-deny_22",
+        "t28w_burst-document-deny_23",
+        "t28w_burst-document-deny_24",
+        "t28w_burst-document-deny_25",
+        "t28w_burst-document-deny_3",
+        "t28w_burst-document-deny_4",
+        "t28w_burst-document-deny_5",
+        "t28w_burst-document-deny_6",
+        "t28w_burst-document-deny_7",
+        "t28w_burst-document-deny_8",
+        "t28w_burst-document-deny_9"
+      ],
+      "inventoryBeforePolicy": [
+        "t28w_burst-document-deny_1",
+        "t28w_burst-document-deny_10",
+        "t28w_burst-document-deny_11",
+        "t28w_burst-document-deny_12",
+        "t28w_burst-document-deny_13",
+        "t28w_burst-document-deny_14",
+        "t28w_burst-document-deny_15",
+        "t28w_burst-document-deny_16",
+        "t28w_burst-document-deny_17",
+        "t28w_burst-document-deny_18",
+        "t28w_burst-document-deny_19",
+        "t28w_burst-document-deny_2",
+        "t28w_burst-document-deny_20",
+        "t28w_burst-document-deny_21",
+        "t28w_burst-document-deny_22",
+        "t28w_burst-document-deny_23",
+        "t28w_burst-document-deny_24",
+        "t28w_burst-document-deny_25",
+        "t28w_burst-document-deny_3",
+        "t28w_burst-document-deny_4",
+        "t28w_burst-document-deny_5",
+        "t28w_burst-document-deny_6",
+        "t28w_burst-document-deny_7",
+        "t28w_burst-document-deny_8",
+        "t28w_burst-document-deny_9"
+      ],
+      "inventoryFinal": [
+        "t28w_burst-document-deny_1",
+        "t28w_burst-document-deny_10",
+        "t28w_burst-document-deny_11",
+        "t28w_burst-document-deny_12",
+        "t28w_burst-document-deny_13",
+        "t28w_burst-document-deny_14",
+        "t28w_burst-document-deny_15",
+        "t28w_burst-document-deny_16",
+        "t28w_burst-document-deny_17",
+        "t28w_burst-document-deny_18",
+        "t28w_burst-document-deny_19",
+        "t28w_burst-document-deny_2",
+        "t28w_burst-document-deny_20",
+        "t28w_burst-document-deny_21",
+        "t28w_burst-document-deny_22",
+        "t28w_burst-document-deny_23",
+        "t28w_burst-document-deny_24",
+        "t28w_burst-document-deny_25",
+        "t28w_burst-document-deny_3",
+        "t28w_burst-document-deny_4",
+        "t28w_burst-document-deny_5",
+        "t28w_burst-document-deny_6",
+        "t28w_burst-document-deny_7",
+        "t28w_burst-document-deny_8",
+        "t28w_burst-document-deny_9"
+      ],
+      "inventoryLater": [
+        "t28w_burst-document-deny_1",
+        "t28w_burst-document-deny_10",
+        "t28w_burst-document-deny_11",
+        "t28w_burst-document-deny_12",
+        "t28w_burst-document-deny_13",
+        "t28w_burst-document-deny_14",
+        "t28w_burst-document-deny_15",
+        "t28w_burst-document-deny_16",
+        "t28w_burst-document-deny_17",
+        "t28w_burst-document-deny_18",
+        "t28w_burst-document-deny_19",
+        "t28w_burst-document-deny_2",
+        "t28w_burst-document-deny_20",
+        "t28w_burst-document-deny_21",
+        "t28w_burst-document-deny_22",
+        "t28w_burst-document-deny_23",
+        "t28w_burst-document-deny_24",
+        "t28w_burst-document-deny_25",
+        "t28w_burst-document-deny_3",
+        "t28w_burst-document-deny_4",
+        "t28w_burst-document-deny_5",
+        "t28w_burst-document-deny_6",
+        "t28w_burst-document-deny_7",
+        "t28w_burst-document-deny_8",
+        "t28w_burst-document-deny_9"
+      ],
+      "kind": "burst",
+      "policyAllows": false,
+      "stopped": true,
+      "writeError": null,
+      "writesAtCompletion": 25,
+      "writesAtStart": 25,
+      "writesLater": 114
+    },
+    {
+      "case": "burst-cookiestore-deny",
+      "inventoryAtCompletion": [
+        "t28w_burst-cookiestore-deny_1",
+        "t28w_burst-cookiestore-deny_10",
+        "t28w_burst-cookiestore-deny_11",
+        "t28w_burst-cookiestore-deny_12",
+        "t28w_burst-cookiestore-deny_13",
+        "t28w_burst-cookiestore-deny_14",
+        "t28w_burst-cookiestore-deny_15",
+        "t28w_burst-cookiestore-deny_16",
+        "t28w_burst-cookiestore-deny_17",
+        "t28w_burst-cookiestore-deny_18",
+        "t28w_burst-cookiestore-deny_19",
+        "t28w_burst-cookiestore-deny_2",
+        "t28w_burst-cookiestore-deny_20",
+        "t28w_burst-cookiestore-deny_21",
+        "t28w_burst-cookiestore-deny_22",
+        "t28w_burst-cookiestore-deny_23",
+        "t28w_burst-cookiestore-deny_24",
+        "t28w_burst-cookiestore-deny_25",
+        "t28w_burst-cookiestore-deny_3",
+        "t28w_burst-cookiestore-deny_4",
+        "t28w_burst-cookiestore-deny_5",
+        "t28w_burst-cookiestore-deny_6",
+        "t28w_burst-cookiestore-deny_7",
+        "t28w_burst-cookiestore-deny_8",
+        "t28w_burst-cookiestore-deny_9"
+      ],
+      "inventoryBeforePolicy": [
+        "t28w_burst-cookiestore-deny_1",
+        "t28w_burst-cookiestore-deny_10",
+        "t28w_burst-cookiestore-deny_11",
+        "t28w_burst-cookiestore-deny_12",
+        "t28w_burst-cookiestore-deny_13",
+        "t28w_burst-cookiestore-deny_14",
+        "t28w_burst-cookiestore-deny_15",
+        "t28w_burst-cookiestore-deny_16",
+        "t28w_burst-cookiestore-deny_17",
+        "t28w_burst-cookiestore-deny_18",
+        "t28w_burst-cookiestore-deny_19",
+        "t28w_burst-cookiestore-deny_2",
+        "t28w_burst-cookiestore-deny_20",
+        "t28w_burst-cookiestore-deny_21",
+        "t28w_burst-cookiestore-deny_22",
+        "t28w_burst-cookiestore-deny_23",
+        "t28w_burst-cookiestore-deny_24",
+        "t28w_burst-cookiestore-deny_25",
+        "t28w_burst-cookiestore-deny_3",
+        "t28w_burst-cookiestore-deny_4",
+        "t28w_burst-cookiestore-deny_5",
+        "t28w_burst-cookiestore-deny_6",
+        "t28w_burst-cookiestore-deny_7",
+        "t28w_burst-cookiestore-deny_8",
+        "t28w_burst-cookiestore-deny_9"
+      ],
+      "inventoryFinal": [
+        "t28w_burst-cookiestore-deny_1",
+        "t28w_burst-cookiestore-deny_10",
+        "t28w_burst-cookiestore-deny_11",
+        "t28w_burst-cookiestore-deny_12",
+        "t28w_burst-cookiestore-deny_13",
+        "t28w_burst-cookiestore-deny_14",
+        "t28w_burst-cookiestore-deny_15",
+        "t28w_burst-cookiestore-deny_16",
+        "t28w_burst-cookiestore-deny_17",
+        "t28w_burst-cookiestore-deny_18",
+        "t28w_burst-cookiestore-deny_19",
+        "t28w_burst-cookiestore-deny_2",
+        "t28w_burst-cookiestore-deny_20",
+        "t28w_burst-cookiestore-deny_21",
+        "t28w_burst-cookiestore-deny_22",
+        "t28w_burst-cookiestore-deny_23",
+        "t28w_burst-cookiestore-deny_24",
+        "t28w_burst-cookiestore-deny_25",
+        "t28w_burst-cookiestore-deny_3",
+        "t28w_burst-cookiestore-deny_4",
+        "t28w_burst-cookiestore-deny_5",
+        "t28w_burst-cookiestore-deny_6",
+        "t28w_burst-cookiestore-deny_7",
+        "t28w_burst-cookiestore-deny_8",
+        "t28w_burst-cookiestore-deny_9"
+      ],
+      "inventoryLater": [
+        "t28w_burst-cookiestore-deny_1",
+        "t28w_burst-cookiestore-deny_10",
+        "t28w_burst-cookiestore-deny_11",
+        "t28w_burst-cookiestore-deny_12",
+        "t28w_burst-cookiestore-deny_13",
+        "t28w_burst-cookiestore-deny_14",
+        "t28w_burst-cookiestore-deny_15",
+        "t28w_burst-cookiestore-deny_16",
+        "t28w_burst-cookiestore-deny_17",
+        "t28w_burst-cookiestore-deny_18",
+        "t28w_burst-cookiestore-deny_19",
+        "t28w_burst-cookiestore-deny_2",
+        "t28w_burst-cookiestore-deny_20",
+        "t28w_burst-cookiestore-deny_21",
+        "t28w_burst-cookiestore-deny_22",
+        "t28w_burst-cookiestore-deny_23",
+        "t28w_burst-cookiestore-deny_24",
+        "t28w_burst-cookiestore-deny_25",
+        "t28w_burst-cookiestore-deny_3",
+        "t28w_burst-cookiestore-deny_4",
+        "t28w_burst-cookiestore-deny_5",
+        "t28w_burst-cookiestore-deny_6",
+        "t28w_burst-cookiestore-deny_7",
+        "t28w_burst-cookiestore-deny_8",
+        "t28w_burst-cookiestore-deny_9"
+      ],
+      "kind": "burst",
+      "policyAllows": false,
+      "stopped": true,
+      "writeError": null,
+      "writesAtCompletion": 25,
+      "writesAtStart": 25,
+      "writesLater": 109
+    },
+    {
+      "case": "native-unawaited",
+      "inventoryFinal": ["t28w_native-unawaited", "t28w_native-unawaited_completed"],
+      "kind": "native-unawaited",
+      "seenAfterCompletion": true,
+      "seenImmediately": true
+    },
+    {
+      "case": "native-under-deny",
+      "inventoryAfterSet": ["t28w_native-under-deny"],
+      "kind": "native-under-deny",
+      "policyAllows": false
+    },
+    {
+      "case": "second-handle",
+      "firstSeesSecondCookie": true,
+      "firstSeesSecondPolicy": true,
+      "kind": "second-handle",
+      "policyAfterRestore": true,
+      "sameObject": true,
+      "secondSeesFirstPolicy": true
+    }
+  ]
+}

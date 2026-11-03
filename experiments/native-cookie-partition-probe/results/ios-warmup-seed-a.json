@@ -1,0 +1,1430 @@
+{
+  "base": "https://localhost:64607",
+  "build": {
+    "caSha256": "3b2a21ea655638b60438bcf8cba338ff05ede3630f3674874e0110ec4ccfc0ce",
+    "executableSha256": "1fa1a0eff32b01066daa9a297611c721584e4bb353c1882afd989c0006dd456b",
+    "fixtureConfigSha256": "c5857875609a82dc4ba4a3fbfcc59eeef18a425e2ba2dabf00de2a6d1f88ded0",
+    "sdk": "26.4",
+    "signatureSha256": "97f04fa7d357798007365e21c88ec5f10766b6a1bd0845cf117d5752a0c4b5c7",
+    "sources": {
+      "build.py": "6c304f91d476c5b7c2e5073b063ee01aed54a94cc7cbf52fa5f5d43f49b98821",
+      "fixture.py": "ca62b1deac55fcd7b5e60f852ad540585d4544354427e339f07cbe4167bb2fe7",
+      "frame.html": "d6ba27bb66312ec92828bae9f56a94e79eec26f546bed1a3f667e3477fea4abd",
+      "ios/Probe.swift": "5eb07f16797d79cf3a784f61e31b91a9b90eaa8a7b3526c5bd72e7140c0d9774",
+      "partition_cases.json": "22269c33ca3b6247227d7c51c1f8861dfc05240f09067f4b0d3be2c1871209a6",
+      "warmup_cases.json": "db624edf065f10a47cb7c4193f1549d9875fb9396ac3dd519802f1b8c5980916",
+      "writer_cases.json": "cc14bb74f3c578ab61b3d5f772f9862726f3bc8d31ce8e54c38d987d8e2c927e"
+    },
+    "xcode": "Xcode 26.4.1\nBuild version 17E202"
+  },
+  "capturedUtc": "2026-11-03T05:30:29Z",
+  "complete": true,
+  "errors": [],
+  "installedArtifactSha256": "1fa1a0eff32b01066daa9a297611c721584e4bb353c1882afd989c0006dd456b",
+  "mode": "warmup-seed",
+  "os": "26.4.1",
+  "platform": "ios",
+  "reopened": [],
+  "requests": [
+    {
+      "case": "warmup-none-1",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-none-1",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-policy-1",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-policy-1",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-get-policy-1",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-get-policy-1",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-twice-1",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-twice-1",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-records-1",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-records-1",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-none-2",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-none-2",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-policy-2",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-policy-2",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-get-policy-2",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-get-policy-2",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-twice-2",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-twice-2",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-records-2",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-records-2",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-none-3",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-none-3",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-policy-3",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-policy-3",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-get-policy-3",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-get-policy-3",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-twice-3",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-twice-3",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-records-3",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-records-3",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-none-4",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-none-4",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-policy-4",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-policy-4",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-get-policy-4",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-get-policy-4",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-twice-4",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-twice-4",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-records-4",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-records-4",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-none-5",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-none-5",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-policy-5",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-policy-5",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-get-policy-5",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-get-policy-5",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-twice-5",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-twice-5",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-records-5",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-records-5",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-none-6",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-none-6",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-policy-6",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-policy-6",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-get-policy-6",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-get-policy-6",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-twice-6",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-twice-6",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-records-6",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-records-6",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-none-7",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-none-7",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-policy-7",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-policy-7",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-get-policy-7",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-get-policy-7",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-twice-7",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-twice-7",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-records-7",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-records-7",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-none-8",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-none-8",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-policy-8",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-policy-8",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-get-policy-8",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-get-policy-8",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-twice-8",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-twice-8",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-records-8",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-records-8",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-wait-only",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-wait-only",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-blank-load",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-blank-load",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-scheme-load",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-scheme-load",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    },
+    {
+      "case": "warmup-network-load",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed-first",
+      "tls": true
+    },
+    {
+      "case": "warmup-network-load",
+      "cookie": "",
+      "event": "arrived",
+      "host": "127.0.0.1:64607",
+      "path": "/page",
+      "run": "ios-warmup-seed-a",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed-xsite",
+      "tls": true
+    }
+  ],
+  "run": "ios-warmup-seed-a",
+  "samples": [],
+  "seeded": [
+    {
+      "case": "warmup-none-1",
+      "inventoryAfterSeed": ["t28u_warmup-none-1_first", "t28u_warmup-none-1_partitioned"],
+      "partition": "5E637EEB-256A-43BD-AB20-3549ABECB7C3",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-policy-1",
+      "inventoryAfterSeed": ["t28u_warmup-policy-1_first", "t28u_warmup-policy-1_partitioned"],
+      "partition": "696CB527-89D4-4260-9996-450568F44986",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-get-policy-1",
+      "inventoryAfterSeed": [
+        "t28u_warmup-get-policy-1_first",
+        "t28u_warmup-get-policy-1_partitioned"
+      ],
+      "partition": "773ABADF-5FA3-4BB5-9F7F-FB0187E860FF",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-twice-1",
+      "inventoryAfterSeed": ["t28u_warmup-twice-1_first", "t28u_warmup-twice-1_partitioned"],
+      "partition": "DD5FC8D9-1B1F-4EC3-A0E7-D46C3B23C3A3",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-records-1",
+      "inventoryAfterSeed": ["t28u_warmup-records-1_first", "t28u_warmup-records-1_partitioned"],
+      "partition": "5846ABC3-C0E6-47A2-8C40-778687C31362",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-none-2",
+      "inventoryAfterSeed": ["t28u_warmup-none-2_first", "t28u_warmup-none-2_partitioned"],
+      "partition": "B629D167-502C-4AA7-978B-A8027079AB5C",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-policy-2",
+      "inventoryAfterSeed": ["t28u_warmup-policy-2_first", "t28u_warmup-policy-2_partitioned"],
+      "partition": "E22E6ECF-2B23-4107-ABE8-4CC1B99CFD59",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-get-policy-2",
+      "inventoryAfterSeed": [
+        "t28u_warmup-get-policy-2_first",
+        "t28u_warmup-get-policy-2_partitioned"
+      ],
+      "partition": "24364B27-A76C-488B-859A-385249E6CFC0",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-twice-2",
+      "inventoryAfterSeed": ["t28u_warmup-twice-2_first", "t28u_warmup-twice-2_partitioned"],
+      "partition": "C6D4057F-B4FC-4469-BAB7-53A388E8BBD2",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-records-2",
+      "inventoryAfterSeed": ["t28u_warmup-records-2_first", "t28u_warmup-records-2_partitioned"],
+      "partition": "6E52459F-00C3-4F79-A9B0-F09F8008CA32",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-none-3",
+      "inventoryAfterSeed": ["t28u_warmup-none-3_first", "t28u_warmup-none-3_partitioned"],
+      "partition": "0EED3491-DEA4-4DD5-A553-A3C4D91A7976",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-policy-3",
+      "inventoryAfterSeed": ["t28u_warmup-policy-3_first", "t28u_warmup-policy-3_partitioned"],
+      "partition": "CC32BFA0-7631-4167-9FAE-D3964E57311D",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-get-policy-3",
+      "inventoryAfterSeed": [
+        "t28u_warmup-get-policy-3_first",
+        "t28u_warmup-get-policy-3_partitioned"
+      ],
+      "partition": "0BD198F2-E6F4-450B-8028-11ACF6293BBB",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-twice-3",
+      "inventoryAfterSeed": ["t28u_warmup-twice-3_first", "t28u_warmup-twice-3_partitioned"],
+      "partition": "D497B4DB-5D4E-460F-997B-A9A021D52FBB",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-records-3",
+      "inventoryAfterSeed": ["t28u_warmup-records-3_first", "t28u_warmup-records-3_partitioned"],
+      "partition": "1995C831-D38B-4D80-B4F2-7C20B4D4BDEB",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-none-4",
+      "inventoryAfterSeed": ["t28u_warmup-none-4_first", "t28u_warmup-none-4_partitioned"],
+      "partition": "98CC8886-CE52-4DAD-AAC7-F21D041F0773",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-policy-4",
+      "inventoryAfterSeed": ["t28u_warmup-policy-4_first", "t28u_warmup-policy-4_partitioned"],
+      "partition": "20476C60-C799-43BC-98DD-BAB42D8D4072",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-get-policy-4",
+      "inventoryAfterSeed": [
+        "t28u_warmup-get-policy-4_first",
+        "t28u_warmup-get-policy-4_partitioned"
+      ],
+      "partition": "1B88997D-916C-451A-B286-364AEF474E74",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-twice-4",
+      "inventoryAfterSeed": ["t28u_warmup-twice-4_first", "t28u_warmup-twice-4_partitioned"],
+      "partition": "1E96E449-19B9-423D-8D9E-3B8C25C19B80",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-records-4",
+      "inventoryAfterSeed": ["t28u_warmup-records-4_first", "t28u_warmup-records-4_partitioned"],
+      "partition": "1CD6CB26-1FA3-496C-9054-32B302AE5E11",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-none-5",
+      "inventoryAfterSeed": ["t28u_warmup-none-5_first", "t28u_warmup-none-5_partitioned"],
+      "partition": "18DA42D7-1E70-4608-8C65-DCA69D57B634",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-policy-5",
+      "inventoryAfterSeed": ["t28u_warmup-policy-5_first", "t28u_warmup-policy-5_partitioned"],
+      "partition": "69C7A84D-77B0-4912-B7D3-365A5A5F701F",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-get-policy-5",
+      "inventoryAfterSeed": [
+        "t28u_warmup-get-policy-5_first",
+        "t28u_warmup-get-policy-5_partitioned"
+      ],
+      "partition": "3228EB5F-B89F-4A6E-9490-D1CABCCC6A6E",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-twice-5",
+      "inventoryAfterSeed": ["t28u_warmup-twice-5_first", "t28u_warmup-twice-5_partitioned"],
+      "partition": "697E8545-8C22-441D-BF95-C0FEC2F6BDC4",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-records-5",
+      "inventoryAfterSeed": ["t28u_warmup-records-5_first", "t28u_warmup-records-5_partitioned"],
+      "partition": "807FA80A-BDB3-4850-B735-3B4BFA3083A4",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-none-6",
+      "inventoryAfterSeed": ["t28u_warmup-none-6_first", "t28u_warmup-none-6_partitioned"],
+      "partition": "0C17BD75-8E67-4732-982F-87A51D51CFD3",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-policy-6",
+      "inventoryAfterSeed": ["t28u_warmup-policy-6_first", "t28u_warmup-policy-6_partitioned"],
+      "partition": "F9C9B735-14CC-4B14-B1B7-693ADDFE7C18",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-get-policy-6",
+      "inventoryAfterSeed": [
+        "t28u_warmup-get-policy-6_first",
+        "t28u_warmup-get-policy-6_partitioned"
+      ],
+      "partition": "BDAC0197-178D-4AFD-BD37-4FB7E52FA2B3",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-twice-6",
+      "inventoryAfterSeed": ["t28u_warmup-twice-6_first", "t28u_warmup-twice-6_partitioned"],
+      "partition": "5B670C60-71F1-46DC-AADA-18FDFC0EE7A2",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-records-6",
+      "inventoryAfterSeed": ["t28u_warmup-records-6_first", "t28u_warmup-records-6_partitioned"],
+      "partition": "DD945A90-F03C-4643-A0E4-6C3CB7C2A613",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-none-7",
+      "inventoryAfterSeed": ["t28u_warmup-none-7_first", "t28u_warmup-none-7_partitioned"],
+      "partition": "8BBD6032-8B81-469B-9788-39696CD3D595",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-policy-7",
+      "inventoryAfterSeed": ["t28u_warmup-policy-7_first", "t28u_warmup-policy-7_partitioned"],
+      "partition": "8503CED2-A788-43FF-8972-B6086F509002",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-get-policy-7",
+      "inventoryAfterSeed": [
+        "t28u_warmup-get-policy-7_first",
+        "t28u_warmup-get-policy-7_partitioned"
+      ],
+      "partition": "3F491689-B625-49C8-8AEB-DCBC17114FB9",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-twice-7",
+      "inventoryAfterSeed": ["t28u_warmup-twice-7_first", "t28u_warmup-twice-7_partitioned"],
+      "partition": "147AD3A6-AD39-4936-8497-0582A3413210",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-records-7",
+      "inventoryAfterSeed": ["t28u_warmup-records-7_first", "t28u_warmup-records-7_partitioned"],
+      "partition": "FA0351E2-E722-4240-A1EF-E53F06EAA625",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-none-8",
+      "inventoryAfterSeed": ["t28u_warmup-none-8_first", "t28u_warmup-none-8_partitioned"],
+      "partition": "EF9AEF4E-F88D-48E3-BEDB-D9F1BA6A639B",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-policy-8",
+      "inventoryAfterSeed": ["t28u_warmup-policy-8_first", "t28u_warmup-policy-8_partitioned"],
+      "partition": "2E34845C-6C4A-41EE-A69A-5D492FA11AA6",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-get-policy-8",
+      "inventoryAfterSeed": [
+        "t28u_warmup-get-policy-8_first",
+        "t28u_warmup-get-policy-8_partitioned"
+      ],
+      "partition": "B63507E6-51F7-4291-A7C7-363D941DD954",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-twice-8",
+      "inventoryAfterSeed": ["t28u_warmup-twice-8_first", "t28u_warmup-twice-8_partitioned"],
+      "partition": "294F7DD2-0457-4885-93D0-79904B7B3F55",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-records-8",
+      "inventoryAfterSeed": ["t28u_warmup-records-8_first", "t28u_warmup-records-8_partitioned"],
+      "partition": "80039969-C931-4E18-A4E2-9921ACE186BB",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-wait-only",
+      "inventoryAfterSeed": ["t28u_warmup-wait-only_first", "t28u_warmup-wait-only_partitioned"],
+      "partition": "44C62240-67D4-4394-B115-8DC5793E8856",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-blank-load",
+      "inventoryAfterSeed": ["t28u_warmup-blank-load_first", "t28u_warmup-blank-load_partitioned"],
+      "partition": "653B3691-A0EA-4E8E-B149-28A3F9149810",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-scheme-load",
+      "inventoryAfterSeed": [
+        "t28u_warmup-scheme-load_first",
+        "t28u_warmup-scheme-load_partitioned"
+      ],
+      "partition": "1E8C49F5-A0F8-475C-9F48-E573FF23268F",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    },
+    {
+      "case": "warmup-network-load",
+      "inventoryAfterSeed": [
+        "t28u_warmup-network-load_first",
+        "t28u_warmup-network-load_partitioned"
+      ],
+      "partition": "4A2FE8B1-34A8-42CE-BE72-683F4AC36D57",
+      "seedFirstLoaded": true,
+      "seedXsiteLoaded": true
+    }
+  ],
+  "warmups": [],
+  "writers": []
+}

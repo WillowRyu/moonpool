@@ -1,0 +1,74 @@
+[
+  {
+    "id": "empty",
+    "write": "none",
+    "seedTop": "localhost",
+    "service": "127.0.0.1",
+    "otherTop": "moonpool",
+    "attributes": ""
+  },
+  {
+    "id": "firstparty-plain",
+    "write": "header",
+    "seedTop": "127.0.0.1",
+    "service": "127.0.0.1",
+    "otherTop": "localhost",
+    "attributes": "SameSite=None"
+  },
+  {
+    "id": "firstparty-partitioned",
+    "write": "header",
+    "seedTop": "127.0.0.1",
+    "service": "127.0.0.1",
+    "otherTop": "localhost",
+    "attributes": "SameSite=None; Partitioned"
+  },
+  {
+    "id": "xsite-header-plain",
+    "write": "header",
+    "seedTop": "localhost",
+    "service": "127.0.0.1",
+    "otherTop": "moonpool",
+    "attributes": "SameSite=None"
+  },
+  {
+    "id": "xsite-header-partitioned",
+    "write": "header",
+    "seedTop": "localhost",
+    "service": "127.0.0.1",
+    "otherTop": "moonpool",
+    "attributes": "SameSite=None; Partitioned"
+  },
+  {
+    "id": "xsite-script-partitioned",
+    "write": "script",
+    "seedTop": "localhost",
+    "service": "127.0.0.1",
+    "otherTop": "moonpool",
+    "attributes": "SameSite=None; Partitioned"
+  },
+  {
+    "id": "xsite-cookiestore-partitioned",
+    "write": "cookiestore",
+    "seedTop": "localhost",
+    "service": "127.0.0.1",
+    "otherTop": "moonpool",
+    "attributes": "SameSite=None; Partitioned"
+  },
+  {
+    "id": "moonpool-header-partitioned",
+    "write": "header",
+    "seedTop": "moonpool",
+    "service": "localhost",
+    "otherTop": "127.0.0.1",
+    "attributes": "SameSite=None; Partitioned"
+  },
+  {
+    "id": "moonpool-script-partitioned",
+    "write": "script",
+    "seedTop": "moonpool",
+    "service": "localhost",
+    "otherTop": "127.0.0.1",
+    "attributes": "SameSite=None; Partitioned"
+  }
+]
