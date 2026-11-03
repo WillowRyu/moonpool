@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — 쿠키 없는 저장소 시험</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">40 · 쿠키 없는 저장소 시험</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#why">왜 필요했나</a>
+    <a href="#result">결과</a>
+    <a href="#rejected">검증기가 거부한 첫 수집</a>
+    <a href="#side">덤으로 알게 된 두 가지</a>
+    <a href="#limits">아직 모르는 것</a>
+  </nav>
+  <p class="small desktop-only">2026.11.03 · iOS 부분 검증<br>판단 규칙 168개 모두 정확<br>T28 전체 완료는 아직</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">T28 · Empty store under the accepted rule</div>
+    <h1>잠금장치는 도둑만 막으면<br>되는 게 아닙니다.</h1>
+    <p class="lead">채택한 규칙이 쿠키가 있는 저장소는 막고, 쿠키가 없는 저장소는 열어 주는지 시험했습니다. 집주인까지 못 들어가는 잠금장치는 쓸 수 없기 때문입니다.</p>
+    <div class="meta"><span class="pill">저장소 168개 · 전부 정확</span><span class="pill">서버 기록 472행 · 검사 990개</span><span class="pill warm">시뮬레이터 iOS 26.4.1만 측정</span></div>
+  </header>
+  <section class="section" id="why">
+    <h2>1 · 왜 이 시험이 필요했나</h2>
+    <p><a href="39-native-cookie-reopen.html">앞선 시험</a>은 쿠키가 있는 저장소만 다뤘습니다. 그래서 규칙이 쿠키를 놓치지 않는다는 것만 봤고, 정상 저장소를 막아 버리는지는 몰랐습니다. 예를 들어 <code>fetchDataRecords</code>가 localStorage까지 쿠키처럼 세면, 설정만 저장한 평범한 미니 앱이 열리지 않게 됩니다.</p>
+    <pre><code>// 채택한 규칙 그대로, 새 프로세스에서 실행
+await policy(store, false)         // 1. 쿠키 차단 설정 완료까지 대기
+let records = await records(store) // 2. 첫 번째 답
+let names = await names(store)     //    두 번째 답
+
+// 둘 다 없음 → 열기 / 둘 다 있음 → 막기 / 서로 다름 → 막기</code></pre>
+    <p>판정이 맞았는지는 규칙에 묻지 않고, 그 뒤 페이지를 불러 서버가 실제로 쿠키를 받았는지로 확인했습니다.</p>
+  </section>
+  <section class="section" id="result">
+    <h2>2 · 168개 저장소 모두 정확했습니다</h2>
+    <div class="table-wrap"><table><thead><tr><th>시험 시점의 저장소 상태</th><th>수</th><th>서버가 받은 쿠키</th><th>규칙의 판단</th></tr></thead><tbody>
+      <tr><td>쿠키 없음: 새 저장소, 쓴 적 없는 저장소, localStorage·IndexedDB만 있는 저장소, 쿠키 없는 페이지만 방문한 저장소</td><td>56</td><td>없음</td><td>열기 ✓</td></tr>
+      <tr><td>쿠키가 사라짐: 차단으로 저장 실패, 서버가 삭제, 만료, 세션 쿠키</td><td>32</td><td>없음</td><td>열기 ✓</td></tr>
+      <tr><td>쿠키가 저장되지 않았거나 남지 않음 (4번 항목 참고)</td><td>16</td><td>없음</td><td>열기 ✓</td></tr>
+      <tr><td>일반 쿠키: 차단 전력 있음·없음, HttpOnly, 종료 직전 쓰고 차단</td><td>40</td><td>있음</td><td>막기 ✓</td></tr>
+      <tr><td>파티션 쿠키만 있음: 일반 페이지 안, <code>moonpool://</code> 페이지 안</td><td>24</td><td>있음</td><td>막기 ✓</td></tr>
+    </tbody></table></div>
+    <ul>
+      <li><strong>로컬 데이터는 쿠키로 세지 않습니다.</strong> 시험 뒤에도 localStorage·IndexedDB 값이 그대로 남아 있었습니다.</li>
+      <li><strong>파티션 쿠키만 있어도 두 API 모두 찾아냅니다.</strong> 이전 시험에서는 일반 쿠키가 함께 있어서 확인할 수 없던 내용입니다.</li>
+      <li><strong>원래 문제도 여전히 재현됩니다.</strong> 같은 저장소에서 정책 전 목록은 비었고, 정책 후에는 쿠키가 나왔습니다(8개 모두). 그래서 이 실험이 그 문제를 볼 수 있는 실험이었다고 말할 수 있습니다.</li>
+    </ul>
+  </section>
+  <section class="section" id="rejected">
+    <h2>3 · 첫 수집은 검증기가 거부했습니다</h2>
+    <p>첫 수집에서도 "규칙이 다 맞았다"는 숫자가 나왔습니다. 그런데 파티션 쿠키가 있어야 할 저장소 24개에서 서버가 쿠키를 받지 못해 검증기가 거부했습니다.</p>
+    <p>확인해 보니 그 저장소들에는 쿠키가 애초에 저장되지 않았습니다. 비어 있는 저장소를 "비었다"고 맞힌 것이니, 파티션 쿠키는 전혀 시험하지 못한 셈이었습니다. 대조군이 없었다면 이 결과를 "파티션 쿠키도 통과"로 잘못 보고할 뻔했습니다. 준비 단계를 고쳐 다시 수집했고, 판정 기준은 그대로 두었습니다.</p>
+  </section>
+  <section class="section" id="side">
+    <h2>4 · 덤으로 알게 된 두 가지</h2>
+    <p>규칙의 판단에는 영향이 없고, 원인은 아직 모릅니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>관찰</th><th>비교</th></tr></thead><tbody>
+      <tr><td>"허용"을 명시하는 것과 아무 설정도 안 하는 것이 다릅니다</td><td>다른 사이트 안의 파티션 쿠키: 명시적 허용 후에는 저장(24/24), 설정을 안 하면 저장 안 됨(0/8). 문서에는 기본값이 허용이라고 되어 있습니다.</td></tr>
+      <tr><td>목록에 보여도 앱 종료 후 남는다는 보장은 없습니다</td><td>종료 직전 쓴 쿠키: 그대로 두면 사라짐(8/8), 이어서 차단 정책을 부르면 남음(8/8). 45초 기다린 저장소도 남았습니다.</td></tr>
+    </tbody></table></div>
+  </section>
+  <section class="section" id="limits">
+    <h2>5 · 아직 모르는 것</h2>
+    <ul>
+      <li><strong>두 번째 확인이 실제로 무언가를 잡아낼지:</strong> 168개에서 두 API의 답이 한 번도 다르지 않았습니다. 안전장치는 돌아갔지만 쓰일 일은 없었습니다.</li>
+      <li><strong>Android (이후 확인함):</strong> 앱을 새로 켠 직후에도 <code>hasCookies</code>가 정확했습니다. <a href="41-native-cookie-android-restart.html">41 · Android 재시작 쿠키 시험</a>을 보세요.</li>
+      <li><strong>프로세스의 맨 첫 질문:</strong> 이 시험에서 프로세스의 첫 저장소는 쿠키가 없었습니다. 쿠키 있는 저장소를 맨 먼저 묻는 경우는 <a href="../docs/native-cookie-first-question-verification.md">이후 시험</a>에서 36개 모두 맞았습니다.</li>
+      <li>실제 iPhone, 다른 iOS 버전, 기기 재부팅, 서비스 워커, 리다이렉트, 실제 Portal 종료도 남아 있습니다.</li>
+    </ul>
+    <div class="callout warm"><strong>현재 상태:</strong> 완료 수는 6 / 44 그대로이고 T28도 진행 중입니다. SPEC, 프로토콜, 제품 패키지는 바꾸지 않았습니다. 이 내용은 보안 명세 §8·§9에 관련됩니다. 자세한 수치는 <a href="../docs/native-cookie-empty-store-verification.md">검증 보고서</a>와 <a href="../experiments/native-cookie-empty-store-probe/README.md">실험 안내</a>에 있습니다.</div>
+    <p><a href="39-native-cookie-reopen.html">← 39 · 재시작 직후의 쿠키 목록</a></p>
+  </section>
+</main>
+</body>
+</html>

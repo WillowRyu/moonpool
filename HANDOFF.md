@@ -52,6 +52,14 @@
 > Both owned devices stopped. Full corpus/final approval remain; intentional crash controls stay stopped.
 > The maintainer reported repeated crash dialogs. Do not rerun crash controls
 > without an explicit request; routine verification reads retained reports.
+> iOS partition/writer evidence complete: read docs/native-cookie-partition-writer-verification.md.
+> BLOCKER: new-process first getAllCookies falsely reports empty (38/38 with no prior step).
+> Policy/records/load first: 0/54. Undocumented, no root cause.
+> iOS evidence rule accepted as a design direction on 2026-11-03. Do not ask again about it.
+> Rule measured: 168/168 correct on one simulator configuration; read docs/native-cookie-empty-store-verification.md.
+> Android hasCookies in a new process: 250/250 correct; read docs/native-cookie-android-restart-verification.md.
+> Android does not retain deny across a process; deny must be reinstalled in every process.
+> iOS rule as a process's first cookie question: 36/36 correct; read docs/native-cookie-first-question-verification.md.
 > Older checkpoints moved verbatim to docs/handoff-archive.md on 2026-11-03.
 > Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
 > Run pnpm run check; read docs/code-quality-workflow.md. Native task checks remain separate.
@@ -83,6 +91,151 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-03 checkpoint — cookie evidence Git publication
+
+The maintainer answered "네, 커밋하자" to committing and pushing. At publication start HEAD,
+origin/master and live remote master were all 913347f. The series is on branch
+t28-native-cookie-evidence, not master; merging it is the maintainer's separate decision. Earlier
+statements below that nothing is committed describe their own moment. The series groups:
+
+- Handoff archive and its four pointers, verified byte-equal against the previous HANDOFF.
+- One evidence commit each for the partition/writer, empty-store, Android restart and first-question
+  probes, with their sources, tests and retained reports.
+- The accepted iOS evidence rule, verification reports and linked plan updates.
+- This progress record with Korean lessons 39, 40 and 41 and the study index.
+
+This does not mark T28 complete, adopt the rest of ADR 0026/0027, change SPEC or protocol 0.1, or
+release a package or tag. Candidates were scanned for keys, build output, local paths, device ids
+and emails with no hits; local-results stay ignored. No device ran for publication. The test CA
+removal from the dedicated simulator is still undecided.
+
+## 2026-11-03 checkpoint — iOS rule measured as a process's first cookie question
+
+After a security explanation the maintainer said "그럼 계속진행라자". That was read as continuing the
+verification work, not as commit/push approval: nothing is committed or pushed, and that question
+and removal of the test CA from the dedicated simulator are still open. New isolated
+experiments/native-cookie-ios-first-question-probe. Read docs/native-cookie-first-question-verification.md.
+
+This closes the gap named in the checkpoint below. Each of 36 stores got its own new process: 12
+without cookies were admitted and 24 with cookies were refused, including partitioned-only stores,
+with no false admit or over-refusal. The false empty still reproduces before the policy on the same
+store (4/4). "First question" means first cookie question: WebKit is still initialized with an empty
+view first, because enumeration as the first WebKit call is the known crash path. The two sources
+again never disagreed.
+
+Remaining measurable evidence needs other hardware or broader scope: physical devices, other OS and
+WebView versions, reboot, service workers, redirects, real Portal teardown. Full C01-C12, remaining
+ADR 0026/0027, T29/T31, recovery and final SPEC work stay gated. T28 stays incomplete at 6/44.
+
+Simulator off after detaching the panel, 13 baseline states match, fixture closed, no crash reports.
+Reused the empty-store CA, so no new trust root. Retained: 2 reports, 100 receipt rows, 404 verifier
+checks, 24 host tests.
+
+## 2026-11-03 checkpoint — Android new-process check and iOS environment cleanup
+
+The maintainer answered "진행하자 그리고 ios 환경은 정리하자". New isolated
+experiments/native-cookie-android-restart-probe. Read docs/native-cookie-android-restart-verification.md and Korean lesson 41. Nothing is
+committed or pushed; publication was not requested.
+
+hasCookies() was correct in 250 of 250 stores: no false empty and no over-refusal, whether asked
+with nothing before it, after a never-loaded view, after deny, or as a process's very first cookie
+question. The iOS failure did not appear, so the iOS evidence rule stays iOS-only. Android has no
+second whole-store source to compare with. Witnesses must run under allow, because Android's
+deny withholds retained cookies; the verifier enforces this.
+
+Android and iOS differ, on one configuration each: Android does not retain deny across a process
+restart (96/96), stores cross-site partitioned cookies with no policy call, keeps session cookies
+after force-stop (12/12), and loses cookies written just before exit even with deny (24/24).
+
+Open: iOS has not been measured with a cookie-bearing store as a process's first question under
+the accepted rule, a gap found reviewing this run. Android WebView updates separately from the OS,
+so whether iOS-style per-version support claims fit Android is undecided. Physical devices, other
+versions, reboot, service workers, redirects and real Portal teardown remain. T28 stays incomplete
+at 6/44. SPEC, protocol and production packages are unchanged.
+
+iOS cleanup: the dedicated simulator is shut down and all 13 simulators are off; it and its data
+were not deleted. The Claude desktop app's simulator panel rebooted it after a plain shutdown, so
+use the iOS simulator tool's detach action first, then shut down, and recheck the state.
+
+Android cleanup: probe app stopped, adb reverse removed, dedicated emulator stopped, fixture closed,
+adb device list matches baseline. Retained: 15 reports, 788 receipt rows, 1817 verifier checks, 45
+host tests, lint 0 errors / 16 warnings. One earlier clean cycle stays in ignored local results.
+
+## 2026-11-03 checkpoint — accepted iOS rule measured on cookie-free stores
+
+The maintainer answered "네, 진행하자" to running the cookie-free test named as next evidence
+below. New isolated experiments/native-cookie-empty-store-probe. Read docs/native-cookie-empty-store-verification.md and Korean
+lesson 40. Nothing is committed or pushed; publication was not requested.
+
+| Stores, written in one process and checked in a new one | Count | Verdict |
+| --- | --- | --- |
+| Cookie-free, including local data only; cookie gone or never stored | 104 | Admitted, no server witness |
+| First-party cookie and partitioned-only cookie | 64 | Refused, server witness |
+
+No false admit and no over-refusal in 168 stores, with both source orders. The two sources
+never disagreed, so that safeguard is unexercised; do not claim it catches anything. The
+original false empty still reproduces on the same store before the policy (8/8).
+
+Side findings, causes unknown: a cross-site partitioned cookie is stored after explicit
+setCookiePolicy(.allow) but not with no policy call, so the earlier partition table describes
+explicitly allowed stores. A never-denied cookie written just before exit can be listed and
+then not survive, while a following deny call kept it.
+
+The verifier rejected the first collection because partitioned controls held no cookie. It
+stays in ignored local results. Outcome criteria did not change.
+
+Next evidence: Android hasCookies in a new process is the nearest gap and needs no new
+hardware. Physical iPhone, other iOS versions and reboot remain. T28 stays incomplete at 6/44.
+SPEC, protocol and production packages are unchanged.
+
+The dedicated simulator was found booted with the Claude desktop app's simulator panel
+attached and nothing else running on it. It was used and left booted as found; 13 baseline
+states match, fixture closed, no crash reports. Retained: four reports, 472 receipt rows, 990
+verifier checks, 42 host tests.
+
+## 2026-11-03 checkpoint — iOS partition/writer evidence and new-process false empty
+
+The maintainer asked to clean up the handoff and collect the iOS cookie evidence
+("정리하면 좋은것은 정리하자. 그리고 ios 쿠키 증거 수집을 하자"). HANDOFF's older
+checkpoints moved verbatim to docs/handoff-archive.md, with a byte-equality check and four
+stale pointers updated. The stale type-it-yourself memory was replaced. Nothing is
+committed or pushed; publication was not requested.
+
+New isolated experiments/native-cookie-partition-probe (iOS only). Read
+docs/native-cookie-partition-writer-verification.md and Korean lesson 39. This supersedes the "next evidence" items
+in the two checkpoints below for iOS.
+
+| Question | Measured on iOS 26.4.1 simulator |
+| --- | --- |
+| New-process first enumeration | **False empty** in 38/38 stores with no prior step; a repeated enumeration stays empty; complete at the 0.5 s sample |
+| After awaited set/get policy, fetchDataRecords or a load | Correct in 54/54 |
+| Partitioned cookies | Separated by top site, listed in inventory, no partition field; script writes in cross-site frames store nothing |
+| In-flight Set-Cookie | Lands after an empty check without policy; nothing lands after awaited deny or teardown |
+| Native setCookie under deny | Stored and sent, so the policy does not exclude native writers |
+| Second store handle | Same object; shares policy and cookies, so owner exclusion is SDK discipline |
+
+Accepted later the same day: the maintainer answered "그럼 지금 채택해서 추가 해둬야 겠다"
+after a before/after explanation. The three-part iOS evidence rule is now a design direction
+in ADR 0027 and docs/native-cookie-store-admission.md §3: enumeration counts only after
+awaited policy completion, fetchDataRecords and getAllCookies must both report none, and
+support is per measured iOS version. Do not ask for this approval again. It is not a SPEC
+amendment or implementation. The ordering is undocumented and the cause is unknown, so do
+not call it a fix. Unknown still refuses admission.
+
+Next evidence: run the rule on cookie-free stores first. Neither API's "none" answer has been
+measured under it, and a disagreement would refuse healthy stores. Android's hasCookies has
+the same unmeasured new-process question.
+
+Still unmeasured: physical device, other iOS versions, empty and never-denied stores under
+the rule, reboot, service workers, redirects, real Portal teardown. T28 stays
+incomplete at 6/44 native tasks. SPEC, protocol and production packages are unchanged.
+
+Retained: seven reports, 497 receipt rows, 524 verifier checks, 64 host tests. Three earlier
+collections stay in ignored local-results/preliminary; the report says why they are not
+evidence. Only the dedicated simulator ran: shut down, 13 baseline states match, fixture
+closed, no crash reports, no intentional crash or first-call enumeration. Note that killing
+a backgrounded fixture needs the Python pid; pkill on the pattern left it running once.
 
 ## 2026-11-03 checkpoint — cookie research and admission baseline Git publication
 

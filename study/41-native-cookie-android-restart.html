@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — Android 재시작 쿠키 시험</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">41 · Android 재시작 쿠키 시험</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#question">무엇을 확인했나</a>
+    <a href="#witness">증인을 읽는 방법이 다릅니다</a>
+    <a href="#result">결과</a>
+    <a href="#compare">iOS와 다른 점</a>
+    <a href="#gap">검토에서 찾은 빈틈</a>
+    <a href="#limits">아직 모르는 것</a>
+  </nav>
+  <p class="small desktop-only">2026.11.03 · Android 부분 검증<br>250개 모두 정확<br>T28 전체 완료는 아직</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">T28 · Android new-process check</div>
+    <h1>같은 질문을 해도,<br>두 OS의 답은 다릅니다.</h1>
+    <p class="lead">iOS에서 찾은 "재시작 직후 빈 목록" 문제가 Android에도 있는지 시험했습니다. Android에는 같은 문제가 나타나지 않았지만, 다른 차이가 드러났습니다.</p>
+    <div class="meta"><span class="pill">저장소 250개 · 전부 정확</span><span class="pill">서버 기록 788행 · 검사 1,817개</span><span class="pill warm">에뮬레이터 Android 17만 측정</span></div>
+  </header>
+  <section class="section" id="question">
+    <h2>1 · 무엇을 확인했나</h2>
+    <p>Android는 쿠키가 있는지 <code>hasCookies()</code>로 묻습니다. 앱을 강제로 끄고 새로 켠 뒤 이 답이 맞는지, 그리고 그 전에 무엇을 했는지에 따라 답이 달라지는지 봤습니다. iOS에서는 이 조건이 결과를 바꿨기 때문입니다.</p>
+    <pre><code>// 세 가지 순서로 나눠 첫 답을 비교했습니다
+profile = getOrCreateProfile(name)
+
+// bare: 곧바로 묻기
+// view: 아직 아무것도 안 불러온 WebView를 먼저 만들기
+// policy: setAcceptCookie(false)를 먼저 하기 (승인된 순서)
+boolean first = profile.getCookieManager().hasCookies();</code></pre>
+  </section>
+  <section class="section" id="witness">
+    <h2>2 · 증인을 읽는 방법이 iOS와 다릅니다</h2>
+    <p>답이 맞는지는 우리 서버가 실제로 받은 쿠키로 확인합니다. 그런데 Android는 쿠키 차단을 켜면 저장된 쿠키도 보내지 않습니다. 차단을 켠 채로 확인하면, 쿠키가 있어도 서버에는 없는 것처럼 보입니다. 눈을 가린 채 증언을 받는 셈입니다.</p>
+    <pre><code>manager.setAcceptCookie(false);        // 답을 받을 때는 차단
+boolean answer = manager.hasCookies();
+manager.setAcceptCookie(true);         // 서버 증인을 읽을 때만 허용
+visit("witness-first");                // 이 요청은 쿠키를 새로 쓰지 않습니다
+manager.setAcceptCookie(false);</code></pre>
+    <p>이 순서를 지키지 않은 기록은 검증기가 거부합니다. iOS는 차단 중에도 쿠키를 보내기 때문에 이 절차가 필요 없었습니다.</p>
+  </section>
+  <section class="section" id="result">
+    <h2>3 · 어떤 순서로 물어도 맞았습니다</h2>
+    <div class="table-wrap"><table><thead><tr><th>첫 답 전에 한 일</th><th>저장소</th><th>쿠키 있는 곳</th><th>쿠키를 놓침</th><th>정상 저장소를 막음</th></tr></thead><tbody>
+      <tr><td>아무것도 안 함</td><td>80</td><td>32</td><td>0</td><td>0</td></tr>
+      <tr><td>WebView만 만듦</td><td>80</td><td>32</td><td>0</td><td>0</td></tr>
+      <tr><td>차단 정책 먼저 (승인된 순서)</td><td>80</td><td>32</td><td>0</td><td>0</td></tr>
+      <tr><td>프로세스의 맨 첫 질문</td><td>10</td><td>8</td><td>0</td><td>0</td></tr>
+    </tbody></table></div>
+    <p>localStorage만 있는 저장소는 막히지 않았고, 파티션 쿠키만 있는 저장소는 놓치지 않았습니다.</p>
+  </section>
+  <section class="section" id="compare">
+    <h2>4 · 같은 일을 해도 두 OS는 이렇게 다릅니다</h2>
+    <div class="table-wrap"><table><thead><tr><th>동작</th><th>iOS 시뮬레이터</th><th>Android 에뮬레이터</th></tr></thead><tbody>
+      <tr><td>재시작 직후 바로 물으면</td><td><strong>거짓 빈 결과</strong></td><td>정확</td></tr>
+      <tr><td>재시작 후 차단 설정</td><td>유지됨</td><td><strong>풀려 있음</strong></td></tr>
+      <tr><td>차단 중 기존 쿠키 전송</td><td>보냄</td><td>안 보냄</td></tr>
+      <tr><td>다른 사이트 안의 파티션 쿠키 (설정 안 했을 때)</td><td>저장 안 됨</td><td>저장됨</td></tr>
+      <tr><td>앱 종료 후 세션 쿠키</td><td>사라짐</td><td>남아 있음</td></tr>
+      <tr><td>종료 직전에 쓴 쿠키</td><td>차단을 부르면 남음</td><td>어느 쪽이든 사라짐</td></tr>
+    </tbody></table></div>
+    <p>가장 중요한 줄은 두 번째입니다. Android는 앱을 새로 켜면 차단이 풀려 있습니다. <strong>그래서 프로세스마다, 웹 콘텐츠를 불러오기 전에 차단을 다시 걸어야 합니다.</strong> 승인된 절차가 이미 입장 때마다 차단을 설치하므로 규칙을 바꿀 필요는 없지만, "전에 켜 뒀으니 괜찮다"는 생각은 틀립니다.</p>
+    <p>반대로 iOS에서 채택한 "두 API 비교" 규칙은 Android에 넣지 않습니다. Android에서는 같은 문제가 보이지 않았고, 저장소 전체를 볼 수 있는 두 번째 API도 없습니다. <code>getCookie</code>는 주소 하나만 봅니다.</p>
+  </section>
+  <section class="section" id="gap">
+    <h2>5 · 결과가 좋아도 빈틈을 찾았습니다</h2>
+    <p>첫 수집은 검증을 통과했습니다. 그런데 살펴보니 프로세스의 맨 첫 질문은 항상 쿠키 없는 저장소로 갔습니다. 실제 앱은 켜자마자 쿠키 있는 저장소를 물을 수 있습니다. 그래서 앱을 10번 새로 켜서 저장소 하나만 묻는 시험을 추가했고, 모두 맞았습니다.</p>
+    <div class="callout warm"><strong>iOS에도 같은 빈틈이 있었고, 이후 확인했습니다:</strong> iOS 시험에서도 프로세스의 첫 저장소는 쿠키가 없었습니다. 그래서 저장소 36개를 각각 새 프로세스에서 맨 먼저 물었고, 규칙이 모두 맞게 판단했습니다. 여기서 "맨 첫 질문"은 첫 쿠키 질문이라는 뜻입니다. 크래시가 나는 경로를 피하려고 빈 WebView는 여전히 먼저 만듭니다. 자세한 내용은 <a href="../docs/native-cookie-first-question-verification.md">검증 보고서</a>에 있습니다.</div>
+  </section>
+  <section class="section" id="limits">
+    <h2>6 · 아직 모르는 것</h2>
+    <ul>
+      <li>에뮬레이터의 WebView 145 하나만 측정했습니다. 실기기와 다른 버전은 모릅니다.</li>
+      <li>Android WebView는 OS와 따로 업데이트됩니다. iOS처럼 버전마다 시험해 지원 범위를 정하는 방식이 맞을지는 아직 정하지 않았습니다.</li>
+      <li><code>force-stop</code>으로만 앱을 끝냈습니다. 세션 쿠키가 남은 것은 이 방식 때문일 수 있고, 재부팅과 <code>flush()</code>는 시험하지 않았습니다.</li>
+      <li>서비스 워커, 리다이렉트, 실제 Portal 종료도 남아 있습니다.</li>
+    </ul>
+    <div class="callout warm"><strong>현재 상태:</strong> 완료 수는 6 / 44 그대로이고 T28도 진행 중입니다. SPEC, 프로토콜, 제품 패키지는 바꾸지 않았습니다. 이 내용은 보안 명세 §8·§9에 관련됩니다. 자세한 수치는 <a href="../docs/native-cookie-android-restart-verification.md">검증 보고서</a>와 <a href="../experiments/native-cookie-android-restart-probe/README.md">실험 안내</a>에 있습니다.</div>
+    <p><a href="40-native-cookie-empty-store.html">← 40 · 쿠키 없는 저장소 시험</a></p>
+  </section>
+</main>
+</body>
+</html>
