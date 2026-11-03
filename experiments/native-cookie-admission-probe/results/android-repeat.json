@@ -1,0 +1,541 @@
+{
+  "base": "https://localhost:56420",
+  "build": {
+    "apkSha256": "873f81a66cd0310532db33763fb7e5ad2506c6b0729decbfc8b62cc731ca5499",
+    "caSha256": "afdf7a37312ff411697929c5aba69d07a537d8c34de93fe0c418554ad9e2d410",
+    "fixtureConfigSha256": "b718158e25b8c9480531d83e5bbfb20275c95f228e546525b54facdc7a1e0b86",
+    "sources": {
+      "android/app/build.gradle": "dd5a9414f368b5285cae50ad7f41b59727d566de04741c7bb4d9234bf49168f0",
+      "android/app/src/main/AndroidManifest.xml": "47cc0e459b3f90b0375ddb44b69a94785f6486f74a7dead228de98d68825cee6",
+      "android/app/src/main/java/org/moonpool/cookieadmission/AdmissionGate.java": "42307cc7f1f9a51d6b4e485350037775e9ec9f61fe5d2a433a365b37aeab4e55",
+      "android/app/src/main/java/org/moonpool/cookieadmission/GateCases.java": "b359d04811ae1def0b11b0ea8d53d5548422f2727b3fd57e9940c7478f5caf4d",
+      "android/app/src/main/java/org/moonpool/cookieadmission/ProbeActivity.java": "9cd42d53f67a79d5119dbc064cf9f3e82b6fa40b9bd0dc6ec2989ac84d80762e",
+      "android/app/src/main/res/xml/network_security_config.xml": "def485559d7ade425b2492e375edd451466d47027be1cbfb3c47d18c04f1955d",
+      "android/build.gradle": "bb5d6db0a3f94e7ff33ba91a07fa9146a96994e843ae487ebccadc99b62e722c",
+      "android/gradle.properties": "67eefa02d084d8fd6e2698683ca4d007a344395ca89eed9012a79bac373ba359",
+      "android/settings.gradle": "5654bb54d2c26f03d234c2b2a936cbe9924eeface1b41632cf2d57307020a882",
+      "build.py": "2eccda6ab04d834ed0942f50bd8d2eb28028fa2bad15351aabe2f206b281cee2",
+      "gate_cases.json": "b25a5de3fb6490d1eb9d23d09dbad6a7fbd0ae26c36db58058ad59c3d9ce3796",
+      "presence_cases.json": "396595c0961a745c6862018f57dc7dbb3bae0ad15059285c28a3f8765f8ab67d",
+      "storage.html": "f38ab0a30b76b2035c7d563c25c97ce5d114f796f5b6e85799fda57a72754f35"
+    },
+    "wrapperSha256": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59"
+  },
+  "capturedUtc": "2026-11-03T04:09:36Z",
+  "complete": true,
+  "errors": [],
+  "gateCases": {
+    "cancel": ["inspect:old", "retire:old", "inspect:new", "load:new"],
+    "cleanup": ["inspect:A1", "load:A1", "inspect:A2", "load:A2", "retire:A1", "retire:A2"],
+    "duplicate": ["inspect:A1", "load:A1", "inspect:A2", "load:A2"],
+    "present": [
+      "inspect:A1",
+      "load:A1",
+      "inspect:A2",
+      "inspect:B1",
+      "load:B1",
+      "retire:A1",
+      "retire:A2",
+      "retire:A3"
+    ],
+    "queued": ["inspect:A1", "load:A1", "inspect:A2", "load:A2"],
+    "reentrant": ["inspect:A1", "load:A1", "retire:A1", "retire:A2"],
+    "replacement": ["inspect:old", "retire:old", "inspect:new", "load:new", "retire:forbidden"],
+    "retry": ["inspect:old", "retire:old", "inspect:new", "load:new"],
+    "unknown": ["inspect:A1", "load:A1", "inspect:A2", "retire:A1", "retire:A2"]
+  },
+  "getCookieInfoSupported": true,
+  "guestResources": [
+    "https://mp-4vqimrtnvnq64dxxhuonabjeprmh57ij73wgoauyk4j7aj33eima.invalid/guest?token=android-repeat-empty",
+    "https://mp-4vqimrtnvnq64dxxhuonabjeprmh57ij73wgoauyk4j7aj33eima.invalid/guest?token=android-repeat-empty"
+  ],
+  "installedArtifactSha256": "873f81a66cd0310532db33763fb7e5ad2506c6b0729decbfc8b62cc731ca5499",
+  "platform": "android",
+  "providerVersion": "145.0.7632.218",
+  "release": "17",
+  "requests": [
+    {
+      "case": "host",
+      "cookie": "t28a_host=public_host",
+      "host": "localhost:56420",
+      "path": "/seed",
+      "run": "android-repeat",
+      "tls": true
+    },
+    {
+      "case": "empty",
+      "cookie": "",
+      "host": "localhost:56420",
+      "path": "/seed",
+      "run": "android-repeat",
+      "tls": true
+    },
+    {
+      "case": "empty",
+      "cookie": "",
+      "host": "localhost:56420",
+      "path": "/echo",
+      "run": "android-repeat",
+      "tls": true
+    },
+    {
+      "case": "empty",
+      "cookie": "",
+      "host": "localhost:56420",
+      "path": "/visible",
+      "run": "android-repeat",
+      "tls": true
+    },
+    {
+      "case": "ordinary",
+      "cookie": "",
+      "host": "localhost:56420",
+      "path": "/seed",
+      "run": "android-repeat",
+      "tls": true
+    },
+    {
+      "case": "ordinary",
+      "cookie": "t28a_ordinary=public_ordinary",
+      "host": "localhost:56420",
+      "path": "/echo",
+      "run": "android-repeat",
+      "tls": true
+    },
+    {
+      "case": "ordinary",
+      "cookie": "t28a_ordinary=public_ordinary",
+      "host": "localhost:56420",
+      "path": "/visible",
+      "run": "android-repeat",
+      "tls": true
+    },
+    {
+      "case": "httponly",
+      "cookie": "",
+      "host": "localhost:56420",
+      "path": "/seed",
+      "run": "android-repeat",
+      "tls": true
+    },
+    {
+      "case": "httponly",
+      "cookie": "t28a_httponly=public_httponly",
+      "host": "localhost:56420",
+      "path": "/echo",
+      "run": "android-repeat",
+      "tls": true
+    },
+    {
+      "case": "httponly",
+      "cookie": "t28a_httponly=public_httponly",
+      "host": "localhost:56420",
+      "path": "/visible",
+      "run": "android-repeat",
+      "tls": true
+    },
+    {
+      "case": "offpath",
+      "cookie": "",
+      "host": "localhost:56420",
+      "path": "/seed",
+      "run": "android-repeat",
+      "tls": true
+    },
+    {
+      "case": "offpath",
+      "cookie": "t28a_offpath=public_offpath",
+      "host": "localhost:56420",
+      "path": "/hidden/echo",
+      "run": "android-repeat",
+      "tls": true
+    },
+    {
+      "case": "offpath",
+      "cookie": "",
+      "host": "localhost:56420",
+      "path": "/visible",
+      "run": "android-repeat",
+      "tls": true
+    },
+    {
+      "case": "unrelated",
+      "cookie": "",
+      "host": "127.0.0.1:56420",
+      "path": "/seed",
+      "run": "android-repeat",
+      "tls": true
+    },
+    {
+      "case": "unrelated",
+      "cookie": "t28a_unrelated=public_unrelated",
+      "host": "127.0.0.1:56420",
+      "path": "/echo",
+      "run": "android-repeat",
+      "tls": true
+    },
+    {
+      "case": "unrelated",
+      "cookie": "",
+      "host": "localhost:56420",
+      "path": "/visible",
+      "run": "android-repeat",
+      "tls": true
+    },
+    {
+      "case": "partitioned",
+      "cookie": "",
+      "host": "localhost:56420",
+      "path": "/seed",
+      "run": "android-repeat",
+      "tls": true
+    },
+    {
+      "case": "partitioned",
+      "cookie": "t28a_partitioned=public_partitioned",
+      "host": "localhost:56420",
+      "path": "/echo",
+      "run": "android-repeat",
+      "tls": true
+    },
+    {
+      "case": "partitioned",
+      "cookie": "t28a_partitioned=public_partitioned",
+      "host": "localhost:56420",
+      "path": "/visible",
+      "run": "android-repeat",
+      "tls": true
+    }
+  ],
+  "run": "android-repeat",
+  "samples": [
+    {
+      "afterCookies": [],
+      "afterNames": [],
+      "beforeCookies": [],
+      "beforeNames": [],
+      "case": "empty",
+      "decision": "admitted",
+      "expectedStorage": "android-repeat-empty",
+      "guestMarker": "android-repeat-empty",
+      "hostCookie": "t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 1,
+      "partition": "admission-android-repeat-empty",
+      "phase": "initial",
+      "policyAllows": false,
+      "presence": false,
+      "storage": {
+        "indexed": "android-repeat-empty",
+        "local": "android-repeat-empty"
+      },
+      "urlScopedCookie": "",
+      "visibleJsCookie": ""
+    },
+    {
+      "afterCookies": [],
+      "afterNames": [],
+      "beforeCookies": [],
+      "beforeNames": [],
+      "case": "empty",
+      "decision": "admitted",
+      "expectedStorage": "android-repeat-empty",
+      "guestMarker": "android-repeat-empty",
+      "hostCookie": "t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 1,
+      "partition": "admission-android-repeat-empty",
+      "phase": "reopened",
+      "policyAllows": false,
+      "presence": false,
+      "storage": {
+        "indexed": "android-repeat-empty",
+        "local": "android-repeat-empty"
+      },
+      "urlScopedCookie": "",
+      "visibleJsCookie": ""
+    },
+    {
+      "afterCookies": [
+        "t28a_ordinary=public_ordinary; domain=localhost; path=/; expires=Wed, 04 Nov 2026 04:09:31 GMT; secure; samesite=lax"
+      ],
+      "afterNames": ["t28a_ordinary"],
+      "beforeCookies": [
+        "t28a_ordinary=public_ordinary; domain=localhost; path=/; expires=Wed, 04 Nov 2026 04:09:31 GMT; secure; samesite=lax"
+      ],
+      "beforeNames": ["t28a_ordinary"],
+      "case": "ordinary",
+      "decision": "refused",
+      "expectedStorage": "android-repeat-ordinary",
+      "guestMarker": null,
+      "hostCookie": "t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 0,
+      "partition": "admission-android-repeat-ordinary",
+      "phase": "initial",
+      "policyAllows": false,
+      "presence": true,
+      "storage": {
+        "indexed": "android-repeat-ordinary",
+        "local": "android-repeat-ordinary"
+      },
+      "urlScopedCookie": "t28a_ordinary=public_ordinary",
+      "visibleJsCookie": "t28a_ordinary=public_ordinary"
+    },
+    {
+      "afterCookies": [
+        "t28a_ordinary=public_ordinary; domain=localhost; path=/; expires=Wed, 04 Nov 2026 04:09:31 GMT; secure; samesite=lax"
+      ],
+      "afterNames": ["t28a_ordinary"],
+      "beforeCookies": [
+        "t28a_ordinary=public_ordinary; domain=localhost; path=/; expires=Wed, 04 Nov 2026 04:09:31 GMT; secure; samesite=lax"
+      ],
+      "beforeNames": ["t28a_ordinary"],
+      "case": "ordinary",
+      "decision": "refused",
+      "expectedStorage": "android-repeat-ordinary",
+      "guestMarker": null,
+      "hostCookie": "t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 0,
+      "partition": "admission-android-repeat-ordinary",
+      "phase": "reopened",
+      "policyAllows": false,
+      "presence": true,
+      "storage": {
+        "indexed": "android-repeat-ordinary",
+        "local": "android-repeat-ordinary"
+      },
+      "urlScopedCookie": "t28a_ordinary=public_ordinary",
+      "visibleJsCookie": "t28a_ordinary=public_ordinary"
+    },
+    {
+      "afterCookies": [
+        "t28a_httponly=public_httponly; domain=localhost; path=/; expires=Wed, 04 Nov 2026 04:09:32 GMT; secure; httponly; samesite=lax"
+      ],
+      "afterNames": ["t28a_httponly"],
+      "beforeCookies": [
+        "t28a_httponly=public_httponly; domain=localhost; path=/; expires=Wed, 04 Nov 2026 04:09:32 GMT; secure; httponly; samesite=lax"
+      ],
+      "beforeNames": ["t28a_httponly"],
+      "case": "httponly",
+      "decision": "refused",
+      "expectedStorage": "android-repeat-httponly",
+      "guestMarker": null,
+      "hostCookie": "t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 0,
+      "partition": "admission-android-repeat-httponly",
+      "phase": "initial",
+      "policyAllows": false,
+      "presence": true,
+      "storage": {
+        "indexed": "android-repeat-httponly",
+        "local": "android-repeat-httponly"
+      },
+      "urlScopedCookie": "t28a_httponly=public_httponly",
+      "visibleJsCookie": ""
+    },
+    {
+      "afterCookies": [
+        "t28a_httponly=public_httponly; domain=localhost; path=/; expires=Wed, 04 Nov 2026 04:09:32 GMT; secure; httponly; samesite=lax"
+      ],
+      "afterNames": ["t28a_httponly"],
+      "beforeCookies": [
+        "t28a_httponly=public_httponly; domain=localhost; path=/; expires=Wed, 04 Nov 2026 04:09:32 GMT; secure; httponly; samesite=lax"
+      ],
+      "beforeNames": ["t28a_httponly"],
+      "case": "httponly",
+      "decision": "refused",
+      "expectedStorage": "android-repeat-httponly",
+      "guestMarker": null,
+      "hostCookie": "t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 0,
+      "partition": "admission-android-repeat-httponly",
+      "phase": "reopened",
+      "policyAllows": false,
+      "presence": true,
+      "storage": {
+        "indexed": "android-repeat-httponly",
+        "local": "android-repeat-httponly"
+      },
+      "urlScopedCookie": "t28a_httponly=public_httponly",
+      "visibleJsCookie": ""
+    },
+    {
+      "afterCookies": [
+        "t28a_offpath=public_offpath; domain=localhost; path=/hidden/; expires=Wed, 04 Nov 2026 04:09:32 GMT; secure; samesite=lax"
+      ],
+      "afterNames": ["t28a_offpath"],
+      "beforeCookies": [
+        "t28a_offpath=public_offpath; domain=localhost; path=/hidden/; expires=Wed, 04 Nov 2026 04:09:32 GMT; secure; samesite=lax"
+      ],
+      "beforeNames": ["t28a_offpath"],
+      "case": "offpath",
+      "decision": "refused",
+      "expectedStorage": "android-repeat-offpath",
+      "guestMarker": null,
+      "hostCookie": "t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 0,
+      "partition": "admission-android-repeat-offpath",
+      "phase": "initial",
+      "policyAllows": false,
+      "presence": true,
+      "storage": {
+        "indexed": "android-repeat-offpath",
+        "local": "android-repeat-offpath"
+      },
+      "urlScopedCookie": "",
+      "visibleJsCookie": ""
+    },
+    {
+      "afterCookies": [
+        "t28a_offpath=public_offpath; domain=localhost; path=/hidden/; expires=Wed, 04 Nov 2026 04:09:32 GMT; secure; samesite=lax"
+      ],
+      "afterNames": ["t28a_offpath"],
+      "beforeCookies": [
+        "t28a_offpath=public_offpath; domain=localhost; path=/hidden/; expires=Wed, 04 Nov 2026 04:09:32 GMT; secure; samesite=lax"
+      ],
+      "beforeNames": ["t28a_offpath"],
+      "case": "offpath",
+      "decision": "refused",
+      "expectedStorage": "android-repeat-offpath",
+      "guestMarker": null,
+      "hostCookie": "t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 0,
+      "partition": "admission-android-repeat-offpath",
+      "phase": "reopened",
+      "policyAllows": false,
+      "presence": true,
+      "storage": {
+        "indexed": "android-repeat-offpath",
+        "local": "android-repeat-offpath"
+      },
+      "urlScopedCookie": "",
+      "visibleJsCookie": ""
+    },
+    {
+      "afterCookies": [
+        "t28a_unrelated=public_unrelated; domain=127.0.0.1; path=/; expires=Wed, 04 Nov 2026 04:09:33 GMT; secure; samesite=lax"
+      ],
+      "afterNames": ["t28a_unrelated"],
+      "beforeCookies": [
+        "t28a_unrelated=public_unrelated; domain=127.0.0.1; path=/; expires=Wed, 04 Nov 2026 04:09:33 GMT; secure; samesite=lax"
+      ],
+      "beforeNames": ["t28a_unrelated"],
+      "case": "unrelated",
+      "decision": "refused",
+      "expectedStorage": "android-repeat-unrelated",
+      "guestMarker": null,
+      "hostCookie": "t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 0,
+      "partition": "admission-android-repeat-unrelated",
+      "phase": "initial",
+      "policyAllows": false,
+      "presence": true,
+      "storage": {
+        "indexed": "android-repeat-unrelated",
+        "local": "android-repeat-unrelated"
+      },
+      "urlScopedCookie": "",
+      "visibleJsCookie": ""
+    },
+    {
+      "afterCookies": [
+        "t28a_unrelated=public_unrelated; domain=127.0.0.1; path=/; expires=Wed, 04 Nov 2026 04:09:33 GMT; secure; samesite=lax"
+      ],
+      "afterNames": ["t28a_unrelated"],
+      "beforeCookies": [
+        "t28a_unrelated=public_unrelated; domain=127.0.0.1; path=/; expires=Wed, 04 Nov 2026 04:09:33 GMT; secure; samesite=lax"
+      ],
+      "beforeNames": ["t28a_unrelated"],
+      "case": "unrelated",
+      "decision": "refused",
+      "expectedStorage": "android-repeat-unrelated",
+      "guestMarker": null,
+      "hostCookie": "t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 0,
+      "partition": "admission-android-repeat-unrelated",
+      "phase": "reopened",
+      "policyAllows": false,
+      "presence": true,
+      "storage": {
+        "indexed": "android-repeat-unrelated",
+        "local": "android-repeat-unrelated"
+      },
+      "urlScopedCookie": "",
+      "visibleJsCookie": ""
+    },
+    {
+      "afterCookies": [
+        "t28a_partitioned=public_partitioned; domain=localhost; path=/; expires=Wed, 04 Nov 2026 04:09:34 GMT; secure; partitioned; samesite=none"
+      ],
+      "afterNames": ["t28a_partitioned"],
+      "beforeCookies": [
+        "t28a_partitioned=public_partitioned; domain=localhost; path=/; expires=Wed, 04 Nov 2026 04:09:34 GMT; secure; partitioned; samesite=none"
+      ],
+      "beforeNames": ["t28a_partitioned"],
+      "case": "partitioned",
+      "decision": "refused",
+      "expectedStorage": "android-repeat-partitioned",
+      "guestMarker": null,
+      "hostCookie": "t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 0,
+      "partition": "admission-android-repeat-partitioned",
+      "phase": "initial",
+      "policyAllows": false,
+      "presence": true,
+      "storage": {
+        "indexed": "android-repeat-partitioned",
+        "local": "android-repeat-partitioned"
+      },
+      "urlScopedCookie": "t28a_partitioned=public_partitioned",
+      "visibleJsCookie": "t28a_partitioned=public_partitioned"
+    },
+    {
+      "afterCookies": [
+        "t28a_partitioned=public_partitioned; domain=localhost; path=/; expires=Wed, 04 Nov 2026 04:09:34 GMT; secure; partitioned; samesite=none"
+      ],
+      "afterNames": ["t28a_partitioned"],
+      "beforeCookies": [
+        "t28a_partitioned=public_partitioned; domain=localhost; path=/; expires=Wed, 04 Nov 2026 04:09:34 GMT; secure; partitioned; samesite=none"
+      ],
+      "beforeNames": ["t28a_partitioned"],
+      "case": "partitioned",
+      "decision": "refused",
+      "expectedStorage": "android-repeat-partitioned",
+      "guestMarker": null,
+      "hostCookie": "t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 0,
+      "partition": "admission-android-repeat-partitioned",
+      "phase": "reopened",
+      "policyAllows": false,
+      "presence": true,
+      "storage": {
+        "indexed": "android-repeat-partitioned",
+        "local": "android-repeat-partitioned"
+      },
+      "urlScopedCookie": "t28a_partitioned=public_partitioned",
+      "visibleJsCookie": "t28a_partitioned=public_partitioned"
+    }
+  ]
+}

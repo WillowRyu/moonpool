@@ -1,0 +1,33 @@
+[
+  { "id": "empty", "host": "localhost", "cookie": null, "present": false },
+  {
+    "id": "ordinary",
+    "host": "localhost",
+    "cookie": "t28a_ordinary=public_ordinary; Path=/; Secure; Max-Age=86400; SameSite=Lax",
+    "present": true
+  },
+  {
+    "id": "httponly",
+    "host": "localhost",
+    "cookie": "t28a_httponly=public_httponly; Path=/; Secure; HttpOnly; Max-Age=86400; SameSite=Lax",
+    "present": true
+  },
+  {
+    "id": "offpath",
+    "host": "localhost",
+    "cookie": "t28a_offpath=public_offpath; Path=/hidden/; Secure; Max-Age=86400; SameSite=Lax",
+    "present": true
+  },
+  {
+    "id": "unrelated",
+    "host": "127.0.0.1",
+    "cookie": "t28a_unrelated=public_unrelated; Path=/; Secure; Max-Age=86400; SameSite=Lax",
+    "present": true
+  },
+  {
+    "id": "partitioned",
+    "host": "localhost",
+    "cookie": "t28a_partitioned=public_partitioned; Path=/; Secure; Max-Age=86400; SameSite=None; Partitioned",
+    "present": true
+  }
+]

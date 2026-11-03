@@ -1,0 +1,20 @@
+{
+  "queued": ["inspect:A1", "load:A1", "inspect:A2", "load:A2"],
+  "present": [
+    "inspect:A1",
+    "load:A1",
+    "inspect:A2",
+    "inspect:B1",
+    "load:B1",
+    "retire:A1",
+    "retire:A2",
+    "retire:A3"
+  ],
+  "unknown": ["inspect:A1", "load:A1", "inspect:A2", "retire:A1", "retire:A2"],
+  "duplicate": ["inspect:A1", "load:A1", "inspect:A2", "load:A2"],
+  "cancel": ["inspect:old", "retire:old", "inspect:new", "load:new"],
+  "retry": ["inspect:old", "retire:old", "inspect:new", "load:new"],
+  "replacement": ["inspect:old", "retire:old", "inspect:new", "load:new", "retire:forbidden"],
+  "cleanup": ["inspect:A1", "load:A1", "inspect:A2", "load:A2", "retire:A1", "retire:A2"],
+  "reentrant": ["inspect:A1", "load:A1", "retire:A1", "retire:A2"]
+}

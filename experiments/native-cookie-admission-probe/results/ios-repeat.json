@@ -1,0 +1,884 @@
+{
+  "base": "https://localhost:56420",
+  "build": {
+    "caSha256": "afdf7a37312ff411697929c5aba69d07a537d8c34de93fe0c418554ad9e2d410",
+    "executableSha256": "7226749e05dc28c1b8b5dc8759471e12ddb608e21d3414c401281eaa6949d9fa",
+    "fixtureConfigSha256": "b718158e25b8c9480531d83e5bbfb20275c95f228e546525b54facdc7a1e0b86",
+    "sdk": "26.4",
+    "signatureSha256": "b6cd63a8da55412181dee13387ab5813d6c221d3823b5ca2f00788f968be54de",
+    "sources": {
+      "build.py": "2eccda6ab04d834ed0942f50bd8d2eb28028fa2bad15351aabe2f206b281cee2",
+      "gate_cases.json": "b25a5de3fb6490d1eb9d23d09dbad6a7fbd0ae26c36db58058ad59c3d9ce3796",
+      "ios/AdmissionGate.swift": "8013c33dd3939f5ecb48299919795d808e73887e7471df0a329160ace0a71f22",
+      "ios/GateCases.swift": "211d02c7b7053bb3f1d23222d61ea39b07c64182aef268469f3b428d56c610bd",
+      "ios/Probe.swift": "7b565353f62cf2128a5cb0c31ea56045f2f6087f89847ed5bf575cdcced7a718",
+      "ios/test/Main.swift": "2d9d7eacc53d9f787d6d04682ec265ddd2c9feb708d1ada5edb985937025ba2f",
+      "presence_cases.json": "396595c0961a745c6862018f57dc7dbb3bae0ad15059285c28a3f8765f8ab67d",
+      "storage.html": "f38ab0a30b76b2035c7d563c25c97ce5d114f796f5b6e85799fda57a72754f35"
+    },
+    "xcode": "Xcode 26.4.1\nBuild version 17E202"
+  },
+  "capturedUtc": "2026-11-03T04:12:02Z",
+  "complete": true,
+  "errors": [],
+  "gateCases": {
+    "cancel": ["inspect:old", "retire:old", "inspect:new", "load:new"],
+    "cleanup": ["inspect:A1", "load:A1", "inspect:A2", "load:A2", "retire:A1", "retire:A2"],
+    "duplicate": ["inspect:A1", "load:A1", "inspect:A2", "load:A2"],
+    "present": [
+      "inspect:A1",
+      "load:A1",
+      "inspect:A2",
+      "inspect:B1",
+      "load:B1",
+      "retire:A1",
+      "retire:A2",
+      "retire:A3"
+    ],
+    "queued": ["inspect:A1", "load:A1", "inspect:A2", "load:A2"],
+    "reentrant": ["inspect:A1", "load:A1", "retire:A1", "retire:A2"],
+    "replacement": ["inspect:old", "retire:old", "inspect:new", "load:new", "retire:forbidden"],
+    "retry": ["inspect:old", "retire:old", "inspect:new", "load:new"],
+    "unknown": ["inspect:A1", "load:A1", "inspect:A2", "retire:A1", "retire:A2"]
+  },
+  "guestResources": [
+    "moonpool://com.example.admission.empty/guest?token=ios-repeat-empty",
+    "moonpool://com.example.admission.empty/guest?token=ios-repeat-empty"
+  ],
+  "installedArtifactSha256": "7226749e05dc28c1b8b5dc8759471e12ddb608e21d3414c401281eaa6949d9fa",
+  "os": "26.4.1",
+  "platform": "ios",
+  "requests": [
+    {
+      "case": "host",
+      "cookie": "t28a_host=public_host; t28_frame=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_resource=h_fresh-blocked; t28_server=h_fresh-blocked",
+      "host": "localhost:56420",
+      "path": "/seed",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "case": "empty",
+      "cookie": "",
+      "host": "localhost:56420",
+      "path": "/seed",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "case": "empty",
+      "cookie": "",
+      "host": "localhost:56420",
+      "path": "/echo",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "case": "empty",
+      "cookie": "",
+      "host": "localhost:56420",
+      "path": "/visible",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "case": "ordinary",
+      "cookie": "",
+      "host": "localhost:56420",
+      "path": "/seed",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "case": "ordinary",
+      "cookie": "t28a_ordinary=public_ordinary",
+      "host": "localhost:56420",
+      "path": "/echo",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "case": "ordinary",
+      "cookie": "t28a_ordinary=public_ordinary",
+      "host": "localhost:56420",
+      "path": "/visible",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "case": "httponly",
+      "cookie": "",
+      "host": "localhost:56420",
+      "path": "/seed",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "case": "httponly",
+      "cookie": "t28a_httponly=public_httponly",
+      "host": "localhost:56420",
+      "path": "/echo",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "case": "httponly",
+      "cookie": "t28a_httponly=public_httponly",
+      "host": "localhost:56420",
+      "path": "/visible",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "case": "offpath",
+      "cookie": "",
+      "host": "localhost:56420",
+      "path": "/seed",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "case": "offpath",
+      "cookie": "t28a_offpath=public_offpath",
+      "host": "localhost:56420",
+      "path": "/hidden/echo",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "case": "offpath",
+      "cookie": "",
+      "host": "localhost:56420",
+      "path": "/visible",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "case": "unrelated",
+      "cookie": "",
+      "host": "127.0.0.1:56420",
+      "path": "/seed",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "case": "unrelated",
+      "cookie": "t28a_unrelated=public_unrelated",
+      "host": "127.0.0.1:56420",
+      "path": "/echo",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "case": "unrelated",
+      "cookie": "",
+      "host": "localhost:56420",
+      "path": "/visible",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "case": "partitioned",
+      "cookie": "",
+      "host": "localhost:56420",
+      "path": "/seed",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "case": "partitioned",
+      "cookie": "t28a_partitioned=public_partitioned",
+      "host": "localhost:56420",
+      "path": "/echo",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "case": "partitioned",
+      "cookie": "t28a_partitioned=public_partitioned",
+      "host": "localhost:56420",
+      "path": "/visible",
+      "run": "ios-repeat",
+      "tls": true
+    }
+  ],
+  "run": "ios-repeat",
+  "samples": [
+    {
+      "afterCookies": [],
+      "afterNames": [],
+      "beforeCookies": [],
+      "beforeNames": [],
+      "case": "empty",
+      "decision": "admitted",
+      "expectedStorage": "ios-repeat-empty",
+      "guestMarker": "ios-repeat-empty",
+      "hostCookie": "t28_frame=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_resource=h_fresh-blocked; t28_server=h_fresh-blocked; t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 1,
+      "partition": "CA7A9725-4DEA-49D2-879A-DA5FA3A0C43E",
+      "phase": "initial",
+      "policyAllows": false,
+      "presence": false,
+      "storage": {
+        "indexed": "ios-repeat-empty",
+        "local": "ios-repeat-empty"
+      },
+      "visibleJsCookie": ""
+    },
+    {
+      "afterCookies": [],
+      "afterNames": [],
+      "beforeCookies": [],
+      "beforeNames": [],
+      "case": "empty",
+      "decision": "admitted",
+      "expectedStorage": "ios-repeat-empty",
+      "guestMarker": "ios-repeat-empty",
+      "hostCookie": "t28_frame=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_resource=h_fresh-blocked; t28_server=h_fresh-blocked; t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 1,
+      "partition": "CA7A9725-4DEA-49D2-879A-DA5FA3A0C43E",
+      "phase": "reopened",
+      "policyAllows": false,
+      "presence": false,
+      "storage": {
+        "indexed": "ios-repeat-empty",
+        "local": "ios-repeat-empty"
+      },
+      "visibleJsCookie": ""
+    },
+    {
+      "afterCookies": [
+        {
+          "domain": "localhost",
+          "httpOnly": false,
+          "name": "t28a_ordinary",
+          "path": "/",
+          "propertyKeys": [
+            "Created",
+            "Domain",
+            "Expires",
+            "Name",
+            "Path",
+            "SameSite",
+            "Secure",
+            "Value",
+            "Version"
+          ],
+          "secure": true,
+          "value": "public_ordinary"
+        }
+      ],
+      "afterNames": ["t28a_ordinary"],
+      "beforeCookies": [
+        {
+          "domain": "localhost",
+          "httpOnly": false,
+          "name": "t28a_ordinary",
+          "path": "/",
+          "propertyKeys": [
+            "Created",
+            "Domain",
+            "Expires",
+            "Name",
+            "Path",
+            "SameSite",
+            "Secure",
+            "Value",
+            "Version"
+          ],
+          "secure": true,
+          "value": "public_ordinary"
+        }
+      ],
+      "beforeNames": ["t28a_ordinary"],
+      "case": "ordinary",
+      "decision": "refused",
+      "expectedStorage": "ios-repeat-ordinary",
+      "guestMarker": null,
+      "hostCookie": "t28_frame=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_resource=h_fresh-blocked; t28_server=h_fresh-blocked; t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 0,
+      "partition": "08368999-F369-4CB8-BD92-0D092352D86D",
+      "phase": "initial",
+      "policyAllows": false,
+      "presence": true,
+      "storage": {
+        "indexed": "ios-repeat-ordinary",
+        "local": "ios-repeat-ordinary"
+      },
+      "visibleJsCookie": "t28a_ordinary=public_ordinary"
+    },
+    {
+      "afterCookies": [
+        {
+          "domain": "localhost",
+          "httpOnly": false,
+          "name": "t28a_ordinary",
+          "path": "/",
+          "propertyKeys": [
+            "Created",
+            "Domain",
+            "Expires",
+            "Name",
+            "Path",
+            "SameSite",
+            "Secure",
+            "Value",
+            "Version"
+          ],
+          "secure": true,
+          "value": "public_ordinary"
+        }
+      ],
+      "afterNames": ["t28a_ordinary"],
+      "beforeCookies": [
+        {
+          "domain": "localhost",
+          "httpOnly": false,
+          "name": "t28a_ordinary",
+          "path": "/",
+          "propertyKeys": [
+            "Created",
+            "Domain",
+            "Expires",
+            "Name",
+            "Path",
+            "SameSite",
+            "Secure",
+            "Value",
+            "Version"
+          ],
+          "secure": true,
+          "value": "public_ordinary"
+        }
+      ],
+      "beforeNames": ["t28a_ordinary"],
+      "case": "ordinary",
+      "decision": "refused",
+      "expectedStorage": "ios-repeat-ordinary",
+      "guestMarker": null,
+      "hostCookie": "t28_frame=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_resource=h_fresh-blocked; t28_server=h_fresh-blocked; t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 0,
+      "partition": "08368999-F369-4CB8-BD92-0D092352D86D",
+      "phase": "reopened",
+      "policyAllows": false,
+      "presence": true,
+      "storage": {
+        "indexed": "ios-repeat-ordinary",
+        "local": "ios-repeat-ordinary"
+      },
+      "visibleJsCookie": "t28a_ordinary=public_ordinary"
+    },
+    {
+      "afterCookies": [
+        {
+          "domain": "localhost",
+          "httpOnly": true,
+          "name": "t28a_httponly",
+          "path": "/",
+          "propertyKeys": [
+            "Created",
+            "Domain",
+            "Expires",
+            "HttpOnly",
+            "Name",
+            "Path",
+            "SameSite",
+            "Secure",
+            "Value",
+            "Version"
+          ],
+          "secure": true,
+          "value": "public_httponly"
+        }
+      ],
+      "afterNames": ["t28a_httponly"],
+      "beforeCookies": [
+        {
+          "domain": "localhost",
+          "httpOnly": true,
+          "name": "t28a_httponly",
+          "path": "/",
+          "propertyKeys": [
+            "Created",
+            "Domain",
+            "Expires",
+            "HttpOnly",
+            "Name",
+            "Path",
+            "SameSite",
+            "Secure",
+            "Value",
+            "Version"
+          ],
+          "secure": true,
+          "value": "public_httponly"
+        }
+      ],
+      "beforeNames": ["t28a_httponly"],
+      "case": "httponly",
+      "decision": "refused",
+      "expectedStorage": "ios-repeat-httponly",
+      "guestMarker": null,
+      "hostCookie": "t28_frame=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_resource=h_fresh-blocked; t28_server=h_fresh-blocked; t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 0,
+      "partition": "CCDE0C32-1569-46C4-8C77-875851943B5E",
+      "phase": "initial",
+      "policyAllows": false,
+      "presence": true,
+      "storage": {
+        "indexed": "ios-repeat-httponly",
+        "local": "ios-repeat-httponly"
+      },
+      "visibleJsCookie": ""
+    },
+    {
+      "afterCookies": [
+        {
+          "domain": "localhost",
+          "httpOnly": true,
+          "name": "t28a_httponly",
+          "path": "/",
+          "propertyKeys": [
+            "Created",
+            "Domain",
+            "Expires",
+            "HttpOnly",
+            "Name",
+            "Path",
+            "SameSite",
+            "Secure",
+            "Value",
+            "Version"
+          ],
+          "secure": true,
+          "value": "public_httponly"
+        }
+      ],
+      "afterNames": ["t28a_httponly"],
+      "beforeCookies": [
+        {
+          "domain": "localhost",
+          "httpOnly": true,
+          "name": "t28a_httponly",
+          "path": "/",
+          "propertyKeys": [
+            "Created",
+            "Domain",
+            "Expires",
+            "HttpOnly",
+            "Name",
+            "Path",
+            "SameSite",
+            "Secure",
+            "Value",
+            "Version"
+          ],
+          "secure": true,
+          "value": "public_httponly"
+        }
+      ],
+      "beforeNames": ["t28a_httponly"],
+      "case": "httponly",
+      "decision": "refused",
+      "expectedStorage": "ios-repeat-httponly",
+      "guestMarker": null,
+      "hostCookie": "t28_frame=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_resource=h_fresh-blocked; t28_server=h_fresh-blocked; t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 0,
+      "partition": "CCDE0C32-1569-46C4-8C77-875851943B5E",
+      "phase": "reopened",
+      "policyAllows": false,
+      "presence": true,
+      "storage": {
+        "indexed": "ios-repeat-httponly",
+        "local": "ios-repeat-httponly"
+      },
+      "visibleJsCookie": ""
+    },
+    {
+      "afterCookies": [
+        {
+          "domain": "localhost",
+          "httpOnly": false,
+          "name": "t28a_offpath",
+          "path": "/hidden/",
+          "propertyKeys": [
+            "Created",
+            "Domain",
+            "Expires",
+            "Name",
+            "Path",
+            "SameSite",
+            "Secure",
+            "Value",
+            "Version"
+          ],
+          "secure": true,
+          "value": "public_offpath"
+        }
+      ],
+      "afterNames": ["t28a_offpath"],
+      "beforeCookies": [
+        {
+          "domain": "localhost",
+          "httpOnly": false,
+          "name": "t28a_offpath",
+          "path": "/hidden/",
+          "propertyKeys": [
+            "Created",
+            "Domain",
+            "Expires",
+            "Name",
+            "Path",
+            "SameSite",
+            "Secure",
+            "Value",
+            "Version"
+          ],
+          "secure": true,
+          "value": "public_offpath"
+        }
+      ],
+      "beforeNames": ["t28a_offpath"],
+      "case": "offpath",
+      "decision": "refused",
+      "expectedStorage": "ios-repeat-offpath",
+      "guestMarker": null,
+      "hostCookie": "t28_frame=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_resource=h_fresh-blocked; t28_server=h_fresh-blocked; t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 0,
+      "partition": "3AF03A64-7791-44F1-AE55-83CBC1E5E945",
+      "phase": "initial",
+      "policyAllows": false,
+      "presence": true,
+      "storage": {
+        "indexed": "ios-repeat-offpath",
+        "local": "ios-repeat-offpath"
+      },
+      "visibleJsCookie": ""
+    },
+    {
+      "afterCookies": [
+        {
+          "domain": "localhost",
+          "httpOnly": false,
+          "name": "t28a_offpath",
+          "path": "/hidden/",
+          "propertyKeys": [
+            "Created",
+            "Domain",
+            "Expires",
+            "Name",
+            "Path",
+            "SameSite",
+            "Secure",
+            "Value",
+            "Version"
+          ],
+          "secure": true,
+          "value": "public_offpath"
+        }
+      ],
+      "afterNames": ["t28a_offpath"],
+      "beforeCookies": [
+        {
+          "domain": "localhost",
+          "httpOnly": false,
+          "name": "t28a_offpath",
+          "path": "/hidden/",
+          "propertyKeys": [
+            "Created",
+            "Domain",
+            "Expires",
+            "Name",
+            "Path",
+            "SameSite",
+            "Secure",
+            "Value",
+            "Version"
+          ],
+          "secure": true,
+          "value": "public_offpath"
+        }
+      ],
+      "beforeNames": ["t28a_offpath"],
+      "case": "offpath",
+      "decision": "refused",
+      "expectedStorage": "ios-repeat-offpath",
+      "guestMarker": null,
+      "hostCookie": "t28_frame=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_resource=h_fresh-blocked; t28_server=h_fresh-blocked; t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 0,
+      "partition": "3AF03A64-7791-44F1-AE55-83CBC1E5E945",
+      "phase": "reopened",
+      "policyAllows": false,
+      "presence": true,
+      "storage": {
+        "indexed": "ios-repeat-offpath",
+        "local": "ios-repeat-offpath"
+      },
+      "visibleJsCookie": ""
+    },
+    {
+      "afterCookies": [
+        {
+          "domain": "127.0.0.1",
+          "httpOnly": false,
+          "name": "t28a_unrelated",
+          "path": "/",
+          "propertyKeys": [
+            "Created",
+            "Domain",
+            "Expires",
+            "Name",
+            "Path",
+            "SameSite",
+            "Secure",
+            "Value",
+            "Version"
+          ],
+          "secure": true,
+          "value": "public_unrelated"
+        }
+      ],
+      "afterNames": ["t28a_unrelated"],
+      "beforeCookies": [
+        {
+          "domain": "127.0.0.1",
+          "httpOnly": false,
+          "name": "t28a_unrelated",
+          "path": "/",
+          "propertyKeys": [
+            "Created",
+            "Domain",
+            "Expires",
+            "Name",
+            "Path",
+            "SameSite",
+            "Secure",
+            "Value",
+            "Version"
+          ],
+          "secure": true,
+          "value": "public_unrelated"
+        }
+      ],
+      "beforeNames": ["t28a_unrelated"],
+      "case": "unrelated",
+      "decision": "refused",
+      "expectedStorage": "ios-repeat-unrelated",
+      "guestMarker": null,
+      "hostCookie": "t28_frame=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_resource=h_fresh-blocked; t28_server=h_fresh-blocked; t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 0,
+      "partition": "CFA4484C-EA69-4571-AD26-9EE2C6AE3467",
+      "phase": "initial",
+      "policyAllows": false,
+      "presence": true,
+      "storage": {
+        "indexed": "ios-repeat-unrelated",
+        "local": "ios-repeat-unrelated"
+      },
+      "visibleJsCookie": ""
+    },
+    {
+      "afterCookies": [
+        {
+          "domain": "127.0.0.1",
+          "httpOnly": false,
+          "name": "t28a_unrelated",
+          "path": "/",
+          "propertyKeys": [
+            "Created",
+            "Domain",
+            "Expires",
+            "Name",
+            "Path",
+            "SameSite",
+            "Secure",
+            "Value",
+            "Version"
+          ],
+          "secure": true,
+          "value": "public_unrelated"
+        }
+      ],
+      "afterNames": ["t28a_unrelated"],
+      "beforeCookies": [
+        {
+          "domain": "127.0.0.1",
+          "httpOnly": false,
+          "name": "t28a_unrelated",
+          "path": "/",
+          "propertyKeys": [
+            "Created",
+            "Domain",
+            "Expires",
+            "Name",
+            "Path",
+            "SameSite",
+            "Secure",
+            "Value",
+            "Version"
+          ],
+          "secure": true,
+          "value": "public_unrelated"
+        }
+      ],
+      "beforeNames": ["t28a_unrelated"],
+      "case": "unrelated",
+      "decision": "refused",
+      "expectedStorage": "ios-repeat-unrelated",
+      "guestMarker": null,
+      "hostCookie": "t28_frame=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_resource=h_fresh-blocked; t28_server=h_fresh-blocked; t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 0,
+      "partition": "CFA4484C-EA69-4571-AD26-9EE2C6AE3467",
+      "phase": "reopened",
+      "policyAllows": false,
+      "presence": true,
+      "storage": {
+        "indexed": "ios-repeat-unrelated",
+        "local": "ios-repeat-unrelated"
+      },
+      "visibleJsCookie": ""
+    },
+    {
+      "afterCookies": [
+        {
+          "domain": "localhost",
+          "httpOnly": false,
+          "name": "t28a_partitioned",
+          "path": "/",
+          "propertyKeys": [
+            "Created",
+            "Domain",
+            "Expires",
+            "Name",
+            "Path",
+            "Secure",
+            "Value",
+            "Version"
+          ],
+          "secure": true,
+          "value": "public_partitioned"
+        }
+      ],
+      "afterNames": ["t28a_partitioned"],
+      "beforeCookies": [
+        {
+          "domain": "localhost",
+          "httpOnly": false,
+          "name": "t28a_partitioned",
+          "path": "/",
+          "propertyKeys": [
+            "Created",
+            "Domain",
+            "Expires",
+            "Name",
+            "Path",
+            "Secure",
+            "Value",
+            "Version"
+          ],
+          "secure": true,
+          "value": "public_partitioned"
+        }
+      ],
+      "beforeNames": ["t28a_partitioned"],
+      "case": "partitioned",
+      "decision": "refused",
+      "expectedStorage": "ios-repeat-partitioned",
+      "guestMarker": null,
+      "hostCookie": "t28_frame=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_resource=h_fresh-blocked; t28_server=h_fresh-blocked; t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 0,
+      "partition": "8D149642-1515-422B-8368-229AEFAAEEB4",
+      "phase": "initial",
+      "policyAllows": false,
+      "presence": true,
+      "storage": {
+        "indexed": "ios-repeat-partitioned",
+        "local": "ios-repeat-partitioned"
+      },
+      "visibleJsCookie": "t28a_partitioned=public_partitioned"
+    },
+    {
+      "afterCookies": [
+        {
+          "domain": "localhost",
+          "httpOnly": false,
+          "name": "t28a_partitioned",
+          "path": "/",
+          "propertyKeys": [
+            "Created",
+            "Domain",
+            "Expires",
+            "Name",
+            "Path",
+            "Secure",
+            "Value",
+            "Version"
+          ],
+          "secure": true,
+          "value": "public_partitioned"
+        }
+      ],
+      "afterNames": ["t28a_partitioned"],
+      "beforeCookies": [
+        {
+          "domain": "localhost",
+          "httpOnly": false,
+          "name": "t28a_partitioned",
+          "path": "/",
+          "propertyKeys": [
+            "Created",
+            "Domain",
+            "Expires",
+            "Name",
+            "Path",
+            "Secure",
+            "Value",
+            "Version"
+          ],
+          "secure": true,
+          "value": "public_partitioned"
+        }
+      ],
+      "beforeNames": ["t28a_partitioned"],
+      "case": "partitioned",
+      "decision": "refused",
+      "expectedStorage": "ios-repeat-partitioned",
+      "guestMarker": null,
+      "hostCookie": "t28_frame=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_resource=h_fresh-blocked; t28_server=h_fresh-blocked; t28a_host=public_host",
+      "hostCookiePresent": true,
+      "hostPolicyAllows": true,
+      "loadCalls": 0,
+      "partition": "8D149642-1515-422B-8368-229AEFAAEEB4",
+      "phase": "reopened",
+      "policyAllows": false,
+      "presence": true,
+      "storage": {
+        "indexed": "ios-repeat-partitioned",
+        "local": "ios-repeat-partitioned"
+      },
+      "visibleJsCookie": "t28a_partitioned=public_partitioned"
+    }
+  ]
+}
