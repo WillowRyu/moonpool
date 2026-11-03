@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — 전체 쿠키 확인과 실행 허용 검증</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">38 · 쿠키 확인과 실행 허용</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#presence">보이지 않아도 남아 있는 쿠키</a>
+    <a href="#gate">실행 문을 열기 전에 확인</a>
+    <a href="#callbacks">늦은 결과가 새 화면을 못 여는 이유</a>
+    <a href="#preserve">거절해도 데이터는 보존</a>
+    <a href="#limits">확인한 범위와 남은 검증</a>
+  </nav>
+  <p class="small desktop-only">2026.11.03 · 부분 검증 완료<br>기본 정책 채택 유지<br>T28 전체 완료는 아직</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">T28 · Native presence and admission verification</div>
+    <h1>쿠키가 안 보인다고,<br>없는 것은 아닙니다.</h1>
+    <p class="lead">채택한 정책을 별도 실험에 연결했습니다. 전체 저장소 검사로 실행을 허용·거절하고, 같은 앱의 여러 화면과 늦은 콜백을 다루는 기본 제어를 검증했습니다.</p>
+    <div class="meta"><span class="pill">48개 실측 · HTTPS 76건</span><span class="pill">네이티브 제어 9개 시나리오</span><span class="pill warm">iOS partitioned 전체 범위 미확정</span></div>
+  </header>
+  <section class="section" id="presence">
+    <h2>1 · document.cookie만 보면 놓치는 경우가 있습니다</h2>
+    <div class="table-wrap"><table><thead><tr><th>준비한 상태</th><th>화면에서 본 쿠키</th><th>네이티브 전체 조회</th><th>실행 판단</th></tr></thead><tbody>
+      <tr><td>쿠키 없음 · 저장된 설정은 있음</td><td>없음</td><td>없음</td><td>허용</td></tr>
+      <tr><td>일반 쿠키</td><td>보임</td><td>있음</td><td>거절</td></tr>
+      <tr><td>HttpOnly 쿠키</td><td>없음</td><td>있음</td><td>거절</td></tr>
+      <tr><td>다른 경로의 쿠키</td><td>없음</td><td>있음</td><td>거절</td></tr>
+      <tr><td>다른 호스트의 쿠키</td><td>없음</td><td>있음</td><td>거절</td></tr>
+      <tr><td>Partitioned 헤더로 만든 후보</td><td>현재 문맥에서 보임</td><td>있음</td><td>거절 · iOS 속성 증거는 부족</td></tr>
+    </tbody></table></div>
+    <p>Android는 선택한 Profile의 <code>hasCookies()</code>, iOS는 선택한 보관함의 <code>getAllCookies</code>로 확인했습니다. 서버가 실제로 쿠키를 받았다는 기록도 대조했으므로, 쿠키를 만들지 못해서 거절 검사가 통과한 것은 아닙니다.</p>
+    <pre><code>// Android 실험에서 관측한 차이
+getCookie("https://localhost:포트/visible") → 빈 값
+hasCookies()                              → true
+// 쿠키가 /hidden/ 또는 다른 호스트에 있으면 주소별 조회가 놓칠 수 있습니다.</code></pre>
+    <p>이 호출은 호스트 내부의 저장소 구성 검사입니다. 게스트에게 동기 bridge 함수를 추가한 것이 아니며, 쿠키 내용으로 게스트가 권한을 고르는 구조도 아닙니다.</p>
+  </section>
+  <section class="section" id="gate">
+    <h2>2 · 거절했다고 적는 것보다 실제로 안 열렸는지가 중요합니다</h2>
+    <section class="flow" aria-label="쿠키 차단 정책 적용 뒤 네이티브 조회가 끝나야 실행 허용을 판단하며, 빈 저장소일 때만 게스트 리소스를 전달한다.">
+      <div class="node">정책 적용</div><span class="sep">→</span><div class="node">네이티브 조회</div><span class="sep">→</span><div class="node current">비어 있음 확인</div><span class="sep">→</span><div class="node">게스트 리소스 전달<br>실행 표식 확인</div>
+    </section>
+    <p>실험용 준비 화면과 실제 실행 후보 화면을 분리했습니다. 준비 화면은 공개 표식 데이터만 만들고 읽습니다. 후보 화면은 검사 결과가 비어 있을 때만 로드하며, 로더가 실제로 게스트 리소스를 전달한 기록까지 검사합니다.</p>
+    <p>각 실행에서 빈 저장소를 처음 검사할 때와 다시 열었을 때만 게스트가 실행됐습니다. 쿠키가 있는 나머지 경우에는 후보 게스트 리소스 전달이 0건이었습니다. 이것은 검사한 구성의 결과이며 실제 제품 로더 전체를 완성했다는 뜻은 아닙니다.</p>
+  </section>
+  <section class="section" id="callbacks">
+    <h2>3 · 늦은 검사 결과에는 원래 소속이 남아 있어야 합니다</h2>
+    <p>A1을 검사하는 동안 A2가 대기하고, A1이 취소된 뒤 새 화면이 생기는 순서를 직접 만들었습니다. 이전 검사의 완료 콜백이 새 화면의 실행 문을 열어 주면 안 됩니다.</p>
+    <pre><code>// 실험용 Java 제어기 발췌
+if (busy != handle || handle.completed) return;
+
+// 현재 진행 중인 바로 그 검사인지 먼저 확인합니다.
+// 이후 취소·종료 상태와 내부 검사 차수도 확인한 뒤 로드합니다.</code></pre>
+    <p><code>handle</code>은 호스트가 만든 검사 객체입니다. 화면 이름이 같아도 새 객체는 옛 검사와 다릅니다. 중복 콜백은 새 검사의 대기 상태를 지우지 못하고, 종료된 소유자는 재시도해도 되살아나지 않습니다. 이 내부 검사 차수는 JSON-RPC에 추가한 필드가 아닙니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>직접 주입한 순서</th><th>확인한 결과</th></tr></thead><tbody>
+      <tr><td>A1 검사 중 A2 요청</td><td>A1 검사가 끝난 뒤 A2를 새로 검사</td></tr>
+      <tr><td>쿠키 있음·확인 불가 결과</td><td>A의 열린 화면·대기 중 화면 종료 · 별도 B는 유지</td></tr>
+      <tr><td>취소·교체 후 옛 완료, 중복 완료</td><td>옛 화면은 실행되지 않고 새 검사를 건드리지 않음</td></tr>
+      <tr><td>명시적 재시도와 소유자 종료</td><td>재검사는 새 결과가 필요 · 종료한 소유자는 재사용 불가</td></tr>
+      <tr><td>정리 콜백 예외·실행 도중 재진입</td><td>다른 화면의 정리도 시도 · 대기 화면을 잘못 열지 않음</td></tr>
+    </tbody></table></div>
+    <p>이 9개 제어 시나리오는 Java와 Swift에서 같은 예상 사건 순서를 사용합니다. 실제 앱 안에서도 실행했지만, 응답 순서를 직접 제어한 검사입니다. OS의 모든 네트워크 경쟁 상태나 실제 여러 WebView의 종료 동작을 측정한 것으로 확대해서 해석하지 않습니다.</p>
+  </section>
+  <section class="section" id="preserve">
+    <h2>4 · 실행을 거절해도 설정과 쿠키를 지우지 않았습니다</h2>
+    <p>같은 Profile 이름·iOS 보관함 식별자로 다시 열고 localStorage·IndexedDB 값을 재조회했습니다. 쿠키도 검사 전후 네이티브 목록이 같았고, 실험용 호스트의 쿠키 값과 정책이 유지됐습니다.</p>
+    <p>준비용 공개 데이터는 사용했지만 쿠키 삭제·이전·보관함 초기화 API는 호출하지 않았습니다. 실행 사이 프로세스는 재시작했으나 새 실험용 저장소를 배정했으므로, 이번 재열기 결과를 프로세스 재시작 후 영구 보존의 증거로 쓰지는 않습니다.</p>
+  </section>
+  <section class="section" id="limits">
+    <h2>5 · 기본 검증은 통과했지만 전체 지원 판단은 남아 있습니다</h2>
+    <p>4회 실행의 48개 관측과 네이티브 제어 시나리오를 644개 조건으로 검증했습니다. 호스트 테스트 14개, 두 네이티브 빌드와 iOS 서명 검사도 통과했습니다. Android lint는 오류 0개, 실험 구성·도구 관련 경고 31개를 기록했습니다.</p>
+    <div class="callout warm"><strong>iOS Partitioned 증거의 한계:</strong> 서버가 Partitioned 속성을 보낸 쿠키는 조회되고 거절됐지만, iOS가 반환한 공개 속성 목록에는 partition 정보가 나타나지 않았습니다. 그 속성을 실제로 저장했는지, 모든 partition 저장 영역을 조회하는지는 아직 증명하지 못했습니다. 운영 환경에서 이 범위를 확인할 수 없으면 채택한 정책대로 실행을 허용하면 안 됩니다.</div>
+    <p>다음 검증은 iOS partitioned 저장·탐지 범위와 검사 중 다른 쓰기 작업이 끼어들지 못하는 실제 경계입니다. 전체 네트워크 경로, 실제 SDK 연결과 T29/T31 계약도 남아 있습니다. T28 완료 수는 6 / 44 그대로입니다.</p>
+    <p>전용 기기와 서버는 종료했고, 기존 200개 쿠키 차단 관측과 iOS 실패 결과도 변경하지 않았습니다. 명세·제품 패키지·프로토콜 0.1은 그대로입니다.</p>
+    <p><a href="../docs/native-cookie-admission-verification.md">상세 결과와 측정 한계</a> · <a href="../experiments/native-cookie-admission-probe/README.md">실험 코드·테스트·재현 절차</a> · <a href="37-common-cookie-http.html#admission">앞서 채택한 기본 정책</a></p>
+  </section>
+  <footer class="footer"><a href="index.html">← 전체 스터디 지도</a><br>이 페이지는 제한된 실험의 해설입니다. production admission 또는 전체 쿠키 지원 완료를 뜻하지 않습니다.</footer>
+</main>
+</body>
+</html>

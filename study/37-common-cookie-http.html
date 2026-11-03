@@ -17,15 +17,20 @@
     <a href="#web">기본 웹 API는 어떻게 되나</a>
     <a href="#limits">요청 권한과 호환 범위</a>
     <a href="#tests">다음 검증 기준</a>
+    <a href="#review">계약 검토와 첫 실험</a>
+    <a href="#reset-cases">늦은 응답을 나누는 이유</a>
+    <a href="#results">실측 결과와 남은 조건</a>
+    <a href="#admission">실행 허용과 데이터 보존</a>
+    <a href="#recovery">복구·이전은 어떻게 나누나</a>
   </nav>
-  <p class="small desktop-only">2026.11.03 · 설계 제안<br>ADR 0027 · 구현 전<br>T28 공통 동작 조건 추가</p>
+  <p class="small desktop-only">2026.11.03 · 기본 정책 채택<br>ADR 0027 · 나머지 계약 검토 중<br>기존 iOS 쿠키 조건 실패</p>
 </aside>
 <main>
   <header>
     <div class="eyebrow">Proposed · Common async cookie and HTTP contract</div>
     <h1>쿠키와 요청을,<br>두 OS에서 같은 규칙으로.</h1>
     <p class="lead">Android에서는 되고 iOS에서는 안 되는 쿠키 기능을 제품의 차이로 남기지 않기로 했습니다. 공통 비동기 SDK를 우선안으로 설계하고, 기존 웹 코드를 옮길 때의 수정 범위와 보안 경계도 함께 적었습니다.</p>
-    <div class="meta"><span class="pill">공통 SDK 우선안</span><span class="pill warm">제안 · 미구현·미검증</span><span class="pill">T28 완료 수는 그대로 6 / 44</span></div>
+    <div class="meta"><span class="pill">공통 SDK 우선안</span><span class="pill warm">쿠키 차단 부분 실측 · SDK 미구현</span><span class="pill">T28 완료 수는 그대로 6 / 44</span></div>
   </header>
   <section class="section" id="choice">
     <h2>1 · 기존 개발자는 어떤 부분을 바꿔야 하나요?</h2>
@@ -65,7 +70,7 @@ const me = await moonpool.http.request({
   <section class="section" id="web">
     <h2>4 · 기본 document.cookie도 두 OS에서 같게 제한합니다</h2>
     <p>추천안은 WebView의 쿠키를 양쪽에서 비활성화하고 네이티브 쿠키 보관함만 사용하는 것입니다. 기본 document.cookie는 빈 값을 읽고 쓰기가 반영되지 않는 상태를 목표로 합니다. Android에서만 기본 쿠키로 우회하지 않도록 해야 합니다.</p>
-    <div class="callout warm"><strong>아직 증명하지 않은 조건:</strong> iOS에는 보관함별 정책 API가 있고 Android에는 선택한 Profile의 CookieManager가 있지만, 호스트와 다른 앱에 영향을 주지 않는지 새 검증이 필요합니다. JS로 속성을 감싸는 코드만으로 보안을 보장하지 않습니다. 이전 96개 관측은 이 새 정책이나 공통 네이티브 쿠키 저장소를 검증한 결과가 아닙니다.</div>
+    <div class="callout warm"><strong>후속 실측에서 확인한 조건:</strong> 선택한 보관함의 정책을 바꿔도 실험용 호스트와 다른 보관함은 정상 동작했습니다. 하지만 iOS는 기존 HTTPS 쿠키가 남아 있으면 계속 읽고 전송했습니다. 빈 보관함을 먼저 차단한 대조군은 양쪽에서 통과했습니다. 아래 실측 결과에서 범위를 구분합니다. 이전 96개 출처 관측과 이번 쿠키 차단 관측 모두 공통 네이티브 쿠키 SDK의 구현 검증은 아닙니다.</div>
     <p>세션을 사용하는 API 요청은 SDK로 통일합니다. 원격 fetch·XHR·form이 다른 경로로 요청하지 못하게 하고, 별도로 허용한 정적 리소스 요청에는 네이티브 쿠키를 붙이지 않습니다. 허용된 외부 스크립트가 앱 안에서 실행되면 그 앱의 SDK 권한을 쓸 수 있다는 신뢰 경계도 유지합니다.</p>
   </section>
   <section class="section" id="limits">
@@ -77,10 +82,87 @@ const me = await moonpool.http.request({
   <section class="section" id="tests">
     <h2>6 · 설계를 승인하기 전에 확인할 결과가 명확해야 합니다</h2>
     <p>동일한 C01–C12 기준으로 앱별 격리, 서버가 실제로 받은 쿠키, HttpOnly 보호, 만료·삭제, 늦은 응답과 세션 초기화, WebView 우회 방지, 호스트에 영향 없는 쿠키 차단, 기존 API 클라이언트의 어댑터 사용을 검사해야 합니다.</p>
-    <p>이번에는 이 계약과 이행 순서를 설계했습니다. 새로운 기능 구현·기기 재실행·추가 충돌 재현은 하지 않았습니다. 현재 SPEC·프로토콜 0.1은 유지하며, T28에 공통 쿠키 설계 관문을 추가했습니다.</p>
+    <p>계약 검토와 검사 절차를 먼저 작성한 뒤, 새 쿠키 검사만 재개하도록 승인받았습니다. C09/C10 일부를 실제로 측정했고 의도적 충돌 재현은 하지 않았습니다. 공통 SDK 구현·SPEC·프로토콜 0.1은 그대로이며 T28도 아직 완료가 아닙니다.</p>
     <div class="callout"><a href="../docs/native-cookie-http-contract.md">상세 계약·API·수용 기준</a> · <a href="../docs/adr/0027-unify-cookie-sessions-through-async-native-http.md">제안 ADR 0027</a> · <a href="36-native-origin-contract.html">이전 출처 실측과 초기화 제약</a></div>
   </section>
-  <footer class="footer"><a href="index.html">← 전체 스터디 지도</a><br>근거: 현재 SPEC, 제안 ADR 0027, HTML·HTTP 쿠키·Fetch 표준과 공식 플랫폼 API 문서. 이 페이지는 설계 제안이며 공통 쿠키 기능의 구현·검증 완료 기록이 아닙니다.</footer>
+  <section class="section" id="review">
+    <h2>7 · 첫 검사는 “호스트 로그인도 그대로인가?”입니다</h2>
+    <p>쿠키를 끄는 API가 있어도, 그 설정이 호스트 앱의 다른 WebView까지 영향을 주면 사용할 수 없습니다. Android의 Profile별 CookieManager가 실제로 설정까지 분리하는지, iOS도 기존 쿠키가 있는 보관함에서 같은 결과를 내는지 확인해야 합니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>순서</th><th>실험에서 확인할 결과</th></tr></thead><tbody>
+      <tr><td>① 대조군을 먼저 확인</td><td>실험용 호스트 H와 별도 보관함 U에서 공개 표식 쿠키를 저장·조회·전송할 수 있어야 함</td></tr>
+      <tr><td>② A만 쿠키 차단</td><td>A의 두 화면에서는 읽기가 비고 쓰기가 무효이며, B·H·U는 계속 정상 동작</td></tr>
+      <tr><td>③ B도 차단 후 재생성</td><td>A·B는 제한을 유지하고 H·U의 쿠키는 계속 정상 · 게스트 실행 전에 정책 적용 완료</td></tr>
+      <tr><td>④ 서버 수신 기록 대조</td><td>JS 화면만 보지 않고 HTTPS 서버가 실제 받은 Cookie와 요청 횟수까지 검사</td></tr>
+    </tbody></table></div>
+    <p>사용자의 실제 로그인 정보를 쓰지 않고 실험용 표식만 사용합니다. 이 첫 실험으로 모든 네트워크 우회·네이티브 쿠키 기능이 검증된 것은 아닙니다. C01–C12 전체 검증은 남아 있습니다.</p>
+    <div class="callout warm"><strong>계약 승인 전에 남은 선택:</strong> 기본 쿠키 포함과 수동 리다이렉트, 네이티브 서비스 요청의 SameSite·CORS 차이, 앱 전체 세션 초기화, 기존 라이브러리의 수정 비용입니다. 공통 비동기 방향을 선호한다는 결정과 이 세부 정책의 최종 승인은 구분합니다. 보안 명세 §9에도 영향을 줍니다.</div>
+  </section>
+  <section class="section" id="reset-cases">
+    <h2>8 · “늦은 응답”은 도착 위치에 따라 달라집니다</h2>
+    <p>HTTP 응답은 헤더가 먼저 오고 본문이 나중에 올 수 있습니다. Set-Cookie는 헤더에 있으므로 화면의 Promise가 아직 기다리는 중이어도 쿠키는 이미 저장됐을 수 있습니다.</p>
+    <pre><code>// 테스트 순서 예시 — 아직 구현된 SDK가 아닙니다.
+서버: 요청 수신 → 응답 헤더를 보류
+앱 A: 세션 초기화 완료
+서버: 이전 Set-Cookie 헤더를 전송
+검사: 이전 쿠키가 다시 저장되지 않아야 함</code></pre>
+    <div class="table-wrap"><table><thead><tr><th>초기화 시점</th><th>기대 결과</th></tr></thead><tbody>
+      <tr><td>헤더가 오기 전</td><td>늦게 온 이전 세대 쿠키는 저장되지 않음</td></tr>
+      <tr><td>헤더 저장 후, 본문 도착 전</td><td>이미 저장된 쿠키를 초기화가 지우고, 늦은 본문이 옛 세션을 되살리지 않음</td></tr>
+      <tr><td>응답 Promise가 이미 끝난 뒤</td><td>끝난 Promise는 바꾸지 않으며, 다음 요청에 옛 쿠키가 붙지 않음</td></tr>
+    </tbody></table></div>
+    <p>시간 초과나 화면 종료로 이미 끝난 Promise도 다시 끝내지 않습니다. 서버에서 일어난 작업은 취소됐다고 가정하지 않고, 쿠키 저장과 응답 전달을 따로 검사합니다. 같은 앱의 다른 화면에도 초기화가 적용되고, 다른 앱과 호스트에는 영향이 없어야 합니다.</p>
+    <p><a href="../docs/native-cookie-http-conformance-plan.md">C01–C12 상세 절차</a>에 쿠키 규칙·오류 형식 등 아직 정하지 않은 항목도 표시했습니다. 이번 실측은 쿠키 차단만 다뤘으며, 이 세션 초기화 검사는 아직 계획 단계입니다.</p>
+  </section>
+  <section class="section" id="results">
+    <h2>9 · 새 저장을 막는 것과 기존 쿠키까지 막는 것은 달랐습니다</h2>
+    <p>Android·iOS 각각 두 번씩 실행해 200개 관측과 HTTPS 서버 요청 400건을 남겼습니다. 쿠키를 읽는 화면만 확인하지 않고 네이티브 저장소와 서버 수신 기록을 함께 대조했습니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>검사</th><th>Android</th><th>iOS</th></tr></thead><tbody>
+      <tr><td>호스트·다른 보관함의 정상 동작</td><td>유지</td><td>유지</td></tr>
+      <tr><td>차단 후 새 쿠키 저장</td><td>막힘</td><td>막힘</td></tr>
+      <tr><td>이미 저장된 HTTPS 쿠키 읽기·전송</td><td>막힘</td><td><strong>계속 가능 · 제안 조건 실패</strong></td></tr>
+      <tr><td>빈 보관함을 첫 실행 전에 차단</td><td>읽기·저장·전송 없음</td><td>읽기·저장·전송 없음</td></tr>
+    </tbody></table></div>
+    <pre><code>iOS 보관함에 공개 표식 쿠키 저장
+→ disallow 적용 완료 확인
+→ 새 값으로 덮어쓰기는 막힘
+→ 기존 값은 여전히 읽히고 서버에도 도착</code></pre>
+    <p>측정한 iOS 26.4.1에서의 결과입니다. 실제 제품은 이 실험처럼 HTTPS 진단 페이지 이동을 허용한다는 뜻이 아니며, 사용자의 로그인 정보가 유출됐다는 뜻도 아닙니다. 정책 API 하나로 기존 쿠키까지 모두 차단된다고 약속할 수 없다는 근거입니다.</p>
+    <div class="callout warm"><strong>후속 결정 · 기본 정책 채택:</strong> WebView 쿠키가 있거나 없음을 확인하지 못하면 실행을 거절하고 데이터를 보존하기로 했습니다. 같은 저장소를 쓰는 해당 앱의 기존 화면도 종료하며, 다른 앱과 호스트는 유지합니다. 자동 쿠키 삭제·이전은 하지 않습니다. 구현·복구 절차·최종 명세 변경은 별도이며, 실험에서 기존 보관함을 지우지 않았습니다.</div>
+    <p>검증기 테스트 21개는 통과했고, 실제 iOS 계약 검사는 실패 상태를 그대로 유지합니다. “측정과 검증기가 정상 동작했다”와 “제품 계약이 충족됐다”는 다릅니다. 전체 네트워크 경로·마이그레이션·실제 SDK 연결은 남아 있습니다. 전용 기기와 서버는 종료했고 의도적 충돌 재현은 하지 않았습니다.</p>
+    <p><a href="../docs/native-cookie-suppression-verification.md">상세 결과·검증 범위·계약 보완안</a> · <a href="../experiments/native-cookie-suppression-probe/README.md">실험 코드와 재현 방법</a></p>
+  </section>
+  <section class="section" id="admission">
+    <h2>10 · 비어 있어야 하는 것은 WebView 쿠키입니다</h2>
+    <p>2026년 11월 3일, Android와 iOS 모두 같은 기준으로 실행을 판단하는 기본 정책을 채택했습니다. 해당 앱의 WebView 쿠키가 하나라도 있거나, 없다는 사실을 확인할 수 없으면 실행을 거절합니다. Android만 기존 쿠키를 허용하는 예외는 두지 않습니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>데이터</th><th>남아 있어도 되는가?</th><th>실행 거절 시</th></tr></thead><tbody>
+      <tr><td>WebView의 기본 쿠키</td><td>아니요 · HttpOnly와 다른 서비스의 쿠키도 포함</td><td>삭제하지 않고 보존</td></tr>
+      <tr><td>localStorage·IndexedDB</td><td>네 · 별도 로딩·네트워크 검사는 필요</td><td>값과 기존 저장소 연결 보존</td></tr>
+      <tr><td>storage.*의 앱 데이터</td><td>네</td><td>그대로 보존</td></tr>
+      <tr><td>SDK의 별도 네이티브 로그인 쿠키</td><td>네 · WebView 쿠키와 다른 보관함</td><td>자동 로그아웃·초기화하지 않음</td></tr>
+    </tbody></table></div>
+    <pre><code>// 실행 판단 예시 — 아직 구현된 API가 아닙니다.
+WebView 쿠키 0개 + 저장된 화면 설정 있음 → 다른 검사가 통과하면 실행
+WebView의 HttpOnly 쿠키 1개 있음       → 실행 거절, 데이터 보존
+쿠키 확인이 끝나지 않거나 실패함       → 실행 거절, 데이터 보존</code></pre>
+    <p><code>document.cookie</code>가 빈 문자열이어도 HttpOnly나 다른 주소의 쿠키는 남아 있을 수 있습니다. 그래서 네이티브가 그 앱의 전체 쿠키 저장소를 확인해야 합니다. 쿠키 값은 게스트나 호스트 JS 실행 환경으로 보내지 않습니다.</p>
+    <section class="flow" aria-label="앱과 저장소 확인, 변경 작업과 순서 조정, 차단 정책 적용, 전체 쿠키 확인을 마친 뒤 현재 화면만 실행한다."><div class="node">앱·저장소 신원<br>확인</div><span class="sep">→</span><div class="node">변경 작업과<br>순서 조정</div><span class="sep">→</span><div class="node">정책 적용·<br>전체 쿠키 확인</div><span class="sep">→</span><div class="node current">현재 화면에만<br>실행 허용</div></section>
+    <p>같은 앱 A의 두 화면은 같은 보관함을 사용하므로 검사를 함께 관리합니다. 뒤늦게 돌아온 옛 검사 결과는 새 화면을 열어 주지 못해야 합니다. 공통 저장소 검사에 실패하면 A의 새 실행을 막고 이미 열린 A 화면도 종료하기로 했으며, B와 호스트 화면에는 영향을 주지 않습니다. 확인 실패가 실제 정보 유출을 뜻하는 것은 아닙니다.</p>
+    <div class="callout warm"><strong>후속 부분 검증:</strong> <a href="38-native-cookie-admission.html">38번 자료</a>에서 실제 저장소 조회·데이터 보존·제어된 동시 실행과 늦은 콜백을 검증했습니다. iOS partitioned 전체 탐지 범위와 실제 쓰기 작업 배제는 아직 미확정입니다. 빈 쿠키 저장소라는 사실만으로 캐시·worker·외부 리소스의 네트워크 차단이 증명되지는 않으며, 최종 계약과 제품 구현도 남아 있습니다.</div>
+  </section>
+  <section class="section" id="recovery">
+    <h2>11 · 실행 거절과 쿠키 삭제는 별도 결정입니다</h2>
+    <p>채택한 초기 정책은 “실행은 거절하되 데이터는 보존”입니다. 실행을 다시 시도하는 행위가 쿠키 삭제를 허가하지는 않습니다. 쿠키를 SDK의 네이티브 보관함으로 자동 복사하는 기능도 초기 범위에서 제외했습니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>선택</th><th>사용자에게 생기는 결과</th><th>결정 상태</th></tr></thead><tbody>
+      <tr><td>거절하고 보존</td><td>조건이 해결되기 전에는 해당 앱을 열 수 없음 · 데이터 유지</td><td>초기 기본값으로 채택</td></tr>
+      <tr><td>호스트가 명시적으로 쿠키만 정리</td><td>기존 브라우저 로그인·쿠키 설정은 사라지고, 다른 저장 데이터는 유지해야 함</td><td>별도 승인·검증 후 추가할 복구 절차</td></tr>
+      <tr><td>기존 쿠키를 SDK로 자동 복사</td><td>쿠키의 원래 권한과 사용 문맥을 잘못 가져올 수 있음</td><td>초기 범위에서 제외</td></tr>
+      <tr><td>보관함 전체 교체·초기화</td><td>localStorage·IndexedDB까지 잃거나 이전 주소의 데이터와 연결이 끊길 수 있음</td><td>자동 복구 수단으로 사용하지 않음</td></tr>
+    </tbody></table></div>
+    <p>나중에 쿠키만 정리하는 복구를 추가하더라도, 먼저 그 앱의 화면과 쿠키 쓰기 작업을 멈추고 대상 보관함을 확인해야 합니다. 삭제 완료 콜백만으로 성공 처리하지 않고 다시 전체 저장소를 검사합니다. 일부만 삭제되거나 중간에 앱이 종료되면 실행 거절 상태를 유지하며, 완료 후에도 새 검사부터 시작합니다.</p>
+    <p><code>http.resetSession</code>은 별도 네이티브 로그인 세션을 초기화하는 제안 API입니다. WebView 쿠키 정리 권한이나 게스트가 실행 거절을 우회하는 통로로 사용하지 않습니다. 구체적인 복구 저장 방식과 중단 후 복원 보장은 T48에서 검증해야 합니다.</p>
+    <p><a href="../docs/native-cookie-store-admission.md">채택한 기본 정책과 남은 복구 검토안</a>에서 승인 범위와 후속 검증 항목을 구분했습니다. 이번에는 결정을 문서에 기록했으며 기기 재실행이나 데이터 삭제를 하지 않았습니다.</p>
+  </section>
+  <footer class="footer"><a href="index.html">← 전체 스터디 지도</a><br>근거: 현재 SPEC, ADR 0027의 채택한 admission 기본 정책과 나머지 제안, HTML·HTTP 쿠키·Fetch 표준과 공식 플랫폼 API 문서. 공통 쿠키 기능의 구현·검증 완료 기록은 아닙니다.</footer>
 </main>
 </body>
 </html>
