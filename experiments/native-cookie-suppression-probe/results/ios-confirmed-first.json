@@ -1,0 +1,4759 @@
+{
+  "base": "https://localhost:65031",
+  "build": {
+    "caSha256": "452e196952a1021ba3c99f57ed56e1337dcd231304cdb49a30f28e1345971efa",
+    "executableSha256": "67614117a05065e05f810e0a50a92e68ff5a858cb1b15800f802bf825f8c49a7",
+    "fixtureConfigSha256": "b21e53c58c487ac716015429e858d6125f4b5385a9ff3c76597eec9a9ff4f145",
+    "sdk": "26.4",
+    "signatureSha256": "971f63b2f63bf6cdb0afbd4620ae201fb55dd823e2c735cab7ad8709279ee18e",
+    "sources": {
+      "build.py": "814b740b7f6e84cfbb55fdcf0ccff6dba1e5905cab985f853fc545eac6e8a369",
+      "ios/Probe.swift": "c5085d9f8a8a0cee0356200123cc19e98f2029338f537b95afa3778300e837f5",
+      "page.html": "0d01d1ab3a1f5fc3aa37ab87549eb2b1b268dc28cbc65600c777ca9f967bfcb4"
+    },
+    "xcode": "Xcode 26.4.1\nBuild version 17E202"
+  },
+  "capturedUtc": "2026-11-03T02:59:29Z",
+  "complete": true,
+  "events": [
+    {
+      "event": "created",
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A",
+      "view": "a1"
+    },
+    {
+      "event": "created",
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A",
+      "view": "a2"
+    },
+    {
+      "event": "created",
+      "store": "CF867965-5517-4005-8705-4E99553A2BC0",
+      "view": "b"
+    },
+    {
+      "event": "created",
+      "store": "default",
+      "view": "h"
+    },
+    {
+      "event": "created",
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7",
+      "view": "u"
+    },
+    {
+      "event": "policy",
+      "stage": "baseline",
+      "values": {
+        "a": true,
+        "b": true,
+        "h": true,
+        "u": true
+      }
+    },
+    {
+      "case": "baseline-a1-remote",
+      "event": "load",
+      "policyAllows": true,
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A"
+    },
+    {
+      "case": "baseline-a1-local",
+      "event": "load",
+      "policyAllows": true,
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A"
+    },
+    {
+      "case": "baseline-a2-remote",
+      "event": "load",
+      "policyAllows": true,
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A"
+    },
+    {
+      "case": "baseline-a2-local",
+      "event": "load",
+      "policyAllows": true,
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A"
+    },
+    {
+      "case": "baseline-b-remote",
+      "event": "load",
+      "policyAllows": true,
+      "store": "CF867965-5517-4005-8705-4E99553A2BC0"
+    },
+    {
+      "case": "baseline-b-local",
+      "event": "load",
+      "policyAllows": true,
+      "store": "CF867965-5517-4005-8705-4E99553A2BC0"
+    },
+    {
+      "case": "baseline-h-remote",
+      "event": "load",
+      "policyAllows": true,
+      "store": "default"
+    },
+    {
+      "case": "baseline-h-local",
+      "event": "load",
+      "policyAllows": true,
+      "store": "default"
+    },
+    {
+      "case": "baseline-u-remote",
+      "event": "load",
+      "policyAllows": true,
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7"
+    },
+    {
+      "case": "baseline-u-local",
+      "event": "load",
+      "policyAllows": true,
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7"
+    },
+    {
+      "event": "policy",
+      "stage": "a-blocked",
+      "values": {
+        "a": false,
+        "b": true,
+        "h": true,
+        "u": true
+      }
+    },
+    {
+      "case": "a-blocked-a1-remote",
+      "event": "load",
+      "policyAllows": false,
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A"
+    },
+    {
+      "case": "a-blocked-a1-local",
+      "event": "load",
+      "policyAllows": false,
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A"
+    },
+    {
+      "case": "a-blocked-a2-remote",
+      "event": "load",
+      "policyAllows": false,
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A"
+    },
+    {
+      "case": "a-blocked-a2-local",
+      "event": "load",
+      "policyAllows": false,
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A"
+    },
+    {
+      "case": "a-blocked-b-remote",
+      "event": "load",
+      "policyAllows": true,
+      "store": "CF867965-5517-4005-8705-4E99553A2BC0"
+    },
+    {
+      "case": "a-blocked-b-local",
+      "event": "load",
+      "policyAllows": true,
+      "store": "CF867965-5517-4005-8705-4E99553A2BC0"
+    },
+    {
+      "case": "a-blocked-h-remote",
+      "event": "load",
+      "policyAllows": true,
+      "store": "default"
+    },
+    {
+      "case": "a-blocked-h-local",
+      "event": "load",
+      "policyAllows": true,
+      "store": "default"
+    },
+    {
+      "case": "a-blocked-u-remote",
+      "event": "load",
+      "policyAllows": true,
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7"
+    },
+    {
+      "case": "a-blocked-u-local",
+      "event": "load",
+      "policyAllows": true,
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7"
+    },
+    {
+      "event": "policy",
+      "stage": "ab-blocked",
+      "values": {
+        "a": false,
+        "b": false,
+        "h": true,
+        "u": true
+      }
+    },
+    {
+      "case": "ab-blocked-a1-remote",
+      "event": "load",
+      "policyAllows": false,
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A"
+    },
+    {
+      "case": "ab-blocked-a1-local",
+      "event": "load",
+      "policyAllows": false,
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A"
+    },
+    {
+      "case": "ab-blocked-a2-remote",
+      "event": "load",
+      "policyAllows": false,
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A"
+    },
+    {
+      "case": "ab-blocked-a2-local",
+      "event": "load",
+      "policyAllows": false,
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A"
+    },
+    {
+      "case": "ab-blocked-b-remote",
+      "event": "load",
+      "policyAllows": false,
+      "store": "CF867965-5517-4005-8705-4E99553A2BC0"
+    },
+    {
+      "case": "ab-blocked-b-local",
+      "event": "load",
+      "policyAllows": false,
+      "store": "CF867965-5517-4005-8705-4E99553A2BC0"
+    },
+    {
+      "case": "ab-blocked-h-remote",
+      "event": "load",
+      "policyAllows": true,
+      "store": "default"
+    },
+    {
+      "case": "ab-blocked-h-local",
+      "event": "load",
+      "policyAllows": true,
+      "store": "default"
+    },
+    {
+      "case": "ab-blocked-u-remote",
+      "event": "load",
+      "policyAllows": true,
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7"
+    },
+    {
+      "case": "ab-blocked-u-local",
+      "event": "load",
+      "policyAllows": true,
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7"
+    },
+    {
+      "event": "created",
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A",
+      "view": "a1"
+    },
+    {
+      "event": "created",
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A",
+      "view": "a2"
+    },
+    {
+      "event": "created",
+      "store": "CF867965-5517-4005-8705-4E99553A2BC0",
+      "view": "b"
+    },
+    {
+      "event": "created",
+      "store": "default",
+      "view": "h"
+    },
+    {
+      "event": "created",
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7",
+      "view": "u"
+    },
+    {
+      "event": "policy",
+      "stage": "recreated",
+      "values": {
+        "a": false,
+        "b": false,
+        "h": true,
+        "u": true
+      }
+    },
+    {
+      "case": "recreated-a1-remote",
+      "event": "load",
+      "policyAllows": false,
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A"
+    },
+    {
+      "case": "recreated-a1-local",
+      "event": "load",
+      "policyAllows": false,
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A"
+    },
+    {
+      "case": "recreated-a2-remote",
+      "event": "load",
+      "policyAllows": false,
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A"
+    },
+    {
+      "case": "recreated-a2-local",
+      "event": "load",
+      "policyAllows": false,
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A"
+    },
+    {
+      "case": "recreated-b-remote",
+      "event": "load",
+      "policyAllows": false,
+      "store": "CF867965-5517-4005-8705-4E99553A2BC0"
+    },
+    {
+      "case": "recreated-b-local",
+      "event": "load",
+      "policyAllows": false,
+      "store": "CF867965-5517-4005-8705-4E99553A2BC0"
+    },
+    {
+      "case": "recreated-h-remote",
+      "event": "load",
+      "policyAllows": true,
+      "store": "default"
+    },
+    {
+      "case": "recreated-h-local",
+      "event": "load",
+      "policyAllows": true,
+      "store": "default"
+    },
+    {
+      "case": "recreated-u-remote",
+      "event": "load",
+      "policyAllows": true,
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7"
+    },
+    {
+      "case": "recreated-u-local",
+      "event": "load",
+      "policyAllows": true,
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7"
+    },
+    {
+      "event": "created",
+      "store": "2D5524A2-9E80-425F-9751-A542046079C5",
+      "view": "a1"
+    },
+    {
+      "event": "created",
+      "store": "2D5524A2-9E80-425F-9751-A542046079C5",
+      "view": "a2"
+    },
+    {
+      "event": "created",
+      "store": "F43711BD-9B2D-4A89-973A-0C6B3D31C1B3",
+      "view": "b"
+    },
+    {
+      "event": "created",
+      "store": "default",
+      "view": "h"
+    },
+    {
+      "event": "created",
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7",
+      "view": "u"
+    },
+    {
+      "event": "policy",
+      "stage": "fresh-blocked",
+      "values": {
+        "a": false,
+        "b": false,
+        "h": true,
+        "u": true
+      }
+    },
+    {
+      "case": "fresh-blocked-a1-remote",
+      "event": "load",
+      "policyAllows": false,
+      "store": "2D5524A2-9E80-425F-9751-A542046079C5"
+    },
+    {
+      "case": "fresh-blocked-a1-local",
+      "event": "load",
+      "policyAllows": false,
+      "store": "2D5524A2-9E80-425F-9751-A542046079C5"
+    },
+    {
+      "case": "fresh-blocked-a2-remote",
+      "event": "load",
+      "policyAllows": false,
+      "store": "2D5524A2-9E80-425F-9751-A542046079C5"
+    },
+    {
+      "case": "fresh-blocked-a2-local",
+      "event": "load",
+      "policyAllows": false,
+      "store": "2D5524A2-9E80-425F-9751-A542046079C5"
+    },
+    {
+      "case": "fresh-blocked-b-remote",
+      "event": "load",
+      "policyAllows": false,
+      "store": "F43711BD-9B2D-4A89-973A-0C6B3D31C1B3"
+    },
+    {
+      "case": "fresh-blocked-b-local",
+      "event": "load",
+      "policyAllows": false,
+      "store": "F43711BD-9B2D-4A89-973A-0C6B3D31C1B3"
+    },
+    {
+      "case": "fresh-blocked-h-remote",
+      "event": "load",
+      "policyAllows": true,
+      "store": "default"
+    },
+    {
+      "case": "fresh-blocked-h-local",
+      "event": "load",
+      "policyAllows": true,
+      "store": "default"
+    },
+    {
+      "case": "fresh-blocked-u-remote",
+      "event": "load",
+      "policyAllows": true,
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7"
+    },
+    {
+      "case": "fresh-blocked-u-local",
+      "event": "load",
+      "policyAllows": true,
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7"
+    }
+  ],
+  "installedArtifactSha256": "67614117a05065e05f810e0a50a92e68ff5a858cb1b15800f802bf825f8c49a7",
+  "os": "26.4.1",
+  "partitions": {
+    "a": "BF973F1D-19F5-4970-B100-6C611B80126A",
+    "b": "CF867965-5517-4005-8705-4E99553A2BC0",
+    "h": "default",
+    "u": "7DDFABBC-05E5-4831-91E8-B1586355E2B7"
+  },
+  "platform": "ios",
+  "requests": [
+    {
+      "case": "baseline-a1-remote",
+      "cookie": "",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "baseline-a1-remote",
+      "cookie": "t28_js=a_baseline; t28_proto=a_baseline; t28_server=a_baseline",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "baseline-a1-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_server=a_baseline",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "baseline-a1-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "baseline-a2-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "baseline-a2-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "baseline-a2-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "baseline-a2-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "baseline-b-remote",
+      "cookie": "",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "baseline-b-remote",
+      "cookie": "t28_js=b_baseline; t28_proto=b_baseline; t28_server=b_baseline",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "baseline-b-remote",
+      "cookie": "t28_frame=b_baseline; t28_frameHeader=b_baseline; t28_js=b_baseline; t28_proto=b_baseline; t28_server=b_baseline",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "baseline-b-remote",
+      "cookie": "t28_frame=b_baseline; t28_frameHeader=b_baseline; t28_js=b_baseline; t28_proto=b_baseline; t28_resource=b_baseline; t28_server=b_baseline",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "baseline-h-remote",
+      "cookie": "t28_frame=h_recreated; t28_frameHeader=h_recreated; t28_js=h_recreated; t28_proto=h_recreated; t28_resource=h_recreated; t28_server=h_recreated",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "baseline-h-remote",
+      "cookie": "t28_js=h_baseline; t28_proto=h_baseline; t28_server=h_baseline; t28_frame=h_recreated; t28_frameHeader=h_recreated; t28_resource=h_recreated",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "baseline-h-remote",
+      "cookie": "t28_frame=h_baseline; t28_frameHeader=h_baseline; t28_js=h_baseline; t28_proto=h_baseline; t28_server=h_baseline; t28_resource=h_recreated",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "baseline-h-remote",
+      "cookie": "t28_frame=h_baseline; t28_frameHeader=h_baseline; t28_js=h_baseline; t28_proto=h_baseline; t28_resource=h_baseline; t28_server=h_baseline",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "baseline-u-remote",
+      "cookie": "",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "baseline-u-remote",
+      "cookie": "t28_js=u_baseline; t28_proto=u_baseline; t28_server=u_baseline",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "baseline-u-remote",
+      "cookie": "t28_frame=u_baseline; t28_frameHeader=u_baseline; t28_js=u_baseline; t28_proto=u_baseline; t28_server=u_baseline",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "baseline-u-remote",
+      "cookie": "t28_frame=u_baseline; t28_frameHeader=u_baseline; t28_js=u_baseline; t28_proto=u_baseline; t28_resource=u_baseline; t28_server=u_baseline",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-a1-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-a1-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-a1-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-a1-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-a2-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-a2-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-a2-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-a2-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-b-remote",
+      "cookie": "t28_frame=b_baseline; t28_frameHeader=b_baseline; t28_js=b_baseline; t28_proto=b_baseline; t28_resource=b_baseline; t28_server=b_baseline",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-b-remote",
+      "cookie": "t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_server=b_a-blocked; t28_frame=b_baseline; t28_frameHeader=b_baseline; t28_resource=b_baseline",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-b-remote",
+      "cookie": "t28_frame=b_a-blocked; t28_frameHeader=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_server=b_a-blocked; t28_resource=b_baseline",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-b-remote",
+      "cookie": "t28_frame=b_a-blocked; t28_frameHeader=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_resource=b_a-blocked; t28_server=b_a-blocked",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-h-remote",
+      "cookie": "t28_frame=h_baseline; t28_frameHeader=h_baseline; t28_js=h_baseline; t28_proto=h_baseline; t28_resource=h_baseline; t28_server=h_baseline",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-h-remote",
+      "cookie": "t28_js=h_a-blocked; t28_proto=h_a-blocked; t28_server=h_a-blocked; t28_frame=h_baseline; t28_frameHeader=h_baseline; t28_resource=h_baseline",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-h-remote",
+      "cookie": "t28_frame=h_a-blocked; t28_frameHeader=h_a-blocked; t28_js=h_a-blocked; t28_proto=h_a-blocked; t28_server=h_a-blocked; t28_resource=h_baseline",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-h-remote",
+      "cookie": "t28_frame=h_a-blocked; t28_frameHeader=h_a-blocked; t28_js=h_a-blocked; t28_proto=h_a-blocked; t28_resource=h_a-blocked; t28_server=h_a-blocked",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-u-remote",
+      "cookie": "t28_frame=u_baseline; t28_frameHeader=u_baseline; t28_js=u_baseline; t28_proto=u_baseline; t28_resource=u_baseline; t28_server=u_baseline",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-u-remote",
+      "cookie": "t28_js=u_a-blocked; t28_proto=u_a-blocked; t28_server=u_a-blocked; t28_frame=u_baseline; t28_frameHeader=u_baseline; t28_resource=u_baseline",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-u-remote",
+      "cookie": "t28_frame=u_a-blocked; t28_frameHeader=u_a-blocked; t28_js=u_a-blocked; t28_proto=u_a-blocked; t28_server=u_a-blocked; t28_resource=u_baseline",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-u-remote",
+      "cookie": "t28_frame=u_a-blocked; t28_frameHeader=u_a-blocked; t28_js=u_a-blocked; t28_proto=u_a-blocked; t28_resource=u_a-blocked; t28_server=u_a-blocked",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-a1-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-a1-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-a1-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-a1-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-a2-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-a2-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-a2-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-a2-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-b-remote",
+      "cookie": "t28_frame=b_a-blocked; t28_frameHeader=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_resource=b_a-blocked; t28_server=b_a-blocked",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-b-remote",
+      "cookie": "t28_frame=b_a-blocked; t28_frameHeader=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_resource=b_a-blocked; t28_server=b_a-blocked",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-b-remote",
+      "cookie": "t28_frame=b_a-blocked; t28_frameHeader=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_resource=b_a-blocked; t28_server=b_a-blocked",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-b-remote",
+      "cookie": "t28_frame=b_a-blocked; t28_frameHeader=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_resource=b_a-blocked; t28_server=b_a-blocked",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-h-remote",
+      "cookie": "t28_frame=h_a-blocked; t28_frameHeader=h_a-blocked; t28_js=h_a-blocked; t28_proto=h_a-blocked; t28_resource=h_a-blocked; t28_server=h_a-blocked",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-h-remote",
+      "cookie": "t28_js=h_ab-blocked; t28_proto=h_ab-blocked; t28_server=h_ab-blocked; t28_frame=h_a-blocked; t28_frameHeader=h_a-blocked; t28_resource=h_a-blocked",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-h-remote",
+      "cookie": "t28_frame=h_ab-blocked; t28_frameHeader=h_ab-blocked; t28_js=h_ab-blocked; t28_proto=h_ab-blocked; t28_server=h_ab-blocked; t28_resource=h_a-blocked",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-h-remote",
+      "cookie": "t28_frame=h_ab-blocked; t28_frameHeader=h_ab-blocked; t28_js=h_ab-blocked; t28_proto=h_ab-blocked; t28_resource=h_ab-blocked; t28_server=h_ab-blocked",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-u-remote",
+      "cookie": "t28_frame=u_a-blocked; t28_frameHeader=u_a-blocked; t28_js=u_a-blocked; t28_proto=u_a-blocked; t28_resource=u_a-blocked; t28_server=u_a-blocked",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-u-remote",
+      "cookie": "t28_js=u_ab-blocked; t28_proto=u_ab-blocked; t28_server=u_ab-blocked; t28_frame=u_a-blocked; t28_frameHeader=u_a-blocked; t28_resource=u_a-blocked",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-u-remote",
+      "cookie": "t28_frame=u_ab-blocked; t28_frameHeader=u_ab-blocked; t28_js=u_ab-blocked; t28_proto=u_ab-blocked; t28_server=u_ab-blocked; t28_resource=u_a-blocked",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-u-remote",
+      "cookie": "t28_frame=u_ab-blocked; t28_frameHeader=u_ab-blocked; t28_js=u_ab-blocked; t28_proto=u_ab-blocked; t28_resource=u_ab-blocked; t28_server=u_ab-blocked",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "recreated-a1-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "recreated-a1-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "recreated-a1-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "recreated-a1-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "recreated-a2-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "recreated-a2-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "recreated-a2-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "recreated-a2-remote",
+      "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "recreated-b-remote",
+      "cookie": "t28_frame=b_a-blocked; t28_frameHeader=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_resource=b_a-blocked; t28_server=b_a-blocked",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "recreated-b-remote",
+      "cookie": "t28_frame=b_a-blocked; t28_frameHeader=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_resource=b_a-blocked; t28_server=b_a-blocked",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "recreated-b-remote",
+      "cookie": "t28_frame=b_a-blocked; t28_frameHeader=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_resource=b_a-blocked; t28_server=b_a-blocked",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "recreated-b-remote",
+      "cookie": "t28_frame=b_a-blocked; t28_frameHeader=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_resource=b_a-blocked; t28_server=b_a-blocked",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "recreated-h-remote",
+      "cookie": "t28_frame=h_ab-blocked; t28_frameHeader=h_ab-blocked; t28_js=h_ab-blocked; t28_proto=h_ab-blocked; t28_resource=h_ab-blocked; t28_server=h_ab-blocked",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "recreated-h-remote",
+      "cookie": "t28_js=h_recreated; t28_proto=h_recreated; t28_server=h_recreated; t28_frame=h_ab-blocked; t28_frameHeader=h_ab-blocked; t28_resource=h_ab-blocked",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "recreated-h-remote",
+      "cookie": "t28_frame=h_recreated; t28_frameHeader=h_recreated; t28_js=h_recreated; t28_proto=h_recreated; t28_server=h_recreated; t28_resource=h_ab-blocked",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "recreated-h-remote",
+      "cookie": "t28_frame=h_recreated; t28_frameHeader=h_recreated; t28_js=h_recreated; t28_proto=h_recreated; t28_resource=h_recreated; t28_server=h_recreated",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "recreated-u-remote",
+      "cookie": "t28_frame=u_ab-blocked; t28_frameHeader=u_ab-blocked; t28_js=u_ab-blocked; t28_proto=u_ab-blocked; t28_resource=u_ab-blocked; t28_server=u_ab-blocked",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "recreated-u-remote",
+      "cookie": "t28_js=u_recreated; t28_proto=u_recreated; t28_server=u_recreated; t28_frame=u_ab-blocked; t28_frameHeader=u_ab-blocked; t28_resource=u_ab-blocked",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "recreated-u-remote",
+      "cookie": "t28_frame=u_recreated; t28_frameHeader=u_recreated; t28_js=u_recreated; t28_proto=u_recreated; t28_server=u_recreated; t28_resource=u_ab-blocked",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "recreated-u-remote",
+      "cookie": "t28_frame=u_recreated; t28_resource=u_recreated; t28_frameHeader=u_recreated; t28_js=u_recreated; t28_proto=u_recreated; t28_server=u_recreated",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-a1-remote",
+      "cookie": "",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-a1-remote",
+      "cookie": "",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-a1-remote",
+      "cookie": "",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-a1-remote",
+      "cookie": "",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-a2-remote",
+      "cookie": "",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-a2-remote",
+      "cookie": "",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-a2-remote",
+      "cookie": "",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-a2-remote",
+      "cookie": "",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-b-remote",
+      "cookie": "",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-b-remote",
+      "cookie": "",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-b-remote",
+      "cookie": "",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-b-remote",
+      "cookie": "",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-h-remote",
+      "cookie": "t28_frame=h_recreated; t28_frameHeader=h_recreated; t28_js=h_recreated; t28_proto=h_recreated; t28_resource=h_recreated; t28_server=h_recreated",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-h-remote",
+      "cookie": "t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_server=h_fresh-blocked; t28_frame=h_recreated; t28_frameHeader=h_recreated; t28_resource=h_recreated",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-h-remote",
+      "cookie": "t28_frame=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_server=h_fresh-blocked; t28_resource=h_recreated",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-h-remote",
+      "cookie": "t28_frame=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_resource=h_fresh-blocked; t28_server=h_fresh-blocked",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-u-remote",
+      "cookie": "t28_frame=u_recreated; t28_resource=u_recreated; t28_frameHeader=u_recreated; t28_js=u_recreated; t28_proto=u_recreated; t28_server=u_recreated",
+      "path": "/page",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-u-remote",
+      "cookie": "t28_js=u_fresh-blocked; t28_proto=u_fresh-blocked; t28_server=u_fresh-blocked; t28_frame=u_recreated; t28_resource=u_recreated; t28_frameHeader=u_recreated",
+      "path": "/frame",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-u-remote",
+      "cookie": "t28_frame=u_fresh-blocked; t28_frameHeader=u_fresh-blocked; t28_js=u_fresh-blocked; t28_proto=u_fresh-blocked; t28_server=u_fresh-blocked; t28_resource=u_recreated",
+      "path": "/resource",
+      "run": "ios-confirmed-first",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-u-remote",
+      "cookie": "t28_frame=u_fresh-blocked; t28_frameHeader=u_fresh-blocked; t28_js=u_fresh-blocked; t28_proto=u_fresh-blocked; t28_resource=u_fresh-blocked; t28_server=u_fresh-blocked",
+      "path": "/observe",
+      "run": "ios-confirmed-first",
+      "tls": true
+    }
+  ],
+  "run": "ios-confirmed-first",
+  "samples": [
+    {
+      "actualPartition": "a",
+      "blocked": false,
+      "document": {
+        "before": "t28_server=a_baseline",
+        "case": "baseline-a1-remote",
+        "complete": true,
+        "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "frameLoaded": true,
+        "frameRead": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=baseline-a1-remote",
+        "prototypeRead": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "baseline-a1-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        }
+      ],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=baseline-a1-remote",
+      "owner": "a",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "baseline",
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A",
+      "view": "a1"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": false,
+      "document": {
+        "before": "",
+        "case": "baseline-a1-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.a/page?run=ios-confirmed-first&case=baseline-a1-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "baseline-a1-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        }
+      ],
+      "nativeUrl": "moonpool://com.example.cookieprobe.a/page?run=ios-confirmed-first&case=baseline-a1-local",
+      "owner": "a",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "baseline",
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A",
+      "view": "a1"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": false,
+      "document": {
+        "before": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "case": "baseline-a2-remote",
+        "complete": true,
+        "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "frameLoaded": true,
+        "frameRead": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=baseline-a2-remote",
+        "prototypeRead": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "baseline-a2-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        }
+      ],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=baseline-a2-remote",
+      "owner": "a",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "baseline",
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A",
+      "view": "a2"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": false,
+      "document": {
+        "before": "",
+        "case": "baseline-a2-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.a/page?run=ios-confirmed-first&case=baseline-a2-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "baseline-a2-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        }
+      ],
+      "nativeUrl": "moonpool://com.example.cookieprobe.a/page?run=ios-confirmed-first&case=baseline-a2-local",
+      "owner": "a",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "baseline",
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A",
+      "view": "a2"
+    },
+    {
+      "actualPartition": "b",
+      "blocked": false,
+      "document": {
+        "before": "t28_server=b_baseline",
+        "case": "baseline-b-remote",
+        "complete": true,
+        "cookie": "t28_frame=b_baseline; t28_frameHeader=b_baseline; t28_js=b_baseline; t28_proto=b_baseline; t28_resource=b_baseline; t28_server=b_baseline",
+        "frameLoaded": true,
+        "frameRead": "t28_frame=b_baseline; t28_frameHeader=b_baseline; t28_js=b_baseline; t28_proto=b_baseline; t28_resource=b_baseline; t28_server=b_baseline",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=baseline-b-remote",
+        "prototypeRead": "t28_frame=b_baseline; t28_frameHeader=b_baseline; t28_js=b_baseline; t28_proto=b_baseline; t28_resource=b_baseline; t28_server=b_baseline",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "baseline-b-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "b_baseline",
+        "b_baseline",
+        "b_baseline",
+        "b_baseline",
+        "b_baseline",
+        "b_baseline"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "b_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "b_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "b_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "b_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "b_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "b_baseline"
+        }
+      ],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=baseline-b-remote",
+      "owner": "b",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "baseline",
+      "store": "CF867965-5517-4005-8705-4E99553A2BC0",
+      "view": "b"
+    },
+    {
+      "actualPartition": "b",
+      "blocked": false,
+      "document": {
+        "before": "",
+        "case": "baseline-b-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.b/page?run=ios-confirmed-first&case=baseline-b-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "baseline-b-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "b_baseline",
+        "b_baseline",
+        "b_baseline",
+        "b_baseline",
+        "b_baseline",
+        "b_baseline"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "b_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "b_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "b_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "b_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "b_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "b_baseline"
+        }
+      ],
+      "nativeUrl": "moonpool://com.example.cookieprobe.b/page?run=ios-confirmed-first&case=baseline-b-local",
+      "owner": "b",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "baseline",
+      "store": "CF867965-5517-4005-8705-4E99553A2BC0",
+      "view": "b"
+    },
+    {
+      "actualPartition": "h",
+      "blocked": false,
+      "document": {
+        "before": "t28_server=h_baseline; t28_frame=h_recreated; t28_frameHeader=h_recreated; t28_js=h_recreated; t28_proto=h_recreated; t28_resource=h_recreated",
+        "case": "baseline-h-remote",
+        "complete": true,
+        "cookie": "t28_frame=h_baseline; t28_frameHeader=h_baseline; t28_js=h_baseline; t28_proto=h_baseline; t28_resource=h_baseline; t28_server=h_baseline",
+        "frameLoaded": true,
+        "frameRead": "t28_frame=h_baseline; t28_frameHeader=h_baseline; t28_js=h_baseline; t28_proto=h_baseline; t28_resource=h_baseline; t28_server=h_baseline",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=baseline-h-remote",
+        "prototypeRead": "t28_frame=h_baseline; t28_frameHeader=h_baseline; t28_js=h_baseline; t28_proto=h_baseline; t28_resource=h_baseline; t28_server=h_baseline",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "baseline-h-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "h_baseline",
+        "h_baseline",
+        "h_baseline",
+        "h_baseline",
+        "h_baseline",
+        "h_baseline"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "h_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "h_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "h_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "h_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "h_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "h_baseline"
+        }
+      ],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=baseline-h-remote",
+      "owner": "h",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "baseline",
+      "store": "default",
+      "view": "h"
+    },
+    {
+      "actualPartition": "h",
+      "blocked": false,
+      "document": {
+        "before": "",
+        "case": "baseline-h-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.h/page?run=ios-confirmed-first&case=baseline-h-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "baseline-h-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "h_baseline",
+        "h_baseline",
+        "h_baseline",
+        "h_baseline",
+        "h_baseline",
+        "h_baseline"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "h_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "h_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "h_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "h_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "h_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "h_baseline"
+        }
+      ],
+      "nativeUrl": "moonpool://com.example.cookieprobe.h/page?run=ios-confirmed-first&case=baseline-h-local",
+      "owner": "h",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "baseline",
+      "store": "default",
+      "view": "h"
+    },
+    {
+      "actualPartition": "u",
+      "blocked": false,
+      "document": {
+        "before": "t28_server=u_baseline",
+        "case": "baseline-u-remote",
+        "complete": true,
+        "cookie": "t28_frame=u_baseline; t28_frameHeader=u_baseline; t28_js=u_baseline; t28_proto=u_baseline; t28_resource=u_baseline; t28_server=u_baseline",
+        "frameLoaded": true,
+        "frameRead": "t28_frame=u_baseline; t28_frameHeader=u_baseline; t28_js=u_baseline; t28_proto=u_baseline; t28_resource=u_baseline; t28_server=u_baseline",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=baseline-u-remote",
+        "prototypeRead": "t28_frame=u_baseline; t28_frameHeader=u_baseline; t28_js=u_baseline; t28_proto=u_baseline; t28_resource=u_baseline; t28_server=u_baseline",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "baseline-u-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "u_baseline",
+        "u_baseline",
+        "u_baseline",
+        "u_baseline",
+        "u_baseline",
+        "u_baseline"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "u_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "u_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "u_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "u_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "u_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "u_baseline"
+        }
+      ],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=baseline-u-remote",
+      "owner": "u",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "baseline",
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7",
+      "view": "u"
+    },
+    {
+      "actualPartition": "u",
+      "blocked": false,
+      "document": {
+        "before": "",
+        "case": "baseline-u-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.u/page?run=ios-confirmed-first&case=baseline-u-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "baseline-u-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "u_baseline",
+        "u_baseline",
+        "u_baseline",
+        "u_baseline",
+        "u_baseline",
+        "u_baseline"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "u_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "u_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "u_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "u_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "u_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "u_baseline"
+        }
+      ],
+      "nativeUrl": "moonpool://com.example.cookieprobe.u/page?run=ios-confirmed-first&case=baseline-u-local",
+      "owner": "u",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "baseline",
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7",
+      "view": "u"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "case": "a-blocked-a1-remote",
+        "complete": true,
+        "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "frameLoaded": true,
+        "frameRead": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=a-blocked-a1-remote",
+        "prototypeRead": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "a-blocked-a1-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        }
+      ],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=a-blocked-a1-remote",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "stage": "a-blocked",
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A",
+      "view": "a1"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "a-blocked-a1-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.a/page?run=ios-confirmed-first&case=a-blocked-a1-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "a-blocked-a1-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        }
+      ],
+      "nativeUrl": "moonpool://com.example.cookieprobe.a/page?run=ios-confirmed-first&case=a-blocked-a1-local",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "stage": "a-blocked",
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A",
+      "view": "a1"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "case": "a-blocked-a2-remote",
+        "complete": true,
+        "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "frameLoaded": true,
+        "frameRead": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=a-blocked-a2-remote",
+        "prototypeRead": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "a-blocked-a2-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        }
+      ],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=a-blocked-a2-remote",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "stage": "a-blocked",
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A",
+      "view": "a2"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "a-blocked-a2-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.a/page?run=ios-confirmed-first&case=a-blocked-a2-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "a-blocked-a2-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        }
+      ],
+      "nativeUrl": "moonpool://com.example.cookieprobe.a/page?run=ios-confirmed-first&case=a-blocked-a2-local",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "stage": "a-blocked",
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A",
+      "view": "a2"
+    },
+    {
+      "actualPartition": "b",
+      "blocked": false,
+      "document": {
+        "before": "t28_server=b_a-blocked; t28_frame=b_baseline; t28_frameHeader=b_baseline; t28_js=b_baseline; t28_proto=b_baseline; t28_resource=b_baseline",
+        "case": "a-blocked-b-remote",
+        "complete": true,
+        "cookie": "t28_frame=b_a-blocked; t28_frameHeader=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_resource=b_a-blocked; t28_server=b_a-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_frame=b_a-blocked; t28_frameHeader=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_resource=b_a-blocked; t28_server=b_a-blocked",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=a-blocked-b-remote",
+        "prototypeRead": "t28_frame=b_a-blocked; t28_frameHeader=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_resource=b_a-blocked; t28_server=b_a-blocked",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "a-blocked-b-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        }
+      ],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=a-blocked-b-remote",
+      "owner": "b",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "a-blocked",
+      "store": "CF867965-5517-4005-8705-4E99553A2BC0",
+      "view": "b"
+    },
+    {
+      "actualPartition": "b",
+      "blocked": false,
+      "document": {
+        "before": "",
+        "case": "a-blocked-b-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.b/page?run=ios-confirmed-first&case=a-blocked-b-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "a-blocked-b-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        }
+      ],
+      "nativeUrl": "moonpool://com.example.cookieprobe.b/page?run=ios-confirmed-first&case=a-blocked-b-local",
+      "owner": "b",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "a-blocked",
+      "store": "CF867965-5517-4005-8705-4E99553A2BC0",
+      "view": "b"
+    },
+    {
+      "actualPartition": "h",
+      "blocked": false,
+      "document": {
+        "before": "t28_server=h_a-blocked; t28_frame=h_baseline; t28_frameHeader=h_baseline; t28_js=h_baseline; t28_proto=h_baseline; t28_resource=h_baseline",
+        "case": "a-blocked-h-remote",
+        "complete": true,
+        "cookie": "t28_frame=h_a-blocked; t28_frameHeader=h_a-blocked; t28_js=h_a-blocked; t28_proto=h_a-blocked; t28_resource=h_a-blocked; t28_server=h_a-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_frame=h_a-blocked; t28_frameHeader=h_a-blocked; t28_js=h_a-blocked; t28_proto=h_a-blocked; t28_resource=h_a-blocked; t28_server=h_a-blocked",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=a-blocked-h-remote",
+        "prototypeRead": "t28_frame=h_a-blocked; t28_frameHeader=h_a-blocked; t28_js=h_a-blocked; t28_proto=h_a-blocked; t28_resource=h_a-blocked; t28_server=h_a-blocked",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "a-blocked-h-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "h_a-blocked",
+        "h_a-blocked",
+        "h_a-blocked",
+        "h_a-blocked",
+        "h_a-blocked",
+        "h_a-blocked"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "h_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "h_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "h_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "h_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "h_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "h_a-blocked"
+        }
+      ],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=a-blocked-h-remote",
+      "owner": "h",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "a-blocked",
+      "store": "default",
+      "view": "h"
+    },
+    {
+      "actualPartition": "h",
+      "blocked": false,
+      "document": {
+        "before": "",
+        "case": "a-blocked-h-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.h/page?run=ios-confirmed-first&case=a-blocked-h-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "a-blocked-h-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "h_a-blocked",
+        "h_a-blocked",
+        "h_a-blocked",
+        "h_a-blocked",
+        "h_a-blocked",
+        "h_a-blocked"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "h_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "h_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "h_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "h_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "h_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "h_a-blocked"
+        }
+      ],
+      "nativeUrl": "moonpool://com.example.cookieprobe.h/page?run=ios-confirmed-first&case=a-blocked-h-local",
+      "owner": "h",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "a-blocked",
+      "store": "default",
+      "view": "h"
+    },
+    {
+      "actualPartition": "u",
+      "blocked": false,
+      "document": {
+        "before": "t28_server=u_a-blocked; t28_frame=u_baseline; t28_frameHeader=u_baseline; t28_js=u_baseline; t28_proto=u_baseline; t28_resource=u_baseline",
+        "case": "a-blocked-u-remote",
+        "complete": true,
+        "cookie": "t28_frame=u_a-blocked; t28_frameHeader=u_a-blocked; t28_js=u_a-blocked; t28_proto=u_a-blocked; t28_resource=u_a-blocked; t28_server=u_a-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_frame=u_a-blocked; t28_frameHeader=u_a-blocked; t28_js=u_a-blocked; t28_proto=u_a-blocked; t28_resource=u_a-blocked; t28_server=u_a-blocked",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=a-blocked-u-remote",
+        "prototypeRead": "t28_frame=u_a-blocked; t28_frameHeader=u_a-blocked; t28_js=u_a-blocked; t28_proto=u_a-blocked; t28_resource=u_a-blocked; t28_server=u_a-blocked",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "a-blocked-u-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "u_a-blocked",
+        "u_a-blocked",
+        "u_a-blocked",
+        "u_a-blocked",
+        "u_a-blocked",
+        "u_a-blocked"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "u_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "u_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "u_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "u_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "u_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "u_a-blocked"
+        }
+      ],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=a-blocked-u-remote",
+      "owner": "u",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "a-blocked",
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7",
+      "view": "u"
+    },
+    {
+      "actualPartition": "u",
+      "blocked": false,
+      "document": {
+        "before": "",
+        "case": "a-blocked-u-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.u/page?run=ios-confirmed-first&case=a-blocked-u-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "a-blocked-u-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "u_a-blocked",
+        "u_a-blocked",
+        "u_a-blocked",
+        "u_a-blocked",
+        "u_a-blocked",
+        "u_a-blocked"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "u_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "u_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "u_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "u_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "u_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "u_a-blocked"
+        }
+      ],
+      "nativeUrl": "moonpool://com.example.cookieprobe.u/page?run=ios-confirmed-first&case=a-blocked-u-local",
+      "owner": "u",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "a-blocked",
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7",
+      "view": "u"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "case": "ab-blocked-a1-remote",
+        "complete": true,
+        "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "frameLoaded": true,
+        "frameRead": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=ab-blocked-a1-remote",
+        "prototypeRead": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "ab-blocked-a1-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        }
+      ],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=ab-blocked-a1-remote",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "stage": "ab-blocked",
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A",
+      "view": "a1"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "ab-blocked-a1-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.a/page?run=ios-confirmed-first&case=ab-blocked-a1-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "ab-blocked-a1-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        }
+      ],
+      "nativeUrl": "moonpool://com.example.cookieprobe.a/page?run=ios-confirmed-first&case=ab-blocked-a1-local",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "stage": "ab-blocked",
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A",
+      "view": "a1"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "case": "ab-blocked-a2-remote",
+        "complete": true,
+        "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "frameLoaded": true,
+        "frameRead": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=ab-blocked-a2-remote",
+        "prototypeRead": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "ab-blocked-a2-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        }
+      ],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=ab-blocked-a2-remote",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "stage": "ab-blocked",
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A",
+      "view": "a2"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "ab-blocked-a2-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.a/page?run=ios-confirmed-first&case=ab-blocked-a2-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "ab-blocked-a2-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        }
+      ],
+      "nativeUrl": "moonpool://com.example.cookieprobe.a/page?run=ios-confirmed-first&case=ab-blocked-a2-local",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "stage": "ab-blocked",
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A",
+      "view": "a2"
+    },
+    {
+      "actualPartition": "b",
+      "blocked": true,
+      "document": {
+        "before": "t28_frame=b_a-blocked; t28_frameHeader=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_resource=b_a-blocked; t28_server=b_a-blocked",
+        "case": "ab-blocked-b-remote",
+        "complete": true,
+        "cookie": "t28_frame=b_a-blocked; t28_frameHeader=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_resource=b_a-blocked; t28_server=b_a-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_frame=b_a-blocked; t28_frameHeader=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_resource=b_a-blocked; t28_server=b_a-blocked",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=ab-blocked-b-remote",
+        "prototypeRead": "t28_frame=b_a-blocked; t28_frameHeader=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_resource=b_a-blocked; t28_server=b_a-blocked",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "ab-blocked-b-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        }
+      ],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=ab-blocked-b-remote",
+      "owner": "b",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "stage": "ab-blocked",
+      "store": "CF867965-5517-4005-8705-4E99553A2BC0",
+      "view": "b"
+    },
+    {
+      "actualPartition": "b",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "ab-blocked-b-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.b/page?run=ios-confirmed-first&case=ab-blocked-b-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "ab-blocked-b-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        }
+      ],
+      "nativeUrl": "moonpool://com.example.cookieprobe.b/page?run=ios-confirmed-first&case=ab-blocked-b-local",
+      "owner": "b",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "stage": "ab-blocked",
+      "store": "CF867965-5517-4005-8705-4E99553A2BC0",
+      "view": "b"
+    },
+    {
+      "actualPartition": "h",
+      "blocked": false,
+      "document": {
+        "before": "t28_server=h_ab-blocked; t28_frame=h_a-blocked; t28_frameHeader=h_a-blocked; t28_js=h_a-blocked; t28_proto=h_a-blocked; t28_resource=h_a-blocked",
+        "case": "ab-blocked-h-remote",
+        "complete": true,
+        "cookie": "t28_frame=h_ab-blocked; t28_frameHeader=h_ab-blocked; t28_js=h_ab-blocked; t28_proto=h_ab-blocked; t28_resource=h_ab-blocked; t28_server=h_ab-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_frame=h_ab-blocked; t28_frameHeader=h_ab-blocked; t28_js=h_ab-blocked; t28_proto=h_ab-blocked; t28_resource=h_ab-blocked; t28_server=h_ab-blocked",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=ab-blocked-h-remote",
+        "prototypeRead": "t28_frame=h_ab-blocked; t28_frameHeader=h_ab-blocked; t28_js=h_ab-blocked; t28_proto=h_ab-blocked; t28_resource=h_ab-blocked; t28_server=h_ab-blocked",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "ab-blocked-h-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "h_ab-blocked",
+        "h_ab-blocked",
+        "h_ab-blocked",
+        "h_ab-blocked",
+        "h_ab-blocked",
+        "h_ab-blocked"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "h_ab-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "h_ab-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "h_ab-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "h_ab-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "h_ab-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "h_ab-blocked"
+        }
+      ],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=ab-blocked-h-remote",
+      "owner": "h",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "ab-blocked",
+      "store": "default",
+      "view": "h"
+    },
+    {
+      "actualPartition": "h",
+      "blocked": false,
+      "document": {
+        "before": "",
+        "case": "ab-blocked-h-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.h/page?run=ios-confirmed-first&case=ab-blocked-h-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "ab-blocked-h-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "h_ab-blocked",
+        "h_ab-blocked",
+        "h_ab-blocked",
+        "h_ab-blocked",
+        "h_ab-blocked",
+        "h_ab-blocked"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "h_ab-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "h_ab-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "h_ab-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "h_ab-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "h_ab-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "h_ab-blocked"
+        }
+      ],
+      "nativeUrl": "moonpool://com.example.cookieprobe.h/page?run=ios-confirmed-first&case=ab-blocked-h-local",
+      "owner": "h",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "ab-blocked",
+      "store": "default",
+      "view": "h"
+    },
+    {
+      "actualPartition": "u",
+      "blocked": false,
+      "document": {
+        "before": "t28_server=u_ab-blocked; t28_frame=u_a-blocked; t28_frameHeader=u_a-blocked; t28_js=u_a-blocked; t28_proto=u_a-blocked; t28_resource=u_a-blocked",
+        "case": "ab-blocked-u-remote",
+        "complete": true,
+        "cookie": "t28_frame=u_ab-blocked; t28_frameHeader=u_ab-blocked; t28_js=u_ab-blocked; t28_proto=u_ab-blocked; t28_resource=u_ab-blocked; t28_server=u_ab-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_frame=u_ab-blocked; t28_frameHeader=u_ab-blocked; t28_js=u_ab-blocked; t28_proto=u_ab-blocked; t28_resource=u_ab-blocked; t28_server=u_ab-blocked",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=ab-blocked-u-remote",
+        "prototypeRead": "t28_frame=u_ab-blocked; t28_frameHeader=u_ab-blocked; t28_js=u_ab-blocked; t28_proto=u_ab-blocked; t28_resource=u_ab-blocked; t28_server=u_ab-blocked",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "ab-blocked-u-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "u_ab-blocked",
+        "u_ab-blocked",
+        "u_ab-blocked",
+        "u_ab-blocked",
+        "u_ab-blocked",
+        "u_ab-blocked"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "u_ab-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "u_ab-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "u_ab-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "u_ab-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "u_ab-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "u_ab-blocked"
+        }
+      ],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=ab-blocked-u-remote",
+      "owner": "u",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "ab-blocked",
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7",
+      "view": "u"
+    },
+    {
+      "actualPartition": "u",
+      "blocked": false,
+      "document": {
+        "before": "",
+        "case": "ab-blocked-u-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.u/page?run=ios-confirmed-first&case=ab-blocked-u-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "ab-blocked-u-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "u_ab-blocked",
+        "u_ab-blocked",
+        "u_ab-blocked",
+        "u_ab-blocked",
+        "u_ab-blocked",
+        "u_ab-blocked"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "u_ab-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "u_ab-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "u_ab-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "u_ab-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "u_ab-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "u_ab-blocked"
+        }
+      ],
+      "nativeUrl": "moonpool://com.example.cookieprobe.u/page?run=ios-confirmed-first&case=ab-blocked-u-local",
+      "owner": "u",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "ab-blocked",
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7",
+      "view": "u"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "case": "recreated-a1-remote",
+        "complete": true,
+        "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "frameLoaded": true,
+        "frameRead": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=recreated-a1-remote",
+        "prototypeRead": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "recreated-a1-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        }
+      ],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=recreated-a1-remote",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "stage": "recreated",
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A",
+      "view": "a1"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "recreated-a1-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.a/page?run=ios-confirmed-first&case=recreated-a1-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "recreated-a1-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        }
+      ],
+      "nativeUrl": "moonpool://com.example.cookieprobe.a/page?run=ios-confirmed-first&case=recreated-a1-local",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "stage": "recreated",
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A",
+      "view": "a1"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "case": "recreated-a2-remote",
+        "complete": true,
+        "cookie": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "frameLoaded": true,
+        "frameRead": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=recreated-a2-remote",
+        "prototypeRead": "t28_frame=a_baseline; t28_frameHeader=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_resource=a_baseline; t28_server=a_baseline",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "recreated-a2-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        }
+      ],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=recreated-a2-remote",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "stage": "recreated",
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A",
+      "view": "a2"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "recreated-a2-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.a/page?run=ios-confirmed-first&case=recreated-a2-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "recreated-a2-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "a_baseline"
+        }
+      ],
+      "nativeUrl": "moonpool://com.example.cookieprobe.a/page?run=ios-confirmed-first&case=recreated-a2-local",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "stage": "recreated",
+      "store": "BF973F1D-19F5-4970-B100-6C611B80126A",
+      "view": "a2"
+    },
+    {
+      "actualPartition": "b",
+      "blocked": true,
+      "document": {
+        "before": "t28_frame=b_a-blocked; t28_frameHeader=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_resource=b_a-blocked; t28_server=b_a-blocked",
+        "case": "recreated-b-remote",
+        "complete": true,
+        "cookie": "t28_frame=b_a-blocked; t28_frameHeader=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_resource=b_a-blocked; t28_server=b_a-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_frame=b_a-blocked; t28_frameHeader=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_resource=b_a-blocked; t28_server=b_a-blocked",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=recreated-b-remote",
+        "prototypeRead": "t28_frame=b_a-blocked; t28_frameHeader=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_resource=b_a-blocked; t28_server=b_a-blocked",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "recreated-b-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        }
+      ],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=recreated-b-remote",
+      "owner": "b",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "stage": "recreated",
+      "store": "CF867965-5517-4005-8705-4E99553A2BC0",
+      "view": "b"
+    },
+    {
+      "actualPartition": "b",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "recreated-b-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.b/page?run=ios-confirmed-first&case=recreated-b-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "recreated-b-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "b_a-blocked"
+        }
+      ],
+      "nativeUrl": "moonpool://com.example.cookieprobe.b/page?run=ios-confirmed-first&case=recreated-b-local",
+      "owner": "b",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "stage": "recreated",
+      "store": "CF867965-5517-4005-8705-4E99553A2BC0",
+      "view": "b"
+    },
+    {
+      "actualPartition": "h",
+      "blocked": false,
+      "document": {
+        "before": "t28_server=h_recreated; t28_frame=h_ab-blocked; t28_frameHeader=h_ab-blocked; t28_js=h_ab-blocked; t28_proto=h_ab-blocked; t28_resource=h_ab-blocked",
+        "case": "recreated-h-remote",
+        "complete": true,
+        "cookie": "t28_frame=h_recreated; t28_frameHeader=h_recreated; t28_js=h_recreated; t28_proto=h_recreated; t28_resource=h_recreated; t28_server=h_recreated",
+        "frameLoaded": true,
+        "frameRead": "t28_frame=h_recreated; t28_frameHeader=h_recreated; t28_js=h_recreated; t28_proto=h_recreated; t28_resource=h_recreated; t28_server=h_recreated",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=recreated-h-remote",
+        "prototypeRead": "t28_frame=h_recreated; t28_frameHeader=h_recreated; t28_js=h_recreated; t28_proto=h_recreated; t28_resource=h_recreated; t28_server=h_recreated",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "recreated-h-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "h_recreated",
+        "h_recreated",
+        "h_recreated",
+        "h_recreated",
+        "h_recreated",
+        "h_recreated"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "h_recreated"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "h_recreated"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "h_recreated"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "h_recreated"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "h_recreated"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "h_recreated"
+        }
+      ],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=recreated-h-remote",
+      "owner": "h",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "recreated",
+      "store": "default",
+      "view": "h"
+    },
+    {
+      "actualPartition": "h",
+      "blocked": false,
+      "document": {
+        "before": "",
+        "case": "recreated-h-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.h/page?run=ios-confirmed-first&case=recreated-h-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "recreated-h-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "h_recreated",
+        "h_recreated",
+        "h_recreated",
+        "h_recreated",
+        "h_recreated",
+        "h_recreated"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "h_recreated"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "h_recreated"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "h_recreated"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "h_recreated"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "h_recreated"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "h_recreated"
+        }
+      ],
+      "nativeUrl": "moonpool://com.example.cookieprobe.h/page?run=ios-confirmed-first&case=recreated-h-local",
+      "owner": "h",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "recreated",
+      "store": "default",
+      "view": "h"
+    },
+    {
+      "actualPartition": "u",
+      "blocked": false,
+      "document": {
+        "before": "t28_server=u_recreated; t28_frame=u_ab-blocked; t28_frameHeader=u_ab-blocked; t28_js=u_ab-blocked; t28_proto=u_ab-blocked; t28_resource=u_ab-blocked",
+        "case": "recreated-u-remote",
+        "complete": true,
+        "cookie": "t28_frame=u_recreated; t28_resource=u_recreated; t28_frameHeader=u_recreated; t28_js=u_recreated; t28_proto=u_recreated; t28_server=u_recreated",
+        "frameLoaded": true,
+        "frameRead": "t28_frame=u_recreated; t28_resource=u_recreated; t28_frameHeader=u_recreated; t28_js=u_recreated; t28_proto=u_recreated; t28_server=u_recreated",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=recreated-u-remote",
+        "prototypeRead": "t28_frame=u_recreated; t28_resource=u_recreated; t28_frameHeader=u_recreated; t28_js=u_recreated; t28_proto=u_recreated; t28_server=u_recreated",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "recreated-u-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "u_recreated",
+        "u_recreated",
+        "u_recreated",
+        "u_recreated",
+        "u_recreated",
+        "u_recreated"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "u_recreated"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "u_recreated"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "u_recreated"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "u_recreated"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "u_recreated"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "u_recreated"
+        }
+      ],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=recreated-u-remote",
+      "owner": "u",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "recreated",
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7",
+      "view": "u"
+    },
+    {
+      "actualPartition": "u",
+      "blocked": false,
+      "document": {
+        "before": "",
+        "case": "recreated-u-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.u/page?run=ios-confirmed-first&case=recreated-u-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "recreated-u-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "u_recreated",
+        "u_recreated",
+        "u_recreated",
+        "u_recreated",
+        "u_recreated",
+        "u_recreated"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "u_recreated"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "u_recreated"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "u_recreated"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "u_recreated"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "u_recreated"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "u_recreated"
+        }
+      ],
+      "nativeUrl": "moonpool://com.example.cookieprobe.u/page?run=ios-confirmed-first&case=recreated-u-local",
+      "owner": "u",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "recreated",
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7",
+      "view": "u"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "fresh-blocked-a1-remote",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=fresh-blocked-a1-remote",
+        "prototypeRead": "",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "fresh-blocked-a1-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [],
+      "nativeCookies": [],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=fresh-blocked-a1-remote",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "stage": "fresh-blocked",
+      "store": "2D5524A2-9E80-425F-9751-A542046079C5",
+      "view": "a1"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "fresh-blocked-a1-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.a/page?run=ios-confirmed-first&case=fresh-blocked-a1-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "fresh-blocked-a1-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [],
+      "nativeCookies": [],
+      "nativeUrl": "moonpool://com.example.cookieprobe.a/page?run=ios-confirmed-first&case=fresh-blocked-a1-local",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "stage": "fresh-blocked",
+      "store": "2D5524A2-9E80-425F-9751-A542046079C5",
+      "view": "a1"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "fresh-blocked-a2-remote",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=fresh-blocked-a2-remote",
+        "prototypeRead": "",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "fresh-blocked-a2-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [],
+      "nativeCookies": [],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=fresh-blocked-a2-remote",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "stage": "fresh-blocked",
+      "store": "2D5524A2-9E80-425F-9751-A542046079C5",
+      "view": "a2"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "fresh-blocked-a2-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.a/page?run=ios-confirmed-first&case=fresh-blocked-a2-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "fresh-blocked-a2-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [],
+      "nativeCookies": [],
+      "nativeUrl": "moonpool://com.example.cookieprobe.a/page?run=ios-confirmed-first&case=fresh-blocked-a2-local",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "stage": "fresh-blocked",
+      "store": "2D5524A2-9E80-425F-9751-A542046079C5",
+      "view": "a2"
+    },
+    {
+      "actualPartition": "b",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "fresh-blocked-b-remote",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=fresh-blocked-b-remote",
+        "prototypeRead": "",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "fresh-blocked-b-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [],
+      "nativeCookies": [],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=fresh-blocked-b-remote",
+      "owner": "b",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "stage": "fresh-blocked",
+      "store": "F43711BD-9B2D-4A89-973A-0C6B3D31C1B3",
+      "view": "b"
+    },
+    {
+      "actualPartition": "b",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "fresh-blocked-b-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.b/page?run=ios-confirmed-first&case=fresh-blocked-b-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "fresh-blocked-b-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [],
+      "nativeCookies": [],
+      "nativeUrl": "moonpool://com.example.cookieprobe.b/page?run=ios-confirmed-first&case=fresh-blocked-b-local",
+      "owner": "b",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "stage": "fresh-blocked",
+      "store": "F43711BD-9B2D-4A89-973A-0C6B3D31C1B3",
+      "view": "b"
+    },
+    {
+      "actualPartition": "h",
+      "blocked": false,
+      "document": {
+        "before": "t28_server=h_fresh-blocked; t28_frame=h_recreated; t28_frameHeader=h_recreated; t28_js=h_recreated; t28_proto=h_recreated; t28_resource=h_recreated",
+        "case": "fresh-blocked-h-remote",
+        "complete": true,
+        "cookie": "t28_frame=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_resource=h_fresh-blocked; t28_server=h_fresh-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_frame=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_resource=h_fresh-blocked; t28_server=h_fresh-blocked",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=fresh-blocked-h-remote",
+        "prototypeRead": "t28_frame=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_resource=h_fresh-blocked; t28_server=h_fresh-blocked",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "fresh-blocked-h-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "h_fresh-blocked",
+        "h_fresh-blocked",
+        "h_fresh-blocked",
+        "h_fresh-blocked",
+        "h_fresh-blocked",
+        "h_fresh-blocked"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "h_fresh-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "h_fresh-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "h_fresh-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "h_fresh-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "h_fresh-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "h_fresh-blocked"
+        }
+      ],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=fresh-blocked-h-remote",
+      "owner": "h",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "fresh-blocked",
+      "store": "default",
+      "view": "h"
+    },
+    {
+      "actualPartition": "h",
+      "blocked": false,
+      "document": {
+        "before": "",
+        "case": "fresh-blocked-h-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.h/page?run=ios-confirmed-first&case=fresh-blocked-h-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "fresh-blocked-h-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "h_fresh-blocked",
+        "h_fresh-blocked",
+        "h_fresh-blocked",
+        "h_fresh-blocked",
+        "h_fresh-blocked",
+        "h_fresh-blocked"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "h_fresh-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "h_fresh-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "h_fresh-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "h_fresh-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "h_fresh-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "h_fresh-blocked"
+        }
+      ],
+      "nativeUrl": "moonpool://com.example.cookieprobe.h/page?run=ios-confirmed-first&case=fresh-blocked-h-local",
+      "owner": "h",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "fresh-blocked",
+      "store": "default",
+      "view": "h"
+    },
+    {
+      "actualPartition": "u",
+      "blocked": false,
+      "document": {
+        "before": "t28_server=u_fresh-blocked; t28_frame=u_recreated; t28_resource=u_recreated; t28_frameHeader=u_recreated; t28_js=u_recreated; t28_proto=u_recreated",
+        "case": "fresh-blocked-u-remote",
+        "complete": true,
+        "cookie": "t28_frame=u_fresh-blocked; t28_frameHeader=u_fresh-blocked; t28_js=u_fresh-blocked; t28_proto=u_fresh-blocked; t28_resource=u_fresh-blocked; t28_server=u_fresh-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_frame=u_fresh-blocked; t28_frameHeader=u_fresh-blocked; t28_js=u_fresh-blocked; t28_proto=u_fresh-blocked; t28_resource=u_fresh-blocked; t28_server=u_fresh-blocked",
+        "href": "https://localhost:65031/page?run=ios-confirmed-first&case=fresh-blocked-u-remote",
+        "prototypeRead": "t28_frame=u_fresh-blocked; t28_frameHeader=u_fresh-blocked; t28_js=u_fresh-blocked; t28_proto=u_fresh-blocked; t28_resource=u_fresh-blocked; t28_server=u_fresh-blocked",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "fresh-blocked-u-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "u_fresh-blocked",
+        "u_fresh-blocked",
+        "u_fresh-blocked",
+        "u_fresh-blocked",
+        "u_fresh-blocked",
+        "u_fresh-blocked"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "u_fresh-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "u_fresh-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "u_fresh-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "u_fresh-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "u_fresh-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "u_fresh-blocked"
+        }
+      ],
+      "nativeUrl": "https://localhost:65031/page?run=ios-confirmed-first&case=fresh-blocked-u-remote",
+      "owner": "u",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "fresh-blocked",
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7",
+      "view": "u"
+    },
+    {
+      "actualPartition": "u",
+      "blocked": false,
+      "document": {
+        "before": "",
+        "case": "fresh-blocked-u-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "moonpool://com.example.cookieprobe.u/page?run=ios-confirmed-first&case=fresh-blocked-u-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "fresh-blocked-u-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "u_fresh-blocked",
+        "u_fresh-blocked",
+        "u_fresh-blocked",
+        "u_fresh-blocked",
+        "u_fresh-blocked",
+        "u_fresh-blocked"
+      ],
+      "nativeCookies": [
+        {
+          "domain": "localhost",
+          "name": "t28_server",
+          "path": "/",
+          "secure": true,
+          "value": "u_fresh-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_js",
+          "path": "/",
+          "secure": true,
+          "value": "u_fresh-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_proto",
+          "path": "/",
+          "secure": true,
+          "value": "u_fresh-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frameHeader",
+          "path": "/",
+          "secure": true,
+          "value": "u_fresh-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_frame",
+          "path": "/",
+          "secure": true,
+          "value": "u_fresh-blocked"
+        },
+        {
+          "domain": "localhost",
+          "name": "t28_resource",
+          "path": "/",
+          "secure": true,
+          "value": "u_fresh-blocked"
+        }
+      ],
+      "nativeUrl": "moonpool://com.example.cookieprobe.u/page?run=ios-confirmed-first&case=fresh-blocked-u-local",
+      "owner": "u",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "stage": "fresh-blocked",
+      "store": "7DDFABBC-05E5-4831-91E8-B1586355E2B7",
+      "view": "u"
+    }
+  ]
+}

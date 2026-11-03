@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Moonpool cookie suppression fixture</title>
+<body><p>Public cookie markers only.</p>
+<script>
+  (async () => {
+    const query = new URLSearchParams(location.search);
+    const id = query.get('case');
+    const owner = query.get('owner');
+    const stage = query.get('stage');
+    // The server page and local loader use the same supplied case coordinates.
+    const parts = id.split('-');
+    const view = parts.at(-2);
+    const actualOwner = owner || (view === 'a1' || view === 'a2' ? 'a' : view);
+    const actualStage = stage || parts.slice(0, -2).join('-');
+    const marker = `${actualOwner}_${actualStage}`;
+    const report = { case: id, href: location.href, before: document.cookie, secureContext: isSecureContext, complete: false };
+    window.cookieProbe = report;
+    try {
+      const descriptor = Object.getOwnPropertyDescriptor(Document.prototype, 'cookie');
+      // biome-ignore lint/suspicious/noDocumentCookie: The experiment measures this exact legacy API.
+      document.cookie = `t28_js=${marker}; Path=/; Secure; Max-Age=86400`;
+      descriptor.set.call(document, `t28_proto=${marker}; Path=/; Secure; Max-Age=86400`);
+      const frame = document.createElement('iframe');
+      const loaded = new Promise((resolve, reject) => {
+        frame.onload = resolve;
+        frame.onerror = reject;
+      });
+      frame.src = `/frame${location.search}`;
+      document.body.append(frame);
+      await loaded;
+      report.frameLoaded = frame.contentDocument.body.textContent.includes('cookie-frame-ready');
+      const childDescriptor = Object.getOwnPropertyDescriptor(frame.contentWindow.Document.prototype, 'cookie');
+      childDescriptor.set.call(frame.contentDocument, `t28_frame=${marker}; Path=/; Secure; Max-Age=86400`);
+      if (location.hostname === 'localhost') {
+        const img = new Image();
+        const imageLoaded = new Promise((resolve, reject) => { img.onload = resolve; img.onerror = reject; });
+        img.src = `/resource${location.search}`;
+        document.body.append(img);
+        await imageLoaded;
+        const response = await fetch(`/observe${location.search}`, { credentials: 'include', cache: 'no-store' });
+        report.remoteObserved = response.ok && (await response.json()).ok === true;
+      } else { report.remoteObserved = false; }
+      report.cookie = document.cookie;
+      report.prototypeRead = descriptor.get.call(document);
+      report.frameRead = childDescriptor.get.call(frame.contentDocument);
+      report.complete = true;
+    } catch (error) { report.error = String(error); report.complete = false; }
+  })();
+</script>
+</body>
+</html>

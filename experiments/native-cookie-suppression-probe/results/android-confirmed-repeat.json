@@ -1,0 +1,2719 @@
+{
+  "base": "https://localhost:65031",
+  "build": {
+    "apkSha256": "5624b9f5f60321451022839fd1f225490fb904084bcc6ce7966f4c8a5a477287",
+    "caSha256": "452e196952a1021ba3c99f57ed56e1337dcd231304cdb49a30f28e1345971efa",
+    "fixtureConfigSha256": "b21e53c58c487ac716015429e858d6125f4b5385a9ff3c76597eec9a9ff4f145",
+    "sources": {
+      "android/app/build.gradle": "39e194817066067c24e85720e30de75373dd0a754f6d0886f5313cf197a8fcda",
+      "android/app/src/main/AndroidManifest.xml": "0fac1e5baf68b6cc9042df6b9a0aac70c7c92915bfeca1c6daadb90f87be6016",
+      "android/app/src/main/java/org/moonpool/cookiesuppression/ProbeActivity.java": "77b2c2245b2619a6f0a8a4ac0e3d168fcaf7178bcbbd1ddbab9a3efd3debecd7",
+      "android/app/src/main/res/xml/network_security_config.xml": "db03edbc7c0bb3bb6f5f0a34d22a100c2d5a456261c47cdbec3462f5fec9c735",
+      "android/build.gradle": "bb5d6db0a3f94e7ff33ba91a07fa9146a96994e843ae487ebccadc99b62e722c",
+      "android/gradle.properties": "67eefa02d084d8fd6e2698683ca4d007a344395ca89eed9012a79bac373ba359",
+      "android/settings.gradle": "3ff6d22dea45983aaf625f1935e2a65480831aadf1f8c4fb8a001d6767cfac11",
+      "build.py": "814b740b7f6e84cfbb55fdcf0ccff6dba1e5905cab985f853fc545eac6e8a369",
+      "page.html": "0d01d1ab3a1f5fc3aa37ab87549eb2b1b268dc28cbc65600c777ca9f967bfcb4"
+    },
+    "wrapperSha256": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59"
+  },
+  "capturedUtc": "2026-11-03T03:00:35Z",
+  "complete": true,
+  "events": [
+    {
+      "event": "created",
+      "profile": "cookie-probe-android-confirmed-repeat-a",
+      "view": "a1"
+    },
+    {
+      "event": "created",
+      "profile": "cookie-probe-android-confirmed-repeat-a",
+      "view": "a2"
+    },
+    {
+      "event": "created",
+      "profile": "cookie-probe-android-confirmed-repeat-b",
+      "view": "b"
+    },
+    {
+      "event": "created",
+      "profile": "Default",
+      "view": "h"
+    },
+    {
+      "event": "created",
+      "profile": "cookie-probe-android-confirmed-repeat-u",
+      "view": "u"
+    },
+    {
+      "event": "policy",
+      "stage": "baseline",
+      "values": {
+        "a": true,
+        "b": true,
+        "h": true,
+        "u": true
+      }
+    },
+    {
+      "case": "baseline-a1-remote",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "cookie-probe-android-confirmed-repeat-a"
+    },
+    {
+      "case": "baseline-a1-local",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "cookie-probe-android-confirmed-repeat-a"
+    },
+    {
+      "case": "baseline-a2-remote",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "cookie-probe-android-confirmed-repeat-a"
+    },
+    {
+      "case": "baseline-a2-local",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "cookie-probe-android-confirmed-repeat-a"
+    },
+    {
+      "case": "baseline-b-remote",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "cookie-probe-android-confirmed-repeat-b"
+    },
+    {
+      "case": "baseline-b-local",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "cookie-probe-android-confirmed-repeat-b"
+    },
+    {
+      "case": "baseline-h-remote",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "Default"
+    },
+    {
+      "case": "baseline-h-local",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "Default"
+    },
+    {
+      "case": "baseline-u-remote",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "cookie-probe-android-confirmed-repeat-u"
+    },
+    {
+      "case": "baseline-u-local",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "cookie-probe-android-confirmed-repeat-u"
+    },
+    {
+      "event": "policy",
+      "stage": "a-blocked",
+      "values": {
+        "a": false,
+        "b": true,
+        "h": true,
+        "u": true
+      }
+    },
+    {
+      "case": "a-blocked-a1-remote",
+      "event": "load",
+      "policyAllows": false,
+      "profile": "cookie-probe-android-confirmed-repeat-a"
+    },
+    {
+      "case": "a-blocked-a1-local",
+      "event": "load",
+      "policyAllows": false,
+      "profile": "cookie-probe-android-confirmed-repeat-a"
+    },
+    {
+      "case": "a-blocked-a2-remote",
+      "event": "load",
+      "policyAllows": false,
+      "profile": "cookie-probe-android-confirmed-repeat-a"
+    },
+    {
+      "case": "a-blocked-a2-local",
+      "event": "load",
+      "policyAllows": false,
+      "profile": "cookie-probe-android-confirmed-repeat-a"
+    },
+    {
+      "case": "a-blocked-b-remote",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "cookie-probe-android-confirmed-repeat-b"
+    },
+    {
+      "case": "a-blocked-b-local",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "cookie-probe-android-confirmed-repeat-b"
+    },
+    {
+      "case": "a-blocked-h-remote",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "Default"
+    },
+    {
+      "case": "a-blocked-h-local",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "Default"
+    },
+    {
+      "case": "a-blocked-u-remote",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "cookie-probe-android-confirmed-repeat-u"
+    },
+    {
+      "case": "a-blocked-u-local",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "cookie-probe-android-confirmed-repeat-u"
+    },
+    {
+      "event": "policy",
+      "stage": "ab-blocked",
+      "values": {
+        "a": false,
+        "b": false,
+        "h": true,
+        "u": true
+      }
+    },
+    {
+      "case": "ab-blocked-a1-remote",
+      "event": "load",
+      "policyAllows": false,
+      "profile": "cookie-probe-android-confirmed-repeat-a"
+    },
+    {
+      "case": "ab-blocked-a1-local",
+      "event": "load",
+      "policyAllows": false,
+      "profile": "cookie-probe-android-confirmed-repeat-a"
+    },
+    {
+      "case": "ab-blocked-a2-remote",
+      "event": "load",
+      "policyAllows": false,
+      "profile": "cookie-probe-android-confirmed-repeat-a"
+    },
+    {
+      "case": "ab-blocked-a2-local",
+      "event": "load",
+      "policyAllows": false,
+      "profile": "cookie-probe-android-confirmed-repeat-a"
+    },
+    {
+      "case": "ab-blocked-b-remote",
+      "event": "load",
+      "policyAllows": false,
+      "profile": "cookie-probe-android-confirmed-repeat-b"
+    },
+    {
+      "case": "ab-blocked-b-local",
+      "event": "load",
+      "policyAllows": false,
+      "profile": "cookie-probe-android-confirmed-repeat-b"
+    },
+    {
+      "case": "ab-blocked-h-remote",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "Default"
+    },
+    {
+      "case": "ab-blocked-h-local",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "Default"
+    },
+    {
+      "case": "ab-blocked-u-remote",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "cookie-probe-android-confirmed-repeat-u"
+    },
+    {
+      "case": "ab-blocked-u-local",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "cookie-probe-android-confirmed-repeat-u"
+    },
+    {
+      "event": "created",
+      "profile": "cookie-probe-android-confirmed-repeat-a",
+      "view": "a1"
+    },
+    {
+      "event": "created",
+      "profile": "cookie-probe-android-confirmed-repeat-a",
+      "view": "a2"
+    },
+    {
+      "event": "created",
+      "profile": "cookie-probe-android-confirmed-repeat-b",
+      "view": "b"
+    },
+    {
+      "event": "created",
+      "profile": "Default",
+      "view": "h"
+    },
+    {
+      "event": "created",
+      "profile": "cookie-probe-android-confirmed-repeat-u",
+      "view": "u"
+    },
+    {
+      "event": "policy",
+      "stage": "recreated",
+      "values": {
+        "a": false,
+        "b": false,
+        "h": true,
+        "u": true
+      }
+    },
+    {
+      "case": "recreated-a1-remote",
+      "event": "load",
+      "policyAllows": false,
+      "profile": "cookie-probe-android-confirmed-repeat-a"
+    },
+    {
+      "case": "recreated-a1-local",
+      "event": "load",
+      "policyAllows": false,
+      "profile": "cookie-probe-android-confirmed-repeat-a"
+    },
+    {
+      "case": "recreated-a2-remote",
+      "event": "load",
+      "policyAllows": false,
+      "profile": "cookie-probe-android-confirmed-repeat-a"
+    },
+    {
+      "case": "recreated-a2-local",
+      "event": "load",
+      "policyAllows": false,
+      "profile": "cookie-probe-android-confirmed-repeat-a"
+    },
+    {
+      "case": "recreated-b-remote",
+      "event": "load",
+      "policyAllows": false,
+      "profile": "cookie-probe-android-confirmed-repeat-b"
+    },
+    {
+      "case": "recreated-b-local",
+      "event": "load",
+      "policyAllows": false,
+      "profile": "cookie-probe-android-confirmed-repeat-b"
+    },
+    {
+      "case": "recreated-h-remote",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "Default"
+    },
+    {
+      "case": "recreated-h-local",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "Default"
+    },
+    {
+      "case": "recreated-u-remote",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "cookie-probe-android-confirmed-repeat-u"
+    },
+    {
+      "case": "recreated-u-local",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "cookie-probe-android-confirmed-repeat-u"
+    },
+    {
+      "event": "created",
+      "profile": "cookie-probe-android-confirmed-repeat-fresh-a",
+      "view": "a1"
+    },
+    {
+      "event": "created",
+      "profile": "cookie-probe-android-confirmed-repeat-fresh-a",
+      "view": "a2"
+    },
+    {
+      "event": "created",
+      "profile": "cookie-probe-android-confirmed-repeat-fresh-b",
+      "view": "b"
+    },
+    {
+      "event": "created",
+      "profile": "Default",
+      "view": "h"
+    },
+    {
+      "event": "created",
+      "profile": "cookie-probe-android-confirmed-repeat-u",
+      "view": "u"
+    },
+    {
+      "event": "policy",
+      "stage": "fresh-blocked",
+      "values": {
+        "a": false,
+        "b": false,
+        "h": true,
+        "u": true
+      }
+    },
+    {
+      "case": "fresh-blocked-a1-remote",
+      "event": "load",
+      "policyAllows": false,
+      "profile": "cookie-probe-android-confirmed-repeat-fresh-a"
+    },
+    {
+      "case": "fresh-blocked-a1-local",
+      "event": "load",
+      "policyAllows": false,
+      "profile": "cookie-probe-android-confirmed-repeat-fresh-a"
+    },
+    {
+      "case": "fresh-blocked-a2-remote",
+      "event": "load",
+      "policyAllows": false,
+      "profile": "cookie-probe-android-confirmed-repeat-fresh-a"
+    },
+    {
+      "case": "fresh-blocked-a2-local",
+      "event": "load",
+      "policyAllows": false,
+      "profile": "cookie-probe-android-confirmed-repeat-fresh-a"
+    },
+    {
+      "case": "fresh-blocked-b-remote",
+      "event": "load",
+      "policyAllows": false,
+      "profile": "cookie-probe-android-confirmed-repeat-fresh-b"
+    },
+    {
+      "case": "fresh-blocked-b-local",
+      "event": "load",
+      "policyAllows": false,
+      "profile": "cookie-probe-android-confirmed-repeat-fresh-b"
+    },
+    {
+      "case": "fresh-blocked-h-remote",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "Default"
+    },
+    {
+      "case": "fresh-blocked-h-local",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "Default"
+    },
+    {
+      "case": "fresh-blocked-u-remote",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "cookie-probe-android-confirmed-repeat-u"
+    },
+    {
+      "case": "fresh-blocked-u-local",
+      "event": "load",
+      "policyAllows": true,
+      "profile": "cookie-probe-android-confirmed-repeat-u"
+    }
+  ],
+  "installedArtifactSha256": "5624b9f5f60321451022839fd1f225490fb904084bcc6ce7966f4c8a5a477287",
+  "partitions": {
+    "a": "cookie-probe-android-confirmed-repeat-a",
+    "b": "cookie-probe-android-confirmed-repeat-b",
+    "h": "Default",
+    "u": "cookie-probe-android-confirmed-repeat-u"
+  },
+  "platform": "android",
+  "providerVersion": "145.0.7632.218",
+  "release": "17",
+  "requests": [
+    {
+      "case": "baseline-a1-remote",
+      "cookie": "",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "baseline-a1-remote",
+      "cookie": "t28_server=a_baseline; t28_js=a_baseline; t28_proto=a_baseline",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "baseline-a1-remote",
+      "cookie": "t28_server=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_frameHeader=a_baseline; t28_frame=a_baseline",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "baseline-a1-remote",
+      "cookie": "t28_server=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_frameHeader=a_baseline; t28_frame=a_baseline; t28_resource=a_baseline",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "baseline-a2-remote",
+      "cookie": "t28_server=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_frameHeader=a_baseline; t28_frame=a_baseline; t28_resource=a_baseline",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "baseline-a2-remote",
+      "cookie": "t28_server=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_frameHeader=a_baseline; t28_frame=a_baseline; t28_resource=a_baseline",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "baseline-a2-remote",
+      "cookie": "t28_server=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_frameHeader=a_baseline; t28_frame=a_baseline; t28_resource=a_baseline",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "baseline-a2-remote",
+      "cookie": "t28_server=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_frameHeader=a_baseline; t28_frame=a_baseline; t28_resource=a_baseline",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "baseline-b-remote",
+      "cookie": "",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "baseline-b-remote",
+      "cookie": "t28_server=b_baseline; t28_js=b_baseline; t28_proto=b_baseline",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "baseline-b-remote",
+      "cookie": "t28_server=b_baseline; t28_js=b_baseline; t28_proto=b_baseline; t28_frameHeader=b_baseline; t28_frame=b_baseline",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "baseline-b-remote",
+      "cookie": "t28_server=b_baseline; t28_js=b_baseline; t28_proto=b_baseline; t28_frameHeader=b_baseline; t28_frame=b_baseline; t28_resource=b_baseline",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "baseline-h-remote",
+      "cookie": "t28_server=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_frame=h_fresh-blocked; t28_resource=h_fresh-blocked",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "baseline-h-remote",
+      "cookie": "t28_frameHeader=h_fresh-blocked; t28_frame=h_fresh-blocked; t28_resource=h_fresh-blocked; t28_server=h_baseline; t28_js=h_baseline; t28_proto=h_baseline",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "baseline-h-remote",
+      "cookie": "t28_resource=h_fresh-blocked; t28_server=h_baseline; t28_js=h_baseline; t28_proto=h_baseline; t28_frameHeader=h_baseline; t28_frame=h_baseline",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "baseline-h-remote",
+      "cookie": "t28_server=h_baseline; t28_js=h_baseline; t28_proto=h_baseline; t28_frameHeader=h_baseline; t28_frame=h_baseline; t28_resource=h_baseline",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "baseline-u-remote",
+      "cookie": "",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "baseline-u-remote",
+      "cookie": "t28_server=u_baseline; t28_js=u_baseline; t28_proto=u_baseline",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "baseline-u-remote",
+      "cookie": "t28_server=u_baseline; t28_js=u_baseline; t28_proto=u_baseline; t28_frameHeader=u_baseline; t28_frame=u_baseline",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "baseline-u-remote",
+      "cookie": "t28_server=u_baseline; t28_js=u_baseline; t28_proto=u_baseline; t28_frameHeader=u_baseline; t28_frame=u_baseline; t28_resource=u_baseline",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-a1-remote",
+      "cookie": "",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-a1-remote",
+      "cookie": "",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-a1-remote",
+      "cookie": "",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-a1-remote",
+      "cookie": "",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-a2-remote",
+      "cookie": "",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-a2-remote",
+      "cookie": "",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-a2-remote",
+      "cookie": "",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-a2-remote",
+      "cookie": "",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-b-remote",
+      "cookie": "t28_server=b_baseline; t28_js=b_baseline; t28_proto=b_baseline; t28_frameHeader=b_baseline; t28_frame=b_baseline; t28_resource=b_baseline",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-b-remote",
+      "cookie": "t28_frameHeader=b_baseline; t28_frame=b_baseline; t28_resource=b_baseline; t28_server=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-b-remote",
+      "cookie": "t28_resource=b_baseline; t28_server=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_frameHeader=b_a-blocked; t28_frame=b_a-blocked",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-b-remote",
+      "cookie": "t28_server=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_frameHeader=b_a-blocked; t28_frame=b_a-blocked; t28_resource=b_a-blocked",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-h-remote",
+      "cookie": "t28_server=h_baseline; t28_js=h_baseline; t28_proto=h_baseline; t28_frameHeader=h_baseline; t28_frame=h_baseline; t28_resource=h_baseline",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-h-remote",
+      "cookie": "t28_frameHeader=h_baseline; t28_frame=h_baseline; t28_resource=h_baseline; t28_server=h_a-blocked; t28_js=h_a-blocked; t28_proto=h_a-blocked",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-h-remote",
+      "cookie": "t28_resource=h_baseline; t28_server=h_a-blocked; t28_js=h_a-blocked; t28_proto=h_a-blocked; t28_frameHeader=h_a-blocked; t28_frame=h_a-blocked",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-h-remote",
+      "cookie": "t28_server=h_a-blocked; t28_js=h_a-blocked; t28_proto=h_a-blocked; t28_frameHeader=h_a-blocked; t28_frame=h_a-blocked; t28_resource=h_a-blocked",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-u-remote",
+      "cookie": "t28_server=u_baseline; t28_js=u_baseline; t28_proto=u_baseline; t28_frameHeader=u_baseline; t28_frame=u_baseline; t28_resource=u_baseline",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-u-remote",
+      "cookie": "t28_frameHeader=u_baseline; t28_frame=u_baseline; t28_resource=u_baseline; t28_server=u_a-blocked; t28_js=u_a-blocked; t28_proto=u_a-blocked",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-u-remote",
+      "cookie": "t28_resource=u_baseline; t28_server=u_a-blocked; t28_js=u_a-blocked; t28_proto=u_a-blocked; t28_frameHeader=u_a-blocked; t28_frame=u_a-blocked",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "a-blocked-u-remote",
+      "cookie": "t28_server=u_a-blocked; t28_js=u_a-blocked; t28_proto=u_a-blocked; t28_frameHeader=u_a-blocked; t28_frame=u_a-blocked; t28_resource=u_a-blocked",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-a1-remote",
+      "cookie": "",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-a1-remote",
+      "cookie": "",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-a1-remote",
+      "cookie": "",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-a1-remote",
+      "cookie": "",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-a2-remote",
+      "cookie": "",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-a2-remote",
+      "cookie": "",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-a2-remote",
+      "cookie": "",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-a2-remote",
+      "cookie": "",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-b-remote",
+      "cookie": "",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-b-remote",
+      "cookie": "",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-b-remote",
+      "cookie": "",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-b-remote",
+      "cookie": "",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-h-remote",
+      "cookie": "t28_server=h_a-blocked; t28_js=h_a-blocked; t28_proto=h_a-blocked; t28_frameHeader=h_a-blocked; t28_frame=h_a-blocked; t28_resource=h_a-blocked",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-h-remote",
+      "cookie": "t28_frameHeader=h_a-blocked; t28_frame=h_a-blocked; t28_resource=h_a-blocked; t28_server=h_ab-blocked; t28_js=h_ab-blocked; t28_proto=h_ab-blocked",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-h-remote",
+      "cookie": "t28_resource=h_a-blocked; t28_server=h_ab-blocked; t28_js=h_ab-blocked; t28_proto=h_ab-blocked; t28_frameHeader=h_ab-blocked; t28_frame=h_ab-blocked",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-h-remote",
+      "cookie": "t28_server=h_ab-blocked; t28_js=h_ab-blocked; t28_proto=h_ab-blocked; t28_frameHeader=h_ab-blocked; t28_frame=h_ab-blocked; t28_resource=h_ab-blocked",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-u-remote",
+      "cookie": "t28_server=u_a-blocked; t28_js=u_a-blocked; t28_proto=u_a-blocked; t28_frameHeader=u_a-blocked; t28_frame=u_a-blocked; t28_resource=u_a-blocked",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-u-remote",
+      "cookie": "t28_frameHeader=u_a-blocked; t28_frame=u_a-blocked; t28_resource=u_a-blocked; t28_server=u_ab-blocked; t28_js=u_ab-blocked; t28_proto=u_ab-blocked",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-u-remote",
+      "cookie": "t28_resource=u_a-blocked; t28_server=u_ab-blocked; t28_js=u_ab-blocked; t28_proto=u_ab-blocked; t28_frameHeader=u_ab-blocked; t28_frame=u_ab-blocked",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "ab-blocked-u-remote",
+      "cookie": "t28_server=u_ab-blocked; t28_js=u_ab-blocked; t28_proto=u_ab-blocked; t28_frameHeader=u_ab-blocked; t28_frame=u_ab-blocked; t28_resource=u_ab-blocked",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "recreated-a1-remote",
+      "cookie": "",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "recreated-a1-remote",
+      "cookie": "",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "recreated-a1-remote",
+      "cookie": "",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "recreated-a1-remote",
+      "cookie": "",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "recreated-a2-remote",
+      "cookie": "",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "recreated-a2-remote",
+      "cookie": "",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "recreated-a2-remote",
+      "cookie": "",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "recreated-a2-remote",
+      "cookie": "",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "recreated-b-remote",
+      "cookie": "",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "recreated-b-remote",
+      "cookie": "",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "recreated-b-remote",
+      "cookie": "",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "recreated-b-remote",
+      "cookie": "",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "recreated-h-remote",
+      "cookie": "t28_server=h_ab-blocked; t28_js=h_ab-blocked; t28_proto=h_ab-blocked; t28_frameHeader=h_ab-blocked; t28_frame=h_ab-blocked; t28_resource=h_ab-blocked",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "recreated-h-remote",
+      "cookie": "t28_frameHeader=h_ab-blocked; t28_frame=h_ab-blocked; t28_resource=h_ab-blocked; t28_server=h_recreated; t28_js=h_recreated; t28_proto=h_recreated",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "recreated-h-remote",
+      "cookie": "t28_resource=h_ab-blocked; t28_server=h_recreated; t28_js=h_recreated; t28_proto=h_recreated; t28_frameHeader=h_recreated; t28_frame=h_recreated",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "recreated-h-remote",
+      "cookie": "t28_server=h_recreated; t28_js=h_recreated; t28_proto=h_recreated; t28_frameHeader=h_recreated; t28_frame=h_recreated; t28_resource=h_recreated",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "recreated-u-remote",
+      "cookie": "t28_server=u_ab-blocked; t28_js=u_ab-blocked; t28_proto=u_ab-blocked; t28_frameHeader=u_ab-blocked; t28_frame=u_ab-blocked; t28_resource=u_ab-blocked",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "recreated-u-remote",
+      "cookie": "t28_frameHeader=u_ab-blocked; t28_frame=u_ab-blocked; t28_resource=u_ab-blocked; t28_server=u_recreated; t28_js=u_recreated; t28_proto=u_recreated",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "recreated-u-remote",
+      "cookie": "t28_resource=u_ab-blocked; t28_server=u_recreated; t28_js=u_recreated; t28_proto=u_recreated; t28_frameHeader=u_recreated; t28_frame=u_recreated",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "recreated-u-remote",
+      "cookie": "t28_server=u_recreated; t28_js=u_recreated; t28_proto=u_recreated; t28_frameHeader=u_recreated; t28_frame=u_recreated; t28_resource=u_recreated",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-a1-remote",
+      "cookie": "",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-a1-remote",
+      "cookie": "",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-a1-remote",
+      "cookie": "",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-a1-remote",
+      "cookie": "",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-a2-remote",
+      "cookie": "",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-a2-remote",
+      "cookie": "",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-a2-remote",
+      "cookie": "",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-a2-remote",
+      "cookie": "",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-b-remote",
+      "cookie": "",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-b-remote",
+      "cookie": "",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-b-remote",
+      "cookie": "",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-b-remote",
+      "cookie": "",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-h-remote",
+      "cookie": "t28_server=h_recreated; t28_js=h_recreated; t28_proto=h_recreated; t28_frameHeader=h_recreated; t28_frame=h_recreated; t28_resource=h_recreated",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-h-remote",
+      "cookie": "t28_frameHeader=h_recreated; t28_frame=h_recreated; t28_resource=h_recreated; t28_server=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-h-remote",
+      "cookie": "t28_resource=h_recreated; t28_server=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_frame=h_fresh-blocked",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-h-remote",
+      "cookie": "t28_server=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_frame=h_fresh-blocked; t28_resource=h_fresh-blocked",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-u-remote",
+      "cookie": "t28_server=u_recreated; t28_js=u_recreated; t28_proto=u_recreated; t28_frameHeader=u_recreated; t28_frame=u_recreated; t28_resource=u_recreated",
+      "path": "/page",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-u-remote",
+      "cookie": "t28_frameHeader=u_recreated; t28_frame=u_recreated; t28_resource=u_recreated; t28_server=u_fresh-blocked; t28_js=u_fresh-blocked; t28_proto=u_fresh-blocked",
+      "path": "/frame",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-u-remote",
+      "cookie": "t28_resource=u_recreated; t28_server=u_fresh-blocked; t28_js=u_fresh-blocked; t28_proto=u_fresh-blocked; t28_frameHeader=u_fresh-blocked; t28_frame=u_fresh-blocked",
+      "path": "/resource",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    },
+    {
+      "case": "fresh-blocked-u-remote",
+      "cookie": "t28_server=u_fresh-blocked; t28_js=u_fresh-blocked; t28_proto=u_fresh-blocked; t28_frameHeader=u_fresh-blocked; t28_frame=u_fresh-blocked; t28_resource=u_fresh-blocked",
+      "path": "/observe",
+      "run": "android-confirmed-repeat",
+      "tls": true
+    }
+  ],
+  "run": "android-confirmed-repeat",
+  "samples": [
+    {
+      "actualPartition": "a",
+      "blocked": false,
+      "document": {
+        "before": "t28_server=a_baseline",
+        "case": "baseline-a1-remote",
+        "complete": true,
+        "cookie": "t28_server=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_frameHeader=a_baseline; t28_frame=a_baseline; t28_resource=a_baseline",
+        "frameLoaded": true,
+        "frameRead": "t28_server=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_frameHeader=a_baseline; t28_frame=a_baseline; t28_resource=a_baseline",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=baseline-a1-remote",
+        "prototypeRead": "t28_server=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_frameHeader=a_baseline; t28_frame=a_baseline; t28_resource=a_baseline",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "baseline-a1-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": "t28_server=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_frameHeader=a_baseline; t28_frame=a_baseline; t28_resource=a_baseline",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=baseline-a1-remote",
+      "owner": "a",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-a",
+      "stage": "baseline",
+      "view": "a1"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": false,
+      "document": {
+        "before": "",
+        "case": "baseline-a1-local",
+        "complete": true,
+        "cookie": "t28_js=a_baseline; t28_proto=a_baseline; t28_frame=a_baseline",
+        "frameLoaded": true,
+        "frameRead": "t28_js=a_baseline; t28_proto=a_baseline; t28_frame=a_baseline",
+        "href": "https://mp-cvhai5sy2yktsi6y3dxdfs6x7e6dsu62b47y7w24op7nbuafyx4q.invalid/page?run=android-confirmed-repeat&case=baseline-a1-local",
+        "prototypeRead": "t28_js=a_baseline; t28_proto=a_baseline; t28_frame=a_baseline",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "baseline-a1-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": ["a_baseline", "a_baseline", "a_baseline"],
+      "nativeCookies": "t28_js=a_baseline; t28_proto=a_baseline; t28_frame=a_baseline",
+      "nativeUrl": "https://mp-cvhai5sy2yktsi6y3dxdfs6x7e6dsu62b47y7w24op7nbuafyx4q.invalid/page?run=android-confirmed-repeat&case=baseline-a1-local",
+      "owner": "a",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-a",
+      "stage": "baseline",
+      "view": "a1"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": false,
+      "document": {
+        "before": "t28_server=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_frameHeader=a_baseline; t28_frame=a_baseline; t28_resource=a_baseline",
+        "case": "baseline-a2-remote",
+        "complete": true,
+        "cookie": "t28_server=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_frameHeader=a_baseline; t28_frame=a_baseline; t28_resource=a_baseline",
+        "frameLoaded": true,
+        "frameRead": "t28_server=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_frameHeader=a_baseline; t28_frame=a_baseline; t28_resource=a_baseline",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=baseline-a2-remote",
+        "prototypeRead": "t28_server=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_frameHeader=a_baseline; t28_frame=a_baseline; t28_resource=a_baseline",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "baseline-a2-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": "t28_server=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_frameHeader=a_baseline; t28_frame=a_baseline; t28_resource=a_baseline",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=baseline-a2-remote",
+      "owner": "a",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-a",
+      "stage": "baseline",
+      "view": "a2"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": false,
+      "document": {
+        "before": "t28_js=a_baseline; t28_proto=a_baseline; t28_frame=a_baseline",
+        "case": "baseline-a2-local",
+        "complete": true,
+        "cookie": "t28_js=a_baseline; t28_proto=a_baseline; t28_frame=a_baseline",
+        "frameLoaded": true,
+        "frameRead": "t28_js=a_baseline; t28_proto=a_baseline; t28_frame=a_baseline",
+        "href": "https://mp-cvhai5sy2yktsi6y3dxdfs6x7e6dsu62b47y7w24op7nbuafyx4q.invalid/page?run=android-confirmed-repeat&case=baseline-a2-local",
+        "prototypeRead": "t28_js=a_baseline; t28_proto=a_baseline; t28_frame=a_baseline",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "baseline-a2-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": ["a_baseline", "a_baseline", "a_baseline"],
+      "nativeCookies": "t28_js=a_baseline; t28_proto=a_baseline; t28_frame=a_baseline",
+      "nativeUrl": "https://mp-cvhai5sy2yktsi6y3dxdfs6x7e6dsu62b47y7w24op7nbuafyx4q.invalid/page?run=android-confirmed-repeat&case=baseline-a2-local",
+      "owner": "a",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-a",
+      "stage": "baseline",
+      "view": "a2"
+    },
+    {
+      "actualPartition": "b",
+      "blocked": false,
+      "document": {
+        "before": "t28_server=b_baseline",
+        "case": "baseline-b-remote",
+        "complete": true,
+        "cookie": "t28_server=b_baseline; t28_js=b_baseline; t28_proto=b_baseline; t28_frameHeader=b_baseline; t28_frame=b_baseline; t28_resource=b_baseline",
+        "frameLoaded": true,
+        "frameRead": "t28_server=b_baseline; t28_js=b_baseline; t28_proto=b_baseline; t28_frameHeader=b_baseline; t28_frame=b_baseline; t28_resource=b_baseline",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=baseline-b-remote",
+        "prototypeRead": "t28_server=b_baseline; t28_js=b_baseline; t28_proto=b_baseline; t28_frameHeader=b_baseline; t28_frame=b_baseline; t28_resource=b_baseline",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "baseline-b-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "b_baseline",
+        "b_baseline",
+        "b_baseline",
+        "b_baseline",
+        "b_baseline",
+        "b_baseline"
+      ],
+      "nativeCookies": "t28_server=b_baseline; t28_js=b_baseline; t28_proto=b_baseline; t28_frameHeader=b_baseline; t28_frame=b_baseline; t28_resource=b_baseline",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=baseline-b-remote",
+      "owner": "b",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-b",
+      "stage": "baseline",
+      "view": "b"
+    },
+    {
+      "actualPartition": "b",
+      "blocked": false,
+      "document": {
+        "before": "",
+        "case": "baseline-b-local",
+        "complete": true,
+        "cookie": "t28_js=b_baseline; t28_proto=b_baseline; t28_frame=b_baseline",
+        "frameLoaded": true,
+        "frameRead": "t28_js=b_baseline; t28_proto=b_baseline; t28_frame=b_baseline",
+        "href": "https://mp-tdrxo2fdjjvi2foafvxrkldsij7lukhckhet3flftb7y6k4u3ruq.invalid/page?run=android-confirmed-repeat&case=baseline-b-local",
+        "prototypeRead": "t28_js=b_baseline; t28_proto=b_baseline; t28_frame=b_baseline",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "baseline-b-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": ["b_baseline", "b_baseline", "b_baseline"],
+      "nativeCookies": "t28_js=b_baseline; t28_proto=b_baseline; t28_frame=b_baseline",
+      "nativeUrl": "https://mp-tdrxo2fdjjvi2foafvxrkldsij7lukhckhet3flftb7y6k4u3ruq.invalid/page?run=android-confirmed-repeat&case=baseline-b-local",
+      "owner": "b",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-b",
+      "stage": "baseline",
+      "view": "b"
+    },
+    {
+      "actualPartition": "h",
+      "blocked": false,
+      "document": {
+        "before": "t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_frame=h_fresh-blocked; t28_resource=h_fresh-blocked; t28_server=h_baseline",
+        "case": "baseline-h-remote",
+        "complete": true,
+        "cookie": "t28_server=h_baseline; t28_js=h_baseline; t28_proto=h_baseline; t28_frameHeader=h_baseline; t28_frame=h_baseline; t28_resource=h_baseline",
+        "frameLoaded": true,
+        "frameRead": "t28_server=h_baseline; t28_js=h_baseline; t28_proto=h_baseline; t28_frameHeader=h_baseline; t28_frame=h_baseline; t28_resource=h_baseline",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=baseline-h-remote",
+        "prototypeRead": "t28_server=h_baseline; t28_js=h_baseline; t28_proto=h_baseline; t28_frameHeader=h_baseline; t28_frame=h_baseline; t28_resource=h_baseline",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "baseline-h-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "h_baseline",
+        "h_baseline",
+        "h_baseline",
+        "h_baseline",
+        "h_baseline",
+        "h_baseline"
+      ],
+      "nativeCookies": "t28_server=h_baseline; t28_js=h_baseline; t28_proto=h_baseline; t28_frameHeader=h_baseline; t28_frame=h_baseline; t28_resource=h_baseline",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=baseline-h-remote",
+      "owner": "h",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "Default",
+      "stage": "baseline",
+      "view": "h"
+    },
+    {
+      "actualPartition": "h",
+      "blocked": false,
+      "document": {
+        "before": "t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_frame=h_fresh-blocked",
+        "case": "baseline-h-local",
+        "complete": true,
+        "cookie": "t28_js=h_baseline; t28_proto=h_baseline; t28_frame=h_baseline",
+        "frameLoaded": true,
+        "frameRead": "t28_js=h_baseline; t28_proto=h_baseline; t28_frame=h_baseline",
+        "href": "https://mp-hk2yixtso7zzcdxwqrp2nodiwy5mer4wiohillu3bjoulp4udlsa.invalid/page?run=android-confirmed-repeat&case=baseline-h-local",
+        "prototypeRead": "t28_js=h_baseline; t28_proto=h_baseline; t28_frame=h_baseline",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "baseline-h-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": ["h_baseline", "h_baseline", "h_baseline"],
+      "nativeCookies": "t28_js=h_baseline; t28_proto=h_baseline; t28_frame=h_baseline",
+      "nativeUrl": "https://mp-hk2yixtso7zzcdxwqrp2nodiwy5mer4wiohillu3bjoulp4udlsa.invalid/page?run=android-confirmed-repeat&case=baseline-h-local",
+      "owner": "h",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "Default",
+      "stage": "baseline",
+      "view": "h"
+    },
+    {
+      "actualPartition": "u",
+      "blocked": false,
+      "document": {
+        "before": "t28_server=u_baseline",
+        "case": "baseline-u-remote",
+        "complete": true,
+        "cookie": "t28_server=u_baseline; t28_js=u_baseline; t28_proto=u_baseline; t28_frameHeader=u_baseline; t28_frame=u_baseline; t28_resource=u_baseline",
+        "frameLoaded": true,
+        "frameRead": "t28_server=u_baseline; t28_js=u_baseline; t28_proto=u_baseline; t28_frameHeader=u_baseline; t28_frame=u_baseline; t28_resource=u_baseline",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=baseline-u-remote",
+        "prototypeRead": "t28_server=u_baseline; t28_js=u_baseline; t28_proto=u_baseline; t28_frameHeader=u_baseline; t28_frame=u_baseline; t28_resource=u_baseline",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "baseline-u-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "u_baseline",
+        "u_baseline",
+        "u_baseline",
+        "u_baseline",
+        "u_baseline",
+        "u_baseline"
+      ],
+      "nativeCookies": "t28_server=u_baseline; t28_js=u_baseline; t28_proto=u_baseline; t28_frameHeader=u_baseline; t28_frame=u_baseline; t28_resource=u_baseline",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=baseline-u-remote",
+      "owner": "u",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-u",
+      "stage": "baseline",
+      "view": "u"
+    },
+    {
+      "actualPartition": "u",
+      "blocked": false,
+      "document": {
+        "before": "",
+        "case": "baseline-u-local",
+        "complete": true,
+        "cookie": "t28_js=u_baseline; t28_proto=u_baseline; t28_frame=u_baseline",
+        "frameLoaded": true,
+        "frameRead": "t28_js=u_baseline; t28_proto=u_baseline; t28_frame=u_baseline",
+        "href": "https://mp-g6ds6mtuo3n2pnpuy6wljp7triyvseu2diktfmgm7olidfo5n4kq.invalid/page?run=android-confirmed-repeat&case=baseline-u-local",
+        "prototypeRead": "t28_js=u_baseline; t28_proto=u_baseline; t28_frame=u_baseline",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "baseline-u-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": ["u_baseline", "u_baseline", "u_baseline"],
+      "nativeCookies": "t28_js=u_baseline; t28_proto=u_baseline; t28_frame=u_baseline",
+      "nativeUrl": "https://mp-g6ds6mtuo3n2pnpuy6wljp7triyvseu2diktfmgm7olidfo5n4kq.invalid/page?run=android-confirmed-repeat&case=baseline-u-local",
+      "owner": "u",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-u",
+      "stage": "baseline",
+      "view": "u"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "a-blocked-a1-remote",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=a-blocked-a1-remote",
+        "prototypeRead": "",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "a-blocked-a1-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": "t28_server=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_frameHeader=a_baseline; t28_frame=a_baseline; t28_resource=a_baseline",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=a-blocked-a1-remote",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-a",
+      "stage": "a-blocked",
+      "view": "a1"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "a-blocked-a1-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://mp-cvhai5sy2yktsi6y3dxdfs6x7e6dsu62b47y7w24op7nbuafyx4q.invalid/page?run=android-confirmed-repeat&case=a-blocked-a1-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "a-blocked-a1-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": ["a_baseline", "a_baseline", "a_baseline"],
+      "nativeCookies": "t28_js=a_baseline; t28_proto=a_baseline; t28_frame=a_baseline",
+      "nativeUrl": "https://mp-cvhai5sy2yktsi6y3dxdfs6x7e6dsu62b47y7w24op7nbuafyx4q.invalid/page?run=android-confirmed-repeat&case=a-blocked-a1-local",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-a",
+      "stage": "a-blocked",
+      "view": "a1"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "a-blocked-a2-remote",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=a-blocked-a2-remote",
+        "prototypeRead": "",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "a-blocked-a2-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": "t28_server=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_frameHeader=a_baseline; t28_frame=a_baseline; t28_resource=a_baseline",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=a-blocked-a2-remote",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-a",
+      "stage": "a-blocked",
+      "view": "a2"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "a-blocked-a2-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://mp-cvhai5sy2yktsi6y3dxdfs6x7e6dsu62b47y7w24op7nbuafyx4q.invalid/page?run=android-confirmed-repeat&case=a-blocked-a2-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "a-blocked-a2-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": ["a_baseline", "a_baseline", "a_baseline"],
+      "nativeCookies": "t28_js=a_baseline; t28_proto=a_baseline; t28_frame=a_baseline",
+      "nativeUrl": "https://mp-cvhai5sy2yktsi6y3dxdfs6x7e6dsu62b47y7w24op7nbuafyx4q.invalid/page?run=android-confirmed-repeat&case=a-blocked-a2-local",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-a",
+      "stage": "a-blocked",
+      "view": "a2"
+    },
+    {
+      "actualPartition": "b",
+      "blocked": false,
+      "document": {
+        "before": "t28_js=b_baseline; t28_proto=b_baseline; t28_frameHeader=b_baseline; t28_frame=b_baseline; t28_resource=b_baseline; t28_server=b_a-blocked",
+        "case": "a-blocked-b-remote",
+        "complete": true,
+        "cookie": "t28_server=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_frameHeader=b_a-blocked; t28_frame=b_a-blocked; t28_resource=b_a-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_server=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_frameHeader=b_a-blocked; t28_frame=b_a-blocked; t28_resource=b_a-blocked",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=a-blocked-b-remote",
+        "prototypeRead": "t28_server=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_frameHeader=b_a-blocked; t28_frame=b_a-blocked; t28_resource=b_a-blocked",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "a-blocked-b-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked"
+      ],
+      "nativeCookies": "t28_server=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_frameHeader=b_a-blocked; t28_frame=b_a-blocked; t28_resource=b_a-blocked",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=a-blocked-b-remote",
+      "owner": "b",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-b",
+      "stage": "a-blocked",
+      "view": "b"
+    },
+    {
+      "actualPartition": "b",
+      "blocked": false,
+      "document": {
+        "before": "t28_js=b_baseline; t28_proto=b_baseline; t28_frame=b_baseline",
+        "case": "a-blocked-b-local",
+        "complete": true,
+        "cookie": "t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_frame=b_a-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_frame=b_a-blocked",
+        "href": "https://mp-tdrxo2fdjjvi2foafvxrkldsij7lukhckhet3flftb7y6k4u3ruq.invalid/page?run=android-confirmed-repeat&case=a-blocked-b-local",
+        "prototypeRead": "t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_frame=b_a-blocked",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "a-blocked-b-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": ["b_a-blocked", "b_a-blocked", "b_a-blocked"],
+      "nativeCookies": "t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_frame=b_a-blocked",
+      "nativeUrl": "https://mp-tdrxo2fdjjvi2foafvxrkldsij7lukhckhet3flftb7y6k4u3ruq.invalid/page?run=android-confirmed-repeat&case=a-blocked-b-local",
+      "owner": "b",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-b",
+      "stage": "a-blocked",
+      "view": "b"
+    },
+    {
+      "actualPartition": "h",
+      "blocked": false,
+      "document": {
+        "before": "t28_js=h_baseline; t28_proto=h_baseline; t28_frameHeader=h_baseline; t28_frame=h_baseline; t28_resource=h_baseline; t28_server=h_a-blocked",
+        "case": "a-blocked-h-remote",
+        "complete": true,
+        "cookie": "t28_server=h_a-blocked; t28_js=h_a-blocked; t28_proto=h_a-blocked; t28_frameHeader=h_a-blocked; t28_frame=h_a-blocked; t28_resource=h_a-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_server=h_a-blocked; t28_js=h_a-blocked; t28_proto=h_a-blocked; t28_frameHeader=h_a-blocked; t28_frame=h_a-blocked; t28_resource=h_a-blocked",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=a-blocked-h-remote",
+        "prototypeRead": "t28_server=h_a-blocked; t28_js=h_a-blocked; t28_proto=h_a-blocked; t28_frameHeader=h_a-blocked; t28_frame=h_a-blocked; t28_resource=h_a-blocked",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "a-blocked-h-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "h_a-blocked",
+        "h_a-blocked",
+        "h_a-blocked",
+        "h_a-blocked",
+        "h_a-blocked",
+        "h_a-blocked"
+      ],
+      "nativeCookies": "t28_server=h_a-blocked; t28_js=h_a-blocked; t28_proto=h_a-blocked; t28_frameHeader=h_a-blocked; t28_frame=h_a-blocked; t28_resource=h_a-blocked",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=a-blocked-h-remote",
+      "owner": "h",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "Default",
+      "stage": "a-blocked",
+      "view": "h"
+    },
+    {
+      "actualPartition": "h",
+      "blocked": false,
+      "document": {
+        "before": "t28_js=h_baseline; t28_proto=h_baseline; t28_frame=h_baseline",
+        "case": "a-blocked-h-local",
+        "complete": true,
+        "cookie": "t28_js=h_a-blocked; t28_proto=h_a-blocked; t28_frame=h_a-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_js=h_a-blocked; t28_proto=h_a-blocked; t28_frame=h_a-blocked",
+        "href": "https://mp-hk2yixtso7zzcdxwqrp2nodiwy5mer4wiohillu3bjoulp4udlsa.invalid/page?run=android-confirmed-repeat&case=a-blocked-h-local",
+        "prototypeRead": "t28_js=h_a-blocked; t28_proto=h_a-blocked; t28_frame=h_a-blocked",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "a-blocked-h-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": ["h_a-blocked", "h_a-blocked", "h_a-blocked"],
+      "nativeCookies": "t28_js=h_a-blocked; t28_proto=h_a-blocked; t28_frame=h_a-blocked",
+      "nativeUrl": "https://mp-hk2yixtso7zzcdxwqrp2nodiwy5mer4wiohillu3bjoulp4udlsa.invalid/page?run=android-confirmed-repeat&case=a-blocked-h-local",
+      "owner": "h",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "Default",
+      "stage": "a-blocked",
+      "view": "h"
+    },
+    {
+      "actualPartition": "u",
+      "blocked": false,
+      "document": {
+        "before": "t28_js=u_baseline; t28_proto=u_baseline; t28_frameHeader=u_baseline; t28_frame=u_baseline; t28_resource=u_baseline; t28_server=u_a-blocked",
+        "case": "a-blocked-u-remote",
+        "complete": true,
+        "cookie": "t28_server=u_a-blocked; t28_js=u_a-blocked; t28_proto=u_a-blocked; t28_frameHeader=u_a-blocked; t28_frame=u_a-blocked; t28_resource=u_a-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_server=u_a-blocked; t28_js=u_a-blocked; t28_proto=u_a-blocked; t28_frameHeader=u_a-blocked; t28_frame=u_a-blocked; t28_resource=u_a-blocked",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=a-blocked-u-remote",
+        "prototypeRead": "t28_server=u_a-blocked; t28_js=u_a-blocked; t28_proto=u_a-blocked; t28_frameHeader=u_a-blocked; t28_frame=u_a-blocked; t28_resource=u_a-blocked",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "a-blocked-u-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "u_a-blocked",
+        "u_a-blocked",
+        "u_a-blocked",
+        "u_a-blocked",
+        "u_a-blocked",
+        "u_a-blocked"
+      ],
+      "nativeCookies": "t28_server=u_a-blocked; t28_js=u_a-blocked; t28_proto=u_a-blocked; t28_frameHeader=u_a-blocked; t28_frame=u_a-blocked; t28_resource=u_a-blocked",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=a-blocked-u-remote",
+      "owner": "u",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-u",
+      "stage": "a-blocked",
+      "view": "u"
+    },
+    {
+      "actualPartition": "u",
+      "blocked": false,
+      "document": {
+        "before": "t28_js=u_baseline; t28_proto=u_baseline; t28_frame=u_baseline",
+        "case": "a-blocked-u-local",
+        "complete": true,
+        "cookie": "t28_js=u_a-blocked; t28_proto=u_a-blocked; t28_frame=u_a-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_js=u_a-blocked; t28_proto=u_a-blocked; t28_frame=u_a-blocked",
+        "href": "https://mp-g6ds6mtuo3n2pnpuy6wljp7triyvseu2diktfmgm7olidfo5n4kq.invalid/page?run=android-confirmed-repeat&case=a-blocked-u-local",
+        "prototypeRead": "t28_js=u_a-blocked; t28_proto=u_a-blocked; t28_frame=u_a-blocked",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "a-blocked-u-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": ["u_a-blocked", "u_a-blocked", "u_a-blocked"],
+      "nativeCookies": "t28_js=u_a-blocked; t28_proto=u_a-blocked; t28_frame=u_a-blocked",
+      "nativeUrl": "https://mp-g6ds6mtuo3n2pnpuy6wljp7triyvseu2diktfmgm7olidfo5n4kq.invalid/page?run=android-confirmed-repeat&case=a-blocked-u-local",
+      "owner": "u",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-u",
+      "stage": "a-blocked",
+      "view": "u"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "ab-blocked-a1-remote",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=ab-blocked-a1-remote",
+        "prototypeRead": "",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "ab-blocked-a1-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": "t28_server=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_frameHeader=a_baseline; t28_frame=a_baseline; t28_resource=a_baseline",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=ab-blocked-a1-remote",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-a",
+      "stage": "ab-blocked",
+      "view": "a1"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "ab-blocked-a1-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://mp-cvhai5sy2yktsi6y3dxdfs6x7e6dsu62b47y7w24op7nbuafyx4q.invalid/page?run=android-confirmed-repeat&case=ab-blocked-a1-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "ab-blocked-a1-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": ["a_baseline", "a_baseline", "a_baseline"],
+      "nativeCookies": "t28_js=a_baseline; t28_proto=a_baseline; t28_frame=a_baseline",
+      "nativeUrl": "https://mp-cvhai5sy2yktsi6y3dxdfs6x7e6dsu62b47y7w24op7nbuafyx4q.invalid/page?run=android-confirmed-repeat&case=ab-blocked-a1-local",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-a",
+      "stage": "ab-blocked",
+      "view": "a1"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "ab-blocked-a2-remote",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=ab-blocked-a2-remote",
+        "prototypeRead": "",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "ab-blocked-a2-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": "t28_server=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_frameHeader=a_baseline; t28_frame=a_baseline; t28_resource=a_baseline",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=ab-blocked-a2-remote",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-a",
+      "stage": "ab-blocked",
+      "view": "a2"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "ab-blocked-a2-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://mp-cvhai5sy2yktsi6y3dxdfs6x7e6dsu62b47y7w24op7nbuafyx4q.invalid/page?run=android-confirmed-repeat&case=ab-blocked-a2-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "ab-blocked-a2-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": ["a_baseline", "a_baseline", "a_baseline"],
+      "nativeCookies": "t28_js=a_baseline; t28_proto=a_baseline; t28_frame=a_baseline",
+      "nativeUrl": "https://mp-cvhai5sy2yktsi6y3dxdfs6x7e6dsu62b47y7w24op7nbuafyx4q.invalid/page?run=android-confirmed-repeat&case=ab-blocked-a2-local",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-a",
+      "stage": "ab-blocked",
+      "view": "a2"
+    },
+    {
+      "actualPartition": "b",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "ab-blocked-b-remote",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=ab-blocked-b-remote",
+        "prototypeRead": "",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "ab-blocked-b-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked"
+      ],
+      "nativeCookies": "t28_server=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_frameHeader=b_a-blocked; t28_frame=b_a-blocked; t28_resource=b_a-blocked",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=ab-blocked-b-remote",
+      "owner": "b",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-b",
+      "stage": "ab-blocked",
+      "view": "b"
+    },
+    {
+      "actualPartition": "b",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "ab-blocked-b-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://mp-tdrxo2fdjjvi2foafvxrkldsij7lukhckhet3flftb7y6k4u3ruq.invalid/page?run=android-confirmed-repeat&case=ab-blocked-b-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "ab-blocked-b-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": ["b_a-blocked", "b_a-blocked", "b_a-blocked"],
+      "nativeCookies": "t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_frame=b_a-blocked",
+      "nativeUrl": "https://mp-tdrxo2fdjjvi2foafvxrkldsij7lukhckhet3flftb7y6k4u3ruq.invalid/page?run=android-confirmed-repeat&case=ab-blocked-b-local",
+      "owner": "b",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-b",
+      "stage": "ab-blocked",
+      "view": "b"
+    },
+    {
+      "actualPartition": "h",
+      "blocked": false,
+      "document": {
+        "before": "t28_js=h_a-blocked; t28_proto=h_a-blocked; t28_frameHeader=h_a-blocked; t28_frame=h_a-blocked; t28_resource=h_a-blocked; t28_server=h_ab-blocked",
+        "case": "ab-blocked-h-remote",
+        "complete": true,
+        "cookie": "t28_server=h_ab-blocked; t28_js=h_ab-blocked; t28_proto=h_ab-blocked; t28_frameHeader=h_ab-blocked; t28_frame=h_ab-blocked; t28_resource=h_ab-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_server=h_ab-blocked; t28_js=h_ab-blocked; t28_proto=h_ab-blocked; t28_frameHeader=h_ab-blocked; t28_frame=h_ab-blocked; t28_resource=h_ab-blocked",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=ab-blocked-h-remote",
+        "prototypeRead": "t28_server=h_ab-blocked; t28_js=h_ab-blocked; t28_proto=h_ab-blocked; t28_frameHeader=h_ab-blocked; t28_frame=h_ab-blocked; t28_resource=h_ab-blocked",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "ab-blocked-h-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "h_ab-blocked",
+        "h_ab-blocked",
+        "h_ab-blocked",
+        "h_ab-blocked",
+        "h_ab-blocked",
+        "h_ab-blocked"
+      ],
+      "nativeCookies": "t28_server=h_ab-blocked; t28_js=h_ab-blocked; t28_proto=h_ab-blocked; t28_frameHeader=h_ab-blocked; t28_frame=h_ab-blocked; t28_resource=h_ab-blocked",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=ab-blocked-h-remote",
+      "owner": "h",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "Default",
+      "stage": "ab-blocked",
+      "view": "h"
+    },
+    {
+      "actualPartition": "h",
+      "blocked": false,
+      "document": {
+        "before": "t28_js=h_a-blocked; t28_proto=h_a-blocked; t28_frame=h_a-blocked",
+        "case": "ab-blocked-h-local",
+        "complete": true,
+        "cookie": "t28_js=h_ab-blocked; t28_proto=h_ab-blocked; t28_frame=h_ab-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_js=h_ab-blocked; t28_proto=h_ab-blocked; t28_frame=h_ab-blocked",
+        "href": "https://mp-hk2yixtso7zzcdxwqrp2nodiwy5mer4wiohillu3bjoulp4udlsa.invalid/page?run=android-confirmed-repeat&case=ab-blocked-h-local",
+        "prototypeRead": "t28_js=h_ab-blocked; t28_proto=h_ab-blocked; t28_frame=h_ab-blocked",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "ab-blocked-h-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": ["h_ab-blocked", "h_ab-blocked", "h_ab-blocked"],
+      "nativeCookies": "t28_js=h_ab-blocked; t28_proto=h_ab-blocked; t28_frame=h_ab-blocked",
+      "nativeUrl": "https://mp-hk2yixtso7zzcdxwqrp2nodiwy5mer4wiohillu3bjoulp4udlsa.invalid/page?run=android-confirmed-repeat&case=ab-blocked-h-local",
+      "owner": "h",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "Default",
+      "stage": "ab-blocked",
+      "view": "h"
+    },
+    {
+      "actualPartition": "u",
+      "blocked": false,
+      "document": {
+        "before": "t28_js=u_a-blocked; t28_proto=u_a-blocked; t28_frameHeader=u_a-blocked; t28_frame=u_a-blocked; t28_resource=u_a-blocked; t28_server=u_ab-blocked",
+        "case": "ab-blocked-u-remote",
+        "complete": true,
+        "cookie": "t28_server=u_ab-blocked; t28_js=u_ab-blocked; t28_proto=u_ab-blocked; t28_frameHeader=u_ab-blocked; t28_frame=u_ab-blocked; t28_resource=u_ab-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_server=u_ab-blocked; t28_js=u_ab-blocked; t28_proto=u_ab-blocked; t28_frameHeader=u_ab-blocked; t28_frame=u_ab-blocked; t28_resource=u_ab-blocked",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=ab-blocked-u-remote",
+        "prototypeRead": "t28_server=u_ab-blocked; t28_js=u_ab-blocked; t28_proto=u_ab-blocked; t28_frameHeader=u_ab-blocked; t28_frame=u_ab-blocked; t28_resource=u_ab-blocked",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "ab-blocked-u-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "u_ab-blocked",
+        "u_ab-blocked",
+        "u_ab-blocked",
+        "u_ab-blocked",
+        "u_ab-blocked",
+        "u_ab-blocked"
+      ],
+      "nativeCookies": "t28_server=u_ab-blocked; t28_js=u_ab-blocked; t28_proto=u_ab-blocked; t28_frameHeader=u_ab-blocked; t28_frame=u_ab-blocked; t28_resource=u_ab-blocked",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=ab-blocked-u-remote",
+      "owner": "u",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-u",
+      "stage": "ab-blocked",
+      "view": "u"
+    },
+    {
+      "actualPartition": "u",
+      "blocked": false,
+      "document": {
+        "before": "t28_js=u_a-blocked; t28_proto=u_a-blocked; t28_frame=u_a-blocked",
+        "case": "ab-blocked-u-local",
+        "complete": true,
+        "cookie": "t28_js=u_ab-blocked; t28_proto=u_ab-blocked; t28_frame=u_ab-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_js=u_ab-blocked; t28_proto=u_ab-blocked; t28_frame=u_ab-blocked",
+        "href": "https://mp-g6ds6mtuo3n2pnpuy6wljp7triyvseu2diktfmgm7olidfo5n4kq.invalid/page?run=android-confirmed-repeat&case=ab-blocked-u-local",
+        "prototypeRead": "t28_js=u_ab-blocked; t28_proto=u_ab-blocked; t28_frame=u_ab-blocked",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "ab-blocked-u-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": ["u_ab-blocked", "u_ab-blocked", "u_ab-blocked"],
+      "nativeCookies": "t28_js=u_ab-blocked; t28_proto=u_ab-blocked; t28_frame=u_ab-blocked",
+      "nativeUrl": "https://mp-g6ds6mtuo3n2pnpuy6wljp7triyvseu2diktfmgm7olidfo5n4kq.invalid/page?run=android-confirmed-repeat&case=ab-blocked-u-local",
+      "owner": "u",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-u",
+      "stage": "ab-blocked",
+      "view": "u"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "recreated-a1-remote",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=recreated-a1-remote",
+        "prototypeRead": "",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "recreated-a1-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": "t28_server=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_frameHeader=a_baseline; t28_frame=a_baseline; t28_resource=a_baseline",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=recreated-a1-remote",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-a",
+      "stage": "recreated",
+      "view": "a1"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "recreated-a1-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://mp-cvhai5sy2yktsi6y3dxdfs6x7e6dsu62b47y7w24op7nbuafyx4q.invalid/page?run=android-confirmed-repeat&case=recreated-a1-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "recreated-a1-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": ["a_baseline", "a_baseline", "a_baseline"],
+      "nativeCookies": "t28_js=a_baseline; t28_proto=a_baseline; t28_frame=a_baseline",
+      "nativeUrl": "https://mp-cvhai5sy2yktsi6y3dxdfs6x7e6dsu62b47y7w24op7nbuafyx4q.invalid/page?run=android-confirmed-repeat&case=recreated-a1-local",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-a",
+      "stage": "recreated",
+      "view": "a1"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "recreated-a2-remote",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=recreated-a2-remote",
+        "prototypeRead": "",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "recreated-a2-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline",
+        "a_baseline"
+      ],
+      "nativeCookies": "t28_server=a_baseline; t28_js=a_baseline; t28_proto=a_baseline; t28_frameHeader=a_baseline; t28_frame=a_baseline; t28_resource=a_baseline",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=recreated-a2-remote",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-a",
+      "stage": "recreated",
+      "view": "a2"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "recreated-a2-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://mp-cvhai5sy2yktsi6y3dxdfs6x7e6dsu62b47y7w24op7nbuafyx4q.invalid/page?run=android-confirmed-repeat&case=recreated-a2-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "recreated-a2-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": ["a_baseline", "a_baseline", "a_baseline"],
+      "nativeCookies": "t28_js=a_baseline; t28_proto=a_baseline; t28_frame=a_baseline",
+      "nativeUrl": "https://mp-cvhai5sy2yktsi6y3dxdfs6x7e6dsu62b47y7w24op7nbuafyx4q.invalid/page?run=android-confirmed-repeat&case=recreated-a2-local",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-a",
+      "stage": "recreated",
+      "view": "a2"
+    },
+    {
+      "actualPartition": "b",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "recreated-b-remote",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=recreated-b-remote",
+        "prototypeRead": "",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "recreated-b-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked",
+        "b_a-blocked"
+      ],
+      "nativeCookies": "t28_server=b_a-blocked; t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_frameHeader=b_a-blocked; t28_frame=b_a-blocked; t28_resource=b_a-blocked",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=recreated-b-remote",
+      "owner": "b",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-b",
+      "stage": "recreated",
+      "view": "b"
+    },
+    {
+      "actualPartition": "b",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "recreated-b-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://mp-tdrxo2fdjjvi2foafvxrkldsij7lukhckhet3flftb7y6k4u3ruq.invalid/page?run=android-confirmed-repeat&case=recreated-b-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "recreated-b-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": ["b_a-blocked", "b_a-blocked", "b_a-blocked"],
+      "nativeCookies": "t28_js=b_a-blocked; t28_proto=b_a-blocked; t28_frame=b_a-blocked",
+      "nativeUrl": "https://mp-tdrxo2fdjjvi2foafvxrkldsij7lukhckhet3flftb7y6k4u3ruq.invalid/page?run=android-confirmed-repeat&case=recreated-b-local",
+      "owner": "b",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-b",
+      "stage": "recreated",
+      "view": "b"
+    },
+    {
+      "actualPartition": "h",
+      "blocked": false,
+      "document": {
+        "before": "t28_js=h_ab-blocked; t28_proto=h_ab-blocked; t28_frameHeader=h_ab-blocked; t28_frame=h_ab-blocked; t28_resource=h_ab-blocked; t28_server=h_recreated",
+        "case": "recreated-h-remote",
+        "complete": true,
+        "cookie": "t28_server=h_recreated; t28_js=h_recreated; t28_proto=h_recreated; t28_frameHeader=h_recreated; t28_frame=h_recreated; t28_resource=h_recreated",
+        "frameLoaded": true,
+        "frameRead": "t28_server=h_recreated; t28_js=h_recreated; t28_proto=h_recreated; t28_frameHeader=h_recreated; t28_frame=h_recreated; t28_resource=h_recreated",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=recreated-h-remote",
+        "prototypeRead": "t28_server=h_recreated; t28_js=h_recreated; t28_proto=h_recreated; t28_frameHeader=h_recreated; t28_frame=h_recreated; t28_resource=h_recreated",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "recreated-h-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "h_recreated",
+        "h_recreated",
+        "h_recreated",
+        "h_recreated",
+        "h_recreated",
+        "h_recreated"
+      ],
+      "nativeCookies": "t28_server=h_recreated; t28_js=h_recreated; t28_proto=h_recreated; t28_frameHeader=h_recreated; t28_frame=h_recreated; t28_resource=h_recreated",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=recreated-h-remote",
+      "owner": "h",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "Default",
+      "stage": "recreated",
+      "view": "h"
+    },
+    {
+      "actualPartition": "h",
+      "blocked": false,
+      "document": {
+        "before": "t28_js=h_ab-blocked; t28_proto=h_ab-blocked; t28_frame=h_ab-blocked",
+        "case": "recreated-h-local",
+        "complete": true,
+        "cookie": "t28_js=h_recreated; t28_proto=h_recreated; t28_frame=h_recreated",
+        "frameLoaded": true,
+        "frameRead": "t28_js=h_recreated; t28_proto=h_recreated; t28_frame=h_recreated",
+        "href": "https://mp-hk2yixtso7zzcdxwqrp2nodiwy5mer4wiohillu3bjoulp4udlsa.invalid/page?run=android-confirmed-repeat&case=recreated-h-local",
+        "prototypeRead": "t28_js=h_recreated; t28_proto=h_recreated; t28_frame=h_recreated",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "recreated-h-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": ["h_recreated", "h_recreated", "h_recreated"],
+      "nativeCookies": "t28_js=h_recreated; t28_proto=h_recreated; t28_frame=h_recreated",
+      "nativeUrl": "https://mp-hk2yixtso7zzcdxwqrp2nodiwy5mer4wiohillu3bjoulp4udlsa.invalid/page?run=android-confirmed-repeat&case=recreated-h-local",
+      "owner": "h",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "Default",
+      "stage": "recreated",
+      "view": "h"
+    },
+    {
+      "actualPartition": "u",
+      "blocked": false,
+      "document": {
+        "before": "t28_js=u_ab-blocked; t28_proto=u_ab-blocked; t28_frameHeader=u_ab-blocked; t28_frame=u_ab-blocked; t28_resource=u_ab-blocked; t28_server=u_recreated",
+        "case": "recreated-u-remote",
+        "complete": true,
+        "cookie": "t28_server=u_recreated; t28_js=u_recreated; t28_proto=u_recreated; t28_frameHeader=u_recreated; t28_frame=u_recreated; t28_resource=u_recreated",
+        "frameLoaded": true,
+        "frameRead": "t28_server=u_recreated; t28_js=u_recreated; t28_proto=u_recreated; t28_frameHeader=u_recreated; t28_frame=u_recreated; t28_resource=u_recreated",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=recreated-u-remote",
+        "prototypeRead": "t28_server=u_recreated; t28_js=u_recreated; t28_proto=u_recreated; t28_frameHeader=u_recreated; t28_frame=u_recreated; t28_resource=u_recreated",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "recreated-u-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "u_recreated",
+        "u_recreated",
+        "u_recreated",
+        "u_recreated",
+        "u_recreated",
+        "u_recreated"
+      ],
+      "nativeCookies": "t28_server=u_recreated; t28_js=u_recreated; t28_proto=u_recreated; t28_frameHeader=u_recreated; t28_frame=u_recreated; t28_resource=u_recreated",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=recreated-u-remote",
+      "owner": "u",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-u",
+      "stage": "recreated",
+      "view": "u"
+    },
+    {
+      "actualPartition": "u",
+      "blocked": false,
+      "document": {
+        "before": "t28_js=u_ab-blocked; t28_proto=u_ab-blocked; t28_frame=u_ab-blocked",
+        "case": "recreated-u-local",
+        "complete": true,
+        "cookie": "t28_js=u_recreated; t28_proto=u_recreated; t28_frame=u_recreated",
+        "frameLoaded": true,
+        "frameRead": "t28_js=u_recreated; t28_proto=u_recreated; t28_frame=u_recreated",
+        "href": "https://mp-g6ds6mtuo3n2pnpuy6wljp7triyvseu2diktfmgm7olidfo5n4kq.invalid/page?run=android-confirmed-repeat&case=recreated-u-local",
+        "prototypeRead": "t28_js=u_recreated; t28_proto=u_recreated; t28_frame=u_recreated",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "recreated-u-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": ["u_recreated", "u_recreated", "u_recreated"],
+      "nativeCookies": "t28_js=u_recreated; t28_proto=u_recreated; t28_frame=u_recreated",
+      "nativeUrl": "https://mp-g6ds6mtuo3n2pnpuy6wljp7triyvseu2diktfmgm7olidfo5n4kq.invalid/page?run=android-confirmed-repeat&case=recreated-u-local",
+      "owner": "u",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-u",
+      "stage": "recreated",
+      "view": "u"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "fresh-blocked-a1-remote",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=fresh-blocked-a1-remote",
+        "prototypeRead": "",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "fresh-blocked-a1-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [],
+      "nativeCookies": "",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=fresh-blocked-a1-remote",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-fresh-a",
+      "stage": "fresh-blocked",
+      "view": "a1"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "fresh-blocked-a1-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://mp-cvhai5sy2yktsi6y3dxdfs6x7e6dsu62b47y7w24op7nbuafyx4q.invalid/page?run=android-confirmed-repeat&case=fresh-blocked-a1-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "fresh-blocked-a1-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [],
+      "nativeCookies": "",
+      "nativeUrl": "https://mp-cvhai5sy2yktsi6y3dxdfs6x7e6dsu62b47y7w24op7nbuafyx4q.invalid/page?run=android-confirmed-repeat&case=fresh-blocked-a1-local",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-fresh-a",
+      "stage": "fresh-blocked",
+      "view": "a1"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "fresh-blocked-a2-remote",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=fresh-blocked-a2-remote",
+        "prototypeRead": "",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "fresh-blocked-a2-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [],
+      "nativeCookies": "",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=fresh-blocked-a2-remote",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-fresh-a",
+      "stage": "fresh-blocked",
+      "view": "a2"
+    },
+    {
+      "actualPartition": "a",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "fresh-blocked-a2-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://mp-cvhai5sy2yktsi6y3dxdfs6x7e6dsu62b47y7w24op7nbuafyx4q.invalid/page?run=android-confirmed-repeat&case=fresh-blocked-a2-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "fresh-blocked-a2-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [],
+      "nativeCookies": "",
+      "nativeUrl": "https://mp-cvhai5sy2yktsi6y3dxdfs6x7e6dsu62b47y7w24op7nbuafyx4q.invalid/page?run=android-confirmed-repeat&case=fresh-blocked-a2-local",
+      "owner": "a",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-fresh-a",
+      "stage": "fresh-blocked",
+      "view": "a2"
+    },
+    {
+      "actualPartition": "b",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "fresh-blocked-b-remote",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=fresh-blocked-b-remote",
+        "prototypeRead": "",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "fresh-blocked-b-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [],
+      "nativeCookies": "",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=fresh-blocked-b-remote",
+      "owner": "b",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-fresh-b",
+      "stage": "fresh-blocked",
+      "view": "b"
+    },
+    {
+      "actualPartition": "b",
+      "blocked": true,
+      "document": {
+        "before": "",
+        "case": "fresh-blocked-b-local",
+        "complete": true,
+        "cookie": "",
+        "frameLoaded": true,
+        "frameRead": "",
+        "href": "https://mp-tdrxo2fdjjvi2foafvxrkldsij7lukhckhet3flftb7y6k4u3ruq.invalid/page?run=android-confirmed-repeat&case=fresh-blocked-b-local",
+        "prototypeRead": "",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "fresh-blocked-b-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": [],
+      "nativeCookies": "",
+      "nativeUrl": "https://mp-tdrxo2fdjjvi2foafvxrkldsij7lukhckhet3flftb7y6k4u3ruq.invalid/page?run=android-confirmed-repeat&case=fresh-blocked-b-local",
+      "owner": "b",
+      "policyAllows": false,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-fresh-b",
+      "stage": "fresh-blocked",
+      "view": "b"
+    },
+    {
+      "actualPartition": "h",
+      "blocked": false,
+      "document": {
+        "before": "t28_js=h_recreated; t28_proto=h_recreated; t28_frameHeader=h_recreated; t28_frame=h_recreated; t28_resource=h_recreated; t28_server=h_fresh-blocked",
+        "case": "fresh-blocked-h-remote",
+        "complete": true,
+        "cookie": "t28_server=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_frame=h_fresh-blocked; t28_resource=h_fresh-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_server=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_frame=h_fresh-blocked; t28_resource=h_fresh-blocked",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=fresh-blocked-h-remote",
+        "prototypeRead": "t28_server=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_frame=h_fresh-blocked; t28_resource=h_fresh-blocked",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "fresh-blocked-h-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "h_fresh-blocked",
+        "h_fresh-blocked",
+        "h_fresh-blocked",
+        "h_fresh-blocked",
+        "h_fresh-blocked",
+        "h_fresh-blocked"
+      ],
+      "nativeCookies": "t28_server=h_fresh-blocked; t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_frameHeader=h_fresh-blocked; t28_frame=h_fresh-blocked; t28_resource=h_fresh-blocked",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=fresh-blocked-h-remote",
+      "owner": "h",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "Default",
+      "stage": "fresh-blocked",
+      "view": "h"
+    },
+    {
+      "actualPartition": "h",
+      "blocked": false,
+      "document": {
+        "before": "t28_js=h_recreated; t28_proto=h_recreated; t28_frame=h_recreated",
+        "case": "fresh-blocked-h-local",
+        "complete": true,
+        "cookie": "t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_frame=h_fresh-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_frame=h_fresh-blocked",
+        "href": "https://mp-hk2yixtso7zzcdxwqrp2nodiwy5mer4wiohillu3bjoulp4udlsa.invalid/page?run=android-confirmed-repeat&case=fresh-blocked-h-local",
+        "prototypeRead": "t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_frame=h_fresh-blocked",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "fresh-blocked-h-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": ["h_fresh-blocked", "h_fresh-blocked", "h_fresh-blocked"],
+      "nativeCookies": "t28_js=h_fresh-blocked; t28_proto=h_fresh-blocked; t28_frame=h_fresh-blocked",
+      "nativeUrl": "https://mp-hk2yixtso7zzcdxwqrp2nodiwy5mer4wiohillu3bjoulp4udlsa.invalid/page?run=android-confirmed-repeat&case=fresh-blocked-h-local",
+      "owner": "h",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "Default",
+      "stage": "fresh-blocked",
+      "view": "h"
+    },
+    {
+      "actualPartition": "u",
+      "blocked": false,
+      "document": {
+        "before": "t28_js=u_recreated; t28_proto=u_recreated; t28_frameHeader=u_recreated; t28_frame=u_recreated; t28_resource=u_recreated; t28_server=u_fresh-blocked",
+        "case": "fresh-blocked-u-remote",
+        "complete": true,
+        "cookie": "t28_server=u_fresh-blocked; t28_js=u_fresh-blocked; t28_proto=u_fresh-blocked; t28_frameHeader=u_fresh-blocked; t28_frame=u_fresh-blocked; t28_resource=u_fresh-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_server=u_fresh-blocked; t28_js=u_fresh-blocked; t28_proto=u_fresh-blocked; t28_frameHeader=u_fresh-blocked; t28_frame=u_fresh-blocked; t28_resource=u_fresh-blocked",
+        "href": "https://localhost:65031/page?run=android-confirmed-repeat&case=fresh-blocked-u-remote",
+        "prototypeRead": "t28_server=u_fresh-blocked; t28_js=u_fresh-blocked; t28_proto=u_fresh-blocked; t28_frameHeader=u_fresh-blocked; t28_frame=u_fresh-blocked; t28_resource=u_fresh-blocked",
+        "remoteObserved": true,
+        "secureContext": true
+      },
+      "id": "fresh-blocked-u-remote",
+      "kind": "remote",
+      "loadErrors": [],
+      "nativeCookieValues": [
+        "u_fresh-blocked",
+        "u_fresh-blocked",
+        "u_fresh-blocked",
+        "u_fresh-blocked",
+        "u_fresh-blocked",
+        "u_fresh-blocked"
+      ],
+      "nativeCookies": "t28_server=u_fresh-blocked; t28_js=u_fresh-blocked; t28_proto=u_fresh-blocked; t28_frameHeader=u_fresh-blocked; t28_frame=u_fresh-blocked; t28_resource=u_fresh-blocked",
+      "nativeUrl": "https://localhost:65031/page?run=android-confirmed-repeat&case=fresh-blocked-u-remote",
+      "owner": "u",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-u",
+      "stage": "fresh-blocked",
+      "view": "u"
+    },
+    {
+      "actualPartition": "u",
+      "blocked": false,
+      "document": {
+        "before": "t28_js=u_recreated; t28_proto=u_recreated; t28_frame=u_recreated",
+        "case": "fresh-blocked-u-local",
+        "complete": true,
+        "cookie": "t28_js=u_fresh-blocked; t28_proto=u_fresh-blocked; t28_frame=u_fresh-blocked",
+        "frameLoaded": true,
+        "frameRead": "t28_js=u_fresh-blocked; t28_proto=u_fresh-blocked; t28_frame=u_fresh-blocked",
+        "href": "https://mp-g6ds6mtuo3n2pnpuy6wljp7triyvseu2diktfmgm7olidfo5n4kq.invalid/page?run=android-confirmed-repeat&case=fresh-blocked-u-local",
+        "prototypeRead": "t28_js=u_fresh-blocked; t28_proto=u_fresh-blocked; t28_frame=u_fresh-blocked",
+        "remoteObserved": false,
+        "secureContext": true
+      },
+      "id": "fresh-blocked-u-local",
+      "kind": "local",
+      "loadErrors": [],
+      "nativeCookieValues": ["u_fresh-blocked", "u_fresh-blocked", "u_fresh-blocked"],
+      "nativeCookies": "t28_js=u_fresh-blocked; t28_proto=u_fresh-blocked; t28_frame=u_fresh-blocked",
+      "nativeUrl": "https://mp-g6ds6mtuo3n2pnpuy6wljp7triyvseu2diktfmgm7olidfo5n4kq.invalid/page?run=android-confirmed-repeat&case=fresh-blocked-u-local",
+      "owner": "u",
+      "policyAllows": true,
+      "policyBeforeLoad": true,
+      "profile": "cookie-probe-android-confirmed-repeat-u",
+      "stage": "fresh-blocked",
+      "view": "u"
+    }
+  ],
+  "sdk": 37
+}
