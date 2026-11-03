@@ -1,0 +1,235 @@
+[
+  {
+    "id": "control-echo",
+    "path": "/echo"
+  },
+  {
+    "id": "multi",
+    "path": "/serve",
+    "setCookie": [
+      "t28h_plain=one; Path=/",
+      "t28h_http=two; Path=/; Secure; HttpOnly; SameSite=Lax",
+      "t28h_expires=three; Path=/; Expires=Wed, 21 Oct 2037 07:28:00 GMT; Secure",
+      "t28h_dupe=path-a; Path=/a",
+      "t28h_dupe=path-b; Path=/b"
+    ]
+  },
+  {
+    "id": "after-multi-echo",
+    "path": "/echo"
+  },
+  {
+    "id": "tricky",
+    "path": "/serve",
+    "setCookie": ["t28h_comma=a, t28h_fake=b; Path=/", "t28h_real=c; Path=/"]
+  },
+  {
+    "id": "lowercase-names",
+    "path": "/serve",
+    "setCookie": [
+      "t28h_plain=one; Path=/",
+      "t28h_http=two; Path=/; Secure; HttpOnly; SameSite=Lax"
+    ],
+    "lowerNames": true
+  },
+  {
+    "id": "attach-cookie",
+    "path": "/echo",
+    "attachCookie": "t28h_a=1; t28h_b=2"
+  },
+  {
+    "id": "attach-post",
+    "path": "/echo",
+    "method": "POST",
+    "body": "{\"ok\":true}",
+    "attachCookie": "t28h_a=1"
+  },
+  {
+    "id": "target-control",
+    "path": "/target"
+  },
+  {
+    "id": "redirect-301",
+    "path": "/serve",
+    "status": 301,
+    "redirect": true,
+    "setCookie": ["t28h_session=issued; Path=/; Secure; HttpOnly"]
+  },
+  {
+    "id": "redirect-302",
+    "path": "/serve",
+    "status": 302,
+    "redirect": true,
+    "setCookie": ["t28h_session=issued; Path=/; Secure; HttpOnly"]
+  },
+  {
+    "id": "redirect-303",
+    "path": "/serve",
+    "status": 303,
+    "redirect": true,
+    "setCookie": ["t28h_session=issued; Path=/; Secure; HttpOnly"]
+  },
+  {
+    "id": "redirect-307",
+    "path": "/serve",
+    "status": 307,
+    "redirect": true,
+    "setCookie": ["t28h_session=issued; Path=/; Secure; HttpOnly"]
+  },
+  {
+    "id": "redirect-308",
+    "path": "/serve",
+    "status": 308,
+    "redirect": true,
+    "setCookie": ["t28h_session=issued; Path=/; Secure; HttpOnly"]
+  },
+  {
+    "id": "status-404",
+    "path": "/serve",
+    "status": 404,
+    "setCookie": ["t28h_session=issued; Path=/; Secure; HttpOnly"]
+  },
+  {
+    "id": "status-500",
+    "path": "/serve",
+    "status": 500,
+    "setCookie": ["t28h_session=issued; Path=/; Secure; HttpOnly"]
+  },
+  {
+    "id": "challenge-401",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "challengeDisposition": "reject"
+  },
+  {
+    "id": "challenge-default",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "challengeDisposition": "default"
+  },
+  {
+    "id": "challenge-cancel",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "challengeDisposition": "cancel"
+  },
+  {
+    "id": "challenge-post-reject",
+    "path": "/serve",
+    "method": "POST",
+    "body": "{\"ok\":true}",
+    "status": 401,
+    "challenge": true,
+    "challengeDisposition": "reject"
+  },
+  {
+    "id": "challenge-post-default",
+    "path": "/serve",
+    "method": "POST",
+    "body": "{\"ok\":true}",
+    "status": 401,
+    "challenge": true,
+    "challengeDisposition": "default"
+  },
+  {
+    "id": "challenge-use-nil",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "challengeDisposition": "use-nil"
+  },
+  {
+    "id": "challenge-post-use-nil",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "method": "POST",
+    "body": "{\"ok\":true}",
+    "challengeDisposition": "use-nil"
+  },
+  {
+    "id": "challenge-bearer",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "challengeScheme": "Bearer"
+  },
+  {
+    "id": "challenge-post-bearer",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "method": "POST",
+    "body": "{\"ok\":true}",
+    "challengeScheme": "Bearer"
+  },
+  {
+    "id": "challenge-plain",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "challengeScheme": ""
+  },
+  {
+    "id": "challenge-post-plain",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "method": "POST",
+    "body": "{\"ok\":true}",
+    "challengeScheme": ""
+  },
+  {
+    "id": "cache-first",
+    "path": "/serve",
+    "requestCase": "cache-pair",
+    "cacheControl": "public, max-age=600"
+  },
+  {
+    "id": "cache-second",
+    "path": "/serve",
+    "requestCase": "cache-pair",
+    "cacheControl": "public, max-age=600"
+  },
+  {
+    "id": "hold-headers",
+    "path": "/serve",
+    "kind": "hold-headers",
+    "setCookie": ["t28h_session=issued; Path=/; Secure; HttpOnly"]
+  },
+  {
+    "id": "hold-body",
+    "path": "/serve",
+    "kind": "hold-body",
+    "setCookie": ["t28h_session=issued; Path=/; Secure; HttpOnly"]
+  },
+  {
+    "id": "hold-body-nosniff",
+    "path": "/serve",
+    "kind": "hold-body",
+    "nosniff": true,
+    "setCookie": ["t28h_session=issued; Path=/; Secure; HttpOnly"]
+  },
+  {
+    "id": "hold-body-first-byte",
+    "path": "/serve",
+    "kind": "hold-body",
+    "earlyBytes": 1,
+    "setCookie": ["t28h_session=issued; Path=/; Secure; HttpOnly"]
+  },
+  {
+    "id": "hold-body-first-kilobyte",
+    "path": "/serve",
+    "kind": "hold-body",
+    "earlyBytes": 1024,
+    "setCookie": ["t28h_session=issued; Path=/; Secure; HttpOnly"]
+  },
+  {
+    "id": "tls-negative",
+    "path": "/echo",
+    "kind": "tls-negative"
+  }
+]

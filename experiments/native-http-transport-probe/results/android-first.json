@@ -1,0 +1,1416 @@
+{
+  "build": {
+    "artifactSha256": "4f5cdf1c9b1457b9eea69ea5779e3a9eb941b5ebc8f7e485bf153cdbfb8bd51d",
+    "caSha256": "85fac2e1f5e1f9a59e0cce83c3b9c7b5941c395ce9713050119d298786b06168",
+    "sources": {
+      "android/app/build.gradle": "9377aafaf2d7a3986313551e46c8920a25bad54e4aadf8086fc48394b6512441",
+      "android/app/src/main/AndroidManifest.xml": "b961543a727b174505e7a5f10a5ffcb29d84424229289667bf57b6db70e040cf",
+      "android/app/src/main/java/org/moonpool/httptransport/ProbeActivity.java": "a2c1633cb38aa6ad99e772d894afae337b2a49259b4cf7a6cc7391ec1a34e06f",
+      "android/app/src/main/res/xml/network_security_config.xml": "def485559d7ade425b2492e375edd451466d47027be1cbfb3c47d18c04f1955d",
+      "android/build.gradle": "bb5d6db0a3f94e7ff33ba91a07fa9146a96994e843ae487ebccadc99b62e722c",
+      "android/gradle.properties": "67eefa02d084d8fd6e2698683ca4d007a344395ca89eed9012a79bac373ba359",
+      "android/settings.gradle": "8c5a8e79d40677120c372234159e3df8749a539d155520990779bd12debd6b8e",
+      "build.py": "71cfee88ee479b97239ac6e83df1edbcbd9f24d8176fe1f33ee469e5ad892c91",
+      "cases.json": "7f81e2a806879dd90934a0db145b5cd777518c850ceee3a55ef228eceebf4eeb",
+      "fixture.py": "bf16cd45ad866cf3333f696c9a8060f7aa30c0bf4c0c098efe4c7e58ed15d47a"
+    },
+    "wrapperSha256": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59"
+  },
+  "capturedUtc": "2026-11-03T07:39:06Z",
+  "complete": true,
+  "defaultCookieHandlerNull": true,
+  "errors": [],
+  "installedArtifactSha256": "4f5cdf1c9b1457b9eea69ea5779e3a9eb941b5ebc8f7e485bf153cdbfb8bd51d",
+  "observations": [
+    {
+      "bodyText": "{\"case\": \"control-echo\", \"ok\": true}",
+      "case": "control-echo",
+      "error": null,
+      "exactKeySetCookieFound": false,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 200
+    },
+    {
+      "bodyText": "{\"case\": \"multi\", \"ok\": true}",
+      "case": "multi",
+      "error": null,
+      "exactKeySetCookieFound": true,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Set-Cookie",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [
+        {
+          "httpOnly": false,
+          "maxAge": -1,
+          "name": "t28h_plain",
+          "path": "/",
+          "secure": false,
+          "value": "one"
+        },
+        {
+          "httpOnly": true,
+          "maxAge": -1,
+          "name": "t28h_http",
+          "path": "/",
+          "secure": true,
+          "value": "two"
+        },
+        {
+          "httpOnly": false,
+          "maxAge": 346031337,
+          "name": "t28h_expires",
+          "path": "/",
+          "secure": true,
+          "value": "three"
+        },
+        {
+          "httpOnly": false,
+          "maxAge": -1,
+          "name": "t28h_dupe",
+          "path": "/a",
+          "secure": false,
+          "value": "path-a"
+        },
+        {
+          "httpOnly": false,
+          "maxAge": -1,
+          "name": "t28h_dupe",
+          "path": "/b",
+          "secure": false,
+          "value": "path-b"
+        }
+      ],
+      "setCookieFields": [
+        "t28h_plain=one; Path=/",
+        "t28h_http=two; Path=/; Secure; HttpOnly; SameSite=Lax",
+        "t28h_expires=three; Path=/; Expires=Wed, 21 Oct 2037 07:28:00 GMT; Secure",
+        "t28h_dupe=path-a; Path=/a",
+        "t28h_dupe=path-b; Path=/b"
+      ],
+      "setCookieFolded": null,
+      "status": 200
+    },
+    {
+      "bodyText": "{\"case\": \"after-multi-echo\", \"ok\": true}",
+      "case": "after-multi-echo",
+      "error": null,
+      "exactKeySetCookieFound": false,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 200
+    },
+    {
+      "bodyText": "{\"case\": \"tricky\", \"ok\": true}",
+      "case": "tricky",
+      "error": null,
+      "exactKeySetCookieFound": true,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Set-Cookie",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [
+        {
+          "httpOnly": false,
+          "maxAge": -1,
+          "name": "t28h_comma",
+          "path": "/",
+          "secure": false,
+          "value": "a, t28h_fake=b"
+        },
+        {
+          "httpOnly": false,
+          "maxAge": -1,
+          "name": "t28h_real",
+          "path": "/",
+          "secure": false,
+          "value": "c"
+        }
+      ],
+      "setCookieFields": ["t28h_comma=a, t28h_fake=b; Path=/", "t28h_real=c; Path=/"],
+      "setCookieFolded": null,
+      "status": 200
+    },
+    {
+      "bodyText": "{\"case\": \"lowercase-names\", \"ok\": true}",
+      "case": "lowercase-names",
+      "error": null,
+      "exactKeySetCookieFound": true,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "set-cookie",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [
+        {
+          "httpOnly": false,
+          "maxAge": -1,
+          "name": "t28h_plain",
+          "path": "/",
+          "secure": false,
+          "value": "one"
+        },
+        {
+          "httpOnly": true,
+          "maxAge": -1,
+          "name": "t28h_http",
+          "path": "/",
+          "secure": true,
+          "value": "two"
+        }
+      ],
+      "setCookieFields": [
+        "t28h_plain=one; Path=/",
+        "t28h_http=two; Path=/; Secure; HttpOnly; SameSite=Lax"
+      ],
+      "setCookieFolded": null,
+      "status": 200
+    },
+    {
+      "bodyText": "{\"case\": \"attach-cookie\", \"ok\": true}",
+      "case": "attach-cookie",
+      "error": null,
+      "exactKeySetCookieFound": false,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 200
+    },
+    {
+      "bodyText": "{\"case\": \"attach-post\", \"ok\": true}",
+      "case": "attach-post",
+      "error": null,
+      "exactKeySetCookieFound": false,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 200
+    },
+    {
+      "bodyText": "{\"case\": \"target-control\", \"ok\": true}",
+      "case": "target-control",
+      "error": null,
+      "exactKeySetCookieFound": false,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 200
+    },
+    {
+      "bodyText": "{\"case\": \"redirect-301\", \"ok\": true}",
+      "case": "redirect-301",
+      "error": null,
+      "exactKeySetCookieFound": true,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Location",
+        "Server",
+        "Set-Cookie",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": "/target?run=android-first&case=redirect-301",
+      "platformParsed": [
+        {
+          "httpOnly": true,
+          "maxAge": -1,
+          "name": "t28h_session",
+          "path": "/",
+          "secure": true,
+          "value": "issued"
+        }
+      ],
+      "setCookieFields": ["t28h_session=issued; Path=/; Secure; HttpOnly"],
+      "setCookieFolded": null,
+      "status": 301
+    },
+    {
+      "bodyText": "{\"case\": \"redirect-302\", \"ok\": true}",
+      "case": "redirect-302",
+      "error": null,
+      "exactKeySetCookieFound": true,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Location",
+        "Server",
+        "Set-Cookie",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": "/target?run=android-first&case=redirect-302",
+      "platformParsed": [
+        {
+          "httpOnly": true,
+          "maxAge": -1,
+          "name": "t28h_session",
+          "path": "/",
+          "secure": true,
+          "value": "issued"
+        }
+      ],
+      "setCookieFields": ["t28h_session=issued; Path=/; Secure; HttpOnly"],
+      "setCookieFolded": null,
+      "status": 302
+    },
+    {
+      "bodyText": "{\"case\": \"redirect-303\", \"ok\": true}",
+      "case": "redirect-303",
+      "error": null,
+      "exactKeySetCookieFound": true,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Location",
+        "Server",
+        "Set-Cookie",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": "/target?run=android-first&case=redirect-303",
+      "platformParsed": [
+        {
+          "httpOnly": true,
+          "maxAge": -1,
+          "name": "t28h_session",
+          "path": "/",
+          "secure": true,
+          "value": "issued"
+        }
+      ],
+      "setCookieFields": ["t28h_session=issued; Path=/; Secure; HttpOnly"],
+      "setCookieFolded": null,
+      "status": 303
+    },
+    {
+      "bodyText": "{\"case\": \"redirect-307\", \"ok\": true}",
+      "case": "redirect-307",
+      "error": null,
+      "exactKeySetCookieFound": true,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Location",
+        "Server",
+        "Set-Cookie",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": "/target?run=android-first&case=redirect-307",
+      "platformParsed": [
+        {
+          "httpOnly": true,
+          "maxAge": -1,
+          "name": "t28h_session",
+          "path": "/",
+          "secure": true,
+          "value": "issued"
+        }
+      ],
+      "setCookieFields": ["t28h_session=issued; Path=/; Secure; HttpOnly"],
+      "setCookieFolded": null,
+      "status": 307
+    },
+    {
+      "bodyText": "{\"case\": \"redirect-308\", \"ok\": true}",
+      "case": "redirect-308",
+      "error": null,
+      "exactKeySetCookieFound": true,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Location",
+        "Server",
+        "Set-Cookie",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": "/target?run=android-first&case=redirect-308",
+      "platformParsed": [
+        {
+          "httpOnly": true,
+          "maxAge": -1,
+          "name": "t28h_session",
+          "path": "/",
+          "secure": true,
+          "value": "issued"
+        }
+      ],
+      "setCookieFields": ["t28h_session=issued; Path=/; Secure; HttpOnly"],
+      "setCookieFolded": null,
+      "status": 308
+    },
+    {
+      "bodyText": "{\"case\": \"status-404\", \"ok\": true}",
+      "case": "status-404",
+      "error": null,
+      "exactKeySetCookieFound": true,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Set-Cookie",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [
+        {
+          "httpOnly": true,
+          "maxAge": -1,
+          "name": "t28h_session",
+          "path": "/",
+          "secure": true,
+          "value": "issued"
+        }
+      ],
+      "setCookieFields": ["t28h_session=issued; Path=/; Secure; HttpOnly"],
+      "setCookieFolded": null,
+      "status": 404
+    },
+    {
+      "bodyText": "{\"case\": \"status-500\", \"ok\": true}",
+      "case": "status-500",
+      "error": null,
+      "exactKeySetCookieFound": true,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Set-Cookie",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [
+        {
+          "httpOnly": true,
+          "maxAge": -1,
+          "name": "t28h_session",
+          "path": "/",
+          "secure": true,
+          "value": "issued"
+        }
+      ],
+      "setCookieFields": ["t28h_session=issued; Path=/; Secure; HttpOnly"],
+      "setCookieFolded": null,
+      "status": 500
+    },
+    {
+      "bodyText": "{\"case\": \"challenge-401\", \"ok\": true}",
+      "case": "challenge-401",
+      "error": null,
+      "exactKeySetCookieFound": false,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "WWW-Authenticate",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"challenge-default\", \"ok\": true}",
+      "case": "challenge-default",
+      "error": null,
+      "exactKeySetCookieFound": false,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "WWW-Authenticate",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"challenge-cancel\", \"ok\": true}",
+      "case": "challenge-cancel",
+      "error": null,
+      "exactKeySetCookieFound": false,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "WWW-Authenticate",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"challenge-post-reject\", \"ok\": true}",
+      "case": "challenge-post-reject",
+      "error": null,
+      "exactKeySetCookieFound": false,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "WWW-Authenticate",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"challenge-post-default\", \"ok\": true}",
+      "case": "challenge-post-default",
+      "error": null,
+      "exactKeySetCookieFound": false,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "WWW-Authenticate",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"challenge-use-nil\", \"ok\": true}",
+      "case": "challenge-use-nil",
+      "error": null,
+      "exactKeySetCookieFound": false,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "WWW-Authenticate",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"challenge-post-use-nil\", \"ok\": true}",
+      "case": "challenge-post-use-nil",
+      "error": null,
+      "exactKeySetCookieFound": false,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "WWW-Authenticate",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"challenge-bearer\", \"ok\": true}",
+      "case": "challenge-bearer",
+      "error": null,
+      "exactKeySetCookieFound": false,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "WWW-Authenticate",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"challenge-post-bearer\", \"ok\": true}",
+      "case": "challenge-post-bearer",
+      "error": null,
+      "exactKeySetCookieFound": false,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "WWW-Authenticate",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"challenge-plain\", \"ok\": true}",
+      "case": "challenge-plain",
+      "error": null,
+      "exactKeySetCookieFound": false,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"challenge-post-plain\", \"ok\": true}",
+      "case": "challenge-post-plain",
+      "error": null,
+      "exactKeySetCookieFound": false,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"cache-pair\", \"ok\": true}",
+      "case": "cache-first",
+      "error": null,
+      "exactKeySetCookieFound": false,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 200
+    },
+    {
+      "bodyText": "{\"case\": \"cache-pair\", \"ok\": true}",
+      "case": "cache-second",
+      "error": null,
+      "exactKeySetCookieFound": false,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 200
+    },
+    {
+      "bodyText": "{\"case\": \"hold-headers\", \"ok\": true}",
+      "case": "hold-headers",
+      "error": null,
+      "exactKeySetCookieFound": true,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Set-Cookie",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "location": null,
+      "platformParsed": [
+        {
+          "httpOnly": true,
+          "maxAge": -1,
+          "name": "t28h_session",
+          "path": "/",
+          "secure": true,
+          "value": "issued"
+        }
+      ],
+      "respondedBeforeRelease": false,
+      "setCookieFields": ["t28h_session=issued; Path=/; Secure; HttpOnly"],
+      "setCookieFolded": null,
+      "status": 200
+    },
+    {
+      "bodyBeforeRelease": false,
+      "bodyText": "{\"case\": \"hold-body\", \"ok\": true}",
+      "case": "hold-body",
+      "error": null,
+      "exactKeySetCookieFound": true,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Set-Cookie",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "headersBeforeRelease": true,
+      "location": null,
+      "platformParsed": [
+        {
+          "httpOnly": true,
+          "maxAge": -1,
+          "name": "t28h_session",
+          "path": "/",
+          "secure": true,
+          "value": "issued"
+        }
+      ],
+      "setCookieFields": ["t28h_session=issued; Path=/; Secure; HttpOnly"],
+      "setCookieFolded": null,
+      "status": 200
+    },
+    {
+      "bodyBeforeRelease": false,
+      "bodyText": "{\"case\": \"hold-body-nosniff\", \"ok\": true}",
+      "case": "hold-body-nosniff",
+      "error": null,
+      "exactKeySetCookieFound": true,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Set-Cookie",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis",
+        "X-Content-Type-Options"
+      ],
+      "headersBeforeRelease": true,
+      "location": null,
+      "platformParsed": [
+        {
+          "httpOnly": true,
+          "maxAge": -1,
+          "name": "t28h_session",
+          "path": "/",
+          "secure": true,
+          "value": "issued"
+        }
+      ],
+      "setCookieFields": ["t28h_session=issued; Path=/; Secure; HttpOnly"],
+      "setCookieFolded": null,
+      "status": 200
+    },
+    {
+      "bodyBeforeRelease": false,
+      "bodyText": " {\"case\": \"hold-body-first-byte\", \"ok\": true}",
+      "case": "hold-body-first-byte",
+      "error": null,
+      "exactKeySetCookieFound": true,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Set-Cookie",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "headersBeforeRelease": true,
+      "location": null,
+      "platformParsed": [
+        {
+          "httpOnly": true,
+          "maxAge": -1,
+          "name": "t28h_session",
+          "path": "/",
+          "secure": true,
+          "value": "issued"
+        }
+      ],
+      "setCookieFields": ["t28h_session=issued; Path=/; Secure; HttpOnly"],
+      "setCookieFolded": null,
+      "status": 200
+    },
+    {
+      "bodyBeforeRelease": false,
+      "bodyText": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                {\"case\": \"hold-body-first-kilobyte\", \"ok\": true}",
+      "case": "hold-body-first-kilobyte",
+      "error": null,
+      "exactKeySetCookieFound": true,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Set-Cookie",
+        "X-Android-Received-Millis",
+        "X-Android-Response-Source",
+        "X-Android-Selected-Protocol",
+        "X-Android-Sent-Millis"
+      ],
+      "headersBeforeRelease": true,
+      "location": null,
+      "platformParsed": [
+        {
+          "httpOnly": true,
+          "maxAge": -1,
+          "name": "t28h_session",
+          "path": "/",
+          "secure": true,
+          "value": "issued"
+        }
+      ],
+      "setCookieFields": ["t28h_session=issued; Path=/; Secure; HttpOnly"],
+      "setCookieFolded": null,
+      "status": 200
+    },
+    {
+      "bodyText": null,
+      "case": "tls-negative",
+      "error": "SSLHandshakeException",
+      "location": null,
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": null
+    }
+  ],
+  "platform": "android",
+  "release": "17",
+  "requests": [
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "control-echo",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/echo",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "multi",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "after-multi-echo",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/echo",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "tricky",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "lowercase-names",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "attach-cookie",
+      "cookieFields": ["t28h_a=1; t28h_b=2"],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/echo",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 11,
+      "case": "attach-post",
+      "cookieFields": ["t28h_a=1"],
+      "event": "arrived",
+      "method": "POST",
+      "path": "/echo",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "target-control",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/target",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "redirect-301",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "redirect-302",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "redirect-303",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "redirect-307",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "redirect-308",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "status-404",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "status-500",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "challenge-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "challenge-default",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "challenge-cancel",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 11,
+      "case": "challenge-post-reject",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "POST",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 11,
+      "case": "challenge-post-default",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "POST",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "challenge-use-nil",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 11,
+      "case": "challenge-post-use-nil",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "POST",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "challenge-bearer",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 11,
+      "case": "challenge-post-bearer",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "POST",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "challenge-plain",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 11,
+      "case": "challenge-post-plain",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "POST",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "cache-pair",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "cache-pair",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "hold-headers",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "hold-headers",
+      "cookieFields": [],
+      "event": "released",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "hold-body",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "hold-body",
+      "cookieFields": [],
+      "event": "released",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "hold-body-nosniff",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "hold-body-nosniff",
+      "cookieFields": [],
+      "event": "released",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "hold-body-first-byte",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "hold-body-first-byte",
+      "cookieFields": [],
+      "event": "released",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "hold-body-first-kilobyte",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "hold-body-first-kilobyte",
+      "cookieFields": [],
+      "event": "released",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    }
+  ],
+  "run": "android-first",
+  "sdkInt": 37
+}

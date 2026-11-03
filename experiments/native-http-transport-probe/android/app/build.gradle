@@ -1,0 +1,19 @@
+plugins { id 'com.android.application' }
+android {
+ namespace 'org.moonpool.httptransport'
+ compileSdk 36
+ buildToolsVersion '36.0.0'
+ defaultConfig {
+  applicationId 'org.moonpool.httptransport'
+  minSdk 31
+  targetSdk 36
+  versionCode 1
+  versionName '0.0.1-probe'
+ }
+ sourceSets.main.assets.srcDirs += '../../build/assets'
+ sourceSets.main.res.srcDirs += '../../build/res'
+ compileOptions {
+  sourceCompatibility JavaVersion.VERSION_17
+  targetCompatibility JavaVersion.VERSION_17
+ }
+}

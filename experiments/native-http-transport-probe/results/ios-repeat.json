@@ -1,0 +1,1357 @@
+{
+  "build": {
+    "artifactSha256": "ca325bfd7cbae628d86ac5129df0a679da8f26de79907a90edf4689397471b38",
+    "caSha256": "85fac2e1f5e1f9a59e0cce83c3b9c7b5941c395ce9713050119d298786b06168",
+    "sdk": "26.4",
+    "sources": {
+      "build.py": "71cfee88ee479b97239ac6e83df1edbcbd9f24d8176fe1f33ee469e5ad892c91",
+      "cases.json": "7f81e2a806879dd90934a0db145b5cd777518c850ceee3a55ef228eceebf4eeb",
+      "fixture.py": "bf16cd45ad866cf3333f696c9a8060f7aa30c0bf4c0c098efe4c7e58ed15d47a",
+      "ios/Probe.swift": "46ba5c477c470d92e6c709cd84a533513b87d2650fe9efaf2fbe19a073f2ab94"
+    },
+    "xcode": "Xcode 26.4.1\nBuild version 17E202"
+  },
+  "capturedUtc": "2026-11-03T07:39:32Z",
+  "complete": true,
+  "errors": [],
+  "installedArtifactSha256": "ca325bfd7cbae628d86ac5129df0a679da8f26de79907a90edf4689397471b38",
+  "observations": [
+    {
+      "bodyText": "{\"case\": \"control-echo\", \"ok\": true}",
+      "case": "control-echo",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": ["Cache-Control", "Content-Length", "Content-Type", "Date", "Server"],
+      "location": null,
+      "platformParsed": [],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 200
+    },
+    {
+      "bodyText": "{\"case\": \"multi\", \"ok\": true}",
+      "case": "multi",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Set-Cookie"
+      ],
+      "location": null,
+      "platformParsed": [
+        {
+          "domain": "localhost",
+          "httpOnly": false,
+          "name": "t28h_plain",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "session": true,
+          "value": "one"
+        },
+        {
+          "domain": "localhost",
+          "httpOnly": true,
+          "name": "t28h_http",
+          "path": "/",
+          "sameSite": "lax",
+          "secure": true,
+          "session": true,
+          "value": "two"
+        },
+        {
+          "domain": "localhost",
+          "httpOnly": false,
+          "name": "t28h_expires",
+          "path": "/",
+          "sameSite": null,
+          "secure": true,
+          "session": false,
+          "value": "three"
+        },
+        {
+          "domain": "localhost",
+          "httpOnly": false,
+          "name": "t28h_dupe",
+          "path": "/a",
+          "sameSite": null,
+          "secure": false,
+          "session": true,
+          "value": "path-a"
+        },
+        {
+          "domain": "localhost",
+          "httpOnly": false,
+          "name": "t28h_dupe",
+          "path": "/b",
+          "sameSite": null,
+          "secure": false,
+          "session": true,
+          "value": "path-b"
+        }
+      ],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": "t28h_plain=one; Path=/, t28h_http=two; Path=/; Secure; HttpOnly; SameSite=Lax, t28h_expires=three; Path=/; Expires=Wed, 21 Oct 2037 07:28:00 GMT; Secure, t28h_dupe=path-a; Path=/a, t28h_dupe=path-b; Path=/b",
+      "status": 200
+    },
+    {
+      "bodyText": "{\"case\": \"after-multi-echo\", \"ok\": true}",
+      "case": "after-multi-echo",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": ["Cache-Control", "Content-Length", "Content-Type", "Date", "Server"],
+      "location": null,
+      "platformParsed": [],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 200
+    },
+    {
+      "bodyText": "{\"case\": \"tricky\", \"ok\": true}",
+      "case": "tricky",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Set-Cookie"
+      ],
+      "location": null,
+      "platformParsed": [
+        {
+          "domain": "localhost",
+          "httpOnly": false,
+          "name": "t28h_comma",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "session": true,
+          "value": "a"
+        },
+        {
+          "domain": "localhost",
+          "httpOnly": false,
+          "name": "t28h_fake",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "session": true,
+          "value": "b"
+        },
+        {
+          "domain": "localhost",
+          "httpOnly": false,
+          "name": "t28h_real",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "session": true,
+          "value": "c"
+        }
+      ],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": "t28h_comma=a, t28h_fake=b; Path=/, t28h_real=c; Path=/",
+      "status": 200
+    },
+    {
+      "bodyText": "{\"case\": \"lowercase-names\", \"ok\": true}",
+      "case": "lowercase-names",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Set-Cookie"
+      ],
+      "location": null,
+      "platformParsed": [
+        {
+          "domain": "localhost",
+          "httpOnly": false,
+          "name": "t28h_plain",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "session": true,
+          "value": "one"
+        },
+        {
+          "domain": "localhost",
+          "httpOnly": true,
+          "name": "t28h_http",
+          "path": "/",
+          "sameSite": "lax",
+          "secure": true,
+          "session": true,
+          "value": "two"
+        }
+      ],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": "t28h_plain=one; Path=/, t28h_http=two; Path=/; Secure; HttpOnly; SameSite=Lax",
+      "status": 200
+    },
+    {
+      "bodyText": "{\"case\": \"attach-cookie\", \"ok\": true}",
+      "case": "attach-cookie",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": ["Cache-Control", "Content-Length", "Content-Type", "Date", "Server"],
+      "location": null,
+      "platformParsed": [],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 200
+    },
+    {
+      "bodyText": "{\"case\": \"attach-post\", \"ok\": true}",
+      "case": "attach-post",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": ["Cache-Control", "Content-Length", "Content-Type", "Date", "Server"],
+      "location": null,
+      "platformParsed": [],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 200
+    },
+    {
+      "bodyText": "{\"case\": \"target-control\", \"ok\": true}",
+      "case": "target-control",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": ["Cache-Control", "Content-Length", "Content-Type", "Date", "Server"],
+      "location": null,
+      "platformParsed": [],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 200
+    },
+    {
+      "bodyText": "{\"case\": \"redirect-301\", \"ok\": true}",
+      "case": "redirect-301",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Location",
+        "Server",
+        "Set-Cookie"
+      ],
+      "location": "/target?run=ios-repeat&case=redirect-301",
+      "platformParsed": [
+        {
+          "domain": "localhost",
+          "httpOnly": true,
+          "name": "t28h_session",
+          "path": "/",
+          "sameSite": null,
+          "secure": true,
+          "session": true,
+          "value": "issued"
+        }
+      ],
+      "redirectCallbacks": 1,
+      "setCookieFields": null,
+      "setCookieFolded": "t28h_session=issued; Path=/; Secure; HttpOnly",
+      "status": 301
+    },
+    {
+      "bodyText": "{\"case\": \"redirect-302\", \"ok\": true}",
+      "case": "redirect-302",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Location",
+        "Server",
+        "Set-Cookie"
+      ],
+      "location": "/target?run=ios-repeat&case=redirect-302",
+      "platformParsed": [
+        {
+          "domain": "localhost",
+          "httpOnly": true,
+          "name": "t28h_session",
+          "path": "/",
+          "sameSite": null,
+          "secure": true,
+          "session": true,
+          "value": "issued"
+        }
+      ],
+      "redirectCallbacks": 1,
+      "setCookieFields": null,
+      "setCookieFolded": "t28h_session=issued; Path=/; Secure; HttpOnly",
+      "status": 302
+    },
+    {
+      "bodyText": "{\"case\": \"redirect-303\", \"ok\": true}",
+      "case": "redirect-303",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Location",
+        "Server",
+        "Set-Cookie"
+      ],
+      "location": "/target?run=ios-repeat&case=redirect-303",
+      "platformParsed": [
+        {
+          "domain": "localhost",
+          "httpOnly": true,
+          "name": "t28h_session",
+          "path": "/",
+          "sameSite": null,
+          "secure": true,
+          "session": true,
+          "value": "issued"
+        }
+      ],
+      "redirectCallbacks": 1,
+      "setCookieFields": null,
+      "setCookieFolded": "t28h_session=issued; Path=/; Secure; HttpOnly",
+      "status": 303
+    },
+    {
+      "bodyText": "{\"case\": \"redirect-307\", \"ok\": true}",
+      "case": "redirect-307",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Location",
+        "Server",
+        "Set-Cookie"
+      ],
+      "location": "/target?run=ios-repeat&case=redirect-307",
+      "platformParsed": [
+        {
+          "domain": "localhost",
+          "httpOnly": true,
+          "name": "t28h_session",
+          "path": "/",
+          "sameSite": null,
+          "secure": true,
+          "session": true,
+          "value": "issued"
+        }
+      ],
+      "redirectCallbacks": 1,
+      "setCookieFields": null,
+      "setCookieFolded": "t28h_session=issued; Path=/; Secure; HttpOnly",
+      "status": 307
+    },
+    {
+      "bodyText": "{\"case\": \"redirect-308\", \"ok\": true}",
+      "case": "redirect-308",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Location",
+        "Server",
+        "Set-Cookie"
+      ],
+      "location": "/target?run=ios-repeat&case=redirect-308",
+      "platformParsed": [
+        {
+          "domain": "localhost",
+          "httpOnly": true,
+          "name": "t28h_session",
+          "path": "/",
+          "sameSite": null,
+          "secure": true,
+          "session": true,
+          "value": "issued"
+        }
+      ],
+      "redirectCallbacks": 1,
+      "setCookieFields": null,
+      "setCookieFolded": "t28h_session=issued; Path=/; Secure; HttpOnly",
+      "status": 308
+    },
+    {
+      "bodyText": "{\"case\": \"status-404\", \"ok\": true}",
+      "case": "status-404",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Set-Cookie"
+      ],
+      "location": null,
+      "platformParsed": [
+        {
+          "domain": "localhost",
+          "httpOnly": true,
+          "name": "t28h_session",
+          "path": "/",
+          "sameSite": null,
+          "secure": true,
+          "session": true,
+          "value": "issued"
+        }
+      ],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": "t28h_session=issued; Path=/; Secure; HttpOnly",
+      "status": 404
+    },
+    {
+      "bodyText": "{\"case\": \"status-500\", \"ok\": true}",
+      "case": "status-500",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Set-Cookie"
+      ],
+      "location": null,
+      "platformParsed": [
+        {
+          "domain": "localhost",
+          "httpOnly": true,
+          "name": "t28h_session",
+          "path": "/",
+          "sameSite": null,
+          "secure": true,
+          "session": true,
+          "value": "issued"
+        }
+      ],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": "t28h_session=issued; Path=/; Secure; HttpOnly",
+      "status": 500
+    },
+    {
+      "bodyText": "{\"case\": \"challenge-401\", \"ok\": true}",
+      "case": "challenge-401",
+      "challengeCallbacks": 1,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Www-Authenticate"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"challenge-default\", \"ok\": true}",
+      "case": "challenge-default",
+      "challengeCallbacks": 1,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Www-Authenticate"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 401
+    },
+    {
+      "bodyText": null,
+      "case": "challenge-cancel",
+      "challengeCallbacks": 1,
+      "error": "NSURLErrorDomain:-999",
+      "location": null,
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": null
+    },
+    {
+      "bodyText": "{\"case\": \"challenge-post-reject\", \"ok\": true}",
+      "case": "challenge-post-reject",
+      "challengeCallbacks": 1,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Www-Authenticate"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"challenge-post-default\", \"ok\": true}",
+      "case": "challenge-post-default",
+      "challengeCallbacks": 1,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Www-Authenticate"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"challenge-use-nil\", \"ok\": true}",
+      "case": "challenge-use-nil",
+      "challengeCallbacks": 1,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Www-Authenticate"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"challenge-post-use-nil\", \"ok\": true}",
+      "case": "challenge-post-use-nil",
+      "challengeCallbacks": 1,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Www-Authenticate"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"challenge-bearer\", \"ok\": true}",
+      "case": "challenge-bearer",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Www-Authenticate"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"challenge-post-bearer\", \"ok\": true}",
+      "case": "challenge-post-bearer",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Www-Authenticate"
+      ],
+      "location": null,
+      "platformParsed": [],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"challenge-plain\", \"ok\": true}",
+      "case": "challenge-plain",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": ["Cache-Control", "Content-Length", "Content-Type", "Date", "Server"],
+      "location": null,
+      "platformParsed": [],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"challenge-post-plain\", \"ok\": true}",
+      "case": "challenge-post-plain",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": ["Cache-Control", "Content-Length", "Content-Type", "Date", "Server"],
+      "location": null,
+      "platformParsed": [],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"cache-pair\", \"ok\": true}",
+      "case": "cache-first",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": ["Cache-Control", "Content-Length", "Content-Type", "Date", "Server"],
+      "location": null,
+      "platformParsed": [],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 200
+    },
+    {
+      "bodyText": "{\"case\": \"cache-pair\", \"ok\": true}",
+      "case": "cache-second",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": ["Cache-Control", "Content-Length", "Content-Type", "Date", "Server"],
+      "location": null,
+      "platformParsed": [],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": 200
+    },
+    {
+      "bodyText": "{\"case\": \"hold-headers\", \"ok\": true}",
+      "case": "hold-headers",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Set-Cookie"
+      ],
+      "location": null,
+      "platformParsed": [
+        {
+          "domain": "localhost",
+          "httpOnly": true,
+          "name": "t28h_session",
+          "path": "/",
+          "sameSite": null,
+          "secure": true,
+          "session": true,
+          "value": "issued"
+        }
+      ],
+      "redirectCallbacks": 0,
+      "respondedBeforeRelease": false,
+      "setCookieFields": null,
+      "setCookieFolded": "t28h_session=issued; Path=/; Secure; HttpOnly",
+      "status": 200
+    },
+    {
+      "bodyBeforeRelease": false,
+      "bodyText": "{\"case\": \"hold-body\", \"ok\": true}",
+      "case": "hold-body",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Set-Cookie"
+      ],
+      "headersBeforeRelease": false,
+      "location": null,
+      "platformParsed": [
+        {
+          "domain": "localhost",
+          "httpOnly": true,
+          "name": "t28h_session",
+          "path": "/",
+          "sameSite": null,
+          "secure": true,
+          "session": true,
+          "value": "issued"
+        }
+      ],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": "t28h_session=issued; Path=/; Secure; HttpOnly",
+      "status": 200
+    },
+    {
+      "bodyBeforeRelease": false,
+      "bodyText": "{\"case\": \"hold-body-nosniff\", \"ok\": true}",
+      "case": "hold-body-nosniff",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Set-Cookie",
+        "X-Content-Type-Options"
+      ],
+      "headersBeforeRelease": false,
+      "location": null,
+      "platformParsed": [
+        {
+          "domain": "localhost",
+          "httpOnly": true,
+          "name": "t28h_session",
+          "path": "/",
+          "sameSite": null,
+          "secure": true,
+          "session": true,
+          "value": "issued"
+        }
+      ],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": "t28h_session=issued; Path=/; Secure; HttpOnly",
+      "status": 200
+    },
+    {
+      "bodyBeforeRelease": true,
+      "bodyText": " {\"case\": \"hold-body-first-byte\", \"ok\": true}",
+      "case": "hold-body-first-byte",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Set-Cookie"
+      ],
+      "headersBeforeRelease": true,
+      "location": null,
+      "platformParsed": [
+        {
+          "domain": "localhost",
+          "httpOnly": true,
+          "name": "t28h_session",
+          "path": "/",
+          "sameSite": null,
+          "secure": true,
+          "session": true,
+          "value": "issued"
+        }
+      ],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": "t28h_session=issued; Path=/; Secure; HttpOnly",
+      "status": 200
+    },
+    {
+      "bodyBeforeRelease": true,
+      "bodyText": "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                {\"case\": \"hold-body-first-kilobyte\", \"ok\": true}",
+      "case": "hold-body-first-kilobyte",
+      "challengeCallbacks": 0,
+      "error": null,
+      "headerNames": [
+        "Cache-Control",
+        "Content-Length",
+        "Content-Type",
+        "Date",
+        "Server",
+        "Set-Cookie"
+      ],
+      "headersBeforeRelease": true,
+      "location": null,
+      "platformParsed": [
+        {
+          "domain": "localhost",
+          "httpOnly": true,
+          "name": "t28h_session",
+          "path": "/",
+          "sameSite": null,
+          "secure": true,
+          "session": true,
+          "value": "issued"
+        }
+      ],
+      "redirectCallbacks": 0,
+      "setCookieFields": null,
+      "setCookieFolded": "t28h_session=issued; Path=/; Secure; HttpOnly",
+      "status": 200
+    },
+    {
+      "bodyText": null,
+      "case": "tls-negative",
+      "error": "NSURLErrorDomain:-1202",
+      "location": null,
+      "setCookieFields": null,
+      "setCookieFolded": null,
+      "status": null
+    }
+  ],
+  "platform": "ios",
+  "release": "26.4.1",
+  "requests": [
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "control-echo",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/echo",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "multi",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "after-multi-echo",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/echo",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "tricky",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "lowercase-names",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "attach-cookie",
+      "cookieFields": ["t28h_a=1; t28h_b=2"],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/echo",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 11,
+      "case": "attach-post",
+      "cookieFields": ["t28h_a=1"],
+      "event": "arrived",
+      "method": "POST",
+      "path": "/echo",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "target-control",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/target",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "redirect-301",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "redirect-302",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "redirect-303",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "redirect-307",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "redirect-308",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "status-404",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "status-500",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "challenge-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "challenge-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "challenge-default",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "challenge-default",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "challenge-cancel",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 11,
+      "case": "challenge-post-reject",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "POST",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 11,
+      "case": "challenge-post-reject",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "POST",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 11,
+      "case": "challenge-post-default",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "POST",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 11,
+      "case": "challenge-post-default",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "POST",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "challenge-use-nil",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "challenge-use-nil",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 11,
+      "case": "challenge-post-use-nil",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "POST",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 11,
+      "case": "challenge-post-use-nil",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "POST",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "challenge-bearer",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 11,
+      "case": "challenge-post-bearer",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "POST",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "challenge-plain",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 11,
+      "case": "challenge-post-plain",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "POST",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "cache-pair",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "cache-pair",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "hold-headers",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "hold-headers",
+      "cookieFields": [],
+      "event": "released",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "hold-body",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "hold-body",
+      "cookieFields": [],
+      "event": "released",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "hold-body-nosniff",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "hold-body-nosniff",
+      "cookieFields": [],
+      "event": "released",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "hold-body-first-byte",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "hold-body-first-byte",
+      "cookieFields": [],
+      "event": "released",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "hold-body-first-kilobyte",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    },
+    {
+      "authorization": false,
+      "bodyLength": 0,
+      "case": "hold-body-first-kilobyte",
+      "cookieFields": [],
+      "event": "released",
+      "method": "GET",
+      "path": "/serve",
+      "run": "ios-repeat",
+      "tls": true
+    }
+  ],
+  "run": "ios-repeat",
+  "sharedCookieStorageCount": 0
+}
