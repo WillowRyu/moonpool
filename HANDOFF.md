@@ -60,6 +60,8 @@
 > Android hasCookies in a new process: 250/250 correct; read docs/native-cookie-android-restart-verification.md.
 > Android does not retain deny across a process; deny must be reinstalled in every process.
 > iOS rule as a process's first cookie question: 36/36 correct; read docs/native-cookie-first-question-verification.md.
+> Native HTTP transport: three iOS conflicts; rules accepted as a design direction; read docs/native-http-transport-verification.md.
+> Principle: follow OS behavior unless what a mini app sees differs per platform. Do not ask again.
 > Older checkpoints moved verbatim to docs/handoff-archive.md on 2026-11-03.
 > Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
 > Run pnpm run check; read docs/code-quality-workflow.md. Native task checks remain separate.
@@ -91,6 +93,66 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-03 checkpoint — native HTTP transport Git publication
+
+The maintainer answered "커밋 푸시 해" after being told this goes directly to master without a branch. At publication
+start HEAD, origin/master and live remote master were all 4169c67. The series groups the transport probe evidence, the
+accepted rules with report and linked plans, and this progress record with Korean lesson 42. Earlier statements below that
+nothing is committed describe their own moment. Candidates were scanned for keys, build output, local paths, device ids
+and emails with no hits. This does not mark T28 complete, accept the rest of ADR 0027 or release a package or tag. Next
+work is listed in docs/native-http-transport-verification.md under "Before building on this", then C04 cookie profile
+decisions and the broker experiments for C01-C08. The maintainer still empties the Trash holding test keys and references.
+
+## 2026-11-03 checkpoint — native HTTP transport rules accepted
+
+The maintainer questioned the Basic 401 proposal ("왠만하면 OS 의 기본 동작을 따르는게 좋지 않을까?"). Retained results
+showed both platforms give the app a 401 and a body, so the proposal to cancel and return a fixed error was withdrawn.
+The maintainer then accepted the revised set ("네, 그렇게 하자"). Do not ask for this approval again. It supersedes the
+open decision in the checkpoint below.
+
+Principle: follow OS behavior unless it changes what a mini app sees differently per platform.
+
+1. One cookie pipeline: each adapter folds with `, `, both split the same way, one shared parser, no native parsers.
+2. A 401 stays a normal result and the SDK never retries. The iOS resend after Basic is documented OS behavior. Ambient
+   credential and cookie stores stay disabled, so host credentials are never exposed.
+3. Cookies commit at header delivery by the client. C08 sends one body byte before holding.
+
+Recorded in ADR 0027, the contract and C03, C04, C06 and C08. This accepts no other part of ADR 0027, changes no SPEC and
+implements nothing. Measure before building: Android global Authenticator and CookieHandler set by a host, a Basic 401 that
+also sets cookies, a preset Authorization on the iOS resend, other auth schemes, HTTP/2, mid-body failure and cancellation.
+
+A source comparison at pinned commits is in the report: Capacitor and Portals inherit URLSession behavior, while Tauri
+(reqwest) and Electron (Chromium) do not. A shared Rust HTTP layer is a recorded deferred alternative, conflicting with
+ADR 0025 and the ordering of native cores after v0. Downloaded reference files went to the Trash. Nothing is committed.
+
+## 2026-11-03 checkpoint — native HTTP transport primitives measured
+
+The maintainer asked to continue T28 ("T28 이어서 진행하자"). That was read as authorizing one bounded broker
+prerequisite run on the dedicated devices. New isolated experiments/native-http-transport-probe, on master and
+uncommitted; commit was not requested. Read docs/native-http-transport-verification.md and Korean lesson 42.
+
+Android HttpURLConnection and iOS URLSession both send no ambient cookies, deliver an attached Cookie unchanged,
+return every 3xx without following it, return 4xx/5xx as results, do not cache and validate TLS. iOS conflicts with
+the proposed contract in three ways:
+
+| Finding | Measured | Contract text affected |
+| --- | --- | --- |
+| Set-Cookie folded into one value | A value containing `, name=` cannot be split back; the OS parsers disagree | Preserve separate fields, reject without repair |
+| Basic 401 sends the request twice, POST body included | reject, default and useCredential nil all resend; cancel sends once but loses the response; Bearer and plain 401 send once | Never retry automatically |
+| Headers delivered only with the first body byte | Android shows them at once | Commit at header time, C08 window |
+
+OPEN AT THIS POINT, since decided in the checkpoint above: the report proposed one fold-then-split pipeline with one shared parser, treating HTTP
+auth challenges as a fixed unsupported error, and defining the commit point as header delivery by the client. Do not
+treat these as accepted, and do not build a jar against them. Fold-then-split gave identical lines in all 34 cases.
+Digest, NTLM and Negotiate, HTTP/2, mid-body failure and cancellation are unmeasured. Most of C01-C08 still needs the
+broker itself. T28 stays incomplete at 6/44. SPEC, protocol and production packages are unchanged.
+
+Nothing was added to any device trust store: iOS pins to a CA bundled in the probe, and Android scopes it in the APK.
+TLS negatives were refused with no receipt on both. Both devices are off after detaching the simulator panel, 13
+baseline states match, fixture closed, no crashes. This experiment's keys went to the Trash, so the maintainer still
+empties it. Retained: 4 reports, 164 receipt rows, 184 verifier checks, 49 host tests, lint 0 errors / 4 warnings. Two
+earlier collections stay in ignored local results.
 
 ## 2026-11-03 checkpoint — cookie evidence Git publication
 
