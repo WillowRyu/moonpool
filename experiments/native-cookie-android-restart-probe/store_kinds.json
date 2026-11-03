@@ -1,0 +1,238 @@
+[
+  {
+    "kind": "brand-new",
+    "group": "free",
+    "brandNew": true
+  },
+  {
+    "kind": "untouched",
+    "group": "free"
+  },
+  {
+    "kind": "untouched-denied",
+    "group": "free",
+    "denyAfter": true
+  },
+  {
+    "kind": "local-data",
+    "group": "free",
+    "storage": true
+  },
+  {
+    "kind": "local-data-denied",
+    "group": "free",
+    "storage": true,
+    "denyAfter": true
+  },
+  {
+    "kind": "network-visit",
+    "group": "free",
+    "steps": [
+      {
+        "step": "seed",
+        "top": "127.0.0.1"
+      }
+    ]
+  },
+  {
+    "kind": "network-visit-denied",
+    "group": "free",
+    "denyAfter": true,
+    "steps": [
+      {
+        "step": "seed",
+        "top": "127.0.0.1"
+      }
+    ]
+  },
+  {
+    "kind": "blocked-write",
+    "group": "observe",
+    "denyBefore": true,
+    "steps": [
+      {
+        "step": "seed",
+        "top": "127.0.0.1"
+      }
+    ],
+    "cookies": {
+      "seed": "public; Path=/; Secure; Max-Age=86400; SameSite=None"
+    }
+  },
+  {
+    "kind": "server-expired",
+    "group": "observe",
+    "denyAfter": true,
+    "steps": [
+      {
+        "step": "seed",
+        "top": "127.0.0.1"
+      },
+      {
+        "step": "expire",
+        "top": "127.0.0.1"
+      }
+    ],
+    "cookies": {
+      "seed": "public; Path=/; Secure; Max-Age=86400; SameSite=None",
+      "expire": "gone; Path=/; Secure; Max-Age=0; SameSite=None"
+    }
+  },
+  {
+    "kind": "short-lived",
+    "group": "observe",
+    "denyAfter": true,
+    "wait": 1.5,
+    "steps": [
+      {
+        "step": "seed",
+        "top": "127.0.0.1"
+      }
+    ],
+    "cookies": {
+      "seed": "public; Path=/; Secure; Max-Age=1; SameSite=None"
+    }
+  },
+  {
+    "kind": "session-only",
+    "group": "observe",
+    "denyAfter": true,
+    "steps": [
+      {
+        "step": "seed",
+        "top": "127.0.0.1"
+      }
+    ],
+    "cookies": {
+      "seed": "public; Path=/; Secure; SameSite=None"
+    }
+  },
+  {
+    "kind": "partitioned-default",
+    "group": "observe",
+    "steps": [
+      {
+        "step": "seed",
+        "top": "localhost"
+      }
+    ],
+    "cookies": {
+      "seed": "public; Path=/; Secure; Max-Age=86400; SameSite=None; Partitioned"
+    }
+  },
+  {
+    "kind": "partitioned-guest",
+    "group": "observe",
+    "denyAfter": true,
+    "service": "localhost",
+    "seedTop": "guest",
+    "steps": [
+      {
+        "step": "seed",
+        "top": "guest"
+      }
+    ],
+    "cookies": {
+      "seed": "public; Path=/; Secure; Max-Age=86400; SameSite=None; Partitioned"
+    }
+  },
+  {
+    "kind": "late-never-denied",
+    "group": "observe",
+    "late": true,
+    "steps": [
+      {
+        "step": "seed",
+        "top": "127.0.0.1"
+      }
+    ],
+    "cookies": {
+      "seed": "public; Path=/; Secure; Max-Age=86400; SameSite=None"
+    }
+  },
+  {
+    "kind": "late-denied",
+    "group": "observe",
+    "late": true,
+    "denyAfter": true,
+    "steps": [
+      {
+        "step": "seed",
+        "top": "127.0.0.1"
+      }
+    ],
+    "cookies": {
+      "seed": "public; Path=/; Secure; Max-Age=86400; SameSite=None"
+    }
+  },
+  {
+    "kind": "cookie-denied",
+    "group": "cookie",
+    "denyAfter": true,
+    "steps": [
+      {
+        "step": "seed",
+        "top": "127.0.0.1"
+      }
+    ],
+    "cookies": {
+      "seed": "public; Path=/; Secure; Max-Age=86400; SameSite=None"
+    }
+  },
+  {
+    "kind": "cookie-never-denied",
+    "group": "cookie",
+    "steps": [
+      {
+        "step": "seed",
+        "top": "127.0.0.1"
+      }
+    ],
+    "cookies": {
+      "seed": "public; Path=/; Secure; Max-Age=86400; SameSite=None"
+    }
+  },
+  {
+    "kind": "httponly-denied",
+    "group": "cookie",
+    "denyAfter": true,
+    "steps": [
+      {
+        "step": "seed",
+        "top": "127.0.0.1"
+      }
+    ],
+    "cookies": {
+      "seed": "public; Path=/; Secure; HttpOnly; Max-Age=86400; SameSite=None"
+    }
+  },
+  {
+    "kind": "partitioned-first-party",
+    "group": "cookie",
+    "denyAfter": true,
+    "steps": [
+      {
+        "step": "seed",
+        "top": "127.0.0.1"
+      }
+    ],
+    "cookies": {
+      "seed": "public; Path=/; Secure; Max-Age=86400; SameSite=None; Partitioned"
+    }
+  },
+  {
+    "kind": "partitioned-third-party",
+    "group": "observe",
+    "denyAfter": true,
+    "thirdParty": true,
+    "steps": [
+      {
+        "step": "seed",
+        "top": "localhost"
+      }
+    ],
+    "cookies": {
+      "seed": "public; Path=/; Secure; Max-Age=86400; SameSite=None; Partitioned"
+    }
+  }
+]

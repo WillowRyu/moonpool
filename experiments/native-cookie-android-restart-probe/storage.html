@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><title>Owned data fixture</title><body>
+<script>
+  (async () => {
+    const query = new URLSearchParams(location.search);
+    const token = query.get('token');
+    const db = await new Promise((resolve, reject) => {
+      const request = indexedDB.open('admission-public-data', 1);
+      request.onupgradeneeded = () => request.result.createObjectStore('values');
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    if (query.get('seed') === '1') {
+      localStorage.setItem('public-data', token);
+      await new Promise((resolve, reject) => {
+        const transaction = db.transaction('values', 'readwrite');
+        transaction.objectStore('values').put(token, 'public-data');
+        transaction.oncomplete = resolve;
+        transaction.onerror = () => reject(transaction.error);
+      });
+    }
+    window.readPublicData = async () => ({
+      local: localStorage.getItem('public-data'),
+      indexed: await new Promise((resolve, reject) => {
+        const request = db.transaction('values').objectStore('values').get('public-data');
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      }),
+    });
+    window.storageReady = await window.readPublicData();
+  })();
+</script>
+</body></html>

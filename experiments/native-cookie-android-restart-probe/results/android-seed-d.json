@@ -1,0 +1,1911 @@
+{
+  "base": "https://localhost:53932",
+  "build": {
+    "apkSha256": "278244780151bfc41ef09af58c513a3708e839a5b25f14e5a886ada0d49b4c64",
+    "caSha256": "208e81b2d646a596eb7b65bf34b6b841e0f950e44d8250b9aeabcd6d2bd1ecd2",
+    "fixtureConfigSha256": "cc3f4692c4ea0827ab7373f843fa9944c74cfe9b9fba411a55b1cfca05eec50f",
+    "sources": {
+      "android/app/build.gradle": "8e26c9c878690202ab2f1a057a857e81aa9f7ebdadec1f6d59c312e59a5a4ad4",
+      "android/app/src/main/AndroidManifest.xml": "4475e01fd9a7047c63c667ffc1b1b71fdd2bc007cd72be57ec4ff413f80d93eb",
+      "android/app/src/main/java/org/moonpool/cookierestart/ProbeActivity.java": "2fe7f41569a8f3afb2a8151c82ba5f7e504b2166b5a70f20d93f74c50f587b5a",
+      "android/app/src/main/res/xml/network_security_config.xml": "def485559d7ade425b2492e375edd451466d47027be1cbfb3c47d18c04f1955d",
+      "android/build.gradle": "bb5d6db0a3f94e7ff33ba91a07fa9146a96994e843ae487ebccadc99b62e722c",
+      "android/gradle.properties": "67eefa02d084d8fd6e2698683ca4d007a344395ca89eed9012a79bac373ba359",
+      "android/settings.gradle": "496fba727672b2b69153644a7b3c50db32d665ab75e07afad61979663570d357",
+      "build.py": "00d04ddf78ab964b2bff76424fdc0b1f09c38f8fe62b8ce7238819267ffcb90a",
+      "fixture.py": "6bc902be743b1efe3f3f7fafbde854225a49dbaa863ce76dbba68931d21f3e1a",
+      "frame.html": "d6ba27bb66312ec92828bae9f56a94e79eec26f546bed1a3f667e3477fea4abd",
+      "storage.html": "f38ab0a30b76b2035c7d563c25c97ce5d114f796f5b6e85799fda57a72754f35",
+      "store_kinds.json": "2537e556a074e9ebabe102afb061ebd99edb3ccd412db9e59e3e0cf5798615bf",
+      "vectors.py": "c43f6b3863c0816a742067e5151daf2fc89122f4836bbcdcc8ee94924380b54d"
+    },
+    "wrapperSha256": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59"
+  },
+  "capturedUtc": "2026-11-03T06:39:25Z",
+  "checks": [],
+  "complete": true,
+  "cycle": "d",
+  "errors": [],
+  "installedArtifactSha256": "278244780151bfc41ef09af58c513a3708e839a5b25f14e5a886ada0d49b4c64",
+  "mode": "seed",
+  "platform": "android",
+  "providerVersion": "145.0.7632.218",
+  "release": "17",
+  "requests": [
+    {
+      "case": "network-visit-b1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "network-visit-denied-b1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "blocked-write-b1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "server-expired-b1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "server-expired-b1",
+      "cookie": "t28r_server-expired=public",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "expire",
+      "tls": true
+    },
+    {
+      "case": "short-lived-b1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "session-only-b1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-default-b1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-guest-b1",
+      "cookie": "",
+      "host": "localhost:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "cookie-denied-b1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "cookie-never-denied-b1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "httponly-denied-b1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-first-party-b1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-third-party-b1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "network-visit-v1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "network-visit-denied-v1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "blocked-write-v1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "server-expired-v1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "server-expired-v1",
+      "cookie": "t28r_server-expired=public",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "expire",
+      "tls": true
+    },
+    {
+      "case": "short-lived-v1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "session-only-v1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-default-v1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-guest-v1",
+      "cookie": "",
+      "host": "localhost:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "cookie-denied-v1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "cookie-never-denied-v1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "httponly-denied-v1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-first-party-v1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-third-party-v1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "network-visit-p1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "network-visit-denied-p1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "blocked-write-p1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "server-expired-p1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "server-expired-p1",
+      "cookie": "t28r_server-expired=public",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "expire",
+      "tls": true
+    },
+    {
+      "case": "short-lived-p1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "session-only-p1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-default-p1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-guest-p1",
+      "cookie": "",
+      "host": "localhost:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "cookie-denied-p1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "cookie-never-denied-p1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "httponly-denied-p1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-first-party-p1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-third-party-p1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "network-visit-b2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "network-visit-denied-b2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "blocked-write-b2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "server-expired-b2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "server-expired-b2",
+      "cookie": "t28r_server-expired=public",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "expire",
+      "tls": true
+    },
+    {
+      "case": "short-lived-b2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "session-only-b2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-default-b2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-guest-b2",
+      "cookie": "",
+      "host": "localhost:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "cookie-denied-b2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "cookie-never-denied-b2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "httponly-denied-b2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-first-party-b2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-third-party-b2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "network-visit-v2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "network-visit-denied-v2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "blocked-write-v2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "server-expired-v2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "server-expired-v2",
+      "cookie": "t28r_server-expired=public",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "expire",
+      "tls": true
+    },
+    {
+      "case": "short-lived-v2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "session-only-v2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-default-v2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-guest-v2",
+      "cookie": "",
+      "host": "localhost:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "cookie-denied-v2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "cookie-never-denied-v2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "httponly-denied-v2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-first-party-v2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-third-party-v2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "network-visit-p2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "network-visit-denied-p2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "blocked-write-p2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "server-expired-p2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "server-expired-p2",
+      "cookie": "t28r_server-expired=public",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "expire",
+      "tls": true
+    },
+    {
+      "case": "short-lived-p2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "session-only-p2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-default-p2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-guest-p2",
+      "cookie": "",
+      "host": "localhost:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "cookie-denied-p2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "cookie-never-denied-p2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "httponly-denied-p2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-first-party-p2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "partitioned-third-party-p2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "late-never-denied-b1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "late-denied-b1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "late-never-denied-v1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "late-denied-v1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "late-never-denied-p1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "late-denied-p1",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "late-never-denied-b2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "late-denied-b2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "late-never-denied-v2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "late-denied-v2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "late-never-denied-p2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    },
+    {
+      "case": "late-denied-p2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-seed-d",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "seed",
+      "tls": true
+    }
+  ],
+  "run": "android-seed-d",
+  "seeded": [
+    {
+      "case": "untouched-b1",
+      "hasCookies": false,
+      "kind": "untouched",
+      "profile": "restart-d-untouched-b1",
+      "storageReady": null,
+      "visitsLoaded": []
+    },
+    {
+      "case": "untouched-denied-b1",
+      "hasCookies": false,
+      "kind": "untouched-denied",
+      "profile": "restart-d-untouched-denied-b1",
+      "storageReady": null,
+      "visitsLoaded": []
+    },
+    {
+      "case": "local-data-b1",
+      "hasCookies": false,
+      "kind": "local-data",
+      "profile": "restart-d-local-data-b1",
+      "storageReady": true,
+      "visitsLoaded": []
+    },
+    {
+      "case": "local-data-denied-b1",
+      "hasCookies": false,
+      "kind": "local-data-denied",
+      "profile": "restart-d-local-data-denied-b1",
+      "storageReady": true,
+      "visitsLoaded": []
+    },
+    {
+      "case": "network-visit-b1",
+      "hasCookies": false,
+      "kind": "network-visit",
+      "profile": "restart-d-network-visit-b1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "network-visit-denied-b1",
+      "hasCookies": false,
+      "kind": "network-visit-denied",
+      "profile": "restart-d-network-visit-denied-b1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "blocked-write-b1",
+      "hasCookies": false,
+      "kind": "blocked-write",
+      "profile": "restart-d-blocked-write-b1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "server-expired-b1",
+      "hasCookies": false,
+      "kind": "server-expired",
+      "profile": "restart-d-server-expired-b1",
+      "storageReady": null,
+      "visitsLoaded": [true, true]
+    },
+    {
+      "case": "short-lived-b1",
+      "hasCookies": false,
+      "kind": "short-lived",
+      "profile": "restart-d-short-lived-b1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "session-only-b1",
+      "hasCookies": true,
+      "kind": "session-only",
+      "profile": "restart-d-session-only-b1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-default-b1",
+      "hasCookies": true,
+      "kind": "partitioned-default",
+      "profile": "restart-d-partitioned-default-b1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-guest-b1",
+      "hasCookies": true,
+      "kind": "partitioned-guest",
+      "profile": "restart-d-partitioned-guest-b1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "cookie-denied-b1",
+      "hasCookies": true,
+      "kind": "cookie-denied",
+      "profile": "restart-d-cookie-denied-b1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "cookie-never-denied-b1",
+      "hasCookies": true,
+      "kind": "cookie-never-denied",
+      "profile": "restart-d-cookie-never-denied-b1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "httponly-denied-b1",
+      "hasCookies": true,
+      "kind": "httponly-denied",
+      "profile": "restart-d-httponly-denied-b1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-first-party-b1",
+      "hasCookies": true,
+      "kind": "partitioned-first-party",
+      "profile": "restart-d-partitioned-first-party-b1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-third-party-b1",
+      "hasCookies": true,
+      "kind": "partitioned-third-party",
+      "profile": "restart-d-partitioned-third-party-b1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "untouched-v1",
+      "hasCookies": false,
+      "kind": "untouched",
+      "profile": "restart-d-untouched-v1",
+      "storageReady": null,
+      "visitsLoaded": []
+    },
+    {
+      "case": "untouched-denied-v1",
+      "hasCookies": false,
+      "kind": "untouched-denied",
+      "profile": "restart-d-untouched-denied-v1",
+      "storageReady": null,
+      "visitsLoaded": []
+    },
+    {
+      "case": "local-data-v1",
+      "hasCookies": false,
+      "kind": "local-data",
+      "profile": "restart-d-local-data-v1",
+      "storageReady": true,
+      "visitsLoaded": []
+    },
+    {
+      "case": "local-data-denied-v1",
+      "hasCookies": false,
+      "kind": "local-data-denied",
+      "profile": "restart-d-local-data-denied-v1",
+      "storageReady": true,
+      "visitsLoaded": []
+    },
+    {
+      "case": "network-visit-v1",
+      "hasCookies": false,
+      "kind": "network-visit",
+      "profile": "restart-d-network-visit-v1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "network-visit-denied-v1",
+      "hasCookies": false,
+      "kind": "network-visit-denied",
+      "profile": "restart-d-network-visit-denied-v1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "blocked-write-v1",
+      "hasCookies": false,
+      "kind": "blocked-write",
+      "profile": "restart-d-blocked-write-v1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "server-expired-v1",
+      "hasCookies": false,
+      "kind": "server-expired",
+      "profile": "restart-d-server-expired-v1",
+      "storageReady": null,
+      "visitsLoaded": [true, true]
+    },
+    {
+      "case": "short-lived-v1",
+      "hasCookies": false,
+      "kind": "short-lived",
+      "profile": "restart-d-short-lived-v1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "session-only-v1",
+      "hasCookies": true,
+      "kind": "session-only",
+      "profile": "restart-d-session-only-v1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-default-v1",
+      "hasCookies": true,
+      "kind": "partitioned-default",
+      "profile": "restart-d-partitioned-default-v1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-guest-v1",
+      "hasCookies": true,
+      "kind": "partitioned-guest",
+      "profile": "restart-d-partitioned-guest-v1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "cookie-denied-v1",
+      "hasCookies": true,
+      "kind": "cookie-denied",
+      "profile": "restart-d-cookie-denied-v1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "cookie-never-denied-v1",
+      "hasCookies": true,
+      "kind": "cookie-never-denied",
+      "profile": "restart-d-cookie-never-denied-v1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "httponly-denied-v1",
+      "hasCookies": true,
+      "kind": "httponly-denied",
+      "profile": "restart-d-httponly-denied-v1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-first-party-v1",
+      "hasCookies": true,
+      "kind": "partitioned-first-party",
+      "profile": "restart-d-partitioned-first-party-v1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-third-party-v1",
+      "hasCookies": true,
+      "kind": "partitioned-third-party",
+      "profile": "restart-d-partitioned-third-party-v1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "untouched-p1",
+      "hasCookies": false,
+      "kind": "untouched",
+      "profile": "restart-d-untouched-p1",
+      "storageReady": null,
+      "visitsLoaded": []
+    },
+    {
+      "case": "untouched-denied-p1",
+      "hasCookies": false,
+      "kind": "untouched-denied",
+      "profile": "restart-d-untouched-denied-p1",
+      "storageReady": null,
+      "visitsLoaded": []
+    },
+    {
+      "case": "local-data-p1",
+      "hasCookies": false,
+      "kind": "local-data",
+      "profile": "restart-d-local-data-p1",
+      "storageReady": true,
+      "visitsLoaded": []
+    },
+    {
+      "case": "local-data-denied-p1",
+      "hasCookies": false,
+      "kind": "local-data-denied",
+      "profile": "restart-d-local-data-denied-p1",
+      "storageReady": true,
+      "visitsLoaded": []
+    },
+    {
+      "case": "network-visit-p1",
+      "hasCookies": false,
+      "kind": "network-visit",
+      "profile": "restart-d-network-visit-p1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "network-visit-denied-p1",
+      "hasCookies": false,
+      "kind": "network-visit-denied",
+      "profile": "restart-d-network-visit-denied-p1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "blocked-write-p1",
+      "hasCookies": false,
+      "kind": "blocked-write",
+      "profile": "restart-d-blocked-write-p1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "server-expired-p1",
+      "hasCookies": false,
+      "kind": "server-expired",
+      "profile": "restart-d-server-expired-p1",
+      "storageReady": null,
+      "visitsLoaded": [true, true]
+    },
+    {
+      "case": "short-lived-p1",
+      "hasCookies": false,
+      "kind": "short-lived",
+      "profile": "restart-d-short-lived-p1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "session-only-p1",
+      "hasCookies": true,
+      "kind": "session-only",
+      "profile": "restart-d-session-only-p1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-default-p1",
+      "hasCookies": true,
+      "kind": "partitioned-default",
+      "profile": "restart-d-partitioned-default-p1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-guest-p1",
+      "hasCookies": true,
+      "kind": "partitioned-guest",
+      "profile": "restart-d-partitioned-guest-p1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "cookie-denied-p1",
+      "hasCookies": true,
+      "kind": "cookie-denied",
+      "profile": "restart-d-cookie-denied-p1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "cookie-never-denied-p1",
+      "hasCookies": true,
+      "kind": "cookie-never-denied",
+      "profile": "restart-d-cookie-never-denied-p1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "httponly-denied-p1",
+      "hasCookies": true,
+      "kind": "httponly-denied",
+      "profile": "restart-d-httponly-denied-p1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-first-party-p1",
+      "hasCookies": true,
+      "kind": "partitioned-first-party",
+      "profile": "restart-d-partitioned-first-party-p1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-third-party-p1",
+      "hasCookies": true,
+      "kind": "partitioned-third-party",
+      "profile": "restart-d-partitioned-third-party-p1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "untouched-b2",
+      "hasCookies": false,
+      "kind": "untouched",
+      "profile": "restart-d-untouched-b2",
+      "storageReady": null,
+      "visitsLoaded": []
+    },
+    {
+      "case": "untouched-denied-b2",
+      "hasCookies": false,
+      "kind": "untouched-denied",
+      "profile": "restart-d-untouched-denied-b2",
+      "storageReady": null,
+      "visitsLoaded": []
+    },
+    {
+      "case": "local-data-b2",
+      "hasCookies": false,
+      "kind": "local-data",
+      "profile": "restart-d-local-data-b2",
+      "storageReady": true,
+      "visitsLoaded": []
+    },
+    {
+      "case": "local-data-denied-b2",
+      "hasCookies": false,
+      "kind": "local-data-denied",
+      "profile": "restart-d-local-data-denied-b2",
+      "storageReady": true,
+      "visitsLoaded": []
+    },
+    {
+      "case": "network-visit-b2",
+      "hasCookies": false,
+      "kind": "network-visit",
+      "profile": "restart-d-network-visit-b2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "network-visit-denied-b2",
+      "hasCookies": false,
+      "kind": "network-visit-denied",
+      "profile": "restart-d-network-visit-denied-b2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "blocked-write-b2",
+      "hasCookies": false,
+      "kind": "blocked-write",
+      "profile": "restart-d-blocked-write-b2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "server-expired-b2",
+      "hasCookies": false,
+      "kind": "server-expired",
+      "profile": "restart-d-server-expired-b2",
+      "storageReady": null,
+      "visitsLoaded": [true, true]
+    },
+    {
+      "case": "short-lived-b2",
+      "hasCookies": false,
+      "kind": "short-lived",
+      "profile": "restart-d-short-lived-b2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "session-only-b2",
+      "hasCookies": true,
+      "kind": "session-only",
+      "profile": "restart-d-session-only-b2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-default-b2",
+      "hasCookies": true,
+      "kind": "partitioned-default",
+      "profile": "restart-d-partitioned-default-b2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-guest-b2",
+      "hasCookies": true,
+      "kind": "partitioned-guest",
+      "profile": "restart-d-partitioned-guest-b2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "cookie-denied-b2",
+      "hasCookies": true,
+      "kind": "cookie-denied",
+      "profile": "restart-d-cookie-denied-b2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "cookie-never-denied-b2",
+      "hasCookies": true,
+      "kind": "cookie-never-denied",
+      "profile": "restart-d-cookie-never-denied-b2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "httponly-denied-b2",
+      "hasCookies": true,
+      "kind": "httponly-denied",
+      "profile": "restart-d-httponly-denied-b2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-first-party-b2",
+      "hasCookies": true,
+      "kind": "partitioned-first-party",
+      "profile": "restart-d-partitioned-first-party-b2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-third-party-b2",
+      "hasCookies": true,
+      "kind": "partitioned-third-party",
+      "profile": "restart-d-partitioned-third-party-b2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "untouched-v2",
+      "hasCookies": false,
+      "kind": "untouched",
+      "profile": "restart-d-untouched-v2",
+      "storageReady": null,
+      "visitsLoaded": []
+    },
+    {
+      "case": "untouched-denied-v2",
+      "hasCookies": false,
+      "kind": "untouched-denied",
+      "profile": "restart-d-untouched-denied-v2",
+      "storageReady": null,
+      "visitsLoaded": []
+    },
+    {
+      "case": "local-data-v2",
+      "hasCookies": false,
+      "kind": "local-data",
+      "profile": "restart-d-local-data-v2",
+      "storageReady": true,
+      "visitsLoaded": []
+    },
+    {
+      "case": "local-data-denied-v2",
+      "hasCookies": false,
+      "kind": "local-data-denied",
+      "profile": "restart-d-local-data-denied-v2",
+      "storageReady": true,
+      "visitsLoaded": []
+    },
+    {
+      "case": "network-visit-v2",
+      "hasCookies": false,
+      "kind": "network-visit",
+      "profile": "restart-d-network-visit-v2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "network-visit-denied-v2",
+      "hasCookies": false,
+      "kind": "network-visit-denied",
+      "profile": "restart-d-network-visit-denied-v2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "blocked-write-v2",
+      "hasCookies": false,
+      "kind": "blocked-write",
+      "profile": "restart-d-blocked-write-v2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "server-expired-v2",
+      "hasCookies": false,
+      "kind": "server-expired",
+      "profile": "restart-d-server-expired-v2",
+      "storageReady": null,
+      "visitsLoaded": [true, true]
+    },
+    {
+      "case": "short-lived-v2",
+      "hasCookies": false,
+      "kind": "short-lived",
+      "profile": "restart-d-short-lived-v2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "session-only-v2",
+      "hasCookies": true,
+      "kind": "session-only",
+      "profile": "restart-d-session-only-v2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-default-v2",
+      "hasCookies": true,
+      "kind": "partitioned-default",
+      "profile": "restart-d-partitioned-default-v2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-guest-v2",
+      "hasCookies": true,
+      "kind": "partitioned-guest",
+      "profile": "restart-d-partitioned-guest-v2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "cookie-denied-v2",
+      "hasCookies": true,
+      "kind": "cookie-denied",
+      "profile": "restart-d-cookie-denied-v2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "cookie-never-denied-v2",
+      "hasCookies": true,
+      "kind": "cookie-never-denied",
+      "profile": "restart-d-cookie-never-denied-v2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "httponly-denied-v2",
+      "hasCookies": true,
+      "kind": "httponly-denied",
+      "profile": "restart-d-httponly-denied-v2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-first-party-v2",
+      "hasCookies": true,
+      "kind": "partitioned-first-party",
+      "profile": "restart-d-partitioned-first-party-v2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-third-party-v2",
+      "hasCookies": true,
+      "kind": "partitioned-third-party",
+      "profile": "restart-d-partitioned-third-party-v2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "untouched-p2",
+      "hasCookies": false,
+      "kind": "untouched",
+      "profile": "restart-d-untouched-p2",
+      "storageReady": null,
+      "visitsLoaded": []
+    },
+    {
+      "case": "untouched-denied-p2",
+      "hasCookies": false,
+      "kind": "untouched-denied",
+      "profile": "restart-d-untouched-denied-p2",
+      "storageReady": null,
+      "visitsLoaded": []
+    },
+    {
+      "case": "local-data-p2",
+      "hasCookies": false,
+      "kind": "local-data",
+      "profile": "restart-d-local-data-p2",
+      "storageReady": true,
+      "visitsLoaded": []
+    },
+    {
+      "case": "local-data-denied-p2",
+      "hasCookies": false,
+      "kind": "local-data-denied",
+      "profile": "restart-d-local-data-denied-p2",
+      "storageReady": true,
+      "visitsLoaded": []
+    },
+    {
+      "case": "network-visit-p2",
+      "hasCookies": false,
+      "kind": "network-visit",
+      "profile": "restart-d-network-visit-p2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "network-visit-denied-p2",
+      "hasCookies": false,
+      "kind": "network-visit-denied",
+      "profile": "restart-d-network-visit-denied-p2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "blocked-write-p2",
+      "hasCookies": false,
+      "kind": "blocked-write",
+      "profile": "restart-d-blocked-write-p2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "server-expired-p2",
+      "hasCookies": false,
+      "kind": "server-expired",
+      "profile": "restart-d-server-expired-p2",
+      "storageReady": null,
+      "visitsLoaded": [true, true]
+    },
+    {
+      "case": "short-lived-p2",
+      "hasCookies": false,
+      "kind": "short-lived",
+      "profile": "restart-d-short-lived-p2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "session-only-p2",
+      "hasCookies": true,
+      "kind": "session-only",
+      "profile": "restart-d-session-only-p2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-default-p2",
+      "hasCookies": true,
+      "kind": "partitioned-default",
+      "profile": "restart-d-partitioned-default-p2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-guest-p2",
+      "hasCookies": true,
+      "kind": "partitioned-guest",
+      "profile": "restart-d-partitioned-guest-p2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "cookie-denied-p2",
+      "hasCookies": true,
+      "kind": "cookie-denied",
+      "profile": "restart-d-cookie-denied-p2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "cookie-never-denied-p2",
+      "hasCookies": true,
+      "kind": "cookie-never-denied",
+      "profile": "restart-d-cookie-never-denied-p2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "httponly-denied-p2",
+      "hasCookies": true,
+      "kind": "httponly-denied",
+      "profile": "restart-d-httponly-denied-p2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-first-party-p2",
+      "hasCookies": true,
+      "kind": "partitioned-first-party",
+      "profile": "restart-d-partitioned-first-party-p2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "partitioned-third-party-p2",
+      "hasCookies": true,
+      "kind": "partitioned-third-party",
+      "profile": "restart-d-partitioned-third-party-p2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "late-never-denied-b1",
+      "hasCookies": true,
+      "kind": "late-never-denied",
+      "profile": "restart-d-late-never-denied-b1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "late-denied-b1",
+      "hasCookies": true,
+      "kind": "late-denied",
+      "profile": "restart-d-late-denied-b1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "late-never-denied-v1",
+      "hasCookies": true,
+      "kind": "late-never-denied",
+      "profile": "restart-d-late-never-denied-v1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "late-denied-v1",
+      "hasCookies": true,
+      "kind": "late-denied",
+      "profile": "restart-d-late-denied-v1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "late-never-denied-p1",
+      "hasCookies": true,
+      "kind": "late-never-denied",
+      "profile": "restart-d-late-never-denied-p1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "late-denied-p1",
+      "hasCookies": true,
+      "kind": "late-denied",
+      "profile": "restart-d-late-denied-p1",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "late-never-denied-b2",
+      "hasCookies": true,
+      "kind": "late-never-denied",
+      "profile": "restart-d-late-never-denied-b2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "late-denied-b2",
+      "hasCookies": true,
+      "kind": "late-denied",
+      "profile": "restart-d-late-denied-b2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "late-never-denied-v2",
+      "hasCookies": true,
+      "kind": "late-never-denied",
+      "profile": "restart-d-late-never-denied-v2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "late-denied-v2",
+      "hasCookies": true,
+      "kind": "late-denied",
+      "profile": "restart-d-late-denied-v2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "late-never-denied-p2",
+      "hasCookies": true,
+      "kind": "late-never-denied",
+      "profile": "restart-d-late-never-denied-p2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    },
+    {
+      "case": "late-denied-p2",
+      "hasCookies": true,
+      "kind": "late-denied",
+      "profile": "restart-d-late-denied-p2",
+      "storageReady": null,
+      "visitsLoaded": [true]
+    }
+  ]
+}

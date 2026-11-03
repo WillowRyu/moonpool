@@ -1,0 +1,77 @@
+{
+  "base": "https://localhost:53932",
+  "build": {
+    "apkSha256": "278244780151bfc41ef09af58c513a3708e839a5b25f14e5a886ada0d49b4c64",
+    "caSha256": "208e81b2d646a596eb7b65bf34b6b841e0f950e44d8250b9aeabcd6d2bd1ecd2",
+    "fixtureConfigSha256": "cc3f4692c4ea0827ab7373f843fa9944c74cfe9b9fba411a55b1cfca05eec50f",
+    "sources": {
+      "android/app/build.gradle": "8e26c9c878690202ab2f1a057a857e81aa9f7ebdadec1f6d59c312e59a5a4ad4",
+      "android/app/src/main/AndroidManifest.xml": "4475e01fd9a7047c63c667ffc1b1b71fdd2bc007cd72be57ec4ff413f80d93eb",
+      "android/app/src/main/java/org/moonpool/cookierestart/ProbeActivity.java": "2fe7f41569a8f3afb2a8151c82ba5f7e504b2166b5a70f20d93f74c50f587b5a",
+      "android/app/src/main/res/xml/network_security_config.xml": "def485559d7ade425b2492e375edd451466d47027be1cbfb3c47d18c04f1955d",
+      "android/build.gradle": "bb5d6db0a3f94e7ff33ba91a07fa9146a96994e843ae487ebccadc99b62e722c",
+      "android/gradle.properties": "67eefa02d084d8fd6e2698683ca4d007a344395ca89eed9012a79bac373ba359",
+      "android/settings.gradle": "496fba727672b2b69153644a7b3c50db32d665ab75e07afad61979663570d357",
+      "build.py": "00d04ddf78ab964b2bff76424fdc0b1f09c38f8fe62b8ce7238819267ffcb90a",
+      "fixture.py": "6bc902be743b1efe3f3f7fafbde854225a49dbaa863ce76dbba68931d21f3e1a",
+      "frame.html": "d6ba27bb66312ec92828bae9f56a94e79eec26f546bed1a3f667e3477fea4abd",
+      "storage.html": "f38ab0a30b76b2035c7d563c25c97ce5d114f796f5b6e85799fda57a72754f35",
+      "store_kinds.json": "2537e556a074e9ebabe102afb061ebd99edb3ccd412db9e59e3e0cf5798615bf",
+      "vectors.py": "c43f6b3863c0816a742067e5151daf2fc89122f4836bbcdcc8ee94924380b54d"
+    },
+    "wrapperSha256": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59"
+  },
+  "capturedUtc": "2026-11-03T06:44:16Z",
+  "checks": [
+    {
+      "acceptAfterFirst": true,
+      "acceptAtRule": false,
+      "acceptDuringWitness": true,
+      "afterPolicy": true,
+      "case": "httponly-denied-b2",
+      "finalHasCookies": true,
+      "first": true,
+      "firstMs": 3,
+      "kind": "httponly-denied",
+      "later": true,
+      "order": "bare",
+      "profile": "restart-e-httponly-denied-b2",
+      "storage": null,
+      "witnessFirstLoaded": true,
+      "witnessXsiteLoaded": true
+    }
+  ],
+  "complete": true,
+  "cycle": "e",
+  "errors": [],
+  "installedArtifactSha256": "278244780151bfc41ef09af58c513a3708e839a5b25f14e5a886ada0d49b4c64",
+  "mode": "check",
+  "only": "httponly-denied-b2",
+  "platform": "android",
+  "providerVersion": "145.0.7632.218",
+  "release": "17",
+  "requests": [
+    {
+      "case": "httponly-denied-b2",
+      "cookie": "t28r_httponly-denied=public",
+      "host": "127.0.0.1:53932",
+      "run": "android-first-6",
+      "secFetchDest": "document",
+      "secFetchSite": "none",
+      "step": "witness-first",
+      "tls": true
+    },
+    {
+      "case": "httponly-denied-b2",
+      "cookie": "",
+      "host": "127.0.0.1:53932",
+      "run": "android-first-6",
+      "secFetchDest": "iframe",
+      "secFetchSite": "cross-site",
+      "step": "witness-xsite",
+      "tls": true
+    }
+  ],
+  "run": "android-first-6",
+  "seeded": []
+}

@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" />
+  <title>Embedding context</title>
+  <body>
+    <script>
+      // Served unchanged from HTTPS and moonpool:// so only the top-level site varies.
+      window.frameResult = null;
+      window.addEventListener('message', (event) => {
+        window.frameResult = JSON.stringify(event.data);
+      });
+      const frame = document.createElement('iframe');
+      frame.src = new URLSearchParams(location.search).get('target');
+      document.body.append(frame);
+    </script>
+  </body>
+</html>
