@@ -1,7 +1,8 @@
 # 27. Unify cookie sessions through asynchronous native HTTP
 
 Date: 2026-11-03
-Status: Proposed. Cross-platform cookie parity is a maintainer requirement;
+Status: Proposed overall; admission baseline accepted as a design direction on
+2026-11-03 (see the accepted section below). Cross-platform cookie parity is a maintainer requirement;
 option 1 is preferred, while its compatibility cost is under review. No SPEC,
 capability, SDK implementation or new native measurement is adopted here.
 
@@ -17,6 +18,31 @@ all-async bridge and host-credential isolation remain binding constraints.
 The maintainer prefers a common asynchronous API and asked whether migration
 would inconvenience developers. The [contract proposal](../native-cookie-http-contract.md)
 defines automatic session handling, explicit API migration and the remaining gates.
+The [paired evidence plan](../native-cookie-http-conformance-plan.md) records
+the review, C01–C12 procedures and C09/C10 as the first feasibility experiment.
+The subsequent [bounded C09/C10 evidence](../native-cookie-suppression-verification.md)
+shows isolated policy effects but retained-cookie read/send on iOS. Empty stores
+blocked before load pass. The maintainer subsequently accepted the
+[admission baseline](../native-cookie-store-admission.md); recovery/migration,
+the remaining HTTP contract and final normative approval stay open.
+
+## Accepted admission baseline — 2026-11-03
+
+On both platforms, require verified absence of browser cookies under trusted
+per-app ownership before admission. Refuse cookie-present or unverified stores
+without clearing data or remapping origins/stores. A failed shared gate retires
+that app's Portals; other apps and the host remain independent. Preserve browser
+and provider data and the separate native HTTP session. No automatic cookie
+deletion or import. A future explicit host recovery needs separate approval/proof.
+
+The maintainer accepted this design direction, not all of ADR 0027. Complete
+inventory, concurrency, native integration, T29/T31 details and final SPEC work
+remain gated. The retained iOS failure is unchanged; no implementation is implied.
+
+Subsequent [bounded admission research](../native-cookie-admission-verification.md)
+checks native presence, preserved data and private request/owner identity guards.
+These experimental controllers are not a production scheduler or a wire change.
+Complete iOS partitioned inventory and real writer exclusion remain open.
 
 ## Proposed decision
 

@@ -212,6 +212,30 @@ public, isolated settings, the configuration cannot claim this profile. Existing
 cookies/registration migration also needs an explicit policy; never silently
 erase data or alter a host's global cookie setting.
 
+The [2026-11-03 bounded C09/C10 measurements](native-cookie-suppression-verification.md)
+now establish policy locality in the tested Android/iOS configurations. Android
+suppresses seeded cookies; iOS disallow blocks new writes but leaves existing
+HTTPS cookies readable and transmitted. Fresh empty partitions blocked before
+first load pass on both. Policy installation alone therefore does not satisfy
+this contract for retained iOS cookies. The maintainer accepted cookie-bearing/
+unverified partition refusal as the design baseline on 2026-11-03; recovery remains
+separate. Full network containment and production integration remain unverified.
+
+The [accepted admission baseline and recovery draft](native-cookie-store-admission.md) specify
+the same refusal rule on both OSes: inspect the entire owned engine cookie store
+under serialized admission; cookies present or an unknown result prevent guest
+execution. Cookie-free does not mean data-free: retain localStorage, IndexedDB,
+storage.* and the independent native HTTP jar. Keep stable registrations and
+reject stale owner callbacks. Automatic deletion/import is excluded; cookie-only
+host recovery remains a separately gated future workflow. The baseline is accepted
+as a direction; it does not reopen any production implementation gate or accept
+the remaining HTTP contract.
+
+Subsequent [native admission evidence](native-cookie-admission-verification.md)
+records successful refusal for prepared ordinary/hidden-cookie cases and matching
+controlled callback traces on both platforms. It does not establish complete iOS
+partitioned inventory, actual writer exclusion or a production admission adapter.
+
 The managed profile routes session/API requests through the SDK. Block remote
 WebView fetch/XHR/connect and form submission before enabling a guest, while
 retaining same-app local resources. Separately approved remote static resources
@@ -230,6 +254,12 @@ automatically. Favor an explicit adapter for compatible API clients; no hidden
 fallback to whichever platform happens to accept cookies.
 
 ## 7. Acceptance and roadmap
+
+The [contract review and paired evidence plan](native-cookie-http-conformance-plan.md)
+expands C01–C12 into procedures, independent observations and pending decisions.
+Start with isolated C09/C10 suppression feasibility before a broker experiment;
+the full acceptance corpus remains required. Bounded suppression results cover
+only part of C09/C10 and retain the iOS failure; other cases remain pending.
 
 Write failing tests against this proposed contract before implementation. The
 same inputs and expected outcomes run on both adapters; use public markers and

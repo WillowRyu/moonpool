@@ -2,7 +2,7 @@
 
 Date: 2026-10-26
 Last updated: 2026-11-03
-Status: T22–T27 complete; T28 origin evidence complete; common cookie/HTTP design proposed; T29–T65 planned. Private native host runtimes selected; origin/cookie, codec, document and lifecycle contract gates remain explicit.
+Status: T22–T27 complete; T28 bounded origin/suppression and admission research recorded; admission baseline accepted; complete iOS partitioned inventory, writer exclusion, recovery, full corpus and final approval pending; T29–T65 planned. Private native host runtimes selected; origin/cookie, codec, document and lifecycle contract gates remain explicit.
 Targets confirmed by the maintainer: Android (AOS) and iOS, both required.
 SDK/reference-host model: framework-neutral Swift/Kotlin facade with private JavaScriptCore / JavaScriptSandbox runtimes (ADR 0025). Actual consumer app/framework remains a T56 decision.
 Baseline: browser v0.1 complete, published through 91d7b46; 1131 tests / 39 files.
@@ -108,9 +108,28 @@ prefers a common async SDK, with explicit developer compatibility review.
 [ADR 0027](adr/0027-unify-cookie-sessions-through-async-native-http.md) proposes
 native jar ownership, automatic sessions, browser-cookie suppression and C01–C12.
 No raw iOS-cookie limitation may be treated as completion of this requirement.
+The [paired evidence plan](native-cookie-http-conformance-plan.md) now defines
+procedures, independent server observations, response-header/reset barriers and
+remaining profile/schema decisions. The explicitly resumed
+[bounded C09/C10 experiment](native-cookie-suppression-verification.md) retains
+200 samples/400 HTTPS receipts: policy locality works; iOS seeded cookies remain
+readable/sent, while fresh disabled stores pass on both. Retained-store admission
+has an accepted baseline; migration requires review. Full cases and all acceptance gates remain open;
+both owned devices are stopped and intentional crash controls remain excluded.
+The [admission baseline](native-cookie-store-admission.md) was accepted as a direction
+on 2026-11-03: common cookie-present/unknown refusal, data preservation and same-app
+shared retirement, without automatic deletion/import. Cookie-only recovery remains
+separately gated. This does not implement a loader or migration, accept the rest
+of ADR 0027, or grant new device scope. Do not ask again about the accepted baseline.
+[The requested bounded admission follow-up](native-cookie-admission-verification.md)
+now records 48 native presence/admission samples, 76 HTTPS receipts and nine
+controlled callback scenarios. Prepared cookie-bearing cases refuse and retain
+data; empty controls execute. These experimental controllers are not production
+SDKs. iOS partitioned coverage and real writer exclusion remain open; devices are
+stopped and T28 completion is unchanged.
 Cookie setters/HTTP requests are new capability proposals, not current exports
 or manifest scopes. Keep SPEC, runtime and protocol version unchanged until the
-contracts are approved; no device or crash experiment is resumed by this design.
+contracts are approved. The bounded cookie authorization does not reopen crash controls.
 
 Decision tasks finish when the concrete outcome is recorded and the required
 maintainer approval is explicit. A proposed ADR alone does not open a dependent

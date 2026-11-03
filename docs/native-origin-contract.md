@@ -118,9 +118,14 @@ The maintainer now requires equal Android/iOS cookie behavior. The
 cookies unavailable on both platforms and supplies an app-owned asynchronous
 session interface. Native HTTP automatically handles eligible server cookies;
 raw document.cookie is not emulated through synchronous bridge calls. Independent
-native-jar ownership and per-profile suppression need new paired evidence.
-Existing first-party WebView-cookie measurements prove neither. Original tests
-remain unchanged; do not reinterpret their passing controls as new broker tests.
+native-jar ownership remains unimplemented. Later
+[C09/C10 suppression measurements](native-cookie-suppression-verification.md)
+establish bounded policy locality but expose existing-cookie read/send on iOS.
+The [admission baseline](native-cookie-store-admission.md), accepted as a direction
+on 2026-11-03, requires refusing
+cookie-bearing or unverified stores while preserving the same registration and
+non-cookie data. This is not an approved migration or evidence of full containment.
+Original tests remain unchanged; their passing controls are not new broker tests.
 
 ## 3. Loader confinement and network separation
 
