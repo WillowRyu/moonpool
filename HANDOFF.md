@@ -94,6 +94,15 @@
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
 
+## 2026-11-03 checkpoint — local build outputs moved to the Trash
+
+The maintainer answered "네, 옮겨줘" to moving regenerable ignored files. 42 paths went to the macOS Trash: probe `build`,
+`app/build`, `.gradle` and `__pycache__`, example `dist`, and `.DS_Store`; experiments/ dropped from 97 MB to 11 MB.
+local-results and node_modules were kept. Afterwards pnpm run check passes (1134 TS tests / 40 files, nine Python tests)
+and every retained-evidence verifier passes, with the suppression report's expected iOS contract violations unchanged.
+No device ran. Re-running a probe now needs its build script first; a rebuilt artifact may not match retained hashes.
+The maintainer still empties the Trash.
+
 ## 2026-11-03 checkpoint — native HTTP transport Git publication
 
 The maintainer answered "커밋 푸시 해" after being told this goes directly to master without a branch. At publication
