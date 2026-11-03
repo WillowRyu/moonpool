@@ -61,7 +61,7 @@ macOS. These observations are not a cross-engine certification, a statistical
 timing guarantee, or a proof for every URL scheme/navigation mechanism.
 The existing 995 Vitest tests are separate from these manual observations.
 
-The lab does not install a browser automation dependency, so HANDOFF's future
+The lab does not install a browser automation dependency, so the handoff archive's future
 reportError migration trigger has not been activated.
 
 ## T20 transport boundary controls

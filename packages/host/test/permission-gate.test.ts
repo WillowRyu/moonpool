@@ -7,7 +7,7 @@
  * read it, because no method had a scope. `profile.get` (§6.3) is the first,
  * and it is here mostly to give the gate something to guard.
  *
- * Two decisions these tests pin (HANDOFF.md, 2026-09-02):
+ * Two decisions these tests pin (docs/handoff-archive.md, 2026-09-02):
  *
  * 1. A call into a namespace the connection was not granted answers
  *    `-32000 PERMISSION_DENIED`, and the scope check runs BEFORE the method

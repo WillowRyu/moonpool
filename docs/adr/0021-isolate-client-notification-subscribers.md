@@ -52,7 +52,7 @@ delivered. Register before initialize when early host events matter.
 Implement existing SPEC §4 / §6.4 and local subscription semantics without a
 SPEC amendment, wire error/ack, timer, transport extension, or platform import.
 Unknown notification tolerance is distinct from local sender input validation.
-The §6.4 startup race recorded in HANDOFF still exists before a receiver or
+The §6.4 startup race recorded in docs/handoff-archive.md still exists before a receiver or
 subscriber is installed; this task adds no buffering or receipt guarantee.
 Tests cover both events, validation, mutation, subscription changes, close,
 synchronous/asynchronous listener failures, and real-host request correlation.

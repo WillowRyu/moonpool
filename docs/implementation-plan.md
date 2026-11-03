@@ -567,7 +567,7 @@ navigation. Do not weaken §9.2 to fit an iframe limitation.
 | T21 | Completed 2026-10-26: public roadmap and conformance record. | README/working-agreement checklists, CHANGELOG, HANDOFF, plan and study agree. docs/v0.1-conformance.md maps every requirement to evidence and retains accepted limits. Browser milestone complete; release/publication separate. | T20 |
 
 Real-browser verification does not by itself require adopting a new automated
-browser runner. If one is introduced later, revisit HANDOFF's existing
+browser runner. If one is introduced later, revisit the handoff archive's existing
 `queueMicrotask` to `reportError` transition requirement and record its ADR.
 
 ## Historical policy gates — resolved for T01–T21
