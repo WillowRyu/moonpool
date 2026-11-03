@@ -1,8 +1,8 @@
 # T28 — Browser-cookie admission baseline and recovery proposal
 
 Date: 2026-11-03
-Status: Admission baseline accepted as the design direction on 2026-11-03.
-Cookie-only recovery remains proposed. [Bounded native inventory/control evidence](native-cookie-admission-verification.md)
+Status: Admission baseline and the §3 iOS presence-evidence rule accepted as design
+directions on 2026-11-03. Cookie-only recovery remains proposed. [Bounded native inventory/control evidence](native-cookie-admission-verification.md)
 is now recorded; production implementation and final normative changes remain gated.
 Supplements [ADR 0027](adr/0027-unify-cookie-sessions-through-async-native-http.md)
 and the [common cookie/HTTP contract](native-cookie-http-contract.md).
@@ -89,6 +89,28 @@ including recreation or restart, perform this sequence without guest authority:
    share a serialized check only while its exclusion boundary remains intact;
    a later admission needs a fresh check. Pending verification never permits load.
 
+**Accepted iOS presence-evidence rule (design direction, 2026-11-03).** The
+[first enumeration in a new process](native-cookie-partition-writer-verification.md) falsely reported empty until a policy call,
+`fetchDataRecords` or a load preceded it. For step 4 on iOS:
+
+- An enumeration counts as evidence only after step 3's policy has completed for that store
+  in the same process. An enumeration before that point is never evidence.
+- `fetchDataRecords` and `getAllCookies` must both report no cookies. Any disagreement is
+  unknown and refuses admission.
+- Support is claimed per measured iOS version. An unmeasured or failing version is unknown.
+
+The measured ordering is undocumented and its cause is unknown, so this rule narrows the
+risk rather than fixing it. [A bounded run](native-cookie-empty-store-verification.md) gave the correct verdict for all 168
+cookie-free and cookie-bearing stores on one iOS simulator configuration, and
+[another](native-cookie-first-question-verification.md) did for all 36 stores asked about first in a new process. The sources never
+disagreed, so that safeguard is unexercised. Separately, native
+`setCookie` is stored and sent under the deny policy, so step 2 must cover native writers in
+the SDK. A second store handle for the same identifier shares the policy, so private
+identifiers and exclusive ownership are SDK discipline. [Android's `hasCookies`](native-cookie-android-restart-verification.md) was
+correct in a new process on one emulator configuration, so this rule stays iOS-only. Android does
+not retain deny across a process restart, so step 3 must run before any web content in every
+process.
+
 Existing admitted Portals may remain live during another check only if the proven
 policy prevents every engine-cookie writer throughout that interval. Otherwise
 they must be quiesced before checking, or the configuration is unsupported. This
@@ -120,7 +142,7 @@ there is no guest RPC call to reject.
 | --- | --- | --- |
 | Exact owned partition, verified policy/containment, complete check finds no cookies | Admit this current Portal | Keep ownership/policy in force |
 | Any browser cookie present | Refuse admission; preserve data | Explain retained browser-session data; no automatic cleanup or retry loop |
-| Presence check incomplete, timed out or unavailable | Refuse admission as unverified | Host may explicitly retry the complete sequence if the configuration can be supported |
+| Presence check incomplete, timed out, unavailable or its native sources disagree | Refuse admission as unverified | Host may explicitly retry the complete sequence if the configuration can be supported |
 | Wrong/missing registration, shared/default guest store or unsupported isolation | Refuse as unsupported/recovery-required | Repair the approved configuration; never silently re-key the app |
 | Recovery in progress or interrupted | Refuse admission for the app | Finish or explicitly reconcile recovery before a new complete check |
 | Stale/cancelled owner result | Ignore the result for admission | A replacement owner starts its own verification |
@@ -177,8 +199,8 @@ and [Profile.getCookieManager](https://developer.android.com/reference/androidx/
 The selected Profile's manager is the candidate for partition-wide presence;
 getCookie(url) is URL-scoped and its partitioned results depend on the supplied
 top-level URL. A removal callback reports whether cookies were removed, not a
-replacement for verifying an empty result. Profile-local presence under deny
-policy, restart and partitioned-cookie coverage still need measured evidence.
+replacement for verifying an empty result. [Bounded evidence](native-cookie-android-restart-verification.md) covers restart and partitioned
+cookies on one emulator configuration; physical-device and version coverage remain unmeasured.
 
 On iOS, [WKHTTPCookieStore](https://developer.apple.com/documentation/webkit/wkhttpcookiestore?changes=_1&language=objc)
 provides asynchronous whole-store enumeration and individual deletion. Consume
@@ -201,6 +223,7 @@ Write failing tests before implementation after the relevant contract is approve
 | --- | --- |
 | C09 admission-empty | Fresh and reused cookie-free partitions admit with first guest execution after verified policy; localStorage/IndexedDB sentinels survive |
 | C09 admission-present | Script-readable, HttpOnly, unrelated-domain/path and partitioned cookies each prevent any guest load; Android and iOS return the same category |
+| C09 new-process presence | In a process that did not write the store, seeded and cookie-free stores each give the correct verdict under the iOS rule; enumeration before policy completion and native-source disagreement never grant admission; each claimed iOS version is measured |
 | C09 presence-unknown | Missing API, delayed callback, unsupported coverage and check failure never grant authority; no URL-only shortcut |
 | C09 admission-race | A1/A2 concurrent creation, policy change, queued native write and owner replacement cannot use a stale successful check |
 | C10 shared-retirement | A's cookie-present, invalid-policy or unverified shared gate blocks/retires A1/A2 only; B and host control retain working cookies and storage |

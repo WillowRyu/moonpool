@@ -5,6 +5,10 @@ Status: Bounded research complete for the cases below. The admission baseline is
 accepted; production admission, complete inventory/containment and T28 completion
 remain gated. This work concerns SPEC §9 and does not amend the protocol.
 
+Follow-up: [the partition and writer verification](native-cookie-partition-writer-verification.md) answers the iOS partitioned
+and writer questions below and adds a blocker. "Reopening" here means within one process;
+a new process's first enumeration falsely reported empty. These results are unchanged.
+
 ## Results
 
 The new [isolated experiment](../experiments/native-cookie-admission-probe/README.md)

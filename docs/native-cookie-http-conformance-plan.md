@@ -14,6 +14,11 @@ data, same-app concurrency, stale callbacks and explicit recovery. These subcase
 are pending despite baseline acceptance on 2026-11-03; recovery remains unapproved,
 and the original seeded-cookie iOS failures remain recorded as failures.
 
+[iOS partition and writer verification](native-cookie-partition-writer-verification.md) adds a C09 blocker: a new process's
+first enumeration falsely reported empty. Its evidence rule is an accepted design direction,
+and [a bounded run](native-cookie-empty-store-verification.md) measured it on cookie-free and cookie-bearing stores. [Android's new-process answer](native-cookie-android-restart-verification.md) was also
+measured, as was [iOS's first question in a new process](native-cookie-first-question-verification.md). C09 stays open.
+
 [Bounded admission verification](native-cookie-admission-verification.md) now covers
 the prepared native presence/refusal/data-preservation cases and nine controlled
 callback scenarios. Whole-backend iOS partitioned coverage and real writer/owner

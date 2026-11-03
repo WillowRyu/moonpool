@@ -2,7 +2,7 @@
 
 Date: 2026-10-26
 Last updated: 2026-11-03
-Status: T22–T27 complete; T28 bounded origin/suppression and admission research recorded; admission baseline accepted; complete iOS partitioned inventory, writer exclusion, recovery, full corpus and final approval pending; T29–T65 planned. Private native host runtimes selected; origin/cookie, codec, document and lifecycle contract gates remain explicit.
+Status: T22–T27 complete; T28 bounded origin/suppression and admission research recorded; admission baseline accepted; iOS new-process false-empty blocker found and evidence rule accepted as a design direction and correct on one simulator configuration; Android new-process answers correct on one emulator configuration; physical-device and version evidence, recovery, full corpus and final approval pending; T29–T65 planned. Private native host runtimes selected; origin/cookie, codec, document and lifecycle contract gates remain explicit.
 Targets confirmed by the maintainer: Android (AOS) and iOS, both required.
 SDK/reference-host model: framework-neutral Swift/Kotlin facade with private JavaScriptCore / JavaScriptSandbox runtimes (ADR 0025). Actual consumer app/framework remains a T56 decision.
 Baseline: browser v0.1 complete, published through 91d7b46; 1131 tests / 39 files.
@@ -130,6 +130,15 @@ stopped and T28 completion is unchanged.
 Cookie setters/HTTP requests are new capability proposals, not current exports
 or manifest scopes. Keep SPEC, runtime and protocol version unchanged until the
 contracts are approved. The bounded cookie authorization does not reopen crash controls.
+
+[iOS partition and writer verification](native-cookie-partition-writer-verification.md) measured partitioned listing and
+separation, and web-writer exclusion by the deny policy. It also found a blocker: a new
+process's first enumeration falsely reported empty in 38 of 38 stores with no prior step,
+and 0 of 54 after a policy call, `fetchDataRecords` or a load. The maintainer accepted its
+iOS evidence rule as a design direction on 2026-11-03. [A later bounded run](native-cookie-empty-store-verification.md) gave the
+correct verdict for all 168 cookie-free and cookie-bearing stores, and
+[Android's `hasCookies`](native-cookie-android-restart-verification.md) was correct in all 250 stores. On iOS,
+[all 36 stores asked about first in a new process](native-cookie-first-question-verification.md) also got the correct verdict. T28 stays incomplete.
 
 Decision tasks finish when the concrete outcome is recorded and the required
 maintainer approval is explicit. A proposed ADR alone does not open a dependent

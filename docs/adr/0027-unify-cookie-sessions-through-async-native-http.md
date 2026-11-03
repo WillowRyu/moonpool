@@ -1,8 +1,8 @@
 # 27. Unify cookie sessions through asynchronous native HTTP
 
 Date: 2026-11-03
-Status: Proposed overall; admission baseline accepted as a design direction on
-2026-11-03 (see the accepted section below). Cross-platform cookie parity is a maintainer requirement;
+Status: Proposed overall; admission baseline and iOS presence-evidence rule accepted as
+design directions on 2026-11-03 (see the accepted sections below). Cross-platform cookie parity is a maintainer requirement;
 option 1 is preferred, while its compatibility cost is under review. No SPEC,
 capability, SDK implementation or new native measurement is adopted here.
 
@@ -43,6 +43,26 @@ Subsequent [bounded admission research](../native-cookie-admission-verification.
 checks native presence, preserved data and private request/owner identity guards.
 These experimental controllers are not a production scheduler or a wire change.
 Complete iOS partitioned inventory and real writer exclusion remain open.
+
+## Accepted iOS presence-evidence rule — 2026-11-03
+
+[iOS partition and writer verification](../native-cookie-partition-writer-verification.md) found that a new process's first
+`getAllCookies` can report empty for a store holding cookies. The maintainer accepted this
+rule as a design direction, in addition to the baseline above:
+
+1. An enumeration counts as evidence only after the same process has awaited cookie-policy
+   completion for that store. An enumeration before that point is never evidence.
+2. `fetchDataRecords` and `getAllCookies` must both report no cookies. Any disagreement is
+   unknown and refuses admission.
+3. Support is claimed per measured iOS version. An unmeasured or failing version is unknown
+   and refuses admission.
+
+This is a stricter condition for trusting "empty", not a fix: the ordering is undocumented
+and its cause is unknown. [A later bounded run](../native-cookie-empty-store-verification.md) gave the correct verdict for all 168
+cookie-free and cookie-bearing stores on one iOS simulator configuration, and
+[another](../native-cookie-first-question-verification.md) did for all 36 stores asked about first in a new process. No SPEC text or
+implementation is adopted. [Android's `hasCookies`](../native-cookie-android-restart-verification.md) was correct in all 250 stores on one
+emulator configuration, so this rule stays iOS-only.
 
 ## Proposed decision
 
