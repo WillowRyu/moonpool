@@ -95,9 +95,10 @@
 ## 2026-11-03 checkpoint — cookie evidence Git publication
 
 The maintainer answered "네, 커밋하자" to committing and pushing. At publication start HEAD,
-origin/master and live remote master were all 913347f. The series is on branch
-t28-native-cookie-evidence, not master; merging it is the maintainer's separate decision. Earlier
-statements below that nothing is committed describe their own moment. The series groups:
+origin/master and live remote master were all 913347f. The series went to branch
+t28-native-cookie-evidence first, then the maintainer answered "네, 합치자" and master was
+fast-forwarded to it. The branch is kept. Earlier statements below that nothing is committed
+describe their own moment. The series groups:
 
 - Handoff archive and its four pointers, verified byte-equal against the previous HANDOFF.
 - One evidence commit each for the partition/writer, empty-store, Android restart and first-question
@@ -107,8 +108,17 @@ statements below that nothing is committed describe their own moment. The series
 
 This does not mark T28 complete, adopt the rest of ADR 0026/0027, change SPEC or protocol 0.1, or
 release a package or tag. Candidates were scanned for keys, build output, local paths, device ids
-and emails with no hits; local-results stay ignored. No device ran for publication. The test CA
-removal from the dedicated simulator is still undecided.
+and emails with no hits; local-results stay ignored. No probe ran for publication.
+
+The maintainer also asked to delete the test certificates ("시험용 인증서도 삭제하자"). The four
+Moonpool roots are removed from the dedicated simulator's trust store, which now holds none.
+`simctl keychain reset` does not touch that store: it only cleared that simulator's general keychain
+(41 to 19 generic items, 2 keys to 0). So the four rows were deleted from TrustStore.sqlite3 with the
+simulator shut down. Local CA, key and server certificate files from six probes went to the macOS
+Trash, not permanent deletion; emptying it is the maintainer's step. requests.jsonl receipts stay. Android
+probe APKs on the dedicated AVD still bundle their public CA, trusted only by those apps, and it expires
+2026-11-10 with its private key gone. Retained verifiers do not need these files. Re-running a probe
+needs build.py to generate a new CA and, on iOS, `simctl keychain <device> add-root-cert`.
 
 ## 2026-11-03 checkpoint — iOS rule measured as a process's first cookie question
 
