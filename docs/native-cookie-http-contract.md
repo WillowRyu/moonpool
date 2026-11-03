@@ -6,6 +6,10 @@ The maintainer requires Android/iOS parity and prefers the common async API,
 subject to review of developer compatibility. No runtime, public API, manifest
 scope or SPEC change is implemented. This concerns SPEC §3, §6–§9.
 
+**Accepted amendments, 2026-11-03:** after [native HTTP transport evidence](native-http-transport-verification.md), the maintainer accepted
+one cookie pipeline (§4), OS behavior for HTTP authentication challenges (§5) and commit at header delivery (§5) as
+design directions. The rest of this proposal is unchanged and not accepted.
+
 ## 1. Required outcome and compatibility
 
 The same supported call sequence must produce the same cookie selection,
@@ -140,7 +144,8 @@ dependency. A released profile must name its exact rules and data revision.
 | Area | Required behavior |
 | --- | --- |
 | Selection | Match host-only/Domain, Path and Secure rules for the approved request URL; ports are not cookie partitions |
-| Validation | Reject public-suffix/sibling Domain escalation and invalid names/values without repairing them; preserve separate Set-Cookie fields |
+| Line extraction | iOS cannot expose separate Set-Cookie fields, so each adapter folds received fields with `, ` and both split them by one rule before one shared parser. A value containing `, name=` becomes an extra cookie on both platforms; native cookie parsers are not used |
+| Validation | Reject public-suffix/sibling Domain escalation and invalid names/values from those lines without repairing them |
 | Identity | Pin host-only/domain/path/name replacement and deletion rules; duplicate names are not collapsed into a JS object |
 | HttpOnly | Server may set it; script APIs cannot directly read, create, overwrite or delete that protected cookie identity; SDK HTTP can send it when eligible |
 | SameSite | Store the normalized attribute; None requires Secure; use the explicit first-party service context from §2, never claim browser cross-site filtering |
@@ -160,9 +165,9 @@ profile remains unimplemented and no full cookie-parity claim is made.
 
 Serialize selection/mutations in the native app owner, independently of disposable
 Portal JS runtimes. Awaited set/delete completion must be visible to the next
-request or read. Concurrent response-cookie batches commit in the order that
-received response headers enter the broker's native queue, not request-start
-order; do not promise which remote response arrives first. Commit each batch
+request or read. Concurrent response-cookie batches commit in the order the HTTP client
+delivers response headers to the broker, not request-start order; do not promise which
+remote response arrives first. On iOS that delivery needs a first body byte or completion. Commit each batch
 before that operation's successful result settlement. A later body/network
 failure is not a rollback guarantee; T29 must pin body/error projection cases.
 
@@ -188,8 +193,10 @@ invalid request fields -32602; denied grant/service or protected-cookie mutation
 -32000; unavailable implementation -32001; native network/session failures
 -32007 with fixed nonsecret reason values (including sessionReset); internal
 faults -32603. HTTP statuses stay in normal results. Existing client timeout,
-send failure and terminal-close rules remain their own outcomes. Never retry
-requests automatically: a local error does not prove remote effects were absent.
+send failure and terminal-close rules remain their own outcomes. The SDK never retries
+requests: a local error does not prove remote effects were absent. iOS may send a request
+once more after a `Basic` challenge, without credentials. This OS behavior is documented, and
+a 401 stays a normal result on both platforms, because ambient credential stores stay disabled.
 
 These are proposals requiring explicit dispatch/provider-result support. Current
 Host catches provider exceptions and returns fixed -32603; throwing an exception

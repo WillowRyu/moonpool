@@ -1,8 +1,8 @@
 # 27. Unify cookie sessions through asynchronous native HTTP
 
 Date: 2026-11-03
-Status: Proposed overall; admission baseline and iOS presence-evidence rule accepted as
-design directions on 2026-11-03 (see the accepted sections below). Cross-platform cookie parity is a maintainer requirement;
+Status: Proposed overall; admission baseline, iOS presence-evidence rule and native HTTP transport
+rules accepted as design directions on 2026-11-03 (see the accepted sections below). Cross-platform cookie parity is a maintainer requirement;
 option 1 is preferred, while its compatibility cost is under review. No SPEC,
 capability, SDK implementation or new native measurement is adopted here.
 
@@ -63,6 +63,24 @@ cookie-free and cookie-bearing stores on one iOS simulator configuration, and
 [another](../native-cookie-first-question-verification.md) did for all 36 stores asked about first in a new process. No SPEC text or
 implementation is adopted. [Android's `hasCookies`](../native-cookie-android-restart-verification.md) was correct in all 250 stores on one
 emulator configuration, so this rule stays iOS-only.
+
+## Accepted native HTTP transport rules — 2026-11-03
+
+[Native HTTP transport evidence](../native-http-transport-verification.md) found three iOS conflicts with the proposal below. The maintainer
+accepted these rules as a design direction. The principle: follow OS behavior unless it changes what a mini
+app sees differently per platform.
+
+1. **One cookie pipeline.** Each adapter folds received `Set-Cookie` fields with `, `, then both split them
+   the same way and pass the lines to one shared parser. Native cookie parsers are not used. A cookie value
+   containing `, name=` becomes an extra cookie on both platforms; this limit is documented.
+2. **OS behavior for HTTP authentication challenges.** The SDK never retries a request itself. A 401 stays a
+   normal result on both platforms. iOS may send a request once more after a `Basic` challenge, without
+   credentials; this is OS behavior and is documented. Ambient credential and cookie stores stay disabled, so
+   following the OS never exposes host credentials.
+3. **Commit at header delivery.** Cookies commit when the HTTP client delivers response headers to the broker,
+   and before a request's result settles. On iOS that delivery needs a first body byte or completion.
+
+These accept no other part of this ADR, change no SPEC text and implement nothing.
 
 ## Proposed decision
 

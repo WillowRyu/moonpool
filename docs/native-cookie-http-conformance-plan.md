@@ -24,6 +24,10 @@ the prepared native presence/refusal/data-preservation cases and nine controlled
 callback scenarios. Whole-backend iOS partitioned coverage and real writer/owner
 exclusion remain open; do not mark the entire admission or C09/C10 corpus complete.
 
+[Native HTTP transport evidence](native-http-transport-verification.md) is the first broker-side measurement. It covers transport prerequisites of
+C02, C03, C06 and C08, not those cases. The maintainer accepted its transport rules as a design direction on
+2026-11-03, and the procedures below reflect them.
+
 ## 1. Review outcome and decisions still required
 
 The async SDK direction and Android/iOS parity requirement are already recorded.
@@ -159,8 +163,8 @@ and absence from cookie reads, returned headers, request metadata, errors,
 diagnostics and events exposed to the guest/private runtime. Attempt create,
 overwrite and delete through script-cookie operations, including expiry-based
 deletion of the protected identity. The protected value survives; ordinary
-script-readable cookie operations still work. Multiple Set-Cookie lines are not
-folded or accidentally exposed. Same-name cookies at other paths are tested
+script-readable cookie operations still work. Multiple Set-Cookie lines reach the shared
+parser through the same fold-then-split pipeline on both platforms and are not accidentally exposed. Same-name cookies at other paths are tested
 separately; this is not a promise to prevent every server-side cookie-shadowing
 or response-body reflection behavior.
 
@@ -173,7 +177,8 @@ replacement/deletion, Max-Age precedence, Secure, SameSite and prefix rules.
 Use a controlled clock for algorithmic expiry tests and separate native clock
 observations. Compare the ordered Cookie header as well as resulting identities.
 
-Do not derive the oracle from either OS's cookie parser. Exact parsing tolerance,
+Do not derive the oracle from either OS's cookie parser; they measurably disagree. Include the pipeline's
+documented limit, where a value containing `, name=` becomes an extra cookie on both. Exact parsing tolerance,
 identity including host-only treatment, prefix case handling, header ordering,
 public-suffix data revision, newer attributes and resource limits are unresolved
 profile inputs. Freeze them before claiming this case passes. RFC 6265 and the
@@ -196,8 +201,9 @@ Return 301/302/303/307/308 responses to both approved and forbidden controlled
 targets. The original status and permitted headers are returned, while target
 hit count remains zero. Include commits eligible original-response cookies;
 omit does not. A later explicit request independently rechecks authorization.
-Repeat cookie handling for 4xx/5xx normal results. No platform auto-follow,
-authentication challenge credential reuse or application retry may hide a hit.
+Repeat cookie handling for 4xx/5xx normal results. No platform auto-follow, authentication
+challenge credential reuse or SDK retry may hide a hit. An iOS resend after a `Basic` challenge is
+OS behavior: count it from server receipts, require no credentials on it and a 401 result on both.
 
 ### C07 — Ordering and Portal lifetime
 
@@ -217,7 +223,7 @@ Exercise all three windows; count actual mutation events, not just UI results:
 | Window | Sequence | Proposed expected effect |
 | --- | --- | --- |
 | Before headers | Server holds old request; await A's reset; release Set-Cookie | Old generation cannot commit or restore A's session; a still-pending native operation has the proposed sessionReset outcome |
-| After headers, before body | Confirm old header commit; hold body; reset; release body | Reset removes the committed cookie; body completion cannot resurrect it or report a new old-session success |
+| After headers, before body | Send one body byte so iOS delivers headers; confirm old header commit; hold the rest; reset; release | Reset removes the committed cookie; body completion cannot resurrect it or report a new old-session success |
 | Already settled | Complete old request; reset; issue fresh request | Old settled Promise is unchanged; fresh request has no previous session cookie |
 
 Run reset from A2 and observe A1; B and H continue normally. Repeat with a request

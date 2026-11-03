@@ -140,6 +140,11 @@ correct verdict for all 168 cookie-free and cookie-bearing stores, and
 [Android's `hasCookies`](native-cookie-android-restart-verification.md) was correct in all 250 stores. On iOS,
 [all 36 stores asked about first in a new process](native-cookie-first-question-verification.md) also got the correct verdict. T28 stays incomplete.
 
+[Native HTTP transport evidence](native-http-transport-verification.md) is the first broker-side measurement: both platforms' standard clients support
+most broker needs, but iOS folds `Set-Cookie`, resends a request after a `Basic` challenge and delivers headers only with
+the first body byte. The maintainer accepted one cookie pipeline and otherwise following OS behavior as a design
+direction on 2026-11-03; items to measure before building are listed in that report.
+
 Decision tasks finish when the concrete outcome is recorded and the required
 maintainer approval is explicit. A proposed ADR alone does not open a dependent
 implementation gate. Present previous behavior, the new problem and each option's
