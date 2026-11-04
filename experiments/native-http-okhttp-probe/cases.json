@@ -1,0 +1,355 @@
+[
+  { "id": "huc-positive-cookie", "path": "/echo", "client": "huc", "handler": "recording" },
+  {
+    "id": "huc-positive-basic",
+    "path": "/serve",
+    "client": "huc",
+    "status": 401,
+    "challenge": true,
+    "authenticator": "credentials",
+    "acceptCredentials": true
+  },
+  { "id": "huc-positive-response-cache", "path": "/echo", "client": "huc", "responseCache": true },
+  { "id": "huc-positive-proxy-selector", "path": "/echo", "client": "huc", "proxySelector": true },
+  {
+    "id": "huc-positive-global-trust",
+    "path": "/echo",
+    "client": "huc",
+    "trustAll": true,
+    "foreignHost": true
+  },
+
+  { "id": "control-plain", "path": "/echo" },
+  { "id": "control-basic-401", "path": "/serve", "status": 401, "challenge": true },
+  { "id": "tls-negative", "path": "/echo", "foreignHost": true, "expectNoReceipt": true },
+  {
+    "id": "tls-negative-global-trust",
+    "path": "/echo",
+    "foreignHost": true,
+    "trustAll": true,
+    "expectNoReceipt": true
+  },
+
+  { "id": "handler-get", "path": "/echo", "handler": "recording" },
+  {
+    "id": "handler-post",
+    "path": "/echo",
+    "method": "POST",
+    "body": "fixture-body",
+    "handler": "recording"
+  },
+  {
+    "id": "handler-attached",
+    "path": "/echo",
+    "handler": "recording",
+    "attachCookie": "broker_selected=one"
+  },
+  {
+    "id": "handler-set-cookie",
+    "path": "/serve",
+    "handler": "recording",
+    "setCookie": ["t28o_plain=one; Path=/", "t28o_protected=two; Path=/; HttpOnly; Secure"]
+  },
+  {
+    "id": "handler-redirect",
+    "path": "/serve",
+    "status": 302,
+    "redirect": true,
+    "handler": "recording",
+    "setCookie": ["t28o_redirect=three; Path=/; HttpOnly"]
+  },
+  {
+    "id": "handler-installed-after-call",
+    "path": "/echo",
+    "handler": "recording",
+    "install": "after-call"
+  },
+  { "id": "manager-seeded", "path": "/echo", "handler": "manager-seeded" },
+  {
+    "id": "manager-capture",
+    "path": "/serve",
+    "handler": "manager",
+    "setCookie": ["t28o_captured=four; Path=/", "t28o_captured_protected=five; Path=/; HttpOnly"]
+  },
+  { "id": "manager-capture-followup", "path": "/echo", "handler": "previous" },
+
+  {
+    "id": "auth-basic-get",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "authenticator": "credentials",
+    "acceptCredentials": true
+  },
+  {
+    "id": "auth-basic-post",
+    "path": "/serve",
+    "method": "POST",
+    "body": "fixture-body",
+    "status": 401,
+    "challenge": true,
+    "authenticator": "credentials",
+    "acceptCredentials": true
+  },
+  {
+    "id": "auth-basic-always-401",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "authenticator": "credentials"
+  },
+  {
+    "id": "auth-null",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "authenticator": "null"
+  },
+  {
+    "id": "auth-bearer",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "challengeScheme": "Bearer",
+    "authenticator": "credentials",
+    "acceptCredentials": true
+  },
+  {
+    "id": "auth-digest",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "challengeScheme": "Digest",
+    "authenticator": "credentials",
+    "acceptCredentials": true
+  },
+  {
+    "id": "auth-no-scheme",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "challengeScheme": "",
+    "authenticator": "credentials",
+    "acceptCredentials": true
+  },
+  {
+    "id": "auth-preset-authorization",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "authenticator": "credentials",
+    "acceptCredentials": true,
+    "presetAuthorization": "Bearer broker-fixture"
+  },
+  {
+    "id": "auth-installed-after-call",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "authenticator": "credentials",
+    "acceptCredentials": true,
+    "install": "after-call"
+  },
+  {
+    "id": "combined-basic-cookie",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "authenticator": "credentials",
+    "acceptCredentials": true,
+    "handler": "recording",
+    "setCookie": ["t28o_challenge=six; Path=/"],
+    "acceptedSetCookie": ["t28o_accepted=seven; Path=/"]
+  },
+
+  {
+    "id": "other-response-cache",
+    "path": "/serve",
+    "responseCache": true,
+    "cacheControl": "public, max-age=600"
+  },
+  { "id": "other-proxy-selector-default", "path": "/echo", "proxySelector": true },
+  {
+    "id": "other-proxy-selector-no-proxy",
+    "path": "/echo",
+    "client": "broker-no-proxy",
+    "proxySelector": true
+  },
+
+  {
+    "id": "multi",
+    "path": "/serve",
+    "setCookie": [
+      "t28o_plain=one; Path=/",
+      "t28o_http=two; Path=/; Secure; HttpOnly; SameSite=Lax",
+      "t28o_expires=three; Path=/; Expires=Wed, 21 Oct 2037 07:28:00 GMT; Secure",
+      "t28o_dupe=path-a; Path=/a",
+      "t28o_dupe=path-b; Path=/b"
+    ]
+  },
+  { "id": "after-multi-echo", "path": "/echo" },
+  {
+    "id": "tricky",
+    "path": "/serve",
+    "setCookie": ["t28o_comma=a, t28o_fake=b; Path=/", "t28o_real=c; Path=/"]
+  },
+  {
+    "id": "lowercase-names",
+    "path": "/serve",
+    "setCookie": [
+      "t28o_plain=one; Path=/",
+      "t28o_http=two; Path=/; Secure; HttpOnly; SameSite=Lax"
+    ],
+    "lowerNames": true
+  },
+  { "id": "attach-cookie", "path": "/echo", "attachCookie": "t28o_a=1; t28o_b=2" },
+  {
+    "id": "attach-post",
+    "path": "/echo",
+    "method": "POST",
+    "body": "{\"ok\":true}",
+    "attachCookie": "t28o_a=1"
+  },
+  { "id": "target-control", "path": "/target" },
+  {
+    "id": "redirect-301",
+    "path": "/serve",
+    "status": 301,
+    "redirect": true,
+    "setCookie": ["t28o_session=issued; Path=/; Secure; HttpOnly"]
+  },
+  {
+    "id": "redirect-302",
+    "path": "/serve",
+    "status": 302,
+    "redirect": true,
+    "setCookie": ["t28o_session=issued; Path=/; Secure; HttpOnly"]
+  },
+  {
+    "id": "redirect-303",
+    "path": "/serve",
+    "status": 303,
+    "redirect": true,
+    "setCookie": ["t28o_session=issued; Path=/; Secure; HttpOnly"]
+  },
+  {
+    "id": "redirect-307",
+    "path": "/serve",
+    "status": 307,
+    "redirect": true,
+    "setCookie": ["t28o_session=issued; Path=/; Secure; HttpOnly"]
+  },
+  {
+    "id": "redirect-308",
+    "path": "/serve",
+    "status": 308,
+    "redirect": true,
+    "setCookie": ["t28o_session=issued; Path=/; Secure; HttpOnly"]
+  },
+  {
+    "id": "status-404",
+    "path": "/serve",
+    "status": 404,
+    "setCookie": ["t28o_session=issued; Path=/; Secure; HttpOnly"]
+  },
+  {
+    "id": "status-500",
+    "path": "/serve",
+    "status": 500,
+    "setCookie": ["t28o_session=issued; Path=/; Secure; HttpOnly"]
+  },
+  {
+    "id": "cache-first",
+    "path": "/serve",
+    "requestCase": "cache-pair",
+    "cacheControl": "public, max-age=600"
+  },
+  {
+    "id": "cache-second",
+    "path": "/serve",
+    "requestCase": "cache-pair",
+    "cacheControl": "public, max-age=600"
+  },
+  {
+    "id": "hold-headers",
+    "path": "/serve",
+    "kind": "hold-headers",
+    "setCookie": ["t28o_session=issued; Path=/; Secure; HttpOnly"]
+  },
+  {
+    "id": "hold-body",
+    "path": "/serve",
+    "kind": "hold-body",
+    "setCookie": ["t28o_session=issued; Path=/; Secure; HttpOnly"]
+  },
+  {
+    "id": "hold-body-first-byte",
+    "path": "/serve",
+    "kind": "hold-body",
+    "earlyBytes": 1,
+    "setCookie": ["t28o_session=issued; Path=/; Secure; HttpOnly"]
+  },
+
+  { "id": "resend-408", "path": "/serve", "status": 408 },
+  { "id": "resend-503-zero-get", "path": "/serve", "status": 503, "retryAfter": "0" },
+  {
+    "id": "resend-503-zero-post",
+    "path": "/serve",
+    "method": "POST",
+    "body": "fixture-body",
+    "status": 503,
+    "retryAfter": "0"
+  },
+  { "id": "resend-503-delayed", "path": "/serve", "status": 503, "retryAfter": "5" },
+  {
+    "id": "resend-503-zero-one-shot",
+    "path": "/serve",
+    "method": "POST",
+    "body": "fixture-body",
+    "oneShot": true,
+    "status": 503,
+    "retryAfter": "0"
+  },
+  {
+    "id": "resend-503-zero-interceptor",
+    "path": "/serve",
+    "client": "broker-interceptor",
+    "status": 503,
+    "retryAfter": "0"
+  },
+  {
+    "id": "resend-503-zero-post-interceptor",
+    "path": "/serve",
+    "client": "broker-interceptor",
+    "method": "POST",
+    "body": "fixture-body",
+    "status": 503,
+    "retryAfter": "0"
+  },
+  { "id": "resend-closed-connection", "path": "/serve", "closeWithoutResponse": true },
+  {
+    "id": "resend-closed-connection-post",
+    "path": "/serve",
+    "method": "POST",
+    "body": "fixture-body",
+    "closeWithoutResponse": true
+  },
+
+  {
+    "id": "default-redirect",
+    "path": "/serve",
+    "client": "default",
+    "status": 302,
+    "redirect": true
+  },
+  { "id": "default-408", "path": "/serve", "client": "default", "status": 408 },
+  {
+    "id": "default-closed-connection",
+    "path": "/serve",
+    "client": "default",
+    "closeWithoutResponse": true
+  },
+
+  { "id": "control-after-plain", "path": "/echo" },
+  { "id": "control-after-basic-401", "path": "/serve", "status": 401, "challenge": true }
+]
