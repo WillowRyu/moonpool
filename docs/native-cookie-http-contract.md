@@ -9,7 +9,8 @@ scope or SPEC change is implemented. This concerns SPEC §3, §6–§9.
 **Accepted amendments, 2026-11-03:** after [native HTTP transport evidence](native-http-transport-verification.md), the maintainer accepted
 one cookie pipeline (§4), OS behavior for HTTP authentication challenges (§5) and commit at header delivery (§5) as
 design directions. The Android broker client followed on 2026-11-04 (§2). On 2026-11-05 the maintainer accepted keeping the pipeline and stating
-what its limit does to `HttpOnly` (§4). The rest of this proposal is unchanged and not accepted.
+what its limit does to `HttpOnly` (§4), and committing the first response of an iOS `Basic` challenge (§5). The rest of this proposal is unchanged
+and not accepted.
 
 ## 1. Required outcome and compatibility
 
@@ -171,7 +172,10 @@ Serialize selection/mutations in the native app owner, independently of disposab
 Portal JS runtimes. Awaited set/delete completion must be visible to the next
 request or read. Concurrent response-cookie batches commit in the order the HTTP client
 delivers response headers to the broker, not request-start order; do not promise which
-remote response arrives first. On iOS that delivery needs a first body byte or completion. Commit each batch
+remote response arrives first. On iOS that delivery needs a first body byte or completion. When a `Basic` challenge makes iOS resend a
+request, the first response reaches the challenge handler instead of the broker's response callback. The broker commits that batch from
+the challenge's [`failureResponse`](native-http-failure-response-verification.md), under the same reset fence, and ignores cookies on the
+resend, so the jar holds the first response's cookies on both platforms. Commit each batch
 before that operation's successful result settlement. A later body/network
 failure is not a rollback guarantee; T29 must pin body/error projection cases.
 
@@ -199,7 +203,8 @@ invalid request fields -32602; denied grant/service or protected-cookie mutation
 faults -32603. HTTP statuses stay in normal results. Existing client timeout,
 send failure and terminal-close rules remain their own outcomes. The SDK never retries
 requests: a local error does not prove remote effects were absent. iOS may send a request
-once more after a `Basic` challenge, without credentials. This OS behavior is documented, and
+once more after a `Basic` challenge, without host credentials. A guest's own `Authorization` goes on both attempts, so a server counting
+failures sees two, and the status and body a guest receives come from the last attempt. This OS behavior is documented, and
 a 401 stays a normal result on both platforms, because ambient credential stores stay disabled.
 
 These are proposals requiring explicit dispatch/provider-result support. Current

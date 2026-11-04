@@ -98,10 +98,12 @@ app sees differently per platform.
    adding a rule that would also hide honest attribute-less cookies from scripts.
 2. **OS behavior for HTTP authentication challenges.** The SDK never retries a request itself. A 401 stays a
    normal result on both platforms. iOS may send a request once more after a `Basic` challenge, without
-   credentials; this is OS behavior and is documented. Ambient credential and cookie stores stay disabled, so
-   following the OS never exposes host credentials.
+   host credentials; this is OS behavior and is documented. A guest's own `Authorization` goes on both attempts. Ambient credential and
+   cookie stores stay disabled, so following the OS never exposes host credentials.
 3. **Commit at header delivery.** Cookies commit when the HTTP client delivers response headers to the broker,
-   and before a request's result settles. On iOS that delivery needs a first body byte or completion.
+   and before a request's result settles. On iOS that delivery needs a first body byte or completion. Amended by the maintainer on
+   2026-11-05: when a `Basic` challenge makes iOS resend, the first response reaches the challenge handler instead, so the broker commits
+   from its `failureResponse`, under the same reset fence, and ignores cookies on the resend.
 
 These accept no other part of this ADR, change no SPEC text and implement nothing.
 
