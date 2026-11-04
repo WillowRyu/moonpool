@@ -855,6 +855,341 @@
     }
   },
   {
+    "id": "c02-malformed-fields",
+    "contract": "C02",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "login",
+        "portal": "A1",
+        "serve": {
+          "setCookie": ["sid=login-a; Path=/; Secure; HttpOnly"]
+        }
+      },
+      {
+        "op": "request",
+        "label": "credentialsFalse",
+        "portal": "A1",
+        "params": {
+          "credentials": false
+        }
+      },
+      {
+        "op": "request",
+        "label": "credentialsNull",
+        "portal": "A1",
+        "params": {
+          "credentials": null
+        }
+      },
+      {
+        "op": "request",
+        "label": "credentialsBad",
+        "portal": "A1",
+        "params": {
+          "credentials": "same-origin"
+        }
+      },
+      {
+        "op": "request",
+        "label": "methodNumber",
+        "portal": "A1",
+        "params": {
+          "method": 1
+        }
+      },
+      {
+        "op": "request",
+        "label": "methodNull",
+        "portal": "A1",
+        "params": {
+          "method": null
+        }
+      },
+      {
+        "op": "request",
+        "label": "bodyNumber",
+        "portal": "A1",
+        "params": {
+          "method": "POST",
+          "body": 1
+        }
+      },
+      {
+        "op": "request",
+        "label": "headersText",
+        "portal": "A1",
+        "params": {
+          "headers": "x"
+        }
+      },
+      {
+        "op": "request",
+        "label": "headersList",
+        "portal": "A1",
+        "params": {
+          "headers": []
+        }
+      },
+      {
+        "op": "request",
+        "label": "headerNumber",
+        "portal": "A1",
+        "params": {
+          "headers": {
+            "X-Probe": 1
+          }
+        }
+      },
+      {
+        "op": "request",
+        "label": "headerHidesCookie",
+        "portal": "A1",
+        "params": {
+          "headers": {
+            "Cookie": "x",
+            "X-Probe": 1
+          }
+        }
+      },
+      {
+        "op": "request",
+        "label": "urlNumber",
+        "portal": "A1",
+        "params": {
+          "url": 5
+        }
+      },
+      {
+        "op": "request",
+        "label": "urlMissing",
+        "portal": "A1",
+        "omitUrl": true
+      },
+      {
+        "op": "request",
+        "label": "healthy",
+        "portal": "A1"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "credentialsFalse": {
+          "ok": false,
+          "code": -32602
+        },
+        "credentialsNull": {
+          "ok": false,
+          "code": -32602
+        },
+        "credentialsBad": {
+          "ok": false,
+          "code": -32602
+        },
+        "methodNumber": {
+          "ok": false,
+          "code": -32602
+        },
+        "methodNull": {
+          "ok": false,
+          "code": -32602
+        },
+        "bodyNumber": {
+          "ok": false,
+          "code": -32602
+        },
+        "headersText": {
+          "ok": false,
+          "code": -32602
+        },
+        "headersList": {
+          "ok": false,
+          "code": -32602
+        },
+        "headerNumber": {
+          "ok": false,
+          "code": -32602
+        },
+        "headerHidesCookie": {
+          "ok": false,
+          "code": -32602
+        },
+        "urlNumber": {
+          "ok": false,
+          "code": -32602
+        },
+        "urlMissing": {
+          "ok": false,
+          "code": -32602
+        },
+        "healthy": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "credentialsFalse": {
+          "count": 0
+        },
+        "credentialsNull": {
+          "count": 0
+        },
+        "credentialsBad": {
+          "count": 0
+        },
+        "methodNumber": {
+          "count": 0
+        },
+        "methodNull": {
+          "count": 0
+        },
+        "bodyNumber": {
+          "count": 0
+        },
+        "headersText": {
+          "count": 0
+        },
+        "headersList": {
+          "count": 0
+        },
+        "headerNumber": {
+          "count": 0
+        },
+        "headerHidesCookie": {
+          "count": 0
+        },
+        "urlNumber": {
+          "count": 0
+        },
+        "urlMissing": {
+          "count": 0
+        },
+        "healthy": {
+          "count": 1,
+          "cookie": ["sid=login-a"]
+        }
+      },
+      "hidden": ["login-a"]
+    }
+  },
+  {
+    "id": "c02-unsafe-header-text",
+    "contract": "C02",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "headerBreak",
+        "portal": "A1",
+        "params": {
+          "headers": {
+            "X-Evil": "a\r\nInjected: 1"
+          }
+        }
+      },
+      {
+        "op": "request",
+        "label": "headerSpace",
+        "portal": "A1",
+        "params": {
+          "headers": {
+            "Bad Name": "x"
+          }
+        }
+      },
+      {
+        "op": "request",
+        "label": "headerPadded",
+        "portal": "A1",
+        "params": {
+          "headers": {
+            "Cookie ": "x"
+          }
+        }
+      },
+      {
+        "op": "request",
+        "label": "headerUnicode",
+        "portal": "A1",
+        "params": {
+          "headers": {
+            "X-Probe": "café"
+          }
+        }
+      },
+      {
+        "op": "request",
+        "label": "headerEmpty",
+        "portal": "A1",
+        "params": {
+          "headers": {
+            "": "x"
+          }
+        }
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "headerBreak": {
+          "ok": false,
+          "code": -32602
+        },
+        "headerSpace": {
+          "ok": false,
+          "code": -32602
+        },
+        "headerPadded": {
+          "ok": false,
+          "code": -32602
+        },
+        "headerUnicode": {
+          "ok": false,
+          "code": -32602
+        },
+        "headerEmpty": {
+          "ok": false,
+          "code": -32602
+        }
+      },
+      "receipts": {
+        "headerBreak": {
+          "count": 0
+        },
+        "headerSpace": {
+          "count": 0
+        },
+        "headerPadded": {
+          "count": 0
+        },
+        "headerUnicode": {
+          "count": 0
+        },
+        "headerEmpty": {
+          "count": 0
+        }
+      }
+    }
+  },
+  {
     "id": "c03-httponly",
     "contract": "C03",
     "portals": {
@@ -1156,6 +1491,509 @@
           "cookie": ["dup=root"]
         }
       }
+    }
+  },
+  {
+    "id": "c03-set-refuses-unsafe-text",
+    "contract": "C03",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "login",
+        "portal": "A1",
+        "serve": {
+          "setCookie": ["prot=protected-marker; Path=/; Secure; HttpOnly"]
+        }
+      },
+      {
+        "op": "cookiesSet",
+        "label": "valuePair",
+        "cookie": {
+          "name": "x",
+          "value": "1; prot=guest"
+        }
+      },
+      {
+        "op": "cookiesSet",
+        "label": "valueBreak",
+        "cookie": {
+          "name": "x",
+          "value": "a\r\nX: 1"
+        }
+      },
+      {
+        "op": "cookiesSet",
+        "label": "valueUnicode",
+        "cookie": {
+          "name": "x",
+          "value": "café"
+        }
+      },
+      {
+        "op": "cookiesSet",
+        "label": "nameEmpty",
+        "cookie": {
+          "name": "",
+          "value": "x"
+        }
+      },
+      {
+        "op": "cookiesSet",
+        "label": "nameSpace",
+        "cookie": {
+          "name": "a b",
+          "value": "x"
+        }
+      },
+      {
+        "op": "cookiesSet",
+        "label": "nameEquals",
+        "cookie": {
+          "name": "a=b",
+          "value": "x"
+        }
+      },
+      {
+        "op": "cookiesSet",
+        "label": "nameSemicolon",
+        "cookie": {
+          "name": "a;b",
+          "value": "x"
+        }
+      },
+      {
+        "op": "cookiesSet",
+        "label": "pathRelative",
+        "cookie": {
+          "name": "x",
+          "value": "y",
+          "path": "deep"
+        }
+      },
+      {
+        "op": "cookiesSet",
+        "label": "pathSemicolon",
+        "cookie": {
+          "name": "x",
+          "value": "y",
+          "path": "/a;b"
+        }
+      },
+      {
+        "op": "request",
+        "label": "me",
+        "portal": "A1"
+      },
+      {
+        "op": "cookiesSet",
+        "label": "good",
+        "cookie": {
+          "name": "good",
+          "value": "v-1"
+        }
+      },
+      {
+        "op": "request",
+        "label": "meAfter",
+        "portal": "A1"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "valuePair": {
+          "ok": false,
+          "code": -32602
+        },
+        "valueBreak": {
+          "ok": false,
+          "code": -32602
+        },
+        "valueUnicode": {
+          "ok": false,
+          "code": -32602
+        },
+        "nameEmpty": {
+          "ok": false,
+          "code": -32602
+        },
+        "nameSpace": {
+          "ok": false,
+          "code": -32602
+        },
+        "nameEquals": {
+          "ok": false,
+          "code": -32602
+        },
+        "nameSemicolon": {
+          "ok": false,
+          "code": -32602
+        },
+        "pathRelative": {
+          "ok": false,
+          "code": -32602
+        },
+        "pathSemicolon": {
+          "ok": false,
+          "code": -32602
+        },
+        "good": {
+          "ok": true
+        }
+      },
+      "receipts": {
+        "me": {
+          "count": 1,
+          "cookie": ["prot=protected-marker"]
+        },
+        "meAfter": {
+          "count": 1,
+          "cookie": ["prot=protected-marker; good=v-1"]
+        }
+      },
+      "hidden": ["protected-marker"]
+    }
+  },
+  {
+    "id": "c03-cookie-fields-malformed",
+    "contract": "C03",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "cookiesSet",
+        "label": "noName",
+        "cookie": {
+          "value": "x"
+        }
+      },
+      {
+        "op": "cookiesSet",
+        "label": "noValue",
+        "cookie": {
+          "name": "a"
+        }
+      },
+      {
+        "op": "cookiesSet",
+        "label": "numericName",
+        "cookie": {
+          "name": 1,
+          "value": "x"
+        }
+      },
+      {
+        "op": "cookiesSet",
+        "label": "numericValue",
+        "cookie": {
+          "name": "a",
+          "value": 1
+        }
+      },
+      {
+        "op": "cookiesSet",
+        "label": "numericPath",
+        "cookie": {
+          "name": "a",
+          "value": "b",
+          "path": 1
+        }
+      },
+      {
+        "op": "cookiesSet",
+        "label": "textAge",
+        "cookie": {
+          "name": "a",
+          "value": "b",
+          "maxAge": "0"
+        }
+      },
+      {
+        "op": "cookiesSet",
+        "label": "flagAge",
+        "cookie": {
+          "name": "a",
+          "value": "b",
+          "maxAge": true
+        }
+      },
+      {
+        "op": "cookiesSet",
+        "label": "fractionAge",
+        "cookie": {
+          "name": "a",
+          "value": "b",
+          "maxAge": 1.5
+        }
+      },
+      {
+        "op": "cookiesSet",
+        "label": "unknownField",
+        "cookie": {
+          "name": "a",
+          "value": "b",
+          "domain": "x"
+        }
+      },
+      {
+        "op": "cookiesDelete",
+        "label": "deleteNoName",
+        "cookie": {
+          "path": "/"
+        }
+      },
+      {
+        "op": "cookiesDelete",
+        "label": "deleteNumericName",
+        "cookie": {
+          "name": 1
+        }
+      },
+      {
+        "op": "cookiesDelete",
+        "label": "deleteNumericPath",
+        "cookie": {
+          "name": "a",
+          "path": 1
+        }
+      },
+      {
+        "op": "cookiesDelete",
+        "label": "deleteUnknownField",
+        "cookie": {
+          "name": "a",
+          "value": "b"
+        }
+      },
+      {
+        "op": "cookiesSet",
+        "label": "accepted",
+        "cookie": {
+          "name": "a",
+          "value": "b"
+        }
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "noName": {
+          "ok": false,
+          "code": -32602
+        },
+        "noValue": {
+          "ok": false,
+          "code": -32602
+        },
+        "numericName": {
+          "ok": false,
+          "code": -32602
+        },
+        "numericValue": {
+          "ok": false,
+          "code": -32602
+        },
+        "numericPath": {
+          "ok": false,
+          "code": -32602
+        },
+        "textAge": {
+          "ok": false,
+          "code": -32602
+        },
+        "flagAge": {
+          "ok": false,
+          "code": -32602
+        },
+        "fractionAge": {
+          "ok": false,
+          "code": -32602
+        },
+        "unknownField": {
+          "ok": false,
+          "code": -32602
+        },
+        "deleteNoName": {
+          "ok": false,
+          "code": -32602
+        },
+        "deleteNumericName": {
+          "ok": false,
+          "code": -32602
+        },
+        "deleteNumericPath": {
+          "ok": false,
+          "code": -32602
+        },
+        "deleteUnknownField": {
+          "ok": false,
+          "code": -32602
+        },
+        "accepted": {
+          "ok": true
+        }
+      },
+      "jar": {
+        "jar": ["a=b"]
+      }
+    }
+  },
+  {
+    "id": "c03-empty-cookie-field",
+    "contract": "C03",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "blank",
+        "portal": "A1",
+        "serve": {
+          "setCookie": [";"]
+        }
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "blank": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "jar": {
+        "jar": []
+      }
+    }
+  },
+  {
+    "id": "c03-unsendable-server-cookie",
+    "contract": "C03",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "login",
+        "portal": "A1",
+        "serve": {
+          "setCookie": ["bad=café; Path=/; Secure", "good=1; Path=/; Secure"]
+        }
+      },
+      {
+        "op": "request",
+        "label": "me",
+        "portal": "A1"
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "login": {
+          "ok": true,
+          "status": 200
+        },
+        "me": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "me": {
+          "count": 1,
+          "cookie": ["good=1"]
+        }
+      },
+      "jar": {
+        "jar": ["good=1"]
+      }
+    }
+  },
+  {
+    "id": "c03-comma-value-attribute-loss",
+    "contract": "C03",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "login",
+        "portal": "A1",
+        "serve": {
+          "setCookie": ["sid=abc, x=y; Path=/; Secure; HttpOnly"]
+        }
+      },
+      {
+        "op": "cookiesGet",
+        "label": "read"
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "login": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "measure": ["read", "jar"]
     }
   },
   {
@@ -1478,6 +2316,137 @@
       },
       {
         "host": "127.0.0.1",
+        "listener": "service"
+      }
+    ]
+  },
+  {
+    "id": "c05-default-port",
+    "contract": "C05",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "implicit",
+        "portal": "A1",
+        "params": {
+          "target": {
+            "defaultPort": true
+          }
+        }
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "implicit": {
+          "ok": false,
+          "code": -32007,
+          "reason": "network"
+        }
+      },
+      "receipts": {
+        "implicit": {
+          "count": 0
+        }
+      }
+    },
+    "approved": [
+      {
+        "host": "localhost",
+        "port": 443
+      }
+    ]
+  },
+  {
+    "id": "c05-default-port-needs-approval",
+    "contract": "C05",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "implicit",
+        "portal": "A1",
+        "params": {
+          "target": {
+            "defaultPort": true
+          }
+        }
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "implicit": {
+          "ok": false,
+          "code": -32000
+        }
+      },
+      "receipts": {
+        "implicit": {
+          "count": 0
+        }
+      }
+    }
+  },
+  {
+    "id": "c05-ipv6-host",
+    "contract": "C05",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "literal",
+        "portal": "A1",
+        "params": {
+          "target": {
+            "host": "[::1]"
+          }
+        }
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "literal": {
+          "ok": false,
+          "code": -32007,
+          "reason": "network"
+        }
+      },
+      "receipts": {
+        "literal": {
+          "count": 0
+        }
+      }
+    },
+    "approved": [
+      {
+        "host": "::1",
         "listener": "service"
       }
     ]
@@ -2186,6 +3155,331 @@
       },
       "jar": {
         "jar": ["kept=1"]
+      }
+    }
+  },
+  {
+    "id": "c06-methods",
+    "contract": "C06",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "mPOST",
+        "portal": "A1",
+        "params": {
+          "method": "POST"
+        }
+      },
+      {
+        "op": "request",
+        "label": "mPUT",
+        "portal": "A1",
+        "params": {
+          "method": "PUT"
+        }
+      },
+      {
+        "op": "request",
+        "label": "mPATCH",
+        "portal": "A1",
+        "params": {
+          "method": "PATCH"
+        }
+      },
+      {
+        "op": "request",
+        "label": "mDELETE",
+        "portal": "A1",
+        "params": {
+          "method": "DELETE"
+        }
+      },
+      {
+        "op": "request",
+        "label": "mOPTIONS",
+        "portal": "A1",
+        "params": {
+          "method": "OPTIONS"
+        }
+      },
+      {
+        "op": "request",
+        "label": "mHEAD",
+        "portal": "A1",
+        "params": {
+          "method": "HEAD"
+        }
+      },
+      {
+        "op": "request",
+        "label": "putBody",
+        "portal": "A1",
+        "params": {
+          "method": "PUT",
+          "body": "{}"
+        }
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "mPOST": {
+          "ok": true,
+          "status": 200
+        },
+        "mPUT": {
+          "ok": true,
+          "status": 200
+        },
+        "mPATCH": {
+          "ok": true,
+          "status": 200
+        },
+        "mDELETE": {
+          "ok": true,
+          "status": 200
+        },
+        "mOPTIONS": {
+          "ok": true,
+          "status": 200
+        },
+        "mHEAD": {
+          "ok": true,
+          "status": 200,
+          "bodyText": ""
+        },
+        "putBody": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "mPOST": {
+          "count": 1,
+          "method": "POST",
+          "bodyLength": 0
+        },
+        "mPUT": {
+          "count": 1,
+          "method": "PUT",
+          "bodyLength": 0
+        },
+        "mPATCH": {
+          "count": 1,
+          "method": "PATCH",
+          "bodyLength": 0
+        },
+        "mDELETE": {
+          "count": 1,
+          "method": "DELETE",
+          "bodyLength": 0
+        },
+        "mOPTIONS": {
+          "count": 1,
+          "method": "OPTIONS",
+          "bodyLength": 0
+        },
+        "mHEAD": {
+          "count": 1,
+          "method": "HEAD",
+          "bodyLength": 0
+        },
+        "putBody": {
+          "count": 1,
+          "method": "PUT",
+          "bodyLength": 2
+        }
+      }
+    }
+  },
+  {
+    "id": "c06-method-rules",
+    "contract": "C06",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "getBody",
+        "portal": "A1",
+        "params": {
+          "method": "GET",
+          "body": "{}"
+        }
+      },
+      {
+        "op": "request",
+        "label": "headBody",
+        "portal": "A1",
+        "params": {
+          "method": "HEAD",
+          "body": "{}"
+        }
+      },
+      {
+        "op": "request",
+        "label": "impliedGetBody",
+        "portal": "A1",
+        "params": {
+          "body": "{}"
+        }
+      },
+      {
+        "op": "request",
+        "label": "trace",
+        "portal": "A1",
+        "params": {
+          "method": "TRACE"
+        }
+      },
+      {
+        "op": "request",
+        "label": "connect",
+        "portal": "A1",
+        "params": {
+          "method": "CONNECT"
+        }
+      },
+      {
+        "op": "request",
+        "label": "lower",
+        "portal": "A1",
+        "params": {
+          "method": "post",
+          "body": "{}"
+        }
+      },
+      {
+        "op": "request",
+        "label": "spaced",
+        "portal": "A1",
+        "params": {
+          "method": "BAD METHOD"
+        }
+      },
+      {
+        "op": "request",
+        "label": "empty",
+        "portal": "A1",
+        "params": {
+          "method": ""
+        }
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "getBody": {
+          "ok": false,
+          "code": -32602
+        },
+        "headBody": {
+          "ok": false,
+          "code": -32602
+        },
+        "impliedGetBody": {
+          "ok": false,
+          "code": -32602
+        },
+        "trace": {
+          "ok": false,
+          "code": -32602
+        },
+        "connect": {
+          "ok": false,
+          "code": -32602
+        },
+        "lower": {
+          "ok": false,
+          "code": -32602
+        },
+        "spaced": {
+          "ok": false,
+          "code": -32602
+        },
+        "empty": {
+          "ok": false,
+          "code": -32602
+        }
+      },
+      "receipts": {
+        "getBody": {
+          "count": 0
+        },
+        "headBody": {
+          "count": 0
+        },
+        "impliedGetBody": {
+          "count": 0
+        },
+        "trace": {
+          "count": 0
+        },
+        "connect": {
+          "count": 0
+        },
+        "lower": {
+          "count": 0
+        },
+        "spaced": {
+          "count": 0
+        },
+        "empty": {
+          "count": 0
+        }
+      }
+    }
+  },
+  {
+    "id": "c06-slow-response",
+    "contract": "C06",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "slow",
+        "portal": "A1",
+        "serve": {
+          "delaySeconds": 12
+        }
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "slow": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "slow": {
+          "count": 1
+        }
       }
     }
   },
@@ -3039,6 +4333,80 @@
         "hostCookie": {
           "cookieContains": "host_ambient=sentinel"
         }
+      }
+    }
+  },
+  {
+    "id": "c08-retire-queued-work",
+    "contract": "C08",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "queued",
+        "portal": "A1",
+        "wait": false,
+        "serve": {
+          "setCookie": ["late=1; Path=/; Secure"]
+        },
+        "params": {
+          "deferred": true
+        }
+      },
+      {
+        "op": "retire",
+        "label": "close",
+        "portal": "A1"
+      },
+      {
+        "op": "startQueued",
+        "label": "queued"
+      },
+      {
+        "op": "await",
+        "label": "queued"
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      },
+      {
+        "op": "request",
+        "label": "me",
+        "portal": "A2"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "queued": {
+          "delivered": false
+        },
+        "me": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "queued": {
+          "count": 0
+        },
+        "me": {
+          "count": 1,
+          "cookie": []
+        }
+      },
+      "jar": {
+        "jar": []
       }
     }
   }

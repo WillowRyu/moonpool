@@ -3,7 +3,7 @@ import copy
 import json
 from pathlib import Path
 import unittest
-from verify_results import CASES, classify, compare, verify
+from verify_results import CASES, classify, compare, measurements, verify
 
 ROOT = Path(__file__).resolve().parent
 EVENT_KINDS = {'commit', 'fence'}
@@ -46,7 +46,7 @@ def ideal_report(platform='android'):
             if 'cookieContains' in receipt:
                 cookie = [receipt['cookieContains']]
             row = {'run': run, 'case': case['id'], 'step': label, 'event': 'arrived', 'tls': True, 'cookieFields': cookie,
-                   'authorization': receipt.get('authorization'), 'path': '/s', 'method': 'GET', 'host': 'localhost', 'listener': 'service', 'bodyLength': 0}
+                   'authorization': receipt.get('authorization'), 'path': '/s', 'method': receipt.get('method', 'GET'), 'host': 'localhost', 'listener': 'service', 'bodyLength': receipt.get('bodyLength', 0)}
             if receipt.get('authorizationSeen'):
                 row['authorization'] = 'Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA=='
             requests.append(row)
@@ -189,6 +189,44 @@ class VerifierTests(unittest.TestCase):
         other = ideal_report('ios')
         find_step(other, 'c06-basic-401-cookies', 'jar')['jar'] = ['attempt=2']
         self.assertEqual(compare(self.report, other), [])
+
+    def test_comparison_reports_a_guest_visible_header_difference(self):
+        other = ideal_report('ios')
+        find_step(other, 'c06-retry-after-zero', 'busy')['outcome']['headers']['retry-after'] = '5'
+        self.assertEqual([item['case'] for item in compare(self.report, other)], ['c06-retry-after-zero'])
+
+    def test_comparison_ignores_the_date_and_the_run_and_port_in_a_location(self):
+        other = ideal_report('ios')
+        find_step(self.report, 'c00-plain', 'plain')['outcome']['headers']['date'] = 'Wed'
+        find_step(other, 'c00-plain', 'plain')['outcome']['headers']['date'] = 'Thu'
+        find_step(self.report, 'c06-redirect-302', 'moved')['outcome']['headers']['location'] = 'https://localhost:1/s?run=android-a&case=c&step=target'
+        find_step(other, 'c06-redirect-302', 'moved')['outcome']['headers']['location'] = 'https://localhost:2/s?run=ios-b&case=c&step=target'
+        self.assertEqual(compare(self.report, other), [])
+
+    def test_comparison_still_reports_a_location_on_another_host(self):
+        other = ideal_report('ios')
+        find_step(self.report, 'c06-redirect-302', 'moved')['outcome']['headers']['location'] = 'https://localhost:1/s?run=android-a'
+        find_step(other, 'c06-redirect-302', 'moved')['outcome']['headers']['location'] = 'https://127.0.0.1:1/s?run=ios-b'
+        self.assertEqual([item['case'] for item in compare(self.report, other)], ['c06-redirect-302'])
+
+    def test_wrong_method_at_the_server_fails_the_case(self):
+        next(row for row in self.report['requests'] if row['case'] == 'c06-methods' and row['step'] == 'mPOST')['method'] = 'GET'
+        self.assertEqual(self.states()['c06-methods']['state'], 'fail')
+
+    def test_wrong_body_length_at_the_server_fails_the_case(self):
+        next(row for row in self.report['requests'] if row['case'] == 'c06-methods' and row['step'] == 'putBody')['bodyLength'] = 0
+        self.assertEqual(self.states()['c06-methods']['state'], 'fail')
+
+    def test_hold_timeout_does_not_count_as_a_release(self):
+        row = next(row for row in self.report['requests'] if row['event'] == 'released')
+        row['event'] = 'holdTimedOut'
+        with self.assertRaisesRegex(AssertionError, 'released'):
+            verify(self.report)
+
+    def test_measurements_record_what_a_guest_could_read(self):
+        find_step(self.report, 'c03-comma-value-attribute-loss', 'read')['outcome']['cookies'] = [{'name': 'sid', 'path': '/', 'value': 'abc'}]
+        found = measurements(self.report)['c03-comma-value-attribute-loss/read']
+        self.assertEqual(found['cookies'], [{'name': 'sid', 'path': '/', 'value': 'abc'}])
 
     def test_cases_cover_the_declared_contract_groups(self):
         self.assertEqual({case['contract'] for case in CASES}, {'control', 'C01', 'C02', 'C03', 'C05', 'C06', 'C07', 'C08'})

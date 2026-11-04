@@ -17,6 +17,14 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def ios_artifact_digest(app):
+    """What the app actually runs. The executable alone would not notice a stale scenario file on the device."""
+    digest = hashlib.sha256()
+    for part in ['HttpBrokerProbe', 'Fixtures/cases.json', 'Fixtures/ca.der']:
+        digest.update(f'{part}:{sha(app / part)}\n'.encode())
+    return digest.hexdigest()
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('platform', choices=['android', 'ios'])
@@ -58,7 +66,7 @@ def main():
                         '-target', 'arm64-apple-ios17.0-simulator', '-framework', 'UIKit', str(ROOT / 'ios/Probe.swift'),
                         '-o', str(app / 'HttpBrokerProbe')], check=True)
         subprocess.run(['codesign', '--force', '--sign', '-', str(app)], check=True)
-        metadata['artifactSha256'] = sha(app / 'HttpBrokerProbe')
+        metadata['artifactSha256'] = ios_artifact_digest(app)
         metadata['xcode'] = subprocess.check_output(['xcodebuild', '-version'], text=True).strip()
         metadata['sdk'] = subprocess.check_output(['xcrun', '--sdk', 'iphonesimulator', '--show-sdk-version'], text=True).strip()
     (ROOT / 'local-results' / f'{platform}-build.json').write_text(json.dumps(metadata, indent=2) + '\n')

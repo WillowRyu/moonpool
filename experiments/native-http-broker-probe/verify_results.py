@@ -7,6 +7,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import re
 
 from fixture import EXPECTED_AUTHORIZATION
 
@@ -16,6 +17,7 @@ EXCLUDED = {'build', '.gradle'}
 BARRIERS = {'held', 'release', 'await', 'awaitEvent', 'startQueued'}
 GUEST_OPS = {'request', 'cookiesGet', 'cookiesSet', 'cookiesDelete', 'reset'}
 FORBIDDEN_RESPONSE_HEADERS = {'set-cookie', 'set-cookie2'}
+VOLATILE_RESPONSE_HEADERS = {'date'}
 
 
 def observation(report, case):
@@ -60,6 +62,10 @@ def receipt_problems(label, expected, rows):
         problems.append(f'{label}: {expected["cookieContains"]} never arrived')
     if expected.get('authorizationSeen') and not any(row['authorization'] == EXPECTED_AUTHORIZATION for row in rows):
         problems.append(f'{label}: fixture credential never arrived')
+    if 'method' in expected and any(row['method'] != expected['method'] for row in rows):
+        problems.append(f'{label}: method {[row["method"] for row in rows]}, expected {expected["method"]}')
+    if 'bodyLength' in expected and any(row['bodyLength'] != expected['bodyLength'] for row in rows):
+        problems.append(f'{label}: body length {[row["bodyLength"] for row in rows]}, expected {expected["bodyLength"]}')
     return problems
 
 
@@ -136,6 +142,14 @@ def verify(report):
     return count
 
 
+def guest_headers(outcome):
+    """Response headers a mini app reads, without what differs by run: the clock, and a Location's run tag and port."""
+    headers = {name: value for name, value in (outcome.get('headers') or {}).items() if name not in VOLATILE_RESPONSE_HEADERS}
+    if 'location' in headers:
+        headers['location'] = re.sub(r'(://[^/:]+):\d+', r'\1', re.sub(r'run=[a-z0-9-]+', 'run=', headers['location']))
+    return headers
+
+
 def normalized(report, case):
     """What a mini app and the server would see, leaving out what the case declares as a measurement."""
     measured = set(case['expect'].get('measure', []))
@@ -148,7 +162,7 @@ def normalized(report, case):
             continue
         seen = by_label.get(label, {})
         outcome = seen.get('outcome') or {}
-        found[label] = {'outcome': {key: outcome.get(key) for key in ['ok', 'status', 'code', 'reason', 'cookies', 'delivered', 'bodyText'] if key in outcome}}
+        found[label] = {'outcome': {key: outcome.get(key) for key in ['ok', 'status', 'code', 'reason', 'cookies', 'delivered', 'bodyText'] if key in outcome}, 'headers': guest_headers(outcome)}
         if step['op'] == 'snapshot':
             found[label]['jar'] = sorted(seen.get('jar') or [])
         if step['op'] == 'request':
@@ -177,7 +191,8 @@ def measurements(report):
         for label in case['expect'].get('measure', []):
             step = next((s for s in observation(report, case)['steps'] if s['label'] == label), {})
             rows = arrived(report, case, label)
-            found[f"{case['id']}/{label}"] = {'jar': step.get('jar'), 'status': (step.get('outcome') or {}).get('status'), 'attempts': len(rows),
+            outcome = step.get('outcome') or {}
+            found[f"{case['id']}/{label}"] = {'jar': step.get('jar'), 'status': outcome.get('status'), 'cookies': outcome.get('cookies'), 'attempts': len(rows),
                                               'authorizations': [row['authorization'] for row in rows]}
     return found
 

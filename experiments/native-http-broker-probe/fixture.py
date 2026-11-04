@@ -12,6 +12,7 @@ import re
 import ssl
 import subprocess
 import threading
+import time
 from urllib.parse import parse_qs, urlsplit
 
 ROOT = Path(__file__).resolve().parent
@@ -59,7 +60,7 @@ def create_certificates(folder):
         (folder / name).chmod(0o600)
 
 
-def make_servers(folder, port, second_port, control_port, tls=True):
+def make_servers(folder, port, second_port, control_port, tls=True, hold_seconds=30):
     lock = threading.Lock()
     holds, attempts = {}, {}
 
@@ -103,10 +104,14 @@ def make_servers(folder, port, second_port, control_port, tls=True):
                     attempt = attempts[key]
                 if serve.get('hold') == 'headers':
                     self.hold(key, url, query, length)
+                if serve.get('delaySeconds'):
+                    time.sleep(serve['delaySeconds'])
                 early = serve.get('earlyBytes', 0) if serve.get('hold') == 'body' else serve.get('abortAfterBytes', 0)
                 # Leading spaces are valid JSON, so early bytes can be sent before a hold or a failure.
                 body = b'' if serve.get('noBody') else b' ' * early + json.dumps({'step': query['step'], 'ok': True}).encode()
                 self.send_head(serve, query, attempt, len(body))
+                if self.command == 'HEAD':
+                    return
                 if serve.get('abortAfterBytes'):
                     self.wfile.write(body[:early])
                     self.wfile.flush()
@@ -123,8 +128,9 @@ def make_servers(folder, port, second_port, control_port, tls=True):
                 entry = hold_for(key)
                 with lock:
                     entry['held'] = True
-                entry['release'].wait(30)
-                self.record(url, query, 'released', length)
+                released = entry['release'].wait(hold_seconds)
+                # A hold that ran out was not released, and its barrier did not order anything.
+                self.record(url, query, 'released' if released else 'holdTimedOut', length)
 
             def send_head(self, serve, query, attempt, length):
                 accepted = serve.get('acceptCredentials') and self.headers.get('Authorization') == EXPECTED_AUTHORIZATION
@@ -147,11 +153,7 @@ def make_servers(folder, port, second_port, control_port, tls=True):
                     self.send_header('Content-Length', str(length + (64 if serve.get('abortAfterBytes') else 0)))
                 self.end_headers()
 
-            def do_GET(self):
-                self.handle_request()
-
-            def do_POST(self):
-                self.handle_request()
+            do_GET = do_HEAD = do_POST = do_PUT = do_PATCH = do_DELETE = do_OPTIONS = handle_request
 
         return Service
 

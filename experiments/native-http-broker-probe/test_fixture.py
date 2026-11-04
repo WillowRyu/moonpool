@@ -5,6 +5,7 @@ from pathlib import Path
 import tempfile
 import threading
 import unittest
+from unittest import mock
 from urllib.parse import urlsplit
 from fixture import EXPECTED_AUTHORIZATION, make_servers, serve_for
 
@@ -145,6 +146,39 @@ class FixtureTests(unittest.TestCase):
     def test_deep_path_is_served_and_recorded(self):
         self.get('c03-same-name-paths', 'deep', path='/deep/s')
         self.assertEqual(self.rows()[0]['path'], '/deep/s')
+
+    def test_hold_that_times_out_is_not_recorded_as_released(self):
+        with tempfile.TemporaryDirectory() as name:
+            folder = Path(name)
+            service, second, control = make_servers(folder, 0, 0, 0, tls=False, hold_seconds=0.05)
+            thread = threading.Thread(target=service.serve_forever, daemon=True)
+            thread.start()
+            try:
+                self.get('c07-header-order', 'first', server=service)
+            finally:
+                service.shutdown()
+                thread.join()
+                for server in (service, second, control):
+                    server.server_close()
+            events = [json.loads(line)['event'] for line in (folder / 'requests.jsonl').read_text().splitlines()]
+        self.assertEqual(events, ['arrived', 'holdTimedOut'])
+
+    def test_delay_waits_before_answering(self):
+        with mock.patch('fixture.time.sleep') as sleep:
+            response, _ = self.get('c06-slow-response', 'slow')
+        self.assertEqual(response.status, 200)
+        sleep.assert_called_once_with(12)
+
+    def test_every_supported_method_is_served_and_recorded(self):
+        for method in ['POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']:
+            response, _ = self.get('c06-methods', 'm' + method, method=method)
+            self.assertEqual(response.status, 200)
+        self.assertEqual([row['method'] for row in self.rows()], ['POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'])
+
+    def test_head_declares_a_length_and_sends_no_body(self):
+        response, body = self.get('c06-methods', 'mHEAD', method='HEAD')
+        self.assertEqual((response.status, body), (200, b''))
+        self.assertGreater(int(response.headers['Content-Length']), 0)
 
     def test_control_is_not_on_the_service_listener(self):
         response, _ = self.get('c07-header-order', 'first', path='/release')
