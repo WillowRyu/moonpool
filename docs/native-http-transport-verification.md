@@ -99,8 +99,11 @@ the OS never exposes host credentials.
 - Android's global `Authenticator` and `CookieHandler`: **measured on 2026-11-04, and a conflict.** Both reach requests on
   `HttpURLConnection` with no per-request opt-out. Read [the report](native-http-global-handlers-verification.md). This
   run's Android results hold only while a host has set neither, and a decision on the Android client is open.
-- A `Basic` 401 that also sets cookies: which response's cookies iOS exposes after the resend. Tested 401s set none.
-- A request with a preset `Authorization`: whether the iOS resend repeats it, which would make lockouts more likely.
+- A `Basic` 401 that also sets cookies: **measured on 2026-11-05.** iOS exposes the second response's cookie and Android the
+  first, so a guest sees different values per platform. Read [the broker report](native-http-broker-verification.md); how
+  to handle it is open for decision.
+- A request with a preset `Authorization`: **measured on 2026-11-05, and repeated.** The iOS resend carried the guest's header
+  unchanged, so a server counting failed attempts sees two. No host credential was involved.
 - `Digest`, `NTLM` and `Negotiate`, HTTP/2, proxies, mid-body failure, cancellation and empty bodies.
 
 ## Comparison with similar runtimes

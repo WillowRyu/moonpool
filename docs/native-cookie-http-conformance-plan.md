@@ -2,8 +2,10 @@
 
 Date: 2026-11-03
 Status: Review and test design complete; bounded C09/C10 measurements recorded in
-the [verification report](native-cookie-suppression-verification.md). The iOS
-retained-cookie failure, full corpus and final contract approval remain open.
+the [verification report](native-cookie-suppression-verification.md), and a bounded
+C01–C03 / C05–C08 broker subset in the [broker report](native-http-broker-verification.md).
+The iOS retained-cookie failure, the iOS `Basic` 401 parity item, the full corpus and
+final contract approval remain open.
 This accompanies the [proposed contract](native-cookie-http-contract.md) and
 [ADR 0027](adr/0027-unify-cookie-sessions-through-async-native-http.md).
 It neither accepts a contract nor establishes native conformance. SPEC is unchanged.
@@ -31,6 +33,12 @@ C02, C03, C06 and C08, not those cases. The maintainer accepted its transport ru
 [Android global handler evidence](native-http-global-handlers-verification.md) found a host's `CookieHandler` and `Authenticator`
 reach `HttpURLConnection` with no per-request opt-out. [OkHttp evidence](native-http-okhttp-verification.md) measures the alternative the
 maintainer accepted on 2026-11-04, pinned to 5.5.1. Android broker experiments for C01–C08 use that client.
+
+[Broker evidence](native-http-broker-verification.md) is the first paired broker measurement, collected on 2026-11-05: 44 cases
+drawn from the C01–C03 and C05–C08 subsets pass on both platforms, with identical guest-visible results, receipts and jar effects.
+It answers both questions the transport report left open about the accepted iOS `Basic` 401 resend: the jar keeps the second
+response's cookie, and the guest's own `Authorization` is replayed. The first of those breaks parity and is open for decision.
+C04 and C09–C12 remain untouched, and no procedure below is marked complete by it.
 
 ## 1. Review outcome and decisions still required
 
