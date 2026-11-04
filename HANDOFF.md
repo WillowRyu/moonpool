@@ -105,7 +105,8 @@ build requirement only; the package declares `minSdk` 21, with only API 37 run.
 
 Still OPEN: `ProxySelector` or `Proxy.NO_PROXY`, and a host's newer OkHttp replacing the pin. Android C01-C08 broker experiments no
 longer wait on the client. No production dependency or broker exists, T28 stays at 6/44, and the SPEC is unchanged. This work and the two
-checkpoints below are committed on branch t28-android-http-client, not pushed or merged; "nothing is committed" below describes its own moment.
+checkpoints below are merged into master by fast-forward and pushed, with branch t28-android-http-client kept at the same commit.
+"Nothing is committed" below describes its own moment.
 
 ## 2026-11-04 checkpoint — OkHttp measured as the Android broker's client
 
