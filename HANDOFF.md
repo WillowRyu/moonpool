@@ -105,9 +105,9 @@
 
 ## 2026-11-05 checkpoint — first response committed on iOS
 
-The maintainer answered "커밋 후 브로커 적용". The measurement and its documents are committed through 00ab6bb on branch t28-native-http-broker,
-not pushed or merged. The maintainer then answered "네, 커밋", so everything below in this checkpoint is committed there too, also not pushed or
-merged. This supersedes the checkpoints below where they give 58 cases,
+The maintainer answered "커밋 후 브로커 적용". The measurement and its documents are committed through 00ab6bb on branch t28-native-http-broker.
+The maintainer then answered "네, 커밋" and "푸시도 해둬", so everything below in this checkpoint is committed there too and the branch is pushed to
+origin. It is not merged into master, and "not pushed" in the checkpoints below describes its own moment. This supersedes the checkpoints below where they give 58 cases,
 or call the cookie after the iOS `Basic` resend open.
 
 The iOS research broker now passes a challenge's `failureResponse` to the normal commit path, at most one batch per guest request and under
