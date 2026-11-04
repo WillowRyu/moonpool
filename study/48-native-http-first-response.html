@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — 첫 응답 커밋</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">48 · 첫 응답 커밋</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#change">무엇을 바꿨나</a>
+    <a href="#red">먼저 본 실패</a>
+    <a href="#result">결과</a>
+    <a href="#remain">그대로 남는 것</a>
+  </nav>
+  <p class="small desktop-only">2026.11.05 · 부분 검증<br>63사례 × 4수집 전부 통과<br>연구용 브로커에만 적용</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">T28 · Committing the first response of an iOS Basic challenge</div>
+    <h1>이제 두 OS의 쿠키 보관함이<br>같은 값을 가집니다.</h1>
+    <p class="lead"><a href="47-native-http-failure-response.html">47번</a>에서 첫 401의 쿠키를 인증 콜백에서 읽을 수 있다는 것을 확인했습니다. 이번에는 그 값을 실제로 커밋하도록 iOS 연구용 브로커를 바꾸고, 양쪽 OS에서 다시 수집했습니다. Android 코드는 바꾸지 않았습니다.</p>
+    <div class="meta"><span class="pill">63사례 × 4수집 · 검증 1,790건 · 서버 기록 474행</span><span class="pill">전부 통과</span><span class="pill warm">iOS 재전송 자체는 유지</span></div>
+  </header>
+
+  <section class="section" id="change">
+    <h2>1 · 무엇을 바꿨나</h2>
+    <p>규칙은 한 줄입니다. <strong>미니 앱 요청 하나에 쿠키 커밋은 한 번, 첫 응답으로.</strong> Android는 요청을 한 번만 보내니 원래 그렇게 동작했고, iOS만 맞추면 됩니다.</p>
+    <pre><code>// 1. 인증 콜백이 첫 401을 넘겨줍니다
+if let http = challenge.failureResponse as? HTTPURLResponse {
+    exchanges[task.taskIdentifier]?.challengeResponse?(http)
+}
+
+// 2. 두 경로가 같은 커밋 함수를 쓰고, 먼저 온 쪽만 반영됩니다
+var committed = false
+let commitOnce: (HTTPURLResponse) -&gt; Void = { [unowned self] response in
+    if committed { return }
+    committed = true
+    self.commit(session, generation, include, label, url, response)
+}
+exchange = client.start(request, headers: commitOnce, challenged: commitOnce, finished: ...)</code></pre>
+    <p>같은 <code>commit</code> 함수를 쓰므로 <code>credentials:"omit"</code>과 세션 초기화 검사가 그대로 적용됩니다. 새 사례 2개로 이 점도 확인했습니다.</p>
+    <p>첫 응답에 쿠키가 없으면 어떻게 될까요? 그래도 커밋 기회는 첫 응답이 가져갑니다. 그래서 두 번째 응답에만 있는 쿠키는 무시되고, 두 번째 시도를 보낸 적 없는 Android와 결과가 같아집니다.</p>
+    <p>이미 받아들인 규칙인 "헤더가 전달될 때 커밋한다"를 다듬었기 때문에 계약서와 ADR 0027에 수정 내용을 적었습니다. iOS의 <code>Basic</code> 401만 인증 콜백 시점에 커밋합니다.</p>
+  </section>
+
+  <section class="section" id="red">
+    <h2>2 · 먼저 본 실패</h2>
+    <p>브로커를 고치기 전에 새 기준으로 iOS를 돌렸더니 예상한 4개 사례만 실패했습니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>사례</th><th>고치기 전 iOS 보관함</th><th>기대값 (Android와 같음)</th></tr></thead><tbody>
+      <tr><td>시도마다 다른 쿠키</td><td><code>attempt=2</code></td><td><code>attempt=1</code></td></tr>
+      <tr><td>첫 시도에만 쿠키</td><td>비어 있음</td><td><code>first=1</code></td></tr>
+      <tr><td>두 번째 시도에만 쿠키</td><td><code>second=2</code></td><td>비어 있음</td></tr>
+      <tr><td>쿠키 줄이 두 개</td><td><code>c=3</code></td><td><code>a=1</code>, <code>b=2</code></td></tr>
+    </tbody></table></div>
+    <p><code>omit</code> 사례와 초기화 사례는 고치기 전에도 통과했습니다. 이 둘은 결함을 잡기보다, 새 커밋 경로가 기존 보호를 지키는지 확인하는 사례입니다.</p>
+  </section>
+
+  <section class="section" id="result">
+    <h2>3 · 결과</h2>
+    <p>63개 사례가 양쪽 OS에서 각 2회, 모두 통과했습니다. 미니 앱이 받는 결과, 서버 기록, 보관함이 두 OS와 두 수집에서 모두 같았습니다.</p>
+    <p>이벤트 기록에서도 커밋 횟수를 확인했습니다. 서버 도착은 2번인데 커밋은 1번입니다.</p>
+    <pre><code>c06-basic-401-first-attempt-only (iOS)
+  headers  challenged   ← 인증 콜백의 첫 401
+  commit   challenged   ← first=1 저장. 두 번째 응답은 무시
+  headers  me           ← 다음 요청의 응답</code></pre>
+  </section>
+
+  <section class="section" id="remain">
+    <h2>4 · 그대로 남는 것</h2>
+    <div class="table-wrap"><table><thead><tr><th><code>Basic</code> 401에서</th><th>Android</th><th>iOS</th></tr></thead><tbody>
+      <tr><td>보관함의 쿠키</td><td>첫 응답</td><td><strong>첫 응답 (이번에 맞춤)</strong></td></tr>
+      <tr><td>서버가 받는 시도</td><td>1번</td><td>2번</td></tr>
+      <tr><td>미니 앱의 <code>Authorization</code></td><td>1번 전송</td><td>2번 전송</td></tr>
+      <tr><td>미니 앱이 받는 상태·본문</td><td>유일한 시도</td><td>두 번째 시도</td></tr>
+    </tbody></table></div>
+    <p>실패 횟수를 세는 서버에는 iOS가 두 번으로 보입니다. 재전송을 막는 유일한 방식은 올바른 401을 잃기 때문에 이미 제외했고, 그래서 계약서에 적었습니다. 본문 차이는 서버가 401 본문을 시도마다 바꿀 때만 보입니다.</p>
+    <h3>이번 시험의 한계</h3>
+    <ul>
+      <li>SDK 헤더가 약속하지 않는 동작에 기대고 있습니다. 측정은 iOS 26.4.1, <code>Basic</code>, HTTP/1.1뿐이라 지원하는 OS 버전마다 다시 측정해야 합니다.</li>
+      <li>연구용 브로커에만 적용했습니다. 제품 코드, SPEC, 프로토콜은 바뀌지 않았습니다.</li>
+      <li>C04와 C09–C12, 실제 Portal, 브리지는 여전히 시험하지 않았습니다.</li>
+    </ul>
+    <div class="callout warm"><strong>현재 상태:</strong> 완료 수는 6 / 44 그대로이고, 이번 변경은 아직 커밋하지 않았습니다. 시험용 키는 휴지통에 있어 직접 비워 주셔야 합니다.</div>
+    <p><a href="47-native-http-failure-response.html">← 47 · failureResponse 측정</a></p>
+  </section>
+</main>
+</body>
+</html>

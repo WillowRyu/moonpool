@@ -1,8 +1,8 @@
 # T28 — A native broker measured against the proposed cookie/HTTP contract
 
 Date: 2026-11-05 (Asia/Seoul)
-Status: Bounded research complete for the 58 cases below, after the maintainer resumed the experiment paused on
-2026-11-04 and then asked for the code review findings to be fixed. It measures the [proposed contract](native-cookie-http-contract.md) and
+Status: Bounded research complete for the 63 cases below, after the maintainer resumed the experiment paused on
+2026-11-04, asked for the code review findings to be fixed, and chose to commit the first response of an iOS `Basic` challenge. It measures the [proposed contract](native-cookie-http-contract.md) and
 [ADR 0027](adr/0027-unify-cookie-sessions-through-async-native-http.md) with the accepted clients: OkHttp 5.5.1 on
 Android and `URLSession` on iOS. **It does not complete T28 and changes no SPEC or protocol text.** C04, C09–C12,
 real Portals and the bridge are still not covered, OkHttp remains a dependency of this probe alone, and the broker's
@@ -10,20 +10,19 @@ field names and error values stay proposals under test.
 
 ## Result
 
-Two research brokers ran the same 58 cases against one owned loopback HTTPS fixture, two collections per platform.
+Two research brokers ran the same 63 cases against one owned loopback HTTPS fixture, two collections per platform.
 
-**All 58 cases met the oracle on both platforms in all four collections, and the normalized guest-visible result,
+**All 63 cases met the oracle on both platforms in all four collections, and the normalized guest-visible result,
 including response headers, server receipts and jar effects are identical across platforms and across runs.** No host cookie and no host
 credential reached a broker request in any case, while the same process kept both of them live for its own client.
 
-One platform difference survives, and the cases declare it a measurement rather than judging it: the iOS resend after a
-`Basic` 401. The resend itself was already measured and accepted — follow the OS, keep the 401, document it — in the
-[transport report](native-http-transport-verification.md). What is new is its two consequences, both of which that
-report listed as open questions: **iOS leaves the second response's cookie in the jar, and it replays the guest's own
-`Authorization` on the extra attempt.** Everything else is parity, within these cases. One accepted limit is also newly
-measured, and the contract now states it: a comma in a cookie value can drop `HttpOnly` on both platforms.
+One platform difference survives, and the cases keep it as a measurement: the iOS resend after a `Basic` 401, which was already
+measured and accepted in the [transport report](native-http-transport-verification.md). **The server sees a second attempt, the guest's own
+`Authorization` goes on it, and the status and body a guest receives come from it.** The jar no longer differs, because the broker now
+commits the first response on both platforms. Everything else is parity, within these cases. One accepted limit is also newly measured,
+and the contract now states it: a comma in a cookie value can drop `HttpOnly` on both platforms.
 
-## What the 58 cases establish
+## What the 63 cases establish
 
 | Group | Cases | What the paired evidence shows |
 | --- | --- | --- |
@@ -32,9 +31,9 @@ measured, and the contract now states it: a comma in a cookie value can drop `Ht
 | C02 credentials | 7 | Cookies are included by default; `credentials: "omit"` suppresses both the send and the store, and leaves an earlier login intact; a guest's own `Authorization` still travels under `omit`; ten forbidden request headers, including case variants and `Sec-*`, are refused `-32602` with no receipt, while an ordinary header passes; a field of the wrong type, including `credentials: false`, a missing `url` and unsafe header text, is refused `-32602` with no receipt |
 | C03 `HttpOnly` and projection | 8 | An `HttpOnly` cookie is sent by the broker but is unreadable to the guest, and guest overwrite, expiry and delete attempts on it are refused `-32000`; a guest asking for `httpOnly: true` is refused `-32602`; `Set-Cookie` never appears in guest-visible headers; one parse pipeline splits a comma-joined field but not an `Expires` comma; the same name on two paths is returned deep-first; script cookies must follow the RFC 6265 grammar, so `1; prot=guest` cannot add a pair; an empty `Set-Cookie` field is ignored; a server cookie that could not be sent back is dropped instead of blocking later requests |
 | C05 service context | 8 | `SameSite` attributes do not change what a native send carries, and `SameSite=None` without `Secure` is dropped; `http`, userinfo, a fragment and a forged first-party claim are refused `-32602`; a foreign host and an unapproved second port are refused `-32000`; when both ports are approved they share one jar, and two approved hosts do not; an omitted port means 443 and an IPv6 literal has one spelling |
-| C06 redirects and status | 18 | 301, 302, 303, 307 and 308 are returned to the guest and never followed, including to a forbidden target and under `omit`; 404, 500 and an empty 204 arrive intact; `Bearer` 401 takes exactly one attempt; a 503 with `Retry-After: 0` reaches the guest with that header and exactly one attempt; a mid-body failure keeps the cookie that was already committed; POST, PUT, PATCH, DELETE, OPTIONS and HEAD work without a body, while a body on GET or HEAD and any other method are refused `-32602`; a response taking 12 seconds still arrives |
+| C06 redirects and status | 22 | 301, 302, 303, 307 and 308 are returned to the guest and never followed, including to a forbidden target and under `omit`; 404, 500 and an empty 204 arrive intact; `Bearer` 401 takes exactly one attempt; a 503 with `Retry-After: 0` reaches the guest with that header and exactly one attempt; a mid-body failure keeps the cookie that was already committed; POST, PUT, PATCH, DELETE, OPTIONS and HEAD work without a body, while a body on GET or HEAD and any other method are refused `-32602`; a response taking 12 seconds still arrives; on a `Basic` 401 the jar holds the first response's cookies on both platforms, including a cookie sent only on the first attempt, and `omit` stores nothing |
 | C07 ordering and Portal lifetime | 4 | An awaited set and delete are visible to the other Portal of the same app before the next send; two held responses commit in release order rather than request order, and the last commit wins; a recreated Portal reuses the app jar but needs its own grant; closing a Portal with work in flight withholds the result from the closed Portal and still commits the cookie — closing a Portal is not logout |
-| C08 reset and stale work | 8 | Reset settles stale work with `-32007` and the proposed `reason: "sessionReset"`; a reset before headers fences the stale commit and leaves nothing of it in the jar or in guest output; a reset after headers clears an already committed cookie and the late body does not re-add it; an already settled response is untouched; queued work never reaches the network; two resets followed by a fresh login keep only the fresh cookie; reset needs the `http` grant; the host's own cookies survive it; and work queued on a closed Portal never reaches the network |
+| C08 reset and stale work | 9 | Reset settles stale work with `-32007` and the proposed `reason: "sessionReset"`; a reset before headers fences the stale commit and leaves nothing of it in the jar or in guest output; a reset after headers clears an already committed cookie and the late body does not re-add it; an already settled response is untouched; queued work never reaches the network; two resets followed by a fresh login keep only the fresh cookie; reset needs the `http` grant; the host's own cookies survive it; work queued on a closed Portal never reaches the network; and a reset before a `Basic` challenge fences that commit too |
 
 `-32000` and `-32602` are the existing `PERMISSION_DENIED` and invalid-params codes. `-32007` is the existing
 `HOST_UNAVAILABLE` code carrying the contract's proposed fixed `reason` value; the SPEC does not define that value yet.
@@ -44,11 +43,10 @@ measured, and the contract now states it: a comma in a cookie value can drop `Ht
 | Measured on a `Basic` 401 | Android, OkHttp 5.5.1 | iOS, `URLSession` |
 | --- | --- | --- |
 | Attempts the server received | 1 | **2** |
-| Responses that reached the broker's response callback | 1 | 1, **the second attempt's** |
 | The guest's preset `Authorization` on the extra attempt | — | **Resent unchanged** |
-| Cookie left in the jar, fixture serving a different one per attempt | `attempt=1` | **`attempt=2`** |
+| Status and body the guest received | Its only attempt | **The [second attempt](native-http-failure-response-verification.md)** |
+| Response cookies committed | The first response | The first response, read from `failureResponse` |
 | Host credential at the server | Never | Never |
-| Status the guest saw | 401 | 401 |
 
 The resend is not reopened here. Every `URLSession` disposition that keeps the 401 makes the second attempt, and the
 only one that makes a single attempt, `.cancelAuthenticationChallenge`, replaces the correct 401 with error `-999`.
@@ -57,29 +55,18 @@ The maintainer accepted following the OS and documenting the resend on 2026-11-0
 The broker's iOS session is also as closed as its configuration allows: `URLSessionConfiguration.ephemeral` with
 `httpCookieStorage` nil, `httpCookieAcceptPolicy` `.never`, `httpShouldSetCookies` false, `urlCache` nil and
 `urlCredentialStorage` nil, and its task-level challenge handler answers `.rejectProtectionSpace` with no credential.
-So the two consequences below are not a configuration mistake.
 
-**1. The jar keeps the second response's cookie.** The first 401 arrives as an authentication challenge and never
-reaches the response callback. For two server attempts the broker recorded one `headers` event and one `commit` event,
-and that commit held the cookie the fixture served on its second arrival. The probe already commits once per guest
-request, so a "commit only the first response" rule cannot help: the only `Set-Cookie` it reads is the second one.
+**The jar now matches.** The first 401 arrives as an authentication challenge and never reaches the response callback, so the iOS broker
+used to read only the second response: its jar held `attempt=2` where Android's held `attempt=1`, and a cookie sent only on the first attempt
+was lost. [`failureResponse`](native-http-failure-response-verification.md) turned out to carry those fields, and the maintainer chose to use
+it on 2026-11-05. The challenge handler now passes that response to the same commit path, at most one batch per guest request and under the
+same reset fence. Before this change, the new scenarios failed 4 cases on iOS and none of the others. After it, the recorded events show one
+commit for two server attempts. This relies on a behavior the SDK header does not promise, so it needs rerunning on each supported OS version.
 
-A guest that reads its cookies after this exchange sees `attempt=1` on Android and `attempt=2` on iOS. ADR 0027 requires
-the same behavior on both platforms, and the accepted principle is to follow OS behavior **unless what a mini app sees
-differs per platform**, so this breaks parity. The case is narrow, and the fixture builds it on purpose by changing the
-cookie per attempt. By inference, not measured: a server sending the same cookie twice leaves equal jars, and one setting
-a cookie only on the first attempt leaves the iOS jar without it.
-
-**Measured on 2026-11-05:** the challenge handler can read the first response's `Set-Cookie` through
-[`failureResponse`](native-http-failure-response-verification.md), so a broker could match Android. OPEN, the maintainer's decision, not
-made: whether to apply that here, or to accept and document the difference. The probe keeps the measured behavior until then.
-
-**2. The guest's own `Authorization` is replayed once.** The second attempt carried `Bearer guest-owned` unchanged. This
-is the other question the transport report left open, and it is the lockout risk that report predicted: a server counting
-failed attempts sees two. No host credential is involved, which the verifier asserts for every case. The challenge
-handler runs between the attempts, but none of its dispositions can edit the resend's headers, and the one that stops the
-resend was already rejected because it loses the 401; this reads the API and was not measured separately. Under the
-accepted resend decision, the remedy is to state the doubled attempt in the contract so a mini app developer can expect it.
+**The guest's own `Authorization` is replayed once.** The second attempt carried `Bearer guest-owned` unchanged, so a server counting failed
+attempts sees two. No host credential is involved, which the verifier asserts for every case. The challenge handler runs between the attempts,
+but none of its dispositions can edit the resend's headers, and the one that stops the resend was already rejected because it loses the 401;
+this reads the API and was not measured separately. The contract now states the doubled attempt so a mini app developer can expect it.
 
 ## A documented limit, now measured
 
@@ -123,14 +110,14 @@ So `c03-cookie-fields-malformed`, the missing `url`, and on iOS the CR/LF, metho
 | iOS artifact hash | Covered the executable, not `Fixtures` | Covers both |
 | Platform comparison | Left out response headers | Compares them, without `Date` and a `Location`'s run tag and port |
 | Runner | Checked the hash after launching, and stopped the device only on success | Checks before launching, and always stops |
-| iOS `committed` guard | Never ran in these cases, and its comment implied otherwise | Removed, with the measured fact in the comment |
+| iOS `committed` guard | Never ran in these cases, and its comment implied otherwise | Removed, then restored with a real job by the first-response rule above |
 
 ## Evidence and limits
 
-Four collections, two per platform, one artifact per platform, identical findings: 58 cases each and 232 case results,
-all pass. 1658 verifier checks (413 per Android run, 416 per iOS run). 426 fixture receipt rows — 402 arrivals and 24 hold
-releases, with no hold timed out — every row over TLS and correlated to its own run. 64 host tests. Android lint has 0 errors
-and 3 warnings. The earlier 44-case collections are in Git history; these replace them, because the sources changed.
+Four collections, two per platform, one artifact per platform, identical findings: 63 cases each and 252 case results,
+all pass. 1790 verifier checks (443 per Android run, 452 per iOS run). 474 fixture receipt rows — 444 arrivals and 30 hold
+releases, with no hold timed out — every row over TLS and correlated to its own run. 67 host tests. Android lint has 0 errors
+and 3 warnings. Earlier collections are in Git history; these replace them, because the sources changed.
 
 - Android 17 / API 37 on the dedicated `Pixel_7_Pro` AVD (`sdk_gphone16k_arm64`, build `CE2A.260420.050`), OkHttp
   5.5.1. iOS 26.4.1 on the dedicated `Moonpool T28 Origin Contract` simulator (iPhone 17 Pro profile), built with Xcode 27.0

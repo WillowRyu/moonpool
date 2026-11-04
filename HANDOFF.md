@@ -64,10 +64,11 @@
 > Principle: follow OS behavior unless what a mini app sees differs per platform. Do not ask again.
 > Android global handlers reach HttpURLConnection with no per-request opt-out; read docs/native-http-global-handlers-verification.md.
 > Android broker client accepted: OkHttp pinned to 5.5.1, following ProxySelector, reviewed at T56; see ADR 0027. Do not ask again.
-> Broker review findings fixed and collected again on 2026-11-05: 58 cases pass on both platforms, four collections.
-> Read docs/native-http-broker-verification.md and Korean lessons 45-46. Guest-visible results are identical across platforms.
+> Broker review findings fixed and collected again on 2026-11-05: 63 cases pass on both platforms, four collections.
+> Read docs/native-http-broker-verification.md and Korean lessons 45-48. Guest-visible results are identical across platforms.
 > A comma in a cookie value can drop HttpOnly on both platforms: accepted on 2026-11-05 and stated in the contract. Do not ask again.
-> failureResponse carries the first Basic 401's Set-Cookie on iOS; read docs/native-http-failure-response-verification.md. Applying it is OPEN.
+> iOS commits a Basic challenge's first response from failureResponse: accepted on 2026-11-05 in ADR 0027. Do not ask again.
+> The second attempt, the Authorization replay and a body from that attempt remain, and the contract states them.
 > OPEN parity item: after the accepted iOS Basic 401 resend the jar keeps the second response's cookie, Android the first,
 > and the guest's own Authorization is replayed. Both devices stopped; T28 stays at 6/44 with C04 and C09-C12 untouched.
 > Older checkpoints moved verbatim to docs/handoff-archive.md on 2026-11-03.
@@ -101,6 +102,30 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-05 checkpoint — first response committed on iOS
+
+The maintainer answered "커밋 후 브로커 적용". The measurement and its documents are committed through 00ab6bb on branch t28-native-http-broker,
+not pushed or merged. The maintainer then answered "네, 커밋", so everything below in this checkpoint is committed there too, also not pushed or
+merged. This supersedes the checkpoints below where they give 58 cases,
+or call the cookie after the iOS `Basic` resend open.
+
+The iOS research broker now passes a challenge's `failureResponse` to the normal commit path, at most one batch per guest request and under
+the same reset fence. Android's code is unchanged. Contract §5 and ADR 0027 record it as an amendment to "commit at header delivery", and now
+also state the guest's `Authorization` on both attempts and that a guest's status and body come from the last attempt. Read Korean lesson 48.
+
+**All 63 cases met the oracle on both platforms in all four collections, and guest-visible results, receipts and jar effects are identical
+across platforms and runs.** 1790 verifier checks, 474 TLS receipt rows (444 arrivals, 30 hold releases, no hold timeout), 67 host tests,
+Android lint 0 errors / 3 warnings. Before the change, the scenarios failed 4 cases on iOS, kept in ignored local-results/red.
+
+Remaining, by design: the server sees two attempts on iOS, the guest's own `Authorization` goes on both, and a guest's status and body come
+from the second, which shows only if a server changes its 401 body between attempts. This relies on a behavior the SDK header does not
+promise, measured on one OS version and for `Basic` only, so T56-era work must rerun it per supported OS. C04, C09-C12, real Portals and the
+bridge remain uncovered; T28 stays at 6/44, and SPEC, protocol and production packages are unchanged.
+
+Devices: the same dedicated AVD and simulator were booted by this task and are stopped. The 25 other simulators and the unrelated AVD were
+never started, and all 26 simulator baseline states match. The `adb` server was not running before and is stopped. Fixture closed, no crashes,
+nothing added to a trust store. Test keys went to the Trash, so the maintainer still empties it.
 
 ## 2026-11-05 checkpoint — comma limit stated, `failureResponse` measured
 

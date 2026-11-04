@@ -2,8 +2,8 @@
 
 Date: 2026-11-05 (Asia/Seoul)
 Status: Bounded research complete for the cases below, iOS only, requested by the maintainer after the
-[broker report](native-http-broker-verification.md). It measures one question and applies nothing: the research broker, the
-[contract](native-cookie-http-contract.md), the SPEC and the protocol are unchanged by it.
+[broker report](native-http-broker-verification.md). This probe measures one question and applies nothing. **The maintainer chose to apply the result to the research broker on 2026-11-05**; see the
+[broker report](native-http-broker-verification.md). The [contract](native-cookie-http-contract.md) was amended as a design direction, and the SPEC and the protocol are unchanged.
 
 ## Result
 
@@ -30,8 +30,8 @@ a plain 200, a `Bearer` 401 and a 401 with no challenge, had one arrival and no 
 
 ## What it would and would not fix
 
-A broker could commit from `failureResponse` and ignore the resend's cookies, which would leave the same jar as Android in every case
-above. That closes the parity item in the broker report.
+A broker can commit from `failureResponse` and ignore the resend's cookies, which leaves the same jar as Android in every case above. That
+closes the parity item in the broker report.
 
 It would not change the rest of the resend:
 
@@ -39,9 +39,8 @@ It would not change the rest of the resend:
 - The status and body the guest receives still come from the second attempt: `bodyText` named arrival 2 in every `Basic` case, while
   Android delivers its only attempt. Both are a 401, so this shows only if a server changes its 401 body between attempts.
 
-OPEN, the maintainer's decision, not made: whether to apply this to the research broker. It would refine an accepted rule, "commit at
-header delivery", because on iOS a `Basic` 401's cookies would commit at the challenge instead, and the session reset fence would have to
-cover that point too. It also changes the broker's sources, so all 58 cases would be collected again on both platforms.
+Applied on 2026-11-05. This refines the accepted "commit at header delivery" rule: on iOS a `Basic` 401's cookies commit at the challenge, under
+the same session reset fence. All cases were collected again on both platforms.
 
 ## Evidence and limits
 

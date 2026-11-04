@@ -9,7 +9,7 @@ its evidence stays valid: no broker, cookie jar, public API, SPEC or protocol ch
 ## Retained result
 
 Read the [verification report](../../docs/native-http-failure-response-verification.md). `failureResponse` carried the first attempt's
-`Set-Cookie` in all 8 `Basic` cases in both runs, so it is usable under the criteria below. Nothing was applied to the broker.
+`Set-Cookie` in all 8 `Basic` cases in both runs, so it is usable under the criteria below. This probe applies nothing; the broker adopted the result separately.
 
 ## Criteria written before collection
 
