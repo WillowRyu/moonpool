@@ -77,8 +77,13 @@ but resends on a 503 with `Retry-After: 0`. The maintainer accepted this as a de
 3. **Reviewed at T56,** against the selected host's `compileSdk` and its own OkHttp version. 5.5.x asks hosts for `compileSdk` 37. That
    is accepted for now: no host is selected yet, it is a build requirement only, and lowering it later does not break a host.
 
-Still open: following `ProxySelector` or `Proxy.NO_PROXY`, and a host's newer OkHttp replacing the pin. No dependency or broker exists
-in production packages, and the rest of this ADR stays proposed.
+4. **The broker follows `ProxySelector`;** it does not set `Proxy.NO_PROXY`. This keeps OS and host proxy behavior under the "follow OS
+   behavior" principle. The selector receives only the scheme, host and port, not a credential, and the host already chooses the approved
+   service origins. No proxy authenticator is set, so a host's credentials are not offered to a proxy. Real proxies and proxy
+   authentication are not measured yet.
+
+Still open: a host's newer OkHttp replacing the pin. No dependency or broker exists in production packages, and the rest of this ADR
+stays proposed.
 
 ## Accepted native HTTP transport rules — 2026-11-03
 

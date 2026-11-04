@@ -100,10 +100,8 @@ Accepted on 2026-11-04:
 2. **The OkHttp version: exactly 5.5.1,** reviewed at T56 against the selected host. No host is selected yet, and lowering the
    `compileSdk` burden above later does not break a host.
 
-Still open:
-
-3. **`ProxySelector`.** Following it keeps OS and host proxy behavior and shows the host the scheme, host and port. `Proxy.NO_PROXY`
-   ignores corporate proxies. The principle "follow OS behavior" suggests following it, and the value is not a credential.
+3. **`ProxySelector`: follow it.** This keeps OS and host proxy behavior and shows the host the scheme, host and port, which is not a
+   credential. `Proxy.NO_PROXY` would ignore corporate proxies. Real proxies and proxy authentication are not measured yet.
 
 ## Evidence and limits
 

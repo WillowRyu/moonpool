@@ -86,7 +86,7 @@
     <div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>이유</th></tr></thead><tbody>
       <tr><td>Android 클라이언트</td><td><strong>OkHttp로 확정</strong> (2026.11.04)</td><td>측정 범위에서 조건을 충족. <code>HttpEngine</code>은 API 34 이상, 또는 SDK 확장 7이 있는 Android 12 이상이고 측정하지 않음</td></tr>
       <tr><td>OkHttp 버전</td><td><strong>5.5.1로 고정</strong>, T56에서 재검토</td><td>측정한 버전이고 아직 실제 호스트가 없음. 올릴 때는 프로브를 다시 돌리고, 낮춰도 호스트가 깨지지 않음</td></tr>
-      <tr><td><code>ProxySelector</code></td><td>결정 대기: 따름, 또는 <code>NO_PROXY</code></td><td>따르면 회사 프록시가 동작하고 호스트가 주소의 스킴·호스트·포트를 봄. 인증 정보는 아님</td></tr>
+      <tr><td><code>ProxySelector</code></td><td><strong>따르기로 확정</strong> (2026.11.04)</td><td>OS 동작을 따른다는 원칙과 맞음. 호스트에는 주소의 스킴·호스트·포트만 보이고 인증 정보는 아님. 실제 프록시와 프록시 인증은 아직 측정 전</td></tr>
     </tbody></table></div>
     <p>호스트가 더 높은 OkHttp를 쓰면 앱에는 그 버전이 들어갑니다. Gradle이 가장 높은 버전 하나를 고르기 때문입니다. 그래서 고정은 "최소 이 버전"에 가깝고, 이 점은 T56에서 함께 확인합니다.</p>
     <h3>이번 시험의 한계</h3>

@@ -56,7 +56,7 @@
 <section class="section" id="http-okhttp"><div class="eyebrow">T28 evidence · OkHttp</div><h2>OkHttp에는 호스트의 쿠키·인증 처리기가 끼어들지 않았습니다</h2>
 <p>같은 전역 설정을 걸어 둔 채 OkHttp로 요청을 보냈습니다. 쿠키와 인증 처리기는 호출되지 않았고 전송 조건도 지켰습니다. 다만 503에 <code>Retry-After: 0</code>이 오면 요청을 다시 보내서 별도 대응이 필요합니다.</p>
 <a class="card next-card focus" href="44-native-http-okhttp.html"><div class="eyebrow">Bounded evidence · 140 receipts / 426 checks</div><h3>OkHttp 시험 읽기 →</h3><p>전역 설정이 끼어드나 · 재전송 한 가지 · 치르는 비용 · 결정한 것과 남은 것</p></a>
-<div class="callout warm"><strong>현재 상태:</strong> 완료 수는 6 / 44입니다. Android 클라이언트는 OkHttp 5.5.1로 확정했고 구현 전입니다. 프록시 결정이 남아 있습니다.</div></section>
+<div class="callout warm"><strong>현재 상태:</strong> 완료 수는 6 / 44입니다. Android 클라이언트는 OkHttp 5.5.1로, 프록시는 <code>ProxySelector</code>를 따르는 것으로 확정했고 구현 전입니다.</div></section>
 <section class="section" id="http-global-handlers"><div class="eyebrow">T28 evidence · Android global handlers</div><h2>호스트의 전역 설정이 미니 앱 요청에 끼어듭니다</h2>
 <p>Android <code>HttpURLConnection</code>은 호스트가 앱 전체에 건 쿠키 처리기와 인증 처리기를 따랐고, 요청별로 끄는 방법이 없었습니다. 호스트 인증 정보가 미니 앱 서버까지 갈 수 있어 계약과 충돌합니다.</p>
 <a class="card next-card focus" href="43-native-http-global-handlers.html"><div class="eyebrow">Bounded evidence · 110 receipts / 216 checks</div><h3>Android 전역 HTTP 설정 시험 읽기 →</h3><p>쿠키 처리기 · 인증 처리기 · 끌 수 있나 · 정해야 할 것</p></a>
