@@ -1,21 +1,21 @@
 {
   "build": {
-    "artifactSha256": "ba7ff1c32ff06fa3c31d38e2ecc677f558c364af14d3b644086144b8f296a322",
-    "caSha256": "054c09386931c5fedefddd61925460ff49e6217270fdc9c78ed8f193dd56fb2e",
+    "artifactSha256": "b65abf450e197efd472ebab4fef052970cf90c4b492ca0136a6e33265c80e6fa",
+    "caSha256": "ff330a06e54a4d0d768024b7459b8075bbd1fdee0536b444ad50120a7577c59e",
     "sdk": "27.0",
     "sources": {
-      "build.py": "21eeae84e86f1611bd76e2eb47edb82a6925074f51345dea457b3f03552be5d9",
-      "cases.json": "10de126634e583c6a53979e9b833053a99f434e8427fb1038c65ee56e380e95c",
-      "fixture.py": "5e7383eecbcedcd7e6aad67e80192708623c2d4eb0ea4ef90d5fd1f93a73b3af",
-      "ios/Probe.swift": "fbc8b0e22f5d7537379c00430cef736889637a8b403c723dc4695efc60ca11dd"
+      "build.py": "08bf3c866b18643251b713edf21aa43de44e024ad1e2e53dfd4061080082db29",
+      "cases.json": "1a61db41aaecbeed6d1d271c0bcdb1869d2a4ea74343753840de300253e12418",
+      "fixture.py": "92d8629c8cbad381f6f3692d6791338774e31995a50d0a9dc4a19d60aa5feec8",
+      "ios/Probe.swift": "98e6ea0adc666252e889dfdb913661ceac5a9a8f84df529d93484074d3308309"
     },
     "xcode": "Xcode 27.0\nBuild version 27A266a"
   },
-  "capturedUtc": "2026-11-04T15:11:45Z",
+  "capturedUtc": "2026-11-04T15:52:11Z",
   "client": "URLSession",
   "complete": true,
   "errors": [],
-  "installedArtifactSha256": "ba7ff1c32ff06fa3c31d38e2ecc677f558c364af14d3b644086144b8f296a322",
+  "installedArtifactSha256": "b65abf450e197efd472ebab4fef052970cf90c4b492ca0136a6e33265c80e6fa",
   "observations": [
     {
       "case": "c00-plain",
@@ -36,7 +36,7 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:40 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:54 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -55,6 +55,7 @@
           "op": "tlsNegative",
           "outcome": {
             "code": "tlsRefused",
+            "detail": -1202,
             "ok": false
           }
         }
@@ -123,7 +124,7 @@
               "cache-control": "no-store",
               "content-length": "30",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:40 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:54 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -139,7 +140,7 @@
               "cache-control": "no-store",
               "content-length": "35",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:40 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:54 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -155,7 +156,7 @@
               "cache-control": "no-store",
               "content-length": "34",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:40 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:54 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1",
               "www-authenticate": "Basic realm=\"t28\""
             },
@@ -186,7 +187,7 @@
               "cache-control": "no-store",
               "content-length": "34",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:40 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:54 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -240,7 +241,7 @@
               "cache-control": "no-store",
               "content-length": "30",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:40 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:54 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -256,7 +257,7 @@
               "cache-control": "no-store",
               "content-length": "30",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:40 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:54 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -272,7 +273,7 @@
               "cache-control": "no-store",
               "content-length": "28",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:40 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:54 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -288,7 +289,7 @@
               "cache-control": "no-store",
               "content-length": "27",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:40 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:54 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -404,7 +405,7 @@
               "cache-control": "no-store",
               "content-length": "31",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:40 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:54 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -443,7 +444,7 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:40 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:54 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -459,7 +460,7 @@
               "cache-control": "no-store",
               "content-length": "26",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:40 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:54 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -506,7 +507,7 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:40 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:54 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -522,7 +523,7 @@
               "cache-control": "no-store",
               "content-length": "31",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:40 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:54 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -574,7 +575,7 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:40 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:54 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -590,7 +591,7 @@
               "cache-control": "no-store",
               "content-length": "31",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:41 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:54 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -606,7 +607,7 @@
               "cache-control": "no-store",
               "content-length": "26",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:41 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:54 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -653,7 +654,7 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:41 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:55 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -669,7 +670,7 @@
               "cache-control": "no-store",
               "content-length": "31",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:41 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:55 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -778,11 +779,209 @@
               "cache-control": "no-store",
               "content-length": "31",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:41 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:55 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
             "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c02-malformed-fields",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "login",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "login",
+          "seq": 3
+        },
+        {
+          "kind": "headers",
+          "label": "healthy",
+          "seq": 4
+        }
+      ],
+      "steps": [
+        {
+          "label": "login",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"login\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:51:55 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "credentialsFalse",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "credentialsNull",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "credentialsBad",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "methodNumber",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "methodNull",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "bodyNumber",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "headersText",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "headersList",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "headerNumber",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "headerHidesCookie",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "urlNumber",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "urlMissing",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "healthy",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"healthy\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "31",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:51:55 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c02-unsafe-header-text",
+      "events": [],
+      "steps": [
+        {
+          "label": "headerBreak",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "headerSpace",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "headerPadded",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "headerUnicode",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "headerEmpty",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
           }
         }
       ],
@@ -822,7 +1021,7 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:41 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:55 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -838,7 +1037,7 @@
               "cache-control": "no-store",
               "content-length": "26",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:41 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:55 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -926,7 +1125,7 @@
               "cache-control": "no-store",
               "content-length": "31",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:41 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:55 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -985,7 +1184,7 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:41 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:55 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1001,7 +1200,7 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:41 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:55 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1053,7 +1252,7 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:41 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:55 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1069,7 +1268,7 @@
               "cache-control": "no-store",
               "content-length": "28",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:41 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:55 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1085,7 +1284,7 @@
               "cache-control": "no-store",
               "content-length": "28",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:41 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:55 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1108,6 +1307,448 @@
                 "value": "root"
               }
             ],
+            "ok": true
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c03-set-refuses-unsafe-text",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "login",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "login",
+          "seq": 3
+        },
+        {
+          "kind": "headers",
+          "label": "me",
+          "seq": 4
+        },
+        {
+          "kind": "headers",
+          "label": "meAfter",
+          "seq": 6
+        }
+      ],
+      "steps": [
+        {
+          "label": "login",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"login\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:51:55 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "valuePair",
+          "op": "cookiesSet",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "valueBreak",
+          "op": "cookiesSet",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "valueUnicode",
+          "op": "cookiesSet",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "nameEmpty",
+          "op": "cookiesSet",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "nameSpace",
+          "op": "cookiesSet",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "nameEquals",
+          "op": "cookiesSet",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "nameSemicolon",
+          "op": "cookiesSet",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "pathRelative",
+          "op": "cookiesSet",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "pathSemicolon",
+          "op": "cookiesSet",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "me",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"me\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "26",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:51:55 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "good",
+          "op": "cookiesSet",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "meAfter",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"meAfter\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "31",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:51:55 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c03-cookie-fields-malformed",
+      "events": [],
+      "steps": [
+        {
+          "label": "noName",
+          "op": "cookiesSet",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "noValue",
+          "op": "cookiesSet",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "numericName",
+          "op": "cookiesSet",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "numericValue",
+          "op": "cookiesSet",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "numericPath",
+          "op": "cookiesSet",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "textAge",
+          "op": "cookiesSet",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "flagAge",
+          "op": "cookiesSet",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "fractionAge",
+          "op": "cookiesSet",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "unknownField",
+          "op": "cookiesSet",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "deleteNoName",
+          "op": "cookiesDelete",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "deleteNumericName",
+          "op": "cookiesDelete",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "deleteNumericPath",
+          "op": "cookiesDelete",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "deleteUnknownField",
+          "op": "cookiesDelete",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "accepted",
+          "op": "cookiesSet",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "jar": ["a=b"],
+          "label": "jar",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c03-empty-cookie-field",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "blank",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "blank",
+          "seq": 2
+        }
+      ],
+      "steps": [
+        {
+          "label": "blank",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"blank\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:51:55 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "jar": [],
+          "label": "jar",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c03-unsendable-server-cookie",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "login",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "login",
+          "seq": 3
+        },
+        {
+          "kind": "headers",
+          "label": "me",
+          "seq": 4
+        }
+      ],
+      "steps": [
+        {
+          "label": "login",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"login\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:51:55 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "me",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"me\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "26",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:51:56 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "jar": ["good=1"],
+          "label": "jar",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c03-comma-value-attribute-loss",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "login",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "login",
+          "seq": 4
+        }
+      ],
+      "steps": [
+        {
+          "label": "login",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"login\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:51:56 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "read",
+          "op": "cookiesGet",
+          "outcome": {
+            "cookies": [
+              {
+                "name": "sid",
+                "path": "/",
+                "value": "abc"
+              }
+            ],
+            "ok": true
+          }
+        },
+        {
+          "jar": ["sid=abc", "x=y"],
+          "label": "jar",
+          "op": "snapshot",
+          "outcome": {
             "ok": true
           }
         }
@@ -1143,7 +1784,7 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:41 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:56 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1159,7 +1800,7 @@
               "cache-control": "no-store",
               "content-length": "26",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:41 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:56 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1228,7 +1869,7 @@
               "cache-control": "no-store",
               "content-length": "31",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:41 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:56 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1262,7 +1903,7 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:41 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:56 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1309,7 +1950,7 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:41 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:56 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1325,7 +1966,7 @@
               "cache-control": "no-store",
               "content-length": "33",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:42 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:56 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1364,7 +2005,7 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:42 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:56 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1380,11 +2021,58 @@
               "cache-control": "no-store",
               "content-length": "33",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:42 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:56 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
             "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c05-default-port",
+      "events": [],
+      "steps": [
+        {
+          "label": "implicit",
+          "op": "request",
+          "outcome": {
+            "code": -32007,
+            "ok": false,
+            "reason": "network"
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c05-default-port-needs-approval",
+      "events": [],
+      "steps": [
+        {
+          "label": "implicit",
+          "op": "request",
+          "outcome": {
+            "code": -32000,
+            "ok": false
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c05-ipv6-host",
+      "events": [],
+      "steps": [
+        {
+          "label": "literal",
+          "op": "request",
+          "outcome": {
+            "code": -32007,
+            "ok": false,
+            "reason": "network"
           }
         }
       ],
@@ -1419,8 +2107,8 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:42 GMT",
-              "location": "https://localhost:64493/s?run=ios-first&case=c06-redirect-301&step=target",
+              "date": "Wed, 04 Nov 2026 15:51:56 GMT",
+              "location": "https://localhost:50223/s?run=ios-first&case=c06-redirect-301&step=target",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1436,7 +2124,7 @@
               "cache-control": "no-store",
               "content-length": "26",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:42 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:56 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1475,8 +2163,8 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:42 GMT",
-              "location": "https://localhost:64493/s?run=ios-first&case=c06-redirect-302&step=target",
+              "date": "Wed, 04 Nov 2026 15:51:56 GMT",
+              "location": "https://localhost:50223/s?run=ios-first&case=c06-redirect-302&step=target",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1492,7 +2180,7 @@
               "cache-control": "no-store",
               "content-length": "26",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:42 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:56 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1531,8 +2219,8 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:42 GMT",
-              "location": "https://localhost:64493/s?run=ios-first&case=c06-redirect-303&step=target",
+              "date": "Wed, 04 Nov 2026 15:51:56 GMT",
+              "location": "https://localhost:50223/s?run=ios-first&case=c06-redirect-303&step=target",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1548,7 +2236,7 @@
               "cache-control": "no-store",
               "content-length": "26",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:42 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:56 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1587,8 +2275,8 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:42 GMT",
-              "location": "https://localhost:64493/s?run=ios-first&case=c06-redirect-307&step=target",
+              "date": "Wed, 04 Nov 2026 15:51:56 GMT",
+              "location": "https://localhost:50223/s?run=ios-first&case=c06-redirect-307&step=target",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1604,7 +2292,7 @@
               "cache-control": "no-store",
               "content-length": "26",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:42 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:57 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1643,8 +2331,8 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:42 GMT",
-              "location": "https://localhost:64493/s?run=ios-first&case=c06-redirect-308&step=target",
+              "date": "Wed, 04 Nov 2026 15:51:57 GMT",
+              "location": "https://localhost:50223/s?run=ios-first&case=c06-redirect-308&step=target",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1660,7 +2348,7 @@
               "cache-control": "no-store",
               "content-length": "26",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:42 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:57 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1689,8 +2377,8 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:42 GMT",
-              "location": "https://127.0.0.1:64493/s?run=ios-first&case=c06-redirect-forbidden-then-explicit&step=target",
+              "date": "Wed, 04 Nov 2026 15:51:57 GMT",
+              "location": "https://127.0.0.1:50223/s?run=ios-first&case=c06-redirect-forbidden-then-explicit&step=target",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1727,8 +2415,8 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:42 GMT",
-              "location": "https://localhost:64493/s?run=ios-first&case=c06-redirect-omit&step=target",
+              "date": "Wed, 04 Nov 2026 15:51:57 GMT",
+              "location": "https://localhost:50223/s?run=ios-first&case=c06-redirect-omit&step=target",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1770,7 +2458,7 @@
               "cache-control": "no-store",
               "content-length": "30",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:42 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:57 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1812,7 +2500,7 @@
               "cache-control": "no-store",
               "content-length": "30",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:42 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:57 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -1854,7 +2542,7 @@
               "cache-control": "no-store",
               "content-length": "34",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:42 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:57 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1",
               "www-authenticate": "Basic realm=\"t28\""
             },
@@ -1892,7 +2580,7 @@
               "cache-control": "no-store",
               "content-length": "34",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:42 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:57 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1",
               "www-authenticate": "Basic realm=\"t28\""
             },
@@ -1922,7 +2610,7 @@
               "cache-control": "no-store",
               "content-length": "34",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:43 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:57 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1",
               "www-authenticate": "Bearer realm=\"t28\""
             },
@@ -1952,7 +2640,7 @@
               "cache-control": "no-store",
               "content-length": "28",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:43 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:57 GMT",
               "retry-after": "0",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
@@ -1980,7 +2668,7 @@
             "bodyText": "",
             "headers": {
               "cache-control": "no-store",
-              "date": "Wed, 04 Nov 2026 15:11:43 GMT",
+              "date": "Wed, 04 Nov 2026 15:51:57 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -2020,6 +2708,261 @@
           "op": "snapshot",
           "outcome": {
             "ok": true
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c06-methods",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "mPOST",
+          "seq": 1
+        },
+        {
+          "kind": "headers",
+          "label": "mPUT",
+          "seq": 2
+        },
+        {
+          "kind": "headers",
+          "label": "mPATCH",
+          "seq": 3
+        },
+        {
+          "kind": "headers",
+          "label": "mDELETE",
+          "seq": 4
+        },
+        {
+          "kind": "headers",
+          "label": "mOPTIONS",
+          "seq": 5
+        },
+        {
+          "kind": "headers",
+          "label": "mHEAD",
+          "seq": 6
+        },
+        {
+          "kind": "headers",
+          "label": "putBody",
+          "seq": 7
+        }
+      ],
+      "steps": [
+        {
+          "label": "mPOST",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"mPOST\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:51:57 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "mPUT",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"mPUT\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "28",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:51:57 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "mPATCH",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"mPATCH\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "30",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:51:57 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "mDELETE",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"mDELETE\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "31",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:51:57 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "mOPTIONS",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"mOPTIONS\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "32",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:51:57 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "mHEAD",
+          "op": "request",
+          "outcome": {
+            "bodyText": "",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:51:58 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "putBody",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"putBody\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "31",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:51:58 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c06-method-rules",
+      "events": [],
+      "steps": [
+        {
+          "label": "getBody",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "headBody",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "impliedGetBody",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "trace",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "connect",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "lower",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "spaced",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "empty",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c06-slow-response",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "slow",
+          "seq": 1
+        }
+      ],
+      "steps": [
+        {
+          "label": "slow",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"slow\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "28",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:52:10 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
           }
         }
       ],
@@ -2070,7 +3013,7 @@
               "cache-control": "no-store",
               "content-length": "28",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:43 GMT",
+              "date": "Wed, 04 Nov 2026 15:52:10 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -2101,7 +3044,7 @@
               "cache-control": "no-store",
               "content-length": "35",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:43 GMT",
+              "date": "Wed, 04 Nov 2026 15:52:10 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -2145,7 +3088,7 @@
               "cache-control": "no-store",
               "content-length": "30",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:43 GMT",
+              "date": "Wed, 04 Nov 2026 15:52:10 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -2161,7 +3104,7 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:43 GMT",
+              "date": "Wed, 04 Nov 2026 15:52:10 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -2208,7 +3151,7 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:43 GMT",
+              "date": "Wed, 04 Nov 2026 15:52:10 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -2253,7 +3196,7 @@
               "cache-control": "no-store",
               "content-length": "26",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:43 GMT",
+              "date": "Wed, 04 Nov 2026 15:52:10 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -2306,7 +3249,7 @@
               "cache-control": "no-store",
               "content-length": "26",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:43 GMT",
+              "date": "Wed, 04 Nov 2026 15:52:10 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -2365,7 +3308,7 @@
               "cache-control": "no-store",
               "content-length": "30",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:43 GMT",
+              "date": "Wed, 04 Nov 2026 15:52:10 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -2421,7 +3364,7 @@
               "cache-control": "no-store",
               "content-length": "26",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:43 GMT",
+              "date": "Wed, 04 Nov 2026 15:52:10 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -2437,7 +3380,7 @@
               "cache-control": "no-store",
               "content-length": "27",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:43 GMT",
+              "date": "Wed, 04 Nov 2026 15:52:10 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -2521,7 +3464,7 @@
               "cache-control": "no-store",
               "content-length": "26",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:44 GMT",
+              "date": "Wed, 04 Nov 2026 15:52:11 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -2565,7 +3508,7 @@
               "cache-control": "no-store",
               "content-length": "27",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:44 GMT",
+              "date": "Wed, 04 Nov 2026 15:52:11 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -2588,7 +3531,7 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:44 GMT",
+              "date": "Wed, 04 Nov 2026 15:52:11 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -2690,7 +3633,7 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:44 GMT",
+              "date": "Wed, 04 Nov 2026 15:52:11 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -2723,7 +3666,7 @@
               "cache-control": "no-store",
               "content-length": "26",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:44 GMT",
+              "date": "Wed, 04 Nov 2026 15:52:11 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -2757,7 +3700,7 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:44 GMT",
+              "date": "Wed, 04 Nov 2026 15:52:11 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -2819,7 +3762,7 @@
               "cache-control": "no-store",
               "content-length": "29",
               "content-type": "application/json",
-              "date": "Wed, 04 Nov 2026 15:11:44 GMT",
+              "date": "Wed, 04 Nov 2026 15:52:11 GMT",
               "server": "BaseHTTP/0.6 Python/3.12.1"
             },
             "ok": true,
@@ -2846,6 +3789,57 @@
           "op": "hostClear",
           "outcome": {
             "ok": true
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c08-retire-queued-work",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "me",
+          "seq": 1
+        }
+      ],
+      "steps": [
+        {
+          "label": "close",
+          "op": "retire",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "queued",
+          "op": "request",
+          "outcome": {
+            "delivered": false
+          }
+        },
+        {
+          "jar": [],
+          "label": "jar",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "me",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"me\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "26",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:52:11 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
           }
         }
       ],
@@ -3194,6 +4188,34 @@
     {
       "authorization": null,
       "bodyLength": 0,
+      "case": "c02-malformed-fields",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "ios-first",
+      "step": "login",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c02-malformed-fields",
+      "cookieFields": ["sid=login-a"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "ios-first",
+      "step": "healthy",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
       "case": "c03-httponly",
       "cookieFields": [],
       "event": "arrived",
@@ -3301,6 +4323,104 @@
       "path": "/s",
       "run": "ios-first",
       "step": "root",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c03-set-refuses-unsafe-text",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "ios-first",
+      "step": "login",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c03-set-refuses-unsafe-text",
+      "cookieFields": ["prot=protected-marker"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "ios-first",
+      "step": "me",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c03-set-refuses-unsafe-text",
+      "cookieFields": ["prot=protected-marker; good=v-1"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "ios-first",
+      "step": "meAfter",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c03-empty-cookie-field",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "ios-first",
+      "step": "blank",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c03-unsendable-server-cookie",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "ios-first",
+      "step": "login",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c03-unsendable-server-cookie",
+      "cookieFields": ["good=1"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "ios-first",
+      "step": "me",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c03-comma-value-attribute-loss",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "ios-first",
+      "step": "login",
       "tls": true
     },
     {
@@ -3726,6 +4846,118 @@
     {
       "authorization": null,
       "bodyLength": 0,
+      "case": "c06-methods",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "POST",
+      "path": "/s",
+      "run": "ios-first",
+      "step": "mPOST",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-methods",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "PUT",
+      "path": "/s",
+      "run": "ios-first",
+      "step": "mPUT",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-methods",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "PATCH",
+      "path": "/s",
+      "run": "ios-first",
+      "step": "mPATCH",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-methods",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "DELETE",
+      "path": "/s",
+      "run": "ios-first",
+      "step": "mDELETE",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-methods",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "OPTIONS",
+      "path": "/s",
+      "run": "ios-first",
+      "step": "mOPTIONS",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-methods",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "HEAD",
+      "path": "/s",
+      "run": "ios-first",
+      "step": "mHEAD",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 2,
+      "case": "c06-methods",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "PUT",
+      "path": "/s",
+      "run": "ios-first",
+      "step": "putBody",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-slow-response",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "ios-first",
+      "step": "slow",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
       "case": "c07-awaited-set-and-delete",
       "cookieFields": ["tab=1"],
       "event": "arrived",
@@ -4113,6 +5345,20 @@
       "path": "/s",
       "run": "ios-first",
       "step": "hostCookie",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c08-retire-queued-work",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "ios-first",
+      "step": "me",
       "tls": true
     }
   ],
