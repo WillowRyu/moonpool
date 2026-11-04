@@ -1,0 +1,3045 @@
+[
+  {
+    "id": "c00-plain",
+    "contract": "control",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "plain",
+        "portal": "A1"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "plain": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "plain": {
+          "count": 1,
+          "cookie": []
+        }
+      }
+    }
+  },
+  {
+    "id": "c00-tls-negative",
+    "contract": "control",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "tlsNegative",
+        "label": "refused"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "refused": {
+          "ok": false,
+          "code": "tlsRefused"
+        }
+      },
+      "receipts": {
+        "refused": {
+          "count": 0
+        }
+      }
+    }
+  },
+  {
+    "id": "c00-host-positive",
+    "contract": "control",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "hostSeed",
+        "label": "seed"
+      },
+      {
+        "op": "hostRequest",
+        "label": "hostCookie"
+      },
+      {
+        "op": "hostRequest",
+        "label": "hostAuth",
+        "serve": {
+          "status": 401,
+          "challenge": "Basic",
+          "acceptCredentials": true
+        }
+      },
+      {
+        "op": "request",
+        "label": "broker",
+        "portal": "A1",
+        "serve": {
+          "setCookie": ["broker_marker=from-service; Path=/; Secure"]
+        }
+      },
+      {
+        "op": "request",
+        "label": "brokerAgain",
+        "portal": "A1"
+      },
+      {
+        "op": "request",
+        "label": "brokerAuth",
+        "portal": "A1",
+        "serve": {
+          "status": 401,
+          "challenge": "Basic"
+        }
+      },
+      {
+        "op": "hostInspect",
+        "label": "host",
+        "marker": "broker_marker"
+      },
+      {
+        "op": "hostClear",
+        "label": "clear"
+      },
+      {
+        "op": "request",
+        "label": "afterClear",
+        "portal": "A1"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "broker": {
+          "ok": true,
+          "status": 200
+        },
+        "brokerAgain": {
+          "ok": true,
+          "status": 200
+        },
+        "brokerAuth": {
+          "ok": true,
+          "status": 401
+        },
+        "host": {
+          "hostSawMarker": false
+        },
+        "afterClear": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "hostCookie": {
+          "cookieContains": "host_ambient=sentinel"
+        },
+        "hostAuth": {
+          "authorizationSeen": true
+        },
+        "broker": {
+          "count": 1,
+          "cookie": []
+        },
+        "brokerAgain": {
+          "count": 1,
+          "cookie": ["broker_marker=from-service"]
+        },
+        "brokerAuth": {
+          "noAuthorization": true
+        }
+      },
+      "hidden": ["host_ambient"]
+    }
+  },
+  {
+    "id": "c01-ownership",
+    "contract": "C01",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "B": {
+        "app": "b",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "loginA",
+        "portal": "A1",
+        "serve": {
+          "setCookie": ["sid=value-a; Path=/; Secure; HttpOnly"]
+        }
+      },
+      {
+        "op": "request",
+        "label": "loginB",
+        "portal": "B",
+        "serve": {
+          "setCookie": ["sid=value-b; Path=/; Secure; HttpOnly"]
+        }
+      },
+      {
+        "op": "request",
+        "label": "meA2",
+        "portal": "A2"
+      },
+      {
+        "op": "request",
+        "label": "meB",
+        "portal": "B"
+      },
+      {
+        "op": "snapshot",
+        "label": "jarA",
+        "app": "a"
+      },
+      {
+        "op": "snapshot",
+        "label": "jarB",
+        "app": "b"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "meA2": {
+          "ok": true,
+          "status": 200
+        },
+        "meB": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "meA2": {
+          "count": 1,
+          "cookie": ["sid=value-a"]
+        },
+        "meB": {
+          "count": 1,
+          "cookie": ["sid=value-b"]
+        }
+      },
+      "jar": {
+        "jarA": ["sid=value-a"],
+        "jarB": ["sid=value-b"]
+      },
+      "hidden": ["value-a", "value-b"]
+    }
+  },
+  {
+    "id": "c01-denials",
+    "contract": "C01",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "N": {
+        "app": "a",
+        "grants": []
+      },
+      "C": {
+        "app": "a",
+        "grants": ["cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "noGrant",
+        "portal": "N"
+      },
+      {
+        "op": "request",
+        "label": "scopeWinsOverMalformed",
+        "portal": "N",
+        "params": {
+          "appId": "b"
+        }
+      },
+      {
+        "op": "request",
+        "label": "sharedJarNotSharedGrant",
+        "portal": "C"
+      },
+      {
+        "op": "request",
+        "label": "forgedApp",
+        "portal": "A1",
+        "params": {
+          "appId": "b"
+        }
+      },
+      {
+        "op": "request",
+        "label": "forgedJar",
+        "portal": "A1",
+        "params": {
+          "jar": "b"
+        }
+      },
+      {
+        "op": "request",
+        "label": "forgedContext",
+        "portal": "A1",
+        "params": {
+          "context": "first-party"
+        }
+      },
+      {
+        "op": "request",
+        "label": "unapproved",
+        "portal": "A1",
+        "params": {
+          "target": {
+            "host": "127.0.0.1"
+          }
+        }
+      },
+      {
+        "op": "retire",
+        "label": "retire",
+        "portal": "A2"
+      },
+      {
+        "op": "request",
+        "label": "retired",
+        "portal": "A2"
+      },
+      {
+        "op": "request",
+        "label": "healthy",
+        "portal": "A1"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "noGrant": {
+          "ok": false,
+          "code": -32000
+        },
+        "scopeWinsOverMalformed": {
+          "ok": false,
+          "code": -32000
+        },
+        "sharedJarNotSharedGrant": {
+          "ok": false,
+          "code": -32000
+        },
+        "forgedApp": {
+          "ok": false,
+          "code": -32602
+        },
+        "forgedJar": {
+          "ok": false,
+          "code": -32602
+        },
+        "forgedContext": {
+          "ok": false,
+          "code": -32602
+        },
+        "unapproved": {
+          "ok": false,
+          "code": -32000
+        },
+        "retired": {
+          "ok": false,
+          "code": "retired"
+        },
+        "healthy": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "noGrant": {
+          "count": 0
+        },
+        "scopeWinsOverMalformed": {
+          "count": 0
+        },
+        "sharedJarNotSharedGrant": {
+          "count": 0
+        },
+        "forgedApp": {
+          "count": 0
+        },
+        "forgedJar": {
+          "count": 0
+        },
+        "forgedContext": {
+          "count": 0
+        },
+        "unapproved": {
+          "count": 0
+        },
+        "retired": {
+          "count": 0
+        },
+        "healthy": {
+          "count": 1,
+          "cookie": []
+        }
+      }
+    }
+  },
+  {
+    "id": "c02-login-default-include",
+    "contract": "C02",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "login",
+        "portal": "A1",
+        "serve": {
+          "setCookie": ["sid=login-a; Path=/; Secure; HttpOnly"]
+        },
+        "params": {
+          "method": "POST",
+          "body": "{}"
+        }
+      },
+      {
+        "op": "request",
+        "label": "me",
+        "portal": "A2"
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "login": {
+          "ok": true,
+          "status": 200
+        },
+        "me": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "me": {
+          "count": 1,
+          "cookie": ["sid=login-a"]
+        }
+      },
+      "jar": {
+        "jar": ["sid=login-a"]
+      },
+      "hidden": ["login-a"]
+    }
+  },
+  {
+    "id": "c02-omit-outgoing",
+    "contract": "C02",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "login",
+        "portal": "A1",
+        "serve": {
+          "setCookie": ["sid=login-a; Path=/; Secure; HttpOnly"]
+        }
+      },
+      {
+        "op": "request",
+        "label": "omitted",
+        "portal": "A1",
+        "params": {
+          "credentials": "omit"
+        }
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      }
+    ],
+    "expect": {
+      "receipts": {
+        "omitted": {
+          "count": 1,
+          "cookie": []
+        }
+      },
+      "jar": {
+        "jar": ["sid=login-a"]
+      }
+    }
+  },
+  {
+    "id": "c02-omit-incoming",
+    "contract": "C02",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "login",
+        "portal": "A1",
+        "serve": {
+          "setCookie": ["sid=login-a; Path=/; Secure; HttpOnly"]
+        }
+      },
+      {
+        "op": "request",
+        "label": "omitted",
+        "portal": "A1",
+        "serve": {
+          "setCookie": ["sid=must-not-store; Path=/; Secure; HttpOnly"]
+        },
+        "params": {
+          "credentials": "omit"
+        }
+      },
+      {
+        "op": "request",
+        "label": "me",
+        "portal": "A1"
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "omitted": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "me": {
+          "count": 1,
+          "cookie": ["sid=login-a"]
+        }
+      },
+      "jar": {
+        "jar": ["sid=login-a"]
+      },
+      "hidden": ["must-not-store"]
+    }
+  },
+  {
+    "id": "c02-omit-keeps-guest-authorization",
+    "contract": "C02",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "login",
+        "portal": "A1",
+        "serve": {
+          "setCookie": ["sid=login-a; Path=/; Secure; HttpOnly"]
+        }
+      },
+      {
+        "op": "request",
+        "label": "omitted",
+        "portal": "A1",
+        "params": {
+          "credentials": "omit",
+          "headers": {
+            "Authorization": "Bearer guest-owned"
+          }
+        }
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "omitted": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "omitted": {
+          "count": 1,
+          "cookie": [],
+          "authorization": "Bearer guest-owned"
+        }
+      }
+    }
+  },
+  {
+    "id": "c02-forbidden-headers",
+    "contract": "C02",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "h0",
+        "portal": "A1",
+        "params": {
+          "headers": {
+            "Cookie": "x"
+          }
+        }
+      },
+      {
+        "op": "request",
+        "label": "h1",
+        "portal": "A1",
+        "params": {
+          "headers": {
+            "cOOkie": "x"
+          }
+        }
+      },
+      {
+        "op": "request",
+        "label": "h2",
+        "portal": "A1",
+        "params": {
+          "headers": {
+            "Cookie2": "x"
+          }
+        }
+      },
+      {
+        "op": "request",
+        "label": "h3",
+        "portal": "A1",
+        "params": {
+          "headers": {
+            "Host": "x"
+          }
+        }
+      },
+      {
+        "op": "request",
+        "label": "h4",
+        "portal": "A1",
+        "params": {
+          "headers": {
+            "Origin": "x"
+          }
+        }
+      },
+      {
+        "op": "request",
+        "label": "h5",
+        "portal": "A1",
+        "params": {
+          "headers": {
+            "Proxy-Authorization": "x"
+          }
+        }
+      },
+      {
+        "op": "request",
+        "label": "h6",
+        "portal": "A1",
+        "params": {
+          "headers": {
+            "Content-Length": "x"
+          }
+        }
+      },
+      {
+        "op": "request",
+        "label": "h7",
+        "portal": "A1",
+        "params": {
+          "headers": {
+            "Transfer-Encoding": "x"
+          }
+        }
+      },
+      {
+        "op": "request",
+        "label": "h8",
+        "portal": "A1",
+        "params": {
+          "headers": {
+            "Connection": "x"
+          }
+        }
+      },
+      {
+        "op": "request",
+        "label": "h9",
+        "portal": "A1",
+        "params": {
+          "headers": {
+            "Sec-Fetch-Mode": "x"
+          }
+        }
+      },
+      {
+        "op": "request",
+        "label": "allowed",
+        "portal": "A1",
+        "params": {
+          "headers": {
+            "X-Probe": "kept"
+          }
+        }
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "h0": {
+          "ok": false,
+          "code": -32602
+        },
+        "h1": {
+          "ok": false,
+          "code": -32602
+        },
+        "h2": {
+          "ok": false,
+          "code": -32602
+        },
+        "h3": {
+          "ok": false,
+          "code": -32602
+        },
+        "h4": {
+          "ok": false,
+          "code": -32602
+        },
+        "h5": {
+          "ok": false,
+          "code": -32602
+        },
+        "h6": {
+          "ok": false,
+          "code": -32602
+        },
+        "h7": {
+          "ok": false,
+          "code": -32602
+        },
+        "h8": {
+          "ok": false,
+          "code": -32602
+        },
+        "h9": {
+          "ok": false,
+          "code": -32602
+        },
+        "allowed": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "h0": {
+          "count": 0
+        },
+        "h1": {
+          "count": 0
+        },
+        "h2": {
+          "count": 0
+        },
+        "h3": {
+          "count": 0
+        },
+        "h4": {
+          "count": 0
+        },
+        "h5": {
+          "count": 0
+        },
+        "h6": {
+          "count": 0
+        },
+        "h7": {
+          "count": 0
+        },
+        "h8": {
+          "count": 0
+        },
+        "h9": {
+          "count": 0
+        },
+        "allowed": {
+          "count": 1,
+          "cookie": []
+        }
+      }
+    }
+  },
+  {
+    "id": "c03-httponly",
+    "contract": "C03",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "login",
+        "portal": "A1",
+        "serve": {
+          "setCookie": [
+            "prot=protected-marker; Path=/; Secure; HttpOnly",
+            "vis=visible; Path=/; Secure"
+          ]
+        }
+      },
+      {
+        "op": "request",
+        "label": "me",
+        "portal": "A1"
+      },
+      {
+        "op": "cookiesGet",
+        "label": "read"
+      },
+      {
+        "op": "cookiesSet",
+        "label": "overwrite",
+        "cookie": {
+          "name": "prot",
+          "value": "guest-overwrite",
+          "path": "/"
+        }
+      },
+      {
+        "op": "cookiesSet",
+        "label": "expire",
+        "cookie": {
+          "name": "prot",
+          "value": "x",
+          "path": "/",
+          "maxAge": 0
+        }
+      },
+      {
+        "op": "cookiesDelete",
+        "label": "delete",
+        "cookie": {
+          "name": "prot",
+          "path": "/"
+        }
+      },
+      {
+        "op": "cookiesSet",
+        "label": "setHttpOnly",
+        "cookie": {
+          "name": "made",
+          "value": "x",
+          "path": "/",
+          "httpOnly": true
+        }
+      },
+      {
+        "op": "cookiesSet",
+        "label": "script",
+        "cookie": {
+          "name": "script",
+          "value": "ok",
+          "path": "/"
+        }
+      },
+      {
+        "op": "cookiesGet",
+        "label": "readAfter"
+      },
+      {
+        "op": "request",
+        "label": "meAfter",
+        "portal": "A1"
+      },
+      {
+        "op": "cookiesDelete",
+        "label": "deleteScript",
+        "cookie": {
+          "name": "script",
+          "path": "/"
+        }
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "login": {
+          "ok": true,
+          "status": 200
+        },
+        "read": {
+          "ok": true,
+          "cookies": [
+            {
+              "name": "vis",
+              "path": "/",
+              "value": "visible"
+            }
+          ]
+        },
+        "overwrite": {
+          "ok": false,
+          "code": -32000
+        },
+        "expire": {
+          "ok": false,
+          "code": -32000
+        },
+        "delete": {
+          "ok": false,
+          "code": -32000
+        },
+        "setHttpOnly": {
+          "ok": false,
+          "code": -32602
+        },
+        "script": {
+          "ok": true
+        },
+        "readAfter": {
+          "ok": true,
+          "cookies": [
+            {
+              "name": "vis",
+              "path": "/",
+              "value": "visible"
+            },
+            {
+              "name": "script",
+              "path": "/",
+              "value": "ok"
+            }
+          ]
+        },
+        "deleteScript": {
+          "ok": true
+        }
+      },
+      "receipts": {
+        "me": {
+          "count": 1,
+          "cookie": ["prot=protected-marker; vis=visible"]
+        },
+        "meAfter": {
+          "count": 1,
+          "cookie": ["prot=protected-marker; vis=visible; script=ok"]
+        }
+      },
+      "jar": {
+        "jar": ["prot=protected-marker", "vis=visible"]
+      },
+      "hidden": ["protected-marker"]
+    }
+  },
+  {
+    "id": "c03-one-pipeline",
+    "contract": "C03",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "login",
+        "portal": "A1",
+        "serve": {
+          "setCookie": [
+            "one=1; Path=/; Expires=Wed, 21 Oct 2037 07:28:00 GMT",
+            "two=2; Path=/",
+            "three=x, four=4; Path=/"
+          ]
+        }
+      },
+      {
+        "op": "request",
+        "label": "lower",
+        "portal": "A1",
+        "serve": {
+          "setCookie": ["low=er; Path=/"],
+          "lowerNames": true
+        }
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "login": {
+          "ok": true,
+          "status": 200
+        },
+        "lower": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "jar": {
+        "jar": ["four=4", "low=er", "one=1", "three=x", "two=2"]
+      },
+      "hidden": ["Expires=Wed"]
+    }
+  },
+  {
+    "id": "c03-same-name-paths",
+    "contract": "C03",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "login",
+        "portal": "A1",
+        "serve": {
+          "setCookie": ["dup=root; Path=/", "dup=deep; Path=/deep"]
+        }
+      },
+      {
+        "op": "request",
+        "label": "deep",
+        "portal": "A1",
+        "params": {
+          "target": {
+            "path": "/deep/s"
+          }
+        }
+      },
+      {
+        "op": "request",
+        "label": "root",
+        "portal": "A1"
+      },
+      {
+        "op": "cookiesGet",
+        "label": "readDeep",
+        "path": "/deep/s"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "readDeep": {
+          "ok": true,
+          "cookies": [
+            {
+              "name": "dup",
+              "path": "/deep",
+              "value": "deep"
+            },
+            {
+              "name": "dup",
+              "path": "/",
+              "value": "root"
+            }
+          ]
+        }
+      },
+      "receipts": {
+        "deep": {
+          "count": 1,
+          "cookie": ["dup=deep; dup=root"]
+        },
+        "root": {
+          "count": 1,
+          "cookie": ["dup=root"]
+        }
+      }
+    }
+  },
+  {
+    "id": "c05-same-site-context",
+    "contract": "C05",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "login",
+        "portal": "A1",
+        "serve": {
+          "setCookie": [
+            "strict=1; Path=/; Secure; SameSite=Strict",
+            "lax=2; Path=/; Secure; SameSite=Lax",
+            "plain=3; Path=/; Secure",
+            "none=4; Path=/; Secure; SameSite=None",
+            "bad=5; Path=/; SameSite=None"
+          ]
+        }
+      },
+      {
+        "op": "request",
+        "label": "me",
+        "portal": "A2"
+      }
+    ],
+    "expect": {
+      "receipts": {
+        "me": {
+          "count": 1,
+          "cookie": ["strict=1; lax=2; plain=3; none=4"]
+        }
+      }
+    }
+  },
+  {
+    "id": "c05-denials",
+    "contract": "C05",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "foreign",
+        "portal": "A1",
+        "params": {
+          "target": {
+            "host": "127.0.0.1"
+          }
+        }
+      },
+      {
+        "op": "request",
+        "label": "insecure",
+        "portal": "A1",
+        "params": {
+          "target": {
+            "scheme": "http"
+          }
+        }
+      },
+      {
+        "op": "request",
+        "label": "userinfo",
+        "portal": "A1",
+        "params": {
+          "target": {
+            "userinfo": "user:pass"
+          }
+        }
+      },
+      {
+        "op": "request",
+        "label": "fragment",
+        "portal": "A1",
+        "params": {
+          "target": {
+            "fragment": "part"
+          }
+        }
+      },
+      {
+        "op": "request",
+        "label": "claim",
+        "portal": "A1",
+        "params": {
+          "sameSite": "first-party"
+        }
+      },
+      {
+        "op": "request",
+        "label": "healthy",
+        "portal": "A1"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "foreign": {
+          "ok": false,
+          "code": -32000
+        },
+        "insecure": {
+          "ok": false,
+          "code": -32602
+        },
+        "userinfo": {
+          "ok": false,
+          "code": -32602
+        },
+        "fragment": {
+          "ok": false,
+          "code": -32602
+        },
+        "claim": {
+          "ok": false,
+          "code": -32602
+        },
+        "healthy": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "foreign": {
+          "count": 0
+        },
+        "insecure": {
+          "count": 0
+        },
+        "userinfo": {
+          "count": 0
+        },
+        "fragment": {
+          "count": 0
+        },
+        "claim": {
+          "count": 0
+        },
+        "healthy": {
+          "count": 1,
+          "cookie": []
+        }
+      }
+    }
+  },
+  {
+    "id": "c05-port-authorization",
+    "contract": "C05",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "login",
+        "portal": "A1",
+        "serve": {
+          "setCookie": ["sid=port-a; Path=/; Secure"]
+        }
+      },
+      {
+        "op": "request",
+        "label": "otherPort",
+        "portal": "A1",
+        "params": {
+          "target": {
+            "listener": "service2"
+          }
+        }
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "otherPort": {
+          "ok": false,
+          "code": -32000
+        }
+      },
+      "receipts": {
+        "otherPort": {
+          "count": 0
+        }
+      }
+    }
+  },
+  {
+    "id": "c05-ports-are-not-partitions",
+    "contract": "C05",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "login",
+        "portal": "A1",
+        "serve": {
+          "setCookie": ["sid=port-a; Path=/; Secure"]
+        }
+      },
+      {
+        "op": "request",
+        "label": "otherPort",
+        "portal": "A1",
+        "params": {
+          "target": {
+            "listener": "service2"
+          }
+        }
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "otherPort": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "otherPort": {
+          "count": 1,
+          "cookie": ["sid=port-a"]
+        }
+      }
+    },
+    "approved": [
+      {
+        "host": "localhost",
+        "listener": "service"
+      },
+      {
+        "host": "localhost",
+        "listener": "service2"
+      }
+    ]
+  },
+  {
+    "id": "c05-hosts-are-separate",
+    "contract": "C05",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "login",
+        "portal": "A1",
+        "serve": {
+          "setCookie": ["sid=host-a; Path=/; Secure"]
+        }
+      },
+      {
+        "op": "request",
+        "label": "otherHost",
+        "portal": "A1",
+        "params": {
+          "target": {
+            "host": "127.0.0.1"
+          }
+        }
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "otherHost": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "otherHost": {
+          "count": 1,
+          "cookie": []
+        }
+      }
+    },
+    "approved": [
+      {
+        "host": "localhost",
+        "listener": "service"
+      },
+      {
+        "host": "127.0.0.1",
+        "listener": "service"
+      }
+    ]
+  },
+  {
+    "id": "c06-redirect-301",
+    "contract": "C06",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "moved",
+        "portal": "A1",
+        "serve": {
+          "status": 301,
+          "location": "approved",
+          "setCookie": ["moved=301; Path=/; Secure"]
+        }
+      },
+      {
+        "op": "request",
+        "label": "me",
+        "portal": "A1"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "moved": {
+          "ok": true,
+          "status": 301,
+          "hasHeaders": ["location"]
+        }
+      },
+      "receipts": {
+        "moved": {
+          "count": 1
+        },
+        "target": {
+          "count": 0
+        },
+        "me": {
+          "count": 1,
+          "cookie": ["moved=301"]
+        }
+      }
+    }
+  },
+  {
+    "id": "c06-redirect-302",
+    "contract": "C06",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "moved",
+        "portal": "A1",
+        "serve": {
+          "status": 302,
+          "location": "approved",
+          "setCookie": ["moved=302; Path=/; Secure"]
+        }
+      },
+      {
+        "op": "request",
+        "label": "me",
+        "portal": "A1"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "moved": {
+          "ok": true,
+          "status": 302,
+          "hasHeaders": ["location"]
+        }
+      },
+      "receipts": {
+        "moved": {
+          "count": 1
+        },
+        "target": {
+          "count": 0
+        },
+        "me": {
+          "count": 1,
+          "cookie": ["moved=302"]
+        }
+      }
+    }
+  },
+  {
+    "id": "c06-redirect-303",
+    "contract": "C06",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "moved",
+        "portal": "A1",
+        "serve": {
+          "status": 303,
+          "location": "approved",
+          "setCookie": ["moved=303; Path=/; Secure"]
+        }
+      },
+      {
+        "op": "request",
+        "label": "me",
+        "portal": "A1"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "moved": {
+          "ok": true,
+          "status": 303,
+          "hasHeaders": ["location"]
+        }
+      },
+      "receipts": {
+        "moved": {
+          "count": 1
+        },
+        "target": {
+          "count": 0
+        },
+        "me": {
+          "count": 1,
+          "cookie": ["moved=303"]
+        }
+      }
+    }
+  },
+  {
+    "id": "c06-redirect-307",
+    "contract": "C06",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "moved",
+        "portal": "A1",
+        "serve": {
+          "status": 307,
+          "location": "approved",
+          "setCookie": ["moved=307; Path=/; Secure"]
+        }
+      },
+      {
+        "op": "request",
+        "label": "me",
+        "portal": "A1"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "moved": {
+          "ok": true,
+          "status": 307,
+          "hasHeaders": ["location"]
+        }
+      },
+      "receipts": {
+        "moved": {
+          "count": 1
+        },
+        "target": {
+          "count": 0
+        },
+        "me": {
+          "count": 1,
+          "cookie": ["moved=307"]
+        }
+      }
+    }
+  },
+  {
+    "id": "c06-redirect-308",
+    "contract": "C06",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "moved",
+        "portal": "A1",
+        "serve": {
+          "status": 308,
+          "location": "approved",
+          "setCookie": ["moved=308; Path=/; Secure"]
+        }
+      },
+      {
+        "op": "request",
+        "label": "me",
+        "portal": "A1"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "moved": {
+          "ok": true,
+          "status": 308,
+          "hasHeaders": ["location"]
+        }
+      },
+      "receipts": {
+        "moved": {
+          "count": 1
+        },
+        "target": {
+          "count": 0
+        },
+        "me": {
+          "count": 1,
+          "cookie": ["moved=308"]
+        }
+      }
+    }
+  },
+  {
+    "id": "c06-redirect-forbidden-then-explicit",
+    "contract": "C06",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "moved",
+        "portal": "A1",
+        "serve": {
+          "status": 302,
+          "location": "forbidden"
+        }
+      },
+      {
+        "op": "request",
+        "label": "explicit",
+        "portal": "A1",
+        "params": {
+          "target": {
+            "host": "127.0.0.1"
+          }
+        }
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "moved": {
+          "ok": true,
+          "status": 302,
+          "hasHeaders": ["location"]
+        },
+        "explicit": {
+          "ok": false,
+          "code": -32000
+        }
+      },
+      "receipts": {
+        "target": {
+          "count": 0
+        },
+        "explicit": {
+          "count": 0
+        }
+      }
+    }
+  },
+  {
+    "id": "c06-redirect-omit",
+    "contract": "C06",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "moved",
+        "portal": "A1",
+        "serve": {
+          "status": 302,
+          "location": "approved",
+          "setCookie": ["moved=omit; Path=/; Secure"]
+        },
+        "params": {
+          "credentials": "omit"
+        }
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "moved": {
+          "ok": true,
+          "status": 302
+        }
+      },
+      "receipts": {
+        "target": {
+          "count": 0
+        }
+      },
+      "jar": {
+        "jar": []
+      }
+    }
+  },
+  {
+    "id": "c06-status-404",
+    "contract": "C06",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "failed",
+        "portal": "A1",
+        "serve": {
+          "status": 404,
+          "setCookie": ["status=404; Path=/; Secure"]
+        }
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "failed": {
+          "ok": true,
+          "status": 404,
+          "bodyContains": "failed"
+        }
+      },
+      "jar": {
+        "jar": ["status=404"]
+      }
+    }
+  },
+  {
+    "id": "c06-status-500",
+    "contract": "C06",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "failed",
+        "portal": "A1",
+        "serve": {
+          "status": 500,
+          "setCookie": ["status=500; Path=/; Secure"]
+        }
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "failed": {
+          "ok": true,
+          "status": 500,
+          "bodyContains": "failed"
+        }
+      },
+      "jar": {
+        "jar": ["status=500"]
+      }
+    }
+  },
+  {
+    "id": "c06-basic-401-cookies",
+    "contract": "C06",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "challenged",
+        "portal": "A1",
+        "serve": {
+          "status": 401,
+          "challenge": "Basic",
+          "setCookieByAttempt": [["attempt=1; Path=/; Secure"], ["attempt=2; Path=/; Secure"]]
+        }
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "challenged": {
+          "ok": true,
+          "status": 401
+        }
+      },
+      "receipts": {
+        "challenged": {
+          "noAuthorization": true
+        }
+      },
+      "measure": ["jar", "challenged"]
+    }
+  },
+  {
+    "id": "c06-basic-401-preset-authorization",
+    "contract": "C06",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "challenged",
+        "portal": "A1",
+        "serve": {
+          "status": 401,
+          "challenge": "Basic"
+        },
+        "params": {
+          "headers": {
+            "Authorization": "Bearer guest-owned"
+          }
+        }
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "challenged": {
+          "ok": true,
+          "status": 401
+        }
+      },
+      "measure": ["challenged"]
+    }
+  },
+  {
+    "id": "c06-bearer-401",
+    "contract": "C06",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "challenged",
+        "portal": "A1",
+        "serve": {
+          "status": 401,
+          "challenge": "Bearer"
+        }
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "challenged": {
+          "ok": true,
+          "status": 401
+        }
+      },
+      "receipts": {
+        "challenged": {
+          "count": 1
+        }
+      }
+    }
+  },
+  {
+    "id": "c06-retry-after-zero",
+    "contract": "C06",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "busy",
+        "portal": "A1",
+        "serve": {
+          "status": 503,
+          "retryAfter": "0"
+        },
+        "params": {
+          "method": "POST",
+          "body": "{}"
+        }
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "busy": {
+          "ok": true,
+          "status": 503,
+          "headerValues": {
+            "retry-after": "0"
+          }
+        }
+      },
+      "receipts": {
+        "busy": {
+          "count": 1
+        }
+      }
+    }
+  },
+  {
+    "id": "c06-empty-204",
+    "contract": "C06",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "empty",
+        "portal": "A1",
+        "serve": {
+          "status": 204,
+          "noBody": true
+        },
+        "params": {
+          "method": "POST",
+          "body": "{}"
+        }
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "empty": {
+          "ok": true,
+          "status": 204,
+          "bodyText": ""
+        }
+      },
+      "receipts": {
+        "empty": {
+          "count": 1
+        }
+      }
+    }
+  },
+  {
+    "id": "c06-body-failure-keeps-cookie",
+    "contract": "C06",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "broken",
+        "portal": "A1",
+        "serve": {
+          "setCookie": ["kept=1; Path=/; Secure"],
+          "abortAfterBytes": 1
+        }
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "broken": {
+          "ok": false,
+          "code": -32007,
+          "reason": "network"
+        }
+      },
+      "receipts": {
+        "broken": {
+          "count": 1
+        }
+      },
+      "jar": {
+        "jar": ["kept=1"]
+      }
+    }
+  },
+  {
+    "id": "c07-awaited-set-and-delete",
+    "contract": "C07",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "cookiesSet",
+        "label": "set",
+        "cookie": {
+          "name": "tab",
+          "value": "1",
+          "path": "/"
+        }
+      },
+      {
+        "op": "cookiesGet",
+        "label": "readOther",
+        "portal": "A2"
+      },
+      {
+        "op": "request",
+        "label": "send",
+        "portal": "A1"
+      },
+      {
+        "op": "cookiesDelete",
+        "label": "delete",
+        "portal": "A2",
+        "cookie": {
+          "name": "tab",
+          "path": "/"
+        }
+      },
+      {
+        "op": "cookiesGet",
+        "label": "readDeleted"
+      },
+      {
+        "op": "request",
+        "label": "sendDeleted",
+        "portal": "A1"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "readOther": {
+          "ok": true,
+          "cookies": [
+            {
+              "name": "tab",
+              "path": "/",
+              "value": "1"
+            }
+          ]
+        },
+        "readDeleted": {
+          "ok": true,
+          "cookies": []
+        }
+      },
+      "receipts": {
+        "send": {
+          "count": 1,
+          "cookie": ["tab=1"]
+        },
+        "sendDeleted": {
+          "count": 1,
+          "cookie": []
+        }
+      }
+    }
+  },
+  {
+    "id": "c07-header-order",
+    "contract": "C07",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "first",
+        "portal": "A1",
+        "wait": false,
+        "serve": {
+          "setCookie": ["order=first; Path=/; Secure"],
+          "hold": "headers"
+        }
+      },
+      {
+        "op": "held",
+        "label": "first"
+      },
+      {
+        "op": "request",
+        "label": "second",
+        "portal": "A1",
+        "wait": false,
+        "serve": {
+          "setCookie": ["order=second; Path=/; Secure"],
+          "hold": "headers"
+        }
+      },
+      {
+        "op": "held",
+        "label": "second"
+      },
+      {
+        "op": "release",
+        "label": "second"
+      },
+      {
+        "op": "awaitEvent",
+        "label": "second",
+        "kind": "commit"
+      },
+      {
+        "op": "await",
+        "label": "second"
+      },
+      {
+        "op": "release",
+        "label": "first"
+      },
+      {
+        "op": "awaitEvent",
+        "label": "first",
+        "kind": "commit"
+      },
+      {
+        "op": "await",
+        "label": "first"
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "first": {
+          "ok": true,
+          "status": 200
+        },
+        "second": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "jar": {
+        "jar": ["order=first"]
+      },
+      "commitOrder": ["second", "first"]
+    }
+  },
+  {
+    "id": "c07-recreate-portal",
+    "contract": "C07",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "login",
+        "portal": "A1",
+        "serve": {
+          "setCookie": ["sid=login-a; Path=/; Secure; HttpOnly"]
+        }
+      },
+      {
+        "op": "retire",
+        "label": "close",
+        "portal": "A1"
+      },
+      {
+        "op": "bind",
+        "label": "recreateNoGrant",
+        "portal": "A3",
+        "app": "a",
+        "grants": []
+      },
+      {
+        "op": "request",
+        "label": "denied",
+        "portal": "A3"
+      },
+      {
+        "op": "bind",
+        "label": "recreate",
+        "portal": "A4",
+        "app": "a",
+        "grants": ["http"]
+      },
+      {
+        "op": "request",
+        "label": "me",
+        "portal": "A4"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "denied": {
+          "ok": false,
+          "code": -32000
+        },
+        "me": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "denied": {
+          "count": 0
+        },
+        "me": {
+          "count": 1,
+          "cookie": ["sid=login-a"]
+        }
+      }
+    }
+  },
+  {
+    "id": "c07-close-with-pending-work",
+    "contract": "C07",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "pending",
+        "portal": "A1",
+        "wait": false,
+        "serve": {
+          "setCookie": ["late=kept; Path=/; Secure"],
+          "hold": "headers"
+        }
+      },
+      {
+        "op": "held",
+        "label": "pending"
+      },
+      {
+        "op": "retire",
+        "label": "close",
+        "portal": "A1"
+      },
+      {
+        "op": "release",
+        "label": "pending"
+      },
+      {
+        "op": "awaitEvent",
+        "label": "pending",
+        "kind": "commit"
+      },
+      {
+        "op": "await",
+        "label": "pending"
+      },
+      {
+        "op": "request",
+        "label": "me",
+        "portal": "A2"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "pending": {
+          "delivered": false
+        },
+        "me": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "me": {
+          "count": 1,
+          "cookie": ["late=kept"]
+        }
+      }
+    }
+  },
+  {
+    "id": "c08-reset-before-headers",
+    "contract": "C08",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "B": {
+        "app": "b",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "loginB",
+        "portal": "B",
+        "serve": {
+          "setCookie": ["sid=other-app; Path=/; Secure"]
+        }
+      },
+      {
+        "op": "request",
+        "label": "old",
+        "portal": "A1",
+        "wait": false,
+        "serve": {
+          "setCookie": ["sid=stale; Path=/; Secure; HttpOnly"],
+          "hold": "headers"
+        }
+      },
+      {
+        "op": "held",
+        "label": "old"
+      },
+      {
+        "op": "reset",
+        "label": "reset",
+        "portal": "A2"
+      },
+      {
+        "op": "release",
+        "label": "old"
+      },
+      {
+        "op": "awaitEvent",
+        "label": "old",
+        "kind": "fence"
+      },
+      {
+        "op": "await",
+        "label": "old"
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      },
+      {
+        "op": "snapshot",
+        "label": "jarB",
+        "app": "b"
+      },
+      {
+        "op": "cookiesGet",
+        "label": "readA1"
+      },
+      {
+        "op": "request",
+        "label": "me",
+        "portal": "A1"
+      },
+      {
+        "op": "request",
+        "label": "meB",
+        "portal": "B"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "reset": {
+          "ok": true
+        },
+        "old": {
+          "ok": false,
+          "code": -32007,
+          "reason": "sessionReset"
+        },
+        "readA1": {
+          "ok": true,
+          "cookies": []
+        },
+        "me": {
+          "ok": true,
+          "status": 200
+        },
+        "meB": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "old": {
+          "count": 1
+        },
+        "me": {
+          "count": 1,
+          "cookie": []
+        },
+        "meB": {
+          "count": 1,
+          "cookie": ["sid=other-app"]
+        }
+      },
+      "jar": {
+        "jar": [],
+        "jarB": ["sid=other-app"]
+      },
+      "hidden": ["stale"],
+      "fenced": ["old"]
+    }
+  },
+  {
+    "id": "c08-reset-after-headers",
+    "contract": "C08",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "old",
+        "portal": "A1",
+        "wait": false,
+        "serve": {
+          "setCookie": ["sid=committed; Path=/; Secure"],
+          "hold": "body",
+          "earlyBytes": 1
+        }
+      },
+      {
+        "op": "held",
+        "label": "old"
+      },
+      {
+        "op": "awaitEvent",
+        "label": "old",
+        "kind": "commit"
+      },
+      {
+        "op": "snapshot",
+        "label": "beforeReset",
+        "app": "a"
+      },
+      {
+        "op": "reset",
+        "label": "reset",
+        "portal": "A2"
+      },
+      {
+        "op": "snapshot",
+        "label": "afterReset",
+        "app": "a"
+      },
+      {
+        "op": "release",
+        "label": "old"
+      },
+      {
+        "op": "await",
+        "label": "old"
+      },
+      {
+        "op": "snapshot",
+        "label": "afterBody",
+        "app": "a"
+      },
+      {
+        "op": "request",
+        "label": "me",
+        "portal": "A1"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "reset": {
+          "ok": true
+        },
+        "old": {
+          "ok": false,
+          "code": -32007,
+          "reason": "sessionReset"
+        },
+        "me": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "me": {
+          "count": 1,
+          "cookie": []
+        }
+      },
+      "jar": {
+        "beforeReset": ["sid=committed"],
+        "afterReset": [],
+        "afterBody": []
+      }
+    }
+  },
+  {
+    "id": "c08-reset-already-settled",
+    "contract": "C08",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "old",
+        "portal": "A1",
+        "serve": {
+          "setCookie": ["sid=settled; Path=/; Secure"]
+        }
+      },
+      {
+        "op": "reset",
+        "label": "reset",
+        "portal": "A2"
+      },
+      {
+        "op": "request",
+        "label": "fresh",
+        "portal": "A1"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "old": {
+          "ok": true,
+          "status": 200
+        },
+        "reset": {
+          "ok": true
+        },
+        "fresh": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "fresh": {
+          "count": 1,
+          "cookie": []
+        }
+      }
+    }
+  },
+  {
+    "id": "c08-reset-queued-work",
+    "contract": "C08",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "queued",
+        "portal": "A1",
+        "wait": false,
+        "params": {
+          "deferred": true
+        }
+      },
+      {
+        "op": "reset",
+        "label": "reset",
+        "portal": "A2"
+      },
+      {
+        "op": "startQueued",
+        "label": "queued"
+      },
+      {
+        "op": "await",
+        "label": "queued"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "reset": {
+          "ok": true
+        },
+        "queued": {
+          "ok": false,
+          "code": -32007,
+          "reason": "sessionReset"
+        }
+      },
+      "receipts": {
+        "queued": {
+          "count": 0
+        }
+      }
+    }
+  },
+  {
+    "id": "c08-two-resets-then-fresh-login",
+    "contract": "C08",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "old",
+        "portal": "A1",
+        "wait": false,
+        "serve": {
+          "setCookie": ["sid=stale; Path=/; Secure"],
+          "hold": "headers"
+        }
+      },
+      {
+        "op": "held",
+        "label": "old"
+      },
+      {
+        "op": "reset",
+        "label": "resetOne"
+      },
+      {
+        "op": "reset",
+        "label": "resetTwo",
+        "portal": "A2"
+      },
+      {
+        "op": "request",
+        "label": "fresh",
+        "portal": "A2",
+        "serve": {
+          "setCookie": ["sid=fresh; Path=/; Secure"]
+        }
+      },
+      {
+        "op": "release",
+        "label": "old"
+      },
+      {
+        "op": "awaitEvent",
+        "label": "old",
+        "kind": "fence"
+      },
+      {
+        "op": "await",
+        "label": "old"
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      },
+      {
+        "op": "request",
+        "label": "me",
+        "portal": "A1"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "resetOne": {
+          "ok": true
+        },
+        "resetTwo": {
+          "ok": true
+        },
+        "old": {
+          "ok": false,
+          "code": -32007,
+          "reason": "sessionReset"
+        },
+        "fresh": {
+          "ok": true,
+          "status": 200
+        },
+        "me": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "me": {
+          "count": 1,
+          "cookie": ["sid=fresh"]
+        }
+      },
+      "jar": {
+        "jar": ["sid=fresh"]
+      },
+      "fenced": ["old"]
+    }
+  },
+  {
+    "id": "c08-reset-needs-http-grant",
+    "contract": "C08",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "C": {
+        "app": "a",
+        "grants": ["cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "login",
+        "portal": "A1",
+        "serve": {
+          "setCookie": ["sid=kept; Path=/; Secure"]
+        }
+      },
+      {
+        "op": "reset",
+        "label": "denied",
+        "portal": "C"
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "denied": {
+          "ok": false,
+          "code": -32000
+        }
+      },
+      "jar": {
+        "jar": ["sid=kept"]
+      }
+    }
+  },
+  {
+    "id": "c08-reset-leaves-host-alone",
+    "contract": "C08",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "hostSeed",
+        "label": "seed"
+      },
+      {
+        "op": "request",
+        "label": "login",
+        "portal": "A1",
+        "serve": {
+          "setCookie": ["sid=mine; Path=/; Secure"]
+        }
+      },
+      {
+        "op": "reset",
+        "label": "reset"
+      },
+      {
+        "op": "hostRequest",
+        "label": "hostCookie"
+      },
+      {
+        "op": "hostClear",
+        "label": "clear"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "reset": {
+          "ok": true
+        }
+      },
+      "receipts": {
+        "hostCookie": {
+          "cookieContains": "host_ambient=sentinel"
+        }
+      }
+    }
+  }
+]
