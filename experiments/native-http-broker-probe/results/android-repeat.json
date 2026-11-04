@@ -1,0 +1,4085 @@
+{
+  "build": {
+    "artifactSha256": "9a7df2e842d39308f96c8daacd8b4ec4883f184fd37f7e676f4456dc23c0dc2b",
+    "caSha256": "054c09386931c5fedefddd61925460ff49e6217270fdc9c78ed8f193dd56fb2e",
+    "sources": {
+      "android/app/build.gradle": "6384137bb65eb5bac035d507e72220447ea211017ea7d3a54fc8e25a23a00f62",
+      "android/app/src/main/AndroidManifest.xml": "c6e35d59fbad186f1b1128bbe1ad21b873c4724cb2de3862b748f2b5e3d6b533",
+      "android/app/src/main/java/org/moonpool/httpbroker/Broker.java": "9beabb114931133bce300d7f71c0799ed69801730c7eac6359d0e2e331ad1c42",
+      "android/app/src/main/java/org/moonpool/httpbroker/ProbeActivity.java": "d05f44ef7f75984f2b017a42d1cc3618f4e46320ad299e9e161b1bfd2a3b6c78",
+      "android/app/src/main/res/xml/network_security_config.xml": "def485559d7ade425b2492e375edd451466d47027be1cbfb3c47d18c04f1955d",
+      "android/build.gradle": "bb5d6db0a3f94e7ff33ba91a07fa9146a96994e843ae487ebccadc99b62e722c",
+      "android/gradle.properties": "67eefa02d084d8fd6e2698683ca4d007a344395ca89eed9012a79bac373ba359",
+      "android/settings.gradle": "bccca776ea7f7793957da4a8a2851884a370e8fd415ab59807e6d225ceb231d2",
+      "build.py": "21eeae84e86f1611bd76e2eb47edb82a6925074f51345dea457b3f03552be5d9",
+      "cases.json": "10de126634e583c6a53979e9b833053a99f434e8427fb1038c65ee56e380e95c",
+      "fixture.py": "5e7383eecbcedcd7e6aad67e80192708623c2d4eb0ea4ef90d5fd1f93a73b3af"
+    },
+    "wrapperSha256": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59"
+  },
+  "capturedUtc": "2026-11-04T15:13:05Z",
+  "client": "OkHttp 5.5.1",
+  "complete": true,
+  "errors": [],
+  "installedArtifactSha256": "9a7df2e842d39308f96c8daacd8b4ec4883f184fd37f7e676f4456dc23c0dc2b",
+  "observations": [
+    {
+      "case": "c00-plain",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "plain",
+          "seq": 1
+        }
+      ],
+      "steps": [
+        {
+          "label": "plain",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"plain\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:01 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c00-tls-negative",
+      "events": [],
+      "steps": [
+        {
+          "label": "refused",
+          "op": "tlsNegative",
+          "outcome": {
+            "code": "tlsRefused",
+            "ok": false
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c00-host-positive",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "broker",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "broker",
+          "seq": 3
+        },
+        {
+          "kind": "headers",
+          "label": "brokerAgain",
+          "seq": 4
+        },
+        {
+          "kind": "headers",
+          "label": "brokerAuth",
+          "seq": 5
+        },
+        {
+          "kind": "headers",
+          "label": "afterClear",
+          "seq": 6
+        }
+      ],
+      "steps": [
+        {
+          "label": "seed",
+          "op": "hostSeed",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "hostCookie",
+          "op": "hostRequest",
+          "outcome": {
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "hostAuth",
+          "op": "hostRequest",
+          "outcome": {
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "broker",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"broker\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "30",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:02 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "brokerAgain",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"brokerAgain\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "35",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:02 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "brokerAuth",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"brokerAuth\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "34",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:02 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1",
+              "www-authenticate": "Basic realm=\"t28\""
+            },
+            "ok": true,
+            "status": 401
+          }
+        },
+        {
+          "label": "host",
+          "op": "hostInspect",
+          "outcome": {
+            "hostSawMarker": false
+          }
+        },
+        {
+          "label": "clear",
+          "op": "hostClear",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "afterClear",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"afterClear\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "34",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:02 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c01-ownership",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "loginA",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "loginA",
+          "seq": 3
+        },
+        {
+          "kind": "headers",
+          "label": "loginB",
+          "seq": 4
+        },
+        {
+          "kind": "commit",
+          "label": "loginB",
+          "seq": 6
+        },
+        {
+          "kind": "headers",
+          "label": "meA2",
+          "seq": 7
+        },
+        {
+          "kind": "headers",
+          "label": "meB",
+          "seq": 8
+        }
+      ],
+      "steps": [
+        {
+          "label": "loginA",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"loginA\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "30",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:02 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "loginB",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"loginB\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "30",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:02 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "meA2",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"meA2\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "28",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:02 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "meB",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"meB\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "27",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:02 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "jar": ["sid=value-a"],
+          "label": "jarA",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "jar": ["sid=value-b"],
+          "label": "jarB",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c01-denials",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "healthy",
+          "seq": 1
+        }
+      ],
+      "steps": [
+        {
+          "label": "noGrant",
+          "op": "request",
+          "outcome": {
+            "code": -32000,
+            "ok": false
+          }
+        },
+        {
+          "label": "scopeWinsOverMalformed",
+          "op": "request",
+          "outcome": {
+            "code": -32000,
+            "ok": false
+          }
+        },
+        {
+          "label": "sharedJarNotSharedGrant",
+          "op": "request",
+          "outcome": {
+            "code": -32000,
+            "ok": false
+          }
+        },
+        {
+          "label": "forgedApp",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "forgedJar",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "forgedContext",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "unapproved",
+          "op": "request",
+          "outcome": {
+            "code": -32000,
+            "ok": false
+          }
+        },
+        {
+          "label": "retire",
+          "op": "retire",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "retired",
+          "op": "request",
+          "outcome": {
+            "code": "retired",
+            "ok": false
+          }
+        },
+        {
+          "label": "healthy",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"healthy\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "31",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:02 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c02-login-default-include",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "login",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "login",
+          "seq": 3
+        },
+        {
+          "kind": "headers",
+          "label": "me",
+          "seq": 4
+        }
+      ],
+      "steps": [
+        {
+          "label": "login",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"login\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:02 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "me",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"me\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "26",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:02 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "jar": ["sid=login-a"],
+          "label": "jar",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c02-omit-outgoing",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "login",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "login",
+          "seq": 3
+        },
+        {
+          "kind": "headers",
+          "label": "omitted",
+          "seq": 4
+        }
+      ],
+      "steps": [
+        {
+          "label": "login",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"login\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:02 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "omitted",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"omitted\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "31",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:02 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "jar": ["sid=login-a"],
+          "label": "jar",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c02-omit-incoming",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "login",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "login",
+          "seq": 3
+        },
+        {
+          "kind": "headers",
+          "label": "omitted",
+          "seq": 4
+        },
+        {
+          "kind": "headers",
+          "label": "me",
+          "seq": 5
+        }
+      ],
+      "steps": [
+        {
+          "label": "login",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"login\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:02 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "omitted",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"omitted\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "31",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:02 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "me",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"me\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "26",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:02 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "jar": ["sid=login-a"],
+          "label": "jar",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c02-omit-keeps-guest-authorization",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "login",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "login",
+          "seq": 3
+        },
+        {
+          "kind": "headers",
+          "label": "omitted",
+          "seq": 4
+        }
+      ],
+      "steps": [
+        {
+          "label": "login",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"login\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "omitted",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"omitted\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "31",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c02-forbidden-headers",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "allowed",
+          "seq": 1
+        }
+      ],
+      "steps": [
+        {
+          "label": "h0",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "h1",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "h2",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "h3",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "h4",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "h5",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "h6",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "h7",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "h8",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "h9",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "allowed",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"allowed\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "31",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c03-httponly",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "login",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "login",
+          "seq": 4
+        },
+        {
+          "kind": "headers",
+          "label": "me",
+          "seq": 5
+        },
+        {
+          "kind": "headers",
+          "label": "meAfter",
+          "seq": 7
+        }
+      ],
+      "steps": [
+        {
+          "label": "login",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"login\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "me",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"me\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "26",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "read",
+          "op": "cookiesGet",
+          "outcome": {
+            "cookies": [
+              {
+                "name": "vis",
+                "path": "/",
+                "value": "visible"
+              }
+            ],
+            "ok": true
+          }
+        },
+        {
+          "label": "overwrite",
+          "op": "cookiesSet",
+          "outcome": {
+            "code": -32000,
+            "ok": false
+          }
+        },
+        {
+          "label": "expire",
+          "op": "cookiesSet",
+          "outcome": {
+            "code": -32000,
+            "ok": false
+          }
+        },
+        {
+          "label": "delete",
+          "op": "cookiesDelete",
+          "outcome": {
+            "code": -32000,
+            "ok": false
+          }
+        },
+        {
+          "label": "setHttpOnly",
+          "op": "cookiesSet",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "script",
+          "op": "cookiesSet",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "readAfter",
+          "op": "cookiesGet",
+          "outcome": {
+            "cookies": [
+              {
+                "name": "vis",
+                "path": "/",
+                "value": "visible"
+              },
+              {
+                "name": "script",
+                "path": "/",
+                "value": "ok"
+              }
+            ],
+            "ok": true
+          }
+        },
+        {
+          "label": "meAfter",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"meAfter\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "31",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "deleteScript",
+          "op": "cookiesDelete",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "jar": ["prot=protected-marker", "vis=visible"],
+          "label": "jar",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c03-one-pipeline",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "login",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "login",
+          "seq": 6
+        },
+        {
+          "kind": "headers",
+          "label": "lower",
+          "seq": 7
+        },
+        {
+          "kind": "commit",
+          "label": "lower",
+          "seq": 9
+        }
+      ],
+      "steps": [
+        {
+          "label": "login",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"login\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "lower",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"lower\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "jar": ["four=4", "low=er", "one=1", "three=x", "two=2"],
+          "label": "jar",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c03-same-name-paths",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "login",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "login",
+          "seq": 4
+        },
+        {
+          "kind": "headers",
+          "label": "deep",
+          "seq": 5
+        },
+        {
+          "kind": "headers",
+          "label": "root",
+          "seq": 6
+        }
+      ],
+      "steps": [
+        {
+          "label": "login",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"login\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "deep",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"deep\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "28",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "root",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"root\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "28",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "readDeep",
+          "op": "cookiesGet",
+          "outcome": {
+            "cookies": [
+              {
+                "name": "dup",
+                "path": "/deep",
+                "value": "deep"
+              },
+              {
+                "name": "dup",
+                "path": "/",
+                "value": "root"
+              }
+            ],
+            "ok": true
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c05-same-site-context",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "login",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "login",
+          "seq": 6
+        },
+        {
+          "kind": "headers",
+          "label": "me",
+          "seq": 7
+        }
+      ],
+      "steps": [
+        {
+          "label": "login",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"login\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "me",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"me\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "26",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c05-denials",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "healthy",
+          "seq": 1
+        }
+      ],
+      "steps": [
+        {
+          "label": "foreign",
+          "op": "request",
+          "outcome": {
+            "code": -32000,
+            "ok": false
+          }
+        },
+        {
+          "label": "insecure",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "userinfo",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "fragment",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "claim",
+          "op": "request",
+          "outcome": {
+            "code": -32602,
+            "ok": false
+          }
+        },
+        {
+          "label": "healthy",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"healthy\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "31",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c05-port-authorization",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "login",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "login",
+          "seq": 3
+        }
+      ],
+      "steps": [
+        {
+          "label": "login",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"login\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "otherPort",
+          "op": "request",
+          "outcome": {
+            "code": -32000,
+            "ok": false
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c05-ports-are-not-partitions",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "login",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "login",
+          "seq": 3
+        },
+        {
+          "kind": "headers",
+          "label": "otherPort",
+          "seq": 4
+        }
+      ],
+      "steps": [
+        {
+          "label": "login",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"login\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "otherPort",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"otherPort\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "33",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c05-hosts-are-separate",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "login",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "login",
+          "seq": 3
+        },
+        {
+          "kind": "headers",
+          "label": "otherHost",
+          "seq": 4
+        }
+      ],
+      "steps": [
+        {
+          "label": "login",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"login\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "otherHost",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"otherHost\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "33",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c06-redirect-301",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "moved",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "moved",
+          "seq": 3
+        },
+        {
+          "kind": "headers",
+          "label": "me",
+          "seq": 4
+        }
+      ],
+      "steps": [
+        {
+          "label": "moved",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"moved\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "location": "https://localhost:64493/s?run=android-repeat&case=c06-redirect-301&step=target",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 301
+          }
+        },
+        {
+          "label": "me",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"me\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "26",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c06-redirect-302",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "moved",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "moved",
+          "seq": 3
+        },
+        {
+          "kind": "headers",
+          "label": "me",
+          "seq": 4
+        }
+      ],
+      "steps": [
+        {
+          "label": "moved",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"moved\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "location": "https://localhost:64493/s?run=android-repeat&case=c06-redirect-302&step=target",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 302
+          }
+        },
+        {
+          "label": "me",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"me\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "26",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:03 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c06-redirect-303",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "moved",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "moved",
+          "seq": 3
+        },
+        {
+          "kind": "headers",
+          "label": "me",
+          "seq": 4
+        }
+      ],
+      "steps": [
+        {
+          "label": "moved",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"moved\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "location": "https://localhost:64493/s?run=android-repeat&case=c06-redirect-303&step=target",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 303
+          }
+        },
+        {
+          "label": "me",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"me\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "26",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c06-redirect-307",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "moved",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "moved",
+          "seq": 3
+        },
+        {
+          "kind": "headers",
+          "label": "me",
+          "seq": 4
+        }
+      ],
+      "steps": [
+        {
+          "label": "moved",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"moved\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "location": "https://localhost:64493/s?run=android-repeat&case=c06-redirect-307&step=target",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 307
+          }
+        },
+        {
+          "label": "me",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"me\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "26",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c06-redirect-308",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "moved",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "moved",
+          "seq": 3
+        },
+        {
+          "kind": "headers",
+          "label": "me",
+          "seq": 4
+        }
+      ],
+      "steps": [
+        {
+          "label": "moved",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"moved\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "location": "https://localhost:64493/s?run=android-repeat&case=c06-redirect-308&step=target",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 308
+          }
+        },
+        {
+          "label": "me",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"me\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "26",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c06-redirect-forbidden-then-explicit",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "moved",
+          "seq": 1
+        }
+      ],
+      "steps": [
+        {
+          "label": "moved",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"moved\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "location": "https://127.0.0.1:64493/s?run=android-repeat&case=c06-redirect-forbidden-then-explicit&step=target",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 302
+          }
+        },
+        {
+          "label": "explicit",
+          "op": "request",
+          "outcome": {
+            "code": -32000,
+            "ok": false
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c06-redirect-omit",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "moved",
+          "seq": 1
+        }
+      ],
+      "steps": [
+        {
+          "label": "moved",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"moved\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "location": "https://localhost:64493/s?run=android-repeat&case=c06-redirect-omit&step=target",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 302
+          }
+        },
+        {
+          "jar": [],
+          "label": "jar",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c06-status-404",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "failed",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "failed",
+          "seq": 3
+        }
+      ],
+      "steps": [
+        {
+          "label": "failed",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"failed\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "30",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 404
+          }
+        },
+        {
+          "jar": ["status=404"],
+          "label": "jar",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c06-status-500",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "failed",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "failed",
+          "seq": 3
+        }
+      ],
+      "steps": [
+        {
+          "label": "failed",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"failed\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "30",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 500
+          }
+        },
+        {
+          "jar": ["status=500"],
+          "label": "jar",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c06-basic-401-cookies",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "challenged",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "challenged",
+          "seq": 3
+        }
+      ],
+      "steps": [
+        {
+          "label": "challenged",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"challenged\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "34",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1",
+              "www-authenticate": "Basic realm=\"t28\""
+            },
+            "ok": true,
+            "status": 401
+          }
+        },
+        {
+          "jar": ["attempt=1"],
+          "label": "jar",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c06-basic-401-preset-authorization",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "challenged",
+          "seq": 1
+        }
+      ],
+      "steps": [
+        {
+          "label": "challenged",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"challenged\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "34",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1",
+              "www-authenticate": "Basic realm=\"t28\""
+            },
+            "ok": true,
+            "status": 401
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c06-bearer-401",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "challenged",
+          "seq": 1
+        }
+      ],
+      "steps": [
+        {
+          "label": "challenged",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"challenged\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "34",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1",
+              "www-authenticate": "Bearer realm=\"t28\""
+            },
+            "ok": true,
+            "status": 401
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c06-retry-after-zero",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "busy",
+          "seq": 1
+        }
+      ],
+      "steps": [
+        {
+          "label": "busy",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"busy\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "28",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "retry-after": "0",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 503
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c06-empty-204",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "empty",
+          "seq": 1
+        }
+      ],
+      "steps": [
+        {
+          "label": "empty",
+          "op": "request",
+          "outcome": {
+            "bodyText": "",
+            "headers": {
+              "cache-control": "no-store",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 204
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c06-body-failure-keeps-cookie",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "broken",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "broken",
+          "seq": 3
+        }
+      ],
+      "steps": [
+        {
+          "label": "broken",
+          "op": "request",
+          "outcome": {
+            "code": -32007,
+            "ok": false,
+            "reason": "network"
+          }
+        },
+        {
+          "jar": ["kept=1"],
+          "label": "jar",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c07-awaited-set-and-delete",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "send",
+          "seq": 2
+        },
+        {
+          "kind": "headers",
+          "label": "sendDeleted",
+          "seq": 3
+        }
+      ],
+      "steps": [
+        {
+          "label": "set",
+          "op": "cookiesSet",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "readOther",
+          "op": "cookiesGet",
+          "outcome": {
+            "cookies": [
+              {
+                "name": "tab",
+                "path": "/",
+                "value": "1"
+              }
+            ],
+            "ok": true
+          }
+        },
+        {
+          "label": "send",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"send\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "28",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "delete",
+          "op": "cookiesDelete",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "readDeleted",
+          "op": "cookiesGet",
+          "outcome": {
+            "cookies": [],
+            "ok": true
+          }
+        },
+        {
+          "label": "sendDeleted",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"sendDeleted\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "35",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c07-header-order",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "second",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "second",
+          "seq": 3
+        },
+        {
+          "kind": "headers",
+          "label": "first",
+          "seq": 4
+        },
+        {
+          "kind": "commit",
+          "label": "first",
+          "seq": 5
+        }
+      ],
+      "steps": [
+        {
+          "label": "second",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"second\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "30",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "first",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"first\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "jar": ["order=first"],
+          "label": "jar",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c07-recreate-portal",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "login",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "login",
+          "seq": 3
+        },
+        {
+          "kind": "headers",
+          "label": "me",
+          "seq": 4
+        }
+      ],
+      "steps": [
+        {
+          "label": "login",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"login\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "close",
+          "op": "retire",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "recreateNoGrant",
+          "op": "bind",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "denied",
+          "op": "request",
+          "outcome": {
+            "code": -32000,
+            "ok": false
+          }
+        },
+        {
+          "label": "recreate",
+          "op": "bind",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "me",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"me\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "26",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c07-close-with-pending-work",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "pending",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "pending",
+          "seq": 3
+        },
+        {
+          "kind": "headers",
+          "label": "me",
+          "seq": 4
+        }
+      ],
+      "steps": [
+        {
+          "label": "close",
+          "op": "retire",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "pending",
+          "op": "request",
+          "outcome": {
+            "delivered": false
+          }
+        },
+        {
+          "label": "me",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"me\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "26",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c08-reset-before-headers",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "loginB",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "loginB",
+          "seq": 3
+        },
+        {
+          "kind": "reset",
+          "label": "A2",
+          "seq": 4
+        },
+        {
+          "kind": "headers",
+          "label": "old",
+          "seq": 5
+        },
+        {
+          "kind": "fence",
+          "label": "old",
+          "seq": 6
+        },
+        {
+          "kind": "headers",
+          "label": "me",
+          "seq": 7
+        },
+        {
+          "kind": "headers",
+          "label": "meB",
+          "seq": 8
+        }
+      ],
+      "steps": [
+        {
+          "label": "loginB",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"loginB\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "30",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:04 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "reset",
+          "op": "reset",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "old",
+          "op": "request",
+          "outcome": {
+            "code": -32007,
+            "ok": false,
+            "reason": "sessionReset"
+          }
+        },
+        {
+          "jar": [],
+          "label": "jar",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "jar": ["sid=other-app"],
+          "label": "jarB",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "readA1",
+          "op": "cookiesGet",
+          "outcome": {
+            "cookies": [],
+            "ok": true
+          }
+        },
+        {
+          "label": "me",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"me\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "26",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:05 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "meB",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"meB\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "27",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:05 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c08-reset-after-headers",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "old",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "old",
+          "seq": 3
+        },
+        {
+          "kind": "reset",
+          "label": "A2",
+          "seq": 4
+        },
+        {
+          "kind": "headers",
+          "label": "me",
+          "seq": 5
+        }
+      ],
+      "steps": [
+        {
+          "jar": ["sid=committed"],
+          "label": "beforeReset",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "reset",
+          "op": "reset",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "jar": [],
+          "label": "afterReset",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "old",
+          "op": "request",
+          "outcome": {
+            "code": -32007,
+            "ok": false,
+            "reason": "sessionReset"
+          }
+        },
+        {
+          "jar": [],
+          "label": "afterBody",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "me",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"me\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "26",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:05 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c08-reset-already-settled",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "old",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "old",
+          "seq": 3
+        },
+        {
+          "kind": "reset",
+          "label": "A2",
+          "seq": 4
+        },
+        {
+          "kind": "headers",
+          "label": "fresh",
+          "seq": 5
+        }
+      ],
+      "steps": [
+        {
+          "label": "old",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"old\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "27",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:05 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "reset",
+          "op": "reset",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "fresh",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"fresh\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:05 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c08-reset-queued-work",
+      "events": [
+        {
+          "kind": "reset",
+          "label": "A2",
+          "seq": 1
+        }
+      ],
+      "steps": [
+        {
+          "label": "reset",
+          "op": "reset",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "queued",
+          "op": "request",
+          "outcome": {
+            "code": -32007,
+            "ok": false,
+            "reason": "sessionReset"
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c08-two-resets-then-fresh-login",
+      "events": [
+        {
+          "kind": "reset",
+          "label": "A1",
+          "seq": 1
+        },
+        {
+          "kind": "reset",
+          "label": "A2",
+          "seq": 2
+        },
+        {
+          "kind": "headers",
+          "label": "fresh",
+          "seq": 3
+        },
+        {
+          "kind": "commit",
+          "label": "fresh",
+          "seq": 5
+        },
+        {
+          "kind": "headers",
+          "label": "old",
+          "seq": 6
+        },
+        {
+          "kind": "fence",
+          "label": "old",
+          "seq": 7
+        },
+        {
+          "kind": "headers",
+          "label": "me",
+          "seq": 8
+        }
+      ],
+      "steps": [
+        {
+          "label": "resetOne",
+          "op": "reset",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "resetTwo",
+          "op": "reset",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "fresh",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"fresh\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:05 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "old",
+          "op": "request",
+          "outcome": {
+            "code": -32007,
+            "ok": false,
+            "reason": "sessionReset"
+          }
+        },
+        {
+          "jar": ["sid=fresh"],
+          "label": "jar",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "me",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"me\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "26",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:05 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c08-reset-needs-http-grant",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "login",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "login",
+          "seq": 3
+        }
+      ],
+      "steps": [
+        {
+          "label": "login",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"login\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:05 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "denied",
+          "op": "reset",
+          "outcome": {
+            "code": -32000,
+            "ok": false
+          }
+        },
+        {
+          "jar": ["sid=kept"],
+          "label": "jar",
+          "op": "snapshot",
+          "outcome": {
+            "ok": true
+          }
+        }
+      ],
+      "timedOut": []
+    },
+    {
+      "case": "c08-reset-leaves-host-alone",
+      "events": [
+        {
+          "kind": "headers",
+          "label": "login",
+          "seq": 1
+        },
+        {
+          "kind": "commit",
+          "label": "login",
+          "seq": 3
+        },
+        {
+          "kind": "reset",
+          "label": "A1",
+          "seq": 4
+        }
+      ],
+      "steps": [
+        {
+          "label": "seed",
+          "op": "hostSeed",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "login",
+          "op": "request",
+          "outcome": {
+            "bodyText": "{\"step\": \"login\", \"ok\": true}",
+            "headers": {
+              "cache-control": "no-store",
+              "content-length": "29",
+              "content-type": "application/json",
+              "date": "Wed, 04 Nov 2026 15:13:05 GMT",
+              "server": "BaseHTTP/0.6 Python/3.12.1"
+            },
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "reset",
+          "op": "reset",
+          "outcome": {
+            "ok": true
+          }
+        },
+        {
+          "label": "hostCookie",
+          "op": "hostRequest",
+          "outcome": {
+            "ok": true,
+            "status": 200
+          }
+        },
+        {
+          "label": "clear",
+          "op": "hostClear",
+          "outcome": {
+            "ok": true
+          }
+        }
+      ],
+      "timedOut": []
+    }
+  ],
+  "platform": "android",
+  "release": "17",
+  "requests": [
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c00-plain",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "plain",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c00-host-positive",
+      "cookieFields": ["host_ambient=sentinel"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "hostCookie",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c00-host-positive",
+      "cookieFields": ["host_ambient=sentinel"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "hostAuth",
+      "tls": true
+    },
+    {
+      "authorization": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "c00-host-positive",
+      "cookieFields": ["host_ambient=sentinel"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "hostAuth",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c00-host-positive",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "broker",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c00-host-positive",
+      "cookieFields": ["broker_marker=from-service"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "brokerAgain",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c00-host-positive",
+      "cookieFields": ["broker_marker=from-service"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "brokerAuth",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c00-host-positive",
+      "cookieFields": ["broker_marker=from-service"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "afterClear",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c01-ownership",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "loginA",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c01-ownership",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "loginB",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c01-ownership",
+      "cookieFields": ["sid=value-a"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "meA2",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c01-ownership",
+      "cookieFields": ["sid=value-b"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "meB",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c01-denials",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "healthy",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 2,
+      "case": "c02-login-default-include",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "POST",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "login",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c02-login-default-include",
+      "cookieFields": ["sid=login-a"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "me",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c02-omit-outgoing",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "login",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c02-omit-outgoing",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "omitted",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c02-omit-incoming",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "login",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c02-omit-incoming",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "omitted",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c02-omit-incoming",
+      "cookieFields": ["sid=login-a"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "me",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c02-omit-keeps-guest-authorization",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "login",
+      "tls": true
+    },
+    {
+      "authorization": "Bearer guest-owned",
+      "bodyLength": 0,
+      "case": "c02-omit-keeps-guest-authorization",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "omitted",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c02-forbidden-headers",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "allowed",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c03-httponly",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "login",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c03-httponly",
+      "cookieFields": ["prot=protected-marker; vis=visible"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "me",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c03-httponly",
+      "cookieFields": ["prot=protected-marker; vis=visible; script=ok"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "meAfter",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c03-one-pipeline",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "login",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c03-one-pipeline",
+      "cookieFields": ["one=1; two=2; three=x; four=4"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "lower",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c03-same-name-paths",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "login",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c03-same-name-paths",
+      "cookieFields": ["dup=deep; dup=root"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/deep/s",
+      "run": "android-repeat",
+      "step": "deep",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c03-same-name-paths",
+      "cookieFields": ["dup=root"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "root",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c05-same-site-context",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "login",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c05-same-site-context",
+      "cookieFields": ["strict=1; lax=2; plain=3; none=4"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "me",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c05-denials",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "healthy",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c05-port-authorization",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "login",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c05-ports-are-not-partitions",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "login",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c05-ports-are-not-partitions",
+      "cookieFields": ["sid=port-a"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service2",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "otherPort",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c05-hosts-are-separate",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "login",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c05-hosts-are-separate",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "127.0.0.1",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "otherHost",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-redirect-301",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "moved",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-redirect-301",
+      "cookieFields": ["moved=301"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "me",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-redirect-302",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "moved",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-redirect-302",
+      "cookieFields": ["moved=302"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "me",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-redirect-303",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "moved",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-redirect-303",
+      "cookieFields": ["moved=303"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "me",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-redirect-307",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "moved",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-redirect-307",
+      "cookieFields": ["moved=307"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "me",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-redirect-308",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "moved",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-redirect-308",
+      "cookieFields": ["moved=308"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "me",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-redirect-forbidden-then-explicit",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "moved",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-redirect-omit",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "moved",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-status-404",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "failed",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-status-500",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "failed",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-basic-401-cookies",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "challenged",
+      "tls": true
+    },
+    {
+      "authorization": "Bearer guest-owned",
+      "bodyLength": 0,
+      "case": "c06-basic-401-preset-authorization",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "challenged",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-bearer-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "challenged",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 2,
+      "case": "c06-retry-after-zero",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "POST",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "busy",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 2,
+      "case": "c06-empty-204",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "POST",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "empty",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c06-body-failure-keeps-cookie",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "broken",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c07-awaited-set-and-delete",
+      "cookieFields": ["tab=1"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "send",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c07-awaited-set-and-delete",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "sendDeleted",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c07-header-order",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "first",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c07-header-order",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "second",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c07-header-order",
+      "cookieFields": [],
+      "event": "released",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "second",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c07-header-order",
+      "cookieFields": [],
+      "event": "released",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "first",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c07-recreate-portal",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "login",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c07-recreate-portal",
+      "cookieFields": ["sid=login-a"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "me",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c07-close-with-pending-work",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "pending",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c07-close-with-pending-work",
+      "cookieFields": [],
+      "event": "released",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "pending",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c07-close-with-pending-work",
+      "cookieFields": ["late=kept"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "me",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c08-reset-before-headers",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "loginB",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c08-reset-before-headers",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "old",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c08-reset-before-headers",
+      "cookieFields": [],
+      "event": "released",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "old",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c08-reset-before-headers",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "me",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c08-reset-before-headers",
+      "cookieFields": ["sid=other-app"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "meB",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c08-reset-after-headers",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "old",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c08-reset-after-headers",
+      "cookieFields": [],
+      "event": "released",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "old",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c08-reset-after-headers",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "me",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c08-reset-already-settled",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "old",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c08-reset-already-settled",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "fresh",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c08-two-resets-then-fresh-login",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "old",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c08-two-resets-then-fresh-login",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "fresh",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c08-two-resets-then-fresh-login",
+      "cookieFields": [],
+      "event": "released",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "old",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c08-two-resets-then-fresh-login",
+      "cookieFields": ["sid=fresh"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "me",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c08-reset-needs-http-grant",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "login",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c08-reset-leaves-host-alone",
+      "cookieFields": [],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "login",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "c08-reset-leaves-host-alone",
+      "cookieFields": ["host_ambient=sentinel"],
+      "event": "arrived",
+      "host": "localhost",
+      "listener": "service",
+      "method": "GET",
+      "path": "/s",
+      "run": "android-repeat",
+      "step": "hostCookie",
+      "tls": true
+    }
+  ],
+  "run": "android-repeat",
+  "sdkInt": 37
+}
