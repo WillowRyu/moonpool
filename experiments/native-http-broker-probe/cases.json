@@ -2943,7 +2943,248 @@
           "noAuthorization": true
         }
       },
-      "measure": ["jar", "challenged"]
+      "jar": {
+        "jar": ["attempt=1"]
+      },
+      "commitOrder": ["challenged"],
+      "measure": ["challenged"]
+    }
+  },
+  {
+    "id": "c06-basic-401-first-attempt-only",
+    "contract": "C06",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "challenged",
+        "portal": "A1",
+        "serve": {
+          "status": 401,
+          "challenge": "Basic",
+          "setCookieByAttempt": [["first=1; Path=/; Secure"], []]
+        }
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      },
+      {
+        "op": "request",
+        "label": "me",
+        "portal": "A2"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "challenged": {
+          "ok": true,
+          "status": 401
+        },
+        "me": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "me": {
+          "count": 1,
+          "cookie": ["first=1"]
+        }
+      },
+      "jar": {
+        "jar": ["first=1"]
+      },
+      "measure": ["challenged"]
+    }
+  },
+  {
+    "id": "c06-basic-401-second-attempt-only",
+    "contract": "C06",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "challenged",
+        "portal": "A1",
+        "serve": {
+          "status": 401,
+          "challenge": "Basic",
+          "setCookieByAttempt": [[], ["second=2; Path=/; Secure"]]
+        }
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      },
+      {
+        "op": "request",
+        "label": "me",
+        "portal": "A2"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "challenged": {
+          "ok": true,
+          "status": 401
+        },
+        "me": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "me": {
+          "count": 1,
+          "cookie": []
+        }
+      },
+      "jar": {
+        "jar": []
+      },
+      "measure": ["challenged"]
+    }
+  },
+  {
+    "id": "c06-basic-401-two-fields",
+    "contract": "C06",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "challenged",
+        "portal": "A1",
+        "serve": {
+          "status": 401,
+          "challenge": "Basic",
+          "setCookieByAttempt": [
+            ["a=1; Path=/; Secure", "b=2; Path=/; Secure; HttpOnly"],
+            ["c=3; Path=/; Secure"]
+          ]
+        }
+      },
+      {
+        "op": "cookiesGet",
+        "label": "read"
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      },
+      {
+        "op": "request",
+        "label": "me",
+        "portal": "A2"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "challenged": {
+          "ok": true,
+          "status": 401
+        },
+        "read": {
+          "ok": true,
+          "cookies": [
+            {
+              "name": "a",
+              "path": "/",
+              "value": "1"
+            }
+          ]
+        },
+        "me": {
+          "ok": true,
+          "status": 200
+        }
+      },
+      "receipts": {
+        "me": {
+          "count": 1,
+          "cookie": ["a=1; b=2"]
+        }
+      },
+      "jar": {
+        "jar": ["a=1", "b=2"]
+      },
+      "measure": ["challenged"]
+    }
+  },
+  {
+    "id": "c06-basic-401-omit",
+    "contract": "C06",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "challenged",
+        "portal": "A1",
+        "serve": {
+          "status": 401,
+          "challenge": "Basic",
+          "setCookieByAttempt": [["attempt=1; Path=/; Secure"], ["attempt=2; Path=/; Secure"]]
+        },
+        "params": {
+          "credentials": "omit"
+        }
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "challenged": {
+          "ok": true,
+          "status": 401
+        }
+      },
+      "jar": {
+        "jar": []
+      },
+      "measure": ["challenged"]
     }
   },
   {
@@ -4408,6 +4649,79 @@
       "jar": {
         "jar": []
       }
+    }
+  },
+  {
+    "id": "c08-reset-before-basic-challenge",
+    "contract": "C08",
+    "portals": {
+      "A1": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      },
+      "A2": {
+        "app": "a",
+        "grants": ["http", "cookies"]
+      }
+    },
+    "steps": [
+      {
+        "op": "request",
+        "label": "challenged",
+        "portal": "A1",
+        "serve": {
+          "status": 401,
+          "challenge": "Basic",
+          "hold": "headers",
+          "setCookieByAttempt": [["stale=1; Path=/; Secure"], ["stale=2; Path=/; Secure"]]
+        },
+        "wait": false
+      },
+      {
+        "op": "held",
+        "label": "challenged"
+      },
+      {
+        "op": "reset",
+        "label": "reset",
+        "portal": "A2"
+      },
+      {
+        "op": "release",
+        "label": "challenged"
+      },
+      {
+        "op": "awaitEvent",
+        "label": "challenged",
+        "kind": "fence"
+      },
+      {
+        "op": "await",
+        "label": "challenged"
+      },
+      {
+        "op": "snapshot",
+        "label": "jar",
+        "app": "a"
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "reset": {
+          "ok": true
+        },
+        "challenged": {
+          "ok": false,
+          "code": -32007,
+          "reason": "sessionReset"
+        }
+      },
+      "jar": {
+        "jar": []
+      },
+      "fenced": ["challenged"],
+      "hidden": ["stale"],
+      "measure": ["challenged"]
     }
   }
 ]

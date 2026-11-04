@@ -187,8 +187,22 @@ class VerifierTests(unittest.TestCase):
 
     def test_comparison_ignores_declared_measurements(self):
         other = ideal_report('ios')
-        find_step(other, 'c06-basic-401-cookies', 'jar')['jar'] = ['attempt=2']
+        find_step(other, 'c03-comma-value-attribute-loss', 'jar')['jar'] = ['other=1']
         self.assertEqual(compare(self.report, other), [])
+
+    def test_the_second_attempts_cookie_fails_a_basic_case(self):
+        find_step(self.report, 'c06-basic-401-cookies', 'jar')['jar'] = ['attempt=2']
+        self.assertEqual(self.states()['c06-basic-401-cookies']['state'], 'fail')
+
+    def test_committing_twice_fails_a_basic_case(self):
+        item = next(i for i in self.report['observations'] if i['case'] == 'c06-basic-401-cookies')
+        item['events'] = [{'kind': 'commit', 'label': 'challenged'}, {'kind': 'commit', 'label': 'challenged'}]
+        self.assertEqual(self.states()['c06-basic-401-cookies']['state'], 'fail')
+
+    def test_a_jar_difference_after_a_basic_resend_is_now_reported(self):
+        other = ideal_report('ios')
+        find_step(other, 'c06-basic-401-cookies', 'jar')['jar'] = ['attempt=2']
+        self.assertEqual([item['case'] for item in compare(self.report, other)], ['c06-basic-401-cookies'])
 
     def test_comparison_reports_a_guest_visible_header_difference(self):
         other = ideal_report('ios')
