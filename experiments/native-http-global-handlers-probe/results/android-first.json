@@ -1,0 +1,1662 @@
+{
+  "api": {
+    "authenticatorGetDefault": false,
+    "cookieHandlerGetDefault": true,
+    "defaultAllowUserInteraction": false,
+    "setAuthenticator": false
+  },
+  "build": {
+    "artifactSha256": "ea66640a72d815b4e1464eaf486dc122fd833703be3bba8a53ab1d90e572ffc9",
+    "caSha256": "fdc6621f9a0abf62aeef8b59759d709a91a46d7260bcb7b1d67808766a3ab3b6",
+    "sources": {
+      "android/app/build.gradle": "9fd9b1f4329b8d9d777734427d088c5d82c71463c50dee5aa2336c159d4f2fef",
+      "android/app/src/main/AndroidManifest.xml": "481438995c9ddbe6684f22477517020b8cbe251fd16159560d6cccbda43ed388",
+      "android/app/src/main/java/org/moonpool/httpglobals/ProbeActivity.java": "2dfb63a468ca51cb4c9acfb67924fb0c87ad602a1d2f529da1c3faa517473077",
+      "android/app/src/main/res/xml/network_security_config.xml": "def485559d7ade425b2492e375edd451466d47027be1cbfb3c47d18c04f1955d",
+      "android/build.gradle": "bb5d6db0a3f94e7ff33ba91a07fa9146a96994e843ae487ebccadc99b62e722c",
+      "android/gradle.properties": "67eefa02d084d8fd6e2698683ca4d007a344395ca89eed9012a79bac373ba359",
+      "android/settings.gradle": "c12f36fc418712a3a18b5c7b079ba384b5de13ddb6f5c1d6d43536d384fb6fed",
+      "build.py": "7510f6d9fecbbe64f10a91edd1f498c521703b3826bbf9296d7e5a1f9ca01c23",
+      "cases.json": "150e0f5e0a4920791d8798d1c394144323479fdcbaa744011867f44ea5c8c94f",
+      "fixture.py": "139f323dcc13bf5c1996133b61fa7266975c1227de4126fd527401f3c202ce2c"
+    },
+    "wrapperSha256": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59"
+  },
+  "capturedUtc": "2026-11-04T02:32:31Z",
+  "complete": true,
+  "errors": [],
+  "globalsAtStart": {
+    "authenticatorNull": true,
+    "cookieHandlerNull": true
+  },
+  "installedArtifactSha256": "ea66640a72d815b4e1464eaf486dc122fd833703be3bba8a53ab1d90e572ffc9",
+  "observations": [
+    {
+      "authenticatorEvents": [],
+      "authenticatorVisible": false,
+      "bodyText": "{\"case\": \"control-plain\", \"ok\": true}",
+      "case": "control-plain",
+      "error": null,
+      "handlerEvents": [],
+      "handlerVisible": false,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 200,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [],
+      "authenticatorVisible": false,
+      "bodyText": "{\"case\": \"control-basic-401\", \"ok\": true}",
+      "case": "control-basic-401",
+      "error": null,
+      "handlerEvents": [],
+      "handlerVisible": false,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 401,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [],
+      "authenticatorVisible": false,
+      "bodyText": null,
+      "case": "tls-negative",
+      "error": "SSLHandshakeException",
+      "handlerEvents": [],
+      "handlerVisible": false,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": null,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [],
+      "authenticatorVisible": false,
+      "bodyText": "{\"case\": \"handler-get\", \"ok\": true}",
+      "case": "handler-get",
+      "error": null,
+      "handlerEvents": [
+        {
+          "op": "get",
+          "requestHeaderNames": ["Accept-Encoding", "Connection", "Host", "User-Agent"],
+          "uri": "https://localhost:53758/echo?run=android-first&case=handler-get"
+        },
+        {
+          "op": "put",
+          "setCookie": [],
+          "uri": "https://localhost:53758/echo?run=android-first&case=handler-get"
+        }
+      ],
+      "handlerVisible": true,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 200,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [],
+      "authenticatorVisible": false,
+      "bodyText": "{\"case\": \"handler-post\", \"ok\": true}",
+      "case": "handler-post",
+      "error": null,
+      "handlerEvents": [
+        {
+          "op": "get",
+          "requestHeaderNames": [
+            "Accept-Encoding",
+            "Connection",
+            "Content-Type",
+            "Host",
+            "User-Agent"
+          ],
+          "uri": "https://localhost:53758/echo?run=android-first&case=handler-post"
+        },
+        {
+          "op": "put",
+          "setCookie": [],
+          "uri": "https://localhost:53758/echo?run=android-first&case=handler-post"
+        }
+      ],
+      "handlerVisible": true,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 200,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [],
+      "authenticatorVisible": false,
+      "bodyText": "{\"case\": \"handler-attached\", \"ok\": true}",
+      "case": "handler-attached",
+      "error": null,
+      "handlerEvents": [
+        {
+          "op": "get",
+          "requestHeaderNames": ["Accept-Encoding", "Connection", "Cookie", "Host", "User-Agent"],
+          "uri": "https://localhost:53758/echo?run=android-first&case=handler-attached"
+        },
+        {
+          "op": "put",
+          "setCookie": [],
+          "uri": "https://localhost:53758/echo?run=android-first&case=handler-attached"
+        }
+      ],
+      "handlerVisible": true,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 200,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [],
+      "authenticatorVisible": false,
+      "bodyText": "{\"case\": \"handler-empty-attached\", \"ok\": true}",
+      "case": "handler-empty-attached",
+      "error": null,
+      "handlerEvents": [
+        {
+          "op": "get",
+          "requestHeaderNames": ["Accept-Encoding", "Connection", "Cookie", "Host", "User-Agent"],
+          "uri": "https://localhost:53758/echo?run=android-first&case=handler-empty-attached"
+        },
+        {
+          "op": "put",
+          "setCookie": [],
+          "uri": "https://localhost:53758/echo?run=android-first&case=handler-empty-attached"
+        }
+      ],
+      "handlerVisible": true,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 200,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [],
+      "authenticatorVisible": false,
+      "bodyText": "{\"case\": \"handler-set-cookie\", \"ok\": true}",
+      "case": "handler-set-cookie",
+      "error": null,
+      "handlerEvents": [
+        {
+          "op": "get",
+          "requestHeaderNames": ["Accept-Encoding", "Connection", "Host", "User-Agent"],
+          "uri": "https://localhost:53758/serve?run=android-first&case=handler-set-cookie"
+        },
+        {
+          "op": "put",
+          "setCookie": ["t28g_plain=one; Path=/", "t28g_protected=two; Path=/; HttpOnly; Secure"],
+          "uri": "https://localhost:53758/serve?run=android-first&case=handler-set-cookie"
+        }
+      ],
+      "handlerVisible": true,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": ["t28g_plain=one; Path=/", "t28g_protected=two; Path=/; HttpOnly; Secure"],
+      "status": 200,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [],
+      "authenticatorVisible": false,
+      "bodyText": "{\"case\": \"handler-redirect\", \"ok\": true}",
+      "case": "handler-redirect",
+      "error": null,
+      "handlerEvents": [
+        {
+          "op": "get",
+          "requestHeaderNames": ["Accept-Encoding", "Connection", "Host", "User-Agent"],
+          "uri": "https://localhost:53758/serve?run=android-first&case=handler-redirect"
+        },
+        {
+          "op": "put",
+          "setCookie": ["t28g_redirect=three; Path=/; HttpOnly"],
+          "uri": "https://localhost:53758/serve?run=android-first&case=handler-redirect"
+        }
+      ],
+      "handlerVisible": true,
+      "location": "/target?run=android-first&case=handler-redirect",
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": ["t28g_redirect=three; Path=/; HttpOnly"],
+      "status": 302,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [],
+      "authenticatorVisible": false,
+      "bodyText": "{\"case\": \"handler-installed-after-open\", \"ok\": true}",
+      "case": "handler-installed-after-open",
+      "error": null,
+      "handlerEvents": [],
+      "handlerVisible": true,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 200,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [],
+      "authenticatorVisible": false,
+      "bodyText": "{\"case\": \"handler-cleared-after-open\", \"ok\": true}",
+      "case": "handler-cleared-after-open",
+      "error": null,
+      "handlerEvents": [
+        {
+          "op": "get",
+          "requestHeaderNames": ["Accept-Encoding", "Connection", "Host", "User-Agent"],
+          "uri": "https://localhost:53758/echo?run=android-first&case=handler-cleared-after-open"
+        },
+        {
+          "op": "put",
+          "setCookie": [],
+          "uri": "https://localhost:53758/echo?run=android-first&case=handler-cleared-after-open"
+        }
+      ],
+      "handlerVisible": false,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 200,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [],
+      "authenticatorVisible": false,
+      "bodyText": "{\"case\": \"manager-seeded\", \"ok\": true}",
+      "case": "manager-seeded",
+      "error": null,
+      "handlerEvents": [
+        {
+          "op": "get",
+          "requestHeaderNames": ["Accept-Encoding", "Connection", "Host", "User-Agent"],
+          "uri": "https://localhost:53758/echo?run=android-first&case=manager-seeded"
+        },
+        {
+          "op": "put",
+          "setCookie": [],
+          "uri": "https://localhost:53758/echo?run=android-first&case=manager-seeded"
+        }
+      ],
+      "handlerVisible": true,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 200,
+      "storeAfter": [
+        {
+          "domain": "localhost",
+          "httpOnly": false,
+          "name": "host_session",
+          "path": "/",
+          "secure": false
+        }
+      ]
+    },
+    {
+      "authenticatorEvents": [],
+      "authenticatorVisible": false,
+      "bodyText": "{\"case\": \"manager-other-domain\", \"ok\": true}",
+      "case": "manager-other-domain",
+      "error": null,
+      "handlerEvents": [
+        {
+          "op": "get",
+          "requestHeaderNames": ["Accept-Encoding", "Connection", "Host", "User-Agent"],
+          "uri": "https://localhost:53758/echo?run=android-first&case=manager-other-domain"
+        },
+        {
+          "op": "put",
+          "setCookie": [],
+          "uri": "https://localhost:53758/echo?run=android-first&case=manager-other-domain"
+        }
+      ],
+      "handlerVisible": true,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 200,
+      "storeAfter": [
+        {
+          "domain": "host.example",
+          "httpOnly": false,
+          "name": "host_other",
+          "path": "/",
+          "secure": false
+        }
+      ]
+    },
+    {
+      "authenticatorEvents": [],
+      "authenticatorVisible": false,
+      "bodyText": "{\"case\": \"manager-capture\", \"ok\": true}",
+      "case": "manager-capture",
+      "error": null,
+      "handlerEvents": [
+        {
+          "op": "get",
+          "requestHeaderNames": ["Accept-Encoding", "Connection", "Host", "User-Agent"],
+          "uri": "https://localhost:53758/serve?run=android-first&case=manager-capture"
+        },
+        {
+          "op": "put",
+          "setCookie": [
+            "t28g_captured=four; Path=/",
+            "t28g_captured_protected=five; Path=/; HttpOnly"
+          ],
+          "uri": "https://localhost:53758/serve?run=android-first&case=manager-capture"
+        }
+      ],
+      "handlerVisible": true,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": [
+        "t28g_captured=four; Path=/",
+        "t28g_captured_protected=five; Path=/; HttpOnly"
+      ],
+      "status": 200,
+      "storeAfter": [
+        {
+          "domain": "localhost.local",
+          "httpOnly": false,
+          "name": "t28g_captured",
+          "path": "/",
+          "secure": false
+        },
+        {
+          "domain": "localhost.local",
+          "httpOnly": true,
+          "name": "t28g_captured_protected",
+          "path": "/",
+          "secure": false
+        }
+      ]
+    },
+    {
+      "authenticatorEvents": [],
+      "authenticatorVisible": false,
+      "bodyText": "{\"case\": \"manager-capture-followup\", \"ok\": true}",
+      "case": "manager-capture-followup",
+      "error": null,
+      "handlerEvents": [
+        {
+          "op": "get",
+          "requestHeaderNames": ["Accept-Encoding", "Connection", "Host", "User-Agent"],
+          "uri": "https://localhost:53758/echo?run=android-first&case=manager-capture-followup"
+        },
+        {
+          "op": "put",
+          "setCookie": [],
+          "uri": "https://localhost:53758/echo?run=android-first&case=manager-capture-followup"
+        }
+      ],
+      "handlerVisible": true,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 200,
+      "storeAfter": [
+        {
+          "domain": "localhost.local",
+          "httpOnly": false,
+          "name": "t28g_captured",
+          "path": "/",
+          "secure": false
+        },
+        {
+          "domain": "localhost.local",
+          "httpOnly": true,
+          "name": "t28g_captured_protected",
+          "path": "/",
+          "secure": false
+        }
+      ]
+    },
+    {
+      "authenticatorEvents": [
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-get"
+        }
+      ],
+      "authenticatorVisible": true,
+      "bodyText": "{\"case\": \"auth-basic-get\", \"ok\": true}",
+      "case": "auth-basic-get",
+      "error": null,
+      "handlerEvents": [],
+      "handlerVisible": false,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 200,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-post"
+        }
+      ],
+      "authenticatorVisible": true,
+      "bodyText": "{\"case\": \"auth-basic-post\", \"ok\": true}",
+      "case": "auth-basic-post",
+      "error": null,
+      "handlerEvents": [],
+      "handlerVisible": false,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 200,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-always-401"
+        },
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-always-401"
+        },
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-always-401"
+        },
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-always-401"
+        },
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-always-401"
+        },
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-always-401"
+        },
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-always-401"
+        },
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-always-401"
+        },
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-always-401"
+        },
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-always-401"
+        },
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-always-401"
+        },
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-always-401"
+        },
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-always-401"
+        },
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-always-401"
+        },
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-always-401"
+        },
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-always-401"
+        },
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-always-401"
+        },
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-always-401"
+        },
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-always-401"
+        },
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-always-401"
+        },
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-basic-always-401"
+        }
+      ],
+      "authenticatorVisible": true,
+      "bodyText": null,
+      "case": "auth-basic-always-401",
+      "error": "ProtocolException: Too many follow-up requests: 21",
+      "handlerEvents": [],
+      "handlerVisible": false,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": null,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-null"
+        }
+      ],
+      "authenticatorVisible": true,
+      "bodyText": "{\"case\": \"auth-null\", \"ok\": true}",
+      "case": "auth-null",
+      "error": null,
+      "handlerEvents": [],
+      "handlerVisible": false,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 401,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [],
+      "authenticatorVisible": true,
+      "bodyText": "{\"case\": \"auth-bearer\", \"ok\": true}",
+      "case": "auth-bearer",
+      "error": null,
+      "handlerEvents": [],
+      "handlerVisible": false,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 401,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [],
+      "authenticatorVisible": true,
+      "bodyText": "{\"case\": \"auth-digest\", \"ok\": true}",
+      "case": "auth-digest",
+      "error": null,
+      "handlerEvents": [],
+      "handlerVisible": false,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 401,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [],
+      "authenticatorVisible": true,
+      "bodyText": "{\"case\": \"auth-no-scheme\", \"ok\": true}",
+      "case": "auth-no-scheme",
+      "error": null,
+      "handlerEvents": [],
+      "handlerVisible": false,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 401,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-preset-authorization"
+        }
+      ],
+      "authenticatorVisible": true,
+      "bodyText": "{\"case\": \"auth-preset-authorization\", \"ok\": true}",
+      "case": "auth-preset-authorization",
+      "error": null,
+      "handlerEvents": [],
+      "handlerVisible": false,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 200,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-streaming-post"
+        }
+      ],
+      "authenticatorVisible": true,
+      "bodyText": null,
+      "case": "auth-streaming-post",
+      "error": "HttpRetryException: Cannot retry streamed HTTP body",
+      "handlerEvents": [],
+      "handlerVisible": false,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": null,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=auth-installed-after-open"
+        }
+      ],
+      "authenticatorVisible": true,
+      "bodyText": "{\"case\": \"auth-installed-after-open\", \"ok\": true}",
+      "case": "auth-installed-after-open",
+      "error": null,
+      "handlerEvents": [],
+      "handlerVisible": false,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 200,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [],
+      "authenticatorVisible": false,
+      "bodyText": "{\"case\": \"auth-cleared-after-open\", \"ok\": true}",
+      "case": "auth-cleared-after-open",
+      "error": null,
+      "handlerEvents": [],
+      "handlerVisible": false,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 401,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=opt-out-noop-authenticator"
+        }
+      ],
+      "authenticatorVisible": true,
+      "bodyText": "{\"case\": \"opt-out-noop-authenticator\", \"ok\": true}",
+      "case": "opt-out-noop-authenticator",
+      "error": null,
+      "handlerEvents": [],
+      "handlerVisible": false,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": "NoSuchMethodException",
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 200,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [
+        {
+          "host": "probe.invalid",
+          "port": 443,
+          "prompt": "probe",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "null"
+        }
+      ],
+      "authenticatorVisible": false,
+      "bodyText": null,
+      "case": "detect-authenticator-probe",
+      "error": null,
+      "handlerEvents": [],
+      "handlerVisible": false,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": true,
+      "probeAnsweredAfterClear": false,
+      "setCookieFields": null,
+      "status": null,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [
+        {
+          "host": "localhost",
+          "port": 53758,
+          "prompt": "t28",
+          "protocol": "https",
+          "scheme": "Basic",
+          "type": "SERVER",
+          "url": "https://localhost:53758/serve?run=android-first&case=combined-basic-cookie"
+        }
+      ],
+      "authenticatorVisible": true,
+      "bodyText": "{\"case\": \"combined-basic-cookie\", \"ok\": true}",
+      "case": "combined-basic-cookie",
+      "error": null,
+      "handlerEvents": [
+        {
+          "op": "get",
+          "requestHeaderNames": ["Accept-Encoding", "Connection", "Host", "User-Agent"],
+          "uri": "https://localhost:53758/serve?run=android-first&case=combined-basic-cookie"
+        },
+        {
+          "op": "put",
+          "setCookie": ["t28g_challenge=six; Path=/"],
+          "uri": "https://localhost:53758/serve?run=android-first&case=combined-basic-cookie"
+        },
+        {
+          "op": "get",
+          "requestHeaderNames": [
+            "Accept-Encoding",
+            "Authorization",
+            "Connection",
+            "Host",
+            "User-Agent"
+          ],
+          "uri": "https://localhost:53758/serve?run=android-first&case=combined-basic-cookie"
+        },
+        {
+          "op": "put",
+          "setCookie": ["t28g_accepted=seven; Path=/"],
+          "uri": "https://localhost:53758/serve?run=android-first&case=combined-basic-cookie"
+        }
+      ],
+      "handlerVisible": true,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": ["t28g_accepted=seven; Path=/"],
+      "status": 200,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [],
+      "authenticatorVisible": false,
+      "bodyText": "{\"case\": \"control-after-plain\", \"ok\": true}",
+      "case": "control-after-plain",
+      "error": null,
+      "handlerEvents": [],
+      "handlerVisible": false,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 200,
+      "storeAfter": []
+    },
+    {
+      "authenticatorEvents": [],
+      "authenticatorVisible": false,
+      "bodyText": "{\"case\": \"control-after-basic-401\", \"ok\": true}",
+      "case": "control-after-basic-401",
+      "error": null,
+      "handlerEvents": [],
+      "handlerVisible": false,
+      "location": null,
+      "perConnectionEvents": [],
+      "perConnectionResult": null,
+      "probeAnswered": null,
+      "probeAnsweredAfterClear": null,
+      "setCookieFields": null,
+      "status": 401,
+      "storeAfter": []
+    }
+  ],
+  "platform": "android",
+  "release": "17",
+  "requests": [
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "control-plain",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/echo",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "control-basic-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "handler-get",
+      "cookieFields": ["host_ambient=sentinel"],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/echo",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 12,
+      "case": "handler-post",
+      "cookieFields": ["host_ambient=sentinel"],
+      "event": "arrived",
+      "method": "POST",
+      "path": "/echo",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "handler-attached",
+      "cookieFields": ["broker_selected=one", "host_ambient=sentinel"],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/echo",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "handler-empty-attached",
+      "cookieFields": ["broker_selected=one"],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/echo",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "handler-set-cookie",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "handler-redirect",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "handler-installed-after-open",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/echo",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "handler-cleared-after-open",
+      "cookieFields": ["host_ambient=sentinel"],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/echo",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "manager-seeded",
+      "cookieFields": [
+        "$Version=\"1\"; host_session=\"host-fixture\";$Path=\"/\";$Domain=\"localhost\""
+      ],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/echo",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "manager-other-domain",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/echo",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "manager-capture",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "manager-capture-followup",
+      "cookieFields": ["t28g_captured=four; t28g_captured_protected=five"],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/echo",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "auth-basic-get",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-basic-get",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 12,
+      "case": "auth-basic-post",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "POST",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 12,
+      "case": "auth-basic-post",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "POST",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "auth-basic-always-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-basic-always-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-basic-always-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-basic-always-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-basic-always-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-basic-always-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-basic-always-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-basic-always-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-basic-always-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-basic-always-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-basic-always-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-basic-always-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-basic-always-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-basic-always-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-basic-always-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-basic-always-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-basic-always-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-basic-always-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-basic-always-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-basic-always-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-basic-always-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "auth-null",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "auth-bearer",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "auth-digest",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "auth-no-scheme",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Bearer broker-fixture",
+      "bodyLength": 0,
+      "case": "auth-preset-authorization",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-preset-authorization",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 12,
+      "case": "auth-streaming-post",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "POST",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "auth-installed-after-open",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "auth-installed-after-open",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "auth-cleared-after-open",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "opt-out-noop-authenticator",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "opt-out-noop-authenticator",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "combined-basic-cookie",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": "Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA==",
+      "bodyLength": 0,
+      "case": "combined-basic-cookie",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "control-after-plain",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/echo",
+      "run": "android-first",
+      "tls": true
+    },
+    {
+      "authorizationValue": null,
+      "bodyLength": 0,
+      "case": "control-after-basic-401",
+      "cookieFields": [],
+      "event": "arrived",
+      "method": "GET",
+      "path": "/serve",
+      "run": "android-first",
+      "tls": true
+    }
+  ],
+  "run": "android-first",
+  "sdkInt": 37,
+  "webViewPackage": "(name, version): (com.google.android.webview, 145.0.7632.218)"
+}

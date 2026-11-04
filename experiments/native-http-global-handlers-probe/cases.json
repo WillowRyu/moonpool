@@ -1,0 +1,192 @@
+[
+  { "id": "control-plain", "path": "/echo" },
+  { "id": "control-basic-401", "path": "/serve", "status": 401, "challenge": true },
+  { "id": "tls-negative", "kind": "tls-negative", "path": "/echo" },
+
+  { "id": "handler-get", "path": "/echo", "handler": "recording" },
+  {
+    "id": "handler-post",
+    "path": "/echo",
+    "method": "POST",
+    "body": "fixture-body",
+    "handler": "recording"
+  },
+  {
+    "id": "handler-attached",
+    "path": "/echo",
+    "handler": "recording",
+    "attachCookie": "broker_selected=one"
+  },
+  {
+    "id": "handler-empty-attached",
+    "path": "/echo",
+    "handler": "recording-empty",
+    "attachCookie": "broker_selected=one"
+  },
+  {
+    "id": "handler-set-cookie",
+    "path": "/serve",
+    "handler": "recording-empty",
+    "setCookie": ["t28g_plain=one; Path=/", "t28g_protected=two; Path=/; HttpOnly; Secure"]
+  },
+  {
+    "id": "handler-redirect",
+    "path": "/serve",
+    "status": 302,
+    "redirect": true,
+    "handler": "recording-empty",
+    "setCookie": ["t28g_redirect=three; Path=/; HttpOnly"]
+  },
+  {
+    "id": "handler-installed-after-open",
+    "path": "/echo",
+    "handler": "recording",
+    "install": "after-open"
+  },
+  {
+    "id": "handler-cleared-after-open",
+    "path": "/echo",
+    "handler": "recording",
+    "install": "cleared-after-open"
+  },
+
+  { "id": "manager-seeded", "path": "/echo", "handler": "manager-seeded" },
+  { "id": "manager-other-domain", "path": "/echo", "handler": "manager-other-domain" },
+  {
+    "id": "manager-capture",
+    "path": "/serve",
+    "handler": "manager",
+    "setCookie": ["t28g_captured=four; Path=/", "t28g_captured_protected=five; Path=/; HttpOnly"]
+  },
+  { "id": "manager-capture-followup", "path": "/echo", "handler": "previous" },
+
+  {
+    "id": "auth-basic-get",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "authenticator": "credentials",
+    "acceptCredentials": true
+  },
+  {
+    "id": "auth-basic-post",
+    "path": "/serve",
+    "method": "POST",
+    "body": "fixture-body",
+    "status": 401,
+    "challenge": true,
+    "authenticator": "credentials",
+    "acceptCredentials": true
+  },
+  {
+    "id": "auth-basic-always-401",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "authenticator": "credentials"
+  },
+  {
+    "id": "auth-null",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "authenticator": "null"
+  },
+  {
+    "id": "auth-bearer",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "challengeScheme": "Bearer",
+    "authenticator": "credentials",
+    "acceptCredentials": true
+  },
+  {
+    "id": "auth-digest",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "challengeScheme": "Digest",
+    "authenticator": "credentials",
+    "acceptCredentials": true
+  },
+  {
+    "id": "auth-no-scheme",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "challengeScheme": "",
+    "authenticator": "credentials",
+    "acceptCredentials": true
+  },
+  {
+    "id": "auth-preset-authorization",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "authenticator": "credentials",
+    "acceptCredentials": true,
+    "presetAuthorization": "Bearer broker-fixture"
+  },
+  {
+    "id": "auth-streaming-post",
+    "path": "/serve",
+    "method": "POST",
+    "body": "fixture-body",
+    "streaming": true,
+    "status": 401,
+    "challenge": true,
+    "authenticator": "credentials",
+    "acceptCredentials": true
+  },
+  {
+    "id": "auth-installed-after-open",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "authenticator": "credentials",
+    "acceptCredentials": true,
+    "install": "after-open"
+  },
+  {
+    "id": "auth-cleared-after-open",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "authenticator": "credentials",
+    "acceptCredentials": true,
+    "install": "cleared-after-open"
+  },
+
+  {
+    "id": "opt-out-noop-authenticator",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "authenticator": "credentials",
+    "acceptCredentials": true,
+    "perConnectionAuthenticator": true
+  },
+
+  {
+    "id": "detect-authenticator-probe",
+    "kind": "detect-probe",
+    "path": "/echo",
+    "authenticator": "credentials"
+  },
+
+  {
+    "id": "combined-basic-cookie",
+    "path": "/serve",
+    "status": 401,
+    "challenge": true,
+    "authenticator": "credentials",
+    "acceptCredentials": true,
+    "handler": "recording-empty",
+    "setCookie": ["t28g_challenge=six; Path=/"],
+    "acceptedSetCookie": ["t28g_accepted=seven; Path=/"]
+  },
+
+  { "id": "control-after-plain", "path": "/echo" },
+  { "id": "control-after-basic-401", "path": "/serve", "status": 401, "challenge": true }
+]
