@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — Android 전역 HTTP 설정 시험</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">43 · Android 전역 HTTP 설정</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#why">왜 시험했나</a>
+    <a href="#cookie">쿠키 처리기</a>
+    <a href="#auth">인증 처리기</a>
+    <a href="#optout">끌 수 있나</a>
+    <a href="#others">다른 프로젝트</a>
+    <a href="#decision">정해야 할 것</a>
+  </nav>
+  <p class="small desktop-only">2026.11.04 · 부분 검증<br>계약과 충돌 1건<br>결정 대기 · 구현 전</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">T28 · Android global HTTP handlers</div>
+    <h1>우리 요청인데,<br>앱 전체 설정이 끼어듭니다.</h1>
+    <p class="lead">호스트 앱은 Android 프로세스 전체에 쿠키 처리기와 인증 처리기를 걸어 둘 수 있습니다. 미니 앱 요청을 보내는 <code>HttpURLConnection</code>도 이 설정을 따르는지 시험했고, 실제로 따랐습니다. 호스트의 비밀번호가 미니 앱 서버까지 갈 수 있어서 설계 결정이 필요합니다.</p>
+    <div class="meta"><span class="pill">관측 62개 · 서버 기록 110행</span><span class="pill warm">계약과 충돌 1건</span><span class="pill warm">결정 대기 · 구현 전</span></div>
+  </header>
+  <section class="section" id="why">
+    <h2>1 · 왜 시험했나</h2>
+    <p><a href="42-native-http-transport.html">42번 시험</a>은 전역 설정이 하나도 없는 앱에서 진행했습니다. 그때는 쿠키도 비밀번호도 자동으로 붙지 않았습니다. 하지만 실제 호스트 앱은 다를 수 있습니다. 예를 들어 Capacitor의 쿠키 플러그인은 불러올 때 쿠키 처리기를 전역으로 설정합니다(소스로 확인, 실행은 안 함).</p>
+    <pre><code>// 호스트 앱 어딘가에서 한 번만 호출하면 프로세스 전체에 적용됩니다
+CookieHandler.setDefault(hostCookies);
+Authenticator.setDefault(hostPasswords);</code></pre>
+    <p>계약 문서에는 이렇게 적혀 있습니다. "요청마다 전역 처리기를 끈다", 그리고 "앱 전체 설정은 바꾸지 않는다". 이 둘이 동시에 가능한지가 이번 질문입니다.</p>
+    <p>한 앱이 호스트 역할과 요청 보내는 역할을 함께 맡았습니다. 값은 모두 공개된 시험용 값입니다. 무엇이 실제로 나갔는지는 시험 서버의 기록으로 판단했습니다.</p>
+  </section>
+  <section class="section" id="cookie">
+    <h2>2 · 쿠키 처리기는 양쪽으로 샙니다</h2>
+    <div class="table-wrap"><table><thead><tr><th>상황</th><th>결과</th></tr></thead><tbody>
+      <tr><td>처리기가 호스트 쿠키를 돌려줌</td><td>서버에 도착 (GET, POST 모두)</td></tr>
+      <tr><td>우리가 붙인 쿠키가 이미 있음</td><td><code>Cookie</code> 줄이 2개가 됨 (우리 것, 호스트 것)</td></tr>
+      <tr><td>처리기가 아무것도 돌려주지 않음</td><td>우리 쿠키만 그대로 한 번 도착</td></tr>
+      <tr><td>응답의 <code>Set-Cookie</code>, <code>HttpOnly</code> 포함</td><td>처리기가 모두 받음</td></tr>
+      <tr><td>따라가지 않고 돌려받은 302</td><td>이때도 처리기가 쿠키를 받음</td></tr>
+      <tr><td>진짜 <code>CookieManager</code>에 이 호스트 쿠키가 있음</td><td>서버에 도착</td></tr>
+      <tr><td>진짜 <code>CookieManager</code>에 다른 도메인 쿠키만 있음</td><td>보내지 않음</td></tr>
+    </tbody></table></div>
+    <pre><code>호스트 쿠키  ──▶ 미니 앱 서버     호스트 정보가 밖으로 나감
+서버 쿠키    ──▶ 호스트 처리기     HttpOnly 쿠키도 포함
+요청 주소    ──▶ 호스트 처리기     쿼리 문자열까지</code></pre>
+  </section>
+  <section class="section" id="auth">
+    <h2>3 · 인증 처리기는 비밀번호를 대신 답합니다</h2>
+    <p>서버가 <code>Basic</code> 방식으로 401을 보내면 처리기가 호출되고, 처리기가 돌려준 값이 그대로 서버로 갑니다. <code>Basic</code>은 base64로 인코딩만 하므로 사실상 평문입니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>서버 응답</th><th>보낸 횟수</th><th>비밀번호가 실린 횟수</th><th>앱이 보는 결과</th></tr></thead><tbody>
+      <tr><td><code>Basic</code> 401, 받아 줌</td><td>2</td><td><strong>1</strong></td><td>200</td></tr>
+      <tr><td><code>Basic</code> 401, 계속 거절</td><td><strong>21</strong></td><td><strong>20</strong></td><td>예외, 상태 코드 없음</td></tr>
+      <tr><td><code>Basic</code> 401, 처리기가 <code>null</code> 반환</td><td>1</td><td>0</td><td>401, 처리기는 주소를 봄</td></tr>
+      <tr><td><code>Bearer</code>, <code>Digest</code>, 헤더 없음</td><td>1</td><td>0</td><td>401, 처리기 호출 없음</td></tr>
+    </tbody></table></div>
+    <p>계속 거절하는 서버 쪽 결과가 특히 나쁩니다. SDK는 자동으로 다시 보내지 않기로 했는데 요청 하나가 21번 나가고, 정상 결과여야 할 401도 예외로 바뀝니다. 우리가 미리 넣은 <code>Authorization</code>도 다음 요청에서 호스트 값으로 바뀌었습니다.</p>
+    <p>이 시험에서 비밀번호는 미니 앱의 JavaScript가 아니라 서버까지 갔습니다. 그래도 "호스트 인증 정보를 미니 앱에 노출하지 않는다"는 원칙과 충돌합니다. 그 서버는 미니 앱 쪽 서버이기 때문입니다.</p>
+  </section>
+  <section class="section" id="optout">
+    <h2>4 · 요청마다 끌 수 있을까</h2>
+    <div class="table-wrap"><table><thead><tr><th>시도</th><th>결과</th></tr></thead><tbody>
+      <tr><td>연결별 <code>setAuthenticator</code></td><td>Android에 없음 (데스크톱 Java 전용)</td></tr>
+      <tr><td>연결별 쿠키 처리기</td><td><code>android.jar</code>에 그런 API가 없음</td></tr>
+      <tr><td>POST를 스트리밍으로 전송</td><td>비밀번호는 안 나가지만 처리기는 호출되고, 401 대신 예외가 남. GET에는 못 씀</td></tr>
+      <tr><td><code>CookieHandler.getDefault()</code>로 탐지</td><td>가능, 단 확인한 그 순간만</td></tr>
+      <tr><td><code>requestPasswordAuthentication</code>으로 탐지</td><td>호스트 코드가 실행되고, <code>null</code>로 답하는 처리기는 알아낼 수 없음</td></tr>
+    </tbody></table></div>
+    <p>"먼저 확인하고 나서 보내기"도 믿을 수 없습니다. 값을 읽는 시점이 서로 다르기 때문입니다.</p>
+    <pre><code>URLConnection conn = url.openConnection();  // 쿠키 처리기는 여기서 고정
+Authenticator.setDefault(hostPasswords);     // 열고 나서 걸어도
+conn.getResponseCode();                      // 401이 오는 순간의 인증 처리기를 사용</code></pre>
+    <div class="callout"><strong>배운 점:</strong> 처음에 <code>javap -cp android.jar</code>로 보고 <code>setAuthenticator</code>가 있다고 잘못 판단했습니다. <code>java.net</code> 클래스는 JDK 것이 먼저 읽혀서 생긴 착각입니다. 컴파일러가 오류를 내서 알아차렸고, <code>android.jar</code>에서 클래스를 직접 꺼내 다시 확인했습니다.</div>
+  </section>
+  <section class="section" id="others">
+    <h2>5 · 다른 프로젝트는 어떻게 하나</h2>
+    <p>고정 커밋의 소스를 읽어 확인했고, 직접 실행하지는 않았습니다. 이 문제를 일부러 막는 프로젝트는 찾지 못했습니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>프로젝트</th><th>Android 네이티브 HTTP</th><th>전역 처리기</th></tr></thead><tbody>
+      <tr><td>Capacitor, Ionic Portals</td><td><code>HttpURLConnection</code> (기본 꺼짐)</td><td>영향받는 구조이고, 쿠키 플러그인이 전역 처리기를 직접 설정함</td></tr>
+      <tr><td>Cordova advanced HTTP</td><td><code>HttpURLConnection</code></td><td>영향받는 구조, 막는 코드 없음</td></tr>
+      <tr><td>React Native, Expo</td><td>OkHttp</td><td>전역을 쓰지 않음. 쿠키는 클라이언트에 직접 연결</td></tr>
+      <tr><td>Flutter <code>ok_http</code>, <code>cronet_http</code></td><td>OkHttp, Cronet</td><td>클라이언트별 설정</td></tr>
+      <tr><td>Tauri</td><td>Rust <code>reqwest</code></td><td>Java 쪽을 거치지 않음. 허용 주소 목록도 있음</td></tr>
+    </tbody></table></div>
+    <p>이 프로젝트들 대부분은 웹 코드를 "앱의 일부"로 봅니다. 반면 Moonpool은 미니 앱을 믿지 않는 샌드박스라서, 다른 프로젝트가 막지 않는다고 우리도 괜찮다고 볼 수는 없습니다. 모델이 가장 비슷한 쪽은 허용 주소 목록을 두는 Tauri입니다.</p>
+    <p>OkHttp를 쓴다면 기본값 두 개를 바꿔야 합니다.</p>
+    <pre><code>OkHttpClient.Builder()
+    .followRedirects(false)            // 기본값 true
+    .retryOnConnectionFailure(false)   // 기본값 true. "SDK는 재시도하지 않는다"와 충돌</code></pre>
+  </section>
+  <section class="section" id="decision">
+    <h2>6 · 정해야 할 것</h2>
+    <p>지금까지의 기준은 "OS 기본 동작을 따른다"였습니다. 다만 이번 동작은 호스트 인증 정보가 나가는 문제라서 그 기준만으로 정할 수 없습니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>선택지</th><th>얻는 것</th><th>치르는 것</th></tr></thead><tbody>
+      <tr><td><strong>1. 다른 Android 클라이언트</strong> (OkHttp, Cronet, <code>HttpEngine</code>)</td><td>계약 두 문장을 모두 지킬 가능성이 있음 (유일)</td><td>의존성 추가나 최소 API 상향. 아직 측정 전이고 Android 시험도 다시 해야 함</td></tr>
+      <tr><td><strong>2. 유지하고, 탐지되면 거부</strong></td><td>코드 변경이 작음</td><td>탐지에 빈틈이 있어 보장은 못 함</td></tr>
+      <tr><td><strong>3. 유지하고, 호스트 조건으로 명시</strong></td><td>구현 비용 없음</td><td>원칙을 호스트 개발자에게 넘김. Capacitor 쿠키 플러그인을 불러오는 앱은 이미 어김</td></tr>
+      <tr><td><strong>4. 요청마다 전역 설정을 비움</strong></td><td>지금 클라이언트 유지</td><td>호스트 동작이 깨지고 경쟁 상태가 생김. 계약에서 금지</td></tr>
+    </tbody></table></div>
+    <p><strong>추천:</strong> 1번입니다. 다만 바로 정하지 말고 후보 하나를 먼저 작게 측정하는 것이 좋습니다.</p>
+    <h3>이번 시험의 한계</h3>
+    <ul>
+      <li>에뮬레이터 한 구성, HTTP/1.1, loopback에서만 시험했습니다.</li>
+      <li>Capacitor를 직접 실행하지는 않았습니다.</li>
+      <li>시험용 처리기는 누구에게나 답합니다. 실제 앱은 주소를 보고 거를 수 있지만, 호출은 똑같이 됩니다.</li>
+      <li><code>ResponseCache</code>, <code>ProxySelector</code>, 기본 TLS 설정도 전역이며 아직 시험하지 않았습니다.</li>
+    </ul>
+    <div class="callout warm"><strong>현재 상태:</strong> 결정 대기 중이고 완료 수는 6 / 44 그대로입니다. SPEC, 프로토콜, 제품 패키지는 바꾸지 않았습니다. 시험용 키는 휴지통에 있어 직접 비워 주셔야 합니다.</div>
+    <p><a href="42-native-http-transport.html">← 42 · 네이티브 HTTP 시험</a></p>
+  </section>
+</main>
+</body>
+</html>

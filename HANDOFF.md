@@ -1,7 +1,7 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-11-03. The maintainer switched to agent-led implementation
+> Last updated: 2026-11-04. The maintainer switched to agent-led implementation
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
@@ -62,6 +62,8 @@
 > iOS rule as a process's first cookie question: 36/36 correct; read docs/native-cookie-first-question-verification.md.
 > Native HTTP transport: three iOS conflicts; rules accepted as a design direction; read docs/native-http-transport-verification.md.
 > Principle: follow OS behavior unless what a mini app sees differs per platform. Do not ask again.
+> Android global handlers reach HttpURLConnection with no per-request opt-out; read docs/native-http-global-handlers-verification.md.
+> Android broker client accepted: OkHttp pinned to 5.5.1, reviewed at T56; see ADR 0027. Do not ask again. ProxySelector stays open.
 > Older checkpoints moved verbatim to docs/handoff-archive.md on 2026-11-03.
 > Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
 > Run pnpm run check; read docs/code-quality-workflow.md. Native task checks remain separate.
@@ -93,6 +95,77 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-04 checkpoint — OkHttp accepted as the Android broker's client
+
+The maintainer answered "그렇게 확정하자" to: OkHttp pinned to exactly 5.5.1, reviewed at T56. This is a design direction recorded in ADR 0027,
+and it supersedes the client and version items left open in the checkpoints below. No dynamic version; rerun the probe before raising
+the pin. The accepted "SDK never retries" rule also needs the network interceptor that hides `Retry-After`. `compileSdk` 37 is a host
+build requirement only; the package declares `minSdk` 21, with only API 37 run.
+
+Still OPEN: `ProxySelector` or `Proxy.NO_PROXY`, and a host's newer OkHttp replacing the pin. Android C01-C08 broker experiments no
+longer wait on the client. No production dependency or broker exists, T28 stays at 6/44, and the SPEC is unchanged. This work and the two
+checkpoints below are committed on branch t28-android-http-client, not pushed or merged; "nothing is committed" below describes its own moment.
+
+## 2026-11-04 checkpoint — OkHttp measured as the Android broker's client
+
+The maintainer answered "OkHttp 측정". New isolated experiments/native-http-okhttp-probe, Android only, with OkHttp 5.5.1 a dependency
+of that probe alone. Read docs/native-http-okhttp-verification.md and Korean lesson 44. Nothing is committed or pushed; publication
+was not requested. The checkpoint below keeps its own statements, and this one supersedes what it says about no candidate being measured.
+
+| Measured, broker configuration | Result |
+| --- | --- |
+| Global `CookieHandler`, `Authenticator`, `ResponseCache`, default TLS factory and verifier | Not used, while the same run shows each applying to `HttpURLConnection` |
+| Global `ProxySelector` | Called, unless `Proxy.NO_PROXY` is set |
+| Android transport requirements | Same as `HttpURLConnection`: all hold |
+| 503 `Retry-After: 0` | **Sent twice, POST body included, despite `retryOnConnectionFailure(false)`** |
+| Network interceptor renaming `Retry-After` | One attempt, GET and POST, value kept |
+| One-shot body | One attempt, POST only |
+
+OPEN, the maintainer's decisions, not made: the Android client, whether to follow `ProxySelector`, and the OkHttp version. Version sets a
+`compileSdk` burden on hosts: 37 for 5.5.x, 36 for 5.4.0, none for 5.3.2 and earlier checked. C01-C08 Android broker experiments
+wait on the client. Not measured: HTTP/2 and its 421 path, real proxies, a host's own OkHttp version, older OkHttp versions.
+
+Reused the dedicated AVD; it is stopped and adb matches baseline, with the adb server left running as found. Fixture closed, no
+crashes, nothing added to a trust store. Test keys went to the Trash, so the maintainer still empties it. Retained: 2 reports, 140
+receipt rows, 426 verifier checks, 31 host tests, lint 0 errors / 3 warnings. T28 stays incomplete at 6/44. SPEC, protocol and
+production packages are unchanged.
+
+## 2026-11-04 checkpoint — Android global handlers conflict with the contract
+
+The maintainer answered "1번 전역 설정 측정 먼저 진행하자". New isolated experiments/native-http-global-handlers-probe,
+Android only. Read docs/native-http-global-handlers-verification.md and Korean lesson 43. Nothing is committed or pushed;
+publication was not requested. This concerns SPEC §9 and the host-credentials invariant.
+
+A host's global `CookieHandler` and `Authenticator` both reach `HttpURLConnection` requests. There is no per-request opt-out:
+`setAuthenticator` and `Authenticator.getDefault` are desktop Java, absent from `android.jar` and at run time. So "disable
+ambient handlers" and "never modify application-global settings" cannot both hold on this client while a host set either one.
+
+| Measured | Result |
+| --- | --- |
+| Handler returning a cookie | Reaches the server; beside a broker cookie it is a second `Cookie` field |
+| `Set-Cookie` including `HttpOnly` | Reaches the handler, even on a returned 302 |
+| `Basic` 401 with an answering authenticator | Host credentials reach the server, and the client sees 200 |
+| Server that keeps rejecting | 21 attempts, 20 with credentials, `ProtocolException`, no status |
+| `Bearer`, `Digest`, no challenge header | One attempt, authenticator not called |
+| Timing | Handler fixed at `openConnection`; authenticator read when the challenge arrives |
+
+OPEN, the maintainer's decision, not made: which Android client the broker uses. The report lists four options and recommends
+a different client with one bounded measurement first. None of those clients was measured. C01-C08 Android broker
+experiments wait on this. The accepted transport rules are not reopened by this note.
+
+The maintainer then asked how Ionic Portals and similar projects handle this ("조사를 먼저 해보자") before any OkHttp measurement,
+so no candidate has been measured. A source comparison at pinned commits is in the report: no surveyed project defends on purpose,
+Capacitor and Portals inherit the problem and set a global `CookieHandler`, and React Native, Expo, Flutter and Tauri avoid it by
+using other clients. OkHttp needs `followRedirects` and `retryOnConnectionFailure` set false. Nothing was run.
+
+Correction for later readers: an early check ran `javap` with `-cp android.jar` and showed `setAuthenticator`, but that read the
+JDK's own class. Reading the class out of `android.jar` shows it is absent, and the compiler agreed. Do not repeat that check.
+
+Reused the dedicated AVD; it is stopped and adb matches baseline, with the adb server left running as found. Fixture closed, no
+crashes, nothing added to a trust store. Test keys went to the Trash, so the maintainer still empties it. Retained: 2 reports, 110
+receipt rows, 216 verifier checks, 38 host tests, lint 0 errors / 4 warnings. One earlier collection with the same findings stays
+in ignored local results. T28 stays incomplete at 6/44. SPEC, protocol and production packages are unchanged.
 
 ## 2026-11-03 checkpoint — local build outputs moved to the Trash
 
@@ -807,6 +880,22 @@ The git remote uses a personal SSH host alias
 `~/.ssh/config` on a new machine.
 
 ## Open decisions (maintainer's call, not made yet)
+
+- **Host-named capabilities — review after T28 (recorded 2026-11-04, not
+  approved):** the maintainer wants an option for hosts that cannot add token
+  issuing: the host registers narrow methods such as `orders.list`, calls its
+  own API with its own credentials and returns only the needed data, as
+  `profile.get` already does. Conditions from that discussion: the namespace is
+  the scope; no generic call-anything method such as `host.fetch`, which would
+  equal sharing the host's login; the host validates params and authorizes each
+  call (SPEC §9.6). `HostCapabilities` has fixed slots today, and this is a small
+  plugin system, out of scope for v0 in CLAUDE.md, so it needs explicit approval
+  and a SPEC §6 change. Do not scaffold it before that review.
+- **Delivering a mini-app-scoped token (SPEC §9.4):** the spec requires a
+  separate short-lived token where a mini app needs authenticated access, but no
+  v0.1 capability delivers one. For a host of service A opening a mini app of
+  service B, B issues the token, and A's credentials never go to B; at most a
+  one-time proof does, by agreement between the two services.
 
 - **Receiver behavior on id reuse (§4.1):** the spec says senders MUST NOT
   reuse ids (positive, monotonically increasing) but never says what a

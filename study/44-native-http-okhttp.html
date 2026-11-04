@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — OkHttp 시험</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">44 · OkHttp 시험</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#why">무엇을 시험했나</a>
+    <a href="#isolation">전역 설정이 끼어드나</a>
+    <a href="#resend">재전송 한 가지</a>
+    <a href="#cost">치르는 비용</a>
+    <a href="#decision">결정한 것과 남은 것</a>
+  </nav>
+  <p class="small desktop-only">2026.11.04 · 부분 검증<br>전역 처리기 영향 없음<br>OkHttp 5.5.1 확정 · 구현 전</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">T28 · OkHttp as the Android broker's client</div>
+    <h1>전용 우편실을 시험해 보니,<br>건물 규칙이 들어오지 않았습니다.</h1>
+    <p class="lead"><a href="43-native-http-global-handlers.html">43번 시험</a>에서 호스트의 전역 설정이 <code>HttpURLConnection</code>에 그대로 끼어드는 것을 확인했습니다. 이번에는 같은 전역 설정을 걸어 두고 OkHttp로 요청을 보냈습니다. 쿠키와 인증 처리기는 끼어들지 않았고, 재전송 문제 하나가 새로 나왔습니다.</p>
+    <div class="meta"><span class="pill">관측 128개 · 서버 기록 140행</span><span class="pill warm">재전송 1건 대응 필요</span><span class="pill warm">OkHttp 5.5.1 확정 · 구현 전</span></div>
+  </header>
+  <section class="section" id="why">
+    <h2>1 · 무엇을 시험했나</h2>
+    <p>"끼어들지 않았다"는 결과가 의미 있으려면 그 전역 설정이 실제로 켜져 있었다는 증거가 필요합니다. 그래서 같은 실행에서 같은 설정을 <code>HttpURLConnection</code>에도 적용해 봤습니다. 그쪽에 적용되지 않으면 검증 자체가 실패합니다.</p>
+    <pre><code>OkHttpClient.Builder()
+    .followRedirects(false)
+    .followSslRedirects(false)
+    .retryOnConnectionFailure(false)
+    .cache(null)
+    // 쿠키와 인증은 일부러 설정하지 않음. 기본값을 시험하기 위해서입니다
+    .build()</code></pre>
+  </section>
+  <section class="section" id="isolation">
+    <h2>2 · 전역 설정이 끼어드나</h2>
+    <div class="table-wrap"><table><thead><tr><th>호스트가 건 전역 설정</th><th><code>HttpURLConnection</code></th><th>OkHttp</th></tr></thead><tbody>
+      <tr><td><code>CookieHandler</code></td><td>호스트 쿠키가 서버에 도착</td><td><strong>호출 안 됨</strong></td></tr>
+      <tr><td><code>Authenticator</code></td><td>호스트 인증 정보가 서버에 도착</td><td><strong>호출 안 됨</strong>, 401 그대로</td></tr>
+      <tr><td><code>ResponseCache</code></td><td>호출됨</td><td>호출 안 됨</td></tr>
+      <tr><td>모든 인증서를 믿는 기본 TLS 설정</td><td><strong>인증서가 맞지 않는 서버에도 접속</strong></td><td><strong>거부</strong></td></tr>
+      <tr><td><code>ProxySelector</code></td><td>호출됨</td><td>호출됨 (<code>Proxy.NO_PROXY</code>면 안 됨)</td></tr>
+    </tbody></table></div>
+    <p>쿠키와 인증은 43번에서 나온 경우를 모두 다시 시험했고, 클라이언트를 만든 뒤에 전역 설정을 걸어도 결과가 같았습니다.</p>
+    <p>TLS 줄은 뜻밖의 수확입니다. 호스트가 앱 전체의 인증서 검증을 약하게 해 두면, <code>HttpURLConnection</code>으로 보내는 요청도 함께 약해집니다.</p>
+    <p>전송 조건도 42번 시험의 Android 결과와 같았습니다. <code>Set-Cookie</code>는 한 줄씩 순서대로 보이고, 리다이렉트는 따라가지 않으며, 404와 500도 정상 결과이고, 공유 캐시가 없고, 본문이 오기 전에 헤더가 보입니다.</p>
+  </section>
+  <section class="section" id="resend">
+    <h2>3 · 재전송 한 가지가 남았습니다</h2>
+    <p>"SDK는 자동으로 다시 보내지 않는다"는 약속이 있습니다. 그런데 서버가 503에 <code>Retry-After: 0</code>을 붙이면, <code>retryOnConnectionFailure(false)</code>를 넣어도 OkHttp가 한 번 더 보냅니다. 소스를 보고 예상한 대로 측정에서도 POST 본문이 두 번 전송됐습니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>상황</th><th>GET</th><th>POST</th></tr></thead><tbody>
+      <tr><td>대응 없음</td><td><strong>2번</strong></td><td><strong>2번</strong></td></tr>
+      <tr><td>본문을 한 번만 쓸 수 있게 표시 (<code>isOneShot</code>)</td><td>해당 없음</td><td>1번</td></tr>
+      <tr><td>네트워크 인터셉터로 헤더 이름 변경</td><td>1번</td><td>1번</td></tr>
+    </tbody></table></div>
+    <p>GET과 POST를 모두 막는 방법은 인터셉터입니다. OkHttp가 판단하기 전에 헤더 이름을 바꾸고, 앱에 돌려줄 때 원래 이름으로 되돌리면 됩니다.</p>
+    <pre><code>builder.addNetworkInterceptor(chain -&gt; {
+    Response response = chain.proceed(chain.request());
+    String value = response.header("Retry-After");
+    if (value == null) return response;
+    // OkHttp가 보지 못하게 숨기되, 값은 잃지 않습니다
+    return response.newBuilder()
+        .removeHeader("Retry-After")
+        .header("X-Moonpool-Retry-After", value)
+        .build();
+});</code></pre>
+  </section>
+  <section class="section" id="cost">
+    <h2>4 · 치르는 비용</h2>
+    <div class="table-wrap"><table><thead><tr><th>항목</th><th>내용</th></tr></thead><tbody>
+      <tr><td>추가되는 라이브러리</td><td>OkHttp, Okio, Kotlin 표준 라이브러리, AndroidX 일부</td></tr>
+      <tr><td>호스트 앱의 <code>compileSdk</code> 요구</td><td>5.5.x는 <strong>37</strong>, 5.4.0은 36, 5.3.2 이하(확인한 버전)는 요구 없음</td></tr>
+      <tr><td>디버그 APK 크기</td><td>약 2.5MB → 약 4.1MB (코드가 달라 대략적인 비교, 난독화 전)</td></tr>
+      <tr><td>버전 충돌</td><td>앱 안에는 OkHttp가 한 버전만 들어감. 호스트가 쓰는 버전과 맞물림 (측정 전)</td></tr>
+    </tbody></table></div>
+    <p><code>compileSdk</code> 요구는 실제로 빌드를 멈췄습니다. SDK를 쓰는 호스트 개발자에게 그대로 넘어가므로 버전을 고를 때 중요합니다. 다만 낮은 버전이 같은 결과를 내는지는 아직 측정하지 않았습니다.</p>
+    <p>이름이 비슷한 세 값은 뜻이 다릅니다. OkHttp 5.5.1 패키지가 요구하는 것은 <code>compileSdk</code> 37과 <code>minSdk</code> 21이고, <code>targetSdk</code> 요구는 없습니다. <code>compileSdk</code>는 빌드할 때 쓰는 SDK 버전이라, 앱이 돌아가는 기기의 Android 버전과는 다릅니다.</p>
+  </section>
+  <section class="section" id="decision">
+    <h2>5 · 결정한 것과 남은 것</h2>
+    <div class="table-wrap"><table><thead><tr><th>항목</th><th>상태</th><th>이유</th></tr></thead><tbody>
+      <tr><td>Android 클라이언트</td><td><strong>OkHttp로 확정</strong> (2026.11.04)</td><td>측정 범위에서 조건을 충족. <code>HttpEngine</code>은 API 34 이상, 또는 SDK 확장 7이 있는 Android 12 이상이고 측정하지 않음</td></tr>
+      <tr><td>OkHttp 버전</td><td><strong>5.5.1로 고정</strong>, T56에서 재검토</td><td>측정한 버전이고 아직 실제 호스트가 없음. 올릴 때는 프로브를 다시 돌리고, 낮춰도 호스트가 깨지지 않음</td></tr>
+      <tr><td><code>ProxySelector</code></td><td>결정 대기: 따름, 또는 <code>NO_PROXY</code></td><td>따르면 회사 프록시가 동작하고 호스트가 주소의 스킴·호스트·포트를 봄. 인증 정보는 아님</td></tr>
+    </tbody></table></div>
+    <p>호스트가 더 높은 OkHttp를 쓰면 앱에는 그 버전이 들어갑니다. Gradle이 가장 높은 버전 하나를 고르기 때문입니다. 그래서 고정은 "최소 이 버전"에 가깝고, 이 점은 T56에서 함께 확인합니다.</p>
+    <h3>이번 시험의 한계</h3>
+    <ul>
+      <li>에뮬레이터 한 구성, OkHttp 한 버전, loopback의 HTTP/1.1에서만 시험했습니다.</li>
+      <li>HTTP/2와 421 경로, 실제 프록시, 프록시 인증, 본문 도중 실패, 요청 취소는 아직 시험하지 않았습니다.</li>
+      <li>닫힌 연결 시험은 새 연결 기준입니다. 재사용 연결에서의 재전송은 확인하지 못했습니다.</li>
+      <li>OkHttp로 브로커를 만들 수 있다는 근거일 뿐, 브로커를 만든 것은 아닙니다.</li>
+    </ul>
+    <div class="callout warm"><strong>현재 상태:</strong> 설계 방향만 확정했고 완료 수는 6 / 44 그대로입니다. OkHttp는 프로브에만 넣었고 SPEC, 프로토콜, 제품 패키지는 바꾸지 않았습니다. 시험용 키는 휴지통에 있어 직접 비워 주셔야 합니다.</div>
+    <p><a href="43-native-http-global-handlers.html">← 43 · Android 전역 HTTP 설정 시험</a></p>
+  </section>
+</main>
+</body>
+</html>
