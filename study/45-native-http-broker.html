@@ -27,6 +27,8 @@
     <div class="meta"><span class="pill">44사례 × 4수집 · 검증 1,218건 · 서버 기록 354행</span><span class="pill">전부 통과</span><span class="pill warm">결정 1건 · 구현 전</span></div>
   </header>
 
+  <div class="callout"><strong>이후 변경:</strong> 이 글은 44사례 기준입니다. 코드 리뷰 수정과 58사례 재수집은 <a href="46-native-http-broker-review.html">46번</a>에 있습니다.</div>
+
   <section class="section" id="what">
     <h2>1 · 무엇을 만들어 시험했나</h2>
     <p>"브로커"는 미니 앱의 HTTP 요청을 대신 보내 주는 네이티브 쪽 창구입니다. 미니 앱은 쿠키를 직접 만지지 않고, 브로커가 앱별 쿠키 보관함(jar)을 들고 요청을 보냅니다. 이번에 만든 것은 제품 코드가 아니라 <strong>계약안을 시험하기 위한 연구용 구현</strong>입니다. 그래서 <code>experiments/</code> 아래에만 있고, OkHttp도 이 실험의 의존성으로만 들어가 있습니다.</p>

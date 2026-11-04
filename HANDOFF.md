@@ -64,8 +64,9 @@
 > Principle: follow OS behavior unless what a mini app sees differs per platform. Do not ask again.
 > Android global handlers reach HttpURLConnection with no per-request opt-out; read docs/native-http-global-handlers-verification.md.
 > Android broker client accepted: OkHttp pinned to 5.5.1, following ProxySelector, reviewed at T56; see ADR 0027. Do not ask again.
-> Broker experiment resumed on request and collected on 2026-11-05: 44 cases pass on both platforms, four collections.
-> Read docs/native-http-broker-verification.md and Korean lesson 45. Guest-visible results are identical across platforms.
+> Broker review findings fixed and collected again on 2026-11-05: 58 cases pass on both platforms, four collections.
+> Read docs/native-http-broker-verification.md and Korean lessons 45-46. Guest-visible results are identical across platforms.
+> OPEN: a comma in a cookie value can drop HttpOnly on both platforms; the accepted pipeline stays until the maintainer decides.
 > OPEN parity item: after the accepted iOS Basic 401 resend the jar keeps the second response's cookie, Android the first,
 > and the guest's own Authorization is replayed. Both devices stopped; T28 stays at 6/44 with C04 and C09-C12 untouched.
 > Older checkpoints moved verbatim to docs/handoff-archive.md on 2026-11-03.
@@ -99,6 +100,36 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-05 checkpoint — review findings fixed and collected again
+
+The maintainer answered "수정 진행" to fixing the review findings and collecting again. Read the code review section of
+docs/native-http-broker-verification.md and Korean lesson 46 (study/46-native-http-broker-review.html). The maintainer then answered
+"추천대로 진행": these changes are committed on branch t28-native-http-broker, not pushed or merged. This supersedes the
+checkpoint below where it gives 44 cases, 15 unfixed findings or the broker's behavior.
+
+**All 58 cases met the oracle on both platforms in all four collections, and guest-visible results including response headers,
+receipts and jar effects are identical across platforms and runs.** 1658 verifier checks, 426 TLS receipt rows (402 arrivals, 24
+hold releases, no hold timeout), 64 host tests, Android lint 0 errors / 3 warnings. Before the fixes, the 14 new scenarios failed
+11 cases on Android and 6 on iOS; those reports stay in ignored local-results/red. Inputs that could crash iOS or abort a
+collection were guarded before that run, so they were not seen failing. That run also found that an iOS HEAD with a body had not
+finished after the 40-second barrier.
+
+OPEN, the maintainer's decisions, not made:
+
+1. **The cookie after the accepted iOS `Basic` 401 resend.** Unchanged: iOS keeps the second response's cookie and Android the
+   first. Recommended next is one bounded iOS run reading `URLAuthenticationChallenge.failureResponse`; that was not part of
+   this request and was not run.
+2. **The comma limit.** `sid=abc, x=y; Path=/; Secure; HttpOnly` leaves `sid=abc` readable by the guest on both platforms. The
+   pipeline is accepted and unchanged, and this concerns SPEC §9. The question is whether stating it in the contract is enough.
+
+The method list and the script cookie grammar are choices made for this probe, not contract text. Not recorded: headers a
+client adds itself, such as `User-Agent` or a default `Content-Type`. C04, C09-C12, real Portals and the bridge remain uncovered;
+T28 stays at 6/44, and SPEC, protocol and production packages are unchanged.
+
+Devices: the same dedicated AVD and simulator were booted by this task and are stopped. The 25 other simulators and the unrelated
+AVD were never started, and all 26 simulator baseline states match. The `adb` server was not running before and is stopped.
+Fixture closed, no crashes, nothing added to a trust store. New test keys went to the Trash, so the maintainer still empties it.
 
 ## 2026-11-05 checkpoint — broker experiment resumed and collected
 

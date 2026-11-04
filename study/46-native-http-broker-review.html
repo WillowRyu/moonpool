@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — 브로커 리뷰 수정</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">46 · 브로커 리뷰 수정</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#red">먼저 실패를 봤습니다</a>
+    <a href="#input">미니 앱 입력 막기</a>
+    <a href="#parity">두 OS가 달랐던 곳</a>
+    <a href="#lifetime">닫힌 Portal의 대기 요청</a>
+    <a href="#evidence">증거 도구 고치기</a>
+    <a href="#open">고치지 않은 것과 한계</a>
+  </nav>
+  <p class="small desktop-only">2026.11.05 · 부분 검증<br>58사례 × 4수집 전부 통과<br>결정 2건 남음 · 구현 전</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">T28 · Code review fixes for the native broker probe</div>
+    <h1>리뷰에서 나온 문제를 고치고<br>58가지로 다시 돌렸습니다.</h1>
+    <p class="lead"><a href="45-native-http-broker.html">45번</a>의 44가지 사례는 모두 통과했지만, 코드 리뷰에서 그 사례들이 건드리지 않는 문제 15건이 나왔습니다. 사례 14개를 더해 먼저 실패하는 것을 확인하고, 14건을 고친 뒤 양쪽 OS에서 다시 수집했습니다. 남은 1건은 이미 받아들인 설계라 고치지 않고 영향을 측정했습니다.</p>
+    <div class="meta"><span class="pill">58사례 × 4수집 · 검증 1,658건 · 서버 기록 426행</span><span class="pill">전부 통과</span><span class="pill warm">결정 2건 · 구현 전</span></div>
+  </header>
+
+  <section class="section" id="red">
+    <h2>1 · 먼저 실패를 봤습니다</h2>
+    <p>고친 뒤 통과만 보면, 그 사례가 정말 문제를 잡는지 알 수 없습니다. 그래서 새 사례 14개를 고치기 전 브로커에 먼저 돌렸습니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>실행</th><th>Android</th><th>iOS</th></tr></thead><tbody>
+      <tr><td>고치기 전 (58사례)</td><td><strong>11개 실패</strong></td><td><strong>6개 실패</strong></td></tr>
+      <tr><td>고친 뒤 (각 2회)</td><td>모두 통과</td><td>모두 통과</td></tr>
+    </tbody></table></div>
+    <p>이 단계에서 뜻밖의 문제도 나왔습니다. iOS에서 <code>HEAD</code> 요청에 본문을 넣으면 40초를 기다려도 끝나지 않았습니다.</p>
+    <p>한 가지는 일부러 미리 막았습니다. 앱을 죽일 수 있는 입력을 그대로 보내면 크래시 창이 뜨는데, 이전에 그 창을 피해 달라고 하셨기 때문입니다. 그래서 필드 타입이 잘못된 쿠키 요청과 <code>url</code>이 없는 요청, iOS의 줄바꿈·메서드·헤더 문자 입력은 실패하는 모습을 직접 보지 못했습니다.</p>
+  </section>
+
+  <section class="section" id="input">
+    <h2>2 · 미니 앱 입력 막기</h2>
+    <p>가장 심각한 문제는 쿠키 값 안의 <code>;</code>였습니다. 브로커는 쿠키를 <code>이름=값</code>으로 이어 붙여 보내기 때문에, 값에 <code>;</code>가 있으면 쿠키가 하나 더 생긴 것처럼 서버에 도착합니다.</p>
+    <pre><code>// 미니 앱이 보낸 값
+cookies.set({ name: 'x', value: '1; prot=guest' })
+
+// 고치기 전: 거절 없이 저장됐습니다. 이대로 나가면 보호된 prot 옆에 가짜 prot이 붙습니다
+Cookie: prot=protected-marker; x=1; prot=guest
+
+// 고친 뒤: RFC 6265 문법에 맞지 않으면 -32602로 거절하고 보내지 않습니다
+static final Pattern COOKIE_VALUE = Pattern.compile("[\\x21\\x23-\\x2B\\x2D-\\x3A\\x3C-\\x5B\\x5D-\\x7E]*");</code></pre>
+    <p>위 헤더는 코드로 추론한 모습입니다. 실제 실행에서는 뒤 단계가 같은 이름을 덮어써서 이 값 자체는 나가지 않았고, 이름에 <code>;</code>를 넣은 <code>a;b=x</code>가 iOS에서 서버까지 그대로 도착한 것을 확인했습니다. Android에서는 줄바꿈이 든 값 때문에 이후 요청이 모두 <code>-32603</code>으로 실패했습니다.</p>
+    <p>iOS에는 다른 문제가 있었습니다. 타입이 틀린 값을 기본값으로 읽어 버려서, 쿠키를 빼려는 요청이 오히려 쿠키를 보냈습니다.</p>
+    <pre><code>// 고치기 전: false는 문자열이 아니므로 기본값 "include"가 됩니다
+let credentials = params["credentials"] as? String ?? "include"
+
+// 고친 뒤: 값이 있는데 타입이 틀리면 거절합니다
+if let given = params["credentials"] {
+    guard let text = given as? String, text == "include" || text == "omit" else { return false }
+}</code></pre>
+    <p>헤더도 같습니다. 값 하나만 숫자여도 전체 변환이 실패해서 금지 헤더 검사를 건너뛰었는데, 이제 항목마다 검사합니다.</p>
+  </section>
+
+  <section class="section" id="parity">
+    <h2>3 · 두 OS가 달랐던 곳</h2>
+    <p>44가지 사례가 우연히 피해 간 입력들입니다. 모든 사례가 포트를 적었고, POST에는 전부 본문이 있었고, 응답은 금방 왔습니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>입력</th><th>고치기 전 Android</th><th>고치기 전 iOS</th><th>고친 뒤 (양쪽)</th></tr></thead><tbody>
+      <tr><td><code>https://host/</code> (포트 생략)</td><td><code>-32000</code> 거절</td><td>전송</td><td>443으로 처리</td></tr>
+      <tr><td>본문 없는 <code>POST</code></td><td><code>-32603</code></td><td>전송</td><td>빈 본문으로 전송</td></tr>
+      <tr><td>12초 걸리는 응답</td><td>시간 초과 실패</td><td>정상</td><td>정상 (시간 제한 40초)</td></tr>
+      <tr><td><code>Set-Cookie: ;</code></td><td>네트워크 오류로 바뀜</td><td>정상</td><td>무시하고 정상</td></tr>
+      <tr><td>ASCII가 아닌 서버 쿠키</td><td>이후 요청 전부 실패</td><td>그대로 다시 전송</td><td>저장하지 않음</td></tr>
+    </tbody></table></div>
+    <p>포트 문제의 원인은 값 하나였습니다.</p>
+    <pre><code>// Java: 포트가 없으면 -1. 승인 목록에서 "host:-1"을 찾고 있었습니다
+uri.getPort()
+
+// 고친 뒤: Swift의 url.port ?? 443과 같은 뜻입니다
+uri.getPort() == -1 ? 443 : uri.getPort()</code></pre>
+    <p><code>Set-Cookie: ;</code>는 Java의 특성 때문입니다. <code>";".split(";")</code>는 뒤쪽 빈 문자열을 버려서 빈 배열을 돌려주고, <code>parts[0]</code>에서 예외가 납니다. <code>split(";", -1)</code>로 바꾸면 Swift처럼 빈 문자열이 남습니다.</p>
+  </section>
+
+  <section class="section" id="lifetime">
+    <h2>4 · 닫힌 Portal의 대기 요청</h2>
+    <p>주석에는 소유자를 다시 확인한다고 적혀 있었는데, 실제 코드는 세대 번호만 봤습니다. 그래서 Portal을 닫은 뒤에도 아직 시작하지 않은 요청이 앱 쿠키를 달고 나갔습니다.</p>
+    <pre><code>// 네트워크에 나가기 직전에 확인합니다
+if portal.retired { finish(portal, pending, denied("retired")); return }
+if session.generation != generation { finish(portal, pending, denied(-32007, "sessionReset")); return }</code></pre>
+    <p>이미 나간 요청은 그대로 둡니다. 서버가 처리했을 수 있으므로 쿠키도 커밋합니다. 이번 수정은 <strong>아직 시작하지 않은 요청</strong>만 막습니다.</p>
+  </section>
+
+  <section class="section" id="evidence">
+    <h2>5 · 증거 도구 고치기</h2>
+    <p>브로커뿐 아니라, 결과를 믿게 해 주는 도구에도 구멍이 있었습니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>도구</th><th>문제</th><th>고친 뒤</th></tr></thead><tbody>
+      <tr><td>TLS 대조군</td><td>어떤 실패든 "인증서 거부"로 기록</td><td>TLS 오류만 인정 (<code>SSLHandshakeException</code>, <code>-1202</code> 확인)</td></tr>
+      <tr><td>서버의 붙잡기</td><td>30초 시간 초과도 "해제됨"으로 기록</td><td><code>holdTimedOut</code>으로 기록하고 검증 실패</td></tr>
+      <tr><td>실행 태그</td><td>같은 태그를 다시 쓰면 두 실행이 섞임</td><td>실행 전에 거절</td></tr>
+      <tr><td>iOS 해시</td><td>실행 파일만 확인해서 낡은 사례 파일을 못 알아챔</td><td>사례 파일과 CA까지 포함</td></tr>
+      <tr><td>플랫폼 비교</td><td>응답 헤더를 비교하지 않음</td><td>비교함 (<code>Date</code>, <code>Location</code>의 실행 태그와 포트 제외)</td></tr>
+      <tr><td>실행기</td><td>앱을 켠 뒤 해시를 확인하고, 실패하면 앱과 포트 연결이 남음</td><td>켜기 전에 확인하고, 실패해도 항상 정리</td></tr>
+    </tbody></table></div>
+  </section>
+
+  <section class="section" id="open">
+    <h2>6 · 고치지 않은 것과 한계</h2>
+    <p>쉼표 처리는 이미 받아들인 설계입니다. iOS는 <code>Set-Cookie</code> 줄을 하나로 합쳐서 보여 주기 때문에 원래 경계를 알 수 없습니다. 그래서 고치지 않고 영향을 재 봤더니, 계약서에 적힌 "쿠키가 하나 더 생긴다"보다 한 가지가 더 있었습니다.</p>
+    <pre><code>서버가 보냄   Set-Cookie: sid=abc, x=y; Path=/; Secure; HttpOnly
+보관함        sid=abc, x=y
+미니 앱이 읽음 sid=abc     ← HttpOnly를 잃어서 읽힙니다 (양쪽 OS 동일)</code></pre>
+    <p>RFC 6265의 서버 문법은 쿠키 값에 쉼표를 허용하지 않으므로, 규칙을 어기는 서버에서만 생깁니다. 더 엄격한 규칙도 정확할 수 없습니다. iOS에서는 정상적인 두 줄도 똑같은 글자로 보이기 때문입니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>결정할 것</th><th>내용</th><th>권하는 것</th></tr></thead><tbody>
+      <tr><td><code>Basic</code> 401 뒤 쿠키</td><td>iOS는 두 번째 응답, Android는 첫 응답의 쿠키가 남음 (변함없음)</td><td><code>failureResponse</code>를 iOS에서 한 번 측정</td></tr>
+      <tr><td>쉼표와 <code>HttpOnly</code></td><td>양쪽 동일하지만 보호가 풀림. SPEC §9 관련</td><td>계약서에 이 영향을 적을지 결정</td></tr>
+    </tbody></table></div>
+    <h3>이번 시험의 한계</h3>
+    <ul>
+      <li>허용 메서드 7개와 쿠키 문법은 이 실험에서 정한 값이고, 아직 계약 문구가 아닙니다.</li>
+      <li>서버는 메서드, 본문 길이, <code>Cookie</code>, <code>Authorization</code>만 기록합니다. <code>User-Agent</code>나 기본 <code>Content-Type</code>처럼 클라이언트가 스스로 붙이는 헤더는 비교하지 못했습니다.</li>
+      <li>C04와 C09–C12, 실제 Portal, 브리지는 여전히 시험하지 않았습니다.</li>
+    </ul>
+    <div class="callout warm"><strong>현재 상태:</strong> 완료 수는 6 / 44 그대로입니다. 이번 수정은 커밋하지 않았고, SPEC·프로토콜·제품 패키지는 바뀌지 않았습니다. 새 시험용 키도 휴지통에 있어 직접 비워 주셔야 합니다.</div>
+    <p><a href="45-native-http-broker.html">← 45 · 브로커 시험</a></p>
+  </section>
+</main>
+</body>
+</html>
