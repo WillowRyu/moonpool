@@ -63,7 +63,7 @@
 > Native HTTP transport: three iOS conflicts; rules accepted as a design direction; read docs/native-http-transport-verification.md.
 > Principle: follow OS behavior unless what a mini app sees differs per platform. Do not ask again.
 > Android global handlers reach HttpURLConnection with no per-request opt-out; read docs/native-http-global-handlers-verification.md.
-> Android broker client accepted: OkHttp pinned to 5.5.1, reviewed at T56; see ADR 0027. Do not ask again. ProxySelector stays open.
+> Android broker client accepted: OkHttp pinned to 5.5.1, following ProxySelector, reviewed at T56; see ADR 0027. Do not ask again.
 > Older checkpoints moved verbatim to docs/handoff-archive.md on 2026-11-03.
 > Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
 > Run pnpm run check; read docs/code-quality-workflow.md. Native task checks remain separate.
@@ -96,6 +96,18 @@
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
 
+## 2026-11-04 checkpoint — broker experiment paused by the maintainer
+
+The maintainer stopped this work mid-run ("다 중단하고 나중에") and asked to shut the devices down. Resume only when asked.
+Unfinished experiments/native-http-broker-probe is committed as work in progress at the maintainer's request and holds C01-C03 and C05-C08 subsets: 44 cases, a research broker on OkHttp 5.5.1 and
+URLSession, fixture, verifier and 41 passing host tests. No final collection exists. Preliminary output is in its ignored local-results/preliminary.
+
+Preliminary only, not evidence yet: iOS passed all 44 cases once. On a `Basic` 401, iOS resent a guest's preset `Authorization` and the jar kept the
+second response's cookie; that iOS report file is gone, because the interrupted rerun deleted it first. Android's first attempt was stopped by the harness at
+a false "process exited" while the emulator was busy. The rerun left local-results/preliminary/android-prelim.json, which nobody has read or verified.
+To resume: rebuild iOS (Probe.swift was edited after the iOS pass), run two collections per platform, then write the report and
+Korean lesson. Not covered: C04 (needs a frozen cookie profile), C09-C12, real Portals or the bridge.
+
 ## 2026-11-04 checkpoint — OkHttp accepted as the Android broker's client
 
 The maintainer answered "그렇게 확정하자" to: OkHttp pinned to exactly 5.5.1, reviewed at T56. This is a design direction recorded in ADR 0027,
@@ -103,7 +115,11 @@ and it supersedes the client and version items left open in the checkpoints belo
 the pin. The accepted "SDK never retries" rule also needs the network interceptor that hides `Retry-After`. `compileSdk` 37 is a host
 build requirement only; the package declares `minSdk` 21, with only API 37 run.
 
-Still OPEN: `ProxySelector` or `Proxy.NO_PROXY`, and a host's newer OkHttp replacing the pin. Android C01-C08 broker experiments no
+The maintainer then answered "네, 따르기로": the broker follows `ProxySelector` and does not set `Proxy.NO_PROXY`. Real proxies and proxy
+authentication are not measured yet.
+
+Still OPEN: a host's newer OkHttp replacing the pin. Next, after the maintainer's go-ahead: isolated broker experiments C01-C08, with the
+remaining transport items measured alongside them. Android C01-C08 broker experiments no
 longer wait on the client. No production dependency or broker exists, T28 stays at 6/44, and the SPEC is unchanged. This work and the two
 checkpoints below are merged into master by fast-forward and pushed, with branch t28-android-http-client kept at the same commit.
 "Nothing is committed" below describes its own moment.
