@@ -37,8 +37,9 @@ maintainer accepted on 2026-11-04, pinned to 5.5.1. Android broker experiments f
 [Broker evidence](native-http-broker-verification.md) is the first paired broker measurement, collected on 2026-11-05: 58 cases
 drawn from the C01–C03 and C05–C08 subsets pass on both platforms, with identical guest-visible results, receipts and jar effects.
 It answers both questions the transport report left open about the accepted iOS `Basic` 401 resend: the jar keeps the second
-response's cookie, and the guest's own `Authorization` is replayed. The first of those breaks parity and is open for decision. It also measures that a comma in a cookie value can drop `HttpOnly`
-on both platforms, which is open for decision too.
+response's cookie, and the guest's own `Authorization` is replayed. The first of those breaks parity. [A later measurement](native-http-failure-response-verification.md) found the first cookie readable at the
+challenge, and whether to use it is open for decision. It also measures that a comma in a cookie value can drop `HttpOnly` on both
+platforms, which the contract now states.
 C04 and C09–C12 remain untouched, and no procedure below is marked complete by it.
 
 ## 1. Review outcome and decisions still required
@@ -191,7 +192,8 @@ Use a controlled clock for algorithmic expiry tests and separate native clock
 observations. Compare the ordered Cookie header as well as resulting identities.
 
 Do not derive the oracle from either OS's cookie parser; they measurably disagree. Include the pipeline's
-documented limit, where a value containing `, name=` becomes an extra cookie on both. Exact parsing tolerance,
+documented limit, where a value containing `, name=` becomes an extra cookie on both and the earlier pieces lose their
+attributes, including `HttpOnly`. Exact parsing tolerance,
 identity including host-only treatment, prefix case handling, header ordering,
 public-suffix data revision, newer attributes and resource limits are unresolved
 profile inputs. Freeze them before claiming this case passes. RFC 6265 and the

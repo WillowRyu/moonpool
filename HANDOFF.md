@@ -66,7 +66,8 @@
 > Android broker client accepted: OkHttp pinned to 5.5.1, following ProxySelector, reviewed at T56; see ADR 0027. Do not ask again.
 > Broker review findings fixed and collected again on 2026-11-05: 58 cases pass on both platforms, four collections.
 > Read docs/native-http-broker-verification.md and Korean lessons 45-46. Guest-visible results are identical across platforms.
-> OPEN: a comma in a cookie value can drop HttpOnly on both platforms; the accepted pipeline stays until the maintainer decides.
+> A comma in a cookie value can drop HttpOnly on both platforms: accepted on 2026-11-05 and stated in the contract. Do not ask again.
+> failureResponse carries the first Basic 401's Set-Cookie on iOS; read docs/native-http-failure-response-verification.md. Applying it is OPEN.
 > OPEN parity item: after the accepted iOS Basic 401 resend the jar keeps the second response's cookie, Android the first,
 > and the guest's own Authorization is replayed. Both devices stopped; T28 stays at 6/44 with C04 and C09-C12 untouched.
 > Older checkpoints moved verbatim to docs/handoff-archive.md on 2026-11-03.
@@ -100,6 +101,27 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-05 checkpoint — comma limit stated, `failureResponse` measured
+
+The maintainer answered "추천대로 진행". The 58-case work is committed through 693dbaf on branch t28-native-http-broker, not pushed or
+merged. The maintainer then answered "커밋 후 브로커 적용", so everything below in this checkpoint is committed on that branch too.
+
+**The comma limit is decided.** The pipeline stays, and the contract, ADR 0027 and the C04 procedure now say that the pieces before the
+last lose every attribute, including `HttpOnly`. This concerns SPEC §9. SPEC itself is unchanged.
+
+**`failureResponse` carries the first response's `Set-Cookie`.** New experiments/native-http-failure-response-probe, iOS only, kept apart
+so the 58-case evidence stays valid. All 8 `Basic` cases in both runs matched what the fixture served on arrival 1, which meets the
+criteria written before collection. 22 observations, 38 TLS receipt rows, 64 checks per run, 25 host tests. Read
+docs/native-http-failure-response-verification.md and Korean lesson 47.
+
+OPEN, the maintainer's decision, not made: whether to apply it to the research broker. It would refine the accepted "commit at header
+delivery" rule on iOS, needs the reset fence at the challenge too, and means collecting all 58 cases again on both platforms. It would not
+remove the second attempt, the `Authorization` replay, or a body that comes from the second attempt.
+
+Limits: one OS version, HTTP/1.1 over loopback, `Basic` only, and the SDK header promises nothing about the header fields. Devices: only the
+dedicated simulator ran and it is stopped, with all 26 baseline states matching; no emulator or `adb` server was started. Fixture closed, no
+crash, nothing added to a trust store. Test keys went to the Trash, so the maintainer still empties it. T28 stays at 6/44.
 
 ## 2026-11-05 checkpoint — review findings fixed and collected again
 

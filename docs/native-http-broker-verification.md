@@ -21,7 +21,7 @@ One platform difference survives, and the cases declare it a measurement rather 
 [transport report](native-http-transport-verification.md). What is new is its two consequences, both of which that
 report listed as open questions: **iOS leaves the second response's cookie in the jar, and it replays the guest's own
 `Authorization` on the extra attempt.** Everything else is parity, within these cases. One accepted limit is also newly
-measured, and it needs a decision: a comma in a cookie value can drop `HttpOnly` on both platforms.
+measured, and the contract now states it: a comma in a cookie value can drop `HttpOnly` on both platforms.
 
 ## What the 58 cases establish
 
@@ -70,14 +70,9 @@ differs per platform**, so this breaks parity. The case is narrow, and the fixtu
 cookie per attempt. By inference, not measured: a server sending the same cookie twice leaves equal jars, and one setting
 a cookie only on the first attempt leaves the iOS jar without it.
 
-OPEN, the maintainer's decision, not made:
-
-- **Measure `URLAuthenticationChallenge.failureResponse` first (recommended).** The SDK header calls it the response
-  representing the authentication failure, and the challenge handler runs between the two attempts. The probe does not
-  read it, so whether it carries the first 401's `Set-Cookie` fields is unknown. If it does, a broker could commit from it
-  and ignore the resend's cookies, matching Android without touching the accepted resend. One bounded iOS run.
-- **Accept and document.** The jar holds the cookie from the response the OS delivers. This needs no device work and
-  leaves the narrow guest-visible difference that the parity requirement exists to prevent.
+**Measured on 2026-11-05:** the challenge handler can read the first response's `Set-Cookie` through
+[`failureResponse`](native-http-failure-response-verification.md), so a broker could match Android. OPEN, the maintainer's decision, not
+made: whether to apply that here, or to accept and document the difference. The probe keeps the measured behavior until then.
 
 **2. The guest's own `Authorization` is replayed once.** The second attempt carried `Bearer guest-owned` unchanged. This
 is the other question the transport report left open, and it is the lockout risk that report predicted: a server counting
@@ -101,7 +96,7 @@ The attributes stay with the last piece, so `sid=abc` loses `HttpOnly` and a min
 RFC 6265's server grammar excludes commas from cookie values, so it takes a non-conforming server. A stricter rule cannot be
 precise, because on iOS the same text also comes from two honest fields.
 
-OPEN, the maintainer's decision, not made: whether stating this in the contract's limit is enough. Nothing was changed.
+The maintainer accepted keeping the pipeline and stating this in the contract on 2026-11-05. The broker is unchanged.
 
 ## Code review fixes
 
