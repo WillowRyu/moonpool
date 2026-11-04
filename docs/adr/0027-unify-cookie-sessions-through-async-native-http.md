@@ -2,7 +2,7 @@
 
 Date: 2026-11-03
 Status: Proposed overall; admission baseline, iOS presence-evidence rule and native HTTP transport
-rules accepted as design directions on 2026-11-03 (see the accepted sections below). Cross-platform cookie parity is a maintainer requirement;
+rules accepted as design directions on 2026-11-03, and the Android broker client on 2026-11-04 (see the accepted sections below). Cross-platform cookie parity is a maintainer requirement;
 option 1 is preferred, while its compatibility cost is under review. No SPEC,
 capability, SDK implementation or new native measurement is adopted here.
 
@@ -63,6 +63,22 @@ cookie-free and cookie-bearing stores on one iOS simulator configuration, and
 [another](../native-cookie-first-question-verification.md) did for all 36 stores asked about first in a new process. No SPEC text or
 implementation is adopted. [Android's `hasCookies`](../native-cookie-android-restart-verification.md) was correct in all 250 stores on one
 emulator configuration, so this rule stays iOS-only.
+
+## Accepted Android broker client — 2026-11-04
+
+[Measured](../native-http-global-handlers-verification.md): a host's global `CookieHandler` and `Authenticator` reach Android
+`HttpURLConnection` requests with no per-request opt-out. [OkHttp](../native-http-okhttp-verification.md) ignored both when measured,
+but resends on a 503 with `Retry-After: 0`. The maintainer accepted this as a design direction:
+
+1. **The Android broker uses OkHttp, pinned to exactly 5.5.1.** No dynamic version. Raising the pin means rerunning the probe first,
+   because a resend or isolation behavior can change between versions. `HttpURLConnection` is not used for the broker.
+2. **Configured as measured:** no redirects, `retryOnConnectionFailure(false)`, no cache, default cookie jar and authenticator. The
+   accepted "SDK never retries" rule also needs a network interceptor that hides `Retry-After` from OkHttp and keeps its value.
+3. **Reviewed at T56,** against the selected host's `compileSdk` and its own OkHttp version. 5.5.x asks hosts for `compileSdk` 37. That
+   is accepted for now: no host is selected yet, it is a build requirement only, and lowering it later does not break a host.
+
+Still open: following `ProxySelector` or `Proxy.NO_PROXY`, and a host's newer OkHttp replacing the pin. No dependency or broker exists
+in production packages, and the rest of this ADR stays proposed.
 
 ## Accepted native HTTP transport rules — 2026-11-03
 

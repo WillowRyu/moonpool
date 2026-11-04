@@ -28,6 +28,10 @@ exclusion remain open; do not mark the entire admission or C09/C10 corpus comple
 C02, C03, C06 and C08, not those cases. The maintainer accepted its transport rules as a design direction on
 2026-11-03, and the procedures below reflect them.
 
+[Android global handler evidence](native-http-global-handlers-verification.md) found a host's `CookieHandler` and `Authenticator`
+reach `HttpURLConnection` with no per-request opt-out. [OkHttp evidence](native-http-okhttp-verification.md) measures the alternative the
+maintainer accepted on 2026-11-04, pinned to 5.5.1. Android broker experiments for C01–C08 use that client.
+
 ## 1. Review outcome and decisions still required
 
 The async SDK direction and Android/iOS parity requirement are already recorded.

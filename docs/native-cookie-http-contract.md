@@ -8,7 +8,7 @@ scope or SPEC change is implemented. This concerns SPEC §3, §6–§9.
 
 **Accepted amendments, 2026-11-03:** after [native HTTP transport evidence](native-http-transport-verification.md), the maintainer accepted
 one cookie pipeline (§4), OS behavior for HTTP authentication challenges (§5) and commit at header delivery (§5) as
-design directions. The rest of this proposal is unchanged and not accepted.
+design directions. The Android broker client followed on 2026-11-04 (§2). The rest of this proposal is unchanged and not accepted.
 
 ## 1. Required outcome and compatibility
 
@@ -74,6 +74,9 @@ Use normal TLS validation. Reject userinfo, fragments and non-HTTPS service URLs
 Recheck the owner before queued work starts. Native clients must disable their
 ambient cookie handlers and shared credential stores; Cookie and Set-Cookie
 processing belongs to this broker. Never modify application-global native settings.
+**Android client accepted, 2026-11-04:** [Android `HttpURLConnection`](native-http-global-handlers-verification.md) cannot meet both
+sentences while a host has set a global `CookieHandler` or `Authenticator`. [OkHttp](native-http-okhttp-verification.md) ignored
+both when measured, so the maintainer accepted OkHttp, pinned to 5.5.1, as a design direction; see [ADR 0027](adr/0027-unify-cookie-sessions-through-async-native-http.md).
 
 **Native service-session context:** an initial request to an approved service
 origin is treated as that service's first-party native transaction. Derive this

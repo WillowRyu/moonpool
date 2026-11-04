@@ -144,6 +144,10 @@ correct verdict for all 168 cookie-free and cookie-bearing stores, and
 most broker needs, but iOS folds `Set-Cookie`, resends a request after a `Basic` challenge and delivers headers only with
 the first body byte. The maintainer accepted one cookie pipeline and otherwise following OS behavior as a design
 direction on 2026-11-03; items to measure before building are listed in that report.
+[Android global handlers](native-http-global-handlers-verification.md), the first of those items, conflict with the contract: a
+host's `CookieHandler` and `Authenticator` reach `HttpURLConnection` with no per-request opt-out. [OkHttp](native-http-okhttp-verification.md)
+ignored both when measured and met the Android transport requirements, with one resend path to block. The maintainer accepted OkHttp,
+pinned to 5.5.1, as the Android broker's client on 2026-11-04, to be reviewed at T56; see [ADR 0027](adr/0027-unify-cookie-sessions-through-async-native-http.md).
 
 Decision tasks finish when the concrete outcome is recorded and the required
 maintainer approval is explicit. A proposed ADR alone does not open a dependent

@@ -96,8 +96,9 @@ the OS never exposes host credentials.
 
 ## Before building on this
 
-- Android's global `Authenticator` and `CookieHandler`: a host app may set them, and Capacitor sets the latter. This run
-  had neither, so `HttpURLConnection` must be measured with them set, because they could carry ambient credentials.
+- Android's global `Authenticator` and `CookieHandler`: **measured on 2026-11-04, and a conflict.** Both reach requests on
+  `HttpURLConnection` with no per-request opt-out. Read [the report](native-http-global-handlers-verification.md). This
+  run's Android results hold only while a host has set neither, and a decision on the Android client is open.
 - A `Basic` 401 that also sets cookies: which response's cookies iOS exposes after the resend. Tested 401s set none.
 - A request with a preset `Authorization`: whether the iOS resend repeats it, which would make lockouts more likely.
 - `Digest`, `NTLM` and `Negotiate`, HTTP/2, proxies, mid-body failure, cancellation and empty bodies.
