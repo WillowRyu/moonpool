@@ -2,7 +2,7 @@ import UIKit
 
 final class Exchange {
     var response:HTTPURLResponse?,data=Data(),error:Error?,done=false
-    var headersDelivered:((HTTPURLResponse)->Void)?
+    var headersDelivered:((HTTPURLResponse)->Void)?,challengeResponse:((HTTPURLResponse)->Void)?
     var finished:(()->Void)?
 }
 
@@ -30,7 +30,9 @@ final class Client:NSObject,URLSessionDataDelegate {
         var failure:CFError?
         if SecTrustEvaluateWithError(trust,&failure){completionHandler(.useCredential,URLCredential(trust:trust))}else{completionHandler(.cancelAuthenticationChallenge,nil)}
     }
+    /// The first response of a Basic resend comes here and never reaches the response callback below.
     func urlSession(_ session:URLSession,task:URLSessionTask,didReceive challenge:URLAuthenticationChallenge,completionHandler:@escaping(URLSession.AuthChallengeDisposition,URLCredential?)->Void){
+        if let http=challenge.failureResponse as? HTTPURLResponse {exchanges[task.taskIdentifier]?.challengeResponse?(http)}
         completionHandler(answersChallenges ? .performDefaultHandling:.rejectProtectionSpace,nil)
     }
     func urlSession(_ session:URLSession,task:URLSessionTask,willPerformHTTPRedirection response:HTTPURLResponse,newRequest request:URLRequest,completionHandler:@escaping(URLRequest?)->Void){
@@ -45,9 +47,9 @@ final class Client:NSObject,URLSessionDataDelegate {
         guard let exchange=exchanges[task.taskIdentifier] else {return}
         exchange.error=error;exchange.done=true;exchange.finished?();exchange.finished=nil
     }
-    func start(_ request:URLRequest,headers:((HTTPURLResponse)->Void)?=nil,finished:(()->Void)?=nil)->Exchange {
+    func start(_ request:URLRequest,headers:((HTTPURLResponse)->Void)?=nil,challenged:((HTTPURLResponse)->Void)?=nil,finished:(()->Void)?=nil)->Exchange {
         let task=session.dataTask(with:request),exchange=Exchange()
-        exchange.headersDelivered=headers;exchange.finished=finished
+        exchange.headersDelivered=headers;exchange.challengeResponse=challenged;exchange.finished=finished
         exchanges[task.taskIdentifier]=exchange;task.resume();return exchange
     }
     func finish(_ exchange:Exchange) async {
@@ -165,10 +167,14 @@ final class Broker {
         for (name,value) in params["headers"] as? [String:String] ?? [:] {request.setValue(value,forHTTPHeaderField:name)}
         if include {let cookie=cookieHeader(session,url);if !cookie.isEmpty {request.setValue(cookie,forHTTPHeaderField:"Cookie")}}
         var exchange:Exchange!
-        exchange=client.start(request,headers:{[unowned self] response in
-            // The first response of a Basic resend goes to the challenge handler, so only the final one arrives here.
+        // One batch per guest request, from the first response: Android sends once, so a resend must not change the jar.
+        var committed=false
+        let commitOnce:(HTTPURLResponse)->Void={[unowned self] response in
+            if committed {return}
+            committed=true
             self.commit(session,generation,include,label,url,response)
-        },finished:{[unowned self] in
+        }
+        exchange=client.start(request,headers:commitOnce,challenged:commitOnce,finished:{[unowned self] in
             if session.generation != generation {self.finish(portal,pending,denied(-32007,"sessionReset"));return}
             guard exchange.error==nil,let response=exchange.response else {self.finish(portal,pending,denied(-32007,"network"));return}
             self.finish(portal,pending,["ok":true,"status":response.statusCode,"headers":Broker.projected(response),"bodyText":String(decoding:exchange.data,as:UTF8.self)])
