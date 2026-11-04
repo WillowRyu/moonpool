@@ -1,7 +1,7 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-11-04. The maintainer switched to agent-led implementation
+> Last updated: 2026-11-05. The maintainer switched to agent-led implementation
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
@@ -64,6 +64,10 @@
 > Principle: follow OS behavior unless what a mini app sees differs per platform. Do not ask again.
 > Android global handlers reach HttpURLConnection with no per-request opt-out; read docs/native-http-global-handlers-verification.md.
 > Android broker client accepted: OkHttp pinned to 5.5.1, following ProxySelector, reviewed at T56; see ADR 0027. Do not ask again.
+> Broker experiment resumed on request and collected on 2026-11-05: 44 cases pass on both platforms, four collections.
+> Read docs/native-http-broker-verification.md and Korean lesson 45. Guest-visible results are identical across platforms.
+> OPEN parity item: after the accepted iOS Basic 401 resend the jar keeps the second response's cookie, Android the first,
+> and the guest's own Authorization is replayed. Both devices stopped; T28 stays at 6/44 with C04 and C09-C12 untouched.
 > Older checkpoints moved verbatim to docs/handoff-archive.md on 2026-11-03.
 > Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
 > Run pnpm run check; read docs/code-quality-workflow.md. Native task checks remain separate.
@@ -95,6 +99,58 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-05 checkpoint — broker experiment resumed and collected
+
+The maintainer answered "브로커 실험 재개" to the paused work below. Four collections, two per platform, are retained in
+experiments/native-http-broker-probe/results. Read docs/native-http-broker-verification.md and Korean lesson 45
+(study/45-native-http-broker.html). The maintainer answered "네, 커밋": this work is committed on branch t28-native-http-broker in three commits. It is not
+pushed or merged; that was not requested. This supersedes the
+checkpoint below only where it describes missing evidence; its scope limits still hold. The ignored preliminary
+output it mentions, local-results/preliminary/android-prelim.json, was no longer on disk when this work resumed,
+so nothing from the interrupted attempt was reused or verified.
+
+**All 44 cases met the oracle on both platforms in all four collections, and the normalized guest-visible result, server
+receipts and jar effects are identical across platforms and runs.** No host cookie and no host credential reached a
+broker request in any case, while the same process kept both live for its own client. 1218 verifier checks, 354 TLS
+receipt rows (330 arrivals, 24 hold releases), 41 host tests, Android lint 0 errors / 3 warnings.
+
+The one platform difference answers both questions docs/native-http-transport-verification.md left open about the
+accepted iOS `Basic` 401 resend, which is not reopened here:
+
+| Measured on a `Basic` 401 | Android, OkHttp 5.5.1 | iOS, `URLSession` |
+| --- | --- | --- |
+| Attempts the server received | 1 | **2** |
+| Responses that reached the broker's response callback | 1 | 1, **the second attempt's** |
+| The guest's preset `Authorization` on the extra attempt | — | **Resent unchanged** |
+| Cookie left in the jar | `attempt=1` | **`attempt=2`** |
+| Host credential at the server | Never | Never |
+| Status the guest saw | 401 | 401 |
+
+OPEN, the maintainer's decision, not made: how to handle the cookie difference. The first 401 arrives as a challenge and
+never reaches the response callback, and the probe already commits once per request, so a "first response only" rule cannot
+help. Recommended next: one bounded iOS run measuring whether `URLAuthenticationChallenge.failureResponse` carries the first
+401's `Set-Cookie`. The alternative is to accept and document the difference. It shows when a server's cookie differs between
+the two attempts, which the fixture does on purpose. The `Authorization` replay has no measured remedy under the accepted
+resend decision, so the contract can state the doubled attempt. The iOS broker session was already ephemeral with cookie
+storage, accept policy, cookie sending, cache and credential storage all off, and its task-level challenge handler answered
+`.rejectProtectionSpace`, so this is not a configuration mistake.
+
+Devices: the dedicated `Pixel_7_Pro` AVD and the dedicated `Moonpool T28 Origin Contract` simulator were booted by this
+task and are stopped again. The 25 other simulators and the unrelated `HereThere_Push_API36` AVD were never started,
+and all simulator baseline states match. The `adb` server was not running before this task and is stopped again.
+Fixture closed, no crashes, no crash control run, nothing added to a device trust store. Test keys went to the Trash,
+so the maintainer still empties it. The probe's app stays installed on the owned emulator and simulator, as in earlier
+runs. iOS was built with Xcode 27.0 / SDK 27.0 and ran on 26.4.1, while earlier retained iOS evidence used Xcode 26.4.1 / SDK 26.4;
+the paused attempt's toolchain is unknown because nothing from it was retained. C04, C09-C12, real Portals and the bridge
+remain uncovered; SPEC, protocol and production packages are unchanged.
+
+A code review of the probe followed at the maintainer's request: 15 findings, read from the code, not run on a device and
+none fixed. The most serious: `cookies.set` accepts `;` and CR/LF in name and value, comma splitting can drop `HttpOnly`, iOS
+treats a non-string `credentials` as include, Android refuses default-port URLs and a POST without a body. The 44 cases do not
+exercise these, so the results hold for those cases only. Changing Broker.java, Probe.swift, build.py, fixture.py or cases.json
+changes the source fingerprints, so the four retained collections stop passing `integrity` and must be collected again.
+`pnpm run check` passes with 1134 tests; the four results are Biome-formatted, with parsed data unchanged.
 
 ## 2026-11-04 checkpoint — broker experiment paused by the maintainer
 

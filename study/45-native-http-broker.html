@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Moonpool — 브로커 시험</title>
+  <link rel="stylesheet" href="study.css">
+</head>
+<body>
+<aside class="sidebar">
+  <p class="brand">Moonpool</p><div class="small">45 · 브로커 시험</div>
+  <nav aria-label="페이지 목차">
+    <a href="index.html">← 전체 스터디 지도</a>
+    <a href="#what">무엇을 만들어 시험했나</a>
+    <a href="#oracle">채점표와 심판을 나눈 이유</a>
+    <a href="#covered">44가지가 확인해 준 것</a>
+    <a href="#diff">하나 다른 것 · Basic 401</a>
+    <a href="#decision">결정해야 할 것과 한계</a>
+  </nav>
+  <p class="small desktop-only">2026.11.05 · 부분 검증<br>44사례 × 4수집 전부 통과<br>결정 1건 남음 · 구현 전</p>
+</aside>
+<main>
+  <header>
+    <div class="eyebrow">T28 · A native broker measured against the proposed cookie/HTTP contract</div>
+    <h1>우편실을 실제로 만들어<br>44가지 상황을 양쪽 OS에서 돌려봤습니다.</h1>
+    <p class="lead"><a href="42-native-http-transport.html">42번</a>에서 두 OS의 HTTP 클라이언트가 설계를 버틸 수 있는지 봤고, <a href="44-native-http-okhttp.html">44번</a>에서 Android 클라이언트를 OkHttp 5.5.1로 확정했습니다. 이번에는 그 클라이언트들로 <strong>연구용 브로커</strong>를 만들어, 계약안이 요구하는 44가지 사례를 Android와 iOS에서 각각 두 번씩 돌렸습니다. 44가지 모두 통과했고, 미니 앱이 보는 결과와 서버가 받은 기록이 두 OS에서 똑같았습니다. 다른 것은 딱 하나 남았습니다.</p>
+    <div class="meta"><span class="pill">44사례 × 4수집 · 검증 1,218건 · 서버 기록 354행</span><span class="pill">전부 통과</span><span class="pill warm">결정 1건 · 구현 전</span></div>
+  </header>
+
+  <section class="section" id="what">
+    <h2>1 · 무엇을 만들어 시험했나</h2>
+    <p>"브로커"는 미니 앱의 HTTP 요청을 대신 보내 주는 네이티브 쪽 창구입니다. 미니 앱은 쿠키를 직접 만지지 않고, 브로커가 앱별 쿠키 보관함(jar)을 들고 요청을 보냅니다. 이번에 만든 것은 제품 코드가 아니라 <strong>계약안을 시험하기 위한 연구용 구현</strong>입니다. 그래서 <code>experiments/</code> 아래에만 있고, OkHttp도 이 실험의 의존성으로만 들어가 있습니다.</p>
+    <p>시험 대상은 세 덩어리입니다.</p>
+    <div class="table-wrap"><table><thead><tr><th>구성</th><th>역할</th></tr></thead><tbody>
+      <tr><td>내가 소유한 HTTPS 서버 (<code>fixture.py</code>)</td><td>실제 인증서 검증을 켠 채로 loopback에서 돌고, 도착한 요청의 <code>Cookie</code>·<code>Authorization</code>·메서드·본문 길이를 <strong>앱과 무관하게</strong> 따로 기록합니다</td></tr>
+      <tr><td>브로커가 든 앱 (Android/iOS 각 1개)</td><td>한 프로세스 안에서 호스트 역할과 브로커 역할을 모두 합니다. Portal은 앱 id와 권한을 가진 객체로 대신했습니다</td></tr>
+      <tr><td>채점표 (<code>cases.json</code>)와 심판 (<code>verify_results.py</code>)</td><td>44가지 입력과 기대 결과, 그리고 그것을 서버 기록과 맞춰 보는 독립 검증</td></tr>
+    </tbody></table></div>
+    <p>Android는 OkHttp 5.5.1, iOS는 <code>URLSession</code>입니다. iOS 쪽 설정은 "끌 수 있는 건 다 끈" 상태입니다.</p>
+    <pre><code>// iOS 브로커 세션: 주변 쿠키·인증·캐시를 모두 끕니다
+let c = URLSessionConfiguration.ephemeral
+c.httpCookieStorage = nil            // OS 쿠키 저장소를 쓰지 않음
+c.httpCookieAcceptPolicy = .never    // 응답 쿠키를 OS가 받지 않음
+c.httpShouldSetCookies = false       // 요청에 OS 쿠키를 붙이지 않음
+c.urlCache = nil
+c.urlCredentialStorage = nil         // 호스트가 저장해 둔 인증 정보를 쓰지 않음</code></pre>
+    <p>쿠키를 OS에 맡기지 않는 이유는 <a href="37-common-cookie-http.html">37번</a>에서 정한 방향 때문입니다. 쿠키 보관함은 <strong>앱 단위로 우리가 들고</strong>, 미니 앱에는 비동기 API만 보여 줍니다.</p>
+  </section>
+
+  <section class="section" id="oracle">
+    <h2>2 · 채점표와 심판을 나눈 이유</h2>
+    <p>실험에서 제일 쉽게 속는 방식은 "앱이 스스로 통과했다고 말하는 것"입니다. 그래서 앱은 <strong>관측만</strong> 기록하고, 통과 여부는 서버 기록과 맞춰 심판이 따로 판정합니다. 채점표는 이렇게 생겼습니다.</p>
+    <pre><code>{
+  "id": "c06-basic-401-cookies",
+  "steps": [
+    { "op": "request", "label": "challenged", "portal": "A1",
+      "serve": { "status": 401, "challenge": "Basic",
+                 "setCookieByAttempt": [ ["attempt=1; Path=/; Secure"],
+                                         ["attempt=2; Path=/; Secure"] ] } },
+    { "op": "snapshot", "label": "jar", "app": "a" }
+  ],
+  "expect": {
+    "outcomes": { "challenged": { "ok": true, "status": 401 } },
+    "receipts": { "challenged": { "noAuthorization": true } },
+    "measure":  [ "jar", "challenged" ]   // 판정하지 않고 '기록만' 하는 항목
+  }
+}</code></pre>
+    <p>세 가지를 눈여겨볼 만합니다.</p>
+    <ul>
+      <li><code>setCookieByAttempt</code>: 서버가 <strong>시도 횟수마다 다른 쿠키</strong>를 줍니다. 그래서 나중에 "몇 번째 응답의 쿠키가 남았는지"를 값으로 구분할 수 있습니다.</li>
+      <li><code>receipts</code>: 앱이 뭐라고 하든, 서버가 받은 기록에 <code>Authorization</code>이 없어야 합니다.</li>
+      <li><code>measure</code>: 플랫폼 차이가 예상되는 항목은 <strong>합격/불합격을 매기지 않고 기록</strong>합니다. 미리 "통과"로 포장하지 않기 위해서입니다.</li>
+    </ul>
+    <p>심판은 여기에 안전 조건을 더 겁니다. 모든 기록은 TLS여야 하고, 호스트의 쿠키나 인증 정보가 브로커 요청에 섞이면 그 사례는 실패입니다. 대조군이 실패하면 그 수집은 아예 신뢰하지 않습니다.</p>
+  </section>
+
+  <section class="section" id="covered">
+    <h2>3 · 44가지가 확인해 준 것</h2>
+    <div class="table-wrap"><table><thead><tr><th>그룹</th><th>수</th><th>확인된 내용</th></tr></thead><tbody>
+      <tr><td>대조군</td><td>3</td><td>기기의 기본 인증서로는 이 실험 서버를 <strong>거부</strong>합니다(신뢰 저장소를 건드리지 않았다는 증거). 같은 프로세스에 호스트 쿠키·인증 정보가 살아 있어도 브로커 요청에는 <strong>한 번도</strong> 붙지 않았습니다</td></tr>
+      <tr><td>C01 소유와 전달</td><td>2</td><td>앱마다 보관함이 분리되고, 같은 앱의 두 번째 Portal은 같은 보관함을 씁니다. 권한 없음·미승인 주소·폐기된 Portal은 <code>-32000</code>, <code>appId</code>·<code>jar</code>·<code>context</code> 위조는 <code>-32602</code>로 막히고 서버에 기록이 남지 않습니다</td></tr>
+      <tr><td>C02 자격 증명</td><td>5</td><td>쿠키는 기본 포함, <code>credentials:"omit"</code>은 보내기와 저장을 함께 막고 기존 로그인은 지우지 않고 그대로 둡니다. 미니 앱이 직접 넣은 <code>Authorization</code>은 <code>omit</code>에서도 살아 있고, 금지 헤더 10종(대소문자·<code>Sec-*</code> 포함)은 <code>-32602</code></td></tr>
+      <tr><td>C03 HttpOnly와 투영</td><td>3</td><td><code>HttpOnly</code> 쿠키는 전송에는 쓰이지만 미니 앱은 읽지도, 덮지도, 지우지도 못합니다(<code>-32000</code>). 미니 앱이 <code>httpOnly:true</code>로 만들려 하면 <code>-32602</code>. <code>Set-Cookie</code>는 미니 앱 헤더에 절대 나타나지 않고, 같은 이름·다른 경로는 깊은 경로 먼저 나옵니다</td></tr>
+      <tr><td>C05 서비스 문맥</td><td>5</td><td><code>SameSite</code>는 네이티브 전송 내용을 바꾸지 않고, <code>SameSite=None</code>에 <code>Secure</code>가 없으면 버립니다. <code>http</code>·userinfo·fragment·문맥 위조는 <code>-32602</code>, 미승인 호스트·포트는 <code>-32000</code>. 승인된 두 포트는 보관함을 공유하고(포트는 경계가 아님), 다른 호스트는 공유하지 않습니다</td></tr>
+      <tr><td>C06 리다이렉트와 상태</td><td>15</td><td>301·302·303·307·308을 <strong>따라가지 않고</strong> 미니 앱에 그대로 돌려줍니다. 404·500·204도 정상 결과이고, 503 + <code>Retry-After: 0</code>은 <strong>한 번만</strong> 보내면서 그 헤더를 미니 앱에 전달합니다. 본문 도중 실패해도 이미 커밋된 쿠키는 남습니다</td></tr>
+      <tr><td>C07 순서와 Portal 수명</td><td>4</td><td>await한 set/delete는 같은 앱의 다른 Portal에 바로 보입니다. 두 응답을 붙잡아 두면 <strong>요청 순서가 아니라 도착 순서로</strong> 커밋되고 마지막 커밋이 이깁니다. Portal을 닫아도 보류 중이던 쿠키는 커밋되고 결과만 전달되지 않습니다 — <strong>Portal 닫기는 로그아웃이 아닙니다</strong></td></tr>
+      <tr><td>C08 초기화와 뒤늦은 작업</td><td>7</td><td>세션 초기화는 <code>-32007</code>과 <code>reason:"sessionReset"</code>으로 정리합니다. 헤더 전·후 어느 시점에 초기화해도 낡은 쿠키는 보관함에 남지 않고, 큐에 있던 요청은 네트워크에 나가지도 않습니다. 초기화에도 <code>http</code> 권한이 필요하고, <strong>호스트 자신의 쿠키는 건드리지 않습니다</strong></td></tr>
+    </tbody></table></div>
+    <p>C07의 "마지막 커밋이 이긴다"는 줄은 외워 둘 만합니다. 미니 앱이 요청을 두 개 동시에 보내면, 쿠키의 최종 값은 <strong>요청을 보낸 순서가 아니라 응답이 돌아온 순서</strong>로 정해집니다.</p>
+  </section>
+
+  <section class="section" id="diff">
+    <h2>4 · 하나 다른 것 · <code>Basic</code> 401 뒤의 쿠키</h2>
+    <p><a href="42-native-http-transport.html">42번</a>에서 이미 본 사실이 있습니다. iOS는 <code>WWW-Authenticate: Basic</code>이 붙은 401을 받으면 같은 요청을 <strong>한 번 더</strong> 보냅니다. 401을 살리는 모든 처리 방식이 그렇고, 한 번만 보내는 유일한 방식(<code>.cancelAuthenticationChallenge</code>)은 401 대신 오류 <code>-999</code>를 돌려줍니다. 그래서 2026.11.03에 <strong>"OS를 따르고 재전송을 문서에 적는다"</strong>로 정했습니다. 그 결정은 이번에 다시 열지 않았습니다.</p>
+    <p>이번 시험이 답한 것은 그때 "모른다"고 적어 둔 두 가지입니다.</p>
+    <div class="table-wrap"><table><thead><tr><th><code>Basic</code> 401에서 측정한 값</th><th>Android (OkHttp)</th><th>iOS (<code>URLSession</code>)</th></tr></thead><tbody>
+      <tr><td>서버가 받은 시도 횟수</td><td>1</td><td><strong>2</strong></td></tr>
+      <tr><td>브로커의 응답 콜백까지 온 응답</td><td>1개</td><td>1개, <strong>두 번째 시도의 것</strong></td></tr>
+      <tr><td>미니 앱이 넣은 <code>Authorization</code></td><td>—</td><td><strong>두 번째 시도에도 그대로 다시 감</strong></td></tr>
+      <tr><td>끝나고 보관함에 남은 쿠키</td><td><code>attempt=1</code></td><td><strong><code>attempt=2</code></strong></td></tr>
+      <tr><td>호스트 인증 정보가 서버에 도착</td><td>없음</td><td>없음</td></tr>
+      <tr><td>미니 앱이 받은 상태 코드</td><td>401</td><td>401</td></tr>
+    </tbody></table></div>
+    <p>원인은 수집 기록에 그대로 있습니다. 서버 시도는 두 번인데 브로커가 남긴 이벤트는 <code>headers</code> 하나와 <code>commit</code> 하나뿐입니다. 첫 401은 응답 콜백이 아니라 <strong>인증 콜백</strong>으로 가기 때문에, 브로커가 읽을 수 있는 <code>Set-Cookie</code>는 두 번째 응답의 것뿐입니다. 프로브는 이미 요청당 한 번만 커밋하므로 "첫 응답만 커밋"하는 규칙으로는 해결되지 않습니다.</p>
+    <pre><code>// 실제 프로브 코드: 이미 요청당 한 번만 커밋합니다
+if committed { return }
+committed = true
+self.commit(session, generation, include, label, url, response)  // 여기 오는 응답은 두 번째 시도의 것
+
+// 첫 401은 여기로 옵니다. 측정해 볼 후보는 이 값입니다 (아직 프로브에 없는 코드)
+func urlSession(_ s: URLSession, task: URLSessionTask, didReceive challenge: URLAuthenticationChallenge,
+                completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -&gt; Void) {
+    let first = challenge.failureResponse as? HTTPURLResponse  // 첫 401의 Set-Cookie가 들어 있을까?
+    completionHandler(.rejectProtectionSpace, nil)
+}</code></pre>
+    <p>이 차이는 서버가 두 시도에 서로 다른 쿠키를 줄 때 드러나고, 실험 서버는 일부러 그렇게 만들었습니다. 같은 쿠키를 주면 보관함도 같고, 첫 시도에만 쿠키를 주면 iOS에는 남지 않을 것입니다. 이 두 경우는 추론이고 측정하지 않았습니다.</p>
+    <p>이게 왜 그냥 넘길 수 없는 문제인가 하면, 우리가 받아들인 원칙이 <strong>"OS 동작을 따르되, 미니 앱이 보는 것이 플랫폼마다 달라지면 개입한다"</strong>이기 때문입니다. 여기서는 미니 앱이 보는 쿠키 값 자체가 달라집니다(<code>attempt=1</code> / <code>attempt=2</code>). ADR 0027의 "두 OS에서 같은 동작" 요구와 정면으로 부딪칩니다.</p>
+  </section>
+
+  <section class="section" id="decision">
+    <h2>5 · 결정해야 할 것과 한계</h2>
+    <div class="table-wrap"><table><thead><tr><th>안</th><th>내용</th><th>대가</th></tr></thead><tbody>
+      <tr><td><strong>1 (권함)</strong></td><td><code>failureResponse</code>에 첫 401의 쿠키가 들어 있는지 먼저 측정한다</td><td>iOS 기기 실험이 한 번 더 필요합니다. 들어 있다면 재전송 결정을 건드리지 않고 Android와 맞출 수 있지만, 없을 수도 있습니다</td></tr>
+      <tr><td>2</td><td>OS가 전달한 응답의 쿠키를 그대로 쓰고 문서에 적는다</td><td>기기 실험이 필요 없지만, 좁은 경우에 플랫폼마다 미니 앱이 보는 값이 달라집니다</td></tr>
+    </tbody></table></div>
+    <p><code>Authorization</code> 재전송은 고를 수 있는 안이 사실상 없습니다. 인증 콜백이 두 시도 사이에 실행되기는 하지만, 재전송 헤더를 고칠 수 있는 처리 방식은 없습니다(API를 읽은 내용이고 따로 측정하지는 않았습니다). 재전송을 막는 유일한 방식은 401을 잃어서 이미 제외했습니다. 호스트 인증 정보가 새는 문제는 <strong>아니지만</strong>(모든 사례에서 확인했습니다), 실패 횟수를 세는 서버에는 두 번으로 보입니다. 그래서 계약 문서에 "iOS에서는 <code>Basic</code> 401에서 시도가 2회가 된다"를 적어서 미니 앱 개발자가 예상할 수 있게 하는 쪽이 현실적입니다.</p>
+    <h3>이번 시험의 한계</h3>
+    <ul>
+      <li>C04(쿠키 문법·속성, 고정된 쿠키 프로필 필요)와 C09–C12는 손대지 않았습니다.</li>
+      <li>실제 Portal, 실제 커널, 브리지, WebView 저장소는 들어오지 않았습니다. Portal은 앱 id와 권한을 가진 객체로 대신했습니다.</li>
+      <li>에뮬레이터 한 구성, 시뮬레이터 한 구성, loopback의 HTTP/1.1입니다. HTTP/2와 421, 실제 프록시, 프록시 인증, 리다이렉트를 따라가는 로그인 흐름은 측정 전입니다.</li>
+      <li>브로커의 쿠키 파서는 이 사례들이 필요한 범위만 구현했고, 요청·응답 스키마는 아직 제안입니다.</li>
+      <li>이 클라이언트들로 브로커를 만들 수 있다는 근거일 뿐, 제품 브로커는 존재하지 않습니다.</li>
+    </ul>
+    <p>iOS 빌드는 Xcode 27.0 / 시뮬레이터 SDK 27.0으로 했고 실행 환경은 iOS 26.4.1입니다. 이전에 남긴 iOS 증거는 Xcode 26.4.1 / SDK 26.4였습니다. 중단된 수집은 남은 기록이 없어서 어떤 도구로 빌드했는지 알 수 없고, 이번 결과는 <strong>새로 두 번 수집</strong>한 것입니다.</p>
+    <div class="callout warm"><strong>현재 상태:</strong> 완료 수는 6 / 44 그대로입니다. 44사례가 통과했어도 T28은 끝나지 않았고, SPEC·프로토콜·제품 패키지는 바뀌지 않았습니다. 두 기기는 이 작업이 켰고 다시 끝냈으며, 시험용 키는 휴지통에 있어 직접 비워 주셔야 합니다.</div>
+    <p><a href="44-native-http-okhttp.html">← 44 · OkHttp 시험</a></p>
+  </section>
+</main>
+</body>
+</html>
