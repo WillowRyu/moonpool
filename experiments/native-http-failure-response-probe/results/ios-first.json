@@ -1,0 +1,441 @@
+{
+  "build": {
+    "artifactSha256": "6277baea40b3e664c93b3ac8e069e3e24b0f6e4f42f4e1037f5c12ceccb841c9",
+    "caSha256": "e1e5e28e52e7342b979eecf896c09780ac067eabea43b610af0db78e0e01a40a",
+    "sdk": "27.0",
+    "sources": {
+      "build.py": "0cd3f50b8b84ba79530b7559922db6209a845bd66857bba287bde35205394b66",
+      "cases.json": "164e3967de25cef2f3b3ff44e5b1b64e3d8d9d91dd2da38294cd857e9fe2d6fe",
+      "fixture.py": "ef229f7ed51a9e6c22daf8b9cdfe6e2779e5110fe3fd23fe9947b99bbbb493ec",
+      "ios/Probe.swift": "4ebb3ac9295570d268e9b5b62e350842683ba2c4901732e62246b427702cca6e"
+    },
+    "xcode": "Xcode 27.0\nBuild version 27A266a"
+  },
+  "capturedUtc": "2026-11-04T16:23:43Z",
+  "complete": true,
+  "errors": [],
+  "installedArtifactSha256": "6277baea40b3e664c93b3ac8e069e3e24b0f6e4f42f4e1037f5c12ceccb841c9",
+  "observations": [
+    {
+      "bodyText": "{\"case\": \"control-plain\", \"arrival\": 1}",
+      "case": "control-plain",
+      "challenges": [],
+      "error": null,
+      "responses": [
+        {
+          "setCookie": "plain=1; Path=/; Secure",
+          "status": 200
+        }
+      ],
+      "status": 200
+    },
+    {
+      "bodyText": "{\"case\": \"control-bearer\", \"arrival\": 1}",
+      "case": "control-bearer",
+      "challenges": [],
+      "error": null,
+      "responses": [
+        {
+          "setCookie": "bearer=1; Path=/; Secure",
+          "status": 401
+        }
+      ],
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"control-no-challenge\", \"arrival\": 1}",
+      "case": "control-no-challenge",
+      "challenges": [],
+      "error": null,
+      "responses": [
+        {
+          "setCookie": "bare=1; Path=/; Secure",
+          "status": 401
+        }
+      ],
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"basic-cookie-per-attempt\", \"arrival\": 2}",
+      "case": "basic-cookie-per-attempt",
+      "challenges": [
+        {
+          "hasFailureResponse": true,
+          "method": "NSURLAuthenticationMethodHTTPBasic",
+          "previousFailureCount": 0,
+          "setCookie": "attempt=1; Path=/; Secure",
+          "status": 401
+        }
+      ],
+      "error": null,
+      "responses": [
+        {
+          "setCookie": "attempt=2; Path=/; Secure",
+          "status": 401
+        }
+      ],
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"basic-first-attempt-only\", \"arrival\": 2}",
+      "case": "basic-first-attempt-only",
+      "challenges": [
+        {
+          "hasFailureResponse": true,
+          "method": "NSURLAuthenticationMethodHTTPBasic",
+          "previousFailureCount": 0,
+          "setCookie": "first=1; Path=/; Secure",
+          "status": 401
+        }
+      ],
+      "error": null,
+      "responses": [
+        {
+          "setCookie": null,
+          "status": 401
+        }
+      ],
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"basic-second-attempt-only\", \"arrival\": 2}",
+      "case": "basic-second-attempt-only",
+      "challenges": [
+        {
+          "hasFailureResponse": true,
+          "method": "NSURLAuthenticationMethodHTTPBasic",
+          "previousFailureCount": 0,
+          "setCookie": null,
+          "status": 401
+        }
+      ],
+      "error": null,
+      "responses": [
+        {
+          "setCookie": "second=2; Path=/; Secure",
+          "status": 401
+        }
+      ],
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"basic-two-fields\", \"arrival\": 2}",
+      "case": "basic-two-fields",
+      "challenges": [
+        {
+          "hasFailureResponse": true,
+          "method": "NSURLAuthenticationMethodHTTPBasic",
+          "previousFailureCount": 0,
+          "setCookie": "a=1; Path=/; Secure, b=2; Path=/; Secure; HttpOnly",
+          "status": 401
+        }
+      ],
+      "error": null,
+      "responses": [
+        {
+          "setCookie": "c=3; Path=/; Secure",
+          "status": 401
+        }
+      ],
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"basic-no-cookie\", \"arrival\": 2}",
+      "case": "basic-no-cookie",
+      "challenges": [
+        {
+          "hasFailureResponse": true,
+          "method": "NSURLAuthenticationMethodHTTPBasic",
+          "previousFailureCount": 0,
+          "setCookie": null,
+          "status": 401
+        }
+      ],
+      "error": null,
+      "responses": [
+        {
+          "setCookie": null,
+          "status": 401
+        }
+      ],
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"basic-post\", \"arrival\": 2}",
+      "case": "basic-post",
+      "challenges": [
+        {
+          "hasFailureResponse": true,
+          "method": "NSURLAuthenticationMethodHTTPBasic",
+          "previousFailureCount": 0,
+          "setCookie": "attempt=1; Path=/; Secure",
+          "status": 401
+        }
+      ],
+      "error": null,
+      "responses": [
+        {
+          "setCookie": "attempt=2; Path=/; Secure",
+          "status": 401
+        }
+      ],
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"basic-preset-authorization\", \"arrival\": 2}",
+      "case": "basic-preset-authorization",
+      "challenges": [
+        {
+          "hasFailureResponse": true,
+          "method": "NSURLAuthenticationMethodHTTPBasic",
+          "previousFailureCount": 0,
+          "setCookie": "attempt=1; Path=/; Secure",
+          "status": 401
+        }
+      ],
+      "error": null,
+      "responses": [
+        {
+          "setCookie": "attempt=2; Path=/; Secure",
+          "status": 401
+        }
+      ],
+      "status": 401
+    },
+    {
+      "bodyText": "{\"case\": \"basic-default-handling\", \"arrival\": 2}",
+      "case": "basic-default-handling",
+      "challenges": [
+        {
+          "hasFailureResponse": true,
+          "method": "NSURLAuthenticationMethodHTTPBasic",
+          "previousFailureCount": 0,
+          "setCookie": "attempt=1; Path=/; Secure",
+          "status": 401
+        }
+      ],
+      "error": null,
+      "responses": [
+        {
+          "setCookie": "attempt=2; Path=/; Secure",
+          "status": 401
+        }
+      ],
+      "status": 401
+    }
+  ],
+  "platform": "ios",
+  "release": "26.4.1",
+  "requests": [
+    {
+      "arrival": 1,
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "control-plain",
+      "cookieFields": [],
+      "method": "GET",
+      "run": "ios-first",
+      "served": ["plain=1; Path=/; Secure"],
+      "tls": true
+    },
+    {
+      "arrival": 1,
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "control-bearer",
+      "cookieFields": [],
+      "method": "GET",
+      "run": "ios-first",
+      "served": ["bearer=1; Path=/; Secure"],
+      "tls": true
+    },
+    {
+      "arrival": 1,
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "control-no-challenge",
+      "cookieFields": [],
+      "method": "GET",
+      "run": "ios-first",
+      "served": ["bare=1; Path=/; Secure"],
+      "tls": true
+    },
+    {
+      "arrival": 1,
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "basic-cookie-per-attempt",
+      "cookieFields": [],
+      "method": "GET",
+      "run": "ios-first",
+      "served": ["attempt=1; Path=/; Secure"],
+      "tls": true
+    },
+    {
+      "arrival": 2,
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "basic-cookie-per-attempt",
+      "cookieFields": [],
+      "method": "GET",
+      "run": "ios-first",
+      "served": ["attempt=2; Path=/; Secure"],
+      "tls": true
+    },
+    {
+      "arrival": 1,
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "basic-first-attempt-only",
+      "cookieFields": [],
+      "method": "GET",
+      "run": "ios-first",
+      "served": ["first=1; Path=/; Secure"],
+      "tls": true
+    },
+    {
+      "arrival": 2,
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "basic-first-attempt-only",
+      "cookieFields": [],
+      "method": "GET",
+      "run": "ios-first",
+      "served": [],
+      "tls": true
+    },
+    {
+      "arrival": 1,
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "basic-second-attempt-only",
+      "cookieFields": [],
+      "method": "GET",
+      "run": "ios-first",
+      "served": [],
+      "tls": true
+    },
+    {
+      "arrival": 2,
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "basic-second-attempt-only",
+      "cookieFields": [],
+      "method": "GET",
+      "run": "ios-first",
+      "served": ["second=2; Path=/; Secure"],
+      "tls": true
+    },
+    {
+      "arrival": 1,
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "basic-two-fields",
+      "cookieFields": [],
+      "method": "GET",
+      "run": "ios-first",
+      "served": ["a=1; Path=/; Secure", "b=2; Path=/; Secure; HttpOnly"],
+      "tls": true
+    },
+    {
+      "arrival": 2,
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "basic-two-fields",
+      "cookieFields": [],
+      "method": "GET",
+      "run": "ios-first",
+      "served": ["c=3; Path=/; Secure"],
+      "tls": true
+    },
+    {
+      "arrival": 1,
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "basic-no-cookie",
+      "cookieFields": [],
+      "method": "GET",
+      "run": "ios-first",
+      "served": [],
+      "tls": true
+    },
+    {
+      "arrival": 2,
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "basic-no-cookie",
+      "cookieFields": [],
+      "method": "GET",
+      "run": "ios-first",
+      "served": [],
+      "tls": true
+    },
+    {
+      "arrival": 1,
+      "authorization": null,
+      "bodyLength": 2,
+      "case": "basic-post",
+      "cookieFields": [],
+      "method": "POST",
+      "run": "ios-first",
+      "served": ["attempt=1; Path=/; Secure"],
+      "tls": true
+    },
+    {
+      "arrival": 2,
+      "authorization": null,
+      "bodyLength": 2,
+      "case": "basic-post",
+      "cookieFields": [],
+      "method": "POST",
+      "run": "ios-first",
+      "served": ["attempt=2; Path=/; Secure"],
+      "tls": true
+    },
+    {
+      "arrival": 1,
+      "authorization": "Bearer guest-owned",
+      "bodyLength": 0,
+      "case": "basic-preset-authorization",
+      "cookieFields": [],
+      "method": "GET",
+      "run": "ios-first",
+      "served": ["attempt=1; Path=/; Secure"],
+      "tls": true
+    },
+    {
+      "arrival": 2,
+      "authorization": "Bearer guest-owned",
+      "bodyLength": 0,
+      "case": "basic-preset-authorization",
+      "cookieFields": [],
+      "method": "GET",
+      "run": "ios-first",
+      "served": ["attempt=2; Path=/; Secure"],
+      "tls": true
+    },
+    {
+      "arrival": 1,
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "basic-default-handling",
+      "cookieFields": [],
+      "method": "GET",
+      "run": "ios-first",
+      "served": ["attempt=1; Path=/; Secure"],
+      "tls": true
+    },
+    {
+      "arrival": 2,
+      "authorization": null,
+      "bodyLength": 0,
+      "case": "basic-default-handling",
+      "cookieFields": [],
+      "method": "GET",
+      "run": "ios-first",
+      "served": ["attempt=2; Path=/; Secure"],
+      "tls": true
+    }
+  ],
+  "run": "ios-first"
+}

@@ -1,0 +1,78 @@
+[
+  {
+    "id": "control-plain",
+    "control": true,
+    "status": 200,
+    "setCookieByAttempt": [["plain=1; Path=/; Secure"]]
+  },
+  {
+    "id": "control-bearer",
+    "control": true,
+    "status": 401,
+    "challenge": "Bearer",
+    "setCookieByAttempt": [["bearer=1; Path=/; Secure"]]
+  },
+  {
+    "id": "control-no-challenge",
+    "control": true,
+    "status": 401,
+    "setCookieByAttempt": [["bare=1; Path=/; Secure"]]
+  },
+  {
+    "id": "basic-cookie-per-attempt",
+    "status": 401,
+    "challenge": "Basic",
+    "setCookieByAttempt": [["attempt=1; Path=/; Secure"], ["attempt=2; Path=/; Secure"]]
+  },
+  {
+    "id": "basic-first-attempt-only",
+    "status": 401,
+    "challenge": "Basic",
+    "setCookieByAttempt": [["first=1; Path=/; Secure"], []]
+  },
+  {
+    "id": "basic-second-attempt-only",
+    "status": 401,
+    "challenge": "Basic",
+    "setCookieByAttempt": [[], ["second=2; Path=/; Secure"]]
+  },
+  {
+    "id": "basic-two-fields",
+    "status": 401,
+    "challenge": "Basic",
+    "setCookieByAttempt": [
+      ["a=1; Path=/; Secure", "b=2; Path=/; Secure; HttpOnly"],
+      ["c=3; Path=/; Secure"]
+    ]
+  },
+  {
+    "id": "basic-no-cookie",
+    "status": 401,
+    "challenge": "Basic",
+    "setCookieByAttempt": [[], []]
+  },
+  {
+    "id": "basic-post",
+    "method": "POST",
+    "body": "{}",
+    "status": 401,
+    "challenge": "Basic",
+    "setCookieByAttempt": [["attempt=1; Path=/; Secure"], ["attempt=2; Path=/; Secure"]]
+  },
+  {
+    "id": "basic-preset-authorization",
+    "headers": {
+      "Authorization": "Bearer guest-owned"
+    },
+    "status": 401,
+    "challenge": "Basic",
+    "setCookieByAttempt": [["attempt=1; Path=/; Secure"], ["attempt=2; Path=/; Secure"]]
+  },
+  {
+    "id": "basic-default-handling",
+    "disposition": "default",
+    "status": 401,
+    "challenge": "Basic",
+    "setCookieByAttempt": [["attempt=1; Path=/; Secure"], ["attempt=2; Path=/; Secure"]]
+  }
+]
