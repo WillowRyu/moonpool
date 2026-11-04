@@ -93,7 +93,9 @@ app sees differently per platform.
 
 1. **One cookie pipeline.** Each adapter folds received `Set-Cookie` fields with `, `, then both split them
    the same way and pass the lines to one shared parser. Native cookie parsers are not used. A cookie value
-   containing `, name=` becomes an extra cookie on both platforms; this limit is documented.
+   containing `, name=` becomes an extra cookie on both platforms; this limit is documented. The pieces before the
+   last also lose every attribute, including `HttpOnly`. The maintainer accepted stating this on 2026-11-05 rather than
+   adding a rule that would also hide honest attribute-less cookies from scripts.
 2. **OS behavior for HTTP authentication challenges.** The SDK never retries a request itself. A 401 stays a
    normal result on both platforms. iOS may send a request once more after a `Basic` challenge, without
    credentials; this is OS behavior and is documented. Ambient credential and cookie stores stay disabled, so

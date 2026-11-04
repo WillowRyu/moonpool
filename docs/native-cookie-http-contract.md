@@ -8,7 +8,8 @@ scope or SPEC change is implemented. This concerns SPEC §3, §6–§9.
 
 **Accepted amendments, 2026-11-03:** after [native HTTP transport evidence](native-http-transport-verification.md), the maintainer accepted
 one cookie pipeline (§4), OS behavior for HTTP authentication challenges (§5) and commit at header delivery (§5) as
-design directions. The Android broker client followed on 2026-11-04 (§2). The rest of this proposal is unchanged and not accepted.
+design directions. The Android broker client followed on 2026-11-04 (§2). On 2026-11-05 the maintainer accepted keeping the pipeline and stating
+what its limit does to `HttpOnly` (§4). The rest of this proposal is unchanged and not accepted.
 
 ## 1. Required outcome and compatibility
 
@@ -147,10 +148,10 @@ dependency. A released profile must name its exact rules and data revision.
 | Area | Required behavior |
 | --- | --- |
 | Selection | Match host-only/Domain, Path and Secure rules for the approved request URL; ports are not cookie partitions |
-| Line extraction | iOS cannot expose separate Set-Cookie fields, so each adapter folds received fields with `, ` and both split them by one rule before one shared parser. A value containing `, name=` becomes an extra cookie on both platforms; native cookie parsers are not used |
+| Line extraction | iOS cannot expose separate Set-Cookie fields, so each adapter folds received fields with `, ` and both split them by one rule before one shared parser. A value containing `, name=` becomes an extra cookie on both platforms, and the pieces before the last lose every attribute, including `HttpOnly`, so a script can read them ([measured](native-http-broker-verification.md)). This needs a server outside RFC 6265's grammar. Native cookie parsers are not used |
 | Validation | Reject public-suffix/sibling Domain escalation and invalid names/values from those lines without repairing them |
 | Identity | Pin host-only/domain/path/name replacement and deletion rules; duplicate names are not collapsed into a JS object |
-| HttpOnly | Server may set it; script APIs cannot directly read, create, overwrite or delete that protected cookie identity; SDK HTTP can send it when eligible |
+| HttpOnly | Server may set it; script APIs cannot directly read, create, overwrite or delete that protected cookie identity; SDK HTTP can send it when eligible. A piece that lost the attribute under the Line extraction limit is not protected |
 | SameSite | Store the normalized attribute; None requires Secure; use the explicit first-party service context from §2, never claim browser cross-site filtering |
 | Prefixes | Enforce the chosen profile's Secure/Host prefix constraints consistently |
 | Expiry | Pin Max-Age precedence, deletion and expiry; expire before selecting a header; no indefinite retention promise |
