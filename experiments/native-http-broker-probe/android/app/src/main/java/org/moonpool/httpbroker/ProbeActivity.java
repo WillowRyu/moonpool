@@ -77,7 +77,7 @@ public final class ProbeActivity extends Activity {
   JSONObject t=target==null?new JSONObject():target;
   String userinfo=t.optString("userinfo");
   String fragment=t.optString("fragment");
-  return t.optString("scheme","https")+"://"+(userinfo.isEmpty()?"":userinfo+"@")+t.optString("host","localhost")+":"+listenerPort(t.optString("listener","service"))
+  return t.optString("scheme","https")+"://"+(userinfo.isEmpty()?"":userinfo+"@")+t.optString("host","localhost")+(t.optBoolean("defaultPort")?"":":"+listenerPort(t.optString("listener","service")))
    +t.optString("path","/s")+"?run="+run+"&case="+c.optString("id")+"&step="+label+(fragment.isEmpty()?"":"#"+fragment);
  }
  boolean held(JSONObject c,String label,String path) throws Exception {
@@ -89,7 +89,7 @@ public final class ProbeActivity extends Activity {
   Set<String> approved=new HashSet<>();
   JSONArray declared=c.optJSONArray("approved");
   if(declared==null)approved.add("localhost:"+port);
-  else for(int i=0;i<declared.length();i++){JSONObject entry=declared.getJSONObject(i);approved.add(entry.getString("host")+":"+listenerPort(entry.getString("listener")));}
+  else for(int i=0;i<declared.length();i++){JSONObject entry=declared.getJSONObject(i);approved.add(entry.getString("host")+":"+(entry.has("port")?entry.getInt("port"):listenerPort(entry.getString("listener"))));}
   Broker broker=new Broker(brokerClient,approved);
   JSONObject portals=c.getJSONObject("portals");
   for(java.util.Iterator<String> keys=portals.keys();keys.hasNext();){String id=keys.next();JSONObject p=portals.getJSONObject(id);broker.bind(id,p.getString("app"),grants(p.getJSONArray("grants")));}
@@ -106,7 +106,7 @@ public final class ProbeActivity extends Activity {
      JSONObject target=(JSONObject)params.remove("target");
      boolean deferred=params.optBoolean("deferred");
      params.remove("deferred");
-     params.put("url",url(c,label,target));
+     if(!s.optBoolean("omitUrl")&&!params.has("url"))params.put("url",url(c,label,target));
      pending.put(label,broker.request(s.getString("portal"),label,params,deferred));
      if(s.optBoolean("wait",true))settle(steps,timedOut,pending,label);
      break;
@@ -172,7 +172,8 @@ public final class ProbeActivity extends Activity {
  JSONObject tlsNegative(JSONObject c,String label) throws Exception {
   Request request=new Request.Builder().url(url(c,label,obj("host","10.0.2.2"))).build();
   try(Response response=harness.newCall(request).execute()){return obj("ok",true,"status",response.code());}
-  catch(java.io.IOException e){return Broker.error("tlsRefused");}
+  catch(javax.net.ssl.SSLException e){return obj("ok",false,"code","tlsRefused","detail",e.getClass().getSimpleName());}
+  catch(java.io.IOException e){return obj("ok",false,"code","notTls","detail",e.getClass().getSimpleName());}
  }
  /** The host's own HttpURLConnection: the positive control that its global state is live in this process. */
  JSONObject hostRequest(JSONObject c,String label) throws Exception {

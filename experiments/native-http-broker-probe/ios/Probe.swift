@@ -21,7 +21,7 @@ final class Client:NSObject,URLSessionDataDelegate {
         let c=URLSessionConfiguration.ephemeral
         c.httpCookieStorage=nil;c.httpCookieAcceptPolicy = .never;c.httpShouldSetCookies=false
         c.urlCache=nil;c.urlCredentialStorage=nil;c.requestCachePolicy = .reloadIgnoringLocalCacheData
-        c.timeoutIntervalForRequest=40
+        c.timeoutIntervalForRequest=40 // Matches the Android client's timeouts.
         return c
     }
     func urlSession(_ session:URLSession,didReceive challenge:URLAuthenticationChallenge,completionHandler:@escaping(URLSession.AuthChallengeDisposition,URLCredential?)->Void){
@@ -77,6 +77,29 @@ func denied(_ code:Any,_ reason:String?=nil)->[String:Any]{
 final class Broker {
     static let requestFields:Set<String>=["url","method","credentials","headers","body"],cookieFields:Set<String>=["name","value","path","maxAge"]
     static let forbiddenHeaders:Set<String>=["cookie","cookie2","host","origin","proxy-authorization","content-length","transfer-encoding","connection","te","upgrade","keep-alive"]
+    static let methods:Set<String>=["GET","HEAD","POST","PUT","PATCH","DELETE","OPTIONS"],bodylessMethods:Set<String>=["GET","HEAD"]
+    static let cookieDeleteFields:Set<String>=["name","path"]
+    static let tokenScalars=Set("!#$%&'*+-.^_`|~0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".unicodeScalars)
+    static func isToken(_ text:String)->Bool {!text.isEmpty&&text.unicodeScalars.allSatisfy{tokenScalars.contains($0)}}
+    static func isHeaderValue(_ text:String)->Bool {text.unicodeScalars.allSatisfy{$0=="\t"||(0x20...0x7E).contains($0.value)}}
+    /// RFC 6265 cookie-octets, so a script value cannot add a pair beside a protected cookie.
+    static func isCookieValue(_ text:String)->Bool {
+        text.unicodeScalars.allSatisfy{(0x21...0x7E).contains($0.value) && ![0x22,0x2C,0x3B,0x5C].contains($0.value)}
+    }
+    static func isCookiePath(_ text:String)->Bool {
+        text.hasPrefix("/")&&text.unicodeScalars.allSatisfy{(0x20...0x7E).contains($0.value)&&$0.value != 0x3B}
+    }
+    /// Kept, anything else could not go back into a Cookie header the same way on both platforms.
+    static func isSendable(_ text:String)->Bool {text.unicodeScalars.allSatisfy{(0x20...0x7E).contains($0.value)}}
+    /// One spelling of a host on both platforms: lower case, and an IPv6 literal without its brackets.
+    static func hostOf(_ url:URLComponents)->String {
+        let host=url.host!.lowercased()
+        return host.hasPrefix("[")&&host.hasSuffix("]") ? String(host.dropFirst().dropLast()):host
+    }
+    static func integer(_ value:Any)->Int? {
+        guard let number=value as? NSNumber,CFGetTypeID(number) != CFBooleanGetTypeID(),!CFNumberIsFloatType(number) else {return nil}
+        return number.intValue
+    }
     var portals:[String:Portal]=[:],apps:[String:AppSession]=[:],events:[[String:Any]]=[],sequence=0
     let approved:Set<String>,client:Client
     init(client:Client,approved:Set<String>){self.client=client;self.approved=approved}
@@ -91,18 +114,35 @@ final class Broker {
         guard let url=URLComponents(string:text),url.scheme=="https",url.user==nil,url.password==nil,url.fragment==nil,url.host != nil else {return nil}
         return url
     }
-    func isApproved(_ url:URLComponents)->Bool {approved.contains("\(url.host!.lowercased()):\(url.port ?? 443)")}
+    func isApproved(_ url:URLComponents)->Bool {approved.contains("\(Broker.hostOf(url)):\(url.port ?? 443)")}
     func admitRequest(_ portal:Portal,_ params:[String:Any])->[String:Any]? {
         if let refused=admit(portal,"http") {return refused}
-        if !Set(params.keys).isSubset(of:Broker.requestFields) {return denied(-32602)}
-        let credentials=params["credentials"] as? String ?? "include"
-        if credentials != "include"&&credentials != "omit" {return denied(-32602)}
-        for name in (params["headers"] as? [String:String] ?? [:]).keys {
-            let lower=name.lowercased()
-            if Broker.forbiddenHeaders.contains(lower)||lower.hasPrefix("sec-")||lower.hasPrefix("proxy-") {return denied(-32602)}
-        }
-        guard let url=secure(params["url"] as! String) else {return denied(-32602)}
+        if !Broker.validRequestFields(params) {return denied(-32602)}
+        guard let text=params["url"] as? String,let url=secure(text) else {return denied(-32602)}
         return isApproved(url) ? nil:denied(-32000)
+    }
+    /// A value of the wrong type is refused, never read as the default: credentials:false must not mean include.
+    static func validRequestFields(_ params:[String:Any])->Bool {
+        if !Set(params.keys).isSubset(of:requestFields) {return false}
+        var method="GET"
+        if let given=params["method"] {
+            guard let text=given as? String,methods.contains(text) else {return false}
+            method=text
+        }
+        if let given=params["credentials"] {
+            guard let text=given as? String,text=="include"||text=="omit" else {return false}
+        }
+        if let given=params["body"] {
+            guard given is String,!bodylessMethods.contains(method) else {return false}
+        }
+        guard let given=params["headers"] else {return true}
+        guard let headers=given as? [String:Any] else {return false}
+        for (name,value) in headers {
+            let lower=name.lowercased()
+            if forbiddenHeaders.contains(lower)||lower.hasPrefix("sec-")||lower.hasPrefix("proxy-") {return false}
+            guard isToken(name),let text=value as? String,isHeaderValue(text) else {return false}
+        }
+        return true
     }
     func request(_ portalId:String,_ label:String,_ params:[String:Any],deferred:Bool)->Pending {
         let pending=Pending(),portal=portals[portalId]!
@@ -113,21 +153,20 @@ final class Broker {
         return pending
     }
     func finish(_ portal:Portal,_ pending:Pending,_ outcome:[String:Any]){pending.settle(portal.retired ? ["delivered":false]:outcome)}
-    /// The owner and generation are rechecked here because queued work may start after a reset.
+    /// The owner and generation are rechecked here because queued work may start after a close or a reset.
     func dispatch(_ portal:Portal,_ session:AppSession,_ generation:Int,_ label:String,_ params:[String:Any],_ pending:Pending){
+        if portal.retired {finish(portal,pending,denied("retired"));return}
         if session.generation != generation {finish(portal,pending,denied(-32007,"sessionReset"));return}
-        let include=(params["credentials"] as? String ?? "include") != "omit",url=secure(params["url"] as! String)!
-        var request=URLRequest(url:url.url!)
+        let include=(params["credentials"] as? String ?? "include") != "omit"
+        guard let text=params["url"] as? String,let url=secure(text),let target=url.url else {finish(portal,pending,denied(-32603));return}
+        var request=URLRequest(url:target)
         request.httpMethod=params["method"] as? String ?? "GET"
         if let body=params["body"] as? String {request.httpBody=Data(body.utf8)}
         for (name,value) in params["headers"] as? [String:String] ?? [:] {request.setValue(value,forHTTPHeaderField:name)}
         if include {let cookie=cookieHeader(session,url);if !cookie.isEmpty {request.setValue(cookie,forHTTPHeaderField:"Cookie")}}
         var exchange:Exchange!
-        var committed=false
         exchange=client.start(request,headers:{[unowned self] response in
-            // A resend after a Basic challenge can deliver headers once per final response. Commit runs for what arrives.
-            if committed {return}
-            committed=true
+            // The first response of a Basic resend goes to the challenge handler, so only the final one arrives here.
             self.commit(session,generation,include,label,url,response)
         },finished:{[unowned self] in
             if session.generation != generation {self.finish(portal,pending,denied(-32007,"sessionReset"));return}
@@ -177,7 +216,8 @@ final class Broker {
         let cookie=Cookie()
         cookie.name=parts[0][..<equals].trimmingCharacters(in:.whitespaces)
         cookie.value=parts[0][parts[0].index(after:equals)...].trimmingCharacters(in:.whitespaces)
-        cookie.host=url.host!.lowercased();cookie.path=Broker.defaultPath(url.path)
+        if !Broker.isSendable(cookie.name)||(!Broker.isSendable(cookie.value)) {return}
+        cookie.host=Broker.hostOf(url);cookie.path=Broker.defaultPath(url.path)
         var isSecure=false,sameSiteNone=false,maxAge:Int?=nil
         for part in parts.dropFirst() {
             let pieces=part.split(separator:"=",maxSplits:1,omittingEmptySubsequences:false)
@@ -205,7 +245,7 @@ final class Broker {
         session.jar.first{$0.host==host&&$0.path==path&&$0.name==name}
     }
     func matching(_ session:AppSession,_ url:URLComponents)->[Cookie] {
-        let host=url.host!.lowercased(),path=url.path.isEmpty ? "/":url.path
+        let host=Broker.hostOf(url),path=url.path.isEmpty ? "/":url.path
         return session.jar.filter{$0.host==host&&Broker.pathMatches(path,$0.path)}.sorted{a,b in
             a.path.count != b.path.count ? a.path.count>b.path.count:a.created<b.created
         }
@@ -228,18 +268,37 @@ final class Broker {
         let portal=portals[portalId]!
         if let refused=admit(portal,"cookies") {return refused}
         if !Set(fields.keys).isSubset(of:Broker.cookieFields) {return denied(-32602)}
+        guard let name=fields["name"] as? String,let value=fields["value"] as? String,Broker.isToken(name),Broker.isCookieValue(value) else {return denied(-32602)}
+        var path="/",expired=false
+        if let given=fields["path"] {
+            guard let text=given as? String,Broker.isCookiePath(text) else {return denied(-32602)}
+            path=text
+        }
+        if let given=fields["maxAge"] {
+            guard let age=Broker.integer(given) else {return denied(-32602)}
+            expired=age<=0
+        }
         let (found,refused)=cookieTarget(portal,text)
         guard let url=found else {return refused!}
-        let session=apps[portal.app]!,host=url.host!.lowercased(),path=fields["path"] as? String ?? "/",name=fields["name"] as! String
+        let session=apps[portal.app]!,host=Broker.hostOf(url)
         if find(session,host,path,name)?.httpOnly==true {return denied(-32000)}
-        let cookie=Cookie();cookie.host=host;cookie.path=path;cookie.name=name;cookie.value=fields["value"] as! String
-        put(session,cookie,delete:(fields["maxAge"] as? Int ?? 1)<=0)
+        let cookie=Cookie();cookie.host=host;cookie.path=path;cookie.name=name;cookie.value=value
+        put(session,cookie,delete:expired)
         return ["ok":true]
     }
     func cookiesDelete(_ portalId:String,_ text:String,_ fields:[String:Any])->[String:Any] {
-        let portal=portals[portalId]!,(found,refused)=cookieTarget(portal,text)
+        let portal=portals[portalId]!
+        if let refused=admit(portal,"cookies") {return refused}
+        if !Set(fields.keys).isSubset(of:Broker.cookieDeleteFields) {return denied(-32602)}
+        guard let name=fields["name"] as? String,Broker.isToken(name) else {return denied(-32602)}
+        var path="/"
+        if let given=fields["path"] {
+            guard let text=given as? String,Broker.isCookiePath(text) else {return denied(-32602)}
+            path=text
+        }
+        let (found,refused)=cookieTarget(portal,text)
         guard let url=found else {return refused!}
-        let session=apps[portal.app]!,existing=find(session,url.host!.lowercased(),fields["path"] as? String ?? "/",fields["name"] as! String)
+        let session=apps[portal.app]!,existing=find(session,Broker.hostOf(url),path,name)
         if existing?.httpOnly==true {return denied(-32000)}
         session.jar.removeAll{$0===existing}
         return ["ok":true]
@@ -272,12 +331,21 @@ final class Broker {
     func url(_ c:[String:Any],_ label:String,_ target:[String:Any]?=nil)->String {
         let t=target ?? [:]
         let userinfo=(t["userinfo"] as? String).map{$0+"@"} ?? "",fragment=(t["fragment"] as? String).map{"#"+$0} ?? ""
-        return "\(t["scheme"] as? String ?? "https")://\(userinfo)\(t["host"] as? String ?? "localhost"):\(listenerPort(t["listener"] as? String))\(t["path"] as? String ?? "/s")?run=\(run)&case=\(c["id"] as! String)&step=\(label)\(fragment)"
+        let portSuffix=t["defaultPort"] as? Bool==true ? "":":\(listenerPort(t["listener"] as? String))"
+        return "\(t["scheme"] as? String ?? "https")://\(userinfo)\(t["host"] as? String ?? "localhost")\(portSuffix)\(t["path"] as? String ?? "/s")?run=\(run)&case=\(c["id"] as! String)&step=\(label)\(fragment)"
     }
-    func held(_ c:[String:Any],_ label:String,_ path:String) async -> Bool {
+    func askControl(_ c:[String:Any],_ label:String,_ path:String) async -> Exchange {
         let exchange=harness.start(URLRequest(url:URL(string:"https://localhost:\(control)\(path)?run=\(run)&case=\(c["id"] as! String)&step=\(label)")!))
         await harness.finish(exchange)
+        return exchange
+    }
+    func held(_ c:[String:Any],_ label:String) async -> Bool {
+        let exchange=await askControl(c,label,"/held")
         return ((try? JSONSerialization.jsonObject(with:exchange.data)) as? [String:Any])?["held"] as? Bool ?? false
+    }
+    func release(_ c:[String:Any],_ label:String) async -> Bool {
+        let exchange=await askControl(c,label,"/release")
+        return exchange.error==nil&&exchange.response?.statusCode==200
     }
     func until(_ check:() async -> Bool) async -> Bool {
         let deadline=Date().addingTimeInterval(barrierSeconds)
@@ -290,7 +358,9 @@ final class Broker {
     func perform(_ c:[String:Any]) async -> [String:Any] {
         var steps:[[String:Any]]=[],timedOut:[String]=[],pending:[String:Pending]=[:]
         var approved:Set<String>=[]
-        if let declared=c["approved"] as? [[String:String]] {for entry in declared {approved.insert("\(entry["host"]!):\(listenerPort(entry["listener"]))")}} else {approved.insert("localhost:\(port)")}
+        if let declared=c["approved"] as? [[String:Any]] {
+            for entry in declared {approved.insert("\(entry["host"] as! String):\(entry["port"] as? Int ?? Int(listenerPort(entry["listener"] as? String))!)")}
+        } else {approved.insert("localhost:\(port)")}
         let broker=Broker(client:brokerClient,approved:approved)
         for (id,value) in c["portals"] as! [String:[String:Any]] {broker.bind(id,app:value["app"] as! String,grants:Set(value["grants"] as! [String]))}
         func settle(_ label:String) async {
@@ -304,13 +374,14 @@ final class Broker {
             case "request":
                 var params=s["params"] as? [String:Any] ?? [:]
                 let target=params.removeValue(forKey:"target") as? [String:Any],deferred=params.removeValue(forKey:"deferred") as? Bool ?? false
-                params["url"]=url(c,label,target)
+                if s["omitUrl"] as? Bool != true&&params["url"]==nil {params["url"]=url(c,label,target)}
                 pending[label]=broker.request(portal,label,params,deferred:deferred)
                 if s["wait"] as? Bool != false {await settle(label)}
             case "await": await settle(label)
             case "held":
-                if !(await until{await held(c,label,"/held")}) {timedOut.append("held:\(label)")}
-            case "release": _=await held(c,label,"/release")
+                if !(await until{await held(c,label)}) {timedOut.append("held:\(label)")}
+            case "release":
+                if !(await release(c,label)) {timedOut.append("release:\(label)")}
             case "awaitEvent":
                 let kind=s["kind"] as! String
                 if !(await until{broker.hasEvent(kind,label)}) {timedOut.append("event:\(kind):\(label)")}
@@ -343,12 +414,15 @@ final class Broker {
         }
         return ["case":c["id"]!,"steps":steps,"events":broker.events,"timedOut":timedOut]
     }
+    static let tlsFailures:Set<URLError.Code>=[.secureConnectionFailed,.serverCertificateHasBadDate,.serverCertificateUntrusted,.serverCertificateHasUnknownRoot,.serverCertificateNotYetValid]
     /// No pinning delegate: default validation with the device's own roots must refuse the probe's certificate.
     func tlsNegative(_ c:[String:Any],_ label:String) async -> [String:Any] {
         do {
             let (_,response)=try await URLSession(configuration:Client.broker()).data(for:URLRequest(url:URL(string:url(c,label))!))
             return ["ok":true,"status":(response as? HTTPURLResponse)?.statusCode ?? NSNull()]
-        } catch {return denied("tlsRefused")}
+        } catch let error as URLError where Controller.tlsFailures.contains(error.code) {
+            return ["ok":false,"code":"tlsRefused","detail":error.code.rawValue]
+        } catch {return ["ok":false,"code":"notTls","detail":(error as NSError).code]}
     }
     /// Stands for a host with its own login in the process's shared stores. Session persistence keeps it off disk.
     func hostSeed(){

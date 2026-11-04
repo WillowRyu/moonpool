@@ -13,6 +13,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -30,6 +32,17 @@ import org.json.JSONObject;
 final class Broker {
  static final Set<String> REQUEST_FIELDS=new HashSet<>(Arrays.asList("url","method","credentials","headers","body"));
  static final Set<String> COOKIE_FIELDS=new HashSet<>(Arrays.asList("name","value","path","maxAge"));
+ static final Set<String> COOKIE_DELETE_FIELDS=new HashSet<>(Arrays.asList("name","path"));
+ static final Set<String> METHODS=new HashSet<>(Arrays.asList("GET","HEAD","POST","PUT","PATCH","DELETE","OPTIONS"));
+ static final Set<String> BODYLESS_METHODS=new HashSet<>(Arrays.asList("GET","HEAD"));
+ /** OkHttp refuses these without a body, while URLSession sends them empty. */
+ static final Set<String> BODY_REQUIRED_METHODS=new HashSet<>(Arrays.asList("POST","PUT","PATCH"));
+ static final long TIMEOUT_SECONDS=40;
+ static final Pattern TOKEN=Pattern.compile("[!#$%&'*+\\-.^_`|~0-9A-Za-z]+");
+ static final Pattern HEADER_VALUE=Pattern.compile("[\\t\\x20-\\x7E]*");
+ static final Pattern COOKIE_VALUE=Pattern.compile("[\\x21\\x23-\\x2B\\x2D-\\x3A\\x3C-\\x5B\\x5D-\\x7E]*");
+ static final Pattern COOKIE_PATH=Pattern.compile("/[\\x20-\\x3A\\x3C-\\x7E]*");
+ static final Pattern SENDABLE=Pattern.compile("[\\x20-\\x7E]*");
  static final Set<String> FORBIDDEN_HEADERS=new HashSet<>(Arrays.asList("cookie","cookie2","host","origin","proxy-authorization","content-length","transfer-encoding","connection","te","upgrade","keep-alive"));
  static final class Cookie {String host,path,name,value;boolean httpOnly;long created;}
  static final class Portal {final String app;final Set<String> grants;boolean retired;Portal(String app,Set<String> grants){this.app=app;this.grants=grants;}}
@@ -44,9 +57,10 @@ final class Broker {
  private long sequence;
  Broker(OkHttpClient client,Set<String> approved){this.client=client;this.approved=approved;}
 
- /** Followed ProxySelector, and hid Retry-After, per ADR 0027. Cookies, authentication and cache stay off. */
+ /** Followed ProxySelector, and hid Retry-After, per ADR 0027. Cookies, authentication and cache stay off. Timeouts match iOS. */
  static OkHttpClient newClient(){
   return new OkHttpClient.Builder().followRedirects(false).followSslRedirects(false).retryOnConnectionFailure(false).cache(null)
+   .connectTimeout(TIMEOUT_SECONDS,TimeUnit.SECONDS).readTimeout(TIMEOUT_SECONDS,TimeUnit.SECONDS).writeTimeout(TIMEOUT_SECONDS,TimeUnit.SECONDS)
    .addNetworkInterceptor(chain->{
     Response response=chain.proceed(chain.request());
     String value=response.header("Retry-After");
@@ -74,7 +88,12 @@ final class Broker {
    return bad?null:uri;
   }catch(Exception e){return null;}
  }
- private boolean isApproved(URI uri){return approved.contains(uri.getHost().toLowerCase(Locale.ROOT)+":"+uri.getPort());}
+ /** One spelling of a host on both platforms: lower case, and an IPv6 literal without its brackets. */
+ private static String hostOf(URI uri){
+  String host=uri.getHost().toLowerCase(Locale.ROOT);
+  return host.startsWith("[")&&host.endsWith("]")?host.substring(1,host.length()-1):host;
+ }
+ private boolean isApproved(URI uri){return approved.contains(hostOf(uri)+":"+(uri.getPort()==-1?443:uri.getPort()));}
 
  Pending request(String portalId,String label,JSONObject params,boolean deferred) throws Exception {
   Pending pending=new Pending();
@@ -91,29 +110,43 @@ final class Broker {
  private JSONObject admitRequest(Portal portal,JSONObject params) throws Exception {
   JSONObject denied=admit(portal,"http");
   if(denied!=null)return denied;
-  for(Iterator<String> keys=params.keys();keys.hasNext();)if(!REQUEST_FIELDS.contains(keys.next()))return error(-32602);
-  String credentials=params.optString("credentials","include");
-  if(!credentials.equals("include")&&!credentials.equals("omit"))return error(-32602);
-  JSONObject headers=params.optJSONObject("headers");
-  if(headers!=null)for(Iterator<String> keys=headers.keys();keys.hasNext();){
-   String name=keys.next().toLowerCase(Locale.ROOT);
-   if(FORBIDDEN_HEADERS.contains(name)||name.startsWith("sec-")||name.startsWith("proxy-"))return error(-32602);
-  }
+  if(!validRequestFields(params))return error(-32602);
   URI uri=secureUrl(params.getString("url"));
   if(uri==null)return error(-32602);
   return isApproved(uri)?null:error(-32000);
  }
- /** The owner and generation are rechecked here because queued work may start after a reset. */
+ /** A value of the wrong type is refused rather than coerced, because iOS would read it differently. */
+ private static boolean validRequestFields(JSONObject params){
+  for(Iterator<String> keys=params.keys();keys.hasNext();)if(!REQUEST_FIELDS.contains(keys.next()))return false;
+  Object url=params.opt("url"),method=params.opt("method"),credentials=params.opt("credentials"),body=params.opt("body"),headers=params.opt("headers");
+  if(!(url instanceof String))return false;
+  if(method!=null&&!METHODS.contains(method))return false;
+  if(credentials!=null&&!"include".equals(credentials)&&!"omit".equals(credentials))return false;
+  if(body!=null&&(!(body instanceof String)||BODYLESS_METHODS.contains(method==null?"GET":method)))return false;
+  if(headers==null)return true;
+  if(!(headers instanceof JSONObject))return false;
+  JSONObject fields=(JSONObject)headers;
+  for(Iterator<String> keys=fields.keys();keys.hasNext();){
+   String name=keys.next(),lower=name.toLowerCase(Locale.ROOT);
+   Object value=fields.opt(name);
+   if(FORBIDDEN_HEADERS.contains(lower)||lower.startsWith("sec-")||lower.startsWith("proxy-"))return false;
+   if(!TOKEN.matcher(name).matches()||!(value instanceof String)||!HEADER_VALUE.matcher((String)value).matches())return false;
+  }
+  return true;
+ }
+ /** The owner and generation are rechecked here because queued work may start after a close or a reset. */
  private void dispatch(Portal portal,App app,int generation,String label,JSONObject params,Pending pending){
   try{
    boolean include=!params.optString("credentials","include").equals("omit");
    URI uri=new URI(params.getString("url"));
    Request.Builder builder=new Request.Builder().url(params.getString("url"));
-   String body=params.optString("body",null);
-   builder.method(params.optString("method","GET"),body==null?null:RequestBody.create(body.getBytes(java.nio.charset.StandardCharsets.UTF_8),null));
+   String method=params.optString("method","GET"),body=params.optString("body",null);
+   byte[] bytes=body==null?(BODY_REQUIRED_METHODS.contains(method)?new byte[0]:null):body.getBytes(java.nio.charset.StandardCharsets.UTF_8);
+   builder.method(method,bytes==null?null:RequestBody.create(bytes,null));
    JSONObject headers=params.optJSONObject("headers");
    if(headers!=null)for(Iterator<String> keys=headers.keys();keys.hasNext();){String name=keys.next();builder.header(name,headers.getString(name));}
    synchronized(this){
+    if(portal.retired){finish(portal,pending,error("retired"));return;}
     if(app.generation!=generation){finish(portal,pending,error(-32007,"sessionReset"));return;}
     if(include){String cookie=cookieHeader(app,uri);if(!cookie.isEmpty())builder.header("Cookie",cookie);}
    }
@@ -168,13 +201,15 @@ final class Broker {
   return last<=0?"/":path.substring(0,last);
  }
  private void store(App app,String line,URI uri){
-  String[] parts=line.split(";");
+  String[] parts=line.split(";",-1);
   int equals=parts[0].indexOf('=');
   if(equals<=0)return;
   Cookie cookie=new Cookie();
   cookie.name=parts[0].substring(0,equals).trim();
   cookie.value=parts[0].substring(equals+1).trim();
-  cookie.host=uri.getHost().toLowerCase(Locale.ROOT);
+  // Kept, this could not go back into a Cookie header, and every later request from the app would fail.
+  if(!SENDABLE.matcher(cookie.name).matches()||!SENDABLE.matcher(cookie.value).matches())return;
+  cookie.host=hostOf(uri);
   cookie.path=defaultPath(uri.getPath());
   boolean secure=false,sameSiteNone=false;
   Long maxAge=null;
@@ -206,7 +241,7 @@ final class Broker {
  }
  private static List<Cookie> matching(App app,URI uri){
   List<Cookie> found=new ArrayList<>();
-  String host=uri.getHost().toLowerCase(Locale.ROOT),path=uri.getPath()==null||uri.getPath().isEmpty()?"/":uri.getPath();
+  String host=hostOf(uri),path=uri.getPath()==null||uri.getPath().isEmpty()?"/":uri.getPath();
   for(Cookie cookie:app.jar)if(cookie.host.equals(host)&&pathMatches(path,cookie.path))found.add(cookie);
   Collections.sort(found,(a,b)->a.path.length()!=b.path.length()?b.path.length()-a.path.length():Long.compare(a.created,b.created));
   return found;
@@ -215,6 +250,16 @@ final class Broker {
   StringBuilder header=new StringBuilder();
   for(Cookie cookie:matching(app,uri)){if(header.length()>0)header.append("; ");header.append(cookie.name).append('=').append(cookie.value);}
   return header.toString();
+ }
+
+ /** Script cookies follow the RFC 6265 grammar, so a value cannot add a pair beside a protected cookie. */
+ private static boolean validCookieFields(JSONObject fields,Set<String> allowed,boolean needsValue){
+  for(Iterator<String> keys=fields.keys();keys.hasNext();)if(!allowed.contains(keys.next()))return false;
+  Object name=fields.opt("name"),value=fields.opt("value"),path=fields.opt("path"),age=fields.opt("maxAge");
+  if(!(name instanceof String)||!TOKEN.matcher((String)name).matches())return false;
+  if(needsValue&&(!(value instanceof String)||!COOKIE_VALUE.matcher((String)value).matches()))return false;
+  if(path!=null&&(!(path instanceof String)||!COOKIE_PATH.matcher((String)path).matches()))return false;
+  return age==null||age instanceof Integer||age instanceof Long;
  }
 
  synchronized JSONObject cookiesGet(String portalId,String url) throws Exception {
@@ -232,12 +277,12 @@ final class Broker {
   Portal portal=portals.get(portalId);
   JSONObject denied=admit(portal,"cookies");
   if(denied!=null)return denied;
-  for(Iterator<String> keys=fields.keys();keys.hasNext();)if(!COOKIE_FIELDS.contains(keys.next()))return error(-32602);
+  if(!validCookieFields(fields,COOKIE_FIELDS,true))return error(-32602);
   URI uri=secureUrl(url);
   if(uri==null)return error(-32602);
   if(!isApproved(uri))return error(-32000);
   App app=apps.get(portal.app);
-  String host=uri.getHost().toLowerCase(Locale.ROOT),path=fields.optString("path","/");
+  String host=hostOf(uri),path=fields.optString("path","/");
   Cookie existing=find(app,host,path,fields.getString("name"));
   if(existing!=null&&existing.httpOnly)return error(-32000);
   Cookie cookie=new Cookie();
@@ -249,11 +294,12 @@ final class Broker {
   Portal portal=portals.get(portalId);
   JSONObject denied=admit(portal,"cookies");
   if(denied!=null)return denied;
+  if(!validCookieFields(fields,COOKIE_DELETE_FIELDS,false))return error(-32602);
   URI uri=secureUrl(url);
   if(uri==null)return error(-32602);
   if(!isApproved(uri))return error(-32000);
   App app=apps.get(portal.app);
-  Cookie existing=find(app,uri.getHost().toLowerCase(Locale.ROOT),fields.optString("path","/"),fields.getString("name"));
+  Cookie existing=find(app,hostOf(uri),fields.optString("path","/"),fields.getString("name"));
   if(existing!=null&&existing.httpOnly)return error(-32000);
   if(existing!=null)app.jar.remove(existing);
   return obj("ok",true);
