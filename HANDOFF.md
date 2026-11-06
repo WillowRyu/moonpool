@@ -1,7 +1,7 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-11-05. The maintainer switched to agent-led implementation
+> Last updated: 2026-11-06. The maintainer switched to agent-led implementation
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
@@ -69,8 +69,9 @@
 > A comma in a cookie value can drop HttpOnly on both platforms: accepted on 2026-11-05 and stated in the contract. Do not ask again.
 > iOS commits a Basic challenge's first response from failureResponse: accepted on 2026-11-05 in ADR 0027. Do not ask again.
 > The second attempt, the Authorization replay and a body from that attempt remain, and the contract states them.
-> OPEN parity item: after the accepted iOS Basic 401 resend the jar keeps the second response's cookie, Android the first,
-> and the guest's own Authorization is replayed. Both devices stopped; T28 stays at 6/44 with C04 and C09-C12 untouched.
+> The jar parity item is closed: iOS now keeps the first response's cookie, as Android does, in all 63 cases.
+> Broker work is merged into master by fast-forward and pushed, through f964f76; the branch stays at that commit.
+> Both devices stopped; T28 stays at 6/44 with C04 and C09-C12 untouched. Test keys are in the Trash for the maintainer.
 > Older checkpoints moved verbatim to docs/handoff-archive.md on 2026-11-03.
 > Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
 > Run pnpm run check; read docs/code-quality-workflow.md. Native task checks remain separate.
