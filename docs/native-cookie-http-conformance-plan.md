@@ -4,8 +4,8 @@ Date: 2026-11-03
 Status: Review and test design complete; bounded C09/C10 measurements recorded in
 the [verification report](native-cookie-suppression-verification.md), and a bounded
 C01–C03 / C05–C08 broker subset in the [broker report](native-http-broker-verification.md).
-The iOS retained-cookie failure, the iOS `Basic` 401 parity item, the full corpus and
-final contract approval remain open.
+The iOS retained-cookie failure, the full corpus and final contract approval remain open;
+the iOS `Basic` 401 parity item was closed by committing the first response.
 This accompanies the [proposed contract](native-cookie-http-contract.md) and
 [ADR 0027](adr/0027-unify-cookie-sessions-through-async-native-http.md).
 It neither accepts a contract nor establishes native conformance. SPEC is unchanged.
@@ -198,6 +198,8 @@ identity including host-only treatment, prefix case handling, header ordering,
 public-suffix data revision, newer attributes and resource limits are unresolved
 profile inputs. Freeze them before claiming this case passes. RFC 6265 and the
 linked 6265bis draft are references, not interchangeable automatic specifications.
+The [C04 profile draft](native-cookie-c04-profile-draft.md) proposes those inputs and a first vector
+table for review, dated 2026-11-06; none is accepted.
 This review adds no new cookie profile or numeric product limits.
 
 ### C05 — Service context and authorization
