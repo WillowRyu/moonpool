@@ -1,0 +1,1076 @@
+{
+  "profile": "c04-draft-1",
+  "note": "draft = what the C04 profile draft expects under its recommendations (D1 accepted as A). wellFormed = the line follows the RFC 6265 section 4.1 server grammar, with SameSite read from 6265bis. Tokens {date:+Nd|+Nh|+Nm|-Nd} become an IMF-fixdate relative to the run's clock.",
+  "vectors": [
+    {
+      "id": "P01",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/x/y",
+      "line": "a=1",
+      "checks": [
+        "https://api.example.com/x/z",
+        "https://api.example.com/",
+        "https://www.example.com/x/z"
+      ],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/x",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "session",
+        "sends": [true, false, false]
+      }
+    },
+    {
+      "id": "P03a",
+      "source": "c04-draft",
+      "wellFormed": false,
+      "url": "https://api.example.com/",
+      "line": "=v",
+      "checks": [],
+      "draft": { "accept": false }
+    },
+    {
+      "id": "P03b",
+      "source": "c04-draft",
+      "wellFormed": false,
+      "url": "https://api.example.com/",
+      "line": "a",
+      "checks": [],
+      "draft": { "accept": false }
+    },
+    {
+      "id": "P03c",
+      "source": "c04-draft",
+      "wellFormed": false,
+      "url": "https://api.example.com/",
+      "line": "=",
+      "checks": [],
+      "draft": { "accept": false }
+    },
+    {
+      "id": "P04",
+      "source": "c04-draft",
+      "wellFormed": false,
+      "url": "https://api.example.com/",
+      "line": "a=1\u0001",
+      "checks": [],
+      "draft": { "accept": false }
+    },
+    {
+      "id": "P05",
+      "source": "c04-draft",
+      "wellFormed": false,
+      "url": "https://api.example.com/",
+      "line": "a=\"q r\"; Path=/",
+      "checks": ["https://api.example.com/"],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "\"q r\"",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "session",
+        "sends": [true]
+      }
+    },
+    {
+      "id": "P06",
+      "source": "c04-draft",
+      "wellFormed": false,
+      "url": "https://api.example.com/",
+      "line": "a=é",
+      "checks": [],
+      "draft": { "accept": false }
+    },
+    {
+      "id": "P07a",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "a={repeat:v:4095}; Path=/",
+      "checks": ["https://api.example.com/"],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "{repeat:v:4095}",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "session",
+        "sends": [true]
+      }
+    },
+    {
+      "id": "P07b",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "a={repeat:v:4096}; Path=/",
+      "checks": [],
+      "draft": { "accept": false }
+    },
+    {
+      "id": "P08",
+      "source": "c04-draft",
+      "wellFormed": false,
+      "url": "https://api.example.com/",
+      "line": "  a =  1 ; Path=/",
+      "checks": ["https://api.example.com/"],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "session",
+        "sends": [true]
+      }
+    },
+    {
+      "id": "P09",
+      "source": "c04-draft",
+      "wellFormed": false,
+      "url": "https://api.example.com/x/y",
+      "line": "a=1; Path=/p; Path=/",
+      "checks": ["https://api.example.com/"],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "session",
+        "sends": [true]
+      }
+    },
+    {
+      "id": "P10",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "a=1; Path=/; Expires=Wed, 21 Oct 2099 07:28:00 GMT",
+      "checks": ["https://api.example.com/"],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": { "days": 400 },
+        "sends": [true]
+      }
+    },
+    {
+      "id": "P11",
+      "source": "c04-draft",
+      "wellFormed": false,
+      "url": "https://api.example.com/",
+      "line": "sid=abc, x=y; Path=/; HttpOnly",
+      "checks": [],
+      "draft": {
+        "accept": true,
+        "split": true,
+        "note": "The accepted pipeline splits this into sid=abc (no attributes) and x=y; Path=/; HttpOnly before parsing."
+      }
+    },
+    {
+      "id": "D01",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "a=1; Domain=example.com; Path=/",
+      "checks": ["https://example.com/", "https://www.example.com/", "https://other.com/"],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "example.com",
+        "hostOnly": false,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "session",
+        "sends": [true, true, false]
+      }
+    },
+    {
+      "id": "D02a",
+      "source": "c04-draft",
+      "wellFormed": false,
+      "url": "https://api.example.com/",
+      "line": "a=1; Domain=.example.com; Path=/",
+      "checks": ["https://www.example.com/"],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "example.com",
+        "hostOnly": false,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "session",
+        "sends": [true]
+      }
+    },
+    {
+      "id": "D02b",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "a=1; Domain=EXAMPLE.com; Path=/",
+      "checks": ["https://www.example.com/"],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "example.com",
+        "hostOnly": false,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "session",
+        "sends": [true]
+      }
+    },
+    {
+      "id": "D03a",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "a=1; Domain=other.com",
+      "checks": [],
+      "draft": { "accept": false }
+    },
+    {
+      "id": "D03b",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "a=1; Domain=www.api.example.com",
+      "checks": [],
+      "draft": { "accept": false }
+    },
+    {
+      "id": "D04",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://shop.co.uk/",
+      "line": "a=1; Domain=co.uk",
+      "checks": [],
+      "draft": { "accept": false }
+    },
+    {
+      "id": "D05",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://github.io/",
+      "line": "a=1; Domain=github.io; Path=/",
+      "checks": ["https://github.io/", "https://user.github.io/"],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "github.io",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "session",
+        "sends": [true, false]
+      }
+    },
+    {
+      "id": "D06a",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://127.0.0.1/",
+      "line": "a=1; Domain=127.0.0.1; Path=/",
+      "checks": ["https://127.0.0.1/"],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "127.0.0.1",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "session",
+        "sends": [true]
+      }
+    },
+    {
+      "id": "D06b",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://127.0.0.1/",
+      "line": "a=1; Domain=0.0.1",
+      "checks": [],
+      "draft": { "accept": false }
+    },
+    {
+      "id": "D07",
+      "source": "c04-draft",
+      "wellFormed": false,
+      "url": "https://api.example.com/",
+      "line": "a=1; Domain=; Path=/",
+      "checks": ["https://api.example.com/", "https://www.api.example.com/"],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "session",
+        "sends": [true, false]
+      }
+    },
+    {
+      "id": "I01",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "a=2; Domain=api.example.com; Path=/",
+      "checks": ["https://api.example.com/", "https://www.api.example.com/"],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "2",
+        "domain": "api.example.com",
+        "hostOnly": false,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "session",
+        "sends": [true, true]
+      }
+    },
+    {
+      "id": "A01",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "a=1; Path=/x",
+      "checks": [
+        "https://api.example.com/x",
+        "https://api.example.com/x/",
+        "https://api.example.com/x/q",
+        "https://api.example.com/xq"
+      ],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/x",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "session",
+        "sends": [true, true, true, false]
+      }
+    },
+    {
+      "id": "A02",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/x/y",
+      "line": "a=1; Path=x",
+      "checks": ["https://api.example.com/x/z"],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/x",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "session",
+        "sends": [true]
+      }
+    },
+    {
+      "id": "A03",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/a%2Fb/c",
+      "line": "a=1",
+      "checks": ["https://api.example.com/a%2Fb/d", "https://api.example.com/a/b/d"],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/a%2Fb",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "session",
+        "sends": [true, false]
+      }
+    },
+    {
+      "id": "A04",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/y",
+      "line": "a=1",
+      "checks": ["https://api.example.com/z"],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "session",
+        "sends": [true]
+      }
+    },
+    {
+      "id": "E01",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "a=1; Path=/; Max-Age=60",
+      "checks": [],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": { "seconds": 60 }
+      }
+    },
+    {
+      "id": "E02a",
+      "source": "c04-draft",
+      "wellFormed": false,
+      "url": "https://api.example.com/",
+      "line": "a=; Path=/; Max-Age=0",
+      "checks": [],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "expired"
+      }
+    },
+    {
+      "id": "E02b",
+      "source": "c04-draft",
+      "wellFormed": false,
+      "url": "https://api.example.com/",
+      "line": "a=; Path=/; Max-Age=-1",
+      "checks": [],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "expired"
+      }
+    },
+    {
+      "id": "E03a",
+      "source": "c04-draft",
+      "wellFormed": false,
+      "url": "https://api.example.com/",
+      "line": "a=1; Path=/; Max-Age=abc",
+      "checks": [],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "session"
+      }
+    },
+    {
+      "id": "E03b",
+      "source": "c04-draft",
+      "wellFormed": false,
+      "url": "https://api.example.com/",
+      "line": "a=1; Path=/; Max-Age=+5",
+      "checks": [],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "session"
+      }
+    },
+    {
+      "id": "E04a",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "a=1; Path=/; Max-Age=60; Expires={date:-1d}",
+      "checks": [],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": { "seconds": 60 }
+      }
+    },
+    {
+      "id": "E04b",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "a=1; Path=/; Expires={date:-1d}; Max-Age=60",
+      "checks": [],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": { "seconds": 60 }
+      }
+    },
+    {
+      "id": "E05",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "a=1; Path=/; Expires={date:-1d}",
+      "checks": [],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "expired"
+      }
+    },
+    {
+      "id": "E06",
+      "source": "c04-draft",
+      "wellFormed": false,
+      "url": "https://api.example.com/",
+      "line": "a=1; Path=/; Expires=not a date",
+      "checks": [],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "session"
+      }
+    },
+    {
+      "id": "E07",
+      "source": "c04-draft",
+      "wellFormed": false,
+      "url": "https://api.example.com/",
+      "line": "a=1; Path=/; Expires=Wed, 21 Oct 70 07:28:00 GMT",
+      "checks": [],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "expired"
+      }
+    },
+    {
+      "id": "E08a",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "a=1; Path=/; Max-Age=999999999",
+      "checks": [],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": { "days": 400 }
+      }
+    },
+    {
+      "id": "X01a",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "__Secure-a=1; Path=/",
+      "checks": [],
+      "draft": { "accept": false }
+    },
+    {
+      "id": "X01b",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "__Secure-a=1; Path=/; Secure",
+      "checks": ["https://api.example.com/"],
+      "draft": {
+        "accept": true,
+        "name": "__Secure-a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": true,
+        "expiry": "session",
+        "sends": [true]
+      }
+    },
+    {
+      "id": "X02a",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "__Host-a=1; Secure; Path=/",
+      "checks": ["https://api.example.com/"],
+      "draft": {
+        "accept": true,
+        "name": "__Host-a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": true,
+        "expiry": "session",
+        "sends": [true]
+      }
+    },
+    {
+      "id": "X02b",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "__Host-a=1; Secure; Path=/; Domain=api.example.com",
+      "checks": [],
+      "draft": { "accept": false }
+    },
+    {
+      "id": "X02c",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "__Host-a=1; Secure; Path=/x",
+      "checks": [],
+      "draft": { "accept": false }
+    },
+    {
+      "id": "X03",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "__host-a=1; Path=/",
+      "checks": [],
+      "draft": { "accept": false }
+    },
+    {
+      "id": "S01",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "a=1; Path=/; SameSite=None",
+      "checks": [],
+      "draft": { "accept": false }
+    },
+    {
+      "id": "S02a",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "a=1; Path=/; SameSite=Strict",
+      "checks": ["https://api.example.com/"],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "session",
+        "sameSite": "strict",
+        "sends": [true]
+      }
+    },
+    {
+      "id": "S02b",
+      "source": "c04-draft",
+      "wellFormed": false,
+      "url": "https://api.example.com/",
+      "line": "a=1; Path=/; SameSite=bogus",
+      "checks": ["https://api.example.com/"],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "session",
+        "sameSite": "default",
+        "sends": [true]
+      }
+    },
+    {
+      "id": "U01",
+      "source": "c04-draft",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "a=1; Path=/; Partitioned; Priority=High; Foo=bar",
+      "checks": ["https://api.example.com/"],
+      "draft": {
+        "accept": true,
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": "session",
+        "sends": [true]
+      }
+    },
+
+    {
+      "id": "R01",
+      "source": "common",
+      "shape": "Tomcat / Java servlet session",
+      "wellFormed": true,
+      "url": "https://api.example.com/app/login",
+      "line": "JSESSIONID=8A3F2C9D1B7E4F60A5C3D2E1F0B9A8C7; Path=/app; Secure; HttpOnly",
+      "checks": ["https://api.example.com/app/me", "https://api.example.com/other"],
+      "draft": {
+        "accept": true,
+        "name": "JSESSIONID",
+        "value": "8A3F2C9D1B7E4F60A5C3D2E1F0B9A8C7",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/app",
+        "httpOnly": true,
+        "secure": true,
+        "expiry": "session",
+        "sends": [true, false]
+      }
+    },
+    {
+      "id": "R02",
+      "source": "common",
+      "shape": "Express session",
+      "wellFormed": true,
+      "url": "https://api.example.com/login",
+      "line": "connect.sid=s%3AeYk2ZQ.Wm9vYmFy; Path=/; Expires={date:+1d}; HttpOnly; Secure; SameSite=Lax",
+      "checks": ["https://api.example.com/me"],
+      "draft": {
+        "accept": true,
+        "name": "connect.sid",
+        "value": "s%3AeYk2ZQ.Wm9vYmFy",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": true,
+        "secure": true,
+        "expiry": { "seconds": 86400 },
+        "sameSite": "lax",
+        "sends": [true]
+      }
+    },
+    {
+      "id": "R03",
+      "source": "common",
+      "shape": "Django session, lowercase expires with Max-Age",
+      "wellFormed": true,
+      "url": "https://api.example.com/login/",
+      "line": "sessionid=k2v9q8w7e6r5t4y3; expires={date:+14d}; HttpOnly; Max-Age=1209600; Path=/; SameSite=Lax; Secure",
+      "checks": ["https://api.example.com/me/"],
+      "draft": {
+        "accept": true,
+        "name": "sessionid",
+        "value": "k2v9q8w7e6r5t4y3",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": true,
+        "secure": true,
+        "expiry": { "seconds": 1209600 },
+        "sameSite": "lax",
+        "sends": [true]
+      }
+    },
+    {
+      "id": "R04",
+      "source": "common",
+      "shape": "Laravel session, lowercase attributes",
+      "wellFormed": true,
+      "url": "https://api.example.com/login",
+      "line": "laravel_session=eyJpdiI6IkFCQyJ9%3D%3D; expires={date:+2h}; Max-Age=7200; path=/; secure; httponly; samesite=lax",
+      "checks": ["https://api.example.com/me"],
+      "draft": {
+        "accept": true,
+        "name": "laravel_session",
+        "value": "eyJpdiI6IkFCQyJ9%3D%3D",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": true,
+        "secure": true,
+        "expiry": { "seconds": 7200 },
+        "sameSite": "lax",
+        "sends": [true]
+      }
+    },
+    {
+      "id": "R05",
+      "source": "common",
+      "shape": "Long-lived analytics id on the parent domain",
+      "wellFormed": true,
+      "url": "https://www.example.com/",
+      "line": "_ga=GA1.1.1234567890.1700000000; Domain=example.com; Path=/; Expires={date:+730d}",
+      "checks": ["https://api.example.com/"],
+      "draft": {
+        "accept": true,
+        "name": "_ga",
+        "value": "GA1.1.1234567890.1700000000",
+        "domain": "example.com",
+        "hostOnly": false,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": { "days": 400 },
+        "sends": [true]
+      }
+    },
+    {
+      "id": "R06",
+      "source": "common",
+      "shape": "__Host- session",
+      "wellFormed": true,
+      "url": "https://api.example.com/login",
+      "line": "__Host-session=Zm9vYmFyYmF6; Path=/; Secure; HttpOnly; SameSite=Strict",
+      "checks": ["https://api.example.com/me"],
+      "draft": {
+        "accept": true,
+        "name": "__Host-session",
+        "value": "Zm9vYmFyYmF6",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": true,
+        "secure": true,
+        "expiry": "session",
+        "sameSite": "strict",
+        "sends": [true]
+      }
+    },
+    {
+      "id": "R07",
+      "source": "common",
+      "shape": "ASP.NET session, lowercase path and secure",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "ASP.NET_SessionId=x1y2z3w4v5u6t7s8; path=/; secure; HttpOnly; SameSite=Lax",
+      "checks": ["https://api.example.com/me"],
+      "draft": {
+        "accept": true,
+        "name": "ASP.NET_SessionId",
+        "value": "x1y2z3w4v5u6t7s8",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": true,
+        "secure": true,
+        "expiry": "session",
+        "sameSite": "lax",
+        "sends": [true]
+      }
+    },
+    {
+      "id": "R08",
+      "source": "common",
+      "shape": "Shared login on the parent domain with a leading dot",
+      "wellFormed": false,
+      "url": "https://auth.example.com/login",
+      "line": "token=abc123; Domain=.example.com; Path=/; Secure; HttpOnly; SameSite=None",
+      "checks": ["https://api.example.com/me"],
+      "draft": {
+        "accept": true,
+        "name": "token",
+        "value": "abc123",
+        "domain": "example.com",
+        "hostOnly": false,
+        "path": "/",
+        "httpOnly": true,
+        "secure": true,
+        "expiry": "session",
+        "sameSite": "none",
+        "sends": [true]
+      }
+    },
+    {
+      "id": "R09",
+      "source": "common",
+      "shape": "Rails session",
+      "wellFormed": true,
+      "url": "https://api.example.com/login",
+      "line": "_app_session=aGVsbG8%3D--5f2b9c; path=/; secure; httponly; samesite=lax",
+      "checks": ["https://api.example.com/me"],
+      "draft": {
+        "accept": true,
+        "name": "_app_session",
+        "value": "aGVsbG8%3D--5f2b9c",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": true,
+        "secure": true,
+        "expiry": "session",
+        "sameSite": "lax",
+        "sends": [true]
+      }
+    },
+    {
+      "id": "R10",
+      "source": "common",
+      "shape": "CDN bot cookie, lowercase domain with a leading dot",
+      "wellFormed": false,
+      "url": "https://api.example.com/",
+      "line": "__cf_bm=Zm9vLmJhcg-1700000000-1.0.1.1; path=/; expires={date:+30m}; domain=.example.com; HttpOnly; Secure; SameSite=None",
+      "checks": ["https://www.example.com/"],
+      "draft": {
+        "accept": true,
+        "name": "__cf_bm",
+        "value": "Zm9vLmJhcg-1700000000-1.0.1.1",
+        "domain": "example.com",
+        "hostOnly": false,
+        "path": "/",
+        "httpOnly": true,
+        "secure": true,
+        "expiry": { "seconds": 1800 },
+        "sameSite": "none",
+        "sends": [true]
+      }
+    },
+    {
+      "id": "R11",
+      "source": "common",
+      "shape": "Load balancer stickiness",
+      "wellFormed": true,
+      "url": "https://api.example.com/",
+      "line": "AWSALB=Zm9vYmFyYmF6cXV4; Expires={date:+7d}; Path=/",
+      "checks": ["https://api.example.com/me"],
+      "draft": {
+        "accept": true,
+        "name": "AWSALB",
+        "value": "Zm9vYmFyYmF6cXV4",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": false,
+        "secure": false,
+        "expiry": { "seconds": 604800 },
+        "sends": [true]
+      }
+    },
+    {
+      "id": "R12",
+      "source": "common",
+      "shape": "Remember-me cookie for one year",
+      "wellFormed": true,
+      "url": "https://api.example.com/login",
+      "line": "remember_me=dXNlcjoxMjM; Max-Age=31536000; Path=/; Secure; HttpOnly; SameSite=Lax",
+      "checks": ["https://api.example.com/me"],
+      "draft": {
+        "accept": true,
+        "name": "remember_me",
+        "value": "dXNlcjoxMjM",
+        "domain": "api.example.com",
+        "hostOnly": true,
+        "path": "/",
+        "httpOnly": true,
+        "secure": true,
+        "expiry": { "seconds": 31536000 },
+        "sameSite": "lax",
+        "sends": [true]
+      }
+    }
+  ]
+}

@@ -1,0 +1,901 @@
+{
+  "platform": "okhttp-5.5.1-jvm",
+  "nowMs": 1793941003872,
+  "java": "openjdk version \"17.0.18\" 2026-01-20 LTS",
+  "jars": {
+    "okhttp-jvm-5.5.1.jar": "1df922f9db18f897722b7e566c21bcaf0a73d484",
+    "okio-jvm-3.18.1.jar": "a3a8128bb3a0157d23ecc18c17e8330d9c0ac96c",
+    "kotlin-stdlib-2.2.21.jar": "fa374a986e128314c3db00a20aae55f72a258511"
+  },
+  "publicSuffixData": {
+    "jvm": {
+      "okhttp3/internal/publicsuffix/PublicSuffixDatabase.list": "c75ab827afd7ffff59a51b14729c25dbfc3b45237eb40ccf02bec7b7d44304a4"
+    },
+    "android": {
+      "assets/PublicSuffixDatabase.list": "c75ab827afd7ffff59a51b14729c25dbfc3b45237eb40ccf02bec7b7d44304a4"
+    },
+    "same": true
+  },
+  "observations": [
+    {
+      "id": "P01",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/x",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": [true, false, false]
+    },
+    {
+      "id": "P03a",
+      "accepted": false
+    },
+    {
+      "id": "P03b",
+      "accepted": false
+    },
+    {
+      "id": "P03c",
+      "accepted": false
+    },
+    {
+      "id": "P04",
+      "accepted": false
+    },
+    {
+      "id": "P05",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "\"q r\"",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": [true]
+    },
+    {
+      "id": "P06",
+      "accepted": false
+    },
+    {
+      "id": "P07a",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": [true]
+    },
+    {
+      "id": "P07b",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": []
+    },
+    {
+      "id": "P08",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": [true]
+    },
+    {
+      "id": "P09",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": [true]
+    },
+    {
+      "id": "P10",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": true,
+        "expiresAt": 4096250880000
+      },
+      "sends": [true]
+    },
+    {
+      "id": "P11",
+      "accepted": true,
+      "cookie": {
+        "name": "sid",
+        "value": "abc, x=y",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": true,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": []
+    },
+    {
+      "id": "D01",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "example.com",
+        "path": "/",
+        "hostOnly": false,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": [true, true, false]
+    },
+    {
+      "id": "D02a",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "example.com",
+        "path": "/",
+        "hostOnly": false,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": [true]
+    },
+    {
+      "id": "D02b",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "example.com",
+        "path": "/",
+        "hostOnly": false,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": [true]
+    },
+    {
+      "id": "D03a",
+      "accepted": false
+    },
+    {
+      "id": "D03b",
+      "accepted": false
+    },
+    {
+      "id": "D04",
+      "accepted": false
+    },
+    {
+      "id": "D05",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "github.io",
+        "path": "/",
+        "hostOnly": false,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": [true, true]
+    },
+    {
+      "id": "D06a",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "127.0.0.1",
+        "path": "/",
+        "hostOnly": false,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": [true]
+    },
+    {
+      "id": "D06b",
+      "accepted": false
+    },
+    {
+      "id": "D07",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": [true, false]
+    },
+    {
+      "id": "I01",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "2",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": false,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": [true, true]
+    },
+    {
+      "id": "A01",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/x",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": [true, true, true, false]
+    },
+    {
+      "id": "A02",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/x",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": [true]
+    },
+    {
+      "id": "A03",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/a%2Fb",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": [true, false]
+    },
+    {
+      "id": "A04",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": [true]
+    },
+    {
+      "id": "E01",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": true,
+        "expiresAt": 1793941064021
+      },
+      "sends": []
+    },
+    {
+      "id": "E02a",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": true,
+        "expiresAt": -9223372036854775808
+      },
+      "sends": []
+    },
+    {
+      "id": "E02b",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": true,
+        "expiresAt": -9223372036854775808
+      },
+      "sends": []
+    },
+    {
+      "id": "E03a",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": []
+    },
+    {
+      "id": "E03b",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": true,
+        "expiresAt": 1793941009022
+      },
+      "sends": []
+    },
+    {
+      "id": "E04a",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": true,
+        "expiresAt": 1793941064022
+      },
+      "sends": []
+    },
+    {
+      "id": "E04b",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": true,
+        "expiresAt": 1793941064022
+      },
+      "sends": []
+    },
+    {
+      "id": "E05",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": true,
+        "expiresAt": 1793854603000
+      },
+      "sends": []
+    },
+    {
+      "id": "E06",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": []
+    },
+    {
+      "id": "E07",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": true,
+        "expiresAt": 25342080000
+      },
+      "sends": []
+    },
+    {
+      "id": "E08a",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": true,
+        "expiresAt": 2793941003023
+      },
+      "sends": []
+    },
+    {
+      "id": "X01a",
+      "accepted": true,
+      "cookie": {
+        "name": "__Secure-a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": []
+    },
+    {
+      "id": "X01b",
+      "accepted": true,
+      "cookie": {
+        "name": "__Secure-a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": true,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": [true]
+    },
+    {
+      "id": "X02a",
+      "accepted": true,
+      "cookie": {
+        "name": "__Host-a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": true,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": [true]
+    },
+    {
+      "id": "X02b",
+      "accepted": true,
+      "cookie": {
+        "name": "__Host-a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": false,
+        "httpOnly": false,
+        "secure": true,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": []
+    },
+    {
+      "id": "X02c",
+      "accepted": true,
+      "cookie": {
+        "name": "__Host-a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/x",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": true,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": []
+    },
+    {
+      "id": "X03",
+      "accepted": true,
+      "cookie": {
+        "name": "__host-a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": []
+    },
+    {
+      "id": "S01",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999,
+        "sameSite": "None"
+      },
+      "sends": []
+    },
+    {
+      "id": "S02a",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999,
+        "sameSite": "Strict"
+      },
+      "sends": [true]
+    },
+    {
+      "id": "S02b",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999,
+        "sameSite": "bogus"
+      },
+      "sends": [true]
+    },
+    {
+      "id": "U01",
+      "accepted": true,
+      "cookie": {
+        "name": "a",
+        "value": "1",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": [true]
+    },
+    {
+      "id": "R01",
+      "accepted": true,
+      "cookie": {
+        "name": "JSESSIONID",
+        "value": "8A3F2C9D1B7E4F60A5C3D2E1F0B9A8C7",
+        "domain": "api.example.com",
+        "path": "/app",
+        "hostOnly": true,
+        "httpOnly": true,
+        "secure": true,
+        "persistent": false,
+        "expiresAt": 253402300799999
+      },
+      "sends": [true, false]
+    },
+    {
+      "id": "R02",
+      "accepted": true,
+      "cookie": {
+        "name": "connect.sid",
+        "value": "s%3AeYk2ZQ.Wm9vYmFy",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": true,
+        "secure": true,
+        "persistent": true,
+        "expiresAt": 1794027403000,
+        "sameSite": "Lax"
+      },
+      "sends": [true]
+    },
+    {
+      "id": "R03",
+      "accepted": true,
+      "cookie": {
+        "name": "sessionid",
+        "value": "k2v9q8w7e6r5t4y3",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": true,
+        "secure": true,
+        "persistent": true,
+        "expiresAt": 1795150604024,
+        "sameSite": "Lax"
+      },
+      "sends": [true]
+    },
+    {
+      "id": "R04",
+      "accepted": true,
+      "cookie": {
+        "name": "laravel_session",
+        "value": "eyJpdiI6IkFCQyJ9%3D%3D",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": true,
+        "secure": true,
+        "persistent": true,
+        "expiresAt": 1793948204024,
+        "sameSite": "lax"
+      },
+      "sends": [true]
+    },
+    {
+      "id": "R05",
+      "accepted": true,
+      "cookie": {
+        "name": "_ga",
+        "value": "GA1.1.1234567890.1700000000",
+        "domain": "example.com",
+        "path": "/",
+        "hostOnly": false,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": true,
+        "expiresAt": 1857013003000
+      },
+      "sends": [true]
+    },
+    {
+      "id": "R06",
+      "accepted": true,
+      "cookie": {
+        "name": "__Host-session",
+        "value": "Zm9vYmFyYmF6",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": true,
+        "secure": true,
+        "persistent": false,
+        "expiresAt": 253402300799999,
+        "sameSite": "Strict"
+      },
+      "sends": [true]
+    },
+    {
+      "id": "R07",
+      "accepted": true,
+      "cookie": {
+        "name": "ASP.NET_SessionId",
+        "value": "x1y2z3w4v5u6t7s8",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": true,
+        "secure": true,
+        "persistent": false,
+        "expiresAt": 253402300799999,
+        "sameSite": "Lax"
+      },
+      "sends": [true]
+    },
+    {
+      "id": "R08",
+      "accepted": true,
+      "cookie": {
+        "name": "token",
+        "value": "abc123",
+        "domain": "example.com",
+        "path": "/",
+        "hostOnly": false,
+        "httpOnly": true,
+        "secure": true,
+        "persistent": false,
+        "expiresAt": 253402300799999,
+        "sameSite": "None"
+      },
+      "sends": [true]
+    },
+    {
+      "id": "R09",
+      "accepted": true,
+      "cookie": {
+        "name": "_app_session",
+        "value": "aGVsbG8%3D--5f2b9c",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": true,
+        "secure": true,
+        "persistent": false,
+        "expiresAt": 253402300799999,
+        "sameSite": "lax"
+      },
+      "sends": [true]
+    },
+    {
+      "id": "R10",
+      "accepted": true,
+      "cookie": {
+        "name": "__cf_bm",
+        "value": "Zm9vLmJhcg-1700000000-1.0.1.1",
+        "domain": "example.com",
+        "path": "/",
+        "hostOnly": false,
+        "httpOnly": true,
+        "secure": true,
+        "persistent": true,
+        "expiresAt": 1793942803000,
+        "sameSite": "None"
+      },
+      "sends": [true]
+    },
+    {
+      "id": "R11",
+      "accepted": true,
+      "cookie": {
+        "name": "AWSALB",
+        "value": "Zm9vYmFyYmF6cXV4",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": false,
+        "secure": false,
+        "persistent": true,
+        "expiresAt": 1794545803000
+      },
+      "sends": [true]
+    },
+    {
+      "id": "R12",
+      "accepted": true,
+      "cookie": {
+        "name": "remember_me",
+        "value": "dXNlcjoxMjM",
+        "domain": "api.example.com",
+        "path": "/",
+        "hostOnly": true,
+        "httpOnly": true,
+        "secure": true,
+        "persistent": true,
+        "expiresAt": 1825477004026,
+        "sameSite": "Lax"
+      },
+      "sends": [true]
+    }
+  ]
+}
