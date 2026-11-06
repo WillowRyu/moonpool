@@ -74,6 +74,7 @@
 > Both devices stopped; T28 stays at 6/44 with C04 and C09-C12 untouched. Test keys are in the Trash for the maintainer.
 > C04 profile draft written on 2026-11-06: docs/native-cookie-c04-profile-draft.md. D1 accepted as A (ASCII-only lines); D2-D9 open.
 > D2-D9 paused: the maintainer is weighing W (per-app jars, OS parsers) against X (shared parser). OkHttp step 1 in docs/native-cookie-parser-comparison.md.
+> Next, when the maintainer resumes it: step 2, the same 61 vectors through iOS HTTPCookie on the simulator. Deferred on 2026-11-06.
 > Older checkpoints moved verbatim to docs/handoff-archive.md on 2026-11-03.
 > Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
 > Run pnpm run check; read docs/code-quality-workflow.md. Native task checks remain separate.
@@ -123,6 +124,10 @@ does. OkHttp has no 400-day cap (common), no prefix rules and no `SameSite=None`
 device was started.
 
 OPEN: step 2, the same vectors through iOS `HTTPCookie` on the simulator, needs the maintainer's explicit request. Then X or W.
+This work is committed and pushed to origin/master. Asked whether to run step 2, the maintainer answered "나중에", so it is
+deferred: do not start the simulator for it without a new request. When resumed, build an iOS probe that feeds the vectors to
+`HTTPCookie.cookies(withResponseHeaderFields:for:)` and a per-app cookie storage, writes results/ in the same schema, and is
+compared with `compare.py`; no WebView and no crash controls. Then present X against W with both platforms' differences.
 
 ## 2026-11-06 checkpoint — C04 cookie profile draft
 
