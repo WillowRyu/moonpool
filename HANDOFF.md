@@ -72,6 +72,8 @@
 > The jar parity item is closed: iOS now keeps the first response's cookie, as Android does, in all 63 cases.
 > Broker work is merged into master by fast-forward and pushed, through f964f76; the branch stays at that commit.
 > Both devices stopped; T28 stays at 6/44 with C04 and C09-C12 untouched. Test keys are in the Trash for the maintainer.
+> C04 profile draft written on 2026-11-06: docs/native-cookie-c04-profile-draft.md. D1 accepted as A (ASCII-only lines); D2-D9 open.
+> D2-D9 paused: the maintainer is weighing W (per-app jars, OS parsers) against X (shared parser). OkHttp step 1 in docs/native-cookie-parser-comparison.md.
 > Older checkpoints moved verbatim to docs/handoff-archive.md on 2026-11-03.
 > Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
 > Run pnpm run check; read docs/code-quality-workflow.md. Native task checks remain separate.
@@ -103,6 +105,39 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-06 checkpoint — OkHttp parser compared with the C04 draft
+
+Reviewing D2, the maintainer asked how Capacitor and Ionic Portals handle cookies and whether the broker's own parser is worth
+its maintenance. Capacitor delegates parsing and storage to the OS and shares one app-global store with the host; its Android
+plugin installs a global `CookieHandler`. Portals' own code was not inspected. Moonpool's isolation invariant rules that model
+out, so the choice is X (current shared parser), W (per-app jars that keep each OS's parser) or Y (no cookie support). The
+maintainer's stated goals: host and mini app run independently and safely even when they are different services, the same
+service also works, and the result is easy to use. Under isolation, a mini app logs in separately even to the host's service;
+a host-approved login handoff is a separate design question, not built.
+
+The maintainer answered "1단계부터 진행" and approved downloading okhttp-jvm-5.5.1.jar from Maven Central (SHA-1 checked).
+experiments/native-cookie-parser-comparison: 61 vectors, 17 harness tests, results/okhttp-5.5.1-jvm.json. Read
+docs/native-cookie-parser-comparison.md. 13 of 61 differ from the draft; of 12 common server shapes only the 730-day cookie
+does. OkHttp has no 400-day cap (common), no prefix rules and no `SameSite=None` check (rare, §9). Desktop JVM only; no
+device was started.
+
+OPEN: step 2, the same vectors through iOS `HTTPCookie` on the simulator, needs the maintainer's explicit request. Then X or W.
+
+## 2026-11-06 checkpoint — C04 cookie profile draft
+
+The maintainer chose "C04 초안 시작". docs/native-cookie-c04-profile-draft.md proposes the profile inputs C04 must freeze
+(D1-D9) and 43 draft vectors that follow the recommendations; the conformance plan links it. Nothing is accepted and this
+concerns SPEC §9. No test, probe, SPEC, protocol or package changed, and no device was started.
+
+Found while writing it: both broker probes match cookie paths against the percent-decoded request path. D4 proposes the
+encoded path; the 63 retained cases use no encoded path, so their results stand.
+
+The maintainer then accepted D1 as A on 2026-11-06, after confirming that raw UTF-8 cookie lines are dropped whole and
+encoded values work. The maintainer is reviewing the decisions one at a time, with an easy Korean explanation of each.
+
+OPEN, the maintainer's decisions: D2 public-suffix list or host-only only; D5 the 400-day cap now or at T53; whether
+D3, D4, D6, D8 and D9 are accepted as recommended. After approval, vectors and failing tests come before parser code.
 
 ## 2026-11-05 checkpoint — first response committed on iOS
 
