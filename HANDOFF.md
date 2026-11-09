@@ -74,7 +74,7 @@
 > Both devices stopped; T28 stays at 6/44 with C04 and C09-C12 untouched. Test keys are in the Trash for the maintainer.
 > C04 profile draft written on 2026-11-06: docs/native-cookie-c04-profile-draft.md. D1 accepted as A (ASCII-only lines); D2-D9 open.
 > D2-D9 paused: the maintainer is weighing W (per-app jars, OS parsers) against X (shared parser). OkHttp step 1 in docs/native-cookie-parser-comparison.md.
-> Next, when the maintainer resumes it: step 2, the same 61 vectors through iOS HTTPCookie on the simulator. Deferred on 2026-11-06.
+> iOS step 2 collected on 2026-11-09: Android and iOS differ on 13 of 61 vectors; of 12 common shapes only the 400-day cap. X, W or W' open.
 > Older checkpoints moved verbatim to docs/handoff-archive.md on 2026-11-03.
 > Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
 > Run pnpm run check; read docs/code-quality-workflow.md. Native task checks remain separate.
@@ -107,6 +107,25 @@
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
 
+## 2026-11-09 checkpoint — iOS parser compared with OkHttp
+
+The maintainer answered "ios 2단계 진행". The probe feeds the 61 vectors to `HTTPCookie.cookies(withResponseHeaderFields:for:)` and a
+fresh in-memory `HTTPCookieStorage` per vector, on the dedicated `Moonpool Cookie Suppression` simulator, iOS 26.4.1, Xcode 26.4.1.
+Two runs, identical. Read docs/native-cookie-parser-comparison.md. 32 harness tests pass. An earlier step-2 collection was discarded
+before retention because its analysis judged `Max-Age=0` against the runner's clock; iOS results now keep raw data only.
+
+**Android and iOS differ on 13 of 61; of the 12 common server shapes, only the 730-day cookie, because iOS caps at 400 days and
+OkHttp does not.** iOS also enforces prefix rules (case-sensitively) and a 4096-octet limit, keeps a public-suffix host's cookie
+host-only, and never sends a cookie whose `Path` lacks `/`; OkHttp does none of these. Malformed rows: `Max-Age=abc` deletes on
+iOS, `a=é` is stored on iOS only, and a folded field splits on iOS only.
+
+OPEN, the maintainer's decision: X (current shared parser), W (OS parsers as they are) or W' (iOS as the reference, OkHttp plus a
+short list of Moonpool rules on Android, no Moonpool parser or public-suffix data). W and W' would still need a jar-level comparison:
+replacement and identity, header order, eviction, persistence, and the iOS public-suffix data that updates with the OS.
+
+Devices: only the dedicated simulator ran; it was shut down, booted by this task and shut down again, and all 12 simulator states
+match the baseline. No emulator or `adb` server was started. No network, certificate or fixture was used.
+
 ## 2026-11-06 checkpoint — OkHttp parser compared with the C04 draft
 
 Reviewing D2, the maintainer asked how Capacitor and Ionic Portals handle cookies and whether the broker's own parser is worth
@@ -123,9 +142,9 @@ docs/native-cookie-parser-comparison.md. 13 of 61 differ from the draft; of 12 c
 does. OkHttp has no 400-day cap (common), no prefix rules and no `SameSite=None` check (rare, §9). Desktop JVM only; no
 device was started.
 
-OPEN: step 2, the same vectors through iOS `HTTPCookie` on the simulator, needs the maintainer's explicit request. Then X or W.
-This work is committed and pushed to origin/master. Asked whether to run step 2, the maintainer answered "나중에", so it is
-deferred: do not start the simulator for it without a new request. When resumed, build an iOS probe that feeds the vectors to
+Step 2 was then deferred ("나중에") and resumed on 2026-11-09; see the checkpoint above.
+This work is committed and pushed to origin/master. Asked whether to run step 2, the maintainer answered "나중에", so it was
+deferred until a new request. When resumed, build an iOS probe that feeds the vectors to
 `HTTPCookie.cookies(withResponseHeaderFields:for:)` and a per-app cookie storage, writes results/ in the same schema, and is
 compared with `compare.py`; no WebView and no crash controls. Then present X against W with both platforms' differences.
 

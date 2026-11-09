@@ -9,8 +9,8 @@ follows the recommendations. No test, probe, SPEC, protocol or package changes.
 which service receives a session cookie and what a script can read or plant.
 
 **Paused on 2026-11-06:** the maintainer asked whether per-app jars that keep each OS's parser (W)
-would be simpler than one shared parser. D2–D9 wait for that comparison;
-[step 1, OkHttp](native-cookie-parser-comparison.md), is recorded.
+would be simpler than one shared parser. D2–D9 wait for that decision; the
+[parser comparison](native-cookie-parser-comparison.md) now covers OkHttp and iOS.
 
 ## 1. Why C04 needs a profile first
 
