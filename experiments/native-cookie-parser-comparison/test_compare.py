@@ -3,7 +3,7 @@ import copy
 import json
 from pathlib import Path
 import unittest
-from compare import differences, expand, expiry_matches, http_date, load_vectors, validate
+from compare import differences, expand, expiry_matches, http_date, load_vectors, platform_differences, validate
 
 ROOT = Path(__file__).resolve().parent
 NOW_MS = 1_800_000_000_000
@@ -129,6 +129,56 @@ class Differences(unittest.TestCase):
         observed = ideal(vector)
         observed['cookie']['domain'] = 'EXAMPLE.com'
         self.assertEqual(differences(vector, observed, NOW_MS), [])
+
+
+class BetweenPlatforms(unittest.TestCase):
+    """W's real cost is where the two platforms disagree with each other, whatever the draft says."""
+
+    def setUp(self):
+        self.vectors = {v['id']: v for v in load_vectors(NOW_MS)}
+
+    def pair(self, vector_id):
+        observed = ideal(self.vectors[vector_id])
+        return observed, copy.deepcopy(observed)
+
+    def test_identical_observations_do_not_differ(self):
+        for vector_id in ('R02', 'P06', 'E05', 'D01'):
+            a, b = self.pair(vector_id)
+            with self.subTest(vector_id):
+                self.assertEqual(platform_differences(a, NOW_MS, b, NOW_MS), [])
+
+    def test_acceptance_hides_field_noise(self):
+        a, _ = self.pair('R02')
+        self.assertEqual(platform_differences(a, NOW_MS, {'id': 'R02', 'accepted': False}, NOW_MS), ['accept'])
+
+    def test_expiry_is_compared_relative_to_each_run_clock(self):
+        a, b = self.pair('R12')
+        later = NOW_MS + 3_600_000
+        b['cookie']['expiresAt'] += 3_600_000
+        self.assertEqual(platform_differences(a, NOW_MS, b, later), [])
+        b['cookie']['expiresAt'] -= 330 * 86400000
+        self.assertEqual(platform_differences(a, NOW_MS, b, later), ['expiry'])
+
+    def test_two_expired_cookies_agree_even_with_different_past_times(self):
+        a, b = self.pair('E05')
+        b['cookie']['expiresAt'] = -2**63
+        self.assertEqual(platform_differences(a, NOW_MS, b, NOW_MS), [])
+
+    def test_fields_sends_and_count_are_reported(self):
+        a, b = self.pair('R05')
+        b['cookie']['hostOnly'] = True
+        b['sends'] = [False]
+        b['count'] = 2
+        self.assertEqual(platform_differences(a, NOW_MS, b, NOW_MS), ['hostOnly', 'sends', 'count'])
+
+    def test_same_site_counts_only_when_both_report_it(self):
+        a, b = self.pair('R02')
+        b['cookie']['sameSite'] = 'Lax'
+        self.assertEqual(platform_differences(a, NOW_MS, b, NOW_MS), [])
+        b['cookie']['sameSite'] = 'strict'
+        self.assertEqual(platform_differences(a, NOW_MS, b, NOW_MS), ['sameSite'])
+        del b['cookie']['sameSite']
+        self.assertEqual(platform_differences(a, NOW_MS, b, NOW_MS), [])
 
 
 if __name__ == '__main__':

@@ -8,8 +8,9 @@ with the [C04 profile draft](../../docs/native-cookie-c04-profile-draft.md). Fin
 follows the RFC 6265 §4.1 server grammar, and what the draft expects. `compare.py` reports the differing
 fields; `results/` keeps each platform's observations.
 
-Step 1, OkHttp 5.5.1 on the desktop JVM, is collected. Step 2, iOS `HTTPCookie` on the simulator, is not
-built and needs an explicit request.
+Step 1, OkHttp 5.5.1 on the desktop JVM, was collected on 2026-11-06. Step 2, iOS `HTTPCookie` and a
+per-vector in-memory `HTTPCookieStorage` on the dedicated simulator, was collected twice on 2026-11-09.
+iOS results keep raw data only; `compare.py` derives each view against that platform's own clock.
 
 ## Rerun step 1
 
@@ -29,3 +30,18 @@ pnpm exec biome format --write results/   # whitespace only, so the repository c
 
 `run_okhttp.py` refuses a jar whose SHA-1 differs from the published one, and records whether its
 public-suffix data matches the Android artifact's.
+
+## Rerun step 2
+
+Needs Xcode and the simulator named `Moonpool Cookie Suppression`; no other simulator is touched.
+
+```sh
+python3 -B build_ios.py
+python3 -B run_ios.py first repeat   # refuses to overwrite retained results; move them aside first
+python3 -B compare.py results/ios-first.json results/ios-repeat.json
+python3 -B compare.py results/okhttp-5.5.1-jvm.json results/ios-first.json
+pnpm exec biome format --write results/
+```
+
+`run_ios.py` records every simulator's state, boots the dedicated one only if it was shut down, shuts it
+down again, and reports whether all states match. An unexpected app exit stops the run without retry.

@@ -1,0 +1,1730 @@
+{
+  "platform": "ios-26.4.1-httpcookie",
+  "run": "first",
+  "nowMs": 1794204482742,
+  "clockMs": 1794204483857,
+  "release": "26.4.1",
+  "build": {
+    "sources": {
+      "build_ios.py": "70a39bdc9e656e25f05e9e1b29bdf3ff3e3d7ecabb52328f4a3829915e82b282",
+      "run_ios.py": "26d33b5e5c6984d2dea40925989d98cfbc2a1175ac84785d4727c848192945b1",
+      "ios/Probe.swift": "c787b0eb10b3a12c1220392c532dfde3eb20936ca2e9adf37b556ef6716aef02"
+    },
+    "artifactSha256": "34348ba9985a6ae627fae93debe4446cab6670a4b892d40be8a1db622d841dd8",
+    "xcode": "Xcode 26.4.1\nBuild version 17E202",
+    "sdk": "26.4"
+  },
+  "raw": [
+    {
+      "endedEmpty": true,
+      "id": "P01",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/x",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [true, false, false],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/x",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "P03a",
+      "parsed": [],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": []
+    },
+    {
+      "endedEmpty": true,
+      "id": "P03b",
+      "parsed": [],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": []
+    },
+    {
+      "endedEmpty": true,
+      "id": "P03c",
+      "parsed": [],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": []
+    },
+    {
+      "endedEmpty": true,
+      "id": "P04",
+      "parsed": [],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": []
+    },
+    {
+      "endedEmpty": true,
+      "id": "P05",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "\"q r\""
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "\"q r\""
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "P06",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "é"
+        }
+      ],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "é"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "P07a",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "P07b",
+      "parsed": [],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": []
+    },
+    {
+      "endedEmpty": true,
+      "id": "P08",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "P09",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "P10",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1828764483000,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": false,
+          "value": "1"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1828764483000,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": false,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "P11",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "sid",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "abc"
+        },
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": true,
+          "name": "x",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "y"
+        }
+      ],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "sid",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "abc"
+        },
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": true,
+          "name": "x",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "y"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "D01",
+      "parsed": [
+        {
+          "domain": ".example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [true, true, false],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": ".example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "D02a",
+      "parsed": [
+        {
+          "domain": ".example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": ".example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "D02b",
+      "parsed": [
+        {
+          "domain": ".example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": ".example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "D03a",
+      "parsed": [
+        {
+          "domain": ".other.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": []
+    },
+    {
+      "endedEmpty": true,
+      "id": "D03b",
+      "parsed": [
+        {
+          "domain": ".www.api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": []
+    },
+    {
+      "endedEmpty": true,
+      "id": "D04",
+      "parsed": [
+        {
+          "domain": ".co.uk",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": []
+    },
+    {
+      "endedEmpty": true,
+      "id": "D05",
+      "parsed": [
+        {
+          "domain": "github.io",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [true, false],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "github.io",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "D06a",
+      "parsed": [
+        {
+          "domain": "127.0.0.1",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "127.0.0.1",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "D06b",
+      "parsed": [
+        {
+          "domain": ".0.0.1",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": []
+    },
+    {
+      "endedEmpty": true,
+      "id": "D07",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [true, false],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "I01",
+      "parsed": [
+        {
+          "domain": ".api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "2"
+        }
+      ],
+      "sends": [true, true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": ".api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "2"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "A01",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/x",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [true, true, true, false],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/x",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "A02",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "x",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [false],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "x",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "A03",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/a%2Fb",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [true, false],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/a%2Fb",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "A04",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "E01",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1794204543000,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": false,
+          "value": "1"
+        }
+      ],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1794204543000,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": false,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "E02a",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1794204483000,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": false,
+          "value": ""
+        }
+      ],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": []
+    },
+    {
+      "endedEmpty": true,
+      "id": "E02b",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1794204482000,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": false,
+          "value": ""
+        }
+      ],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": []
+    },
+    {
+      "endedEmpty": true,
+      "id": "E03a",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1794204483000,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": false,
+          "value": "1"
+        }
+      ],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": []
+    },
+    {
+      "endedEmpty": true,
+      "id": "E03b",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1794204488000,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": false,
+          "value": "1"
+        }
+      ],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1794204488000,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": false,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "E04a",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1794204543000,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": false,
+          "value": "1"
+        }
+      ],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1794204543000,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": false,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "E04b",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1794204543000,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": false,
+          "value": "1"
+        }
+      ],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1794204543000,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": false,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "E05",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1794118082000,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": false,
+          "value": "1"
+        }
+      ],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": []
+    },
+    {
+      "endedEmpty": true,
+      "id": "E06",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "E07",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 25342080000,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": false,
+          "value": "1"
+        }
+      ],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": []
+    },
+    {
+      "endedEmpty": true,
+      "id": "E08a",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1828764483000,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": false,
+          "value": "1"
+        }
+      ],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1828764483000,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": false,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "X01a",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "__Secure-a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": []
+    },
+    {
+      "endedEmpty": true,
+      "id": "X01b",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "__Secure-a",
+          "path": "/",
+          "sameSite": null,
+          "secure": true,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "__Secure-a",
+          "path": "/",
+          "sameSite": null,
+          "secure": true,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "X02a",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "__Host-a",
+          "path": "/",
+          "sameSite": null,
+          "secure": true,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "__Host-a",
+          "path": "/",
+          "sameSite": null,
+          "secure": true,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "X02b",
+      "parsed": [
+        {
+          "domain": ".api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "__Host-a",
+          "path": "/",
+          "sameSite": null,
+          "secure": true,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": []
+    },
+    {
+      "endedEmpty": true,
+      "id": "X02c",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "__Host-a",
+          "path": "/x",
+          "sameSite": null,
+          "secure": true,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": []
+    },
+    {
+      "endedEmpty": true,
+      "id": "X03",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "__host-a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "__host-a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "S01",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "S02a",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": "strict",
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": "strict",
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "S02b",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "U01",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": false,
+          "name": "a",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": true,
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "R01",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": true,
+          "name": "JSESSIONID",
+          "path": "/app",
+          "sameSite": null,
+          "secure": true,
+          "sessionOnly": true,
+          "value": "8A3F2C9D1B7E4F60A5C3D2E1F0B9A8C7"
+        }
+      ],
+      "sends": [true, false],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": true,
+          "name": "JSESSIONID",
+          "path": "/app",
+          "sameSite": null,
+          "secure": true,
+          "sessionOnly": true,
+          "value": "8A3F2C9D1B7E4F60A5C3D2E1F0B9A8C7"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "R02",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1794290882000,
+          "httpOnly": true,
+          "name": "connect.sid",
+          "path": "/",
+          "sameSite": "lax",
+          "secure": true,
+          "sessionOnly": false,
+          "value": "s%3AeYk2ZQ.Wm9vYmFy"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1794290882000,
+          "httpOnly": true,
+          "name": "connect.sid",
+          "path": "/",
+          "sameSite": "lax",
+          "secure": true,
+          "sessionOnly": false,
+          "value": "s%3AeYk2ZQ.Wm9vYmFy"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "R03",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1795414083000,
+          "httpOnly": true,
+          "name": "sessionid",
+          "path": "/",
+          "sameSite": "lax",
+          "secure": true,
+          "sessionOnly": false,
+          "value": "k2v9q8w7e6r5t4y3"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1795414083000,
+          "httpOnly": true,
+          "name": "sessionid",
+          "path": "/",
+          "sameSite": "lax",
+          "secure": true,
+          "sessionOnly": false,
+          "value": "k2v9q8w7e6r5t4y3"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "R04",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1794211683000,
+          "httpOnly": true,
+          "name": "laravel_session",
+          "path": "/",
+          "sameSite": "lax",
+          "secure": true,
+          "sessionOnly": false,
+          "value": "eyJpdiI6IkFCQyJ9%3D%3D"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1794211683000,
+          "httpOnly": true,
+          "name": "laravel_session",
+          "path": "/",
+          "sameSite": "lax",
+          "secure": true,
+          "sessionOnly": false,
+          "value": "eyJpdiI6IkFCQyJ9%3D%3D"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "R05",
+      "parsed": [
+        {
+          "domain": ".example.com",
+          "expiresMs": 1828764483000,
+          "httpOnly": false,
+          "name": "_ga",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": false,
+          "value": "GA1.1.1234567890.1700000000"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": ".example.com",
+          "expiresMs": 1828764483000,
+          "httpOnly": false,
+          "name": "_ga",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": false,
+          "value": "GA1.1.1234567890.1700000000"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "R06",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": true,
+          "name": "__Host-session",
+          "path": "/",
+          "sameSite": "strict",
+          "secure": true,
+          "sessionOnly": true,
+          "value": "Zm9vYmFyYmF6"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": true,
+          "name": "__Host-session",
+          "path": "/",
+          "sameSite": "strict",
+          "secure": true,
+          "sessionOnly": true,
+          "value": "Zm9vYmFyYmF6"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "R07",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": true,
+          "name": "ASP.NET_SessionId",
+          "path": "/",
+          "sameSite": "lax",
+          "secure": true,
+          "sessionOnly": true,
+          "value": "x1y2z3w4v5u6t7s8"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": true,
+          "name": "ASP.NET_SessionId",
+          "path": "/",
+          "sameSite": "lax",
+          "secure": true,
+          "sessionOnly": true,
+          "value": "x1y2z3w4v5u6t7s8"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "R08",
+      "parsed": [
+        {
+          "domain": ".example.com",
+          "expiresMs": null,
+          "httpOnly": true,
+          "name": "token",
+          "path": "/",
+          "sameSite": null,
+          "secure": true,
+          "sessionOnly": true,
+          "value": "abc123"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": ".example.com",
+          "expiresMs": null,
+          "httpOnly": true,
+          "name": "token",
+          "path": "/",
+          "sameSite": null,
+          "secure": true,
+          "sessionOnly": true,
+          "value": "abc123"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "R09",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": true,
+          "name": "_app_session",
+          "path": "/",
+          "sameSite": "lax",
+          "secure": true,
+          "sessionOnly": true,
+          "value": "aGVsbG8%3D--5f2b9c"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": null,
+          "httpOnly": true,
+          "name": "_app_session",
+          "path": "/",
+          "sameSite": "lax",
+          "secure": true,
+          "sessionOnly": true,
+          "value": "aGVsbG8%3D--5f2b9c"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "R10",
+      "parsed": [
+        {
+          "domain": ".example.com",
+          "expiresMs": 1794206282000,
+          "httpOnly": true,
+          "name": "__cf_bm",
+          "path": "/",
+          "sameSite": null,
+          "secure": true,
+          "sessionOnly": false,
+          "value": "Zm9vLmJhcg-1700000000-1.0.1.1"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": ".example.com",
+          "expiresMs": 1794206282000,
+          "httpOnly": true,
+          "name": "__cf_bm",
+          "path": "/",
+          "sameSite": null,
+          "secure": true,
+          "sessionOnly": false,
+          "value": "Zm9vLmJhcg-1700000000-1.0.1.1"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "R11",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1794809282000,
+          "httpOnly": false,
+          "name": "AWSALB",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": false,
+          "value": "Zm9vYmFyYmF6cXV4"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1794809282000,
+          "httpOnly": false,
+          "name": "AWSALB",
+          "path": "/",
+          "sameSite": null,
+          "secure": false,
+          "sessionOnly": false,
+          "value": "Zm9vYmFyYmF6cXV4"
+        }
+      ]
+    },
+    {
+      "endedEmpty": true,
+      "id": "R12",
+      "parsed": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1825740483000,
+          "httpOnly": true,
+          "name": "remember_me",
+          "path": "/",
+          "sameSite": "lax",
+          "secure": true,
+          "sessionOnly": false,
+          "value": "dXNlcjoxMjM"
+        }
+      ],
+      "sends": [true],
+      "startedEmpty": true,
+      "stored": [
+        {
+          "domain": "api.example.com",
+          "expiresMs": 1825740483000,
+          "httpOnly": true,
+          "name": "remember_me",
+          "path": "/",
+          "sameSite": "lax",
+          "secure": true,
+          "sessionOnly": false,
+          "value": "dXNlcjoxMjM"
+        }
+      ]
+    }
+  ],
+  "capturedUtc": "2026-11-09T06:08:04Z"
+}
