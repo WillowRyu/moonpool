@@ -19,6 +19,28 @@ OWNED_NAME = 'Moonpool Cookie Suppression'
 DEADLINE_SECONDS = 120
 
 
+def process_alive(pid):
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    return True
+
+
+def wait_for_report(path, alive, deadline_seconds=DEADLINE_SECONDS, monotonic=time.monotonic, sleep=time.sleep):
+    """Return the app's report. The app may write it and exit between two checks, so look again before failing."""
+    started = monotonic()
+    while not path.exists():
+        if monotonic() - started > deadline_seconds:
+            raise TimeoutError('No report; stopped without retry')
+        if not alive():
+            if path.exists():
+                break
+            raise RuntimeError('Probe exited unexpectedly; stopped without retry')
+        sleep(0.5)
+    return json.loads(path.read_text())
+
+
 def sim(*parts, check=True, timeout=60):
     return subprocess.run(['xcrun', 'simctl', *parts], capture_output=True, text=True, check=check, timeout=timeout)
 
@@ -42,21 +64,15 @@ def collect(device, run, metadata):
     try:
         launched = sim('launch', device, PACKAGE, '--run', run, '--now', str(now_ms)).stdout.strip()
         pid = int(launched.rsplit(':', 1)[1].strip())
-        started = time.monotonic()
-        while not report_path.exists():
-            if time.monotonic() - started > DEADLINE_SECONDS:
-                raise TimeoutError('No report; stopped without retry')
-            try:
-                os.kill(pid, 0)
-            except ProcessLookupError as error:
-                raise RuntimeError('Probe exited unexpectedly; stopped without retry') from error
-            time.sleep(0.5)
-        report = json.loads(report_path.read_text())
+        report = wait_for_report(report_path, lambda: process_alive(pid))
     finally:
         sim('terminate', device, PACKAGE, check=False)
     raw = report['observations']
     if not report['complete'] or [o['id'] for o in raw] != [v['id'] for v in vectors]:
         sys.exit(f'{run}: incomplete report {report["errors"]}')
+    failed = [o['id'] for o in raw if 'error' in o]
+    if failed:
+        sys.exit(f'{run}: the probe could not read vectors {failed}')
     if not all(o.get('startedEmpty') and o.get('endedEmpty') for o in raw):
         sys.exit(f'{run}: a storage was not empty before or after a vector; vectors may have leaked into each other')
     # nowMs expanded the vectors; clockMs, when the app started parsing, judges expiry. compare.py derives the view from raw.

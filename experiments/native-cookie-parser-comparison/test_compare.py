@@ -43,6 +43,21 @@ class VectorFile(unittest.TestCase):
         first['draft']['sends'] = first['draft']['sends'][:-1]
         self.assertTrue(any(first['id'] in problem for problem in validate(broken)))
 
+    def test_every_templated_field_is_checked(self):
+        """Review finding: validate expanded only the line, so a bad token elsewhere surfaced only at run time."""
+        doc = json.loads((ROOT / 'vectors.json').read_text())
+        for field in ('url', 'value', 'check'):
+            broken = copy.deepcopy(doc)
+            vector = next(v for v in broken['vectors'] if v['id'] == 'P01')
+            if field == 'url':
+                vector['url'] += '{dat:+1d}'
+            elif field == 'value':
+                vector['draft']['value'] = '{repeat:vv:2}'
+            else:
+                vector['checks'][0] += '{when:x}'
+            with self.subTest(field):
+                self.assertTrue(any('P01' in problem for problem in validate(broken)))
+
     def test_every_vector_says_whether_it_is_well_formed(self):
         broken = json.loads((ROOT / 'vectors.json').read_text())
         del broken['vectors'][0]['wellFormed']
@@ -87,6 +102,13 @@ class Expiry(unittest.TestCase):
         self.assertFalse(expiry_matches(sixty, {'persistent': True, 'expiresAt': NOW_MS + 600000}, NOW_MS))
         self.assertFalse(expiry_matches({'days': 400}, {'persistent': True, 'expiresAt': NOW_MS + 730 * 86400000}, NOW_MS))
 
+    def test_a_short_lifetime_is_not_hidden_by_the_skew(self):
+        """Review finding: a 120 s skew let Max-Age=60 match a cookie that expired at once, or one that lived 170 s."""
+        sixty = {'seconds': 60}
+        for wrong in (NOW_MS, NOW_MS + 170_000, NOW_MS - 50_000):
+            with self.subTest(wrong - NOW_MS):
+                self.assertFalse(expiry_matches(sixty, {'persistent': True, 'expiresAt': wrong}, NOW_MS))
+
 
 class Differences(unittest.TestCase):
     def setUp(self):
@@ -118,11 +140,16 @@ class Differences(unittest.TestCase):
         self.assertEqual(differences(self.vectors['P06'], ideal(self.vectors['R02']) | {'id': 'P06'}, NOW_MS), ['accept'])
         self.assertEqual(differences(self.vectors['R02'], {'id': 'R02', 'accepted': False}, NOW_MS), ['accept'])
 
-    def test_unreported_same_site_is_not_a_difference(self):
+    def test_unreported_same_site_is_marked_unobserved(self):
+        """Review finding: iOS cannot express SameSite=None, and treating silence as agreement hid it."""
         vector = self.vectors['R02']
         observed = ideal(vector)
         del observed['cookie']['sameSite']
-        self.assertEqual(differences(vector, observed, NOW_MS), [])
+        self.assertEqual(differences(vector, observed, NOW_MS), ['sameSite(unobserved)'])
+
+    def test_an_error_row_is_reported_as_an_error(self):
+        """Review finding: a probe error has no 'accepted' key and used to look like an acceptance difference."""
+        self.assertEqual(differences(self.vectors['R02'], {'id': 'R02', 'error': 'boom'}, NOW_MS), ['error'])
 
     def test_domain_case_is_not_a_difference(self):
         vector = self.vectors['D02b']
@@ -171,14 +198,21 @@ class BetweenPlatforms(unittest.TestCase):
         b['count'] = 2
         self.assertEqual(platform_differences(a, NOW_MS, b, NOW_MS), ['hostOnly', 'sends', 'count'])
 
-    def test_same_site_counts_only_when_both_report_it(self):
+    def test_same_site_reported_on_one_side_only_is_unobserved(self):
         a, b = self.pair('R02')
         b['cookie']['sameSite'] = 'Lax'
         self.assertEqual(platform_differences(a, NOW_MS, b, NOW_MS), [])
         b['cookie']['sameSite'] = 'strict'
         self.assertEqual(platform_differences(a, NOW_MS, b, NOW_MS), ['sameSite'])
         del b['cookie']['sameSite']
+        self.assertEqual(platform_differences(a, NOW_MS, b, NOW_MS), ['sameSite(unobserved)'])
+        del a['cookie']['sameSite']
         self.assertEqual(platform_differences(a, NOW_MS, b, NOW_MS), [])
+
+    def test_an_error_on_either_side_is_reported_as_an_error(self):
+        a, _ = self.pair('R02')
+        self.assertEqual(platform_differences(a, NOW_MS, {'id': 'R02', 'error': 'boom'}, NOW_MS), ['error'])
+        self.assertEqual(platform_differences({'id': 'R02', 'error': 'boom'}, NOW_MS, a, NOW_MS), ['error'])
 
 
 if __name__ == '__main__':

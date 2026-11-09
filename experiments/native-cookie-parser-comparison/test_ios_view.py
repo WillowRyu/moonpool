@@ -68,6 +68,18 @@ class View(unittest.TestCase):
         self.assertTrue(view['accepted'])
         self.assertNotIn('refusedBy', view)
 
+    def test_the_parse_time_judges_a_deletion_across_a_second_boundary(self):
+        """Review finding: iOS dates Max-Age=0 to the whole second it parses in, which can fall after the app's first clock."""
+        boundary = cookie(sessionOnly=False, expiresMs=NOW_MS + 10)
+        raw = {'id': 'X', 'parsed': [boundary], 'stored': [], 'sends': [], 'parsedAtMs': NOW_MS + 20}
+        view = ios_view(raw, NOW_MS)
+        self.assertTrue(view['accepted'])
+        self.assertNotIn('refusedBy', view)
+
+    def test_an_undecodable_row_stays_an_error(self):
+        """Review finding: a bad base64 field became an empty line, which looks like a correct rejection."""
+        self.assertEqual(ios_view({'id': 'X', 'error': 'undecodable field'}, NOW_MS), {'id': 'X', 'error': 'undecodable field'})
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -12,20 +12,28 @@ enum Probe {
         ]
     }
 
-    static func decode(_ field:Substring)->String {
-        String(decoding:Data(base64Encoded:String(field)) ?? Data(),as:UTF8.self)
+    /// nil for a field that is not base64 or not UTF-8, so a corrupt row is an error rather than an empty line.
+    static func decode(_ field:Substring)->String? {
+        guard let data=Data(base64Encoded:String(field)) else {return nil}
+        return String(data:data,encoding:.utf8)
     }
+
+    static func nowMs()->Int64 {Int64((Date().timeIntervalSince1970*1000).rounded())}
 
     static func observe(_ row:String)->[String:Any] {
         let parts=row.split(separator:"\t",omittingEmptySubsequences:false)
-        let id=String(parts[0]),url=decode(parts[1]),line=decode(parts[2]),checks=decode(parts[3])
+        let id=String(parts.first ?? "")
         var observation:[String:Any]=["id":id]
+        guard parts.count==4,let url=decode(parts[1]),let line=decode(parts[2]),let checks=decode(parts[3]) else {
+            observation["error"]="undecodable row";return observation
+        }
         guard let target=URL(string:url) else {observation["error"]="bad url";return observation}
         let configuration=URLSessionConfiguration.ephemeral
         guard let storage=configuration.httpCookieStorage else {observation["error"]="no storage";return observation}
         storage.cookieAcceptPolicy = .always
         observation["startedEmpty"]=(storage.cookies ?? []).isEmpty
         let parsed=HTTPCookie.cookies(withResponseHeaderFields:["Set-Cookie":line],for:target)
+        observation["parsedAtMs"]=nowMs()  // after parsing: iOS dates Max-Age to the whole second it parsed in
         storage.setCookies(parsed,for:target,mainDocumentURL:nil)
         let stored=storage.cookies ?? []
         let name=parsed.first?.name

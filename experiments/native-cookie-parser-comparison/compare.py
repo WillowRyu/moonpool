@@ -10,10 +10,13 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-SKEW_MS = 120_000
+# The largest legitimate skew in the retained runs is under 2 s: iOS truncates its parse time to whole seconds,
+# and dates are written to the second. A 60 s Max-Age must not match a cookie that expired at once (review, 2026-11-09).
+SKEW_MS = 5_000
 FIELDS = ('name', 'value', 'domain', 'path', 'hostOnly', 'httpOnly', 'secure')
 DAYS = ('Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun')
 MONTHS = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec')
+# Any {word:...} is a token, so a misspelt one fails instead of becoming a literal cookie byte. No vector needs braces.
 TOKEN = re.compile(r'\{(\w+):([^}]*)\}')
 UNITS = {'d': 86400, 'h': 3600, 'm': 60}
 
@@ -81,10 +84,13 @@ def validate(document):
         if not isinstance(draft.get('accept'), bool):
             problems.append(f'{name}: draft.accept must be true or false')
             continue
-        try:
-            expand(vector.get('line', ''), 0)
-        except ValueError as error:
-            problems.append(f'{name}: {error}')
+        templated = [vector.get('line', ''), vector.get('url', ''), *vector.get('checks', []),
+                     *(draft[key] for key in ('name', 'value') if isinstance(draft.get(key), str))]
+        for text in templated:
+            try:
+                expand(text, 0)
+            except ValueError as error:
+                problems.append(f'{name}: {error}')
         if not draft['accept'] or draft.get('split'):
             continue
         for key in FIELDS:
@@ -110,6 +116,8 @@ def expiry_matches(expected, cookie, now_ms):
 def differences(vector, observed, now_ms):
     """Field names in which the observation differs from the draft. Acceptance first, since fields of a missing cookie mean nothing."""
     draft = vector['draft']
+    if 'error' in observed:
+        return ['error']
     if draft.get('split'):
         return []
     if observed.get('accepted') != draft['accept']:
@@ -123,8 +131,8 @@ def differences(vector, observed, now_ms):
             actual = actual.lower()
         if actual != expected:
             found.append(key)
-    if 'sameSite' in draft and cookie.get('sameSite') is not None and cookie['sameSite'].lower() != draft['sameSite']:
-        found.append('sameSite')
+    if 'sameSite' in draft:
+        found.extend(same_site_difference(draft['sameSite'], cookie.get('sameSite')))
     if not expiry_matches(draft['expiry'], cookie, now_ms):
         found.append('expiry')
     if 'sends' in draft and observed.get('sends') != draft['sends']:
@@ -149,14 +157,19 @@ def ios_fields(cookie):
 def ios_view(raw, clock_ms):
     """What iOS did with one vector: the stored cookie when storage kept it, the parsed one when it only deletes.
 
-    clock_ms is when the app started parsing. A parsed expiry at or before it is a deletion, which storage never keeps.
+    A parsed expiry at or before the moment iOS parsed is a deletion, which storage never keeps. iOS dates Max-Age to the
+    whole second it parses in, so the probe records parsedAtMs just after parsing; older results fall back to clock_ms,
+    when the app started, which a deletion can exceed only if parsing crossed a second boundary.
     """
+    if 'error' in raw:
+        return {'id': raw['id'], 'error': raw['error']}
     parsed = raw['parsed']
     view = {'id': raw['id'], 'count': len(parsed)}
     if not parsed:
         return view | {'accepted': False}
     first = parsed[0]
-    expired = not first['sessionOnly'] and first['expiresMs'] is not None and first['expiresMs'] <= clock_ms
+    parsed_at = raw.get('parsedAtMs', clock_ms)
+    expired = not first['sessionOnly'] and first['expiresMs'] is not None and first['expiresMs'] <= parsed_at
     stored = next((cookie for cookie in raw['stored'] if cookie['name'] == first['name']), None)
     if not expired and stored is None:
         return view | {'accepted': False, 'refusedBy': 'storage'}
@@ -174,6 +187,8 @@ def observations_of(report):
 
 def platform_differences(a, now_a, b, now_b):
     """Field names in which two platforms' observations of the same vector disagree, each read against its own run clock."""
+    if 'error' in a or 'error' in b:
+        return ['error']
     if a.get('accepted') != b.get('accepted'):
         return ['accept']
     if not a.get('accepted'):
@@ -185,8 +200,8 @@ def platform_differences(a, now_a, b, now_b):
             x, y = x.lower(), y.lower()
         if x != y:
             found.append(key)
-    if left.get('sameSite') is not None and right.get('sameSite') is not None and left['sameSite'].lower() != right['sameSite'].lower():
-        found.append('sameSite')
+    if left.get('sameSite') is not None or right.get('sameSite') is not None:
+        found.extend(same_site_difference(left.get('sameSite'), right.get('sameSite')))
     if not same_expiry(left, now_a, right, now_b):
         found.append('expiry')
     if a.get('sends') != b.get('sends'):
@@ -194,6 +209,13 @@ def platform_differences(a, now_a, b, now_b):
     if a.get('count', 1) != b.get('count', 1):
         found.append('count')
     return found
+
+
+def same_site_difference(expected, actual):
+    """SameSite reported on one side only is not agreement: iOS's API has no value for None or an unknown token."""
+    if expected is None or actual is None:
+        return ['sameSite(unobserved)']
+    return [] if expected.lower() == actual.lower() else ['sameSite']
 
 
 def same_expiry(left, now_a, right, now_b):
@@ -205,6 +227,13 @@ def same_expiry(left, now_a, right, now_b):
     if any(expired):
         return all(expired)
     return abs((left['expiresAt'] - now_a) - (right['expiresAt'] - now_b)) <= SKEW_MS
+
+
+def classify(cell):
+    """'' for agreement, 'unobserved' when every difference is an attribute one side cannot report, else 'differ'."""
+    if cell == '-':
+        return ''
+    return 'unobserved' if all(name.endswith('(unobserved)') for name in cell.split(', ')) else 'differ'
 
 
 def main(paths):
@@ -221,10 +250,12 @@ def main(paths):
             cells.append(', '.join(platform_differences(views[0][1][vector['id']], clocks[0],
                                                         views[1][1][vector['id']], clocks[1])) or '-')
         key = (vector['source'], vector['wellFormed'])
-        tally = counts.setdefault(key, [0] * (len(cells) + 1))
+        tally = counts.setdefault(key, [0] + [[0, 0] for _ in cells])
         tally[0] += 1
         for index, cell in enumerate(cells):
-            tally[index + 1] += cell != '-'
+            kind = classify(cell)
+            if kind:
+                tally[index + 1][kind == 'unobserved'] += 1
         if any(cell != '-' for cell in cells):
             rows.append(f"| {vector['id']} | {vector['source']} | {'yes' if vector['wellFormed'] else 'no'} | " + ' | '.join(cells) + ' |')
     columns = [f'{name} vs draft' for name in names] + (['between platforms'] if between else [])
@@ -233,7 +264,7 @@ def main(paths):
     print('\n'.join(rows))
     print()
     for (source, well_formed), tally in sorted(counts.items()):
-        parts = ', '.join(f'{column}: {count}' for column, count in zip(columns, tally[1:]))
+        parts = ', '.join(f'{column}: {differ} (+{unobserved} unobserved only)' for column, (differ, unobserved) in zip(columns, tally[1:]))
         print(f"{source}, well-formed={well_formed}, {tally[0]} vectors -> {parts}")
 
 
