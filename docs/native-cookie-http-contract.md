@@ -9,8 +9,9 @@ scope or SPEC change is implemented. This concerns SPEC §3, §6–§9.
 **Accepted amendments, 2026-11-03:** after [native HTTP transport evidence](native-http-transport-verification.md), the maintainer accepted
 one cookie pipeline (§4), OS behavior for HTTP authentication challenges (§5) and commit at header delivery (§5) as
 design directions. The Android broker client followed on 2026-11-04 (§2). On 2026-11-05 the maintainer accepted keeping the pipeline and stating
-what its limit does to `HttpOnly` (§4), and committing the first response of an iOS `Basic` challenge (§5). The rest of this proposal is unchanged
-and not accepted.
+what its limit does to `HttpOnly` (§4), and committing the first response of an iOS `Basic` challenge (§5). On 2026-11-09, after
+[comparing the OS parsers](native-cookie-parser-comparison.md), the maintainer reaffirmed the shared parser over keeping each OS's own (§4,
+ADR 0027). The rest of this proposal is unchanged and not accepted.
 
 ## 1. Required outcome and compatibility
 

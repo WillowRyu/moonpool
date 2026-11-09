@@ -2,7 +2,7 @@
 
 Date: 2026-11-03
 Status: Proposed overall; admission baseline, iOS presence-evidence rule and native HTTP transport
-rules accepted as design directions on 2026-11-03, and the Android broker client on 2026-11-04 (see the accepted sections below). Cross-platform cookie parity is a maintainer requirement;
+rules accepted as design directions on 2026-11-03, the Android broker client on 2026-11-04, and the shared parser reaffirmed on 2026-11-09 (see the accepted sections below). Cross-platform cookie parity is a maintainer requirement;
 option 1 is preferred, while its compatibility cost is under review. No SPEC,
 capability, SDK implementation or new native measurement is adopted here.
 
@@ -106,6 +106,32 @@ app sees differently per platform.
    from its `failureResponse`, under the same reset fence, and ignores cookies on the resend.
 
 These accept no other part of this ADR, change no SPEC text and implement nothing.
+
+## Shared parser reaffirmed over OS parsers — 2026-11-09
+
+The maintainer asked whether per-app jars that keep each OS's cookie parser would cost less to maintain than
+rule 1's shared parser: W (OkHttp and iOS `HTTPCookie` as they are), or W′ (iOS as the reference, with a few
+Moonpool rules added on Android). The [parser comparison](../native-cookie-parser-comparison.md) fed 61 vectors
+to both:
+
+- They differ on 13. Among 12 common server shapes only one, but it is common: iOS caps lifetimes at 400 days
+  and OkHttp does not. OkHttp also has no prefix rules, a security property, and iOS's API cannot express
+  `SameSite=None`.
+- OkHttp parses but does not store, so the Android jar is Moonpool code either way, and a persistent per-app
+  iOS store would likely be too.
+- Under W, an iOS update changes behavior on users' devices before an SDK update can align Android, and the
+  public-suffix data differs: OkHttp 5.5.1 carries a list unchanged since 2024-12-31, while iOS's moves with
+  the OS.
+
+**Decision, accepted by the maintainer:** keep rule 1, X. Follow OS behavior where it is the same on both
+platforms; where a mini app would see Android and iOS differ, Moonpool's one profile decides. Do not ask
+again.
+
+Consequences: one cookie profile implemented twice, in Swift and Kotlin, and held together by one shared vector
+corpus run on both. If D2 adopts public-suffix data, it is pinned and refreshed per SDK release, which is how
+Chrome and Firefox ship it; Firefox removed its runtime update path in version 136. iOS transport behavior,
+such as header folding and the `Basic` resend, still needs measuring per supported OS. C04's D2–D9 continue
+under this decision.
 
 ## Proposed decision
 

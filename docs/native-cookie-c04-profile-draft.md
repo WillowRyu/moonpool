@@ -8,9 +8,9 @@ follows the recommendations. No test, probe, SPEC, protocol or package changes.
 **This concerns SPEC §9:** Domain, public-suffix, prefix and `HttpOnly` rules decide
 which service receives a session cookie and what a script can read or plant.
 
-**Paused on 2026-11-06:** the maintainer asked whether per-app jars that keep each OS's parser (W)
-would be simpler than one shared parser. D2–D9 wait for that decision; the
-[parser comparison](native-cookie-parser-comparison.md) now covers OkHttp and iOS.
+**Resumed on 2026-11-09:** after the [parser comparison](native-cookie-parser-comparison.md) the
+maintainer kept one shared parser over each OS's own (X, ADR 0027), so this profile is what both adapters
+implement. D2–D9 continue; the comparison's OkHttp and iOS columns are reference evidence for them.
 
 ## 1. Why C04 needs a profile first
 

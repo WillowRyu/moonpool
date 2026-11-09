@@ -1,7 +1,7 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-11-06. The maintainer switched to agent-led implementation
+> Last updated: 2026-11-09. The maintainer switched to agent-led implementation
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
@@ -73,8 +73,8 @@
 > Broker work is merged into master by fast-forward and pushed, through f964f76; the branch stays at that commit.
 > Both devices stopped; T28 stays at 6/44 with C04 and C09-C12 untouched. Test keys are in the Trash for the maintainer.
 > C04 profile draft written on 2026-11-06: docs/native-cookie-c04-profile-draft.md. D1 accepted as A (ASCII-only lines); D2-D9 open.
-> D2-D9 paused: the maintainer is weighing W (per-app jars, OS parsers) against X (shared parser). OkHttp step 1 in docs/native-cookie-parser-comparison.md.
-> iOS step 2 collected on 2026-11-09: Android and iOS differ on 13 of 61 vectors; of 12 common shapes only the 400-day cap. X, W or W' open.
+> Parser comparison (docs/native-cookie-parser-comparison.md): Android and iOS differ on 13 of 61; of 12 common shapes only the 400-day cap.
+> X accepted on 2026-11-09: keep the shared cookie parser, not each OS's own (ADR 0027). Do not ask again. C04 resumes at D2.
 > Older checkpoints moved verbatim to docs/handoff-archive.md on 2026-11-03.
 > Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
 > Run pnpm run check; read docs/code-quality-workflow.md. Native task checks remain separate.
@@ -107,6 +107,35 @@
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
 
+## 2026-11-09 checkpoint — shared parser kept (X)
+
+The maintainer chose X: "최대한 OS 의 동작을 따르고 싶은데 android 와 ios 의 동작이 다르다고 하면 우리 규칙으로 미니앱을 넣었을때 다르게
+동작하면 안될것 같아", accepting the code-maintenance cost. Recorded in ADR 0027 ("Shared parser reaffirmed over OS parsers"), the
+contract's accepted amendments, the comparison report and the C04 draft. Do not ask again. Nothing is implemented, and SPEC is unchanged.
+
+Reasons recorded: the 400-day cap differs and is common; OkHttp has no prefix rules; iOS's API cannot express `SameSite=None`; the
+Android jar is Moonpool code under any option; under W an iOS update changes behavior before an SDK update can align Android; and
+OkHttp 5.5.1's public-suffix list is unchanged since 2024-12-31 while iOS's moves with the OS. Code review fixes are in eefeec3 / a22f971.
+
+**Next: C04 D2**, explained one decision at a time in easy Korean, as the maintainer asked. Evidence gathered for D2: the public-suffix
+list changed 204 times in the last year and 358 times since 2025-01-01, mostly hosting platforms in the PRIVATE section; Chrome refreshes
+it by hand a few times a year and Firefox by bot every few days, both shipping it per release; Firefox removed runtime updates in
+version 136. So D2-A means a pinned list refreshed per SDK release, about 130 KB, the same model as browsers. D5 (400-day cap) and the
+IP-host case under D2 also remain open.
+
+Notes from the discussion, not decisions, and not to be built without a request:
+- Same-service login: under isolation a mini app logs in separately even to the host's service. Open platforms instead let the host
+  vouch for the user (Toss login over OAuth2, Telegram's signed `initData`, LINE ID tokens, `wx.login`). A host-approved login handoff
+  is a future design topic outside the current scope.
+- App Store guideline 4.7: 4.7.2 forbids exposing native platform APIs to mini apps without Apple's permission, and 4.7.3 requires
+  explicit user consent each time data or permissions go to a mini app. Check the capability and permission model, including
+  `profile.get`, against both before native release. Google Play exempts JavaScript in a WebView from its downloaded-code rule.
+- Remote delivery (live updates, CDN, signing, developer portal) stays out of scope, as CLAUDE.md and the native plan say. The origin,
+  `protocolVersion` handshake and manifest permissions do not depend on where the files come from, so it can be added later without
+  breaking stored data. RN CodePush cannot update Moonpool mini apps; the App Center service behind it ended on 2025-03-31.
+- Capacitor and Portals share one app-global cookie store with the host, so their web content can ride the host's session; they
+  target a company's own web teams. Moonpool's isolation invariant is the difference.
+
 ## 2026-11-09 checkpoint — iOS parser compared with OkHttp
 
 The maintainer answered "ios 2단계 진행". The probe feeds the 61 vectors to `HTTPCookie.cookies(withResponseHeaderFields:for:)` and a
@@ -124,9 +153,7 @@ all have regression tests and fixes (42 harness tests). Recomparing the retained
 rows where `SameSite=None` or an unknown value is unobservable through iOS's API. D06a (IP host, `Domain=` itself) departs from
 RFC 6265 §5.3 and is now listed under D2. No device was started for the fixes.
 
-OPEN, the maintainer's decision: X (current shared parser), W (OS parsers as they are) or W' (iOS as the reference, OkHttp plus a
-short list of Moonpool rules on Android, no Moonpool parser or public-suffix data). W and W' would still need a jar-level comparison:
-replacement and identity, header order, eviction, persistence, and the iOS public-suffix data that updates with the OS.
+The choice it left open, X, W or W', was decided on 2026-11-09; see the checkpoint above.
 
 Devices: only the dedicated simulator ran; it was shut down, booted by this task and shut down again, and all 12 simulator states
 match the baseline. No emulator or `adb` server was started. No network, certificate or fixture was used.

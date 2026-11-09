@@ -2,8 +2,9 @@
 
 Date: 2026-11-06 (step 1), 2026-11-09 (step 2, then corrected after code review)
 Status: Both steps collected, requested by the maintainer to judge option W (per-app jars that keep each
-OS's own cookie parser) against the current broker, option X (one shared parser). Nothing is accepted, and
-SPEC, the contract and the broker probe are unchanged. This concerns SPEC §9 where noted.
+OS's own cookie parser) against the current broker, option X (one shared parser). **On 2026-11-09 the
+maintainer chose X**; see [ADR 0027](adr/0027-unify-cookie-sessions-through-async-native-http.md). SPEC and
+the broker probe are unchanged. This concerns SPEC §9 where noted.
 
 ## Question
 
