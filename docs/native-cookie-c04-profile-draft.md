@@ -94,7 +94,10 @@ Under A: strip one leading dot, lowercase, reject a non-ASCII `Domain`
 (hosts are compared in their ASCII form), ignore an empty `Domain`; a `Domain`
 equal to a request host that is itself a public suffix gives a host-only
 cookie, any other public suffix rejects the line; an IP-address host only
-accepts `Domain` equal to itself.
+accepts `Domain` equal to itself. **Open with D2:** whether that IP cookie is
+host-only, as the vector table and iOS have it, or a domain cookie, as RFC 6265
+§5.3 step 6 and OkHttp have it. Nothing is sent differently, since an IP has no
+subdomain; only the stored host-only flag differs.
 
 ### D3 — Cookie identity and host-only flag
 
@@ -206,7 +209,7 @@ header the broker builds for the named follow-up URL.
 | D03 | `Domain=other.com`, `Domain=www.api.example.com` | Rejected |
 | D04 | From `shop.co.uk`: `a=1; Domain=co.uk` | Rejected (public suffix) |
 | D05 | From a host that is itself a listed suffix: `Domain=` that host | Host-only cookie |
-| D06 | From `127.0.0.1`: `Domain=127.0.0.1`; `Domain=0.0.1` | First host-only, second rejected |
+| D06 | From `127.0.0.1`: `Domain=127.0.0.1`; `Domain=0.0.1` | First host-only (open, see D2), second rejected |
 | D07 | `a=1; Domain=` | Host-only |
 | I01 | `a=1; Path=/` then `a=2; Domain=api.example.com; Path=/` | One domain cookie `a=2` (D3) |
 | I02 | `a=r; Path=/` and `a=p; Path=/x` | Two cookies; to `/x/q` sent `a=p; a=r` |

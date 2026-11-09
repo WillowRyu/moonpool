@@ -1,6 +1,6 @@
 {
   "profile": "c04-draft-1",
-  "note": "draft = what the C04 profile draft expects under its recommendations (D1 accepted as A). wellFormed = the line follows the RFC 6265 section 4.1 server grammar, with SameSite read from 6265bis. Tokens {date:+Nd|+Nh|+Nm|-Nd} become an IMF-fixdate relative to the run's clock.",
+  "note": "draft = what the C04 profile draft expects under its recommendations (D1 accepted as A). wellFormed = the line is what RFC 6265 section 4.1 asks servers to send: its grammar and its SHOULD NOT on repeating an attribute name, a Domain without a leading dot, and SameSite read as the 6265bis samesite-av (Strict, Lax or None). Tokens {date:+Nd|+Nh|+Nm|-Nd} and {repeat:c:n} expand at run time.",
   "vectors": [
     {
       "id": "P01",
@@ -308,6 +308,7 @@
       "line": "a=1; Domain=127.0.0.1; Path=/",
       "checks": ["https://127.0.0.1/"],
       "draft": {
+        "note": "RFC 6265 section 5.3 step 6 makes this a domain cookie (hostOnly false). The draft chose host-only, as iOS does; sending is the same. Open under D2.",
         "accept": true,
         "name": "a",
         "value": "1",

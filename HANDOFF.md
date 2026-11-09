@@ -119,6 +119,11 @@ OkHttp does not.** iOS also enforces prefix rules (case-sensitively) and a 4096-
 host-only, and never sends a cookie whose `Path` lacks `/`; OkHttp does none of these. Malformed rows: `Max-Age=abc` deletes on
 iOS, `a=é` is stored on iOS only, and a folded field splits on iOS only.
 
+A Sonnet 5.5 code review of the harness, requested by the maintainer ("전부 수정"), found seven harness gaps and a draft inconsistency;
+all have regression tests and fixes (42 harness tests). Recomparing the retained results changes no platform difference and adds four
+rows where `SameSite=None` or an unknown value is unobservable through iOS's API. D06a (IP host, `Domain=` itself) departs from
+RFC 6265 §5.3 and is now listed under D2. No device was started for the fixes.
+
 OPEN, the maintainer's decision: X (current shared parser), W (OS parsers as they are) or W' (iOS as the reference, OkHttp plus a
 short list of Moonpool rules on Android, no Moonpool parser or public-suffix data). W and W' would still need a jar-level comparison:
 replacement and identity, header order, eviction, persistence, and the iOS public-suffix data that updates with the OS.
