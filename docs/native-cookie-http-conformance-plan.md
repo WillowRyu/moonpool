@@ -184,12 +184,14 @@ or response-body reflection behavior.
 
 ### C04 — Cookie syntax and attributes
 
-Use profile `c04-1`, frozen on 2026-11-11. Turn its expected vectors into a
-versioned JSON corpus and failing tests before implementing the parser. Record
-the profile ID and PSL revision and checksum in the corpus and paired results.
-Assert exact inputs, accepted or rejected cookie identities, ordered `Cookie`
-headers and expiry times. Use a controlled clock for algorithmic expiry and
-record native clock observations separately. [C04 profile](native-cookie-c04-profile.md)
+Use profile `c04-1`, frozen on 2026-11-11. The versioned corpus records
+the exact inputs, cookie identities, ordered `Cookie` headers, script-visible
+results and expiry times. The retained broker fails 50 of 102 cases on the
+desktop JVM. Use the profile ID and PSL revision and checksum in the paired
+results. Use the controlled clock for algorithmic expiry and record native
+clock observations separately.
+[C04 profile](native-cookie-c04-profile.md),
+[Baseline tests and evidence](../experiments/native-cookie-profile/README.md)
 
 For D2-A, verify the pinned source and use both the ICANN and PRIVATE sections.
 Exercise exact suffix, wildcard, exception and A-label matching. Check a
@@ -211,7 +213,8 @@ For D5, vary the order and validity of `Max-Age` and `Expires`. Exercise repeate
 attributes with an invalid final value and with a valid final expiry. Verify a
 session cookie can replace a persistent entry when both attributes are invalid.
 Test exact-identity deletion from an expired response, including `HttpOnly`, and
-the expiry boundary for both `Cookie` selection and `cookies.get`.
+the expiry boundary for both `Cookie` selection and `cookies.get`. Use a delayed
+replacement to check that the duration and 400-day cap start at receipt.
 
 For D6, test valid and invalid attributes for both prefixes, including case
 variants. Check the explicit root path and `Domain` omission for `__Host-`.

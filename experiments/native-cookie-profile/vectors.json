@@ -1,0 +1,2891 @@
+{
+  "profile": "c04-1",
+  "psl": {
+    "commit": "3db7776283b0874634fea8b01168f785360d64f2",
+    "sha256": "22dd3a3a2bca93a9542e65998b301c751339af72681d5f47378eb355face16bc"
+  },
+  "t0": "2026-11-11T00:00:00Z",
+  "url": "https://api.example.com/x/y",
+  "cases": [
+    {
+      "id": "P01",
+      "title": "Omitted Domain and Path use the exact host and default path",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "url": "https://api.example.com/x/z",
+          "expect": "a=1"
+        },
+        {
+          "op": "header",
+          "url": "https://api.example.com/",
+          "expect": ""
+        },
+        {
+          "op": "header",
+          "url": "https://www.example.com/x/z",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "P02",
+      "title": "Replacing one identity preserves its position among equal paths",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Path=/"]
+        },
+        {
+          "op": "receive",
+          "at": 1,
+          "fields": ["b=1; Path=/"]
+        },
+        {
+          "op": "receive",
+          "at": 2,
+          "fields": ["a=2; Path=/"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "2",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true
+            },
+            {
+              "name": "b",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "a=2; b=1"
+        }
+      ]
+    },
+    {
+      "id": "P03a",
+      "title": "An empty name leaves the jar alone",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["keep=1"]
+        },
+        {
+          "op": "receive",
+          "fields": ["=v"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "keep",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "keep=1"
+        }
+      ]
+    },
+    {
+      "id": "P03b",
+      "title": "A pair without an equals sign leaves the jar alone",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["keep=1"]
+        },
+        {
+          "op": "receive",
+          "fields": ["a"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "keep",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "keep=1"
+        }
+      ]
+    },
+    {
+      "id": "P03c",
+      "title": "An empty pair leaves the jar alone",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["keep=1"]
+        },
+        {
+          "op": "receive",
+          "fields": ["="]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "keep",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "keep=1"
+        }
+      ]
+    },
+    {
+      "id": "P04",
+      "title": "A raw control byte rejects the whole line",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1\u0001"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "P05",
+      "title": "Spaces and quotes in the value survive parsing",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=\"q r\""]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "\"q r\"",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "a=\"q r\""
+        }
+      ]
+    },
+    {
+      "id": "P06a",
+      "title": "A raw non-ASCII value rejects the whole line",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=é"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "P06b",
+      "title": "A non-ASCII attribute rejects only its own cookie line",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Foo=é", "keep=1"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "keep",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "keep=1"
+        }
+      ]
+    },
+    {
+      "id": "P07a",
+      "title": "Exactly 4096 name and value octets fit",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a={repeat:x:4095}"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "{repeat:x:4095}",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "a={repeat:x:4095}"
+        }
+      ]
+    },
+    {
+      "id": "P07b",
+      "title": "4097 name and value octets exceed the limit",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a={repeat:x:4096}"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "P08",
+      "title": "Surrounding spaces are removed from the name and value",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["  a =  1 ; Path=/"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "a=1"
+        }
+      ]
+    },
+    {
+      "id": "P09",
+      "title": "The last Path attribute selects the path",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Path=/p; Path=/"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "url": "https://api.example.com/",
+          "expect": "a=1"
+        }
+      ]
+    },
+    {
+      "id": "P10",
+      "title": "The comma in Expires belongs to the date",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Expires=Wed, 21 Oct 2099 07:28:00 GMT"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true,
+              "expiresAt": "2027-12-16T00:00:00Z"
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "a=1"
+        }
+      ]
+    },
+    {
+      "id": "P11",
+      "title": "A comma before another pair drops HttpOnly from the first piece",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["sid=abc, x=y; Path=/; HttpOnly"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "sid",
+              "value": "abc",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true,
+              "httpOnly": false
+            },
+            {
+              "name": "x",
+              "value": "y",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true,
+              "httpOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "sid=abc; x=y"
+        },
+        {
+          "op": "read",
+          "expect": [
+            {
+              "name": "sid",
+              "value": "abc",
+              "path": "/x"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P12a",
+      "title": "A 1024-octet Path attribute is used",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Path=/{repeat:p:1023}"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/{repeat:p:1023}",
+              "hostOnly": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "P12b",
+      "title": "A 1025-octet Path attribute falls back to the default",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Path=/{repeat:p:1024}"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "a=1"
+        }
+      ]
+    },
+    {
+      "id": "D01",
+      "title": "A parent Domain cookie matches approved hosts within that domain",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Domain=example.com"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "example.com",
+              "path": "/x",
+              "hostOnly": false
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "url": "https://example.com/x/y",
+          "expect": "a=1"
+        },
+        {
+          "op": "header",
+          "url": "https://www.example.com/x/y",
+          "expect": "a=1"
+        },
+        {
+          "op": "header",
+          "url": "https://other.com/x/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "D02a",
+      "title": "A leading dot in Domain is ignored",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Domain=.example.com"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "example.com",
+              "path": "/x",
+              "hostOnly": false
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "url": "https://example.com/x/y",
+          "expect": "a=1"
+        },
+        {
+          "op": "header",
+          "url": "https://www.example.com/x/y",
+          "expect": "a=1"
+        },
+        {
+          "op": "header",
+          "url": "https://other.com/x/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "D02b",
+      "title": "Domain is compared in lowercase",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Domain=EXAMPLE.com"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "example.com",
+              "path": "/x",
+              "hostOnly": false
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "url": "https://example.com/x/y",
+          "expect": "a=1"
+        },
+        {
+          "op": "header",
+          "url": "https://www.example.com/x/y",
+          "expect": "a=1"
+        },
+        {
+          "op": "header",
+          "url": "https://other.com/x/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "D03a",
+      "title": "An unrelated Domain is rejected",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Domain=other.com"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "D03b",
+      "title": "A child of the request host cannot be set as Domain",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Domain=www.api.example.com"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "D03c",
+      "title": "A Domain suffix requires a dot boundary",
+      "steps": [
+        {
+          "op": "receive",
+          "url": "https://notexample.com/x/y",
+          "fields": ["a=1; Domain=example.com"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "url": "https://notexample.com/x/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "D04",
+      "title": "A subdomain cannot set a cookie for an ICANN suffix",
+      "steps": [
+        {
+          "op": "receive",
+          "url": "https://shop.co.uk/x/y",
+          "fields": ["a=1; Domain=co.uk"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "url": "https://shop.co.uk/x/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "D05",
+      "title": "An exact public-suffix host receives a host-only cookie",
+      "steps": [
+        {
+          "op": "receive",
+          "url": "https://co.uk/x/y",
+          "fields": ["a=1; Domain=co.uk"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "co.uk",
+              "path": "/x",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "url": "https://co.uk/x/y",
+          "expect": "a=1"
+        },
+        {
+          "op": "header",
+          "url": "https://shop.co.uk/x/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "D06a",
+      "title": "An exact IP Domain updates the existing host-only identity",
+      "steps": [
+        {
+          "op": "receive",
+          "url": "https://127.0.0.1/x/y",
+          "fields": ["a=1"]
+        },
+        {
+          "op": "receive",
+          "url": "https://127.0.0.1/x/y",
+          "at": 1,
+          "fields": ["a=2; Domain=127.0.0.1"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "2",
+              "domain": "127.0.0.1",
+              "path": "/x",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "url": "https://127.0.0.1/x/y",
+          "expect": "a=2"
+        },
+        {
+          "op": "header",
+          "url": "https://127.0.0.2/x/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "D06b",
+      "title": "A partial IP Domain is rejected",
+      "steps": [
+        {
+          "op": "receive",
+          "url": "https://127.0.0.1/x/y",
+          "fields": ["a=1; Domain=0.0.1"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "url": "https://127.0.0.1/x/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "D07",
+      "title": "An empty Domain leaves the cookie host-only",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Domain="]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "a=1"
+        },
+        {
+          "op": "header",
+          "url": "https://shop.api.example.com/x/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "D08",
+      "title": "The PRIVATE section protects github.io tenants",
+      "steps": [
+        {
+          "op": "receive",
+          "url": "https://shop.github.io/x/y",
+          "fields": ["a=1; Domain=github.io"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "url": "https://shop.github.io/x/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "D09",
+      "title": "The ICANN wildcard makes foo.ck a public suffix",
+      "steps": [
+        {
+          "op": "receive",
+          "url": "https://shop.foo.ck/x/y",
+          "fields": ["a=1; Domain=foo.ck"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "url": "https://shop.foo.ck/x/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "D10",
+      "title": "The www.ck exception permits a domain cookie",
+      "steps": [
+        {
+          "op": "receive",
+          "url": "https://shop.www.ck/x/y",
+          "fields": ["a=1; Domain=www.ck"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "www.ck",
+              "path": "/x",
+              "hostOnly": false
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "url": "https://www.ck/x/y",
+          "expect": "a=1"
+        },
+        {
+          "op": "header",
+          "url": "https://other.www.ck/x/y",
+          "expect": "a=1"
+        }
+      ]
+    },
+    {
+      "id": "D11",
+      "title": "The ICANN Unicode rule also matches its ASCII A-label",
+      "steps": [
+        {
+          "op": "receive",
+          "url": "https://shop.xn--55qx5d.cn/x/y",
+          "fields": ["a=1; Domain=xn--55qx5d.cn"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "url": "https://shop.xn--55qx5d.cn/x/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "D12",
+      "title": "The implicit wildcard protects an unlisted suffix",
+      "steps": [
+        {
+          "op": "receive",
+          "url": "https://shop.test/x/y",
+          "fields": ["a=1; Domain=test"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "url": "https://shop.test/x/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "D13",
+      "title": "The PRIVATE rule added in the pinned commit protects abyme.dev",
+      "steps": [
+        {
+          "op": "receive",
+          "url": "https://shop.abyme.dev/x/y",
+          "fields": ["a=1; Domain=abyme.dev"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "url": "https://shop.abyme.dev/x/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "I01",
+      "title": "Host-only and domain identities with the same name coexist",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Path=/"]
+        },
+        {
+          "op": "receive",
+          "at": 1,
+          "fields": ["a=2; Domain=api.example.com; Path=/"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true
+            },
+            {
+              "name": "a",
+              "value": "2",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": false
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "a=1; a=2"
+        },
+        {
+          "op": "header",
+          "url": "https://shop.api.example.com/x/y",
+          "expect": "a=2"
+        }
+      ]
+    },
+    {
+      "id": "I02",
+      "title": "Two paths retain separate cookies with the same name",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=r; Path=/"]
+        },
+        {
+          "op": "receive",
+          "at": 1,
+          "fields": ["a=p; Path=/x"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "r",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true
+            },
+            {
+              "name": "a",
+              "value": "p",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "url": "https://api.example.com/x/q",
+          "expect": "a=p; a=r"
+        }
+      ]
+    },
+    {
+      "id": "I03",
+      "title": "Script reads keep duplicate names in path order",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=r; Path=/"]
+        },
+        {
+          "op": "receive",
+          "at": 1,
+          "fields": ["a=p; Path=/x"]
+        },
+        {
+          "op": "read",
+          "url": "https://api.example.com/x/q",
+          "expect": [
+            {
+              "name": "a",
+              "value": "p",
+              "path": "/x"
+            },
+            {
+              "name": "a",
+              "value": "r",
+              "path": "/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "I04",
+      "title": "Sibling responses share a domain key and preserve the parent host-only cookie",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Path=/"]
+        },
+        {
+          "op": "receive",
+          "at": 1,
+          "fields": ["a=2; Domain=api.example.com; Path=/"]
+        },
+        {
+          "op": "receive",
+          "url": "https://shop.api.example.com/x/y",
+          "at": 2,
+          "fields": ["a=3; Domain=api.example.com; Path=/"]
+        },
+        {
+          "op": "receive",
+          "url": "https://billing.api.example.com/x/y",
+          "at": 3,
+          "fields": ["a=4; Domain=api.example.com; Path=/"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true
+            },
+            {
+              "name": "a",
+              "value": "4",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": false
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "a=1; a=4"
+        },
+        {
+          "op": "header",
+          "url": "https://shop.api.example.com/x/y",
+          "expect": "a=4"
+        }
+      ]
+    },
+    {
+      "id": "I05a",
+      "title": "A domain expiry removes only the domain identity",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Path=/"]
+        },
+        {
+          "op": "receive",
+          "at": 1,
+          "fields": ["a=2; Domain=api.example.com; Path=/"]
+        },
+        {
+          "op": "header",
+          "expect": "a=1; a=2"
+        },
+        {
+          "op": "receive",
+          "at": 2,
+          "fields": ["a=; Max-Age=0; Path=/; Domain=api.example.com"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "a=1"
+        },
+        {
+          "op": "header",
+          "url": "https://shop.api.example.com/x/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "I05b",
+      "title": "A host-only expiry removes only the host-only identity",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Path=/"]
+        },
+        {
+          "op": "receive",
+          "at": 1,
+          "fields": ["a=2; Domain=api.example.com; Path=/"]
+        },
+        {
+          "op": "header",
+          "expect": "a=1; a=2"
+        },
+        {
+          "op": "receive",
+          "at": 2,
+          "fields": ["a=; Max-Age=0; Path=/"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "2",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": false
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "a=2"
+        },
+        {
+          "op": "header",
+          "url": "https://shop.api.example.com/x/y",
+          "expect": "a=2"
+        }
+      ]
+    },
+    {
+      "id": "I06",
+      "title": "Script reads keep both matches when only host-only differs",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Path=/"]
+        },
+        {
+          "op": "receive",
+          "at": 1,
+          "fields": ["a=2; Domain=api.example.com; Path=/"]
+        },
+        {
+          "op": "read",
+          "url": "https://api.example.com/",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "path": "/"
+            },
+            {
+              "name": "a",
+              "value": "2",
+              "path": "/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "A01",
+      "title": "Path matching uses slash boundaries",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Path=/x"]
+        },
+        {
+          "op": "header",
+          "url": "https://api.example.com/x",
+          "expect": "a=1"
+        },
+        {
+          "op": "header",
+          "url": "https://api.example.com/x/",
+          "expect": "a=1"
+        },
+        {
+          "op": "header",
+          "url": "https://api.example.com/x/q",
+          "expect": "a=1"
+        },
+        {
+          "op": "header",
+          "url": "https://api.example.com/xq",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "A02",
+      "title": "Path without an initial slash uses the default",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Path=x"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "a=1"
+        }
+      ]
+    },
+    {
+      "id": "A03",
+      "title": "Default path keeps the encoded slash",
+      "steps": [
+        {
+          "op": "receive",
+          "url": "https://api.example.com/a%2Fb/c",
+          "fields": ["a=1"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/a%2Fb",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "url": "https://api.example.com/a%2Fb/d",
+          "expect": "a=1"
+        },
+        {
+          "op": "header",
+          "url": "https://api.example.com/a/b/d",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "A04",
+      "title": "A single path segment defaults to the root cookie path",
+      "steps": [
+        {
+          "op": "receive",
+          "url": "https://api.example.com/y",
+          "fields": ["a=1"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "url": "https://api.example.com/",
+          "expect": "a=1"
+        }
+      ]
+    },
+    {
+      "id": "A05",
+      "title": "A literal slash path excludes an encoded slash at the boundary",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Path=/a"]
+        },
+        {
+          "op": "header",
+          "url": "https://api.example.com/a/b/c",
+          "expect": "a=1"
+        },
+        {
+          "op": "header",
+          "url": "https://api.example.com/a%2Fb/c",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "A06",
+      "title": "An explicit encoded Path matches its encoded request path",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Path=/a%2Fb"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/a%2Fb",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "url": "https://api.example.com/a%2Fb/c",
+          "expect": "a=1"
+        },
+        {
+          "op": "header",
+          "url": "https://api.example.com/a/b/c",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "E01a",
+      "title": "A replacement expires 60 seconds after its own receipt",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=old"]
+        },
+        {
+          "op": "header",
+          "expect": "a=old"
+        },
+        {
+          "op": "receive",
+          "at": 30,
+          "fields": ["a=1; Max-Age=60"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true,
+              "expiresAt": "2026-11-11T00:01:30Z"
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "at": 89,
+          "expect": "a=1"
+        },
+        {
+          "op": "header",
+          "at": 90,
+          "expect": ""
+        },
+        {
+          "op": "jar",
+          "expect": []
+        }
+      ]
+    },
+    {
+      "id": "E01b",
+      "title": "A 60-second cookie expires before a script read at the boundary",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Max-Age=60"]
+        },
+        {
+          "op": "read",
+          "at": 59,
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "path": "/x"
+            }
+          ]
+        },
+        {
+          "op": "read",
+          "at": 60,
+          "expect": []
+        },
+        {
+          "op": "jar",
+          "expect": []
+        }
+      ]
+    },
+    {
+      "id": "E02a",
+      "title": "Max-Age 0 deletes the matching cookie",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=old"]
+        },
+        {
+          "op": "receive",
+          "fields": ["a=; Max-Age=0"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "E02b",
+      "title": "Max-Age -1 deletes the matching cookie",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=old"]
+        },
+        {
+          "op": "receive",
+          "fields": ["a=; Max-Age=-1"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "E03a",
+      "title": "Invalid Max-Age abc leaves a session cookie",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Max-Age=abc"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true,
+              "expiresAt": null
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "at": 5,
+          "expect": "a=1"
+        }
+      ]
+    },
+    {
+      "id": "E03b",
+      "title": "Invalid Max-Age +5 leaves a session cookie",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Max-Age=+5"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true,
+              "expiresAt": null
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "at": 5,
+          "expect": "a=1"
+        }
+      ]
+    },
+    {
+      "id": "E04a",
+      "title": "Valid Max-Age takes precedence before a past Expires",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Max-Age=60; Expires=Tue, 10 Nov 2026 00:00:00 GMT"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true,
+              "expiresAt": "2026-11-11T00:01:00Z"
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "at": 59,
+          "expect": "a=1"
+        }
+      ]
+    },
+    {
+      "id": "E04b",
+      "title": "Valid Max-Age takes precedence after a past Expires",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Expires=Tue, 10 Nov 2026 00:00:00 GMT; Max-Age=60"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true,
+              "expiresAt": "2026-11-11T00:01:00Z"
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "at": 59,
+          "expect": "a=1"
+        }
+      ]
+    },
+    {
+      "id": "E05a",
+      "title": "A past Expires deletes the matching cookie",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=old"]
+        },
+        {
+          "op": "receive",
+          "fields": ["a=1; Expires=Tue, 10 Nov 2026 00:00:00 GMT"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "E05b",
+      "title": "Expires equal to receipt deletes the matching cookie",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=old"]
+        },
+        {
+          "op": "receive",
+          "fields": ["a=1; Expires=Wed, 11 Nov 2026 00:00:00 GMT"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "E06",
+      "title": "An invalid Expires leaves a session cookie",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Expires=tomorrow"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true,
+              "expiresAt": null
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "a=1"
+        }
+      ]
+    },
+    {
+      "id": "E07",
+      "title": "A two-digit year of 70 means an expired 1970 date",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Expires=Wed, 21 Oct 70 07:28:00 GMT"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "E08a",
+      "title": "A long Expires is capped at 400 days after replacement receipt",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=old"]
+        },
+        {
+          "op": "header",
+          "expect": "a=old"
+        },
+        {
+          "op": "receive",
+          "at": 30,
+          "fields": ["a=1; Expires=Fri, 10 Nov 2028 00:00:00 GMT"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true,
+              "expiresAt": "2027-12-16T00:00:30Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "E08b",
+      "title": "A long Max-Age is capped at 400 days after replacement receipt",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=old"]
+        },
+        {
+          "op": "header",
+          "expect": "a=old"
+        },
+        {
+          "op": "receive",
+          "at": 30,
+          "fields": ["a=1; Max-Age=999999999"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true,
+              "expiresAt": "2027-12-16T00:00:30Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "E09",
+      "title": "A valid server expiry can delete a protected cookie",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=old; HttpOnly"]
+        },
+        {
+          "op": "header",
+          "expect": "a=old"
+        },
+        {
+          "op": "read",
+          "expect": []
+        },
+        {
+          "op": "receive",
+          "fields": ["a=; Max-Age=0"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "E10",
+      "title": "Max-Age zero deletes even with a future Expires",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=old"]
+        },
+        {
+          "op": "receive",
+          "fields": ["a=; Max-Age=0; Expires=Wed, 11 Nov 2026 00:01:00 GMT"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "E11a",
+      "title": "A valid future Expires applies after invalid Max-Age",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=old"]
+        },
+        {
+          "op": "receive",
+          "fields": ["a=1; Max-Age=abc; Expires=Wed, 11 Nov 2026 00:01:00 GMT"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true,
+              "expiresAt": "2026-11-11T00:01:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "E11b",
+      "title": "A past Expires deletes when Max-Age is invalid",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=old"]
+        },
+        {
+          "op": "receive",
+          "fields": ["a=1; Max-Age=abc; Expires=Tue, 10 Nov 2026 00:00:00 GMT"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "E12a",
+      "title": "An invalid final Max-Age leaves the last valid duration",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=old"]
+        },
+        {
+          "op": "receive",
+          "fields": ["a=1; Max-Age=60; Max-Age=abc"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true,
+              "expiresAt": "2026-11-11T00:01:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "E12b",
+      "title": "A valid final Max-Age zero deletes the cookie",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=old"]
+        },
+        {
+          "op": "receive",
+          "fields": ["a=1; Max-Age=60; Max-Age=0"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "E13a",
+      "title": "An invalid final Expires leaves the last valid date",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=old"]
+        },
+        {
+          "op": "receive",
+          "fields": ["a=1; Expires=Wed, 11 Nov 2026 00:01:00 GMT; Expires=tomorrow"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true,
+              "expiresAt": "2026-11-11T00:01:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "E13b",
+      "title": "A valid final past Expires deletes the cookie",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=old"]
+        },
+        {
+          "op": "receive",
+          "fields": [
+            "a=1; Expires=Wed, 11 Nov 2026 00:01:00 GMT; Expires=Tue, 10 Nov 2026 00:00:00 GMT"
+          ]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "E14",
+      "title": "A session cookie replaces an existing persistent identity",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=old; Path=/; Max-Age=600"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "old",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true,
+              "expiresAt": "2026-11-11T00:10:00Z"
+            }
+          ]
+        },
+        {
+          "op": "receive",
+          "at": 1,
+          "fields": ["a=new; Path=/; Max-Age=abc; Expires=tomorrow"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "new",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true,
+              "expiresAt": null
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "at": 600,
+          "expect": "a=new"
+        }
+      ]
+    },
+    {
+      "id": "H01",
+      "title": "A same-identity server response can remove HttpOnly",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Path=/; HttpOnly"]
+        },
+        {
+          "op": "header",
+          "expect": "a=1"
+        },
+        {
+          "op": "read",
+          "expect": []
+        },
+        {
+          "op": "receive",
+          "at": 1,
+          "fields": ["a=2; Path=/"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "2",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true,
+              "httpOnly": false
+            }
+          ]
+        },
+        {
+          "op": "read",
+          "expect": [
+            {
+              "name": "a",
+              "value": "2",
+              "path": "/"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "X01a",
+      "title": "__Secure-a with Secure is accepted",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["__Secure-a=1; Secure"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "__Secure-a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "__Secure-a=1"
+        }
+      ]
+    },
+    {
+      "id": "X01b",
+      "title": "__Secure-a requires Secure",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["__Secure-a=1"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "X01c",
+      "title": "__secure-a with Secure is accepted",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["__secure-a=1; Secure"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "__secure-a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "__secure-a=1"
+        }
+      ]
+    },
+    {
+      "id": "X01d",
+      "title": "__secure-a requires Secure",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["__secure-a=1"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "X02a",
+      "title": "An explicit root Path and no Domain admit __Host-",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["__Host-a=1; Secure; Path=/"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "__Host-a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "__Host-a=1"
+        }
+      ]
+    },
+    {
+      "id": "X02b",
+      "title": "__Host- rejects even an exact host Domain",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["__Host-a=1; Secure; Path=/; Domain=api.example.com"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "X02c",
+      "title": "__Host- requires the root Path",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["__Host-a=1; Secure; Path=/x"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "X03",
+      "title": "Lowercase __host- has the same prefix requirements",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["__host-a=1"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "X04a",
+      "title": "Structured cookies.set rejects __Host-a",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["keep=1; Path=/"]
+        },
+        {
+          "op": "set",
+          "fields": {
+            "name": "__Host-a",
+            "value": "1",
+            "path": "/"
+          },
+          "expect": false
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "keep",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "keep=1"
+        }
+      ]
+    },
+    {
+      "id": "X04b",
+      "title": "Structured cookies.set rejects __SECURE-a",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["keep=1; Path=/"]
+        },
+        {
+          "op": "set",
+          "fields": {
+            "name": "__SECURE-a",
+            "value": "1",
+            "path": "/"
+          },
+          "expect": false
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "keep",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "keep=1"
+        }
+      ]
+    },
+    {
+      "id": "X05",
+      "title": "Case-insensitive prefix validation preserves case-sensitive identity",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["__Host-a=1; Secure; Path=/"]
+        },
+        {
+          "op": "receive",
+          "at": 1,
+          "fields": ["__host-a=2; Secure; Path=/"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "__Host-a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true
+            },
+            {
+              "name": "__host-a",
+              "value": "2",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "__Host-a=1; __host-a=2"
+        }
+      ]
+    },
+    {
+      "id": "X06",
+      "title": "A subdomain cannot use __host- with its parent as Domain",
+      "steps": [
+        {
+          "op": "receive",
+          "url": "https://shop.api.example.com/x/y",
+          "fields": ["__host-a=1; Secure; Path=/; Domain=api.example.com"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "url": "https://shop.api.example.com/x/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "X07a",
+      "title": "Defaulting to root cannot satisfy the explicit __Host- Path requirement",
+      "steps": [
+        {
+          "op": "receive",
+          "url": "https://api.example.com/y",
+          "fields": ["__Host-a=1; Secure"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "url": "https://api.example.com/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "X07b",
+      "title": "An invalid Path cannot satisfy the explicit __Host- Path requirement",
+      "steps": [
+        {
+          "op": "receive",
+          "url": "https://api.example.com/y",
+          "fields": ["__Host-a=1; Secure; Path=invalid"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "url": "https://api.example.com/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "X08a",
+      "title": "__Host- rejects the presence of an empty Domain",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["__Host-a=1; Secure; Path=/; Domain="]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "X08b",
+      "title": "__Host- rejects the presence of a matching IP Domain",
+      "steps": [
+        {
+          "op": "receive",
+          "url": "https://127.0.0.1/x/y",
+          "fields": ["__Host-a=1; Secure; Path=/; Domain=127.0.0.1"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "url": "https://127.0.0.1/x/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "X09a",
+      "title": "A valid prefixed expiry deletes its cookie",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["__Host-a=1; Secure; Path=/"]
+        },
+        {
+          "op": "header",
+          "expect": "__Host-a=1"
+        },
+        {
+          "op": "receive",
+          "fields": ["__Host-a=; Path=/; Max-Age=0; Secure"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "X09b",
+      "title": "A prefixed expiry missing Secure preserves the cookie",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["__Host-a=1; Secure; Path=/"]
+        },
+        {
+          "op": "header",
+          "expect": "__Host-a=1"
+        },
+        {
+          "op": "receive",
+          "fields": ["__Host-a=; Path=/; Max-Age=0"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "__Host-a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "__Host-a=1"
+        }
+      ]
+    },
+    {
+      "id": "S01",
+      "title": "SameSite=None without Secure is rejected",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; SameSite=None"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "S02a",
+      "title": "SameSite Strict selects the Strict mode in the service context",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; SameSite=Strict"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true,
+              "sameSite": "Strict"
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "a=1"
+        }
+      ]
+    },
+    {
+      "id": "S02b",
+      "title": "SameSite bogus selects the default mode in the service context",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; SameSite=bogus"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true,
+              "sameSite": "default"
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "a=1"
+        }
+      ]
+    },
+    {
+      "id": "S02c",
+      "title": "SameSite lAX selects the Lax mode in the service context",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; SameSite=lAX"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true,
+              "sameSite": "Lax"
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "a=1"
+        }
+      ]
+    },
+    {
+      "id": "S02d",
+      "title": "SameSite nOnE; Secure selects the None mode in the service context",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; SameSite=nOnE; Secure"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true,
+              "sameSite": "None"
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "a=1"
+        }
+      ]
+    },
+    {
+      "id": "O01",
+      "title": "Equal path lengths keep the original order after replacement",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["b=1; Path=/"]
+        },
+        {
+          "op": "receive",
+          "at": 1,
+          "fields": ["a=1; Path=/"]
+        },
+        {
+          "op": "receive",
+          "at": 2,
+          "fields": ["b=2; Path=/"]
+        },
+        {
+          "op": "header",
+          "expect": "b=2; a=1"
+        }
+      ]
+    },
+    {
+      "id": "O02",
+      "title": "Replacing the host-only match keeps its place before the domain match",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Path=/"]
+        },
+        {
+          "op": "receive",
+          "at": 1,
+          "fields": ["a=2; Domain=api.example.com; Path=/"]
+        },
+        {
+          "op": "header",
+          "expect": "a=1; a=2"
+        },
+        {
+          "op": "receive",
+          "at": 2,
+          "fields": ["a=3; Path=/"]
+        },
+        {
+          "op": "header",
+          "expect": "a=3; a=2"
+        }
+      ]
+    },
+    {
+      "id": "O03",
+      "title": "Deletion and reissue puts the host-only match after the surviving domain match",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Path=/"]
+        },
+        {
+          "op": "receive",
+          "at": 1,
+          "fields": ["a=2; Domain=api.example.com; Path=/"]
+        },
+        {
+          "op": "header",
+          "expect": "a=1; a=2"
+        },
+        {
+          "op": "receive",
+          "at": 2,
+          "fields": ["a=; Path=/; Max-Age=0"]
+        },
+        {
+          "op": "header",
+          "expect": "a=2"
+        },
+        {
+          "op": "receive",
+          "at": 3,
+          "fields": ["a=3; Path=/"]
+        },
+        {
+          "op": "header",
+          "expect": "a=2; a=3"
+        }
+      ]
+    },
+    {
+      "id": "U01",
+      "title": "Unsupported attributes leave an otherwise eligible cookie",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Path=/; Partitioned; Priority=High; Foo=bar"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "a=1"
+        }
+      ]
+    },
+    {
+      "id": "U02",
+      "title": "Partitioned and ordinary responses address one identity",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Secure; Path=/"]
+        },
+        {
+          "op": "receive",
+          "at": 1,
+          "fields": ["b=1; Path=/"]
+        },
+        {
+          "op": "receive",
+          "at": 2,
+          "fields": ["a=2; Secure; Path=/; Partitioned"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "2",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true
+            },
+            {
+              "name": "b",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "a=2; b=1"
+        }
+      ]
+    },
+    {
+      "id": "U03a",
+      "title": "Expiry without Partitioned deletes the same identity",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Secure; Path=/"]
+        },
+        {
+          "op": "receive",
+          "at": 1,
+          "fields": ["b=1; Path=/"]
+        },
+        {
+          "op": "receive",
+          "at": 2,
+          "fields": ["a=2; Secure; Path=/; Partitioned"]
+        },
+        {
+          "op": "header",
+          "expect": "a=2; b=1"
+        },
+        {
+          "op": "receive",
+          "at": 3,
+          "fields": ["a=; Secure; Path=/; Max-Age=0"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "b",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "b=1"
+        }
+      ]
+    },
+    {
+      "id": "U03b",
+      "title": "Expiry with Partitioned deletes the same identity",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Secure; Path=/"]
+        },
+        {
+          "op": "receive",
+          "at": 1,
+          "fields": ["b=1; Path=/"]
+        },
+        {
+          "op": "receive",
+          "at": 2,
+          "fields": ["a=2; Secure; Path=/; Partitioned"]
+        },
+        {
+          "op": "header",
+          "expect": "a=2; b=1"
+        },
+        {
+          "op": "receive",
+          "at": 3,
+          "fields": ["a=; Secure; Path=/; Max-Age=0; Partitioned"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "b",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "b=1"
+        }
+      ]
+    },
+    {
+      "id": "U04",
+      "title": "An unsupported attribute cannot bypass SameSite validation",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1; Path=/; SameSite=None; Partitioned"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    }
+  ]
+}

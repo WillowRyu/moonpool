@@ -85,7 +85,8 @@
 > D6 accepted on 2026-11-11: check both cookie prefixes case-insensitively.
 > D8 accepted on 2026-11-11: sort matching cookies by path length and original creation order.
 > D9 accepted on 2026-11-11: ignore unsupported attributes, including Partitioned and Priority, and keep eligible cookies.
-> C04 resumes with versioned JSON cases and failing controlled-clock tests before parser code.
+> C04 review fixes verified: 102 cases / 236 assertions, with 50 cases failing on the retained broker.
+> C04 resumes with the reference parser using the pinned PSL, injected clock and the same corpus.
 > Keep the profile review to one decision at a time.
 > Older checkpoints moved verbatim to docs/handoff-archive.md on 2026-11-03.
 > Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
@@ -118,6 +119,46 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-11 checkpoint — C04 test review fixes
+
+E01a and E08a/b seed a cookie at `T0` and replace it at `T0+30s`. E01a checks
+selection at `T0+89s` and removal at `T0+90s`. Both E08 variants check the
+400-day cap from replacement receipt. P06b sends two fields in one response
+and expects only the line with an ASCII value and attributes to survive.
+The verifier rejects empty and receive-only cases, and a receive-only CLI
+fixture exits with status 2. The regression test passed after reproducing the
+old false pass. The Astra High follow-up review closed all three findings.
+
+The updated corpus covers 102 cases and 236 assertions. Two JVM runs using
+the pinned PSL digest produced identical output (52 cases passed, 50 failed,
+139 assertions passed, 97 failed). C04 stays open for the reference parser
+and paired native evidence. [Updated baseline](experiments/native-cookie-profile/README.md#baseline-result)
+
+Root `pnpm run check` passed 1,134 TypeScript tests, nine Python tests,
+typechecks, lint and both browser builds. All 157 local study index links resolve.
+
+## 2026-11-11 checkpoint — C04 vectors and failing tests
+
+The `c04-1` corpus turns the 70 profile rows into 101 isolated cases and
+231 assertions, with the frozen PSL commit, SHA-256 and UTC clock inputs.
+The desktop JVM adapter exercises the retained Android research broker's
+cookie operations. Two runs gave identical results (52 cases passed,
+49 failed, with 136 assertions passed and 95 failed). E01 passes at 59 seconds
+and shows the stale cookie in the header and script read at 60 seconds.
+A05 and X09b expose the encoded-path and prefix gaps that affect cookie
+scope and integrity under SPEC §9.
+[Corpus and rerun instructions](experiments/native-cookie-profile/README.md)
+
+The P01, P11, D05, D06a and O01 controls pass individually. A wrong PSL digest
+and unknown case ID stop as setup errors. All 42 retained OS comparison harness
+tests and root `pnpm run check` passed (1,134 TypeScript tests, nine Python
+tests, typechecks, lint and both browser builds).
+
+**Next step.** Implement the reference parser using the verified PSL and
+injected clock and make the same corpus pass. Then run the corpus against both
+probe brokers. C04 and the remaining T28 evidence gates stay open. Paired device
+collection needs its separate explicit resume.
 
 ## 2026-11-11 checkpoint — C04 profile frozen
 

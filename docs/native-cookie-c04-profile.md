@@ -1,8 +1,9 @@
 # T28 — C04 cookie profile
 
 **Profile `c04-1` was frozen on 2026-11-11.** It binds the D1–D9 rules to one
-Public Suffix List (PSL) snapshot. The versioned JSON corpus, failing tests
-and paired implementation evidence are pending.
+Public Suffix List (PSL) snapshot. The versioned JSON corpus and failing baseline
+tests cover §4. Reference implementation and paired evidence are pending.
+[C04 tests](../experiments/native-cookie-profile/README.md),
 [C04 conformance plan](native-cookie-http-conformance-plan.md#c04--cookie-syntax-and-attributes)
 
 **This concerns SPEC §9.** Domain, public-suffix, prefix and `HttpOnly` rules decide
@@ -293,7 +294,7 @@ service of the same test app. Cases run against fixture inputs. "Sent" is the
 | P03 | `=v`, `a`, `=` | All rejected, jar unchanged (D1) |
 | P04 | `a=1` + byte `%x01` | Rejected (D1) |
 | P05 | `a="q r"` | Value `"q r"` with quotes |
-| P06 | `a=é` | Rejected (D1) |
+| P06 | `a=é`, or two fields `a=1; Foo=é` and `keep=1` in one response | Reject the non-ASCII line in each case. The second case stores and sends `keep=1` |
 | P07 | Name plus value of 4096 and 4097 octets | First stored, second rejected |
 | P08 | `  a =  1 ; Path=/` | Name `a`, value `1` |
 | P09 | `a=1; Path=/p; Path=/` | Path `/` (last wins) |
@@ -325,14 +326,14 @@ service of the same test app. Cases run against fixture inputs. "Sent" is the
 | A04 | From `/y`: `a=1` | Default path `/` |
 | A05 | `a=1; Path=/a` | Sent to `/a/b/c`. Excluded at `/a%2Fb/c` |
 | A06 | `a=1; Path=/a%2Fb` | Stores `/a%2Fb`. Sent to `/a%2Fb/c`. Excluded at `/a/b/c` |
-| E01 | `a=1; Max-Age=60` | Eligible at `T0+59s`. Removed before header selection or `cookies.get` at `T0+60s` |
+| E01 | `a=1; Max-Age=60`. The header case replaces a cookie at `T0+30s` | Eligible 59 seconds after receipt. Removed before header selection or `cookies.get` at 60 seconds after receipt |
 | E02 | Existing `a`, then `a=; Max-Age=0` or `Max-Age=-1` | Deleted |
 | E03 | `a=1; Max-Age=abc`, `Max-Age=+5` | Session cookie |
 | E04 | `a=1; Max-Age=60; Expires=<past>` and the reverse order | Kept for 60 s |
 | E05 | Existing `a`, then `a=1; Expires=<past>` or `a=1; Expires=<T0>` | Deleted in both cases |
 | E06 | `a=1; Expires=<invalid>` | Session cookie |
 | E07 | `a=1; Expires=Wed, 21 Oct 70 07:28:00 GMT` | Year 1970, past: nothing stored |
-| E08 | `a=1; Expires=<T0+730d>` or `a=1; Max-Age=999999999` | Expiry `T0+400d` in both cases (accepted D5 cap) |
+| E08 | At `T0+30s`, replace the original cookie with `a=1; Expires=<T0+730d>` or `a=1; Max-Age=999999999` | Expiry 400 days after replacement receipt in both cases (accepted D5 cap) |
 | E09 | Existing `HttpOnly` `a`, response `a=; Max-Age=0` | Deleted |
 | E10 | Existing `a`, then `a=; Max-Age=0; Expires=<T0+60s>` | Deleted |
 | E11 | Existing `a`, then `a=1; Max-Age=abc; Expires=<T0+60s>` or the same line with `Expires=<past>` | Use `Expires`. First case expires at `T0+60s`. Second deletes the matching entry |
@@ -365,11 +366,11 @@ for rejected lines to T29.
 
 ## 5. Verification sequence
 
-1. In `experiments/native-cookie-profile/`, turn §4 into a JSON corpus labeled
-   `c04-1` and record the PSL revision and SHA-256 with it. Use a controlled
-   clock and a fresh jar per case. Assert the resulting identities, flags,
-   expiry, ordered header and script-visible results as applicable. Run the
-   tests and capture the expected assertion failures before writing parser code.
+1. The `c04-1` JSON corpus records the PSL revision and SHA-256. The isolated
+   tests use a controlled clock and fresh jars to check identities, flags,
+   expiry, ordered headers and script-visible results. The retained Android
+   broker produced 50 failing cases on the desktop JVM before implementation.
+   [Baseline result](../experiments/native-cookie-profile/README.md#baseline-result)
 2. Make the reference parser pass those tests, then exercise the same corpus
    and PSL source in both probe brokers. Run algorithmic cases without devices
    where possible.
