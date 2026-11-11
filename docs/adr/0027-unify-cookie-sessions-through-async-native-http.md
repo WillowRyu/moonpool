@@ -2,7 +2,9 @@
 
 Date: 2026-11-03
 Status: Proposed overall; admission baseline, iOS presence-evidence rule and native HTTP transport
-rules accepted as design directions on 2026-11-03, the Android broker client on 2026-11-04, and the shared parser reaffirmed on 2026-11-09 (see the accepted sections below). Cross-platform cookie parity is a maintainer requirement;
+rules accepted as design directions on 2026-11-03, the Android broker client on 2026-11-04,
+the shared parser reaffirmed on 2026-11-09, and D2-A, D3-B, D4-A, D5, D6, D8 and D9 accepted on 2026-11-11.
+Cross-platform cookie parity is a maintainer requirement;
 option 1 is preferred, while its compatibility cost is under review. No SPEC,
 capability, SDK implementation or new native measurement is adopted here.
 
@@ -127,11 +129,84 @@ to both:
 platforms; where a mini app would see Android and iOS differ, Moonpool's one profile decides. Do not ask
 again.
 
-Consequences: one cookie profile implemented twice, in Swift and Kotlin, and held together by one shared vector
-corpus run on both. If D2 adopts public-suffix data, it is pinned and refreshed per SDK release, which is how
-Chrome and Firefox ship it; Firefox removed its runtime update path in version 136. iOS transport behavior,
-such as header folding and the `Basic` resend, still needs measuring per supported OS. C04's D2–D9 continue
-under this decision.
+Swift and Kotlin will implement the same cookie profile and run the same vector corpus. iOS transport behavior,
+such as header folding and the `Basic` resend, still needs measuring per supported OS.
+
+## Accepted public-suffix policy (D2-A) — 2026-11-11
+
+Both SDKs bundle the same pinned Public Suffix List revision, including ICANN and PRIVATE rules.
+Profile `c04-1` pins the official snapshot at `3db7776` and records the full
+commit, source checksum and retrieval command. Later revisions ship through
+SDK releases on both platforms. [C04 snapshot](../native-cookie-c04-profile.md#public-suffix-list-snapshot)
+
+This lets `auth.example.com` set `Domain=example.com` for use at `api.example.com` when both are approved
+services for the same mini app. The parser rejects attempts to widen the scope to a public suffix such as
+`co.uk`. The broker sends cookies only to the mini app's approved HTTPS service origins.
+
+For an IP request host, a nonempty `Domain` must match the request IP exactly. Store a matching cookie as
+host-only. The IP scope and stored flag then agree whether the server omits `Domain` or supplies that IP.
+[C04 domain rules](../native-cookie-c04-profile.md#d2--domain-attribute-and-public-suffixes-9)
+
+## Accepted cookie identity (D3-B) — 2026-11-11
+
+Each mini app's jar identifies a cookie by `(name, canonical domain, path, host-only)`.
+A response cookie replaces or expires an entry with the same identity. An approved
+subdomain can write the matching domain entry while the parent host-only entry survives.
+Both entries can match a request to the parent. This concerns cookie integrity under
+SPEC §9. T29 defines the public selector for deleting an exact script-readable identity.
+[C04 identity rules](../native-cookie-c04-profile.md#d3--cookie-identity-and-host-only-flag)
+
+## Accepted cookie path comparison (D4-A) — 2026-11-11
+
+Use the percent-encoded path sent in the request for cookie matching and default
+path calculation. Compare the parsed `Path` value as written. The path-match
+rule uses literal `/` separators, so `%2F` remains data in the path. This preserves
+the declared cookie scope and concerns SPEC §9.
+[C04 path cases](../native-cookie-c04-profile.md#d4--which-request-path-is-compared)
+
+## Accepted cookie expiry (D5) — 2026-11-11
+
+For an accepted cookie line, ignore malformed expiry attributes. Use the last
+valid `Max-Age` if present, or the last valid `Expires` as a fallback. Store a
+session cookie when both yield no expiry. A server response expiring at or
+before receipt deletes the matching D3-B entry, whether script-readable or
+`HttpOnly`. At or after their expiry, remove stored cookies before building
+the `Cookie` header or a `cookies.get` result. This concerns cookie integrity
+under SPEC §9.
+
+Both SDKs cap the persistent expiry from a response cookie's `Max-Age` or `Expires` at 400 days after receipt.
+This follows the 6265bis-22 recommendation and matches the observed iOS result for a 730-day `Expires`.
+C04 checks the cap with a controlled clock. T53 uses resource measurements to set common count and size
+limits and eviction rules. [C04 expiry rules](../native-cookie-c04-profile.md#d5--expiry)
+
+## Accepted cookie prefixes (D6) — 2026-11-11
+
+Check `__Secure-` and `__Host-` case-insensitively in ASCII. Use the full original
+name for cookie identity. Both prefixes require an HTTPS response with `Secure`.
+`__Host-` also requires an explicit `Path=/` and omission of the `Domain` attribute.
+This keeps host-specific cookies scoped to the issuing host and prevents case
+variants from bypassing the checks. Apply the checks before commits, including
+expiry deletions. The proposed `cookies.set` rejects these prefixed names.
+This concerns SPEC §9. [C04 prefix rules](../native-cookie-c04-profile.md#d6--prefixes)
+
+## Accepted Cookie header order (D8) — 2026-11-11
+
+Sort matching cookies by descending `Path` length, then by earlier creation
+order for equal lengths. Preserve the creation order when replacing an entry
+with the same D3-B identity. A new entry receives a new order, including after deletion
+and reissue. Serialize each matching entry as `name=value` and join pairs with
+`; ` in that order. This gives both SDKs the same header value for the same
+cookie history, including when several entries share a name.
+[C04 header cases](../native-cookie-c04-profile.md#d8--cookie-header-order-and-form)
+
+## Accepted unsupported attribute handling (D9) — 2026-11-11
+
+Ignore `Set-Cookie` attributes outside the profile, including `Priority` and
+`Partitioned`. Apply the supported rules to the cookie and store eligible cookies
+in the requesting mini app's jar. `Partitioned` variants with the same D3-B identity
+address the same entry for replacement and expiry. This uses the app-based
+cookie boundary under SPEC §9. T53 defines resource limits and eviction.
+[C04 attribute cases](../native-cookie-c04-profile.md#d9--unknown-and-newer-attributes)
 
 ## Proposed decision
 

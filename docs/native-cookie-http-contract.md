@@ -10,8 +10,10 @@ scope or SPEC change is implemented. This concerns SPEC §3, §6–§9.
 one cookie pipeline (§4), OS behavior for HTTP authentication challenges (§5) and commit at header delivery (§5) as
 design directions. The Android broker client followed on 2026-11-04 (§2). On 2026-11-05 the maintainer accepted keeping the pipeline and stating
 what its limit does to `HttpOnly` (§4), and committing the first response of an iOS `Basic` challenge (§5). On 2026-11-09, after
-[comparing the OS parsers](native-cookie-parser-comparison.md), the maintainer reaffirmed the shared parser over keeping each OS's own (§4,
-ADR 0027). The rest of this proposal is unchanged and not accepted.
+[comparing the OS parsers](native-cookie-parser-comparison.md), the maintainer reaffirmed the shared parser (§4, ADR 0027).
+On 2026-11-11 the maintainer selected the D2-A public-suffix and exact-IP rules, the D3-B cookie identity, the D4-A path rule,
+the D5 expiry rules including the 400-day lifetime cap, the D6 prefix rules, D8 header ordering and D9 attribute handling (§4).
+Other clauses remain proposed.
 
 ## 1. Required outcome and compatibility
 
@@ -103,7 +105,7 @@ be a different compatibility profile.
 | --- | --- |
 | http.request | HTTPS service request; GET if method omitted; credentials include by default, or explicit omit; returns status, sanitized headers and supported response body |
 | http.resetSession | Clear this app's entire native cookie jar and fence its old in-flight HTTP work; retain browser/provider storage and other apps |
-| cookies.get | Awaited read for an approved URL; return only script-readable matching cookies as an array, preserving duplicate names at different domain/path identities |
+| cookies.get | Awaited read for an approved URL. Return only script-readable matching cookies in an array that preserves separate identities with the same name |
 | cookies.set | Awaited script-cookie update for an approved URL; no HttpOnly option, creation or overwrite of protected cookies |
 | cookies.delete | Delete the exact script-cookie identity; no protected-cookie mutation or cross-app selection |
 
@@ -141,30 +143,37 @@ are not implied. No package exports or placeholder native code are scaffolded.
 
 ## 4. Cookie behavior shared by both adapters
 
-Use one versioned behavioral profile and one conformance corpus. Pin parsing,
-domain/public-suffix data, replacement, matching, expiry and eviction semantics;
-do not inherit two native defaults. The modern cookie draft cited below is a
-design reference/work in progress, not an adopted RFC or floating latest-version
-dependency. A released profile must name its exact rules and data revision.
+Use the frozen `c04-1` behavior and one conformance corpus for parsing,
+domain/public-suffix data, replacement, matching and expiry. The C04 profile
+defines the accepted rules and names the exact snapshot. RFC 6265 and
+6265bis-22 inform the design. [C04 profile](native-cookie-c04-profile.md)
+
+Under D2-A, both SDKs bundle the same verified PSL source, including ICANN
+and PRIVATE rules. New revisions ship through SDK releases on both platforms.
+For an IP request host, a nonempty `Domain` must match the request IP exactly.
+Store a matching cookie as host-only.
+[C04 domain rules and snapshot](native-cookie-c04-profile.md#d2--domain-attribute-and-public-suffixes-9)
 
 | Area | Required behavior |
 | --- | --- |
 | Selection | Match host-only/Domain, Path and Secure rules for the approved request URL; ports are not cookie partitions |
+| Cookie header | Order matching entries by descending `Path` length and earlier creation for equal lengths. Preserve creation order on replacement. Serialize the entries as `name=value` pairs joined by `; `, preserving repeated names |
+| Path | Match the parsed `Path` as written against the percent-encoded request path. Use literal `/` separators. Derive the default cookie path from that encoded path |
 | Line extraction | iOS cannot expose separate Set-Cookie fields, so each adapter folds received fields with `, ` and both split them by one rule before one shared parser. A value containing `, name=` becomes an extra cookie on both platforms, and the pieces before the last lose every attribute, including `HttpOnly`, so a script can read them ([measured](native-http-broker-verification.md)). This needs a server outside RFC 6265's grammar. Native cookie parsers are not used |
 | Validation | Reject public-suffix/sibling Domain escalation and invalid names/values from those lines without repairing them |
-| Identity | Pin host-only/domain/path/name replacement and deletion rules; duplicate names are not collapsed into a JS object |
+| Unsupported attributes | Ignore attributes outside the profile, including `Partitioned` and `Priority`. Store eligible cookies in the app's jar using the normal D3-B identity |
+| Identity | Within an app's jar, key by `(name, canonical domain, path, host-only)`. Replacement and expiry target that exact identity. Matching cookies with the same name remain separate entries |
 | HttpOnly | Server may set it; script APIs cannot directly read, create, overwrite or delete that protected cookie identity; SDK HTTP can send it when eligible. A piece that lost the attribute under the Line extraction limit is not protected |
 | SameSite | Store the normalized attribute; None requires Secure; use the explicit first-party service context from §2, never claim browser cross-site filtering |
-| Prefixes | Enforce the chosen profile's Secure/Host prefix constraints consistently |
-| Expiry | Pin Max-Age precedence, deletion and expiry; expire before selecting a header; no indefinite retention promise |
+| Prefixes | Check `__Secure-` and `__Host-` case-insensitively before any response cookie commit. Both require `Secure` on HTTPS. `__Host-` also requires explicit `Path=/` and omission of `Domain`. Keep original name spelling for identity. The proposed `cookies.set` rejects either prefix |
+| Expiry | Prefer the last valid `Max-Age`, falling back to the last valid `Expires` or a session cookie. Cap persistent expiry at 400 days after receipt. A valid server expiry at or before receipt deletes the matching entry, whether script-readable or `HttpOnly`. Remove expired entries before building a `Cookie` header or `cookies.get` result |
 | Lifetime | Session cookies survive Portal reload/recreation but end on native host-process restart; persistent cookies retain their defined expiry across controlled restart |
 
 Manual setters use structured fields rather than a raw Set-Cookie string and
 cannot supply HttpOnly. Script values must satisfy the published cookie syntax;
-Unicode encoding is caller-explicit, not platform-specific coercion. Cookie
-profile limits, lifetime caps and eviction must be common, with T53 evidence
-before numeric resource defaults are selected. T48 defines durable-write and
-backup/recovery guarantees. Until these are fixed and paired tests pass, the
+Unicode encoding is caller-explicit, not platform-specific coercion. T53 supplies
+measured common defaults for cookie counts, total size and eviction. T48 defines
+durable-write and backup/recovery guarantees. Until these are fixed and paired tests pass, the
 profile remains unimplemented and no full cookie-parity claim is made.
 
 ## 5. Ordering, reset and errors

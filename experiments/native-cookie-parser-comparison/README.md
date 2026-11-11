@@ -1,8 +1,8 @@
 # T28 cookie parser comparison
 
 Research only. It feeds the same cookie lines to a platform's own cookie parser and compares the result
-with the [C04 profile draft](../../docs/native-cookie-c04-profile-draft.md). Findings are in
-[the report](../../docs/native-cookie-parser-comparison.md).
+with the retained `c04-draft-1` expectations. Future C04 conformance uses the frozen `c04-1` profile.
+[Comparison report](../../docs/native-cookie-parser-comparison.md), [C04 profile](../../docs/native-cookie-c04-profile.md)
 
 `vectors.json` holds 61 vectors: the C04 draft table and 12 common server shapes. Each says whether it
 follows the RFC 6265 §4.1 server grammar, and what the draft expects. `compare.py` reports the differing

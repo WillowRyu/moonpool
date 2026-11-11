@@ -40,7 +40,7 @@ It answers both questions the transport report left open about the accepted iOS 
 response's cookie, and the guest's own `Authorization` is replayed. The first of those broke parity, until [a later measurement](native-http-failure-response-verification.md) found the first cookie readable at the
 challenge and the broker started committing it. It also measures that a comma in a cookie value can drop `HttpOnly` on both
 platforms, which the contract now states.
-C04 and C09–C12 remain untouched, and no procedure below is marked complete by it.
+C04 and C09–C12 still require their own evidence.
 
 ## 1. Review outcome and decisions still required
 
@@ -184,23 +184,54 @@ or response-body reflection behavior.
 
 ### C04 — Cookie syntax and attributes
 
-Use a versioned table of exact input, accepted/rejected cookie identities,
-selected header pairs and expiry times. Cover host-only versus Domain,
-public-suffix and sibling rejection, Path matching, same-name distinct paths,
-replacement/deletion, Max-Age precedence, Secure, SameSite and prefix rules.
-Use a controlled clock for algorithmic expiry tests and separate native clock
-observations. Compare the ordered Cookie header as well as resulting identities.
+Use profile `c04-1`, frozen on 2026-11-11. Turn its expected vectors into a
+versioned JSON corpus and failing tests before implementing the parser. Record
+the profile ID and PSL revision and checksum in the corpus and paired results.
+Assert exact inputs, accepted or rejected cookie identities, ordered `Cookie`
+headers and expiry times. Use a controlled clock for algorithmic expiry and
+record native clock observations separately. [C04 profile](native-cookie-c04-profile.md)
 
-Do not derive the oracle from either OS's cookie parser; they measurably disagree. Include the pipeline's
-documented limit, where a value containing `, name=` becomes an extra cookie on both and the earlier pieces lose their
-attributes, including `HttpOnly`. Exact parsing tolerance,
-identity including host-only treatment, prefix case handling, header ordering,
-public-suffix data revision, newer attributes and resource limits are unresolved
-profile inputs. Freeze them before claiming this case passes. RFC 6265 and the
-linked 6265bis draft are references, not interchangeable automatic specifications.
-The [C04 profile draft](native-cookie-c04-profile-draft.md) proposes those inputs and a first vector
-table for review, dated 2026-11-06; none is accepted.
-This review adds no new cookie profile or numeric product limits.
+For D2-A, verify the pinned source and use both the ICANN and PRIVATE sections.
+Exercise exact suffix, wildcard, exception and A-label matching. Check a
+public suffix equal to the request host and a nonmatching `Domain`. Cover
+matching and mismatched IP `Domain` and empty `Domain`.
+[C04 snapshot and cases](native-cookie-c04-profile.md#public-suffix-list-snapshot)
+
+For D3-B, set a host-only and a domain cookie with the same name, canonical
+domain and path. Confirm both can match the parent. Replace the domain entry
+from a different approved subdomain. In independent cases, expire each scope by
+its exact identity and verify the other entry survives. Read both as an array
+when both are script-readable.
+
+For D4-A, check explicit and default `Path` on requests with `%2F` and literal
+`/` at the same position. Record the encoded path received by the fixture with
+the selected `Cookie` header on both adapters.
+
+For D5, vary the order and validity of `Max-Age` and `Expires`. Exercise repeated
+attributes with an invalid final value and with a valid final expiry. Verify a
+session cookie can replace a persistent entry when both attributes are invalid.
+Test exact-identity deletion from an expired response, including `HttpOnly`, and
+the expiry boundary for both `Cookie` selection and `cookies.get`.
+
+For D6, test valid and invalid attributes for both prefixes, including case
+variants. Check the explicit root path and `Domain` omission for `__Host-`.
+Verify distinct names retain their spelling. An expiry line that fails prefix
+validation preserves the existing entry. Check `cookies.set` rejects the prefixed names.
+
+For D8, verify a longer path sorts first even when it was created later. With
+equal path lengths, compare the serialized `Cookie` header before and after
+replacement, then after deletion and reissue. Include matching duplicate names
+in the expected header value.
+
+For D9, check that cookies with unsupported attributes still use the supported
+syntax, matching and expiry rules. Replace and expire one identity with and
+without `Partitioned`. Include a line with an unsupported attribute that fails
+a supported rule and verify the broker rejects it.
+
+Include the pipeline's documented limit. A value containing `, name=`
+becomes an extra cookie on both platforms, and the earlier pieces lose their
+attributes, including `HttpOnly`. C04 stays open until both adapters pass the
+same corpus and the paired fixture records the observed behavior.
 
 ### C05 — Service context and authorization
 

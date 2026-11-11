@@ -1,7 +1,7 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-11-09. The maintainer switched to agent-led implementation
+> Last updated: 2026-11-11. The maintainer switched to agent-led implementation
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
@@ -71,10 +71,22 @@
 > The second attempt, the Authorization replay and a body from that attempt remain, and the contract states them.
 > The jar parity item is closed: iOS now keeps the first response's cookie, as Android does, in all 63 cases.
 > Broker work is merged into master by fast-forward and pushed, through f964f76; the branch stays at that commit.
-> Both devices stopped; T28 stays at 6/44 with C04 and C09-C12 untouched. Test keys are in the Trash for the maintainer.
-> C04 profile draft written on 2026-11-06: docs/native-cookie-c04-profile-draft.md. D1 accepted as A (ASCII-only lines); D2-D9 open.
+> Both devices stopped; T28 stays at 6/44 with C04 and C09-C12 conformance open. Test keys are in the Trash for the maintainer.
+> C04 profile `c04-1` frozen on 2026-11-11: docs/native-cookie-c04-profile.md.
+> Initial PSL: official published version 2026-11-10_11-23-57_UTC, commit 3db7776.
+> D1 accepted as A (ASCII-only lines).
 > Parser comparison (docs/native-cookie-parser-comparison.md): Android and iOS differ on 13 of 61; of 12 common shapes only the 400-day cap.
-> X accepted on 2026-11-09: keep the shared cookie parser, not each OS's own (ADR 0027). Do not ask again. C04 resumes at D2.
+> X accepted on 2026-11-09: keep the shared cookie parser (ADR 0027).
+> D2-A accepted on 2026-11-11: both SDKs ship the same pinned Public Suffix List revision. New revisions ship through SDK releases.
+> The exact-IP `Domain` rule was accepted as host-only on 2026-11-11.
+> D5 expiry processing and the 400-day lifetime cap were accepted on 2026-11-11.
+> D3-B accepted on 2026-11-11: cookie identity includes name, canonical domain, path and host-only.
+> D4-A accepted on 2026-11-11: use the percent-encoded request path for matching and defaults.
+> D6 accepted on 2026-11-11: check both cookie prefixes case-insensitively.
+> D8 accepted on 2026-11-11: sort matching cookies by path length and original creation order.
+> D9 accepted on 2026-11-11: ignore unsupported attributes, including Partitioned and Priority, and keep eligible cookies.
+> C04 resumes with versioned JSON cases and failing controlled-clock tests before parser code.
+> Keep the profile review to one decision at a time.
 > Older checkpoints moved verbatim to docs/handoff-archive.md on 2026-11-03.
 > Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
 > Run pnpm run check; read docs/code-quality-workflow.md. Native task checks remain separate.
@@ -107,6 +119,83 @@
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
 
+## 2026-11-11 checkpoint — C04 profile frozen
+
+Profile `c04-1` fixes the D1–D9 rules and the initial Public Suffix List data.
+The official download served on 2026-11-11 (KST) identifies version
+`2026-11-10_11-23-57_UTC` and commit
+`3db7776283b0874634fea8b01168f785360d64f2`. The pinned upstream source and
+the official download have identical ordered rules in each section
+(6,951 ICANN and 3,463 PRIVATE). The profile records the immutable source,
+SHA-256 and a retrieval command for the common SDK input.
+[C04 snapshot](docs/native-cookie-c04-profile.md#public-suffix-list-snapshot)
+
+The expected cases include an ICANN suffix, a PRIVATE hosting suffix,
+wildcard and exception rules, an A-label lookup, the implicit wildcard,
+and a PRIVATE entry added in the pinned revision. These rules govern
+cookie scope under SPEC §9. The broader native cookie and HTTP contract
+still needs final approval.
+
+**Next step.** In `experiments/native-cookie-profile/`, turn the expected
+cases into a `c04-1` JSON corpus labeled with the PSL revision and SHA-256.
+Use an injected clock and isolated jars to assert exact identities,
+expiry, ordered headers and script-visible results. Run the tests and
+record the expected failures before writing the reference parser. The
+retained OS comparison uses its historical `c04-draft-1` corpus.
+[Expected vectors](docs/native-cookie-c04-profile.md#4-expected-vectors-for-c04-1)
+
+C04 and C09–C12 remain open. Paired device collection needs the separate
+explicit resume recorded in the conformance plan. T28 remains at 6/44.
+
+Verification passed for the documented PSL retrieval and checksum command,
+the section counts and rule examples, and all 156 local links in the study
+index. Root `pnpm run check` passed 1,134 TypeScript tests in 40 files,
+nine Python tests, both typechecks, lint and both browser builds.
+
+## 2026-11-11 checkpoint — C04 decisions through D9
+
+The maintainer chose D2-A after confirming that Android and iOS will bundle the same pinned Public Suffix List revision,
+including ICANN and PRIVATE rules. Both SDKs adopt a new revision through SDK releases. ADR 0027 and the C04 draft record the
+decision about cookie scope under SPEC §9.
+
+The maintainer also accepted storing an exact-IP `Domain` as host-only. An IP request host accepts a nonempty `Domain` only
+when it matches that IP exactly. This gives the cookie the same scope and stored flag as a cookie issued without `Domain`.
+The C04 draft records the browser sources and the D06 expectation.
+
+The maintainer set the D5 lifetime cap at 400 days after receipt. E08 covers both
+`Max-Age` and `Expires` when the requested expiry exceeds the cap. T53 uses
+measurements to set cookie count and size limits and eviction rules.
+
+The maintainer chose D3-B. Each mini app's jar keys cookies by `(name, canonical domain, path, host-only)`. Approved subdomains
+issuing the same domain key replace that domain entry and preserve the parent host-only entry. Both entries can match the parent
+request. The C04 draft vectors cover replacement, expiry and duplicate read results. T29 defines the public deletion selector.
+
+The maintainer chose D4-A. Compare `Path` with the percent-encoded path sent in the request and derive the default from that same
+path. A literal `/` is the path separator. C04 cases A03, A05 and A06 cover default and explicit paths with `%2F`.
+
+The maintainer accepted the remaining D5 expiry rules. Prefer the last valid `Max-Age`, then fall back to the last valid `Expires`
+or a session cookie. A valid server response expiring at or before receipt deletes the matching D3-B entry, whether script-readable
+or `HttpOnly`. Remove due entries before forming a request header or `cookies.get` result. C04 records invalid, repeated and
+conflicting attributes.
+
+The maintainer accepted D6. Check `__Secure-` and `__Host-` with ASCII case-insensitive matching. Both require `Secure` on an HTTPS
+response. `__Host-` additionally requires explicit `Path=/` and omission of `Domain`. Preserve the full name for D3-B identity.
+Apply prefix validation before storage and expiry commits. The proposed `cookies.set` rejects both prefixes.
+
+The maintainer accepted D8. Order matching cookies by longer `Path` first and earlier creation order for equal lengths.
+Keep creation order on same-identity replacement. Deletion followed by reissue gets a new order. Serialize each matching
+cookie as `name=value`, with `; ` between pairs, including duplicate names. C04 cases I02 and O01–O03 record the expected order.
+
+The maintainer accepted D9. Ignore unsupported `Set-Cookie` attributes, including `Partitioned` and `Priority`, and store eligible
+cookies in the requesting mini app's jar. Variants with the same D3-B identity address one entry for replacement and expiry.
+The C04 draft vectors also check that the supported validation rules apply.
+
+This checkpoint handed off the initial Public Suffix List selection and profile
+freeze to the checkpoint above.
+
+Root `pnpm run check` passed with 1,134 TypeScript tests, nine Python tests, typechecks, lint and both browser builds.
+All 154 local links in the study index resolve.
+
 ## 2026-11-09 checkpoint — shared parser kept (X)
 
 The maintainer chose X: "최대한 OS 의 동작을 따르고 싶은데 android 와 ios 의 동작이 다르다고 하면 우리 규칙으로 미니앱을 넣었을때 다르게
@@ -117,7 +206,7 @@ Reasons recorded: the 400-day cap differs and is common; OkHttp has no prefix ru
 Android jar is Moonpool code under any option; under W an iOS update changes behavior before an SDK update can align Android; and
 OkHttp 5.5.1's public-suffix list is unchanged since 2024-12-31 while iOS's moves with the OS. Code review fixes are in eefeec3 / a22f971.
 
-**Next: C04 D2**, explained one decision at a time in easy Korean, as the maintainer asked. Evidence gathered for D2: the public-suffix
+The next decision at this checkpoint was C04 D2, explained one decision at a time in easy Korean, as the maintainer asked. Evidence gathered for D2: the public-suffix
 list changed 204 times in the last year and 358 times since 2025-01-01, mostly hosting platforms in the PRIVATE section; Chrome refreshes
 it by hand a few times a year and Firefox by bot every few days, both shipping it per release; Firefox removed runtime updates in
 version 136. So D2-A means a pinned list refreshed per SDK release, about 130 KB, the same model as browsers. D5 (400-day cap) and the
@@ -182,7 +271,7 @@ compared with `compare.py`; no WebView and no crash controls. Then present X aga
 
 ## 2026-11-06 checkpoint — C04 cookie profile draft
 
-The maintainer chose "C04 초안 시작". docs/native-cookie-c04-profile-draft.md proposes the profile inputs C04 must freeze
+The maintainer chose "C04 초안 시작". The first C04 draft proposed the profile inputs C04 had to freeze
 (D1-D9) and 43 draft vectors that follow the recommendations; the conformance plan links it. Nothing is accepted and this
 concerns SPEC §9. No test, probe, SPEC, protocol or package changed, and no device was started.
 
@@ -192,8 +281,8 @@ encoded path; the 63 retained cases use no encoded path, so their results stand.
 The maintainer then accepted D1 as A on 2026-11-06, after confirming that raw UTF-8 cookie lines are dropped whole and
 encoded values work. The maintainer is reviewing the decisions one at a time, with an easy Korean explanation of each.
 
-OPEN, the maintainer's decisions: D2 public-suffix list or host-only only; D5 the 400-day cap now or at T53; whether
-D3, D4, D6, D8 and D9 are accepted as recommended. After approval, vectors and failing tests come before parser code.
+The open decisions at this checkpoint were the D2 domain policy, the D5 timing of the 400-day cap, and whether to accept
+D3, D4, D6, D8 and D9 as recommended. After approval, vectors and failing tests come before parser code.
 
 ## 2026-11-05 checkpoint — first response committed on iOS
 

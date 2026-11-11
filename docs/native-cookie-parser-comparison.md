@@ -10,7 +10,8 @@ the broker probe are unchanged. This concerns SPEC §9 where noted.
 
 Where do the two parsers W would rely on, OkHttp 5.5.1 on Android and `HTTPCookie` on iOS, disagree with
 each other, and are the disagreements on cookies that real servers send? The
-[C04 profile draft](native-cookie-c04-profile-draft.md) is a third column for reference.
+retained `c04-draft-1` expectations provide the third column. The frozen
+`c04-1` rules govern future C04 conformance. [C04 profile](native-cookie-c04-profile.md)
 
 ## Method
 
