@@ -275,6 +275,10 @@ public final class CookieJar {
             let separator = attribute.firstIndex(of: UInt8(ascii: "="))
             let key = Ascii.lower(Ascii.string(Ascii.trimWhitespace(separator.map { attribute[..<$0] } ?? attribute)))
             let value = separator.map { Ascii.trimWhitespace(attribute[($0 + 1)...]) } ?? []
+            // D6 counts an explicit Domain even when D1 ignores its value for length, so __Host- stays rejected.
+            if key == "domain" {
+                line.domainPresent = true
+            }
             if value.count > maxAttributeValueOctets {
                 continue
             }
@@ -289,8 +293,7 @@ public final class CookieJar {
                     line.maxAge = seconds
                 }
             case "domain":
-                // An empty value is ignored for scope (D2), but __Host- still treats it as present (D6).
-                line.domainPresent = true
+                // An empty value is ignored for scope (D2). Its presence is recorded above for D6.
                 if !value.isEmpty {
                     line.domain = text
                 }

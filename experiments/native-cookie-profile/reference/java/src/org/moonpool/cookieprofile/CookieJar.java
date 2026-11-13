@@ -308,6 +308,10 @@ public final class CookieJar {
             int separator = attribute.indexOf('=');
             String key = Ascii.lower(Ascii.trimWhitespace(separator < 0 ? attribute : attribute.substring(0, separator)));
             String value = separator < 0 ? "" : Ascii.trimWhitespace(attribute.substring(separator + 1));
+            // D6 counts an explicit Domain even when D1 ignores its value for length, so __Host- stays rejected.
+            if (key.equals("domain")) {
+                line.domainPresent = true;
+            }
             if (value.length() > MAX_ATTRIBUTE_VALUE_OCTETS) {
                 continue;
             }
@@ -325,8 +329,7 @@ public final class CookieJar {
                     }
                 }
                 case "domain" -> {
-                    // An empty value is ignored for scope (D2), but __Host- still treats it as present (D6).
-                    line.domainPresent = true;
+                    // An empty value is ignored for scope (D2). Its presence is recorded above for D6.
                     if (!value.isEmpty()) {
                         line.domain = value;
                     }
