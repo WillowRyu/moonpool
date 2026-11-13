@@ -64,6 +64,27 @@ final class SelfTest {
             expect(ip, request.ip, "IP classification for \(input)")
             expect("/", request.path, "empty request path for \(input)")
         }
+
+        // Accepted 2026-11-13 (contract §2): approval and the jar take only canonical hosts, as in the Java table.
+        let accepted: [(String, Bool)] = [
+            ("a.github.io.", false), ("0.0.0.0", true), ("255.255.255.255", true), ("10.0.0.1", true),
+            ("1a", false), ("example.0xg", false), ("shop.xn--55qx5d.cn", false),
+        ]
+        for (host, ip) in accepted {
+            if let request = try? CookieJar.Request.of(host: host, encodedPath: "") {
+                expect(ip, request.ip, "IP classification for \(host)")
+            } else {
+                expect("accepted", "refused", "canonical host \(host)")
+            }
+        }
+        let refused = [
+            "a..example.com", ".example.com", "example.com..", ".", "127.0.0.1.", "127.1", "0x7f.0.0.1",
+            "010.0.0.1", "256.0.0.1", "1.2.3.4.5", "example.123", "a.0x", "a.0X1F",
+        ]
+        for host in refused {
+            let outcome = (try? CookieJar.Request.of(host: host, encodedPath: "")) == nil ? "refused" : "accepted"
+            expect("refused", outcome, "non-canonical host \(host)")
+        }
     }
 
     private func publicSuffixes(_ pinned: [UInt8]) throws {

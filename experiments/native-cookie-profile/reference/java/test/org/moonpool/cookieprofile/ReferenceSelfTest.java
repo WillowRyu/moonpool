@@ -80,6 +80,35 @@ final class ReferenceSelfTest {
             expect(Boolean.parseBoolean(item[2]), request.ip, "IP classification for " + item[0]);
             expect("/", request.path, "empty request path for " + item[0]);
         }
+
+        // Accepted 2026-11-13 (contract §2): approval and the jar take only canonical hosts. A DNS name has no
+        // empty label apart from one trailing dot. A last label that is a number makes the host IPv4, which must
+        // then be four decimal octets with no leading zero and no trailing dot.
+        String[][] accepted = {
+            {"a.github.io.", "false"}, {"0.0.0.0", "true"}, {"255.255.255.255", "true"}, {"10.0.0.1", "true"},
+            {"1a", "false"}, {"example.0xg", "false"}, {"shop.xn--55qx5d.cn", "false"},
+        };
+        for (String[] item : accepted) {
+            try {
+                expect(Boolean.parseBoolean(item[1]), CookieJar.Request.of(item[0], "").ip, "IP classification for " + item[0]);
+            } catch (IllegalArgumentException refused) {
+                expect("accepted", "refused", "canonical host " + item[0]);
+            }
+        }
+        String[] refused = {
+            "a..example.com", ".example.com", "example.com..", ".", "127.0.0.1.", "127.1", "0x7f.0.0.1",
+            "010.0.0.1", "256.0.0.1", "1.2.3.4.5", "example.123", "a.0x", "a.0X1F",
+        };
+        for (String host : refused) {
+            String outcome;
+            try {
+                CookieJar.Request.of(host, "");
+                outcome = "accepted";
+            } catch (IllegalArgumentException expected) {
+                outcome = "refused";
+            }
+            expect("refused", outcome, "non-canonical host " + host);
+        }
     }
 
     private static void publicSuffixes(byte[] pinned) throws Exception {
