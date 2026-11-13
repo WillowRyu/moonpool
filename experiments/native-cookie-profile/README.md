@@ -73,8 +73,10 @@ Two choices keep the iOS port from drifting:
   `,\s*(?=[^;,=\s]+=)`. Java's `\s` is ASCII-only, but `NSRegularExpression`
   matches Unicode spaces. On macOS Foundation (Swift 6.3.1) the retained iOS split
   turns `a=1,<U+00A0>b=2` into `a=1` and `b=2`. Java keeps `<U+00A0>b=2`, which
-  D1 then rejects. The reference uses Java's ASCII set. This byte sequence has not
-  been checked on a device, and whether `URLSession` passes U+00A0 through is unknown.
+  D1 then rejects. The reference uses Java's ASCII set, which the maintainer
+  accepted on 2026-11-13 as part of ADR 0027 rule 1 and contract §4. This byte
+  sequence has not been checked on a device, and whether `URLSession` passes
+  U+00A0 through is unknown.
 
 ## Reference result
 

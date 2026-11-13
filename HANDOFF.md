@@ -88,7 +88,7 @@
 > C04 review fixes verified: 102 cases / 236 assertions, with 50 cases failing on the retained broker.
 > C04 Java reference parser (JDK only) passes 102/102 on 2026-11-13, and its Swift port does too.
 > Java and Swift agree on every observation of the corpus and 120,000 generated cases. Broker ports remain.
-> OPEN: the retained iOS split treats Unicode spaces as `\s`; the reference uses ASCII. Maintainer's decision.
+> Split whitespace is ASCII-only, accepted (A) on 2026-11-13 in ADR 0027 rule 1 and contract §4. Do not ask again.
 > Broker port must take iOS hosts from URL.host, not URLComponents.host, which decodes A-labels to Unicode.
 > Keep the profile review to one decision at a time.
 > Older checkpoints moved verbatim to docs/handoff-archive.md on 2026-11-03.
@@ -122,6 +122,33 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-13 checkpoint — ASCII whitespace in the line split accepted
+
+The maintainer asked for the open split-whitespace decision to be explained,
+then answered "A로 하자". Whitespace in the split rule `,\s*(?=[^;,=\s]+=)` is
+only ASCII SP, HTAB, LF, VT, FF and CR, Java's default `\s`. A Unicode space
+such as U+00A0 is an ordinary character, so D1 rejects the line that contains it
+on both platforms. ADR 0027 rule 1 and contract §4 record the amendment. Do not
+ask again. This supersedes the OPEN items in the two checkpoints below.
+
+Option B, Unicode whitespace on both, was not chosen. Android would have to copy
+a Unicode table that changes between versions. The same bytes can also decode
+differently per OS, and it would keep cookies from lines D1 is meant to reject.
+Option C, leaving it unstated, would let an iOS implementation return to
+`NSRegularExpression` unnoticed. This concerns SPEC §9. SPEC itself, the parser
+code and the corpus are unchanged. Both reference ports already follow the rule.
+The retained iOS broker still splits on Unicode spaces until the broker port.
+
+The maintainer then answered "커밋 푸시 하자". This decision is committed, and
+branch `feat/c04-reference-cookie-parser` is pushed to origin with all nine C04
+commits since master. It is not merged into master, and no pull request was opened.
+"Not merged or pushed" in the checkpoints below describes its own moment.
+
+**Next step.** Merging the branch is the maintainer's call. The C04
+broker ports and the paired device run need the explicit resume in the profile's
+verification sequence. The optional IDN corpus case still needs review. C04 and
+C09-C12 stay open, and T28 stays at 6/44.
 
 ## 2026-11-13 checkpoint — C04 Swift port matches the reference
 

@@ -13,7 +13,7 @@ what its limit does to `HttpOnly` (§4), and committing the first response of an
 [comparing the OS parsers](native-cookie-parser-comparison.md), the maintainer reaffirmed the shared parser (§4, ADR 0027).
 On 2026-11-11 the maintainer selected the D2-A public-suffix and exact-IP rules, the D3-B cookie identity, the D4-A path rule,
 the D5 expiry rules including the 400-day lifetime cap, the D6 prefix rules, D8 header ordering and D9 attribute handling (§4).
-Other clauses remain proposed.
+On 2026-11-13 the maintainer accepted ASCII-only whitespace in the line split (§4). Other clauses remain proposed.
 
 ## 1. Required outcome and compatibility
 
@@ -159,7 +159,7 @@ Store a matching cookie as host-only.
 | Selection | Match host-only/Domain, Path and Secure rules for the approved request URL; ports are not cookie partitions |
 | Cookie header | Order matching entries by descending `Path` length and earlier creation for equal lengths. Preserve creation order on replacement. Serialize the entries as `name=value` pairs joined by `; `, preserving repeated names |
 | Path | Match the parsed `Path` as written against the percent-encoded request path. Use literal `/` separators. Derive the default cookie path from that encoded path |
-| Line extraction | iOS cannot expose separate Set-Cookie fields, so each adapter folds received fields with `, ` and both split them by one rule before one shared parser. A value containing `, name=` becomes an extra cookie on both platforms, and the pieces before the last lose every attribute, including `HttpOnly`, so a script can read them ([measured](native-http-broker-verification.md)). This needs a server outside RFC 6265's grammar. Native cookie parsers are not used |
+| Line extraction | iOS cannot expose separate Set-Cookie fields, so each adapter folds received fields with `, ` and both split them by one rule before one shared parser. A value containing `, name=` becomes an extra cookie on both platforms, and the pieces before the last lose every attribute, including `HttpOnly`, so a script can read them ([measured](native-http-broker-verification.md)). This needs a server outside RFC 6265's grammar. Whitespace in the split rule is only ASCII SP, HTAB, LF, VT, FF and CR. A Unicode space such as U+00A0 is an ordinary character, so D1 rejects its line on both platforms. Native cookie parsers are not used |
 | Validation | Reject public-suffix/sibling Domain escalation and invalid names/values from those lines without repairing them |
 | Unsupported attributes | Ignore attributes outside the profile, including `Partitioned` and `Priority`. Store eligible cookies in the app's jar using the normal D3-B identity |
 | Identity | Within an app's jar, key by `(name, canonical domain, path, host-only)`. Replacement and expiry target that exact identity. Matching cookies with the same name remain separate entries |

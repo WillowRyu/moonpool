@@ -3,7 +3,8 @@
 Date: 2026-11-03
 Status: Proposed overall; admission baseline, iOS presence-evidence rule and native HTTP transport
 rules accepted as design directions on 2026-11-03, the Android broker client on 2026-11-04,
-the shared parser reaffirmed on 2026-11-09, and D2-A, D3-B, D4-A, D5, D6, D8 and D9 accepted on 2026-11-11.
+the shared parser reaffirmed on 2026-11-09, D2-A, D3-B, D4-A, D5, D6, D8 and D9 accepted on 2026-11-11, and
+ASCII whitespace in the line split on 2026-11-13.
 Cross-platform cookie parity is a maintainer requirement;
 option 1 is preferred, while its compatibility cost is under review. No SPEC,
 capability, SDK implementation or new native measurement is adopted here.
@@ -97,7 +98,11 @@ app sees differently per platform.
    the same way and pass the lines to one shared parser. Native cookie parsers are not used. A cookie value
    containing `, name=` becomes an extra cookie on both platforms; this limit is documented. The pieces before the
    last also lose every attribute, including `HttpOnly`. The maintainer accepted stating this on 2026-11-05 rather than
-   adding a rule that would also hide honest attribute-less cookies from scripts.
+   adding a rule that would also hide honest attribute-less cookies from scripts. Amended by the maintainer on
+   2026-11-13: whitespace in the split rule `,\s*(?=[^;,=\s]+=)` means only the ASCII bytes SP, HTAB, LF, VT, FF and
+   CR, which is Java's default `\s`. Unicode spaces such as U+00A0 are ordinary characters, so D1 then rejects their
+   line. `NSRegularExpression` treats them as `\s`, so on macOS Foundation the retained iOS split stored a cookie that
+   Java rejects. [Reference result](../../experiments/native-cookie-profile/README.md#reference-parser)
 2. **OS behavior for HTTP authentication challenges.** The SDK never retries a request itself. A 401 stays a
    normal result on both platforms. iOS may send a request once more after a `Basic` challenge, without
    host credentials; this is OS behavior and is documented. A guest's own `Authorization` goes on both attempts. Ambient credential and
