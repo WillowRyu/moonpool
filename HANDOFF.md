@@ -89,6 +89,7 @@
 > C04 Java reference parser (JDK only) passes 102/102 on 2026-11-13, and its Swift port does too.
 > Java and Swift agree on every observation of the corpus and 120,000 generated cases. Broker ports remain.
 > Split whitespace is ASCII-only, accepted (A) on 2026-11-13 in ADR 0027 rule 1 and contract §4. Do not ask again.
+> The maintainer answered "master에 합치기", then "master push" over a review PR: the C04 branch is merged into master by fast-forward through d984d14 and pushed; the branch stays at that commit.
 > Broker port must take iOS hosts from URL.host, not URLComponents.host, which decodes A-labels to Unicode.
 > Keep the profile review to one decision at a time.
 > Older checkpoints moved verbatim to docs/handoff-archive.md on 2026-11-03.
