@@ -125,6 +125,7 @@ final class ReferenceAdapter {
                 .put("path", cookie.path)
                 .put("hostOnly", cookie.hostOnly)
                 .put("httpOnly", cookie.httpOnly)
+                .put("secure", cookie.secure)
                 .put("expiresAt", cookie.expiresAt == null ? JSONObject.NULL
                     : UTC.format(Instant.ofEpochSecond(cookie.expiresAt)))
                 .put("sameSite", switch (cookie.sameSite) {

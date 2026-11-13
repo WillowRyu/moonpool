@@ -180,8 +180,9 @@ GENERATED_FAMILIES = (
     ('shop.xn--55qx5d.cn', 'a.shop.xn--55qx5d.cn'),
     ('127.0.0.1',),
     ('[::1]',),
+    ('a.github.io.', 'b.github.io.', 'co.uk.', 'shop.co.uk.'),
 )
-GENERATED_FAMILY_WEIGHTS = (6, 1, 1, 1, 1, 1, 1)
+GENERATED_FAMILY_WEIGHTS = (6, 1, 1, 1, 1, 1, 1, 1)
 GENERATED_PATHS = ('/', '/x', '/x/y', '/x/y/z', '', '/x/', '/xq', '/a%2Fb/c', '/a/b/c')
 GENERATED_PATH_WEIGHTS = (6, 6, 6, 2, 1, 1, 1, 1, 1)
 GENERATED_NAMES = ('a', 'b', 'sid', 'A', ' a ', '__Secure-a', '__secure-a', '__Host-a', '__host-a', '__HOST-a', '')
@@ -191,7 +192,8 @@ GENERATED_VALUE_WEIGHTS = (8, 8, 1, 1, 1, 1, 1, 1, 1)
 GENERATED_ATTRIBUTES = (
     'Path=/', 'Path=/x', 'Path=/x/y', 'Path=x', 'Path=', ' path = /x ', 'Domain=example.com',
     'Domain=.example.com', 'Domain=EXAMPLE.com', 'Domain=api.example.com', 'Domain=co.uk', 'Domain=www.ck',
-    'Domain=127.0.0.1', 'Domain=[::1]', 'Domain=', 'Domain=.', 'Secure', 'HttpOnly', 'SameSite=None',
+    'Domain=127.0.0.1', 'Domain=[::1]', 'Domain=', 'Domain=.', 'Domain=github.io.', 'Domain=co.uk.',
+    'Domain=' + 'x' * 1025, 'Secure', 'HttpOnly', 'SameSite=None',
     'SameSite=lax', 'SameSite=Strict', 'SameSite=bogus', 'Max-Age=0', 'Max-Age=60', 'Max-Age=-1',
     'Max-Age=abc', 'Max-Age=+5', 'Max-Age=999999999999999999999', 'Expires=Wed, 11 Nov 2026 00:01:00 GMT',
     'Expires=Tue, 10 Nov 2026 00:00:00 GMT', 'Expires=Fri, 10 Nov 2028 00:00:00 GMT', 'Expires=tomorrow',

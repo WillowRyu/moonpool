@@ -94,7 +94,8 @@ enum Adapter {
             ?? NSNull()
         return [
             "name": cookie.name, "value": cookie.value, "domain": cookie.domain, "path": cookie.path,
-            "hostOnly": cookie.hostOnly, "httpOnly": cookie.httpOnly, "expiresAt": expiresAt, "sameSite": sameSite,
+            "hostOnly": cookie.hostOnly, "httpOnly": cookie.httpOnly, "secure": cookie.secure, "expiresAt": expiresAt,
+            "sameSite": sameSite,
         ]
     }
 }

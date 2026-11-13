@@ -23,7 +23,8 @@
               "value": "1",
               "domain": "api.example.com",
               "path": "/x",
-              "hostOnly": true
+              "hostOnly": true,
+              "secure": false
             }
           ]
         },
@@ -227,7 +228,7 @@
       "steps": [
         {
           "op": "receive",
-          "fields": ["a=é"]
+          "fields": ["a=\u00e9"]
         },
         {
           "op": "jar",
@@ -245,7 +246,7 @@
       "steps": [
         {
           "op": "receive",
-          "fields": ["a=1; Foo=é", "keep=1"]
+          "fields": ["a=1; Foo=\u00e9", "keep=1"]
         },
         {
           "op": "jar",
@@ -479,6 +480,39 @@
         {
           "op": "header",
           "expect": "a=1"
+        }
+      ]
+    },
+    {
+      "id": "P13",
+      "title": "Only ASCII whitespace separates folded lines",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["a=1,\t b=2,\u00a0c=3"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true
+            },
+            {
+              "name": "b",
+              "value": "2",
+              "domain": "api.example.com",
+              "path": "/x",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "a=1; b=2"
         }
       ]
     },
@@ -921,6 +955,125 @@
         {
           "op": "header",
           "url": "https://shop.abyme.dev/x/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "D14a",
+      "title": "A trailing dot cannot hide the PRIVATE rule github.io",
+      "steps": [
+        {
+          "op": "receive",
+          "url": "https://a.github.io./x/y",
+          "fields": ["sid=1; Domain=github.io.; Path=/"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "url": "https://b.github.io./x/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "D14b",
+      "title": "An exact public-suffix host with a trailing dot receives a host-only cookie",
+      "steps": [
+        {
+          "op": "receive",
+          "url": "https://co.uk./x/y",
+          "fields": ["a=1; Domain=co.uk."]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "co.uk.",
+              "path": "/x",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "url": "https://co.uk./x/y",
+          "expect": "a=1"
+        },
+        {
+          "op": "header",
+          "url": "https://shop.co.uk./x/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "D14c",
+      "title": "A trailing-dot Domain cookie reaches trailing-dot subdomains",
+      "steps": [
+        {
+          "op": "receive",
+          "url": "https://a.example.com./x/y",
+          "fields": ["a=1; Domain=example.com.; Path=/"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "example.com.",
+              "path": "/",
+              "hostOnly": false
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "url": "https://b.example.com./x/y",
+          "expect": "a=1"
+        },
+        {
+          "op": "header",
+          "url": "https://b.example.com/x/y",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "D15",
+      "title": "An A-label Domain cookie reaches only its own subdomains",
+      "steps": [
+        {
+          "op": "receive",
+          "url": "https://shop.xn--55qx5d.cn/x/y",
+          "fields": ["a=1; Domain=shop.xn--55qx5d.cn; Path=/"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "a",
+              "value": "1",
+              "domain": "shop.xn--55qx5d.cn",
+              "path": "/",
+              "hostOnly": false
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "url": "https://sub.shop.xn--55qx5d.cn/x/y",
+          "expect": "a=1"
+        },
+        {
+          "op": "header",
+          "url": "https://other.xn--55qx5d.cn/x/y",
           "expect": ""
         }
       ]
@@ -2077,7 +2230,8 @@
               "value": "1",
               "domain": "api.example.com",
               "path": "/x",
-              "hostOnly": true
+              "hostOnly": true,
+              "secure": true
             }
           ]
         },
@@ -2165,7 +2319,8 @@
               "value": "1",
               "domain": "api.example.com",
               "path": "/",
-              "hostOnly": true
+              "hostOnly": true,
+              "secure": true
             }
           ]
         },
@@ -2496,6 +2651,59 @@
       ]
     },
     {
+      "id": "X10a",
+      "title": "An oversized Domain attribute still disqualifies __Host-",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["__Host-sid=1; Secure; Path=/; Domain={repeat:x:1025}"]
+        },
+        {
+          "op": "jar",
+          "expect": []
+        },
+        {
+          "op": "header",
+          "expect": ""
+        }
+      ]
+    },
+    {
+      "id": "X10b",
+      "title": "An oversized Domain attribute cannot delete a __Host- cookie",
+      "steps": [
+        {
+          "op": "receive",
+          "fields": ["__Host-sid=1; Secure; Path=/"]
+        },
+        {
+          "op": "header",
+          "expect": "__Host-sid=1"
+        },
+        {
+          "op": "receive",
+          "at": 1,
+          "fields": ["__Host-sid=; Secure; Path=/; Max-Age=0; Domain={repeat:x:1025}"]
+        },
+        {
+          "op": "jar",
+          "expect": [
+            {
+              "name": "__Host-sid",
+              "value": "1",
+              "domain": "api.example.com",
+              "path": "/",
+              "hostOnly": true
+            }
+          ]
+        },
+        {
+          "op": "header",
+          "expect": "__Host-sid=1"
+        }
+      ]
+    },
+    {
       "id": "S01",
       "title": "SameSite=None without Secure is rejected",
       "steps": [
@@ -2762,14 +2970,16 @@
               "value": "2",
               "domain": "api.example.com",
               "path": "/",
-              "hostOnly": true
+              "hostOnly": true,
+              "secure": true
             },
             {
               "name": "b",
               "value": "1",
               "domain": "api.example.com",
               "path": "/",
-              "hostOnly": true
+              "hostOnly": true,
+              "secure": false
             }
           ]
         },

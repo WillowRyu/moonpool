@@ -124,6 +124,10 @@ final class ReferenceSelfTest {
             {"foo.ck", "foo.ck"}, {"shop.foo.ck", "foo.ck"}, {"www.ck", "ck"}, {"shop.www.ck", "ck"},
             {"test", "test"}, {"shop.test", "test"}, {"github.io", "github.io"}, {"shop.github.io", "github.io"},
             {"xn--55qx5d.cn", "xn--55qx5d.cn"}, {"abyme.dev", "abyme.dev"},
+            // The PSL format ignores one trailing dot, and the result keeps it. Other empty labels fail closed.
+            {"github.io.", "github.io."}, {"a.github.io.", "github.io."}, {"co.uk.", "co.uk."},
+            {"example.com.", "com."}, {"github.io..", "github.io.."}, {".github.io", ".github.io"},
+            {"a..b.example", "a..b.example"},
         };
         for (String[] item : cases) {
             expect(item[1], list.publicSuffix(item[0]), "public suffix of " + item[0]);
