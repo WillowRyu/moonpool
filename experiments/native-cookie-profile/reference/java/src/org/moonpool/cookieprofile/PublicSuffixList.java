@@ -122,6 +122,16 @@ public final class PublicSuffixList {
         return publicSuffix(domain).equals(domain);
     }
 
+    /** Every rule after A-label conversion, exceptions with {@code !}, sorted so ports can compare digests. */
+    List<String> canonicalRules() {
+        List<String> all = new ArrayList<>(rules);
+        for (String exception : exceptions) {
+            all.add("!" + exception);
+        }
+        java.util.Collections.sort(all);
+        return all;
+    }
+
     private void add(String rule) {
         boolean exception = rule.startsWith("!");
         List<String> labels = split(exception ? rule.substring(1) : rule, '.');

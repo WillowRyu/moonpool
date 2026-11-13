@@ -82,7 +82,7 @@ final class ReferenceSelfTest {
         }
     }
 
-    private static void publicSuffixes(byte[] pinned) {
+    private static void publicSuffixes(byte[] pinned) throws Exception {
         PublicSuffixList list = PublicSuffixList.parse(pinned);
         expect(6951, list.icannRules(), "ICANN rule count in c04-1");
         expect(3463, list.privateRules(), "PRIVATE rule count in c04-1");
@@ -111,6 +111,13 @@ final class ReferenceSelfTest {
         }
         System.out.println("self-test: " + unicodeLabels + " Unicode PSL labels match java.net.IDN; "
             + newerThanIdna2003 + " need its ALLOW_UNASSIGNED flag");
+
+        // check.py compares this line with the Swift port's, so both ports must build the same rule set.
+        List<String> canonical = list.canonicalRules();
+        byte[] digest = java.security.MessageDigest.getInstance("SHA-256")
+            .digest(String.join("\n", canonical).getBytes(StandardCharsets.UTF_8));
+        System.out.println("self-test: " + canonical.size() + " canonical PSL rules");
+        System.out.println("self-test: PSL rules sha256 " + java.util.HexFormat.of().formatHex(digest));
 
         String[][] cases = {
             {"co.uk", "co.uk"}, {"shop.co.uk", "co.uk"}, {"example.com", "com"}, {"api.example.com", "com"},
@@ -190,8 +197,8 @@ final class ReferenceSelfTest {
         for (String sample : samples) {
             expect(Arrays.asList(BROKER_SPLIT.split(sample)), CookieJar.splitFolded(sample), "split " + sample);
         }
-        // A seeded search over the characters the regex treats specially.
-        char[] alphabet = {'a', 'b', '=', ';', ',', ' ', '\t', '\u000b', 'é'};
+        // A seeded search over the characters the regex treats specially. U+00A0 is outside Java's ASCII \s.
+        char[] alphabet = {'a', 'b', '=', ';', ',', ' ', '\t', '\u000b', 'é', ' '};
         Random random = new Random(20261111L);
         int differences = 0;
         for (int round = 0; round < 200_000; round++) {
