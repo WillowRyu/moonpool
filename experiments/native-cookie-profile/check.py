@@ -1,4 +1,4 @@
-"""Check the c04-1 vectors against the retained native broker on the desktop JVM."""
+"""Check the c04-1 vectors against the reference parser or the retained native broker on the desktop JVM."""
 
 import argparse
 from datetime import datetime, timedelta
@@ -15,6 +15,8 @@ ROOT = Path(__file__).resolve().parent
 BROKER = ROOT.parent / (
     'native-http-broker-probe/android/app/src/main/java/org/moonpool/httpbroker/Broker.java'
 )
+REFERENCE = ROOT / 'reference'
+PACKAGE = 'org.moonpool.cookieprofile'
 REPEAT = re.compile(r'\{repeat:(.):([0-9]+)\}')
 IDENTITY = ('name', 'domain', 'path', 'hostOnly')
 
@@ -48,21 +50,28 @@ def inputs_for(cases, t0, default_url):
         yield {'id': case['id'], 'steps': steps}
 
 
-def classpath():
+class BehaviorFailure(Exception):
+    """The subject ran and reported wrong results, which is exit status 1 rather than a setup error."""
+
+
+def classpath(okhttp=True):
     deps = ROOT.parent / 'native-cookie-parser-comparison/local-results/deps'
-    okhttp = deps / 'okhttp-jvm-5.5.1.jar'
-    published = (deps / 'okhttp-jvm-5.5.1.jar.sha1').read_text().split()
-    if not published or hashlib.sha1(okhttp.read_bytes()).hexdigest() != published[0]:
-        raise ValueError('OkHttp JVM jar SHA-1 differs from the published checksum')
+    jars = []
+    libraries = [('org.json', 'json', '20250517')]
+    if okhttp:
+        jar = deps / 'okhttp-jvm-5.5.1.jar'
+        published = (deps / 'okhttp-jvm-5.5.1.jar.sha1').read_text().split()
+        if not published or hashlib.sha1(jar.read_bytes()).hexdigest() != published[0]:
+            raise ValueError('OkHttp JVM jar SHA-1 differs from the published checksum')
+        jars.append(jar)
+        libraries[:0] = [
+            ('com.squareup.okio', 'okio-jvm', '3.18.1'),
+            ('org.jetbrains.kotlin', 'kotlin-stdlib', '2.2.21'),
+        ]
 
     gradle = Path(os.environ.get('GRADLE_USER_HOME', Path.home() / '.gradle'))
     cache = gradle / 'caches/modules-2/files-2.1'
-    jars = [okhttp]
-    for group, artifact, version in (
-        ('com.squareup.okio', 'okio-jvm', '3.18.1'),
-        ('org.jetbrains.kotlin', 'kotlin-stdlib', '2.2.21'),
-        ('org.json', 'json', '20250517'),
-    ):
+    for group, artifact, version in libraries:
         name = f'{artifact}-{version}.jar'
         if (deps / name).is_file():
             jars.append(deps / name)
@@ -72,6 +81,32 @@ def classpath():
             raise FileNotFoundError(f'{group}:{artifact}:{version} is missing from {cache}')
         jars.append(matches[0])
     return os.pathsep.join(str(jar) for jar in jars)
+
+
+def run_reference(inputs, psl, digest):
+    """Compile the parser with no classpath, so it cannot depend on anything beyond the JDK."""
+    deps = classpath(okhttp=False)
+    with tempfile.TemporaryDirectory(prefix='moonpool-c04-reference-') as classes:
+        javac = ['javac', '--release', '17', '-Xlint:all', '-Werror', '-d', classes]
+        subprocess.run([*javac, *sorted(map(str, (REFERENCE / 'src').rglob('*.java')))], check=True)
+        tests = sorted(map(str, (REFERENCE / 'test').rglob('*.java')))
+        subprocess.run([*javac, '-cp', classes + os.pathsep + deps, *tests], check=True)
+        java = ['java', '-cp', classes + os.pathsep + deps]
+        self_test = subprocess.run(
+            [*java, f'{PACKAGE}.ReferenceSelfTest', str(psl), digest],
+            capture_output=True, encoding='utf-8',
+        )
+        print(self_test.stdout, end='', flush=True)
+        # Status 3 means failed checks. Any other failure, such as an uncaught exception's 1, is a setup error.
+        if self_test.returncode == 3:
+            raise BehaviorFailure('the reference self-test failed')
+        if self_test.returncode:
+            raise subprocess.CalledProcessError(self_test.returncode, self_test.args, stderr=self_test.stderr)
+        result = subprocess.run(
+            [*java, f'{PACKAGE}.ReferenceAdapter', str(psl), digest],
+            input=json.dumps(inputs), capture_output=True, encoding='utf-8', check=True,
+        )
+    return json.loads(result.stdout)
 
 
 def run_baseline(inputs):
@@ -150,6 +185,10 @@ def verify(cases, results):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument(
+        '--subject', choices=('reference', 'baseline'), required=True,
+        help='the reference parser, or the retained Android broker recorded as the baseline',
+    )
     parser.add_argument('--psl', type=Path, required=True, help='pinned public_suffix_list.dat')
     parser.add_argument('--case', help='run one ID or all variants of a profile row')
     args = parser.parse_args()
@@ -168,9 +207,16 @@ def main():
             cases = [case for case in cases if args.case in (case['id'], case['id'][:3])]
         if not cases:
             raise ValueError(f'no cases selected by {args.case!r}')
-        print(f"{profile['profile']} PSL {psl['commit']} verified", flush=True)
+        print(f"{profile['profile']} PSL {psl['commit']} verified, subject {args.subject}", flush=True)
         inputs = list(inputs_for(cases, datetime.fromisoformat(profile['t0']), profile['url']))
-        return 1 if verify(cases, run_baseline(inputs)) else 0
+        if args.subject == 'reference':
+            results = run_reference(inputs, args.psl, psl['sha256'])
+        else:
+            results = run_baseline(inputs)
+        return 1 if verify(cases, results) else 0
+    except BehaviorFailure as failure:
+        print(f'FAIL {failure}')
+        return 1
     except (OSError, ValueError, TypeError, KeyError, OverflowError, subprocess.CalledProcessError) as error:
         if isinstance(error, subprocess.CalledProcessError) and error.stderr:
             print(error.stderr, file=sys.stderr)
