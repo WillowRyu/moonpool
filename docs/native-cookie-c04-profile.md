@@ -2,8 +2,8 @@
 
 **Profile `c04-1` was frozen on 2026-11-11.** It binds the D1–D9 rules to one
 Public Suffix List (PSL) snapshot. The versioned JSON corpus covers §4. The
-desktop Java reference parser passes all 102 cases. The broker ports and paired
-evidence are pending.
+desktop Java reference parser and its Swift port pass all 102 cases. The broker
+ports and paired evidence are pending.
 [C04 tests](../experiments/native-cookie-profile/README.md),
 [C04 conformance plan](native-cookie-http-conformance-plan.md#c04--cookie-syntax-and-attributes)
 
@@ -377,7 +377,11 @@ for rejected lines to T29.
    where possible. On 2026-11-13 the JDK-only reference passed all 102 cases and
    236 assertions in two identical runs. Eleven single-rule mutations each failed.
    [Reference result](../experiments/native-cookie-profile/README.md#reference-result)
-   The Swift port and both broker ports remain. A broker port invalidates the
-   retained 63-case collections, so it waits for step 3.
+   The standard-library Swift port passed the same corpus on macOS without a
+   simulator. It matched the Java reference on every observation of the corpus
+   and of 120,000 generated cases. Both ports built the same PSL rules digest.
+   [Swift result](../experiments/native-cookie-profile/README.md#swift-result)
+   Both broker ports remain. A broker port invalidates the retained 63-case
+   collections, so it waits for step 3.
 3. A paired device run against the controlled fixture needs a separate,
    explicit resume, as before.

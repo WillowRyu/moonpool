@@ -187,9 +187,10 @@ or response-body reflection behavior.
 Use profile `c04-1`, frozen on 2026-11-11. The versioned corpus records
 the exact inputs, cookie identities, ordered `Cookie` headers, script-visible
 results and expiry times. The retained broker fails 50 of 102 cases on the
-desktop JVM, and the JDK-only reference parser passes all 102. Use the profile
-ID and PSL revision and checksum in the paired results. Use the controlled
-clock for algorithmic expiry and record native clock observations separately.
+desktop JVM. The JDK-only reference parser and its Swift port pass all 102,
+and they agree on 120,000 generated cases. Use the profile ID and PSL revision
+and checksum in the paired results. Use the controlled clock for algorithmic
+expiry and record native clock observations separately.
 [C04 profile](native-cookie-c04-profile.md),
 [Baseline tests and evidence](../experiments/native-cookie-profile/README.md)
 

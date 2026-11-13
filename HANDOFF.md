@@ -86,8 +86,10 @@
 > D8 accepted on 2026-11-11: sort matching cookies by path length and original creation order.
 > D9 accepted on 2026-11-11: ignore unsupported attributes, including Partitioned and Priority, and keep eligible cookies.
 > C04 review fixes verified: 102 cases / 236 assertions, with 50 cases failing on the retained broker.
-> C04 Java reference parser (JDK only) passes 102/102 on 2026-11-13; Swift port and broker ports remain.
+> C04 Java reference parser (JDK only) passes 102/102 on 2026-11-13, and its Swift port does too.
+> Java and Swift agree on every observation of the corpus and 120,000 generated cases. Broker ports remain.
 > OPEN: the retained iOS split treats Unicode spaces as `\s`; the reference uses ASCII. Maintainer's decision.
+> Broker port must take iOS hosts from URL.host, not URLComponents.host, which decodes A-labels to Unicode.
 > Keep the profile review to one decision at a time.
 > Older checkpoints moved verbatim to docs/handoff-archive.md on 2026-11-03.
 > Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
@@ -120,6 +122,53 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-13 checkpoint — C04 Swift port matches the reference
+
+The maintainer answered "다음 작업 진행하자" to porting the reference to Swift
+and running it on macOS without the simulator. The reference parser,
+harness and results were committed first on branch
+`feat/c04-reference-cookie-parser` (cf9641e, d5ea6af, 64b3173), at the
+maintainer's request. The maintainer then answered "일단 커밋하자", so the Swift
+port work below is committed on the same branch too. The branch is not merged or
+pushed.
+
+The Java reference moved to `reference/java/`, and the port is in
+`reference/swift/src`. It uses only the Swift standard library and works on
+UTF-8 bytes, because Swift's `String` compares by `Character` with Unicode
+equivalence. `check.py` accepts several `--subject` options, and `swift` is new.
+With both ports it compares every observation, and `--generated N` adds seeded
+cases with no expected values.
+[Swift port and result](experiments/native-cookie-profile/README.md#swift-port)
+
+**The Swift port passed all 102 cases and 236 assertions. Java and Swift
+agree on every observation of the corpus and 120,000 generated cases.** Both
+ports report 10,414 canonical PSL rules with the same SHA-256. Two runs of all
+three subjects were identical, and the baseline stays at 52/102. A Swift copy
+that rejects `Domain=.` passed the corpus but showed 1,352 differences in the
+comparison. No device, network or broker file was touched.
+
+Found while porting:
+
+- `URLComponents.host` decodes `shop.xn--55qx5d.cn` to `shop.公司.cn`, and
+  `percentEncodedHost` percent-encodes that. The retained iOS broker uses
+  `URLComponents.host`. Android's `URI.getHost()` keeps the A-label. The iOS
+  broker port must use `URL.host(percentEncoded: true)`. D11 cannot catch this in
+  a broker, because a mangled host also rejects the cookie. Adding a positive IDN
+  case to the corpus would need the maintainer's review.
+- `URL.host` drops IPv6 brackets and `URI.getHost()` keeps them. A failing
+  self-test check came first, then `Request.of` was fixed to restore them in both ports.
+- The retained iOS regex split 2,616 of 200,000 seeded inputs differently from
+  the reference. The ASCII-whitespace decision above is still open.
+
+**Next step.** The ASCII-whitespace decision is still open. After it, the
+remaining C04 work is the broker ports and the paired device run. Both need the
+explicit resume in the profile's verification sequence. C04 and C09-C12 stay
+open, and T28 stays at 6/44.
+
+Root `pnpm run check` passed 1,134 TypeScript tests in 40 files, nine Python
+tests, typechecks, lint and both browser builds. The experiment's 11 Python
+tests pass, and all 147 local links in the study index resolve.
 
 ## 2026-11-13 checkpoint — C04 reference parser passes the corpus
 

@@ -8,28 +8,32 @@ results come from the frozen profile.
 
 ## Run the tests
 
-Use Python 3.13 and JDK 17. Prepare the pinned `public_suffix_list.dat` using the
+Use Python 3.13 and JDK 17. The Swift subject also needs macOS with the Xcode
+Swift 6 toolchain, and no simulator. Prepare the pinned `public_suffix_list.dat` using the
 profile's download and checksum command. From the workspace root, run the whole
 corpus or select a row and all its variants. `--subject` is required, so a
-baseline run is never mistaken for a reference run.
+baseline run is never mistaken for a reference run. Repeat it to run several
+subjects in one invocation.
 [PSL snapshot](../../docs/native-cookie-c04-profile.md#public-suffix-list-snapshot)
 
 ```sh
 python3 -B -m unittest discover -s experiments/native-cookie-profile -p 'test_*.py'
 python3 -B experiments/native-cookie-profile/check.py --subject reference --psl /path/to/public_suffix_list.dat
 python3 -B experiments/native-cookie-profile/check.py --subject reference --psl /path/to/public_suffix_list.dat --case E01
+python3 -B experiments/native-cookie-profile/check.py --subject swift --psl /path/to/public_suffix_list.dat
+python3 -B experiments/native-cookie-profile/check.py --subject reference --subject swift --generated 20000 --psl /path/to/public_suffix_list.dat
 python3 -B experiments/native-cookie-profile/check.py --subject baseline --psl /path/to/public_suffix_list.dat
 ```
 
 Exit status `0` means the selected cases pass, `1` reports behavioral
-assertion failures and `2` reports setup errors such as a mismatched PSL digest
-or a case with no assertions.
+assertion failures or a difference between the two ports, and `2` reports setup
+errors such as a mismatched PSL digest or a case with no assertions.
 Run this isolated experiment separately from `pnpm run check`.
 
 ## Reference parser
 
 `reference/java/src` is the c04-1 reference for the shared parser in ADR 0027. Android
-and iOS will port it and run this corpus. It uses only the JDK. The runner
+and iOS will port it and run this corpus. The [Swift port](#swift-port) is the first. It uses only the JDK. The runner
 compiles it with no classpath and `-Xlint:all -Werror`, so a dependency cannot
 slip in. Callers pass the request host, the percent-encoded path and the time
 in epoch seconds. The jar has no clock, I/O or platform cookie API. The broker
@@ -53,8 +57,10 @@ and checks each building block against an independent source:
 - The ICANN and PRIVATE rule counts, and public suffixes for wildcard, exception, A-label and implicit-rule hosts.
 - RFC 6265 date forms and rejections, and the calendar against `java.time` for every month from 1601 to 9999.
 - The folded-field split against both brokers' regex, including 200,000 seeded inputs.
+- Canonical request hosts, including an IPv6 literal with and without brackets.
 
-The self-test exits with status 3 for failed checks, which the runner reports as
+It also prints a SHA-256 digest of the canonical PSL rules, which the runner
+compares with the Swift port's. The self-test exits with status 3 for failed checks, which the runner reports as
 status 1. Any other JVM failure is a setup error.
 
 Two choices keep the iOS port from drifting:
@@ -74,7 +80,8 @@ Two choices keep the iOS port from drifting:
 
 On 2026-11-13, two runs on Zulu JDK 17.0.18 and Python 3.13.3 produced identical
 output. **All 102 cases and 236 assertions passed**, and the self-test passed
-552 checks.
+552 checks. The later IPv6 host fix added 15 checks, and the current self-test
+passes 567.
 
 Eleven mutated copies, each breaking one rule, all exited with status 1 and failed
 the expected cases:
@@ -97,6 +104,81 @@ The research brokers still run the baseline parser. Porting the reference
 changes files the four retained 63-case collections fingerprint, so those
 collections need a new collection on the devices. That needs an explicit
 resume, as the profile's verification sequence states.
+
+## Swift port
+
+`reference/swift/src` ports the Java reference file by file for the iOS SDK. It
+uses only the Swift standard library. The runner rejects any `import` in these
+files and builds them as their own module with Swift 6 language mode and
+`-warnings-as-errors`. Foundation is where the retained iOS split diverged, so
+the port does not use Foundation text APIs.
+
+Swift's `String` compares, splits and matches prefixes by `Character`, with
+Unicode canonical equivalence. The port works on UTF-8 bytes wherever Java works
+on chars. Every split point and comparison involves only ASCII bytes, so both
+ports cut the same text.
+
+Under `reference/swift/test`, one harness runs the self-test or the corpus
+adapter. The self-test uses sources independent of the port:
+
+- RFC 3492 samples, PSL rule counts and public suffixes, and request hosts, as in Java.
+- RFC 6265 dates and the calendar against Foundation's Gregorian calendar.
+- The split against an `NSRegularExpression` that spells out Java's ASCII `\s`, with 200,000 seeded inputs.
+
+Apple platforms have no IDNA API, so the Unicode PSL labels are checked through
+the rules digest. The runner fails if it differs from the Java reference's.
+
+The adapter reads fixture URLs the way an iOS adapter should:
+
+- **`URL.host(percentEncoded: true)` for the host.** `URLComponents.host` decodes
+  an A-label to Unicode. It turns `shop.xn--55qx5d.cn` into `shop.公司.cn`, and
+  `percentEncodedHost` percent-encodes that Unicode. The retained iOS broker uses
+  `URLComponents.host`, while Android's `URI.getHost()` keeps the A-label. The
+  reference's `Request.of` rejects a non-ASCII host, so that mistake stops a run
+  with a setup error. D11 alone cannot catch it in a broker: a cookie rejected
+  for a mangled host looks the same as one the PSL rejected.
+- **IPv6 brackets restored by the jar.** `URL.host` drops them and
+  `URI.getHost()` keeps them. `Request.of` now adds them in both ports, so
+  `[::1]` names the same host.
+- `URL.path(percentEncoded: true)` for the D4 path, which keeps `%2F`.
+
+## Port comparison
+
+With both `--subject reference` and `--subject swift`, the runner also compares
+every observation of every case between the two ports. That includes jar fields
+no expected value names. `--generated N` adds N seeded cases with no expected
+values. Each case uses one family of related hosts, such as `example.com` and its
+subdomains, `co.uk`, `www.ck`, an IP and `[::1]`. Steps receive, send, read, snapshot
+and set cookies over boundary attributes, D1 rejections and delays up to the
+400-day cap. Only agreement between the ports is checked.
+
+## Swift result
+
+On 2026-11-13, with Swift 6.3.1 and the macOS 26.4 SDK, **the Swift port passed
+all 102 cases and 236 assertions**, and its self-test passed 75 checks. Both ports
+reported 10,414 canonical PSL rules with the same digest,
+`94796a25c73fe70eaaa66ca2e6677b7d59ed6ac32d9a497b991bc0b323ffe8a4`.
+
+Comparing the ports found **0 differences** over the corpus and 20,000 generated
+cases with the default seed, and over 100,000 with seed 1. Two runs of all three
+subjects produced identical output. The baseline stays at 52 of 102.
+
+In the 20,000 default cases, 7,950 of 32,517 header steps carried a cookie and
+2,465 carried two or more. Snapshots held 1,165 domain cookies, 1,269 persistent
+cookies, 545 `HttpOnly` cookies and 787 cookies on `[::1]`. `__Host-` cookies are
+rare, with one stored.
+
+Two mutated Swift copies show what each layer catches:
+
+| Swift change | Corpus | Self-test | Port comparison |
+| --- | --- | --- | --- |
+| `Domain=.` rejects the line instead of falling back to host-only | 102/102 passed | Passed | 1,352 differences, status 1 |
+| IPv6 brackets not restored | Not reached | 2 checks failed, status 1 | Not reached |
+
+The self-test runs first, so the second copy stopped before its corpus run.
+
+The retained iOS regex split 2,616 of the 200,000 seeded inputs differently
+from the reference. The seeded alphabet includes U+00A0.
 
 ## Dependencies
 
