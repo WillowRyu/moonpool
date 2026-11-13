@@ -25,6 +25,9 @@ public final class CookieJar {
 
         /// The adapter passes an ASCII host: A-labels for DNS names, and an IPv6 literal with or without brackets.
         /// Foundation's URL.host drops the brackets, so the jar adds them back, as the Java reference does.
+        /// Only canonical hosts are accepted, the rule the broker applies before approval (contract section 2,
+        /// accepted 2026-11-13): no empty DNS label apart from one trailing dot, and a host whose last label is a
+        /// number must be four decimal octets without leading zeros or a trailing dot.
         public static func of(host: String, encodedPath: String) throws -> Request {
             guard !host.utf8.isEmpty, isVisibleAscii(host) else {
                 throw ProfileError("request host must be canonical ASCII: \(host)")
@@ -33,11 +36,27 @@ public final class CookieJar {
             guard path.utf8.first == UInt8(ascii: "/"), isVisibleAscii(path) else {
                 throw ProfileError("request path must be percent-encoded and absolute: \(path)")
             }
-            var canonical = Ascii.lower(host)
-            if canonical.utf8.contains(UInt8(ascii: ":")) && canonical.utf8.first != UInt8(ascii: "[") {
-                canonical = "[" + canonical + "]"
+            let canonical = Ascii.lower(host)
+            if canonical.utf8.first == UInt8(ascii: "[") || canonical.utf8.contains(UInt8(ascii: ":")) {
+                let bracketed = canonical.utf8.first == UInt8(ascii: "[") ? canonical : "[" + canonical + "]"
+                return Request(host: bracketed, path: path, ip: true)
             }
-            return Request(host: canonical, path: path, ip: canonical.utf8.first == UInt8(ascii: "[") || isIpv4(canonical))
+            var name = Array(canonical.utf8)[...]
+            let trailingDot = name.last == UInt8(ascii: ".")
+            if trailingDot {
+                name = name.dropLast()
+            }
+            let labels = Ascii.split(name, UInt8(ascii: "."))
+            if labels.contains(where: { $0.isEmpty }) {
+                throw ProfileError("request host has an empty DNS label: \(host)")
+            }
+            if !endsInNumber(labels[labels.count - 1]) {
+                return Request(host: canonical, path: path, ip: false)
+            }
+            if trailingDot || !isCanonicalIpv4(labels) {
+                throw ProfileError("request host is not a canonical IPv4 address: \(host)")
+            }
+            return Request(host: canonical, path: path, ip: true)
         }
     }
 
@@ -391,12 +410,19 @@ public final class CookieJar {
         text.utf8.allSatisfy { $0 > 0x20 && $0 < 0x7F }
     }
 
-    /// Four dotted decimal octets. Bracketed IPv6 is recognized by `Request.of`.
-    private static func isIpv4(_ host: String) -> Bool {
-        let parts = Ascii.split(Array(host.utf8)[...], UInt8(ascii: "."))
-        return parts.count == 4 && parts.allSatisfy { part in
-            !part.isEmpty && part.count <= 3 && part.allSatisfy(Ascii.isDigit)
-                && part.reduce(0) { $0 * 10 + Int($1 - 0x30) } <= 255
+    /// A label a URL parser reads as an IPv4 number: decimal digits, or `0x` and hexadecimal digits.
+    private static func endsInNumber(_ label: ArraySlice<UInt8>) -> Bool {
+        if label.starts(with: Array("0x".utf8)) {
+            return label.dropFirst(2).allSatisfy { Ascii.isDigit($0) || (0x61...0x66).contains($0) }
+        }
+        return !label.isEmpty && label.allSatisfy(Ascii.isDigit)
+    }
+
+    /// Four decimal octets from 0 to 255 without leading zeros, so no parser can read one as octal.
+    private static func isCanonicalIpv4(_ parts: [ArraySlice<UInt8>]) -> Bool {
+        parts.count == 4 && parts.allSatisfy { part in
+            !part.isEmpty && part.count <= 3 && !(part.count > 1 && part.first == UInt8(ascii: "0"))
+                && part.allSatisfy(Ascii.isDigit) && part.reduce(0) { $0 * 10 + Int($1 - 0x30) } <= 255
         }
     }
 

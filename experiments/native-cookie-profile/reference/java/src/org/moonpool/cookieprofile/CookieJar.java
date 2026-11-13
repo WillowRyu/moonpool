@@ -41,6 +41,12 @@ public final class CookieJar {
          * The adapter passes an ASCII host: A-labels for DNS names, and an IPv6 literal with or without brackets.
          * {@code URI.getHost()} keeps the brackets and Foundation's {@code URL.host} drops them, so the jar adds
          * them back and both platforms store the same IPv6 host. An empty path means {@code /}.
+         *
+         * <p>Only canonical hosts are accepted, the same rule the broker applies before approval (contract section
+         * 2, accepted 2026-11-13). A DNS name has no empty label apart from one trailing dot. A last label that is
+         * a number, as a URL parser would read it, makes the host IPv4. It must then be four decimal octets without
+         * leading zeros or a trailing dot. Foundation and OkHttp pass forms such as {@code a..example.com} or
+         * {@code 127.1} through, and the jar would otherwise treat them as DNS names.
          */
         public static Request of(String host, String encodedPath) {
             if (host.isEmpty() || !isVisibleAscii(host)) {
@@ -51,10 +57,23 @@ public final class CookieJar {
                 throw new IllegalArgumentException("request path must be percent-encoded and absolute: " + path);
             }
             String canonical = Ascii.lower(host);
-            if (canonical.indexOf(':') >= 0 && !canonical.startsWith("[")) {
-                canonical = "[" + canonical + "]";
+            if (canonical.startsWith("[") || canonical.indexOf(':') >= 0) {
+                return new Request(canonical.startsWith("[") ? canonical : "[" + canonical + "]", path, true);
             }
-            return new Request(canonical, path, canonical.startsWith("[") || isIpv4(canonical));
+            String name = canonical.endsWith(".") ? canonical.substring(0, canonical.length() - 1) : canonical;
+            List<String> labels = PublicSuffixList.split(name, '.');
+            for (String label : labels) {
+                if (label.isEmpty()) {
+                    throw new IllegalArgumentException("request host has an empty DNS label: " + host);
+                }
+            }
+            if (!endsInNumber(labels.get(labels.size() - 1))) {
+                return new Request(canonical, path, false);
+            }
+            if (!name.equals(canonical) || !isCanonicalIpv4(labels)) {
+                throw new IllegalArgumentException("request host is not a canonical IPv4 address: " + host);
+            }
+            return new Request(canonical, path, true);
         }
     }
 
@@ -431,14 +450,28 @@ public final class CookieJar {
         return true;
     }
 
-    /** Four dotted decimal octets. Bracketed IPv6 is recognized by {@link Request#of}. */
-    private static boolean isIpv4(String host) {
-        List<String> parts = PublicSuffixList.split(host, '.');
+    /** A label a URL parser reads as an IPv4 number: decimal digits, or {@code 0x} and hexadecimal digits. */
+    private static boolean endsInNumber(String label) {
+        int start = label.startsWith("0x") ? 2 : 0;
+        if (start == 0 && label.isEmpty()) {
+            return false;
+        }
+        for (int index = start; index < label.length(); index++) {
+            char c = label.charAt(index);
+            if (!Ascii.isDigit(c) && (start == 0 || c < 'a' || c > 'f')) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /** Four decimal octets from 0 to 255 without leading zeros, so no parser can read one as octal. */
+    private static boolean isCanonicalIpv4(List<String> parts) {
         if (parts.size() != 4) {
             return false;
         }
         for (String part : parts) {
-            if (part.isEmpty() || part.length() > 3) {
+            if (part.isEmpty() || part.length() > 3 || (part.length() > 1 && part.charAt(0) == '0')) {
                 return false;
             }
             for (int index = 0; index < part.length(); index++) {
