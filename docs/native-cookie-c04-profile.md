@@ -1,8 +1,9 @@
 # T28 — C04 cookie profile
 
 **Profile `c04-1` was frozen on 2026-11-11.** It binds the D1–D9 rules to one
-Public Suffix List (PSL) snapshot. The versioned JSON corpus and failing baseline
-tests cover §4. Reference implementation and paired evidence are pending.
+Public Suffix List (PSL) snapshot. The versioned JSON corpus covers §4. The
+desktop Java reference parser passes all 102 cases. The broker ports and paired
+evidence are pending.
 [C04 tests](../experiments/native-cookie-profile/README.md),
 [C04 conformance plan](native-cookie-http-conformance-plan.md#c04--cookie-syntax-and-attributes)
 
@@ -373,6 +374,10 @@ for rejected lines to T29.
    [Baseline result](../experiments/native-cookie-profile/README.md#baseline-result)
 2. Make the reference parser pass those tests, then exercise the same corpus
    and PSL source in both probe brokers. Run algorithmic cases without devices
-   where possible.
+   where possible. On 2026-11-13 the JDK-only reference passed all 102 cases and
+   236 assertions in two identical runs. Eleven single-rule mutations each failed.
+   [Reference result](../experiments/native-cookie-profile/README.md#reference-result)
+   The Swift port and both broker ports remain. A broker port invalidates the
+   retained 63-case collections, so it waits for step 3.
 3. A paired device run against the controlled fixture needs a separate,
    explicit resume, as before.

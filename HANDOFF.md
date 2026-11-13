@@ -1,7 +1,7 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-11-11. The maintainer switched to agent-led implementation
+> Last updated: 2026-11-13. The maintainer switched to agent-led implementation
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
@@ -86,7 +86,8 @@
 > D8 accepted on 2026-11-11: sort matching cookies by path length and original creation order.
 > D9 accepted on 2026-11-11: ignore unsupported attributes, including Partitioned and Priority, and keep eligible cookies.
 > C04 review fixes verified: 102 cases / 236 assertions, with 50 cases failing on the retained broker.
-> C04 resumes with the reference parser using the pinned PSL, injected clock and the same corpus.
+> C04 Java reference parser (JDK only) passes 102/102 on 2026-11-13; Swift port and broker ports remain.
+> OPEN: the retained iOS split treats Unicode spaces as `\s`; the reference uses ASCII. Maintainer's decision.
 > Keep the profile review to one decision at a time.
 > Older checkpoints moved verbatim to docs/handoff-archive.md on 2026-11-03.
 > Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
@@ -119,6 +120,48 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-13 checkpoint — C04 reference parser passes the corpus
+
+The maintainer answered "네, 시작" to building the Java reference parser on the
+desktop, without touching either broker or any device. The parser is in
+`experiments/native-cookie-profile/reference/src` and uses only the JDK. It takes
+the request host, percent-encoded path and time in epoch seconds, and
+implements D1-D9 with the pinned PSL. `check.py` now requires
+`--subject reference` or `--subject baseline`.
+[Reference parser and result](experiments/native-cookie-profile/README.md#reference-parser)
+
+**All 102 cases and 236 assertions passed in two identical runs.** A self-test
+runs first and passed 552 checks. It covers RFC 3492 samples, all 493 Unicode PSL
+labels against `java.net.IDN`, rule counts, RFC 6265 dates, the calendar against
+`java.time`, and the split against the brokers' regex with 200,000 seeded inputs.
+Eleven mutated copies, each breaking one rule, all failed the expected cases.
+The baseline still gives 52/102. No device, network or broker file was touched.
+
+Found while writing it, both portability points for the Swift port:
+
+- `java.net.IDN` in default mode rejects one pinned label, Balinese `ᬩᬮᬶ`,
+  because its IDNA2003 tables stop at Unicode 3.2. With `ALLOW_UNASSIGNED` all
+  493 labels agree with the reference's own RFC 3492 encoder. iOS has no IDNA API,
+  so both SDKs should carry this encoder.
+- **OPEN, the maintainer's decision.** Both brokers split folded fields with
+  `,\s*(?=[^;,=\s]+=)`, but `NSRegularExpression` treats U+00A0, U+2003 and U+3000
+  as `\s`. On macOS Foundation, Swift 6.3.1, the retained iOS split turns
+  `a=1,<U+00A0>b=2` into a storable `b=2`. Java keeps `<U+00A0>b=2`, which D1
+  rejects. The reference uses Java's ASCII whitespace. The question is whether to
+  state that in contract §4 and ADR 0027 rule 1. This affects whether a cookie is
+  stored, so it concerns SPEC §9. It was not measured on a device, and whether
+  `URLSession` delivers U+00A0 is unknown.
+
+**Next step.** Port the reference to Swift as a Foundation-only file, then run the
+same corpus and self-test checks with `swiftc` on macOS, without the simulator.
+Porting either broker changes the fingerprinted sources of the four retained
+63-case collections, so that waits for the paired device step and its explicit
+resume. C04 and C09-C12 stay open, and T28 stays at 6/44.
+
+Root `pnpm run check` passed 1,134 TypeScript tests in 40 files, nine Python
+tests, typechecks, lint and both browser builds. The experiment's three Python
+tests pass, and all 145 local links in the study index resolve.
 
 ## 2026-11-11 checkpoint — C04 test review fixes
 
