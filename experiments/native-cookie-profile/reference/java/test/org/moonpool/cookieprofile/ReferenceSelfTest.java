@@ -30,6 +30,7 @@ final class ReferenceSelfTest {
     public static void main(String[] args) throws Exception {
         byte[] pinned = ReferenceAdapter.pinned(Path.of(args[0]), args[1]);
         punycode();
+        requests();
         publicSuffixes(pinned);
         dates();
         civilDays();
@@ -65,6 +66,20 @@ final class ReferenceSelfTest {
         expect("-> $1.00 <--", Punycode.encode("-> $1.00 <-"), "RFC 3492 sample S");
         expect("xn--55qx5d", Punycode.toALabel("公司"), "A-label for the D11 rule");
         expect("example", Punycode.toALabel("EXAMPLE"), "ASCII labels lowercase without a prefix");
+    }
+
+    private static void requests() {
+        // URI.getHost() keeps IPv6 brackets and Foundation's URL.host drops them. Both must name the same jar host.
+        String[][] hosts = {
+            {"::1", "[::1]", "true"}, {"[::1]", "[::1]", "true"}, {"127.0.0.1", "127.0.0.1", "true"},
+            {"API.Example.COM", "api.example.com", "false"}, {"xn--55qx5d.cn", "xn--55qx5d.cn", "false"},
+        };
+        for (String[] item : hosts) {
+            CookieJar.Request request = CookieJar.Request.of(item[0], "");
+            expect(item[1], request.host, "canonical host for " + item[0]);
+            expect(Boolean.parseBoolean(item[2]), request.ip, "IP classification for " + item[0]);
+            expect("/", request.path, "empty request path for " + item[0]);
+        }
     }
 
     private static void publicSuffixes(byte[] pinned) {

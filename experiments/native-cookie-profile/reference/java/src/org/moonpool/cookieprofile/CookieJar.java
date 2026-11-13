@@ -37,7 +37,11 @@ public final class CookieJar {
             this.ip = ip;
         }
 
-        /** The adapter's URL parser has already canonicalized the host. An empty path means {@code /}. */
+        /**
+         * The adapter passes an ASCII host: A-labels for DNS names, and an IPv6 literal with or without brackets.
+         * {@code URI.getHost()} keeps the brackets and Foundation's {@code URL.host} drops them, so the jar adds
+         * them back and both platforms store the same IPv6 host. An empty path means {@code /}.
+         */
         public static Request of(String host, String encodedPath) {
             if (host.isEmpty() || !isVisibleAscii(host)) {
                 throw new IllegalArgumentException("request host must be canonical ASCII: " + host);
@@ -47,6 +51,9 @@ public final class CookieJar {
                 throw new IllegalArgumentException("request path must be percent-encoded and absolute: " + path);
             }
             String canonical = Ascii.lower(host);
+            if (canonical.indexOf(':') >= 0 && !canonical.startsWith("[")) {
+                canonical = "[" + canonical + "]";
+            }
             return new Request(canonical, path, canonical.startsWith("[") || isIpv4(canonical));
         }
     }
