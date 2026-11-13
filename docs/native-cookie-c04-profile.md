@@ -2,8 +2,9 @@
 
 **Profile `c04-1` was frozen on 2026-11-11.** It binds the D1–D9 rules to one
 Public Suffix List (PSL) snapshot. The versioned JSON corpus covers §4. The
-desktop Java reference parser and its Swift port pass all 102 cases. The broker
-ports and paired evidence are pending.
+desktop Java reference parser and its Swift port pass all 109 cases, including
+seven added after the 2026-11-13 review. The broker ports and paired evidence
+are pending.
 [C04 tests](../experiments/native-cookie-profile/README.md),
 [C04 conformance plan](native-cookie-http-conformance-plan.md#c04--cookie-syntax-and-attributes)
 
@@ -146,6 +147,13 @@ the matching rule with the most labels. With no match, use the implicit
 `*` rule, which treats the final label as the public suffix.
 [PSL format and algorithm](https://github.com/publicsuffix/list/wiki/Format#formal-algorithm)
 
+The PSL format permits no empty label and ignores a trailing dot. Remove one
+trailing dot before the lookup and restore it in the result, so `github.io.` is
+a public suffix as `github.io` is, and `example.com.` can still carry a domain
+cookie. A name with any other empty label has no registrable part, so it counts
+as a public suffix in full. Clarified on 2026-11-13 after a review found that a
+trailing dot hid the PRIVATE rule `github.io` from both reference ports.
+
 ### D3 — Cookie identity and host-only flag
 
 The probes key cookies by host, path and name. Under D2-A, a response from
@@ -241,6 +249,8 @@ it case-sensitively for D3-B identity.
 - `__Host-` also requires an explicit `Path=/` and omission of `Domain` from
   the `Set-Cookie` line. The root path must come from the attribute itself.
   Reject an explicit `Domain`, including an empty value or a matching IP.
+  A `Domain` value over 1024 octets is ignored for scope under D1, but it is
+  still explicit and rejects the line.
 
 Validate the prefix before committing the response cookie or applying its expiry
 deletion. The structured `cookies.set` rejects either prefix in any case. T29
@@ -302,6 +312,7 @@ service of the same test app. Cases run against fixture inputs. "Sent" is the
 | P10 | `a=1; Expires=Wed, 21 Oct 2099 07:28:00 GMT` | One cookie, not split at the date's comma |
 | P11 | `sid=abc, x=y; Path=/; HttpOnly` | Accepted limit: `sid` script-readable, `x` `HttpOnly` |
 | P12 | `a=1; Path=` with `/` followed by 1023 or 1024 `p` bytes | Use the 1024-octet path in the first case. Ignore the 1025-octet attribute and use default path `/x` in the second |
+| P13 | One field `a=1,` HTAB, space `b=2,` U+00A0 `c=3` | Split only at ASCII whitespace. Store `a` and `b` and send `a=1; b=2`. D1 rejects the `c` line |
 | D01 | `a=1; Domain=example.com` | Domain cookie; sent to `example.com` and `www.example.com` |
 | D02 | `Domain=.example.com`, `Domain=EXAMPLE.com` | Same as D01 |
 | D03 | `Domain=other.com`, `Domain=www.api.example.com` | Rejected |
@@ -315,6 +326,8 @@ service of the same test app. Cases run against fixture inputs. "Sent" is the
 | D11 | From `shop.xn--55qx5d.cn`: `a=1; Domain=xn--55qx5d.cn` | Rejected by the ICANN rule `公司.cn` after A-label conversion |
 | D12 | From `shop.test`: `a=1; Domain=test` | Rejected by the implicit `*` rule |
 | D13 | From `shop.abyme.dev`: `a=1; Domain=abyme.dev` | Rejected by the PRIVATE rule added in the pinned commit |
+| D14 | From `a.github.io.`: `sid=1; Domain=github.io.; Path=/`. From `co.uk.`: `a=1; Domain=co.uk.`. From `a.example.com.`: `a=1; Domain=example.com.; Path=/` | First rejected, and nothing is sent to `b.github.io.`. Second host-only at `co.uk.`. Third a domain cookie sent to `b.example.com.` but not to `b.example.com` |
+| D15 | From `shop.xn--55qx5d.cn`: `a=1; Domain=shop.xn--55qx5d.cn; Path=/` | Domain cookie with the A-label domain. Sent to `sub.shop.xn--55qx5d.cn`, not to `other.xn--55qx5d.cn` |
 | I01 | `a=1; Path=/` then `a=2; Domain=api.example.com; Path=/` | Store host-only `a=1` and domain `a=2`. Both are eligible at `api.example.com`. Only `a=2` is eligible at an approved subdomain |
 | I02 | `a=r; Path=/` then `a=p; Path=/x` | Store both. To `/x/q`, send `a=p; a=r` |
 | I03 | I02, then `cookies.get` for `/x/q` | Both, as an array, longer path first |
@@ -351,6 +364,7 @@ service of the same test app. Cases run against fixture inputs. "Sent" is the
 | X07 | From `/y`, `__Host-a=1; Secure` or `__Host-a=1; Secure; Path=invalid` | Rejected in both cases |
 | X08 | `__Host-a=1; Secure; Path=/; Domain=` or from `127.0.0.1` with `Domain=127.0.0.1` | Rejected in both cases |
 | X09 | Existing `__Host-a=1; Secure; Path=/`, then `__Host-a=; Path=/; Max-Age=0`, with and without `Secure` in independent cases | The case with `Secure` deletes the entry. The case without it preserves the entry |
+| X10 | `__Host-sid=1; Secure; Path=/` with a 1025-octet `Domain`. Separately, an existing `__Host-sid`, then the same deletion line with `Max-Age=0` | Rejected. The deletion is rejected and the entry survives |
 | S01 | `a=1; SameSite=None` without `Secure` | Rejected |
 | S02 | `SameSite=Strict`, `SameSite=bogus` | Stored, sent to the service |
 | O01 | `b=1; Path=/`, then `a=1; Path=/`, then `b=2; Path=/` | Sent `b=2; a=1` |
@@ -376,6 +390,10 @@ for rejected lines to T29.
    and PSL source in both probe brokers. Run algorithmic cases without devices
    where possible. On 2026-11-13 the JDK-only reference passed all 102 cases and
    236 assertions in two identical runs. Eleven single-rule mutations each failed.
+   A review then found the D2 trailing-dot and D6 oversized-`Domain` defects in
+   both ports. Rows P13, D14, D15 and X10 and `secure` checks were added, the
+   ports were fixed, and both pass 109 cases and 254 assertions.
+   [Review fixes](../experiments/native-cookie-profile/README.md#review-fixes)
    [Reference result](../experiments/native-cookie-profile/README.md#reference-result)
    The standard-library Swift port passed the same corpus on macOS without a
    simulator. It matched the Java reference on every observation of the corpus

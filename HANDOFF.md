@@ -87,10 +87,13 @@
 > D9 accepted on 2026-11-11: ignore unsupported attributes, including Partitioned and Priority, and keep eligible cookies.
 > C04 review fixes verified: 102 cases / 236 assertions, with 50 cases failing on the retained broker.
 > C04 Java reference parser (JDK only) passes 102/102 on 2026-11-13, and its Swift port does too.
-> Java and Swift agree on every observation of the corpus and 120,000 generated cases. Broker ports remain.
+> Java and Swift agree on the compared observations of the corpus and 120,000 generated cases.
 > Split whitespace is ASCII-only, accepted (A) on 2026-11-13 in ADR 0027 rule 1 and contract §4. Do not ask again.
 > The maintainer answered "master에 합치기", then "master push" over a review PR: the C04 branch is merged into master by fast-forward through d984d14 and pushed; the branch stays at that commit.
-> Broker port must take iOS hosts from URL.host, not URLComponents.host, which decodes A-labels to Unicode.
+> C04 review reproduced a trailing-dot PSL bypass and an oversized Domain bypass of the __Host- check in both ports.
+> A positive A-label cookie case catches the host extraction regression that D11 misses.
+> Broker ports and paired device evidence are pending. Verify the host and encoded path of the dispatched URL.
+> Both review defects are fixed in Java and Swift with regression cases: 109/109 cases, 254/254 assertions, ports agree.
 > Keep the profile review to one decision at a time.
 > Older checkpoints moved verbatim to docs/handoff-archive.md on 2026-11-03.
 > Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
@@ -123,6 +126,85 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-13 checkpoint — review fixes for both reference ports
+
+The maintainer pasted the review recorded in the checkpoint below, then said
+"리뷰중에 수정해야 할 부분이 있다면 수정해. 정책이랑 안맞거나 잘못 리뷰한 부분은 보류하고".
+Both defects and the test suggestions were reproduced and fit the `c04-1` policy,
+so they were fixed. No review item was found wrong. The adapter guidance is for
+the broker step and is recorded, not built. The maintainer then answered
+"커밋하자": this work is committed on branch `fix/c04-trailing-dot-and-host-prefix`.
+After "푸시해줘" the branch is pushed to origin for a second review, not merged into
+master. The review checkpoint below came from the review session.
+[Review fixes](experiments/native-cookie-profile/README.md#review-fixes)
+
+Fixed in Java and Swift after the new cases failed on both, concerning SPEC §9:
+
+- **D2.** One trailing dot is removed for the PSL lookup and restored in the
+  result, so `Domain=github.io.` from `a.github.io.` is rejected. Any other empty
+  label makes the whole name a public suffix. Foundation's `URL.host` accepts
+  `a.github.io..`, which `URI` and OkHttp reject.
+- **D6.** The parser records that `Domain` appeared before the D1 length check,
+  so a 1025-octet `Domain` rejects `__Host-sid` and cannot delete an existing one.
+
+The corpus gained P13, D14a-c, D15 and X10a-b, now 74 rows and 109 cases. D14c
+goes beyond the review. Without it, a port that only failed closed on empty labels
+passed the corpus, though it rejected `Domain=example.com.` from `a.example.com.`.
+Both adapters now report `secure`, and P01, X01a, X02a and U02 check it. Generated
+cases add a trailing-dot host family and long `Domain` values. The C04 profile
+clarifies the D2 trailing-dot handling and that an oversized `Domain` still counts
+for `__Host-`, without changing an accepted rule.
+
+**Both ports pass 109 cases and 254 assertions**, and two runs of all three
+subjects were identical. The self-tests pass 574 Java checks and 82 Swift checks.
+The ports agree on 20,000 generated cases and on 100,000 with seed 1. The baseline
+passes 53 of 109. One mutation per review point failed as expected. The `secure`
+and `percentEncodedHost` mutations now fail the corpus and the comparison.
+
+Desktop checks confirmed the broker notes below: OkHttp's `encodedPath` turns
+`/admin/%2e%2e/public` into `/public`, and OkHttp compresses `[0:0:0:0:0:0:0:1]` to
+`::1`. Whether the iOS broker should compress expanded IPv6 to match is open for
+the broker port.
+
+**Next step.** Merging the branch is the maintainer's call. The broker ports and
+the paired device run still need the explicit resume. C04 and C09-C12 stay open, and T28 stays at 6/44.
+
+## 2026-11-13 checkpoint — C04 parser and adapter review
+
+Review of `79c0551` reproduced two shared defects affecting SPEC §9:
+
+- D2-A: `Domain=github.io.` received from `a.github.io.` is stored as a
+  domain cookie and sent to an approved `b.github.io.`. Both ports treat the
+  final dot as an empty label and miss the PRIVATE rule. The PSL algorithm
+  preserves the final dot in the result after matching the labels.
+- D6: a `Domain` value of 1025 ASCII bytes skips the branch that records the
+  attribute's presence. A prefixed line with `Secure; Path=/` is accepted
+  and a matching expiry line deletes an existing `__Host-` cookie. D1 limits
+  the usable attribute value. D6 checks whether the attribute appeared.
+
+A scratch A-label vector stores `Domain=shop.xn--55qx5d.cn` and sends it to
+`sub.shop.xn--55qx5d.cn`, with an empty header at `other.xn--55qx5d.cn`.
+Both ports pass. A Swift copy using `URLComponents.percentEncodedHost` passes
+D11 and fails the positive vector. A separate copy discarding the stored
+`Secure` flag passes the corpus and a 2,000-case comparison because the fixture
+snapshots omit that field. A folded input with HTAB before one cookie and
+U+00A0 before another sent only the original cookie and the HTAB control.
+
+For the broker ports, use the canonical A-label host of the approved request.
+On macOS, `URL.host(percentEncoded: true)` preserves a supplied A-label, and
+a URL built directly from a Unicode hostname can return percent escapes.
+Restoring IPv6 brackets aligns the two ports for `[::1]`. OkHttp also compresses
+expanded IPv6 addresses, so the approved URL and jar need the same host input.
+For D4, Java's fixture sees `/admin/%2e%2e/public`, while the pinned OkHttp
+request's encoded path is `/public`. Use the encoded path of the dispatched
+request for cookie selection and commit.
+
+The review used desktop harnesses and temporary vectors. Both ports passed the
+102 cases and 236 assertions and matched on 120,000 generated cases across the
+two retained seeds. The 11 harness tests and `pnpm run check` passed. Follow-up
+review starts with the D2 and D6 regressions. The positive IDN fixture and paired
+broker evidence are pending.
 
 ## 2026-11-13 checkpoint — ASCII whitespace in the line split accepted
 

@@ -1,6 +1,7 @@
 # C04 cookie profile tests
 
-The `c04-1` JSON corpus covers all 70 profile rows as 102 independent cases.
+The `c04-1` JSON corpus covers all 74 profile rows as 109 independent cases.
+Seven cases came from the [2026-11-13 review](#review-fixes).
 Alternatives have letter suffixes and start with a fresh app jar. Expected
 results come from the frozen profile.
 [Profile and cases](../../docs/native-cookie-c04-profile.md#4-expected-vectors-for-c04-1),
@@ -182,6 +183,68 @@ The self-test runs first, so the second copy stopped before its corpus run.
 The retained iOS regex split 2,616 of the 200,000 seeded inputs differently
 from the reference. The seeded alphabet includes U+00A0.
 
+## Review fixes
+
+A review of `79c0551` kept the `c04-1` policy and found two defects that both
+ports shared. Both decide which service receives a cookie or which response can
+delete one, so they concern SPEC §9. The cases below were added first and failed
+on both ports, then both ports were fixed.
+
+| Finding | Case | Fix |
+| --- | --- | --- |
+| P1. A trailing dot hid the PSL. From `a.github.io.`, `Domain=github.io.` became a domain cookie sent to `b.github.io.`, because the empty last label matched no rule | D14a, D14b, D14c | Remove one trailing dot for the lookup and restore it in the result. Any other empty label makes the whole name a public suffix |
+| P2. A 1025-octet `Domain` bypassed `__Host-`. D1 skipped the attribute before `domainPresent` was set, so the cookie was stored and a matching `Max-Age=0` line deleted an existing `__Host-sid` | X10a, X10b | Record that `Domain` appeared before the length check |
+
+Also added from the review:
+
+- **P13.** One field `a=1,` HTAB, space `b=2,` U+00A0 `c=3` sends `a=1; b=2`. It checks
+  ASCII-only split whitespace and the D1 line check together.
+- **D15.** An A-label `Domain` cookie is stored and sent to a subdomain. D11 only
+  expects a rejection, so a mangled host could pass it.
+- **`secure` in snapshots.** Both adapters report the stored `Secure` flag. P01
+  and U02 check `false`, and X01a, X02a and U02 check `true`.
+
+D14c was not in the review. Foundation's `URL.host` accepts `a.github.io..`, while
+`URI.getHost()` and OkHttp reject it. The empty-label rule keeps such a name from
+naming a domain cookie. That rule alone also stopped D14a and D14b, so a Swift copy
+without the trailing-dot removal still passed the corpus and failed only the
+self-test. It also rejected `Domain=example.com.` from `a.example.com.`. D14c pins
+that positive case. Generated cases now include a trailing-dot host family, and
+`Domain` values ending in a dot or over 1024 octets.
+
+After the fixes, two runs of all three subjects produced identical output. **Both
+ports passed 109 cases and 254 assertions.** The self-tests passed 574 checks in Java
+and 82 in Swift. The port comparison found 0 differences over 20,000 generated
+cases and over 100,000 with seed 1. The baseline passes 53 of 109.
+
+| Mutation | Corpus | Self-test | Port comparison |
+| --- | --- | --- | --- |
+| Swift stores every cookie with `secure` false | X01a, X02a, U02 failed | Passed | 505 differences |
+| Swift adapter takes the host from `URLComponents.percentEncodedHost` | D15 failed, D11 passed | Passed | 415 differences |
+| Swift without the trailing-dot removal | D14c failed | 2 checks failed | Not reached |
+| Java records `Domain` after the length check | X10a, X10b failed | Passed | 4 differences |
+
+The third row's corpus result comes from a copy with the self-test bypassed.
+
+### For the broker ports
+
+The review also asked the brokers to take the host and path from the request they
+actually send. Desktop checks confirmed that the inputs differ by API:
+
+| Input | `URI` (this adapter) | OkHttp `HttpUrl` | Foundation `URL` |
+| --- | --- | --- | --- |
+| `/admin/%2e%2e/public` path | Kept | `encodedPath` is `/public` | Kept |
+| `[0:0:0:0:0:0:0:1]` host | Kept with brackets | `::1` | `0:0:0:0:0:0:0:1` |
+| `a.github.io..` host | Rejected | Rejected | Accepted |
+
+Each broker must use one canonical host for the approval check, cookie
+selection and storage. That host and the D4 path must come from the request on
+the wire. The paired run should record the path the server received beside its
+`Cookie` header, and tell `%2F` apart from `/`. The jar restores IPv6 brackets,
+but it does not compress an expanded IPv6 literal. Whether the iOS broker should
+compress it to match OkHttp is open for the broker port. These are not jar
+changes, so they wait for the broker step.
+
 ## Dependencies
 
 The runner reuses the comparison experiment's
@@ -210,7 +273,7 @@ has no PSL or expiry clock. The reference subject needs only `org.json`, for its
   the request carries no cookie header. `read` compares the ordered script-visible
   array. `set` checks acceptance of structured fields without fixing a bridge error code.
 - `jar` compares all stored identities and values, and any named flags or
-  expiry metadata. Entry order is checked through `header` and `read`.
+  expiry metadata, including `secure`. Entry order is checked through `header` and `read`.
   An explicit `expiresAt: null` expects a session cookie. A date is an absolute UTC instant.
 
 ## Baseline result
@@ -237,3 +300,8 @@ and `HttpOnly`), D05 (exact suffix), D06a (exact IP), and O01 (replacement
 keeps creation order). Rerunning with `--subject baseline` on 2026-11-13 gave the
 same totals. The [reference result](#reference-result) passes all 102 cases.
 Paired native evidence is pending.
+
+On the 109-case corpus after the review, the baseline passes 53 cases and 149 of
+254 assertions. It passes P13, D14a, D14b, X10a and X10b because it rejects every
+`Domain` other than the request host. It fails D14c and D15, which need domain
+cookies, and P01, X01a, X02a and U02, because its adapter reports no `secure` flag.
