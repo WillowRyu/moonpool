@@ -58,7 +58,8 @@ and checks each building block against an independent source:
 - The ICANN and PRIVATE rule counts, and public suffixes for wildcard, exception, A-label and implicit-rule hosts.
 - RFC 6265 date forms and rejections, and the calendar against `java.time` for every month from 1601 to 9999.
 - The folded-field split against both brokers' regex, including 200,000 seeded inputs.
-- Canonical request hosts, including an IPv6 literal with and without brackets.
+- Canonical request hosts, including an IPv6 literal with and without brackets, and one shared table of
+  accepted and refused hosts from contract §2.
 
 It also prints a SHA-256 digest of the canonical PSL rules, which the runner
 compares with the Swift port's. The self-test exits with status 3 for failed checks, which the runner reports as
@@ -83,8 +84,8 @@ Two choices keep the iOS port from drifting:
 
 On 2026-11-13, two runs on Zulu JDK 17.0.18 and Python 3.13.3 produced identical
 output. **All 102 cases and 236 assertions passed**, and the self-test passed
-552 checks. The later IPv6 host fix added 15 checks, and the current self-test
-passes 567.
+552 checks. The later IPv6 host fix added 15 checks. With the review cases and the canonical host table, the
+current self-test passes 594.
 
 Eleven mutated copies, each breaking one rule, all exited with status 1 and failed
 the expected cases:
@@ -244,6 +245,25 @@ the wire. The paired run should record the path the server received beside its
 but it does not compress an expanded IPv6 literal. Whether the iOS broker should
 compress it to match OkHttp is open for the broker port. These are not jar
 changes, so they wait for the broker step.
+
+### Canonical request hosts
+
+The follow-up review found that hosts outside the canonical form reached the jar as
+DNS names. Foundation accepts `a..example.com`, and the jar stored a
+`Domain=example.com` cookie from it. Foundation and OkHttp pass `127.0.0.1.`, and the
+jar sent a `Domain=0.0.1.` cookie from it to `10.0.0.1.`. Both ports reproduced
+both cases. OkHttp and Foundation also pass `127.1` and `0x7f.0.0.1` through, which
+resolvers commonly read as IPv4. `010.0.0.1` is refused too, because a leading zero
+can be read as octal. Resolver behavior was not measured on a device.
+
+The maintainer accepted refusing these targets on 2026-11-13. Contract §2 and
+ADR 0027 record the rule. `Request.of` now throws for a DNS name with an empty
+label other than one trailing dot. It also throws for a host whose last label is a
+number but which is not four decimal octets without leading zeros and a trailing
+dot. The broker must apply the same check before approval. Both self-tests share
+one table of 7 accepted and 13 refused hosts. All 13 refusals failed on both
+ports before the check, and pass after it. The Java `URI` fixture already rejects
+these hosts, so the corpus cannot carry them, and the self-tests check them instead.
 
 ## Dependencies
 

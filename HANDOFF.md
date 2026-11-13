@@ -94,6 +94,7 @@
 > A positive A-label cookie case catches the host extraction regression that D11 misses.
 > Broker ports and paired device evidence are pending. Verify the host and encoded path of the dispatched URL.
 > Both review defects are fixed in Java and Swift with regression cases: 109/109 cases, 254/254 assertions, ports agree.
+> Canonical request hosts accepted (A) on 2026-11-13 in contract §2 and ADR 0027; both ports refuse others. Do not ask again.
 > Keep the profile review to one decision at a time.
 > Older checkpoints moved verbatim to docs/handoff-archive.md on 2026-11-03.
 > Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
@@ -126,6 +127,61 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-13 checkpoint — canonical request hosts accepted
+
+The maintainer asked to verify the follow-up review below, then for an explanation,
+then answered "A로 하자". Both host cases reproduced identically in both ports.
+`a..example.com` stored a `Domain=example.com` cookie and received an existing
+`example.com` cookie. `127.0.0.1.` was classified as DNS, so `Domain=0.0.1.`
+reached `10.0.0.1.`. Desktop checks found the same class beyond the review:
+OkHttp and Foundation also pass `127.1` and `0x7f.0.0.1` through, while Java's
+`URI` rejects all of these hosts. The review's statements were confirmed.
+
+**Decision (A):** the provider and the jar accept only canonical hosts before
+approval, sending or any cookie step. A DNS name has no empty label apart from
+one trailing dot. A last label that is a number, decimal or `0x` hexadecimal,
+makes the host IPv4, which must be four decimal octets without leading zeros or a
+trailing dot. B (rewrite like WHATWG URL) and C (leave it to each OS) were not
+chosen. Contract §2, ADR 0027 and the C04 profile record it. This concerns
+SPEC §9, and SPEC is unchanged. Do not ask again. Compressing an expanded IPv6
+literal stays open for the broker port.
+
+Both ports' `Request.of` now refuse such hosts. One shared self-test table of 7
+accepted and 13 refused hosts failed on all 13 refusals in both ports before the
+change. After it, the self-tests pass 594 Java and 102 Swift checks. Both ports
+pass 109 cases and 254 assertions and agree on 20,000 generated cases. The
+maintainer then answered "커밋하고 푸시 해두자": this work and the review session's
+notes are committed on branch `fix/c04-trailing-dot-and-host-prefix` and pushed.
+The branch is not merged into master.
+
+**Next step.** Merging the branch is the maintainer's call. Then the broker ports and
+the paired device run, which need the explicit resume. C04 and C09-C12 stay open, and T28 stays at 6/44.
+
+## 2026-11-13 checkpoint — C04 follow-up review
+
+Reviewed `fix/c04-trailing-dot-and-host-prefix` at `73c9436` against
+`master` at `79c0551`. Both ports fail D14a/b and X10a/b at the test commit.
+The PSL fix clears D14a/b, and the prefix fix clears X10a/b. Both pass 109
+cases and 254 assertions and agree on 120,000 generated cases. P13 checks
+ASCII split whitespace. A Swift copy using `percentEncodedHost` passes D11
+and fails D15. Discarding the stored `Secure` flag fails X01a, X02a and U02.
+The 11 Python harness tests and `pnpm run check` pass.
+
+Two host-input cases remain for the broker port. Foundation accepts
+`a..example.com` as a URL host. The jar can accept `Domain=example.com`
+from that input and send an existing domain cookie back to it, since the
+empty-label PSL guard sees only the attribute during storage. Foundation
+and OkHttp expose `127.0.0.1.` as a dotted host. If those values reach
+the jar, both ports send a cookie with `Domain=0.0.1.` to `10.0.0.1.`.
+The retained Java URI fixture rejects the dotted numeric host. Pin shared
+admission and IP classification before using either host form in a broker.
+These are desktop observations about cookie scope under SPEC §9.
+
+The baseline score of 53/109 includes four failures where the retained
+broker's snapshot lacks the new `secure` field. Use it as a corpus result
+with that projection limit. The parser, corpus and brokers were reviewed
+as committed. Native broker integration and paired device evidence are pending.
 
 ## 2026-11-13 checkpoint — review fixes for both reference ports
 

@@ -4,7 +4,7 @@ Date: 2026-11-03
 Status: Proposed overall; admission baseline, iOS presence-evidence rule and native HTTP transport
 rules accepted as design directions on 2026-11-03, the Android broker client on 2026-11-04,
 the shared parser reaffirmed on 2026-11-09, D2-A, D3-B, D4-A, D5, D6, D8 and D9 accepted on 2026-11-11, and
-ASCII whitespace in the line split on 2026-11-13.
+ASCII whitespace in the line split and canonical request hosts on 2026-11-13.
 Cross-platform cookie parity is a maintainer requirement;
 option 1 is preferred, while its compatibility cost is under review. No SPEC,
 capability, SDK implementation or new native measurement is adopted here.
@@ -151,6 +151,22 @@ services for the same mini app. The parser rejects attempts to widen the scope t
 For an IP request host, a nonempty `Domain` must match the request IP exactly. Store a matching cookie as
 host-only. The IP scope and stored flag then agree whether the server omits `Domain` or supplies that IP.
 [C04 domain rules](../native-cookie-c04-profile.md#d2--domain-attribute-and-public-suffixes-9)
+
+## Accepted canonical request hosts — 2026-11-13
+
+A review of the reference parsers found that hosts outside the canonical form reach the jar as DNS names.
+Foundation accepts `a..example.com`. Foundation and OkHttp both pass `127.0.0.1.`, `127.1` and `0x7f.0.0.1`
+through. Resolvers commonly read the numeric forms as IPv4, which was not measured on a device, yet the jar let `Domain=0.0.1.` from `127.0.0.1.` reach
+`10.0.0.1.`. The maintainer chose to refuse such targets (option A). Option B, rewriting them as URL parsers do, needs
+a full WHATWG IPv4 parser in both SDKs, and the request on the wire would still name the original host. Option C, leaving
+them to each OS, keeps the leak and the platform difference.
+
+**Decision:** before approval, sending or any cookie step, the native provider and the shared jar accept only
+canonical hosts. A DNS name has no empty label apart from one trailing dot. A last label that is a number, decimal or
+`0x` hexadecimal, makes the host IPv4, and it must be four decimal octets without leading zeros or a trailing dot.
+IPv6 literals stay bracketed. Compression of an expanded IPv6 literal is left to the broker port. Contract §2 states the
+rule. Both reference ports implement it, and their self-tests share one table of accepted and refused hosts. This
+concerns SPEC §9 and changes no SPEC text.
 
 ## Accepted cookie identity (D3-B) — 2026-11-11
 

@@ -13,7 +13,8 @@ what its limit does to `HttpOnly` (§4), and committing the first response of an
 [comparing the OS parsers](native-cookie-parser-comparison.md), the maintainer reaffirmed the shared parser (§4, ADR 0027).
 On 2026-11-11 the maintainer selected the D2-A public-suffix and exact-IP rules, the D3-B cookie identity, the D4-A path rule,
 the D5 expiry rules including the 400-day lifetime cap, the D6 prefix rules, D8 header ordering and D9 attribute handling (§4).
-On 2026-11-13 the maintainer accepted ASCII-only whitespace in the line split (§4). Other clauses remain proposed.
+On 2026-11-13 the maintainer accepted ASCII-only whitespace in the line split (§4) and canonical request hosts (§2).
+Other clauses remain proposed.
 
 ## 1. Required outcome and compatibility
 
@@ -73,6 +74,22 @@ a host-selected approved HTTPS service origin for that app. App-wide resetSessio
 needs the bound app's http grant and has no service target. The native provider
 canonicalizes a targeted operation's URL and
 resolves the registration; guest URLs do not supply policy or an origin allowlist.
+
+**Canonical request hosts, accepted 2026-11-13.** The provider refuses a target
+whose host is not canonical before approval, sending or any cookie step. The
+same check guards the shared cookie jar. Hosts are lowercase ASCII, with A-labels
+for DNS names. A DNS name has no empty label, apart from one trailing dot, which
+names a different host from the same name without it. If the last label is a
+number as a URL parser reads it, decimal digits or `0x` and hexadecimal digits,
+the host is IPv4. It must then be exactly four decimal octets from 0 to 255,
+without leading zeros or a trailing dot. So `a..example.com`, `127.0.0.1.`,
+`127.1`, `0x7f.0.0.1` and `010.0.0.1` are refused on both platforms. On the
+desktop, Foundation passed the first four through and OkHttp the numeric ones.
+Resolvers commonly read such numeric forms as IPv4, and a leading zero as octal;
+this was not measured on a device. Otherwise the jar would treat them as DNS
+names, and a domain cookie could reach another IP. IPv6 literals are bracketed.
+Whether an expanded IPv6 literal is compressed is left to the broker port. The
+bridge error for a refused target belongs to T29. This concerns SPEC §9.
 No endpoint-discovery API or plugin registry is added.
 
 Use normal TLS validation. Reject userinfo, fragments and non-HTTPS service URLs.

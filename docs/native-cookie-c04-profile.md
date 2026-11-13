@@ -100,6 +100,10 @@ a nonempty `Domain` only if it matches that IP exactly and store the cookie as
 host-only (`hostOnly=true`). Chromium and Firefox use this classification for
 IP hosts. The same name, IP and path identify one cookie whether the matching
 `Domain` is present or omitted, even if D3 includes the flag in the identity.
+Since 2026-11-13 the request host must be canonical before any of these rules
+run. An IPv4 host is four decimal octets without leading zeros or a trailing
+dot, and a DNS host has no empty label apart from one trailing dot.
+[Contract §2](native-cookie-http-contract.md#2-authority-ownership-and-request-context)
 [Chromium source](https://github.com/chromium/chromium/blob/main/net/cookies/cookie_util.cc#L372-L413), [Firefox source](https://searchfox.org/firefox-main/source/netwerk/cookie/CookieValidation.cpp#1072-1085)
 
 The D06a checks found the cookie eligible for a follow-up request to `127.0.0.1`
