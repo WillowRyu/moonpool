@@ -95,6 +95,7 @@
 > Broker ports and paired device evidence are pending. Verify the host and encoded path of the dispatched URL.
 > Both review defects are fixed in Java and Swift with regression cases: 109/109 cases, 254/254 assertions, ports agree.
 > Canonical request hosts accepted (A) on 2026-11-13 in contract §2 and ADR 0027; both ports refuse others. Do not ask again.
+> The maintainer answered "master에 합치고 푸시해줘": fix/c04-trailing-dot-and-host-prefix is merged into master by fast-forward through a28c18a and pushed; the branch stays at that commit.
 > Keep the profile review to one decision at a time.
 > Older checkpoints moved verbatim to docs/handoff-archive.md on 2026-11-03.
 > Pre-T24 cleanup: shared test/probe helpers, provider execution and regression tests added.
