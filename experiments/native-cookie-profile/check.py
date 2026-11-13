@@ -16,6 +16,7 @@ BROKER = ROOT.parent / (
     'native-http-broker-probe/android/app/src/main/java/org/moonpool/httpbroker/Broker.java'
 )
 REFERENCE = ROOT / 'reference'
+JAVA = REFERENCE / 'java'
 PACKAGE = 'org.moonpool.cookieprofile'
 REPEAT = re.compile(r'\{repeat:(.):([0-9]+)\}')
 IDENTITY = ('name', 'domain', 'path', 'hostOnly')
@@ -88,8 +89,8 @@ def run_reference(inputs, psl, digest):
     deps = classpath(okhttp=False)
     with tempfile.TemporaryDirectory(prefix='moonpool-c04-reference-') as classes:
         javac = ['javac', '--release', '17', '-Xlint:all', '-Werror', '-d', classes]
-        subprocess.run([*javac, *sorted(map(str, (REFERENCE / 'src').rglob('*.java')))], check=True)
-        tests = sorted(map(str, (REFERENCE / 'test').rglob('*.java')))
+        subprocess.run([*javac, *sorted(map(str, (JAVA / 'src').rglob('*.java')))], check=True)
+        tests = sorted(map(str, (JAVA / 'test').rglob('*.java')))
         subprocess.run([*javac, '-cp', classes + os.pathsep + deps, *tests], check=True)
         java = ['java', '-cp', classes + os.pathsep + deps]
         self_test = subprocess.run(

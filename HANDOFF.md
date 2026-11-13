@@ -125,7 +125,7 @@
 
 The maintainer answered "네, 시작" to building the Java reference parser on the
 desktop, without touching either broker or any device. The parser is in
-`experiments/native-cookie-profile/reference/src` and uses only the JDK. It takes
+`experiments/native-cookie-profile/reference/java/src` and uses only the JDK. It takes
 the request host, percent-encoded path and time in epoch seconds, and
 implements D1-D9 with the pinned PSL. `check.py` now requires
 `--subject reference` or `--subject baseline`.

@@ -28,7 +28,7 @@ Run this isolated experiment separately from `pnpm run check`.
 
 ## Reference parser
 
-`reference/src` is the c04-1 reference for the shared parser in ADR 0027. Android
+`reference/java/src` is the c04-1 reference for the shared parser in ADR 0027. Android
 and iOS will port it and run this corpus. It uses only the JDK. The runner
 compiles it with no classpath and `-Xlint:all -Werror`, so a dependency cannot
 slip in. Callers pass the request host, the percent-encoded path and the time
@@ -43,7 +43,7 @@ still checks that each URL is an approved HTTPS service origin.
 | `Punycode.java` | RFC 3492 encoder for Unicode PSL labels |
 | `Ascii.java` | ASCII-only case and whitespace helpers |
 
-Under `reference/test`, `ReferenceAdapter` reads the fixture URL with
+Under `reference/java/test`, `ReferenceAdapter` reads the fixture URL with
 `URI.getRawPath()`, the D4 input. It supplies each step's `now` and returns JSON
 observations. A `jar` snapshot does not remove expired entries, so the corpus
 sees what `header` and `read` removed. `ReferenceSelfTest` runs before the corpus
