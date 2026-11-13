@@ -100,9 +100,25 @@ public final class PublicSuffixList {
      * The PSL formal algorithm for a canonical lowercase ASCII host. An exception rule prevails and loses its
      * leftmost label. Otherwise the matching rule with the most labels wins, and with no match the implicit
      * {@code *} rule makes the last label the suffix.
+     *
+     * <p>The PSL format permits no empty label and ignores a trailing dot. One trailing dot is removed for the
+     * lookup and restored in the result, so {@code github.io.} is a public suffix as {@code github.io} is. Any
+     * other empty label leaves no registrable part: the whole name counts as a public suffix and no domain
+     * cookie can name it.
      */
     public String publicSuffix(String host) {
-        String[] labels = split(host, '.').toArray(new String[0]);
+        boolean trailingDot = host.endsWith(".");
+        String[] labels = split(trailingDot ? host.substring(0, host.length() - 1) : host, '.').toArray(new String[0]);
+        for (String label : labels) {
+            if (label.isEmpty()) {
+                return host;
+            }
+        }
+        String suffix = lookup(labels);
+        return trailingDot ? suffix + "." : suffix;
+    }
+
+    private String lookup(String[] labels) {
         for (int index = 0; index < labels.length; index++) {
             if (exceptions.contains(join(labels, index))) {
                 return join(labels, index + 1);

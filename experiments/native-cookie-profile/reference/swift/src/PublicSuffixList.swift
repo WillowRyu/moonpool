@@ -60,9 +60,24 @@ public struct PublicSuffixList: Sendable {
         return list
     }
 
-    /// The PSL formal algorithm for a canonical lowercase ASCII host, as in the Java reference.
+    /// The PSL formal algorithm for a canonical lowercase ASCII host, as in the Java reference. One trailing dot
+    /// is removed for the lookup and restored in the result. Any other empty label makes the whole name a public
+    /// suffix, so no domain cookie can name it.
     public func publicSuffix(_ host: String) -> String {
-        let labels = Ascii.split(Array(host.utf8)[...], UInt8(ascii: ".")).map(Ascii.string)
+        var bytes = Array(host.utf8)[...]
+        let trailingDot = bytes.last == UInt8(ascii: ".")
+        if trailingDot {
+            bytes = bytes.dropLast()
+        }
+        let labels = Ascii.split(bytes, UInt8(ascii: ".")).map(Ascii.string)
+        if labels.contains(where: { $0.utf8.isEmpty }) {
+            return host
+        }
+        let suffix = lookup(labels)
+        return trailingDot ? suffix + "." : suffix
+    }
+
+    private func lookup(_ labels: [String]) -> String {
         func join(_ start: Int) -> String {
             labels[start...].joined(separator: ".")
         }
