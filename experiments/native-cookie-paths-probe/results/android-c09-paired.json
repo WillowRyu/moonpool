@@ -1,0 +1,550 @@
+{
+  "build": {
+    "artifactSha256": "9eaae177f6ad0a1b52f72d7313e0cfb91044194fd4fd707c9670528f55097845",
+    "caSha256": "5afe975f669667a3dc47c0a156dd617a538489745d2fa7c8dfd6aaf0bef99e14",
+    "sources": {
+      "../android-origin-probe/gradlew": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59",
+      "../native-cookie-admission-probe/android/app/src/main/java/org/moonpool/cookieadmission/AdmissionGate.java": "42307cc7f1f9a51d6b4e485350037775e9ec9f61fe5d2a433a365b37aeab4e55",
+      "../native-cookie-admission-probe/android/app/src/main/res/xml/network_security_config.xml": "def485559d7ade425b2492e375edd451466d47027be1cbfb3c47d18c04f1955d",
+      "android/app/build.gradle": "24a43bc884c69f134bad22dea02520b761d7f175b28265124964b48f6058a14b",
+      "android/app/src/main/AndroidManifest.xml": "8e4123d7a06f49d9ac7fd5da30a8907f34b8b8fca4d6447a78f7911243188d5e",
+      "android/app/src/main/java/org/moonpool/cookieadmission/PathsActivity.java": "7f905925b036af7ba5c2cada2c8ef1f4aca77180ee3b6cdfbae5cdb559932e10",
+      "android/build.gradle": "bb5d6db0a3f94e7ff33ba91a07fa9146a96994e843ae487ebccadc99b62e722c",
+      "android/gradle.properties": "67eefa02d084d8fd6e2698683ca4d007a344395ca89eed9012a79bac373ba359",
+      "android/settings.gradle": "39bb77a23d657b80e3b6047e4e5b9406dea18e98ce5929742a3a91eb80bed844",
+      "paths.js": "7a54c4f9097cec9e53892127b45ce501cd17c416e19457a6b881361579092c61",
+      "runner.py": "439ef65ae90e184e29e210e400fb8b92a0d5fc2a3daf141624772d72d2ab725c",
+      "server.py": "8db268a6cde87e594df453dfe3c84b953fa37fd47c0d8e8ba59977fce2b261ac"
+    }
+  },
+  "capturedUtc": "2026-11-16T07:44:06Z",
+  "complete": true,
+  "controls": [
+    {
+      "cookie": "c09_h=android-c09-paired",
+      "policyAllows": true,
+      "view": "H-before"
+    },
+    {
+      "cookie": "c09_u=public",
+      "policyAllows": true,
+      "view": "U-before"
+    },
+    {
+      "cookie": "c09_b=public",
+      "policyAllows": true,
+      "view": "B-before"
+    },
+    {
+      "cookie": "c09_h=android-c09-paired",
+      "policyAllows": true,
+      "view": "H-after-A"
+    },
+    {
+      "cookie": "c09_u=public",
+      "policyAllows": true,
+      "view": "U-after-A"
+    },
+    {
+      "cookie": "c09_b=public",
+      "policyAllows": true,
+      "view": "B-after-A"
+    },
+    {
+      "cookie": "c09_h=android-c09-paired",
+      "policyAllows": true,
+      "view": "H-after-B"
+    },
+    {
+      "cookie": "c09_u=public",
+      "policyAllows": true,
+      "view": "U-after-B"
+    }
+  ],
+  "errors": [],
+  "installedArtifactSha256": "9eaae177f6ad0a1b52f72d7313e0cfb91044194fd4fd707c9670528f55097845",
+  "partitions": {
+    "A": "cookie-paths-android-c09-paired-A",
+    "B": "cookie-paths-android-c09-paired-B",
+    "H": "Default",
+    "U": "cookie-paths-android-c09-paired-U"
+  },
+  "platform": "android",
+  "provider": "145.0.7632.218",
+  "receipts": [
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/control",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "H-before"
+    },
+    {
+      "cookie": "c09_h=android-c09-paired",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/echo",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "H-before"
+    },
+    {
+      "cookie": "",
+      "host": "127.0.0.1",
+      "method": "GET",
+      "path": "/control",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "U-before"
+    },
+    {
+      "cookie": "c09_u=public",
+      "host": "127.0.0.1",
+      "method": "GET",
+      "path": "/echo",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "U-before"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/control",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "B-before"
+    },
+    {
+      "cookie": "c09_b=public; c09_hidden=public",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/echo",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "B-before"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/redirect-other",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "initial"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/redirect-same",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "initial"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/seed.gif",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "initial"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/denied",
+      "run": "android-c09-paired",
+      "surface": "redirect-same",
+      "tls": true,
+      "view": "initial"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/echo.gif",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "initial"
+    },
+    {
+      "cookie": "c09_h=android-c09-paired",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/control",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "H-after-A"
+    },
+    {
+      "cookie": "c09_u=public",
+      "host": "127.0.0.1",
+      "method": "GET",
+      "path": "/control",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "U-after-A"
+    },
+    {
+      "cookie": "c09_b=public; c09_hidden=public",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/control",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "B-after-A"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/redirect-same",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "reload"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/redirect-other",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "reload"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/denied",
+      "run": "android-c09-paired",
+      "surface": "redirect-same",
+      "tls": true,
+      "view": "reload"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/seed.gif",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "reload"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/echo.gif",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "reload"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/redirect-same",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "recreated"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/redirect-other",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "recreated"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/denied",
+      "run": "android-c09-paired",
+      "surface": "redirect-same",
+      "tls": true,
+      "view": "recreated"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/seed.gif",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "recreated"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/echo.gif",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "recreated"
+    },
+    {
+      "cookie": "c09_h=android-c09-paired",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/control",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "H-after-B"
+    },
+    {
+      "cookie": "c09_u=public",
+      "host": "127.0.0.1",
+      "method": "GET",
+      "path": "/control",
+      "run": "android-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "U-after-B"
+    }
+  ],
+  "release": "17",
+  "run": "android-c09-paired",
+  "samples": [
+    {
+      "afterCookies": [],
+      "afterPresent": false,
+      "beforeCookies": [],
+      "events": ["policyComplete", "policyRead", "presence", "load", "script"],
+      "guest": {
+        "afterWrite": {
+          "direct": "",
+          "prototype": ""
+        },
+        "attempts": {
+          "beacon": "queued",
+          "events": "rejected",
+          "fetch": "rejected",
+          "form": "attempted",
+          "frame": "attempted",
+          "popup": "opened",
+          "redirect-other": "rejected",
+          "redirect-same": "rejected",
+          "socket": "rejected",
+          "worker": "rejected",
+          "xhr": "rejected"
+        },
+        "first": {
+          "direct": "",
+          "prototype": ""
+        },
+        "frame": {
+          "direct": "",
+          "prototype": ""
+        },
+        "last": {
+          "direct": "",
+          "prototype": ""
+        },
+        "origin": "https://mp-android-c09-paired-a.invalid",
+        "resources": {
+          "echo": "loaded",
+          "local": "loaded",
+          "seed": "loaded"
+        },
+        "serviceWorker": "exposed",
+        "storage": {
+          "indexed": "android-c09-paired",
+          "local": "android-c09-paired",
+          "previousIndexed": null,
+          "previousLocal": null
+        },
+        "view": "initial",
+        "violations": ["connect-src", "form-action", "frame-src", "img-src", "worker-src"]
+      },
+      "guestResources": 1,
+      "loadCalls": 1,
+      "partition": "cookie-paths-android-c09-paired-A",
+      "policyAllows": false,
+      "popupDenials": 1,
+      "presence": "empty",
+      "source": "native",
+      "view": "initial"
+    },
+    {
+      "afterCookies": [],
+      "afterPresent": false,
+      "beforeCookies": [],
+      "events": ["policyComplete", "policyRead", "presence", "load", "script"],
+      "guest": {
+        "afterWrite": {
+          "direct": "",
+          "prototype": ""
+        },
+        "attempts": {
+          "beacon": "queued",
+          "events": "rejected",
+          "fetch": "rejected",
+          "form": "attempted",
+          "frame": "attempted",
+          "popup": "opened",
+          "redirect-other": "rejected",
+          "redirect-same": "rejected",
+          "socket": "rejected",
+          "worker": "rejected",
+          "xhr": "rejected"
+        },
+        "first": {
+          "direct": "",
+          "prototype": ""
+        },
+        "frame": {
+          "direct": "",
+          "prototype": ""
+        },
+        "last": {
+          "direct": "",
+          "prototype": ""
+        },
+        "origin": "https://mp-android-c09-paired-a.invalid",
+        "resources": {
+          "echo": "loaded",
+          "local": "loaded",
+          "seed": "loaded"
+        },
+        "serviceWorker": "exposed",
+        "storage": {
+          "indexed": "android-c09-paired",
+          "local": "android-c09-paired",
+          "previousIndexed": "android-c09-paired",
+          "previousLocal": "android-c09-paired"
+        },
+        "view": "reload",
+        "violations": ["connect-src", "form-action", "frame-src", "img-src", "worker-src"]
+      },
+      "guestResources": 1,
+      "loadCalls": 1,
+      "partition": "cookie-paths-android-c09-paired-A",
+      "policyAllows": false,
+      "popupDenials": 1,
+      "presence": "empty",
+      "source": "native",
+      "view": "reload"
+    },
+    {
+      "afterCookies": [],
+      "afterPresent": false,
+      "beforeCookies": [],
+      "events": ["policyComplete", "policyRead", "presence", "load", "script"],
+      "guest": {
+        "afterWrite": {
+          "direct": "",
+          "prototype": ""
+        },
+        "attempts": {
+          "beacon": "queued",
+          "events": "rejected",
+          "fetch": "rejected",
+          "form": "attempted",
+          "frame": "attempted",
+          "popup": "opened",
+          "redirect-other": "rejected",
+          "redirect-same": "rejected",
+          "socket": "rejected",
+          "worker": "rejected",
+          "xhr": "rejected"
+        },
+        "first": {
+          "direct": "",
+          "prototype": ""
+        },
+        "frame": {
+          "direct": "",
+          "prototype": ""
+        },
+        "last": {
+          "direct": "",
+          "prototype": ""
+        },
+        "origin": "https://mp-android-c09-paired-a.invalid",
+        "resources": {
+          "echo": "loaded",
+          "local": "loaded",
+          "seed": "loaded"
+        },
+        "serviceWorker": "exposed",
+        "storage": {
+          "indexed": "android-c09-paired",
+          "local": "android-c09-paired",
+          "previousIndexed": "android-c09-paired",
+          "previousLocal": "android-c09-paired"
+        },
+        "view": "recreated",
+        "violations": ["connect-src", "form-action", "frame-src", "img-src", "worker-src"]
+      },
+      "guestResources": 1,
+      "loadCalls": 1,
+      "partition": "cookie-paths-android-c09-paired-A",
+      "policyAllows": false,
+      "popupDenials": 1,
+      "presence": "empty",
+      "source": "native",
+      "view": "recreated"
+    },
+    {
+      "afterCookies": ["c09_b=public", "c09_hidden=public"],
+      "afterPresent": true,
+      "beforeCookies": ["c09_b=public", "c09_hidden=public"],
+      "events": ["policyComplete", "policyRead", "presence", "refuse"],
+      "guest": null,
+      "guestResources": 0,
+      "loadCalls": 0,
+      "partition": "cookie-paths-android-c09-paired-B",
+      "policyAllows": false,
+      "popupDenials": 0,
+      "presence": "present",
+      "source": "native",
+      "view": "present"
+    },
+    {
+      "afterCookies": [],
+      "afterPresent": false,
+      "beforeCookies": [],
+      "events": ["policyComplete", "policyRead", "presence", "refuse"],
+      "guest": null,
+      "guestResources": 0,
+      "loadCalls": 0,
+      "partition": "cookie-paths-android-c09-paired-A",
+      "policyAllows": false,
+      "popupDenials": 0,
+      "presence": "unknown",
+      "source": "injected",
+      "view": "unknown"
+    }
+  ]
+}

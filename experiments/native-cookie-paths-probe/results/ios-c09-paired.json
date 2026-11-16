@@ -1,0 +1,560 @@
+{
+  "build": {
+    "artifactSha256": "18a37509786443e610deedca8bc4aff9cf0fea2516268cb9caa9309d2f2919e2",
+    "caSha256": "5afe975f669667a3dc47c0a156dd617a538489745d2fa7c8dfd6aaf0bef99e14",
+    "sources": {
+      "../native-cookie-admission-probe/ios/AdmissionGate.swift": "8013c33dd3939f5ecb48299919795d808e73887e7471df0a329160ace0a71f22",
+      "ios/Probe.swift": "89c4106c25484262da1cfc8a3e1b0fff9a4ff02e803be8fe1b434724e287cce8",
+      "paths.js": "7a54c4f9097cec9e53892127b45ce501cd17c416e19457a6b881361579092c61",
+      "runner.py": "439ef65ae90e184e29e210e400fb8b92a0d5fc2a3daf141624772d72d2ab725c",
+      "server.py": "8db268a6cde87e594df453dfe3c84b953fa37fd47c0d8e8ba59977fce2b261ac"
+    },
+    "xcode": "Xcode 26.4.1\nBuild version 17E202"
+  },
+  "capturedUtc": "2026-11-16T07:45:05Z",
+  "complete": true,
+  "controls": [
+    {
+      "cookie": "c09_h=ios-c09-paired",
+      "policyAllows": true,
+      "view": "H-before"
+    },
+    {
+      "cookie": "c09_u=public",
+      "policyAllows": true,
+      "view": "U-before"
+    },
+    {
+      "cookie": "c09_b=public",
+      "policyAllows": true,
+      "view": "B-before"
+    },
+    {
+      "cookie": "c09_h=ios-c09-paired",
+      "policyAllows": true,
+      "view": "H-after-A"
+    },
+    {
+      "cookie": "c09_u=public",
+      "policyAllows": true,
+      "view": "U-after-A"
+    },
+    {
+      "cookie": "c09_b=public",
+      "policyAllows": true,
+      "view": "B-after-A"
+    },
+    {
+      "cookie": "c09_h=ios-c09-paired",
+      "policyAllows": true,
+      "view": "H-after-B"
+    },
+    {
+      "cookie": "c09_u=public",
+      "policyAllows": true,
+      "view": "U-after-B"
+    }
+  ],
+  "errors": [],
+  "installedArtifactSha256": "18a37509786443e610deedca8bc4aff9cf0fea2516268cb9caa9309d2f2919e2",
+  "partitions": {
+    "A": "9636B484-64B8-4045-AA26-34D365023765",
+    "B": "97665E11-F18F-4A04-8265-8CCE45D5F97B",
+    "H": "default",
+    "U": "96B87D07-7DB2-4281-8759-28A71720E9C2"
+  },
+  "platform": "ios",
+  "receipts": [
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/control",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "H-before"
+    },
+    {
+      "cookie": "c09_h=ios-c09-paired",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/echo",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "H-before"
+    },
+    {
+      "cookie": "",
+      "host": "127.0.0.1",
+      "method": "GET",
+      "path": "/control",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "U-before"
+    },
+    {
+      "cookie": "c09_u=public",
+      "host": "127.0.0.1",
+      "method": "GET",
+      "path": "/echo",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "U-before"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/control",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "B-before"
+    },
+    {
+      "cookie": "c09_b=public; c09_hidden=public",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/echo",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "B-before"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/redirect-other",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "initial"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/redirect-same",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "initial"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/seed.gif",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "initial"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/denied",
+      "run": "ios-c09-paired",
+      "surface": "redirect-same",
+      "tls": true,
+      "view": "initial"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/echo.gif",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "initial"
+    },
+    {
+      "cookie": "c09_h=ios-c09-paired",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/control",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "H-after-A"
+    },
+    {
+      "cookie": "c09_u=public",
+      "host": "127.0.0.1",
+      "method": "GET",
+      "path": "/control",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "U-after-A"
+    },
+    {
+      "cookie": "c09_b=public; c09_hidden=public",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/control",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "B-after-A"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/redirect-other",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "reload"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/redirect-same",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "reload"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/seed.gif",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "reload"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/denied",
+      "run": "ios-c09-paired",
+      "surface": "redirect-same",
+      "tls": true,
+      "view": "reload"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/echo.gif",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "reload"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/redirect-other",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "recreated"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/redirect-same",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "recreated"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/seed.gif",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "recreated"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/denied",
+      "run": "ios-c09-paired",
+      "surface": "redirect-same",
+      "tls": true,
+      "view": "recreated"
+    },
+    {
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/echo.gif",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "recreated"
+    },
+    {
+      "cookie": "c09_h=ios-c09-paired",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/control",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "H-after-B"
+    },
+    {
+      "cookie": "c09_u=public",
+      "host": "127.0.0.1",
+      "method": "GET",
+      "path": "/control",
+      "run": "ios-c09-paired",
+      "surface": "",
+      "tls": true,
+      "view": "U-after-B"
+    }
+  ],
+  "release": "26.4.1",
+  "run": "ios-c09-paired",
+  "samples": [
+    {
+      "afterCookies": [],
+      "afterPresent": false,
+      "beforeCookies": [],
+      "events": ["policyComplete", "policyRead", "presence", "load", "script"],
+      "guest": {
+        "afterWrite": {
+          "direct": "",
+          "prototype": ""
+        },
+        "attempts": {
+          "beacon": "queued",
+          "events": "SecurityError",
+          "fetch": "rejected",
+          "form": "attempted",
+          "frame": "attempted",
+          "popup": "blocked",
+          "redirect-other": "rejected",
+          "redirect-same": "rejected",
+          "socket": "SecurityError",
+          "worker": "rejected",
+          "xhr": "rejected"
+        },
+        "first": {
+          "direct": "",
+          "prototype": ""
+        },
+        "frame": {
+          "direct": "",
+          "prototype": ""
+        },
+        "last": {
+          "direct": "",
+          "prototype": ""
+        },
+        "origin": "moonpool://com.example.paths.ios-c09-paired.a",
+        "resources": {
+          "echo": "loaded",
+          "local": "loaded",
+          "seed": "loaded"
+        },
+        "serviceWorker": "unsupported",
+        "storage": {
+          "indexed": "ios-c09-paired",
+          "local": "ios-c09-paired",
+          "previousIndexed": null,
+          "previousLocal": null
+        },
+        "view": "initial",
+        "violations": ["connect-src", "form-action", "frame-src", "img-src", "worker-src"]
+      },
+      "guestResources": 1,
+      "loadCalls": 1,
+      "partition": "9636B484-64B8-4045-AA26-34D365023765",
+      "policyAllows": false,
+      "popupDenials": 1,
+      "presence": "empty",
+      "presenceEvidence": {
+        "cookies": false,
+        "records": false
+      },
+      "source": "native",
+      "view": "initial"
+    },
+    {
+      "afterCookies": [],
+      "afterPresent": false,
+      "beforeCookies": [],
+      "events": ["policyComplete", "policyRead", "presence", "load", "script"],
+      "guest": {
+        "afterWrite": {
+          "direct": "",
+          "prototype": ""
+        },
+        "attempts": {
+          "beacon": "queued",
+          "events": "SecurityError",
+          "fetch": "rejected",
+          "form": "attempted",
+          "frame": "attempted",
+          "popup": "blocked",
+          "redirect-other": "rejected",
+          "redirect-same": "rejected",
+          "socket": "SecurityError",
+          "worker": "rejected",
+          "xhr": "rejected"
+        },
+        "first": {
+          "direct": "",
+          "prototype": ""
+        },
+        "frame": {
+          "direct": "",
+          "prototype": ""
+        },
+        "last": {
+          "direct": "",
+          "prototype": ""
+        },
+        "origin": "moonpool://com.example.paths.ios-c09-paired.a",
+        "resources": {
+          "echo": "loaded",
+          "local": "loaded",
+          "seed": "loaded"
+        },
+        "serviceWorker": "unsupported",
+        "storage": {
+          "indexed": "ios-c09-paired",
+          "local": "ios-c09-paired",
+          "previousIndexed": "ios-c09-paired",
+          "previousLocal": "ios-c09-paired"
+        },
+        "view": "reload",
+        "violations": ["connect-src", "form-action", "frame-src", "img-src", "worker-src"]
+      },
+      "guestResources": 1,
+      "loadCalls": 1,
+      "partition": "9636B484-64B8-4045-AA26-34D365023765",
+      "policyAllows": false,
+      "popupDenials": 1,
+      "presence": "empty",
+      "presenceEvidence": {
+        "cookies": false,
+        "records": false
+      },
+      "source": "native",
+      "view": "reload"
+    },
+    {
+      "afterCookies": [],
+      "afterPresent": false,
+      "beforeCookies": [],
+      "events": ["policyComplete", "policyRead", "presence", "load", "script"],
+      "guest": {
+        "afterWrite": {
+          "direct": "",
+          "prototype": ""
+        },
+        "attempts": {
+          "beacon": "queued",
+          "events": "SecurityError",
+          "fetch": "rejected",
+          "form": "attempted",
+          "frame": "attempted",
+          "popup": "blocked",
+          "redirect-other": "rejected",
+          "redirect-same": "rejected",
+          "socket": "SecurityError",
+          "worker": "rejected",
+          "xhr": "rejected"
+        },
+        "first": {
+          "direct": "",
+          "prototype": ""
+        },
+        "frame": {
+          "direct": "",
+          "prototype": ""
+        },
+        "last": {
+          "direct": "",
+          "prototype": ""
+        },
+        "origin": "moonpool://com.example.paths.ios-c09-paired.a",
+        "resources": {
+          "echo": "loaded",
+          "local": "loaded",
+          "seed": "loaded"
+        },
+        "serviceWorker": "unsupported",
+        "storage": {
+          "indexed": "ios-c09-paired",
+          "local": "ios-c09-paired",
+          "previousIndexed": "ios-c09-paired",
+          "previousLocal": "ios-c09-paired"
+        },
+        "view": "recreated",
+        "violations": ["connect-src", "form-action", "frame-src", "img-src", "worker-src"]
+      },
+      "guestResources": 1,
+      "loadCalls": 1,
+      "partition": "9636B484-64B8-4045-AA26-34D365023765",
+      "policyAllows": false,
+      "popupDenials": 1,
+      "presence": "empty",
+      "presenceEvidence": {
+        "cookies": false,
+        "records": false
+      },
+      "source": "native",
+      "view": "recreated"
+    },
+    {
+      "afterCookies": ["c09_b=public", "c09_hidden=public"],
+      "afterPresent": true,
+      "beforeCookies": ["c09_b=public", "c09_hidden=public"],
+      "events": ["policyComplete", "policyRead", "presence", "refuse"],
+      "guest": null,
+      "guestResources": 0,
+      "loadCalls": 0,
+      "partition": "97665E11-F18F-4A04-8265-8CCE45D5F97B",
+      "policyAllows": false,
+      "popupDenials": 0,
+      "presence": "present",
+      "presenceEvidence": {
+        "cookies": true,
+        "records": true
+      },
+      "source": "native",
+      "view": "present"
+    },
+    {
+      "afterCookies": [],
+      "afterPresent": false,
+      "beforeCookies": [],
+      "events": ["policyComplete", "policyRead", "presence", "refuse"],
+      "guest": null,
+      "guestResources": 0,
+      "loadCalls": 0,
+      "partition": "9636B484-64B8-4045-AA26-34D365023765",
+      "policyAllows": false,
+      "popupDenials": 0,
+      "presence": "unknown",
+      "presenceEvidence": {},
+      "source": "injected",
+      "view": "unknown"
+    }
+  ]
+}
