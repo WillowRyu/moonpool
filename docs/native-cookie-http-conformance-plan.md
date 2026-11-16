@@ -46,6 +46,12 @@ scenarios and added seven HTTPS scenarios plus the full in-app corpus on
 each platform. A follow-up added an eighth scenario for expanded IPv6 service
 registration. C09–C12 remain open.
 
+The paired C09 browser-path probe records first execution after the cookie gate,
+reload/recreation, and C10 host/other-profile controls. An approved static
+image redirected to a denied path on the same host reached the server on both
+platforms. The full C09 boundary remains open.
+[C09 browser-path evidence](native-cookie-paths-verification.md)
+
 ## 1. Review outcome and decisions still required
 
 The async SDK direction and Android/iOS parity requirement are already recorded.
@@ -294,9 +300,11 @@ schema and recovery admission remain explicit T29/T31 decisions.
 ### C09 — Browser paths
 
 Before enabling any guest bridge, verify policy completion precedes its first
-script. Test document.cookie through the ordinary property, prototype access,
-new same-origin frames and reload/recreation. Reads are empty and writes have no
-effect, including with pre-seeded owned cookies. Test local and allowed remote
+script. On admitted, cookie-free partitions, test document.cookie through the
+ordinary property, prototype access, new same-origin frames and
+reload/recreation. Reads are empty and writes have no effect. A pre-seeded
+partition must refuse admission before the guest loads and preserve its data.
+Test local and allowed remote
 resource responses carrying Set-Cookie; no engine jar write or outgoing engine
 Cookie is accepted as a fallback. Native broker cookies never enter these paths.
 
@@ -353,11 +361,11 @@ for legacy cookie writes: silent no-op is the proposed raw behavior. A clear
 development diagnostic can explain unsupported use; it is not an enforcement
 mechanism or a transparent fallback.
 
-## 5. Next bounded execution and stop conditions
+## 5. Suppression feasibility checkpoint and stop conditions
 
-The next device task, if explicitly resumed, is **C09/C10 suppression feasibility
-only**, on one session-owned Android emulator and one session-owned iOS simulator.
-Record existing device state first; protect unrelated devices. Use the retained
+The initial C09/C10 device task examined suppression feasibility on one
+session-owned Android emulator and one session-owned iOS simulator.
+For subsequent checks, record existing device state first and protect unrelated devices. Use the retained
 working iOS startup order without replaying the known crashing controls. An
 unexpected crash ends that platform's run; retain evidence without automatic
 retries. Shut down only newly task-owned devices and close fixture processes.
@@ -374,3 +382,15 @@ and seeded-store controls. Both owned devices were stopped afterward. No broker,
 final SPEC change, migration or publication was performed. Return to the decision
 table with the measured iOS limitation; full C09/C10 and final normative approval
 remain pending. Intentional crash controls remain excluded.
+
+The next paired browser-path collection used the accepted admission gate and
+retained separate H/U/B controls. It found a same-host static-resource
+redirect gap and retained source/installed-artifact provenance.
+[C09 follow-up](native-cookie-paths-verification.md)
+
+The native-loader follow-up verifies each redirect target before sending.
+The Android retained-worker case supplies cached HTML despite the network
+block and refuses a candidate guest on the known retained store. iOS
+reports worker API availability for its actual custom-scheme page.
+Arbitrary-store worker evidence and production integration remain open.
+[Redirect and worker evidence](native-cookie-paths-follow-up-verification.md)

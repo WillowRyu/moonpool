@@ -344,6 +344,18 @@ The follow-up IPv6 registration fix applies the same host normalization to
 registrations and requests. The new paired collection passed 71 scenarios.
 [IPv6 registration check](native-cookie-c04-broker-verification.md#ipv6-registration)
 
+The C09 browser-path pair confirms pre-load cookie admission, reload and
+recreation for the same synthetic app, and C10's H/U/B cookie controls.
+The candidate sends requests to a denied path when an approved image redirects
+within its host. Redirect policy and retained service workers remain open.
+[Browser-path evidence](native-cookie-paths-verification.md)
+
+The C09 follow-up proves native checks of all tested redirect hops and
+observes Android's retained worker serving cached HTML after network
+suppression. The tested iOS custom scheme lacks the worker API. Keep C09 open
+for trusted worker absence evidence and production loader integration.
+[Follow-up evidence](native-cookie-paths-follow-up-verification.md)
+
 The requested T25/T26/generation publication is confirmed through b4b7721 after
 four logical commits. The maintainer subsequently requested T27 publication:
 42ece91 retains probes/evidence, followed by the decision/study documentation

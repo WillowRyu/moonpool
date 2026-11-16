@@ -15,8 +15,13 @@
 > T28 C04 completed in both isolated brokers on 2026-11-16. Each device passed
 > 109 C04 cases / 254 assertions and 71 broker scenarios after the IPv6
 > registration fix. C04 source commits are 5768793 and d310461.
-> Continue at C09 browser paths with the accepted store admission rules and
-> C10 isolation controls. C09–C12 and final contract approval remain.
+> C09 browser-path pair collected on 2026-11-16 using accepted store admission.
+> Same-host static redirects reached denied endpoints on both platforms.
+> C09 follow-up native loader blocked all forbidden redirect targets. The
+> Android retained worker served cached HTML with its network blocked.
+> C09 probe commits are 031c5ea and 910725b. Continue at trusted evidence
+> about retained workers before guest admission. T38/T39 track loader integration.
+> C09–C12 and final contract approval remain.
 > Native progress is 6/44. Both devices stopped.
 > Read docs/native-cookie-c04-broker-verification.md and ADR 0028.
 > Document-generation design direction selected on 2026-11-02; see accepted ADR 0024.
@@ -135,6 +140,74 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-16 checkpoint — C09 publication
+
+The maintainer asked to organize the C09 progress and push it from `master`.
+`031c5ea` retains the initial browser-path and C10 control measurements,
+including six denied same-host redirect receipts. `910725b` retains the
+native-loader and retained-worker follow-up. The follow-up verifies seven
+Android and six iOS HTTPS receipts with zero failures. The host fixtures
+pass 12 initial and 11 follow-up tests.
+
+The immediate C09 question is how the trusted owner can establish that an
+existing Android store has no retained worker able to supply the guest's
+first document. The known-retained case already refuses guest admission.
+Use the accepted store admission rules for unknown evidence and preserve
+the old store. T38/T39 track production loader integration. C10 retirement
+and writer exclusion, C11, C12, and final T28 approval remain open. The
+native milestone stays at 6/44.
+[Initial verification](docs/native-cookie-paths-verification.md),
+[Follow-up verification](docs/native-cookie-paths-follow-up-verification.md)
+
+## 2026-11-16 checkpoint — C09 redirects and retained service worker
+
+The maintainer resumed C09. The follow-up packages an isolated same-origin
+native image loader. It authorizes each redirect before a request. Both
+platforms load direct and approved-relative images. Same-host denied paths,
+other hosts and encoded aliases have zero target receipts. Every observed
+image request has empty Cookie and Authorization fields. The original C09
+failure pair and source remain available. ADR 0029 records the fixture choice.
+
+Android registers a real worker, witnesses its network control, destroys the
+seed view and reopens the same profile with worker network access blocked.
+The new view receives HTML from the worker cache and its worker fetch is
+blocked. The known-retained admission case has zero guest loads. The iOS
+custom-scheme page reports the service-worker API unavailable. General
+worker absence evidence and production loader integration remain open.
+
+The strict checks pass for both retained runs, with 7 Android and 6 iOS
+HTTPS receipts. Android shut down before iOS booted. Both devices and the
+owned fixture stopped. This concerns SPEC §8 and §9 and retains the 6/44
+native task count.
+[Follow-up verification](docs/native-cookie-paths-follow-up-verification.md),
+[Korean lesson](study/index.html#c09-redirect-worker)
+
+## 2026-11-16 checkpoint — C09 browser paths
+
+The maintainer resumed C09 with C10 controls. Android shut down before the
+owned iOS simulator booted. The retained pair records five native samples
+and 26 HTTPS receipts per platform. It confirms policy and whole-partition
+presence before guest execution, refusal of the seeded B and injected-unknown
+cases, empty WebView cookies on admitted paths, and the H/U/B cookie controls.
+The first load, reload and recreation use the same fixture origin and store.
+
+An approved image returned a same-host 302 to a denied path in all three
+admitted samples on both platforms. The server recorded six denied requests
+with empty Cookie headers, even though the page reported an image error.
+Other-host redirects and the exercised direct forbidden paths had no denied
+receipts. The strict verifier exits 1 on those six contract failures.
+
+A preliminary Android run observed both storage sentinels from an earlier
+run after changing the named profile at the same fixture origin. The final
+pair uses distinct synthetic app origins per run. The preliminary observation
+is retained in local results. The native builds and owned device collections
+completed and both devices and the fixture stopped. The next C09 work is the
+static redirect boundary and retained service-worker coverage. Actual shared
+retirement and writer exclusion remain C10 follow-up work. This concerns SPEC
+§8 and §9. Native progress stays at 6/44.
+[Verification](docs/native-cookie-paths-verification.md),
+[Korean lesson](study/index.html#c09-browser-paths)
 
 ## 2026-11-16 checkpoint — C04 publication
 
