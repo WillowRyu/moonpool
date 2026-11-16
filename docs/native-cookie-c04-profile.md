@@ -3,8 +3,10 @@
 **Profile `c04-1` was frozen on 2026-11-11.** It binds the D1–D9 rules to one
 Public Suffix List (PSL) snapshot. The versioned JSON corpus covers §4. The
 desktop Java reference parser and its Swift port pass all 109 cases, including
-seven added after the 2026-11-13 review. The broker ports and paired evidence
-are pending.
+seven added after the 2026-11-13 review. On 2026-11-16 both broker probes passed
+the full corpus and 71 broker scenarios, including the expanded IPv6 registration
+regression.
+[Paired broker evidence](native-cookie-c04-broker-verification.md),
 [C04 tests](../experiments/native-cookie-profile/README.md),
 [C04 conformance plan](native-cookie-http-conformance-plan.md#c04--cookie-syntax-and-attributes)
 
@@ -13,7 +15,7 @@ which service receives a session cookie and what a script can read or plant.
 
 ## 1. Scope
 
-Both adapters will use this profile for split `Set-Cookie` lines, jar state,
+Both probe adapters use this profile for split `Set-Cookie` lines, jar state,
 expiry and ordered cookie selection. The maintainer chose the shared parser
 (X) on 2026-11-09 after comparing the two OS parsers. The expected results in §4
 come from this profile. RFC 6265 and 6265bis-22 are design references.
@@ -26,10 +28,10 @@ timing and reset fence in contract §5. Counts, total size and eviction belong
 to T53, durability to T48, and public API errors to T29.
 [Commit ordering and reset](native-cookie-http-contract.md#5-ordering-reset-and-errors)
 
-## 2. What the broker probe does today
+## 2. Broker baseline before C04
 
-The [broker probe](../experiments/native-http-broker-probe/README.md) parser is "only the subset these cases need".
-Both platforms implement the same subset:
+Both November 5 brokers implemented the following subset.
+[Baseline evidence](native-http-broker-verification.md)
 
 | Area | Probe behavior | Gap for C04 |
 | --- | --- | --- |
@@ -403,7 +405,12 @@ for rejected lines to T29.
    simulator. It matched the Java reference on every observation of the corpus
    and of 120,000 generated cases. Both ports built the same PSL rules digest.
    [Swift result](../experiments/native-cookie-profile/README.md#swift-result)
-   Both broker ports remain. A broker port invalidates the retained 63-case
-   collections, so it waits for step 3.
-3. A paired device run against the controlled fixture needs a separate,
-   explicit resume, as before.
+3. The maintainer resumed C04 and requested one device at a time. On 2026-11-16
+   Android passed the full in-app corpus and 70 HTTPS scenarios and shut down.
+   iOS then passed the same corpus and scenarios and shut down. The HTTPS
+   fixture recorded the encoded paths, request hosts and selected cookies.
+   [Paired device run](native-cookie-c04-broker-verification.md)
+4. The follow-up review found that an expanded IPv6 registration was refused.
+   The regression checks one cookie through both spellings and refuses a
+   different port. Both probes then passed the corpus and 71 broker scenarios.
+   [IPv6 registration check](native-cookie-c04-broker-verification.md#ipv6-registration)

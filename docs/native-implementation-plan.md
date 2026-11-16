@@ -1,8 +1,13 @@
 # Android and iOS follow-up implementation plan
 
 Date: 2026-10-26
-Last updated: 2026-11-03
-Status: T22–T27 complete; T28 bounded origin/suppression and admission research recorded; admission baseline accepted; iOS new-process false-empty blocker found and evidence rule accepted as a design direction and correct on one simulator configuration; Android new-process answers correct on one emulator configuration; physical-device and version evidence, recovery, full corpus and final approval pending; T29–T65 planned. Private native host runtimes selected; origin/cookie, codec, document and lifecycle contract gates remain explicit.
+Last updated: 2026-11-16
+
+T22–T27 are complete. T28 has bounded origin, suppression and admission
+evidence and an accepted admission baseline. Both isolated brokers passed
+the C04 corpus and HTTPS suite. C09–C12, physical-device and version evidence,
+recovery and final contract approval remain open. T29–T65 are planned.
+[C04 broker evidence](native-cookie-c04-broker-verification.md)
 Targets confirmed by the maintainer: Android (AOS) and iOS, both required.
 SDK/reference-host model: framework-neutral Swift/Kotlin facade with private JavaScriptCore / JavaScriptSandbox runtimes (ADR 0025). Actual consumer app/framework remains a T56 decision.
 Baseline: browser v0.1 complete, published through 91d7b46; 1131 tests / 39 files.
@@ -165,7 +170,7 @@ Use the next free ADR number when the task runs; do not create placeholder ADRs.
 | T25 | Android | Completed 2026-11-02: native message-channel/authentication probe. | Four runs / 44 snapshots, 175 controls and 11 JVM gate cases. Actual listener origin/frame/instance metadata, exact injection, native/guest-created ports, replacement/reload/late reply, proof/delegation and retirement observations. [Evidence](android-message-probe-verification.md). No production authentication or transport approval. | T23 |
 | T26 | iOS | Completed 2026-11-02: native message/reply/world probe. | Four runs / 80 snapshots, 187 controls and ten Swift admission cases. Native view/origin/frame/world checks, direct versus global/old-frame replies, replacement/reload, isolated globals/shared DOM and retirement/removal observations. [Evidence](ios-message-probe-verification.md). No production epoch/runtime decision. | T24 |
 | T27 | Both/shared | Completed 2026-11-02: accepted ADR 0025 for trusted runtime/native facade ownership. | Maintainer selected the generic Swift/Kotlin SDK model. Unchanged common kernel passes in iOS JSC / Android JavaScriptSandbox, with explicit executor, lifetime, credential and bundle ownership. [Evidence](trusted-runtime-verification.md): four runs, 12 owners / 180 vectors, 120 checks, two Node tests. Production scheduler/providers, framework bindings and real consumer app remain later work. | T22–T26 |
-| T28 | Both/shared | Proposed ADR 0026 origin/loader/bootstrap plus [ADR 0027 common cookie/HTTP contract](native-cookie-http-contract.md); not complete. | Keep origin evidence; finalize shared async API and compatibility cost, cookie/native-network authority, equal browser-cookie policy and C01–C12 acceptance. Paired evidence and explicit SPEC approval precede implementation. [Broker evidence](native-http-broker-verification.md) now covers 63 C01–C03 / C05–C08 cases on both platforms; C04 and C09–C12 stay open. | T23–T27 |
+| T28 | Both/shared | Proposed ADR 0026 origin/loader/bootstrap plus [ADR 0027 common cookie/HTTP contract](native-cookie-http-contract.md). | Keep origin evidence; finalize shared async API and compatibility cost, cookie/native-network authority, equal browser-cookie policy and C01–C12 acceptance. [Paired broker evidence](native-cookie-c04-broker-verification.md) covers the 109-case C04 corpus and 71 broker scenarios. C09–C12 and explicit SPEC approval stay open. | T23–T27 |
 | T29 | Both/shared | ADR for lossless native JSON/text boundary and errors. | Define codec ownership, invalid-data handling, parse-error correlation, send/receive failures and compatibility, including proposed cookie/HTTP body/header/error schemas. Cover finite numbers, large-number behavior, Unicode edge cases, null/falsy values and getters/toJSON without coercive repair. | T25–T28 |
 | T30 | Both/shared | Document generations selected on 2026-11-02; full contract pending. | ADR 0024 accepts explicit generation ownership, retirement and captured work identity. Real-kernel regression probe has two controls passing and three safety assertions red under 0.1. Finalize authoritative bootstrap, metadata/validation, retry/reentry and version migration after prerequisites; coordinate pending/close rules with T31. | T25–T29 |
 | T31 | Both/shared | ADR for close, renderer loss and lifecycle/eviction semantics. | Define pending-call disposition, local versus peer close, restart authority, notification/receipt limits and orderly versus abrupt teardown; coordinate native HTTP session-reset rejection without confusing it with terminal bridge close. Reconcile ADR 0002 and §11 using both native probes. | T25–T30 |
@@ -328,6 +333,16 @@ read [the broker report](native-http-broker-verification.md). The iOS resend its
 the server sees a second attempt, with the guest's own `Authorization`. T28 remains
 incomplete — C04, C09–C12, real Portals and the bridge are still uncovered — and the
 SPEC, the protocol and the production packages are unchanged.
+
+On 2026-11-16 both broker probes compiled the C04 reference implementations
+and passed the 109-case corpus and 70 HTTPS scenarios with the pinned PSL.
+Android shut down before the iOS simulator booted. C04 broker evidence is
+complete. C09–C12, real Portals, the bridge and T28 approval remain open.
+[Broker results](native-cookie-c04-broker-verification.md)
+
+The follow-up IPv6 registration fix applies the same host normalization to
+registrations and requests. The new paired collection passed 71 scenarios.
+[IPv6 registration check](native-cookie-c04-broker-verification.md#ipv6-registration)
 
 The requested T25/T26/generation publication is confirmed through b4b7721 after
 four logical commits. The maintainer subsequently requested T27 publication:

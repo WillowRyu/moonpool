@@ -1,9 +1,10 @@
 # T28 — Common cookie/HTTP review and paired evidence plan
 
 Date: 2026-11-03
-Status: Review and test design complete; bounded C09/C10 measurements recorded in
-the [verification report](native-cookie-suppression-verification.md), and a bounded
-C01–C03 / C05–C08 broker subset in the [broker report](native-http-broker-verification.md).
+Review and test design are complete. The C01–C08 broker suite, including C04,
+passed on both native probes on 2026-11-16. C09/C10 have bounded measurements.
+[Broker evidence](native-cookie-c04-broker-verification.md),
+[Suppression evidence](native-cookie-suppression-verification.md)
 The iOS retained-cookie failure, the full corpus and final contract approval remain open;
 the iOS `Basic` 401 parity item was closed by committing the first response.
 This accompanies the [proposed contract](native-cookie-http-contract.md) and
@@ -40,7 +41,10 @@ It answers both questions the transport report left open about the accepted iOS 
 response's cookie, and the guest's own `Authorization` is replayed. The first of those broke parity, until [a later measurement](native-http-failure-response-verification.md) found the first cookie readable at the
 challenge and the broker started committing it. It also measures that a comma in a cookie value can drop `HttpOnly` on both
 platforms, which the contract now states.
-C04 and C09–C12 still require their own evidence.
+The [C04 port](native-cookie-c04-broker-verification.md) repeated the 63
+scenarios and added seven HTTPS scenarios plus the full in-app corpus on
+each platform. A follow-up added an eighth scenario for expanded IPv6 service
+registration. C09–C12 remain open.
 
 ## 1. Review outcome and decisions still required
 
@@ -234,8 +238,9 @@ a supported rule and verify the broker rejects it.
 
 Include the pipeline's documented limit. A value containing `, name=`
 becomes an extra cookie on both platforms, and the earlier pieces lose their
-attributes, including `HttpOnly`. C04 stays open until both adapters pass the
-same corpus and the paired fixture records the observed behavior.
+attributes, including `HttpOnly`. The 2026-11-16 paired run checked the same
+corpus on both adapters and retained the fixture observations.
+[C04 verification](native-cookie-c04-broker-verification.md)
 
 ### C05 — Service context and authorization
 

@@ -1,7 +1,7 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-11-13. The maintainer switched to agent-led implementation
+> Last updated: 2026-11-16. The maintainer switched to agent-led implementation
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
@@ -12,6 +12,13 @@
 > ADR 0022 accepted revision published as 0397b70; remote confirmed in sync.
 > Read docs/implementation-plan.md for T01–T21, dependencies, and spec decisions.
 > Current checkpoint: T22–T27 complete; T27 private native runtime/facade model selected.
+> T28 C04 completed in both isolated brokers on 2026-11-16. Each device passed
+> 109 C04 cases / 254 assertions and 71 broker scenarios after the IPv6
+> registration fix. C04 source commits are 5768793 and d310461.
+> Continue at C09 browser paths with the accepted store admission rules and
+> C10 isolation controls. C09–C12 and final contract approval remain.
+> Native progress is 6/44. Both devices stopped.
+> Read docs/native-cookie-c04-broker-verification.md and ADR 0028.
 > Document-generation design direction selected on 2026-11-02; see accepted ADR 0024.
 > T30/T31 detailed wire/bootstrap/lifetime contracts remain open; T32 not started.
 > Isolated real-kernel probe: 2 controls pass / 3 safety assertions RED under current 0.1.
@@ -71,7 +78,7 @@
 > The second attempt, the Authorization replay and a body from that attempt remain, and the contract states them.
 > The jar parity item is closed: iOS now keeps the first response's cookie, as Android does, in all 63 cases.
 > Broker work is merged into master by fast-forward and pushed, through f964f76; the branch stays at that commit.
-> Both devices stopped; T28 stays at 6/44 with C04 and C09-C12 conformance open. Test keys are in the Trash for the maintainer.
+> The 2026-11-05 broker results remain verifiable at c428179. Test keys went to the Trash.
 > C04 profile `c04-1` frozen on 2026-11-11: docs/native-cookie-c04-profile.md.
 > Initial PSL: official published version 2026-11-10_11-23-57_UTC, commit 3db7776.
 > D1 accepted as A (ASCII-only lines).
@@ -92,7 +99,7 @@
 > The maintainer answered "master에 합치기", then "master push" over a review PR: the C04 branch is merged into master by fast-forward through d984d14 and pushed; the branch stays at that commit.
 > C04 review reproduced a trailing-dot PSL bypass and an oversized Domain bypass of the __Host- check in both ports.
 > A positive A-label cookie case catches the host extraction regression that D11 misses.
-> Broker ports and paired device evidence are pending. Verify the host and encoded path of the dispatched URL.
+> C04 broker ports use one prepared URL for service approval, cookie selection and response commit.
 > Both review defects are fixed in Java and Swift with regression cases: 109/109 cases, 254/254 assertions, ports agree.
 > Canonical request hosts accepted (A) on 2026-11-13 in contract §2 and ADR 0027; both ports refuse others. Do not ask again.
 > The maintainer answered "master에 합치고 푸시해줘": fix/c04-trailing-dot-and-host-prefix is merged into master by fast-forward through a28c18a and pushed; the branch stays at that commit.
@@ -128,6 +135,71 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-16 checkpoint — C04 publication
+
+The maintainer requested committing and pushing the C04 work from `master`.
+`5768793` shares the corpus replay, and `d310461` integrates the cookie profile
+in both broker probes, including the expanded IPv6 registration fix.
+The 6.1 Terra max follow-up review found no additional defect in that fix.
+The paired 71-scenario reports and the implementation and study notes accompany
+these changes.
+
+Continue T28 at C09. Use the accepted store admission policy and iOS evidence
+ordering to check browser paths from the first guest script onward. Exercise
+the C10 isolation controls against the other app and host stores in the same
+verification. Earlier suppression and admission experiments provide the
+bounded baseline. The full browser-path matrix, C11, C12 and final approval
+remain.
+[Conformance plan](docs/native-cookie-http-conformance-plan.md#c09--browser-paths),
+[Accepted admission baseline](docs/native-cookie-store-admission.md)
+
+## 2026-11-16 checkpoint — expanded IPv6 service registration fixed
+
+The maintainer asked to confirm and fix the Terra review's P2 finding. The
+new cookie scenario returned `-32000` for both the expanded write and
+compressed read on the desktop JVM and macOS Swift before the fix. The request
+used the canonical IPv6 host while the registration kept its original spelling.
+The brokers now prepare registrations using the same URL rules as requests
+and compare the canonical host and port. The new case stores a cookie through
+the expanded spelling, reads it through the compressed spelling, and receives
+`-32000` on a different port. This concerns
+SPEC §9 and is recorded in ADR 0028.
+
+Android shut down before the iOS simulator booted. Each passed 109 C04
+cases / 254 assertions and all 71 broker scenarios. The updated reports have
+525 Android and 534 iOS evidence checks with no compared differences. The
+initial 70-case reports were archived locally. Both owned devices and the
+fixture stopped, and the generated fixture keys went to the Trash.
+[Verification](docs/native-cookie-c04-broker-verification.md#ipv6-registration)
+
+## 2026-11-16 checkpoint — initial C04 broker ports and paired evidence
+
+The maintainer resumed C04 and requested one device at a time. Run order was
+Android emulator (API 37, OkHttp 5.5.1), shutdown, then iOS simulator (26.4.1,
+URLSession), shutdown. Both compiled the reference jar and bundled the same PSL.
+Each passed all 109 controlled-clock cases / 254 assertions and all 70 HTTPS
+scenarios, including the 63 retained regressions and seven new C04 cases.
+The full corpus observations match. The HTTPS comparison has no guest-visible
+differences under its existing measurement rules. The retained collections
+contain 520 Android and 529 iOS evidence checks.
+
+The old brokers sent a default-path cookie minted under the encoded path
+to the literal slash path. The old iOS broker also admitted the percent-escaped
+host alias and sent encoded dot segments differently. A follow-up reproduced
+fullwidth and soft-hyphen host aliases in Foundation; those also reached the
+fixture. The new probes validate the original host before approval and take
+the encoded path from the prepared URL.
+iOS resolves encoded dot segments to match OkHttp. IPv4-mapped IPv6 targets
+are refused before a client can rewrite them to IPv4. ADR 0028 records these
+probe choices under SPEC §9.
+
+The fixture is stopped, the generated keys went to the Trash, and both owned
+devices are shut down. C09–C12, physical device and real Portal/bridge evidence,
+and final T28 approval remain. Native task completion is 6/44. The reports
+can be read directly without a new device run.
+[Verification](docs/native-cookie-c04-broker-verification.md),
+[Korean lesson](study/index.html#c04-broker)
 
 ## 2026-11-13 checkpoint — canonical request hosts accepted
 

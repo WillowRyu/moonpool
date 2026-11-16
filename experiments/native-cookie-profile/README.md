@@ -48,9 +48,9 @@ still checks that each URL is an approved HTTPS service origin.
 | `Punycode.java` | RFC 3492 encoder for Unicode PSL labels |
 | `Ascii.java` | ASCII-only case and whitespace helpers |
 
-Under `reference/java/test`, `ReferenceAdapter` reads the fixture URL with
-`URI.getRawPath()`, the D4 input. It supplies each step's `now` and returns JSON
-observations. A `jar` snapshot does not remove expired entries, so the corpus
+The desktop adapter invokes `CorpusReplay`, which the Android probe also
+compiles. It uses `URI.getRawPath()` for synthetic fixtures, supplies each
+step's `now` and returns JSON observations. A `jar` snapshot does not remove expired entries, so the corpus
 sees what `header` and `read` removed. `ReferenceSelfTest` runs before the corpus
 and checks each building block against an independent source:
 
@@ -104,10 +104,10 @@ the expected cases:
 | Wrong Punycode digit | 361 of 552 self-test checks |
 | Split without a name before `=` | 7 of 552 self-test checks |
 
-The research brokers still run the baseline parser. Porting the reference
-changes files the four retained 63-case collections fingerprint, so those
-collections need a new collection on the devices. That needs an explicit
-resume, as the profile's verification sequence states.
+On 2026-11-16 the research brokers compiled these reference sources and used
+the same verified PSL. The paired reports replay the full corpus inside each
+app and rerun all 63 original HTTPS scenarios plus eight C04 scenarios.
+[Paired C04 evidence](../../docs/native-cookie-c04-broker-verification.md)
 
 ## Swift port
 
@@ -275,7 +275,8 @@ On a fresh checkout, place the exact Maven Central JARs in that directory.
 [Comparison dependency setup](../native-cookie-parser-comparison/README.md#rerun-step-1)
 
 The verifier checks the corpus's PSL SHA-256 before launching the JVM. It
-compiles the retained Android research `Broker.java` into a temporary directory.
+compiles the retained Android research `Broker.java` from `c428179` into a
+temporary directory.
 The adapter calls the broker's existing fold/split, store, header selection and
 script cookie operations with fixture inputs. It uses in-memory jars and makes
 no HTTP requests. The baseline broker stores host-only session entries and

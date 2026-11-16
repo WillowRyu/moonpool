@@ -88,8 +88,11 @@ desktop, Foundation passed the first four through and OkHttp the numeric ones.
 Resolvers commonly read such numeric forms as IPv4, and a leading zero as octal;
 this was not measured on a device. Otherwise the jar would treat them as DNS
 names, and a domain cookie could reach another IP. IPv6 literals are bracketed.
-Whether an expanded IPv6 literal is compressed is left to the broker port. The
-bridge error for a refused target belongs to T29. This concerns SPEC §9.
+The C04 probes compress equivalent expanded spellings in service registrations
+and requests, keep the port in the approval key and refuse IPv4-mapped IPv6
+literals before service approval. The public URL and error contract for
+refused targets stays under review. This concerns SPEC §9.
+[Probe decision](adr/0028-prepare-one-service-url-in-the-broker-probes.md)
 No endpoint-discovery API or plugin registry is added.
 
 Use normal TLS validation. Reject userinfo, fragments and non-HTTPS service URLs.
@@ -190,8 +193,10 @@ Manual setters use structured fields rather than a raw Set-Cookie string and
 cannot supply HttpOnly. Script values must satisfy the published cookie syntax;
 Unicode encoding is caller-explicit, not platform-specific coercion. T53 supplies
 measured common defaults for cookie counts, total size and eviction. T48 defines
-durable-write and backup/recovery guarantees. Until these are fixed and paired tests pass, the
-profile remains unimplemented and no full cookie-parity claim is made.
+durable-write and backup/recovery guarantees. The paired C04 probes pass the
+frozen syntax and attributes corpus. Full cookie parity includes the open
+lifetime, resource and integration work.
+[Paired C04 evidence](native-cookie-c04-broker-verification.md)
 
 ## 5. Ordering, reset and errors
 

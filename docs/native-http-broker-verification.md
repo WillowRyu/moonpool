@@ -144,10 +144,14 @@ maintainer still empties it. Source and criteria are in [the probe](../experimen
 
 ## Reproduce
 
-Retained results need no device:
+Use the archived source at `c428179` to check the four original reports.
+From the workspace root, run the following.
 
 ```sh
-cd experiments/native-http-broker-probe
-python3 -B -m unittest discover -s . -p 'test_*.py'
-python3 -B verify_results.py --summary results/*.json
+broker_archive="$(mktemp -d)"
+git archive c428179 experiments/native-http-broker-probe | tar -x -C "$broker_archive"
+python3 -B "$broker_archive/experiments/native-http-broker-probe/verify_results.py" \
+  --summary "$broker_archive"/experiments/native-http-broker-probe/results/*.json
 ```
+
+For the current broker and its reports, see the [C04 verification](native-cookie-c04-broker-verification.md).
