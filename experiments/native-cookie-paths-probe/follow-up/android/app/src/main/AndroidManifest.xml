@@ -1,0 +1,6 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+ <uses-permission android:name="android.permission.INTERNET" />
+ <application android:label="Cookie Paths Follow-up" android:allowBackup="false" android:networkSecurityConfig="@xml/network_security_config" android:theme="@android:style/Theme.Material.Light.NoActionBar">
+  <activity android:name="org.moonpool.cookieadmission.FollowupActivity" android:exported="true" />
+ </application>
+</manifest>

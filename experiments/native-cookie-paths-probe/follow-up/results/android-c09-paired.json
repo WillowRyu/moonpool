@@ -1,0 +1,141 @@
+{
+  "admission": {
+    "afterEmpty": true,
+    "empty": true,
+    "policyDisallowed": true
+  },
+  "build": {
+    "artifactSha256": "13675fcaba6ef1357903083fd688f28b30537b9b943ab1b90de143c80e1e2dfc",
+    "caSha256": "53764c4b46aed3457e32151f3b2ad0e57f0f12dc045193af2b0abd66cd926c51",
+    "sources": {
+      "../../android-origin-probe/gradlew": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59",
+      "../../native-cookie-admission-probe/android/app/src/main/java/org/moonpool/cookieadmission/AdmissionGate.java": "42307cc7f1f9a51d6b4e485350037775e9ec9f61fe5d2a433a365b37aeab4e55",
+      "../../native-cookie-admission-probe/android/app/src/main/res/xml/network_security_config.xml": "def485559d7ade425b2492e375edd451466d47027be1cbfb3c47d18c04f1955d",
+      "../runner.py": "439ef65ae90e184e29e210e400fb8b92a0d5fc2a3daf141624772d72d2ab725c",
+      "../server.py": "8db268a6cde87e594df453dfe3c84b953fa37fd47c0d8e8ba59977fce2b261ac",
+      "android/app/build.gradle": "9e8816f561501c38a92a957799039ae2ae9fadf978ba8c18c31edd53e698e729",
+      "android/app/src/main/AndroidManifest.xml": "ac35bef32c4cfa9d6f453a6298e963e195ea18751e8aa1e1d8e40240a3d9159d",
+      "android/app/src/main/java/org/moonpool/cookieadmission/FollowupActivity.java": "bce45322a0b8158c1fa09b2abecf70f3e49b744eb5b8cb2a2d522664855f85be",
+      "android/app/src/main/java/org/moonpool/cookieadmission/StaticImages.java": "35ba89fcd58d7f20abc77cd0ac65f4b0c8e49a28c60e6e46daf65e5ae2bbddb4",
+      "android/build.gradle": "bb5d6db0a3f94e7ff33ba91a07fa9146a96994e843ae487ebccadc99b62e722c",
+      "android/gradle.properties": "67eefa02d084d8fd6e2698683ca4d007a344395ca89eed9012a79bac373ba359",
+      "android/settings.gradle": "23c3468f97d49c4cf8bf5c6b2cd0d3d10951aeb47d75bf951238c53816ffc0a2",
+      "https_fixture.py": "30938aa04a234d2349a76b1ca99a81523ecb9711a447c40700e35b9001c34bd0",
+      "images.js": "f14b8a75aa62165ca23ed32b2ec81d57200da2638cd242877eb51bfb2b69a4af",
+      "probe.py": "0707096ac214a935ed51ee8b9a0788f2ed7957267f85843d71f0c11b5e929bc2",
+      "worker-entry.html": "83b73549c33f979e0864117028647f16bdaebbfbc461fc758e275a37199050c7",
+      "worker-seed.html": "1d26452ea6087dedd4fe80a3d8cf2d1e5e9a2e163db665d8b60c18299384fcb5",
+      "worker.js": "d78537a15556964bc8404f032b99f3eda45269729c05b2918ee346433f9c2223"
+    }
+  },
+  "capturedUtc": "2026-11-16T08:14:48Z",
+  "complete": true,
+  "errors": [],
+  "guest": {
+    "cookie": "",
+    "images": {
+      "approved": "loaded",
+      "direct": "loaded",
+      "encoded": "blocked",
+      "other": "blocked",
+      "path": "blocked"
+    },
+    "origin": "https://mp-android-c09-paired.invalid",
+    "serviceWorker": true
+  },
+  "installedArtifactSha256": "13675fcaba6ef1357903083fd688f28b30537b9b943ab1b90de143c80e1e2dfc",
+  "platform": "android",
+  "provider": "145.0.7632.218",
+  "receipts": [
+    {
+      "authorization": null,
+      "case": "direct",
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/direct.gif",
+      "run": "android-c09-paired",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "case": "approved",
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/redirect-approved",
+      "run": "android-c09-paired",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "case": "approved",
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/final.gif",
+      "run": "android-c09-paired",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "case": "path",
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/redirect-path",
+      "run": "android-c09-paired",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "case": "other",
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/redirect-other",
+      "run": "android-c09-paired",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "case": "encoded",
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/redirect-encoded",
+      "run": "android-c09-paired",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "case": "worker-control",
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/worker-network",
+      "run": "android-c09-paired",
+      "tls": true
+    }
+  ],
+  "release": "17",
+  "run": "android-c09-paired",
+  "worker": {
+    "admission": "refused",
+    "entry": "cached-worker",
+    "guestLoads": 0,
+    "loaderEntries": 0,
+    "networkBlocked": true,
+    "registered": true,
+    "retainedRegistration": true,
+    "scope": "https://mp-android-c09-paired.invalid/worker/",
+    "seed": {
+      "network": "reached",
+      "registered": true,
+      "scope": "https://mp-android-c09-paired.invalid/worker/"
+    },
+    "seedViewDestroyed": true,
+    "state": "retained",
+    "workerFetch": "blocked"
+  }
+}

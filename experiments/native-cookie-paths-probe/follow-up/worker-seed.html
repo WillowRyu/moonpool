@@ -1,0 +1,18 @@
+<!doctype html>
+<meta charset="utf-8">
+<script>
+  (async () => {
+    try {
+      await navigator.serviceWorker.register('/worker/sw.js', { scope: '/worker/' });
+      const registration = await navigator.serviceWorker.ready;
+      const channel = new MessageChannel();
+      channel.port1.onmessage = (event) => {
+        window.c09Worker = { registered: true, scope: registration.scope, network: event.data };
+        channel.port1.close();
+      };
+      registration.active.postMessage('worker-control', [channel.port2]);
+    } catch (error) {
+      window.c09Worker = { error: String(error) };
+    }
+  })();
+</script>

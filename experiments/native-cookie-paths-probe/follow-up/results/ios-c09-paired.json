@@ -1,0 +1,108 @@
+{
+  "admission": {
+    "afterEmpty": true,
+    "empty": true,
+    "policyDisallowed": true,
+    "sources": {
+      "cookies": false,
+      "records": false
+    }
+  },
+  "build": {
+    "artifactSha256": "afef4d5fa066e62ee9a92017bb33520edfb0650bce201d644c03e618db2c4b21",
+    "caSha256": "53764c4b46aed3457e32151f3b2ad0e57f0f12dc045193af2b0abd66cd926c51",
+    "sources": {
+      "../runner.py": "439ef65ae90e184e29e210e400fb8b92a0d5fc2a3daf141624772d72d2ab725c",
+      "../server.py": "8db268a6cde87e594df453dfe3c84b953fa37fd47c0d8e8ba59977fce2b261ac",
+      "https_fixture.py": "30938aa04a234d2349a76b1ca99a81523ecb9711a447c40700e35b9001c34bd0",
+      "images.js": "f14b8a75aa62165ca23ed32b2ec81d57200da2638cd242877eb51bfb2b69a4af",
+      "ios/Probe.swift": "3340411969fa3bfcb839e505c62f4669b28dc04a094108d502283fa53fcc44bd",
+      "probe.py": "0707096ac214a935ed51ee8b9a0788f2ed7957267f85843d71f0c11b5e929bc2"
+    },
+    "xcode": "Xcode 26.4.1\nBuild version 17E202"
+  },
+  "capturedUtc": "2026-11-16T08:16:18Z",
+  "complete": true,
+  "errors": [],
+  "guest": {
+    "cookie": "",
+    "images": {
+      "approved": "loaded",
+      "direct": "loaded",
+      "encoded": "blocked",
+      "other": "blocked",
+      "path": "blocked"
+    },
+    "origin": "moonpool://com.example.paths.ios-c09-paired",
+    "serviceWorker": false
+  },
+  "installedArtifactSha256": "afef4d5fa066e62ee9a92017bb33520edfb0650bce201d644c03e618db2c4b21",
+  "platform": "ios",
+  "receipts": [
+    {
+      "authorization": null,
+      "case": "direct",
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/direct.gif",
+      "run": "ios-c09-paired",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "case": "approved",
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/redirect-approved",
+      "run": "ios-c09-paired",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "case": "approved",
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/final.gif",
+      "run": "ios-c09-paired",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "case": "path",
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/redirect-path",
+      "run": "ios-c09-paired",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "case": "other",
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/redirect-other",
+      "run": "ios-c09-paired",
+      "tls": true
+    },
+    {
+      "authorization": null,
+      "case": "encoded",
+      "cookie": "",
+      "host": "localhost",
+      "method": "GET",
+      "path": "/static/redirect-encoded",
+      "run": "ios-c09-paired",
+      "tls": true
+    }
+  ],
+  "release": "26.4.1",
+  "run": "ios-c09-paired",
+  "worker": {
+    "state": "unsupported"
+  }
+}

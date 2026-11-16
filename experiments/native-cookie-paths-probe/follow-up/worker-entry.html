@@ -1,0 +1,21 @@
+<!doctype html>
+<meta charset="utf-8">
+<script>
+  (async () => {
+    try {
+      const registration = await navigator.serviceWorker.getRegistration();
+      const channel = new MessageChannel();
+      channel.port1.onmessage = (event) => {
+        window.c09Worker = {
+          entry: 'cached-worker',
+          retainedRegistration: !!registration?.active,
+          workerFetch: event.data,
+        };
+        channel.port1.close();
+      };
+      navigator.serviceWorker.controller.postMessage('worker-blocked', [channel.port2]);
+    } catch (error) {
+      window.c09Worker = { error: String(error) };
+    }
+  })();
+</script>
