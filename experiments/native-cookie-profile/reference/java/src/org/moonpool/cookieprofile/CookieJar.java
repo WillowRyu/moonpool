@@ -224,6 +224,20 @@ public final class CookieJar {
         return true;
     }
 
+    /** A script delete only affects the exact host-only identity and cannot delete an HttpOnly entry. */
+    public boolean deleteScriptCookie(Request request, String name, String path, long now) {
+        removeExpired(now);
+        Cookie existing = find(name, request.host, path, true);
+        if (existing == null) {
+            return true;
+        }
+        if (existing.httpOnly) {
+            return false;
+        }
+        entries.remove(existing);
+        return true;
+    }
+
     /** Stored entries in insertion order, including any expired entry no operation has removed yet. */
     public List<Cookie> entries() {
         return Collections.unmodifiableList(new ArrayList<>(entries));

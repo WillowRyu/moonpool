@@ -16,9 +16,10 @@ import time
 from urllib.parse import parse_qs, urlsplit
 
 ROOT = Path(__file__).resolve().parent
+TLS_FOLDER = ROOT / 'local-results/c04-tls'
 CASES = json.loads((ROOT / 'cases.json').read_text())
 EXPECTED_AUTHORIZATION = 'Basic ' + base64.b64encode(b'moonpool-fixture-user:not-a-secret').decode()
-SERVED_PATHS = ['/s', '/deep/s']
+SERVED_PATHS = {'/s', '/deep/s', '/deep%2Fsegment/s', '/deep/segment/s', '/deep/%2e%2e/s'}
 
 
 def steps_by_label():
@@ -197,7 +198,7 @@ def vectors_digest():
 
 
 if __name__ == '__main__':
-    tls_folder = ROOT / 'local-results/tls'
+    tls_folder = TLS_FOLDER
     create_certificates(tls_folder)
     service, second, control = make_servers(tls_folder, 0, 0, 0)
     (ROOT / 'local-results/server.json').write_text(json.dumps(

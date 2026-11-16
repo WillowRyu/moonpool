@@ -191,6 +191,15 @@ public final class CookieJar {
         return true
     }
 
+    /// A script delete only affects the exact host-only identity and cannot delete an HttpOnly entry.
+    public func deleteScriptCookie(_ request: Request, name: String, path: String, now: Int64) -> Bool {
+        removeExpired(now)
+        guard let existing = find(name, request.host, path, true) else { return true }
+        guard !storage[existing].httpOnly else { return false }
+        storage.remove(at: existing)
+        return true
+    }
+
     private func store(_ text: String, _ request: Request, _ now: Int64) {
         guard let line = CookieJar.parse(text) else {
             return

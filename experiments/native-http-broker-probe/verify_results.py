@@ -6,18 +6,45 @@ evidence or a failed control does fail verification, because then nothing else i
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
+import sys
 
 from fixture import EXPECTED_AUTHORIZATION
 
 ROOT = Path(__file__).resolve().parent
+PROFILE_ROOT = ROOT.parent / 'native-cookie-profile'
+sys.path.insert(0, str(PROFILE_ROOT))
+from check import expand_repetitions, verify as verify_corpus
 CASES = json.loads((ROOT / 'cases.json').read_text())
 EXCLUDED = {'build', '.gradle'}
 BARRIERS = {'held', 'release', 'await', 'awaitEvent', 'startQueued'}
 GUEST_OPS = {'request', 'cookiesGet', 'cookiesSet', 'cookiesDelete', 'reset'}
 FORBIDDEN_RESPONSE_HEADERS = {'set-cookie', 'set-cookie2'}
 VOLATILE_RESPONSE_HEADERS = {'date'}
+
+
+def cookie_profile():
+    vectors = profile_vectors()
+    return {'id': vectors['profile'], 'psl': vectors['psl']}
+
+
+def profile_vectors():
+    return json.loads((PROFILE_ROOT / 'vectors.json').read_text())
+
+
+def source_fingerprints(platform):
+    paths = [ROOT / name for name in ['build.py', 'fixture.py', 'cases.json']]
+    paths += [path for path in (ROOT / platform).rglob('*') if path.is_file() and not EXCLUDED & set(path.relative_to(ROOT).parts)]
+    paths.extend(PROFILE_ROOT / name for name in ('vectors.json', 'check.py'))
+    reference = 'java' if platform == 'android' else 'swift'
+    paths.extend((PROFILE_ROOT / 'reference' / reference / 'src').rglob('*.java' if platform == 'android' else '*.swift'))
+    if platform == 'android':
+        paths.extend((PROFILE_ROOT / 'reference/java/fixture').rglob('*.java'))
+    else:
+        paths.append(PROFILE_ROOT / 'reference/swift/test/Adapter.swift')
+    return {os.path.relpath(path, ROOT): hashlib.sha256(path.read_bytes()).hexdigest() for path in sorted(paths)}
 
 
 def observation(report, case):
@@ -52,6 +79,9 @@ def receipt_problems(label, expected, rows):
         problems.append(f'{label}: {len(rows)} receipts, expected {expected["count"]}')
     if 'cookie' in expected and (not rows or rows[0]['cookieFields'] != expected['cookie']):
         problems.append(f'{label}: cookie {[row["cookieFields"] for row in rows]}, expected {expected["cookie"]}')
+    for key in ('host', 'path'):
+        if key in expected and (not rows or any(row[key] != expected[key] for row in rows)):
+            problems.append(f'{label}: {key} {[row[key] for row in rows]}, expected {expected[key]!r}')
     if 'authorization' in expected and any(row['authorization'] != expected['authorization'] for row in rows):
         problems.append(f'{label}: authorization {[row["authorization"] for row in rows]}')
     if expected.get('noAuthorization') and any(row['authorization'] for row in rows):
@@ -200,13 +230,11 @@ def measurements(report):
 def integrity(report):
     metadata = report['build']
     platform = report['platform']
-    paths = [ROOT / name for name in ['build.py', 'fixture.py', 'cases.json']]
-    paths += [path for path in (ROOT / platform).rglob('*') if path.is_file() and not EXCLUDED & set(path.relative_to(ROOT).parts)]
-    assert set(metadata['sources']) == {str(path.relative_to(ROOT)) for path in paths}, 'missing/extra source fingerprints'
-    for path, digest in metadata['sources'].items():
-        target = (ROOT / path).resolve()
-        assert target.is_relative_to(ROOT)
-        assert hashlib.sha256(target.read_bytes()).hexdigest() == digest, 'changed source ' + path
+    assert platform in {'android', 'ios'}, 'unknown platform'
+    assert metadata['sources'] == source_fingerprints(platform), 'source fingerprints differ'
+    profile = cookie_profile()
+    assert metadata['cookieProfile'] == profile, 'different cookie profile'
+    assert report['pslSha256'] == profile['psl']['sha256'], 'different PSL loaded by probe'
     assert report['installedArtifactSha256'] == metadata['artifactSha256']
 
 
@@ -216,15 +244,20 @@ if __name__ == '__main__':
     parser.add_argument('--summary', action='store_true')
     arguments = parser.parse_args()
     loaded = {path.stem: json.loads(path.read_text()) for path in arguments.reports}
+    cases = expand_repetitions(profile_vectors()['cases'])
     summary = {}
     for name, report in loaded.items():
         integrity(report)
+        assert verify_corpus(cases, report['profileObservations']) == 0, f'{name}: C04 corpus failed'
         print(f'{name}: {verify(report)} checks')
         states = classify(report)
         summary[name] = {'failed': {key: item['problems'] for key, item in states.items() if item['state'] == 'fail'},
                          'passed': sum(item['state'] == 'pass' for item in states.values()), 'measurements': measurements(report)}
     names = list(loaded)
     for left, right in zip(names, names[1:]):
+        assert loaded[left]['profileObservations'] == loaded[right]['profileObservations'], (
+            f'{left} and {right}: C04 corpus observations differ'
+        )
         summary[f'{left} vs {right}'] = compare(loaded[left], loaded[right])
     if arguments.summary:
         print(json.dumps(summary, indent=1))

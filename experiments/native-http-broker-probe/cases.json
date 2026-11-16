@@ -4723,5 +4723,518 @@
       "hidden": ["stale"],
       "measure": ["challenged"]
     }
+  },
+  {
+    "id": "c04-encoded-path",
+    "contract": "C04",
+    "portals": { "A1": { "app": "a", "grants": ["http", "cookies"] } },
+    "steps": [
+      {
+        "op": "request",
+        "label": "encodedSet",
+        "portal": "A1",
+        "params": { "target": { "path": "/deep%2Fsegment/s" } },
+        "serve": { "setCookie": ["implicit=1; Secure", "explicit=2; Path=/deep%2Fsegment; Secure"] }
+      },
+      {
+        "op": "request",
+        "label": "encodedGet",
+        "portal": "A1",
+        "params": { "target": { "path": "/deep%2Fsegment/s" } }
+      },
+      {
+        "op": "request",
+        "label": "slashGet",
+        "portal": "A1",
+        "params": { "target": { "path": "/deep/segment/s" } }
+      },
+      { "op": "cookiesGet", "label": "readEncoded", "path": "/deep%2Fsegment/s" },
+      { "op": "cookiesGet", "label": "readSlash", "path": "/deep/segment/s" }
+    ],
+    "expect": {
+      "outcomes": {
+        "encodedSet": { "ok": true, "status": 200 },
+        "encodedGet": { "ok": true, "status": 200 },
+        "slashGet": { "ok": true, "status": 200 },
+        "readEncoded": {
+          "ok": true,
+          "cookies": [
+            { "name": "implicit", "path": "/deep%2Fsegment", "value": "1" },
+            { "name": "explicit", "path": "/deep%2Fsegment", "value": "2" }
+          ]
+        },
+        "readSlash": { "ok": true, "cookies": [] }
+      },
+      "receipts": {
+        "encodedSet": {
+          "count": 1,
+          "host": "localhost",
+          "path": "/deep%2Fsegment/s",
+          "cookie": []
+        },
+        "encodedGet": {
+          "count": 1,
+          "host": "localhost",
+          "path": "/deep%2Fsegment/s",
+          "cookie": ["implicit=1; explicit=2"]
+        },
+        "slashGet": { "count": 1, "host": "localhost", "path": "/deep/segment/s", "cookie": [] }
+      }
+    }
+  },
+  {
+    "id": "c04-dispatched-path",
+    "contract": "C04",
+    "portals": { "A1": { "app": "a", "grants": ["http", "cookies"] } },
+    "steps": [
+      {
+        "op": "request",
+        "label": "seed",
+        "portal": "A1",
+        "params": { "target": { "path": "/deep/s", "host": "localhost" } },
+        "serve": { "setCookie": ["deep=1; Path=/deep; Secure"] }
+      },
+      {
+        "op": "request",
+        "label": "dot",
+        "portal": "A1",
+        "params": { "target": { "path": "/deep/%2e%2e/s", "host": "localhost" } },
+        "serve": { "setCookie": ["landed=2; Secure"] }
+      },
+      { "op": "request", "label": "root", "portal": "A1" }
+    ],
+    "expect": {
+      "outcomes": {
+        "seed": { "ok": true, "status": 200 },
+        "dot": { "ok": true, "status": 200 },
+        "root": { "ok": true, "status": 200 }
+      },
+      "receipts": {
+        "seed": { "count": 1, "host": "localhost", "path": "/deep/s", "cookie": [] },
+        "dot": { "count": 1, "host": "localhost", "path": "/s", "cookie": [] },
+        "root": { "count": 1, "host": "localhost", "path": "/s", "cookie": ["landed=2"] }
+      }
+    }
+  },
+  {
+    "id": "c04-canonical-hosts",
+    "contract": "C04",
+    "portals": { "A1": { "app": "a", "grants": ["http", "cookies"] } },
+    "approved": [
+      { "host": "localhost", "listener": "service" },
+      { "host": "127.0.0.1", "listener": "service" },
+      { "host": "::1", "listener": "service" }
+    ],
+    "steps": [
+      {
+        "op": "request",
+        "label": "emptyLabel",
+        "portal": "A1",
+        "params": { "target": { "path": "/s", "host": "a..example.com" } }
+      },
+      {
+        "op": "request",
+        "label": "dottedIP",
+        "portal": "A1",
+        "params": { "target": { "path": "/s", "host": "127.0.0.1." } }
+      },
+      {
+        "op": "request",
+        "label": "shortIP",
+        "portal": "A1",
+        "params": { "target": { "path": "/s", "host": "127.1" } }
+      },
+      {
+        "op": "request",
+        "label": "hexIP",
+        "portal": "A1",
+        "params": { "target": { "path": "/s", "host": "0x7f.0.0.1" } }
+      },
+      {
+        "op": "request",
+        "label": "octalIP",
+        "portal": "A1",
+        "params": { "target": { "path": "/s", "host": "010.0.0.1" } }
+      },
+      {
+        "op": "request",
+        "label": "escapedAlias",
+        "portal": "A1",
+        "params": { "target": { "path": "/s", "host": "%6cocalhost" } }
+      },
+      {
+        "op": "request",
+        "label": "widthAlias",
+        "portal": "A1",
+        "params": { "target": { "host": "\uff4cocalhost" } }
+      },
+      {
+        "op": "request",
+        "label": "ignoredCharAlias",
+        "portal": "A1",
+        "params": { "target": { "host": "lo\u00adcalhost" } }
+      },
+      {
+        "op": "request",
+        "label": "overflowingPort",
+        "portal": "A1",
+        "params": { "url": "https://localhost:9999999999999999999999/s" }
+      },
+      {
+        "op": "request",
+        "label": "mappedIPv6",
+        "portal": "A1",
+        "params": { "target": { "path": "/s", "host": "[::ffff:127.0.0.1]" } }
+      },
+      {
+        "op": "request",
+        "label": "expandedIPv6",
+        "portal": "A1",
+        "params": { "target": { "host": "[0:0:0:0:0:0:0:1]" } }
+      },
+      { "op": "request", "label": "control", "portal": "A1" }
+    ],
+    "expect": {
+      "outcomes": {
+        "emptyLabel": { "ok": false, "code": -32602 },
+        "dottedIP": { "ok": false, "code": -32602 },
+        "shortIP": { "ok": false, "code": -32602 },
+        "hexIP": { "ok": false, "code": -32602 },
+        "octalIP": { "ok": false, "code": -32602 },
+        "escapedAlias": { "ok": false, "code": -32602 },
+        "widthAlias": { "ok": false, "code": -32602 },
+        "ignoredCharAlias": { "ok": false, "code": -32602 },
+        "overflowingPort": { "ok": false, "code": -32602 },
+        "mappedIPv6": { "ok": false, "code": -32602 },
+        "expandedIPv6": { "ok": false, "code": -32007, "reason": "network" },
+        "control": { "ok": true, "status": 200 }
+      },
+      "receipts": {
+        "emptyLabel": { "count": 0 },
+        "dottedIP": { "count": 0 },
+        "shortIP": { "count": 0 },
+        "hexIP": { "count": 0 },
+        "octalIP": { "count": 0 },
+        "escapedAlias": { "count": 0 },
+        "widthAlias": { "count": 0 },
+        "ignoredCharAlias": { "count": 0 },
+        "overflowingPort": { "count": 0 },
+        "mappedIPv6": { "count": 0 },
+        "expandedIPv6": { "count": 0 },
+        "control": { "count": 1, "host": "localhost", "path": "/s", "cookie": [] }
+      }
+    }
+  },
+  {
+    "id": "c04-expanded-ipv6-registration",
+    "contract": "C04",
+    "portals": { "A1": { "app": "a", "grants": ["http", "cookies"] } },
+    "approved": [{ "host": "0:0:0:0:0:0:0:1", "listener": "service" }],
+    "steps": [
+      {
+        "op": "cookiesSet",
+        "label": "setExpanded",
+        "target": { "host": "[0:0:0:0:0:0:0:1]" },
+        "cookie": { "name": "sid", "value": "ipv6" }
+      },
+      { "op": "cookiesGet", "label": "readCompact", "target": { "host": "[::1]" } },
+      {
+        "op": "cookiesGet",
+        "label": "wrongPort",
+        "target": { "host": "[::1]", "listener": "service2" }
+      },
+      {
+        "op": "request",
+        "label": "requestCompact",
+        "portal": "A1",
+        "params": { "target": { "host": "[::1]" } }
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "setExpanded": { "ok": true },
+        "readCompact": { "ok": true, "cookies": [{ "name": "sid", "path": "/", "value": "ipv6" }] },
+        "wrongPort": { "ok": false, "code": -32000 },
+        "requestCompact": { "ok": false, "code": -32007, "reason": "network" }
+      },
+      "receipts": { "requestCompact": { "count": 0 } }
+    }
+  },
+  {
+    "id": "c04-ip-domain",
+    "contract": "C04",
+    "portals": { "A1": { "app": "a", "grants": ["http", "cookies"] } },
+    "approved": [
+      { "host": "localhost", "listener": "service" },
+      { "host": "127.0.0.1", "listener": "service" }
+    ],
+    "steps": [
+      {
+        "op": "request",
+        "label": "seed",
+        "portal": "A1",
+        "params": { "target": { "path": "/s", "host": "127.0.0.1" } },
+        "serve": {
+          "setCookie": [
+            "sid=host; Path=/; Secure",
+            "sid=exact; Domain=127.0.0.1; Path=/; Secure",
+            "bad=partial; Domain=0.0.1; Path=/; Secure"
+          ]
+        }
+      },
+      {
+        "op": "request",
+        "label": "sameIP",
+        "portal": "A1",
+        "params": { "target": { "path": "/s", "host": "127.0.0.1" } }
+      },
+      { "op": "request", "label": "otherHost", "portal": "A1" },
+      {
+        "op": "request",
+        "label": "expire",
+        "portal": "A1",
+        "params": { "target": { "path": "/s", "host": "127.0.0.1" } },
+        "serve": { "setCookie": ["sid=expired; Path=/; Max-Age=0"] }
+      },
+      {
+        "op": "request",
+        "label": "clearedIP",
+        "portal": "A1",
+        "params": { "target": { "path": "/s", "host": "127.0.0.1" } }
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "seed": { "ok": true, "status": 200 },
+        "sameIP": { "ok": true, "status": 200 },
+        "otherHost": { "ok": true, "status": 200 },
+        "expire": { "ok": true, "status": 200 },
+        "clearedIP": { "ok": true, "status": 200 }
+      },
+      "receipts": {
+        "seed": { "count": 1, "host": "127.0.0.1", "path": "/s", "cookie": [] },
+        "sameIP": { "count": 1, "host": "127.0.0.1", "path": "/s", "cookie": ["sid=exact"] },
+        "otherHost": { "count": 1, "host": "localhost", "path": "/s", "cookie": [] },
+        "expire": { "count": 1, "host": "127.0.0.1", "path": "/s", "cookie": ["sid=exact"] },
+        "clearedIP": { "count": 1, "host": "127.0.0.1", "path": "/s", "cookie": [] }
+      }
+    }
+  },
+  {
+    "id": "c04-prefixes",
+    "contract": "C04",
+    "portals": { "A1": { "app": "a", "grants": ["http", "cookies"] } },
+    "steps": [
+      {
+        "op": "request",
+        "label": "seed",
+        "portal": "A1",
+        "serve": {
+          "setCookie": [
+            "__Host-locked=valid; Path=/; Secure; HttpOnly",
+            "__hOsT-default=bad; Secure",
+            "__SeCuRe-bad=bad; Path=/",
+            "__Secure-good=ok; Secure"
+          ]
+        }
+      },
+      {
+        "op": "request",
+        "label": "badExpiry",
+        "portal": "A1",
+        "serve": { "setCookie": ["__Host-locked=bad; Path=/; Secure; Domain=localhost; Max-Age=0"] }
+      },
+      { "op": "cookiesGet", "label": "read" },
+      {
+        "op": "cookiesSet",
+        "label": "script",
+        "cookie": { "name": "__SECURE-script", "value": "bad" }
+      },
+      { "op": "request", "label": "stillProtected", "portal": "A1" }
+    ],
+    "expect": {
+      "outcomes": {
+        "seed": { "ok": true, "status": 200 },
+        "badExpiry": { "ok": true, "status": 200 },
+        "read": {
+          "ok": true,
+          "cookies": [{ "name": "__Secure-good", "value": "ok", "path": "/" }]
+        },
+        "script": { "ok": false, "code": -32000 },
+        "stillProtected": { "ok": true, "status": 200 }
+      },
+      "receipts": {
+        "seed": { "count": 1, "host": "localhost", "path": "/s", "cookie": [] },
+        "badExpiry": {
+          "count": 1,
+          "host": "localhost",
+          "path": "/s",
+          "cookie": ["__Host-locked=valid; __Secure-good=ok"]
+        },
+        "stillProtected": {
+          "count": 1,
+          "host": "localhost",
+          "path": "/s",
+          "cookie": ["__Host-locked=valid; __Secure-good=ok"]
+        }
+      },
+      "hidden": ["__Host-locked", "locked=valid"]
+    }
+  },
+  {
+    "id": "c04-expiry",
+    "contract": "C04",
+    "portals": { "A1": { "app": "a", "grants": ["http", "cookies"] } },
+    "clock": 1800000000,
+    "steps": [
+      {
+        "op": "request",
+        "label": "seed",
+        "portal": "A1",
+        "serve": {
+          "setCookie": [
+            "soon=1; Path=/; Secure; HttpOnly; Max-Age=4; Max-Age=invalid; Expires=Wed, 01 Jan 2020 00:00:00 GMT",
+            "old=2; Path=/; Expires=Wed, 01 Jan 2020 00:00:00 GMT"
+          ]
+        }
+      },
+      {
+        "op": "cookiesSet",
+        "label": "script",
+        "cookie": { "name": "visible", "value": "3", "maxAge": 4 }
+      },
+      { "op": "request", "label": "before", "portal": "A1", "at": 3 },
+      { "op": "cookiesGet", "label": "visibleBefore" },
+      { "op": "request", "label": "expiredSend", "portal": "A1", "at": 4 },
+      {
+        "op": "request",
+        "label": "seedRead",
+        "portal": "A1",
+        "serve": { "setCookie": ["readable=4; Path=/; Max-Age=4"] }
+      },
+      { "op": "cookiesGet", "label": "expiredRead", "at": 8 }
+    ],
+    "expect": {
+      "outcomes": {
+        "seed": { "ok": true, "status": 200 },
+        "script": { "ok": true },
+        "before": { "ok": true, "status": 200 },
+        "visibleBefore": {
+          "ok": true,
+          "cookies": [{ "name": "visible", "value": "3", "path": "/" }]
+        },
+        "expiredSend": { "ok": true, "status": 200 },
+        "seedRead": { "ok": true, "status": 200 },
+        "expiredRead": { "ok": true, "cookies": [] }
+      },
+      "receipts": {
+        "seed": { "count": 1, "host": "localhost", "path": "/s", "cookie": [] },
+        "before": {
+          "count": 1,
+          "host": "localhost",
+          "path": "/s",
+          "cookie": ["soon=1; visible=3"]
+        },
+        "expiredSend": { "count": 1, "host": "localhost", "path": "/s", "cookie": [] },
+        "seedRead": { "count": 1, "host": "localhost", "path": "/s", "cookie": [] }
+      }
+    }
+  },
+  {
+    "id": "c04-order-and-unsupported",
+    "contract": "C04",
+    "portals": { "A1": { "app": "a", "grants": ["http", "cookies"] } },
+    "steps": [
+      {
+        "op": "request",
+        "label": "seed",
+        "portal": "A1",
+        "serve": {
+          "setCookie": ["sid=root; Path=/; Secure; Partitioned", "second=2; Path=/; Priority=High"]
+        }
+      },
+      {
+        "op": "request",
+        "label": "deepSet",
+        "portal": "A1",
+        "params": { "target": { "path": "/deep/s", "host": "localhost" } },
+        "serve": { "setCookie": ["sid=deep; Path=/deep"] }
+      },
+      {
+        "op": "request",
+        "label": "replace",
+        "portal": "A1",
+        "serve": { "setCookie": ["sid=new; Path=/"] }
+      },
+      {
+        "op": "request",
+        "label": "deepGet",
+        "portal": "A1",
+        "params": { "target": { "path": "/deep/s", "host": "localhost" } }
+      },
+      {
+        "op": "request",
+        "label": "expire",
+        "portal": "A1",
+        "serve": { "setCookie": ["sid=gone; Path=/; Max-Age=0; Partitioned"] }
+      },
+      {
+        "op": "request",
+        "label": "reissue",
+        "portal": "A1",
+        "serve": { "setCookie": ["sid=reissued; Path=/; Priority=Low"] }
+      },
+      {
+        "op": "request",
+        "label": "afterReissue",
+        "portal": "A1",
+        "params": { "target": { "path": "/deep/s", "host": "localhost" } }
+      }
+    ],
+    "expect": {
+      "outcomes": {
+        "seed": { "ok": true, "status": 200 },
+        "deepSet": { "ok": true, "status": 200 },
+        "replace": { "ok": true, "status": 200 },
+        "deepGet": { "ok": true, "status": 200 },
+        "expire": { "ok": true, "status": 200 },
+        "reissue": { "ok": true, "status": 200 },
+        "afterReissue": { "ok": true, "status": 200 }
+      },
+      "receipts": {
+        "seed": { "count": 1, "host": "localhost", "path": "/s", "cookie": [] },
+        "deepSet": {
+          "count": 1,
+          "host": "localhost",
+          "path": "/deep/s",
+          "cookie": ["sid=root; second=2"]
+        },
+        "replace": {
+          "count": 1,
+          "host": "localhost",
+          "path": "/s",
+          "cookie": ["sid=root; second=2"]
+        },
+        "deepGet": {
+          "count": 1,
+          "host": "localhost",
+          "path": "/deep/s",
+          "cookie": ["sid=deep; sid=new; second=2"]
+        },
+        "expire": {
+          "count": 1,
+          "host": "localhost",
+          "path": "/s",
+          "cookie": ["sid=new; second=2"]
+        },
+        "reissue": { "count": 1, "host": "localhost", "path": "/s", "cookie": ["second=2"] },
+        "afterReissue": {
+          "count": 1,
+          "host": "localhost",
+          "path": "/deep/s",
+          "cookie": ["sid=deep; second=2; sid=reissued"]
+        }
+      }
+    }
   }
 ]

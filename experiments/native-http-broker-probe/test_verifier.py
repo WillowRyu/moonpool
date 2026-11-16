@@ -46,7 +46,7 @@ def ideal_report(platform='android'):
             if 'cookieContains' in receipt:
                 cookie = [receipt['cookieContains']]
             row = {'run': run, 'case': case['id'], 'step': label, 'event': 'arrived', 'tls': True, 'cookieFields': cookie,
-                   'authorization': receipt.get('authorization'), 'path': '/s', 'method': receipt.get('method', 'GET'), 'host': 'localhost', 'listener': 'service', 'bodyLength': receipt.get('bodyLength', 0)}
+                   'authorization': receipt.get('authorization'), 'path': receipt.get('path', '/s'), 'method': receipt.get('method', 'GET'), 'host': receipt.get('host', 'localhost'), 'listener': 'service', 'bodyLength': receipt.get('bodyLength', 0)}
             if receipt.get('authorizationSeen'):
                 row['authorization'] = 'Basic bW9vbnBvb2wtZml4dHVyZS11c2VyOm5vdC1hLXNlY3JldA=='
             requests.append(row)
@@ -242,8 +242,13 @@ class VerifierTests(unittest.TestCase):
         found = measurements(self.report)['c03-comma-value-attribute-loss/read']
         self.assertEqual(found['cookies'], [{'name': 'sid', 'path': '/', 'value': 'abc'}])
 
+    def test_decoded_path_fails_an_encoded_path_receipt(self):
+        row = next(row for row in self.report['requests'] if row['case'] == 'c04-encoded-path' and row['step'] == 'encodedGet')
+        row['path'] = '/deep/segment/s'
+        self.assertIn('encodedGet: path', self.states()['c04-encoded-path']['problems'][0])
+
     def test_cases_cover_the_declared_contract_groups(self):
-        self.assertEqual({case['contract'] for case in CASES}, {'control', 'C01', 'C02', 'C03', 'C05', 'C06', 'C07', 'C08'})
+        self.assertEqual({case['contract'] for case in CASES}, {'control', 'C01', 'C02', 'C03', 'C04', 'C05', 'C06', 'C07', 'C08'})
         self.assertEqual(json.loads((ROOT / 'cases.json').read_text()), copy.deepcopy(CASES))
 
 

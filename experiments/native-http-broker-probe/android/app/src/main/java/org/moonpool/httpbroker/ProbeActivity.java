@@ -12,6 +12,8 @@ import java.net.PasswordAuthentication;
 import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,11 +21,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.moonpool.cookieprofile.CorpusReplay;
+import org.moonpool.cookieprofile.PublicSuffixList;
 
 /** Runs the shared scenarios against the research broker. All cookies and credentials are public fixture values. */
 public final class ProbeActivity extends Activity {
@@ -31,6 +36,7 @@ public final class ProbeActivity extends Activity {
  private String run;
  private int port,second,control;
  private JSONObject report;
+ private PublicSuffixList publicSuffixes;
  private final JSONArray observations=new JSONArray(),errors=new JSONArray();
  private final OkHttpClient harness=new OkHttpClient();
  private final OkHttpClient brokerClient=Broker.newClient();
@@ -38,9 +44,11 @@ public final class ProbeActivity extends Activity {
 
  static JSONObject obj(Object... fields){return Broker.obj(fields);}
  static String read(InputStream input) throws Exception {
-  if(input==null)return "";
+  return input==null?"":new String(readBytes(input),StandardCharsets.UTF_8);
+ }
+ static byte[] readBytes(InputStream input) throws Exception {
   try(input;ByteArrayOutputStream out=new ByteArrayOutputStream()){
-   byte[] bytes=new byte[4096];int n;while((n=input.read(bytes))!=-1)out.write(bytes,0,n);return out.toString(StandardCharsets.UTF_8.name());
+   byte[] bytes=new byte[4096];int n;while((n=input.read(bytes))!=-1)out.write(bytes,0,n);return out.toByteArray();
   }
  }
  /** Stands for a host that set process-wide state for its own login. */
@@ -62,6 +70,12 @@ public final class ProbeActivity extends Activity {
  void execute(){
   try{
    report.put("client","OkHttp "+okhttp3.OkHttp.VERSION);
+   byte[] psl=readBytes(getAssets().open("public_suffix_list.dat"));
+   publicSuffixes=PublicSuffixList.parse(psl);
+   StringBuilder digest=new StringBuilder();
+   for(byte octet:MessageDigest.getInstance("SHA-256").digest(psl))digest.append(String.format(java.util.Locale.ROOT,"%02x",octet));
+   report.put("pslSha256",digest.toString());
+   report.put("profileObservations",CorpusReplay.run(publicSuffixes,new JSONArray(read(getAssets().open("profile-inputs.json")))));
    JSONArray cases;
    try(InputStream input=getAssets().open("cases.json")){cases=new JSONArray(read(input));}
    for(int i=0;i<cases.length();i++){
@@ -86,11 +100,17 @@ public final class ProbeActivity extends Activity {
  }
  JSONObject perform(JSONObject c) throws Exception {
   JSONArray steps=new JSONArray(),timedOut=new JSONArray();
-  Set<String> approved=new HashSet<>();
+  Set<Broker.ServiceOrigin> registrations=new HashSet<>();
   JSONArray declared=c.optJSONArray("approved");
-  if(declared==null)approved.add("localhost:"+port);
-  else for(int i=0;i<declared.length();i++){JSONObject entry=declared.getJSONObject(i);approved.add(entry.getString("host")+":"+(entry.has("port")?entry.getInt("port"):listenerPort(entry.getString("listener"))));}
-  Broker broker=new Broker(brokerClient,approved);
+  if(declared==null)registrations.add(new Broker.ServiceOrigin("localhost",port));
+  else for(int i=0;i<declared.length();i++){
+   JSONObject entry=declared.getJSONObject(i);
+   int servicePort=entry.has("port")?entry.getInt("port"):listenerPort(entry.getString("listener"));
+   registrations.add(new Broker.ServiceOrigin(entry.getString("host"),servicePort));
+  }
+  AtomicLong clock=c.has("clock")?new AtomicLong(c.getLong("clock")):null;
+  Broker broker=new Broker(brokerClient,registrations,publicSuffixes,
+      clock==null?()->Instant.now().getEpochSecond():clock::get);
   JSONObject portals=c.getJSONObject("portals");
   for(java.util.Iterator<String> keys=portals.keys();keys.hasNext();){String id=keys.next();JSONObject p=portals.getJSONObject(id);broker.bind(id,p.getString("app"),grants(p.getJSONArray("grants")));}
   synchronized(hostPuts){hostPuts.clear();}
@@ -98,6 +118,7 @@ public final class ProbeActivity extends Activity {
   JSONArray list=c.getJSONArray("steps");
   for(int i=0;i<list.length();i++){
    JSONObject s=list.getJSONObject(i);
+   if(clock!=null&&s.has("at"))clock.set(c.getLong("clock")+s.getLong("at"));
    String op=s.getString("op"),label=s.getString("label");
    switch(op){
     case "request":{
@@ -125,10 +146,13 @@ public final class ProbeActivity extends Activity {
     case "retire":broker.retire(s.getString("portal"));steps.put(obj("label",label,"op",op,"outcome",obj("ok",true)));break;
     case "bind":broker.bind(s.getString("portal"),s.getString("app"),grants(s.getJSONArray("grants")));steps.put(obj("label",label,"op",op,"outcome",obj("ok",true)));break;
     case "reset":steps.put(obj("label",label,"op",op,"outcome",broker.reset(s.optString("portal","A1"))));break;
-    case "cookiesGet":
-     steps.put(obj("label",label,"op",op,"outcome",broker.cookiesGet(s.optString("portal","A1"),url(c,label,s.has("path")?obj("path",s.getString("path")):null))));
+    case "cookiesGet":{
+     JSONObject target=s.optJSONObject("target");
+     if(target==null&&s.has("path"))target=obj("path",s.getString("path"));
+     steps.put(obj("label",label,"op",op,"outcome",broker.cookiesGet(s.optString("portal","A1"),url(c,label,target))));
      break;
-    case "cookiesSet":steps.put(obj("label",label,"op",op,"outcome",broker.cookiesSet(s.optString("portal","A1"),url(c,label,null),s.getJSONObject("cookie"))));break;
+    }
+    case "cookiesSet":steps.put(obj("label",label,"op",op,"outcome",broker.cookiesSet(s.optString("portal","A1"),url(c,label,s.optJSONObject("target")),s.getJSONObject("cookie"))));break;
     case "cookiesDelete":steps.put(obj("label",label,"op",op,"outcome",broker.cookiesDelete(s.optString("portal","A1"),url(c,label,null),s.getJSONObject("cookie"))));break;
     case "snapshot":steps.put(obj("label",label,"op",op,"outcome",obj("ok",true),"jar",broker.snapshot(s.getString("app"))));break;
     case "tlsNegative":steps.put(obj("label",label,"op",op,"outcome",tlsNegative(c,label)));break;

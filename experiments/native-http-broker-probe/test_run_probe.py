@@ -92,6 +92,8 @@ class IosArtifactTests(unittest.TestCase):
         (self.app / 'HttpBrokerProbe').write_bytes(b'binary')
         (self.app / 'Fixtures/cases.json').write_text('[]')
         (self.app / 'Fixtures/ca.der').write_bytes(b'ca')
+        (self.app / 'Fixtures/public_suffix_list.dat').write_bytes(b'psl')
+        (self.app / 'Fixtures/profile-inputs.json').write_text('[]')
         self.digest = ios_artifact_digest(self.app)
 
     def tearDown(self):
@@ -104,6 +106,15 @@ class IosArtifactTests(unittest.TestCase):
     def test_changed_ca_changes_the_digest(self):
         (self.app / 'Fixtures/ca.der').write_bytes(b'other')
         self.assertNotEqual(ios_artifact_digest(self.app), self.digest)
+
+    def test_c04_assets_are_bound_to_the_installed_artifact(self):
+        for name in ('public_suffix_list.dat', 'profile-inputs.json'):
+            with self.subTest(name=name):
+                path = self.app / 'Fixtures' / name
+                original = path.read_bytes()
+                path.write_bytes(b'other')
+                self.assertNotEqual(ios_artifact_digest(self.app), self.digest)
+                path.write_bytes(original)
 
     def test_changed_executable_changes_the_digest(self):
         (self.app / 'HttpBrokerProbe').write_bytes(b'other')

@@ -8,7 +8,8 @@ import re
 import subprocess
 import time
 from build import ios_artifact_digest, sha
-from fixture import vectors_digest
+from fixture import TLS_FOLDER, vectors_digest
+from verify_results import source_fingerprints
 
 ROOT = Path(__file__).resolve().parent
 ADB = Path.home() / 'Library/Android/sdk/platform-tools/adb'
@@ -153,12 +154,11 @@ def main():
         raise ValueError('Invalid public run tag')
     owner = json.loads((ROOT / 'local-results' / f'{platform}-owner.json').read_text())
     metadata = json.loads((ROOT / 'local-results' / f'{platform}-build.json').read_text())
-    for path, digest in metadata['sources'].items():
-        assert sha(ROOT / path) == digest, 'Changed built source: ' + path
-    assert sha(ROOT / 'local-results/tls/ca.pem') == metadata['caSha256']
+    assert metadata['sources'] == source_fingerprints(platform), 'Changed built sources'
+    assert sha(TLS_FOLDER / 'ca.pem') == metadata['caSha256']
     server = json.loads((ROOT / 'local-results/server.json').read_text())
     assert server['vectorsSha256'] == vectors_digest(), 'Restart the fixture: running server differs from vectors'
-    rows_path = ROOT / 'local-results/tls/requests.jsonl'
+    rows_path = TLS_FOLDER / 'requests.jsonl'
     assert_fresh_run(rows_path, tag)
     ports = (server['port'], server['secondPort'], server['controlPort'])
     device = (AndroidDevice if platform == 'android' else IosDevice)(owner, tag, ports, args.install)

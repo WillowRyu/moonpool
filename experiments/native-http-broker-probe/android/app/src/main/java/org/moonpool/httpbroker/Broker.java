@@ -14,19 +14,22 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.function.LongSupplier;
 import java.util.regex.Pattern;
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.moonpool.cookieprofile.CookieJar;
+import org.moonpool.cookieprofile.PublicSuffixList;
 
 /**
- * Research broker: one in-memory cookie jar per app, selected by a host-side portal binding. Not a public API, and its
- * cookie parser is only the small subset these cases need, because the C04 cookie profile is not frozen.
+ * Research broker: one in-memory c04-1 jar per app, selected by a host-side portal binding.
  * The field names and error values are proposals under test.
  */
 final class Broker {
@@ -42,20 +45,36 @@ final class Broker {
  static final Pattern HEADER_VALUE=Pattern.compile("[\\t\\x20-\\x7E]*");
  static final Pattern COOKIE_VALUE=Pattern.compile("[\\x21\\x23-\\x2B\\x2D-\\x3A\\x3C-\\x5B\\x5D-\\x7E]*");
  static final Pattern COOKIE_PATH=Pattern.compile("/[\\x20-\\x3A\\x3C-\\x7E]*");
- static final Pattern SENDABLE=Pattern.compile("[\\x20-\\x7E]*");
  static final Set<String> FORBIDDEN_HEADERS=new HashSet<>(Arrays.asList("cookie","cookie2","host","origin","proxy-authorization","content-length","transfer-encoding","connection","te","upgrade","keep-alive"));
- static final class Cookie {String host,path,name,value;boolean httpOnly;long created;}
  static final class Portal {final String app;final Set<String> grants;boolean retired;Portal(String app,Set<String> grants){this.app=app;this.grants=grants;}}
- static final class App {final List<Cookie> jar=new ArrayList<>();int generation;}
+ static final class App {
+  CookieJar jar;
+  int generation;
+  App(PublicSuffixList publicSuffixes){jar=new CookieJar(publicSuffixes);}
+ }
  static final class Pending {final CountDownLatch done=new CountDownLatch(1);JSONObject outcome;Runnable start;}
+ record ServiceOrigin(String host,int port) {}
+ private record ServiceTarget(HttpUrl url,CookieJar.Request cookieRequest) {
+  ServiceOrigin origin(){return new ServiceOrigin(url.host(),url.port());}
+ }
 
  final Map<String,Portal> portals=new HashMap<>();
  final Map<String,App> apps=new HashMap<>();
- final Set<String> approved;
+ private final Set<ServiceOrigin> approved=new HashSet<>();
  final JSONArray events=new JSONArray();
  final OkHttpClient client;
+ private final PublicSuffixList publicSuffixes;
+ private final LongSupplier clock;
  private long sequence;
- Broker(OkHttpClient client,Set<String> approved){this.client=client;this.approved=approved;}
+ Broker(OkHttpClient client,Set<ServiceOrigin> registrations,PublicSuffixList publicSuffixes,LongSupplier clock){
+  this.client=client;
+  this.publicSuffixes=publicSuffixes;
+  this.clock=clock;
+  for(ServiceOrigin registration:registrations){
+   ServiceOrigin origin=canonicalRegistration(registration);
+   if(origin!=null)approved.add(origin);
+  }
+ }
 
  /** Followed ProxySelector, and hid Retry-After, per ADR 0027. Cookies, authentication and cache stay off. Timeouts match iOS. */
  static OkHttpClient newClient(){
@@ -67,7 +86,7 @@ final class Broker {
     return value==null?response:response.newBuilder().removeHeader("Retry-After").header("X-Moonpool-Retry-After",value).build();
    }).build();
  }
- synchronized void bind(String id,String app,Set<String> grants){portals.put(id,new Portal(app,grants));apps.computeIfAbsent(app,key->new App());}
+ synchronized void bind(String id,String app,Set<String> grants){portals.put(id,new Portal(app,grants));apps.computeIfAbsent(app,key->new App(publicSuffixes));}
  synchronized void retire(String id){portals.get(id).retired=true;}
  static JSONObject obj(Object... fields){
   JSONObject o=new JSONObject();try{for(int i=0;i<fields.length;i+=2)o.put((String)fields[i],fields[i+1]);}catch(Exception e){throw new IllegalStateException(e);}return o;
@@ -81,39 +100,50 @@ final class Broker {
   if(portal.retired)return error("retired");
   return portal.grants.contains(scope)?null:error(-32000);
  }
- private static URI secureUrl(String text){
+ private static ServiceTarget secureTarget(String text){
   try{
    URI uri=new URI(text);
-   boolean bad=!"https".equals(uri.getScheme())||uri.getRawUserInfo()!=null||uri.getRawFragment()!=null||uri.getHost()==null;
-   return bad?null:uri;
-  }catch(Exception e){return null;}
+   String host=uri.getHost();
+   if(!"https".equals(uri.getScheme())||uri.getRawUserInfo()!=null||uri.getRawFragment()!=null||host==null)return null;
+   // Check before OkHttp normalizes aliases, then use its exact URL for approval, dispatch and the jar.
+   CookieJar.Request.of(host,"");
+   HttpUrl url=HttpUrl.parse(text);
+   if(url==null||host.startsWith("[")&&!url.host().contains(":"))return null;
+   return new ServiceTarget(url,CookieJar.Request.of(url.host(),url.encodedPath()));
+  }catch(java.net.URISyntaxException|IllegalArgumentException e){return null;}
  }
- /** One spelling of a host on both platforms: lower case, and an IPv6 literal without its brackets. */
- private static String hostOf(URI uri){
-  String host=uri.getHost().toLowerCase(Locale.ROOT);
-  return host.startsWith("[")&&host.endsWith("]")?host.substring(1,host.length()-1):host;
+ private static ServiceOrigin canonicalRegistration(ServiceOrigin registration){
+  String host=registration.host();
+  // Registrations supply a host field, so it cannot introduce a URL path or query.
+  if(host.chars().anyMatch(ch->"/?#".indexOf(ch)>=0))return null;
+  String authority=host.contains(":")&&!host.startsWith("[")?"["+host+"]":host;
+  ServiceTarget target=secureTarget("https://"+authority+":"+registration.port()+"/");
+  return target==null?null:target.origin();
  }
- private boolean isApproved(URI uri){return approved.contains(hostOf(uri)+":"+(uri.getPort()==-1?443:uri.getPort()));}
+ private boolean isApproved(ServiceTarget target){return approved.contains(target.origin());}
+
+ private static Pending rejected(JSONObject outcome){
+  Pending pending=new Pending();
+  pending.outcome=outcome;
+  pending.done.countDown();
+  return pending;
+ }
 
  Pending request(String portalId,String label,JSONObject params,boolean deferred) throws Exception {
-  Pending pending=new Pending();
-  JSONObject denied=admitRequest(portals.get(portalId),params);
-  if(denied!=null){pending.outcome=denied;pending.done.countDown();return pending;}
   Portal portal=portals.get(portalId);
+  JSONObject denied=admit(portal,"http");
+  if(denied!=null)return rejected(denied);
+  if(!validRequestFields(params))return rejected(error(-32602));
+  ServiceTarget target=secureTarget(params.getString("url"));
+  if(target==null)return rejected(error(-32602));
+  if(!isApproved(target))return rejected(error(-32000));
+  Pending pending=new Pending();
   App app=apps.get(portal.app);
   int generation;
   synchronized(this){generation=app.generation;}
-  pending.start=()->dispatch(portal,app,generation,label,params,pending);
+  pending.start=()->dispatch(portal,app,generation,label,params,target,pending);
   if(!deferred)pending.start.run();
   return pending;
- }
- private JSONObject admitRequest(Portal portal,JSONObject params) throws Exception {
-  JSONObject denied=admit(portal,"http");
-  if(denied!=null)return denied;
-  if(!validRequestFields(params))return error(-32602);
-  URI uri=secureUrl(params.getString("url"));
-  if(uri==null)return error(-32602);
-  return isApproved(uri)?null:error(-32000);
  }
  /** A value of the wrong type is refused rather than coerced, because iOS would read it differently. */
  private static boolean validRequestFields(JSONObject params){
@@ -135,11 +165,10 @@ final class Broker {
   return true;
  }
  /** The owner and generation are rechecked here because queued work may start after a close or a reset. */
- private void dispatch(Portal portal,App app,int generation,String label,JSONObject params,Pending pending){
+ private void dispatch(Portal portal,App app,int generation,String label,JSONObject params,ServiceTarget target,Pending pending){
   try{
    boolean include=!params.optString("credentials","include").equals("omit");
-   URI uri=new URI(params.getString("url"));
-   Request.Builder builder=new Request.Builder().url(params.getString("url"));
+   Request.Builder builder=new Request.Builder().url(target.url());
    String method=params.optString("method","GET"),body=params.optString("body",null);
    byte[] bytes=body==null?(BODY_REQUIRED_METHODS.contains(method)?new byte[0]:null):body.getBytes(java.nio.charset.StandardCharsets.UTF_8);
    builder.method(method,bytes==null?null:RequestBody.create(bytes,null));
@@ -148,13 +177,16 @@ final class Broker {
    synchronized(this){
     if(portal.retired){finish(portal,pending,error("retired"));return;}
     if(app.generation!=generation){finish(portal,pending,error(-32007,"sessionReset"));return;}
-    if(include){String cookie=cookieHeader(app,uri);if(!cookie.isEmpty())builder.header("Cookie",cookie);}
+    if(include){
+     String cookie=app.jar.cookieHeader(target.cookieRequest(),clock.getAsLong());
+     if(!cookie.isEmpty())builder.header("Cookie",cookie);
+    }
    }
    client.newCall(builder.build()).enqueue(new Callback(){
     @Override public void onFailure(Call call,IOException e){settleFailure(portal,app,generation,pending);}
     @Override public void onResponse(Call call,Response response){
      try(response){
-      commit(app,generation,include,label,uri,response);
+      commit(app,generation,include,label,target.cookieRequest(),response);
       String text=response.body().string();
       synchronized(Broker.this){
        if(app.generation!=generation){finish(portal,pending,error(-32007,"sessionReset"));return;}
@@ -175,12 +207,12 @@ final class Broker {
   pending.done.countDown();
  }
  /** Runs when the client delivers response headers, before the body is read. A stale generation is fenced, not written. */
- private synchronized void commit(App app,int generation,boolean include,String label,URI uri,Response response){
+ private synchronized void commit(App app,int generation,boolean include,String label,CookieJar.Request request,Response response){
   event("headers",label);
   List<String> fields=response.headers("Set-Cookie");
   if(fields.isEmpty()||!include)return;
   if(app.generation!=generation){event("fence",label);return;}
-  for(String line:splitFolded(String.join(", ",fields)))store(app,line,uri);
+  app.jar.receive(fields,request,clock.getAsLong());
   event("commit",label);
  }
  private static JSONObject projected(Response response) throws Exception {
@@ -192,66 +224,6 @@ final class Broker {
   }
   return headers;
  }
- static String[] splitFolded(String value){return value.split(",\\s*(?=[^;,=\\s]+=)");}
- private static boolean pathMatches(String request,String cookie){
-  return request.equals(cookie)||(request.startsWith(cookie)&&(cookie.endsWith("/")||request.charAt(cookie.length())=='/'));
- }
- private static String defaultPath(String path){
-  int last=path==null?-1:path.lastIndexOf('/');
-  return last<=0?"/":path.substring(0,last);
- }
- private void store(App app,String line,URI uri){
-  String[] parts=line.split(";",-1);
-  int equals=parts[0].indexOf('=');
-  if(equals<=0)return;
-  Cookie cookie=new Cookie();
-  cookie.name=parts[0].substring(0,equals).trim();
-  cookie.value=parts[0].substring(equals+1).trim();
-  // Kept, this could not go back into a Cookie header, and every later request from the app would fail.
-  if(!SENDABLE.matcher(cookie.name).matches()||!SENDABLE.matcher(cookie.value).matches())return;
-  cookie.host=hostOf(uri);
-  cookie.path=defaultPath(uri.getPath());
-  boolean secure=false,sameSiteNone=false;
-  Long maxAge=null;
-  for(int i=1;i<parts.length;i++){
-   String[] attribute=parts[i].trim().split("=",2);
-   String key=attribute[0].trim().toLowerCase(Locale.ROOT),value=attribute.length>1?attribute[1].trim():"";
-   switch(key){
-    case "path":if(value.startsWith("/"))cookie.path=value;break;
-    case "domain":if(!value.equalsIgnoreCase(cookie.host))return;break;
-    case "secure":secure=true;break;
-    case "httponly":cookie.httpOnly=true;break;
-    case "samesite":sameSiteNone=value.equalsIgnoreCase("none");break;
-    case "max-age":try{maxAge=Long.parseLong(value);}catch(NumberFormatException ignored){}break;
-    default:
-   }
-  }
-  if(sameSiteNone&&!secure)return;
-  put(app,cookie,maxAge!=null&&maxAge<=0);
- }
- private void put(App app,Cookie cookie,boolean delete){
-  Cookie existing=find(app,cookie.host,cookie.path,cookie.name);
-  cookie.created=existing==null?++sequence:existing.created;
-  if(existing!=null)app.jar.remove(existing);
-  if(!delete)app.jar.add(cookie);
- }
- private static Cookie find(App app,String host,String path,String name){
-  for(Cookie cookie:app.jar)if(cookie.host.equals(host)&&cookie.path.equals(path)&&cookie.name.equals(name))return cookie;
-  return null;
- }
- private static List<Cookie> matching(App app,URI uri){
-  List<Cookie> found=new ArrayList<>();
-  String host=hostOf(uri),path=uri.getPath()==null||uri.getPath().isEmpty()?"/":uri.getPath();
-  for(Cookie cookie:app.jar)if(cookie.host.equals(host)&&pathMatches(path,cookie.path))found.add(cookie);
-  Collections.sort(found,(a,b)->a.path.length()!=b.path.length()?b.path.length()-a.path.length():Long.compare(a.created,b.created));
-  return found;
- }
- private static String cookieHeader(App app,URI uri){
-  StringBuilder header=new StringBuilder();
-  for(Cookie cookie:matching(app,uri)){if(header.length()>0)header.append("; ");header.append(cookie.name).append('=').append(cookie.value);}
-  return header.toString();
- }
-
  /** Script cookies follow the RFC 6265 grammar, so a value cannot add a pair beside a protected cookie. */
  private static boolean validCookieFields(JSONObject fields,Set<String> allowed,boolean needsValue){
   for(Iterator<String> keys=fields.keys();keys.hasNext();)if(!allowed.contains(keys.next()))return false;
@@ -266,11 +238,14 @@ final class Broker {
   Portal portal=portals.get(portalId);
   JSONObject denied=admit(portal,"cookies");
   if(denied!=null)return denied;
-  URI uri=secureUrl(url);
-  if(uri==null)return error(-32602);
-  if(!isApproved(uri))return error(-32000);
+  ServiceTarget target=secureTarget(url);
+  if(target==null)return error(-32602);
+  if(!isApproved(target))return error(-32000);
   JSONArray cookies=new JSONArray();
-  for(Cookie cookie:matching(apps.get(portal.app),uri))if(!cookie.httpOnly)cookies.put(obj("name",cookie.name,"path",cookie.path,"value",cookie.value));
+  App app=apps.get(portal.app);
+  for(CookieJar.Cookie cookie:app.jar.scriptCookies(target.cookieRequest(),clock.getAsLong())){
+   cookies.put(obj("name",cookie.name,"path",cookie.path,"value",cookie.value));
+  }
   return obj("ok",true,"cookies",cookies);
  }
  synchronized JSONObject cookiesSet(String portalId,String url,JSONObject fields) throws Exception {
@@ -278,31 +253,25 @@ final class Broker {
   JSONObject denied=admit(portal,"cookies");
   if(denied!=null)return denied;
   if(!validCookieFields(fields,COOKIE_FIELDS,true))return error(-32602);
-  URI uri=secureUrl(url);
-  if(uri==null)return error(-32602);
-  if(!isApproved(uri))return error(-32000);
-  App app=apps.get(portal.app);
-  String host=hostOf(uri),path=fields.optString("path","/");
-  Cookie existing=find(app,host,path,fields.getString("name"));
-  if(existing!=null&&existing.httpOnly)return error(-32000);
-  Cookie cookie=new Cookie();
-  cookie.host=host;cookie.path=path;cookie.name=fields.getString("name");cookie.value=fields.getString("value");
-  put(app,cookie,fields.has("maxAge")&&fields.getLong("maxAge")<=0);
-  return obj("ok",true);
+  ServiceTarget target=secureTarget(url);
+  if(target==null)return error(-32602);
+  if(!isApproved(target))return error(-32000);
+  Long maxAge=fields.has("maxAge")?fields.getLong("maxAge"):null;
+  boolean stored=apps.get(portal.app).jar.setScriptCookie(target.cookieRequest(),fields.getString("name"),
+      fields.getString("value"),fields.optString("path","/"),maxAge,clock.getAsLong());
+  return stored?obj("ok",true):error(-32000);
  }
  synchronized JSONObject cookiesDelete(String portalId,String url,JSONObject fields) throws Exception {
   Portal portal=portals.get(portalId);
   JSONObject denied=admit(portal,"cookies");
   if(denied!=null)return denied;
   if(!validCookieFields(fields,COOKIE_DELETE_FIELDS,false))return error(-32602);
-  URI uri=secureUrl(url);
-  if(uri==null)return error(-32602);
-  if(!isApproved(uri))return error(-32000);
-  App app=apps.get(portal.app);
-  Cookie existing=find(app,hostOf(uri),fields.optString("path","/"),fields.getString("name"));
-  if(existing!=null&&existing.httpOnly)return error(-32000);
-  if(existing!=null)app.jar.remove(existing);
-  return obj("ok",true);
+  ServiceTarget target=secureTarget(url);
+  if(target==null)return error(-32602);
+  if(!isApproved(target))return error(-32000);
+  boolean deleted=apps.get(portal.app).jar.deleteScriptCookie(target.cookieRequest(),fields.getString("name"),
+      fields.optString("path","/"),clock.getAsLong());
+  return deleted?obj("ok",true):error(-32000);
  }
  /** Advances the generation first, so no in-flight response can write after this returns. */
  synchronized JSONObject reset(String portalId){
@@ -311,7 +280,7 @@ final class Broker {
   if(denied!=null)return denied;
   App app=apps.get(portal.app);
   app.generation++;
-  app.jar.clear();
+  app.jar=new CookieJar(publicSuffixes);
   event("reset",portalId);
   return obj("ok",true);
  }
@@ -319,7 +288,7 @@ final class Broker {
  synchronized JSONArray snapshot(String appId){
   List<String> found=new ArrayList<>();
   App app=apps.get(appId);
-  if(app!=null)for(Cookie cookie:app.jar)found.add(cookie.name+"="+cookie.value);
+  if(app!=null)for(CookieJar.Cookie cookie:app.jar.entries())found.add(cookie.name+"="+cookie.value);
   Collections.sort(found);
   return new JSONArray(found);
  }
