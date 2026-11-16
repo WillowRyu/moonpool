@@ -17,8 +17,9 @@ import sys
 import tempfile
 
 ROOT = Path(__file__).resolve().parent
-BROKER = ROOT.parent / (
-    'native-http-broker-probe/android/app/src/main/java/org/moonpool/httpbroker/Broker.java'
+BASELINE_COMMIT = 'c428179a2fbaff990d6e1aeff2fc44d54c0f7610'
+BASELINE_SOURCE = (
+    'experiments/native-http-broker-probe/android/app/src/main/java/org/moonpool/httpbroker/Broker.java'
 )
 REFERENCE = ROOT / 'reference'
 JAVA = REFERENCE / 'java'
@@ -120,7 +121,8 @@ def run_reference(inputs, psl, digest):
         javac = ['javac', '--release', '17', '-Xlint:all', '-Werror', '-d', classes]
         subprocess.run([*javac, *sorted(map(str, (JAVA / 'src').rglob('*.java')))], check=True)
         tests = sorted(map(str, (JAVA / 'test').rglob('*.java')))
-        subprocess.run([*javac, '-cp', classes + os.pathsep + deps, *tests], check=True)
+        replay = sorted(map(str, (JAVA / 'fixture').rglob('*.java')))
+        subprocess.run([*javac, '-cp', classes + os.pathsep + deps, *replay, *tests], check=True)
         java = ['java', '-cp', classes + os.pathsep + deps]
         rules = self_test([*java, f'{PACKAGE}.ReferenceSelfTest', str(psl), digest], 'reference')
         return adapter([*java, f'{PACKAGE}.ReferenceAdapter', str(psl), digest], inputs), rules
@@ -156,8 +158,12 @@ def run_swift(inputs, psl, digest):
 def run_baseline(inputs, psl, digest):
     deps = classpath()
     with tempfile.TemporaryDirectory(prefix='moonpool-c04-jvm-') as classes:
+        broker = Path(classes) / 'Broker.java'
+        broker.write_bytes(subprocess.check_output(
+            ['git', 'show', f'{BASELINE_COMMIT}:{BASELINE_SOURCE}'], cwd=ROOT,
+        ))
         subprocess.run(
-            ['javac', '--release', '17', '-cp', deps, '-d', classes, str(BROKER),
+            ['javac', '--release', '17', '-cp', deps, '-d', classes, str(broker),
              str(ROOT / 'BrokerBaseline.java')],
             check=True,
         )
