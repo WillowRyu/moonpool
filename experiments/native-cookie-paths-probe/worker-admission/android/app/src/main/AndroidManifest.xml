@@ -1,0 +1,6 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+ <uses-permission android:name="android.permission.INTERNET" />
+ <application android:label="Worker Admission Probe" android:allowBackup="false" android:usesCleartextTraffic="false" android:theme="@android:style/Theme.Material.Light.NoActionBar">
+  <activity android:name="org.moonpool.cookieadmission.WorkerAdmissionActivity" android:exported="true" />
+ </application>
+</manifest>

@@ -1,0 +1,323 @@
+{
+  "build": {
+    "artifactSha256": "e2851a15f1fed75859406d96cdc27bdd1f704171cbc6868773c91453b9d39e54",
+    "sources": {
+      "../../android-origin-probe/gradlew": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59",
+      "../../native-cookie-admission-probe/android/app/src/main/java/org/moonpool/cookieadmission/AdmissionGate.java": "42307cc7f1f9a51d6b4e485350037775e9ec9f61fe5d2a433a365b37aeab4e55",
+      "../runner.py": "439ef65ae90e184e29e210e400fb8b92a0d5fc2a3daf141624772d72d2ab725c",
+      "android/app/build.gradle": "d575c093608e510ca4c6a6f2f7a5e49f9f563c2ad57a354b58f082c8b5ad3303",
+      "android/app/src/main/AndroidManifest.xml": "eba514a07ff7c5b24b267b83b1c79bb0d488275c9f6a3833a09d240b5e9ad702",
+      "android/app/src/main/java/org/moonpool/cookieadmission/WorkerAdmissionActivity.java": "a0ef91d4b27cf012bbb38afa8849f983e3ecf7f607cc5f0d085c9ac95b918346",
+      "android/build.gradle": "bb5d6db0a3f94e7ff33ba91a07fa9146a96994e843ae487ebccadc99b62e722c",
+      "android/gradle.properties": "67eefa02d084d8fd6e2698683ca4d007a344395ca89eed9012a79bac373ba359",
+      "android/settings.gradle": "ccc812cf718e0c0212fd93ebdf597139b5982804bc2168697562d9186dbe2350",
+      "check.py": "7c8b78aa347ed61a222ae2711064c3a59a1b85f2ef61a4750390e7530a311c32",
+      "inspect.js": "e4f2ca6de85c022603dd9135b7a5d520c156c647e67804481a4afa5789048f60",
+      "run_probe.py": "fd6052bc4e2efec13631a5782ab1e724afead62f5e0779e89f65aac0565e2965",
+      "seed.js": "b0c21807cb86e1d2f181b0b03f5b62d75c5c075d3b05415c9918de1f2866910b",
+      "store.js": "7f374ec8bc46aa1fefbec1464e32af7e518a84514ffe6c15603e27d87109c69c",
+      "worker.js": "207a7a0d7cbeec80d3618ed1ab0e6a8d987eac63319eb3b9beb1d450ac570216"
+    }
+  },
+  "capturedUtc": "2026-11-17T03:19:17Z",
+  "checks": [
+    {
+      "case": "root",
+      "complete": true,
+      "cookiePresent": false,
+      "diagnostic": {
+        "hostEvaluationReturned": false,
+        "pageScriptsEnabled": false,
+        "title": "c09-worker"
+      },
+      "events": ["policy", "inspect", "verdict", "refuse"],
+      "guest": null,
+      "guestLoads": 0,
+      "inspectionRequests": [],
+      "nonceMatches": true,
+      "phase": "check",
+      "pid": 5897,
+      "policy": {
+        "browserNetworkBlocked": true,
+        "cookieDeny": true,
+        "workerNetworkBlocked": true
+      },
+      "profile": "worker-admission-android-worker-final-root",
+      "profilePresent": true,
+      "proof": {
+        "api": true,
+        "contextOrigin": "https://mp-android-worker-final-root.invalid",
+        "controller": null,
+        "data": "android-worker-final",
+        "error": "InvalidStateError: Failed to get ServiceWorkerRegistration objects: The document is in an invalid state.",
+        "frame": {
+          "api": true,
+          "contextOrigin": "https://mp-android-worker-final-root.invalid",
+          "controller": null,
+          "error": "InvalidStateError: Failed to get ServiceWorkerRegistration objects: The document is in an invalid state.",
+          "scopes": []
+        },
+        "inline": {
+          "api": true,
+          "contextOrigin": "https://mp-android-worker-final-root.invalid",
+          "controller": null,
+          "error": "InvalidStateError: Failed to get ServiceWorkerRegistration objects: The document is in an invalid state.",
+          "scopes": []
+        },
+        "locationOrigin": "https://mp-android-worker-final-root.invalid",
+        "method": "inline",
+        "nonce": "1d617408-dfe6-4577-a0c5-e45f58f68392",
+        "origin": "https://mp-android-worker-final-root.invalid",
+        "pageScriptRan": false,
+        "scopes": [],
+        "source": "host"
+      },
+      "provider": "145.0.7632.218",
+      "release": "17",
+      "run": "android-worker-final",
+      "verdict": "unknown"
+    },
+    {
+      "case": "offpath",
+      "complete": true,
+      "cookiePresent": false,
+      "diagnostic": {
+        "pageScriptsEnabled": false,
+        "title": "c09-worker"
+      },
+      "events": ["policy", "inspect", "verdict", "refuse"],
+      "guest": null,
+      "guestLoads": 0,
+      "inspectionRequests": [],
+      "nonceMatches": true,
+      "phase": "check",
+      "pid": 6053,
+      "policy": {
+        "browserNetworkBlocked": true,
+        "cookieDeny": true,
+        "workerNetworkBlocked": true
+      },
+      "profile": "worker-admission-android-worker-final-offpath",
+      "profilePresent": true,
+      "proof": {
+        "api": true,
+        "contextOrigin": "https://mp-android-worker-final-offpath.invalid",
+        "controller": null,
+        "data": "android-worker-final",
+        "error": "InvalidStateError: Failed to get ServiceWorkerRegistration objects: The document is in an invalid state.",
+        "frame": {
+          "api": true,
+          "contextOrigin": "https://mp-android-worker-final-offpath.invalid",
+          "controller": null,
+          "error": "InvalidStateError: Failed to get ServiceWorkerRegistration objects: The document is in an invalid state.",
+          "scopes": []
+        },
+        "inline": {
+          "api": true,
+          "contextOrigin": "https://mp-android-worker-final-offpath.invalid",
+          "controller": null,
+          "error": "InvalidStateError: Failed to get ServiceWorkerRegistration objects: The document is in an invalid state.",
+          "scopes": []
+        },
+        "locationOrigin": "https://mp-android-worker-final-offpath.invalid",
+        "method": "inline",
+        "nonce": "c038ea12-5b7d-4d6c-aff9-9c92620a165f",
+        "origin": "https://mp-android-worker-final-offpath.invalid",
+        "pageScriptRan": false,
+        "scopes": [],
+        "source": "host"
+      },
+      "provider": "145.0.7632.218",
+      "release": "17",
+      "run": "android-worker-final",
+      "verdict": "unknown"
+    },
+    {
+      "case": "used",
+      "complete": true,
+      "cookiePresent": false,
+      "diagnostic": null,
+      "events": ["policy", "inspect", "verdict", "refuse"],
+      "guest": null,
+      "guestLoads": 0,
+      "inspectionRequests": [],
+      "nonceMatches": true,
+      "phase": "check",
+      "pid": 6211,
+      "policy": {
+        "browserNetworkBlocked": true,
+        "cookieDeny": true,
+        "workerNetworkBlocked": true
+      },
+      "profile": "worker-admission-android-worker-final-used",
+      "profilePresent": true,
+      "proof": {
+        "api": true,
+        "contextOrigin": "https://mp-android-worker-final-used.invalid",
+        "controller": null,
+        "data": "android-worker-final",
+        "error": "InvalidStateError: Failed to get ServiceWorkerRegistration objects: The document is in an invalid state.",
+        "frame": {
+          "api": true,
+          "contextOrigin": "https://mp-android-worker-final-used.invalid",
+          "controller": null,
+          "error": "InvalidStateError: Failed to get ServiceWorkerRegistration objects: The document is in an invalid state.",
+          "scopes": []
+        },
+        "inline": {
+          "api": true,
+          "contextOrigin": "https://mp-android-worker-final-used.invalid",
+          "controller": null,
+          "error": "InvalidStateError: Failed to get ServiceWorkerRegistration objects: The document is in an invalid state.",
+          "scopes": []
+        },
+        "locationOrigin": "https://mp-android-worker-final-used.invalid",
+        "method": "inline",
+        "nonce": "76d41c12-9a94-42f6-832d-8e8de091244e",
+        "origin": "https://mp-android-worker-final-used.invalid",
+        "pageScriptRan": false,
+        "scopes": [],
+        "source": "host"
+      },
+      "provider": "145.0.7632.218",
+      "release": "17",
+      "run": "android-worker-final",
+      "verdict": "unknown"
+    },
+    {
+      "case": "fresh",
+      "complete": true,
+      "cookiePresent": false,
+      "diagnostic": null,
+      "events": ["policy", "inspect", "verdict", "refuse"],
+      "guest": null,
+      "guestLoads": 0,
+      "inspectionRequests": [],
+      "nonceMatches": true,
+      "phase": "check",
+      "pid": 6341,
+      "policy": {
+        "browserNetworkBlocked": true,
+        "cookieDeny": true,
+        "workerNetworkBlocked": true
+      },
+      "profile": "worker-admission-android-worker-final-fresh",
+      "profilePresent": false,
+      "proof": {
+        "api": true,
+        "contextOrigin": "https://mp-android-worker-final-fresh.invalid",
+        "controller": null,
+        "data": null,
+        "error": "InvalidStateError: Failed to get ServiceWorkerRegistration objects: The document is in an invalid state.",
+        "frame": {
+          "api": true,
+          "contextOrigin": "https://mp-android-worker-final-fresh.invalid",
+          "controller": null,
+          "error": "InvalidStateError: Failed to get ServiceWorkerRegistration objects: The document is in an invalid state.",
+          "scopes": []
+        },
+        "inline": {
+          "api": true,
+          "contextOrigin": "https://mp-android-worker-final-fresh.invalid",
+          "controller": null,
+          "error": "InvalidStateError: Failed to get ServiceWorkerRegistration objects: The document is in an invalid state.",
+          "scopes": []
+        },
+        "locationOrigin": "https://mp-android-worker-final-fresh.invalid",
+        "method": "inline",
+        "nonce": "e798a6c0-7b4b-46e0-b3c2-23b3fceaa94d",
+        "origin": "https://mp-android-worker-final-fresh.invalid",
+        "pageScriptRan": false,
+        "scopes": [],
+        "source": "host"
+      },
+      "provider": "145.0.7632.218",
+      "release": "17",
+      "run": "android-worker-final",
+      "verdict": "unknown"
+    },
+    {
+      "case": "opaque",
+      "complete": true,
+      "cookiePresent": false,
+      "diagnostic": null,
+      "events": ["policy", "inspect", "verdict", "refuse"],
+      "guest": null,
+      "guestLoads": 0,
+      "inspectionRequests": [],
+      "nonceMatches": true,
+      "phase": "check",
+      "pid": 6472,
+      "policy": {
+        "browserNetworkBlocked": true,
+        "cookieDeny": true,
+        "workerNetworkBlocked": true
+      },
+      "profile": "worker-admission-android-worker-final-used",
+      "profilePresent": true,
+      "proof": {
+        "api": false,
+        "contextOrigin": "null",
+        "controller": null,
+        "data": null,
+        "frame": null,
+        "inline": {
+          "api": false,
+          "contextOrigin": "null",
+          "controller": null,
+          "scopes": []
+        },
+        "locationOrigin": "null",
+        "method": "inline",
+        "nonce": "66b2296d-995d-441b-ad94-1712400a8557",
+        "origin": "null",
+        "pageScriptRan": false,
+        "scopes": [],
+        "source": "host"
+      },
+      "provider": "145.0.7632.218",
+      "release": "17",
+      "run": "android-worker-final",
+      "verdict": "unknown"
+    }
+  ],
+  "installedArtifactSha256": "e2851a15f1fed75859406d96cdc27bdd1f704171cbc6868773c91453b9d39e54",
+  "run": "android-worker-final",
+  "seed": {
+    "complete": true,
+    "phase": "seed",
+    "pid": 5710,
+    "profiles": [
+      {
+        "case": "used",
+        "profile": "worker-admission-android-worker-final-used",
+        "seed": {
+          "data": "android-worker-final",
+          "origin": "https://mp-android-worker-final-used.invalid",
+          "scope": null
+        }
+      },
+      {
+        "case": "root",
+        "profile": "worker-admission-android-worker-final-root",
+        "seed": {
+          "data": "android-worker-final",
+          "origin": "https://mp-android-worker-final-root.invalid",
+          "scope": "https://mp-android-worker-final-root.invalid/"
+        }
+      },
+      {
+        "case": "offpath",
+        "profile": "worker-admission-android-worker-final-offpath",
+        "seed": {
+          "data": "android-worker-final",
+          "origin": "https://mp-android-worker-final-offpath.invalid",
+          "scope": "https://mp-android-worker-final-offpath.invalid/outside/"
+        }
+      }
+    ],
+    "provider": "145.0.7632.218",
+    "release": "17",
+    "run": "android-worker-final"
+  }
+}
