@@ -1,0 +1,182 @@
+{
+  "build": {
+    "artifactSha256": "55a5b58066e8a65a64af4f84809c51f1109746a7d1fa82bcdb17b5d916be5d80",
+    "sources": {
+      "../../android-origin-probe/gradle/wrapper/gradle-wrapper.properties": "6ca9e44c73e5ffc2656e8110780eed77b023934f5ceb57e9e55658604d3315fd",
+      "../../android-origin-probe/gradlew": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59",
+      "../runner.py": "439ef65ae90e184e29e210e400fb8b92a0d5fc2a3daf141624772d72d2ab725c",
+      "android/app/build.gradle": "93582f4ee1a1ccbbaf3720308cb154733eb6406339610ec6724e27b67baac2a1",
+      "android/app/src/main/AndroidManifest.xml": "9b3814288fdfa933c684470137b216aec7f839070959a4216c700a325016f60b",
+      "android/app/src/main/java/org/moonpool/workercontexts/WorkerContextsActivity.java": "907691a3cc1ca8d842df609591a373e38be1ef4d1808c70ae862441e53e70568",
+      "android/build.gradle": "6e94fd7d3deb45d681a1a2c33d78e47bfcabcfcfbbebc9edc156791d292006d9",
+      "android/gradle.properties": "67eefa02d084d8fd6e2698683ca4d007a344395ca89eed9012a79bac373ba359",
+      "android/settings.gradle": "1c73892b441cc5b0fa042af4c320169861ae86cdfd2cb09a7d247439829ef8ce",
+      "assets/dedicated.js": "4728d048d3f0d9baf7e7400a8fb76a47fa756427351717ae47653564ae5a0811",
+      "assets/probe.js": "7c4afb624cc6ab7de833fedabbe7d2a9aa9ab47dfcced9896ed3ebcfa14d5a02",
+      "assets/service.js": "7e66f4254502b69625ebbb957033ec6e1888739e40430596612d36b2447b2a2b",
+      "check.py": "65af0004b740bc170fd8ea92d6258125ea344d21c76838ccf2bf54fb411480e3",
+      "run_probe.py": "3c75e53ab2f793b52d23d772e6d9208855daca5d1bb3e157ab25df39cc79a394"
+    }
+  },
+  "capturedUtc": "2026-11-24T02:39:32Z",
+  "complete": true,
+  "installedArtifactSha256": "55a5b58066e8a65a64af4f84809c51f1109746a7d1fa82bcdb17b5d916be5d80",
+  "pid": 3327,
+  "provider": "145.0.7632.218",
+  "release": "17",
+  "run": "android-contexts-first",
+  "samples": {
+    "control": {
+      "created": true,
+      "page": {
+        "documents": {
+          "blank": {
+            "dedicated": {
+              "outcome": "message",
+              "value": "context-worker"
+            },
+            "name": "blank",
+            "origin": "https://mp-android-contexts-first-control.invalid",
+            "secure": true,
+            "service": {
+              "error": "InvalidStateError",
+              "outcome": "rejected"
+            },
+            "url": "about:blank",
+            "violations": []
+          },
+          "entry": {
+            "dedicated": {
+              "outcome": "message",
+              "value": "context-worker"
+            },
+            "name": "entry",
+            "origin": "https://mp-android-contexts-first-control.invalid",
+            "secure": true,
+            "service": {
+              "outcome": "activated",
+              "scope": "https://mp-android-contexts-first-control.invalid/scope/entry/"
+            },
+            "url": "https://mp-android-contexts-first-control.invalid/entry",
+            "violations": []
+          },
+          "srcdoc": {
+            "dedicated": {
+              "outcome": "message",
+              "value": "context-worker"
+            },
+            "name": "srcdoc",
+            "origin": "https://mp-android-contexts-first-control.invalid",
+            "secure": true,
+            "service": {
+              "outcome": "activated",
+              "scope": "https://mp-android-contexts-first-control.invalid/scope/srcdoc/"
+            },
+            "url": "about:srcdoc",
+            "violations": []
+          }
+        },
+        "scopes": [
+          "https://mp-android-contexts-first-control.invalid/scope/entry/",
+          "https://mp-android-contexts-first-control.invalid/scope/srcdoc/"
+        ]
+      },
+      "policy": "",
+      "profile": "worker-contexts-android-contexts-first-control",
+      "requests": [
+        "/entry",
+        "/probe.js",
+        "/dedicated.js",
+        "/dedicated.js",
+        "/dedicated.js",
+        "/service.js",
+        "/service.js"
+      ]
+    },
+    "guarded": {
+      "created": true,
+      "page": {
+        "documents": {
+          "blank": {
+            "dedicated": {
+              "error": "ErrorEvent",
+              "outcome": "rejected"
+            },
+            "name": "blank",
+            "origin": "https://mp-android-contexts-first-guarded.invalid",
+            "secure": true,
+            "service": {
+              "error": "InvalidStateError",
+              "outcome": "rejected"
+            },
+            "url": "about:blank",
+            "violations": [
+              {
+                "blockedURI": "https://mp-android-contexts-first-guarded.invalid/dedicated.js",
+                "directive": "worker-src",
+                "disposition": "enforce"
+              }
+            ]
+          },
+          "entry": {
+            "dedicated": {
+              "error": "ErrorEvent",
+              "outcome": "rejected"
+            },
+            "name": "entry",
+            "origin": "https://mp-android-contexts-first-guarded.invalid",
+            "secure": true,
+            "service": {
+              "error": "SecurityError",
+              "outcome": "rejected"
+            },
+            "url": "https://mp-android-contexts-first-guarded.invalid/entry",
+            "violations": [
+              {
+                "blockedURI": "https://mp-android-contexts-first-guarded.invalid/dedicated.js",
+                "directive": "worker-src",
+                "disposition": "enforce"
+              },
+              {
+                "blockedURI": "https://mp-android-contexts-first-guarded.invalid/service.js",
+                "directive": "worker-src",
+                "disposition": "enforce"
+              }
+            ]
+          },
+          "srcdoc": {
+            "dedicated": {
+              "error": "ErrorEvent",
+              "outcome": "rejected"
+            },
+            "name": "srcdoc",
+            "origin": "https://mp-android-contexts-first-guarded.invalid",
+            "secure": true,
+            "service": {
+              "error": "SecurityError",
+              "outcome": "rejected"
+            },
+            "url": "about:srcdoc",
+            "violations": [
+              {
+                "blockedURI": "https://mp-android-contexts-first-guarded.invalid/dedicated.js",
+                "directive": "worker-src",
+                "disposition": "enforce"
+              },
+              {
+                "blockedURI": "https://mp-android-contexts-first-guarded.invalid/service.js",
+                "directive": "worker-src",
+                "disposition": "enforce"
+              }
+            ]
+          }
+        },
+        "scopes": []
+      },
+      "policy": "worker-src 'none'",
+      "profile": "worker-contexts-android-contexts-first-guarded",
+      "requests": ["/entry", "/probe.js"]
+    }
+  },
+  "sdk": 37
+}
