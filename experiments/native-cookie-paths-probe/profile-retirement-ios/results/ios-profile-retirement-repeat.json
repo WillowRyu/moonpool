@@ -1,0 +1,246 @@
+{
+  "bPolicy": {
+    "cookies": false,
+    "fixturePresent": false,
+    "policyDisallowed": true,
+    "records": false
+  },
+  "build": {
+    "artifactSha256": "d4e427060ee21ecf441628b34b2c3af42a9b863b04dd726e8598c3ddfea11813",
+    "sdk": "26.4",
+    "sources": {
+      "../../native-cookie-admission-probe/ios/AdmissionGate.swift": "8013c33dd3939f5ecb48299919795d808e73887e7471df0a329160ace0a71f22",
+      "../runner.py": "439ef65ae90e184e29e210e400fb8b92a0d5fc2a3daf141624772d72d2ab725c",
+      "../worker-admission/store.js": "7f374ec8bc46aa1fefbec1464e32af7e518a84514ffe6c15603e27d87109c69c",
+      "Probe.swift": "f5ad775b12316c741c83e7153a2d440f2d788ef445d0c84d7c6abc702163f4ee",
+      "check.py": "67b26dfd6f32927d8e10ecae928c832f94aa3c8daa5f5a5669884bb531a2affd",
+      "run_probe.py": "85bae7b58c8ae6e314f277478f0ddc9daf923afa695f4ac774675af4862bdb0c"
+    },
+    "xcode": "Xcode 26.4.1\nBuild version 17E202"
+  },
+  "capturedUtc": "2026-11-24T05:07:32Z",
+  "complete": true,
+  "continuedB": {
+    "cookie": "",
+    "instance": "6C435527-16F8-4D11-AF55-479E8B73F761",
+    "marker": "ios-retirement-repeat-b",
+    "name": "b1",
+    "origin": "moonpool://com.example.retirement.ios-retirement-repeat.b",
+    "pulse": 2
+  },
+  "events": [
+    "a1:inspect",
+    "a1:empty",
+    "a1:load",
+    "a2:inspect",
+    "a2:empty",
+    "a2:load",
+    "b1:inspect",
+    "b1:empty",
+    "b1:load",
+    "a:write-complete",
+    "a3:inspect",
+    "a3:pending",
+    "a3:present",
+    "a1:release",
+    "a2:release",
+    "a3:refuse",
+    "a4:refuse"
+  ],
+  "initial": {
+    "a1": {
+      "document": {
+        "cookie": "",
+        "instance": "B4D104DF-98D3-4885-B264-7BEEBA57808E",
+        "marker": "ios-retirement-repeat-a",
+        "name": "a1",
+        "origin": "moonpool://com.example.retirement.ios-retirement-repeat.a",
+        "pulse": 1
+      },
+      "state": {
+        "attached": true,
+        "groupInactiveAtRelease": false,
+        "live": true,
+        "loads": 1,
+        "released": false,
+        "retireCalls": 0
+      },
+      "store": "4984C1E4-3B05-4218-96A2-15BC6209F6DE"
+    },
+    "a2": {
+      "document": {
+        "cookie": "",
+        "instance": "C214F917-4D6C-465A-A646-424A5F2896FD",
+        "marker": "ios-retirement-repeat-a",
+        "name": "a2",
+        "origin": "moonpool://com.example.retirement.ios-retirement-repeat.a",
+        "pulse": 1
+      },
+      "state": {
+        "attached": true,
+        "groupInactiveAtRelease": false,
+        "live": true,
+        "loads": 1,
+        "released": false,
+        "retireCalls": 0
+      },
+      "store": "4984C1E4-3B05-4218-96A2-15BC6209F6DE"
+    },
+    "b1": {
+      "document": {
+        "cookie": "",
+        "instance": "6C435527-16F8-4D11-AF55-479E8B73F761",
+        "marker": "ios-retirement-repeat-b",
+        "name": "b1",
+        "origin": "moonpool://com.example.retirement.ios-retirement-repeat.b",
+        "pulse": 1
+      },
+      "state": {
+        "attached": true,
+        "groupInactiveAtRelease": false,
+        "live": true,
+        "loads": 1,
+        "released": false,
+        "retireCalls": 0
+      },
+      "store": "CE1F3299-C2C4-479F-A607-05BD298DC322"
+    }
+  },
+  "initializedWebKit": true,
+  "inspections": {
+    "a1": {
+      "cookies": false,
+      "fixturePresent": false,
+      "policyDisallowed": true,
+      "records": false
+    },
+    "a2": {
+      "cookies": false,
+      "fixturePresent": false,
+      "policyDisallowed": true,
+      "records": false
+    },
+    "a3": {
+      "cookies": true,
+      "fixturePresent": true,
+      "policyDisallowed": true,
+      "records": true
+    },
+    "b1": {
+      "cookies": false,
+      "fixturePresent": false,
+      "policyDisallowed": true,
+      "records": false
+    }
+  },
+  "installedArtifactSha256": "d4e427060ee21ecf441628b34b2c3af42a9b863b04dd726e8598c3ddfea11813",
+  "loader": ["a1", "a2", "b1"],
+  "pending": {
+    "a1": {
+      "attached": true,
+      "groupInactiveAtRelease": false,
+      "live": true,
+      "loads": 1,
+      "released": false,
+      "retireCalls": 0
+    },
+    "a2": {
+      "attached": true,
+      "groupInactiveAtRelease": false,
+      "live": true,
+      "loads": 1,
+      "released": false,
+      "retireCalls": 0
+    },
+    "a3": {
+      "attached": false,
+      "groupInactiveAtRelease": false,
+      "live": true,
+      "loads": 0,
+      "released": false,
+      "retireCalls": 0
+    }
+  },
+  "pid": 35106,
+  "platform": "ios",
+  "preservedA": {
+    "cookieState": {
+      "cookies": true,
+      "fixturePresent": true,
+      "policyDisallowed": true,
+      "records": true
+    },
+    "hostReceipts": 1,
+    "marker": "ios-retirement-repeat-a",
+    "nonceMatched": true,
+    "origin": "moonpool://com.example.retirement.ios-retirement-repeat.a",
+    "store": "4984C1E4-3B05-4218-96A2-15BC6209F6DE"
+  },
+  "release": "26.4.1",
+  "retiredAccess": {
+    "a1": false,
+    "a2": false
+  },
+  "run": "ios-retirement-repeat",
+  "states": {
+    "a1": {
+      "attached": false,
+      "groupInactiveAtRelease": true,
+      "live": false,
+      "loads": 1,
+      "released": true,
+      "retireCalls": 1
+    },
+    "a2": {
+      "attached": false,
+      "groupInactiveAtRelease": true,
+      "live": false,
+      "loads": 1,
+      "released": true,
+      "retireCalls": 1
+    },
+    "a3": {
+      "attached": false,
+      "groupInactiveAtRelease": false,
+      "live": false,
+      "loads": 0,
+      "released": false,
+      "retireCalls": 1
+    },
+    "a4": {
+      "attached": false,
+      "groupInactiveAtRelease": false,
+      "live": false,
+      "loads": 0,
+      "released": false,
+      "retireCalls": 1
+    },
+    "b1": {
+      "attached": true,
+      "groupInactiveAtRelease": false,
+      "live": true,
+      "loads": 1,
+      "released": false,
+      "retireCalls": 0
+    }
+  },
+  "stores": {
+    "a": {
+      "id": "4984C1E4-3B05-4218-96A2-15BC6209F6DE",
+      "origin": "moonpool://com.example.retirement.ios-retirement-repeat.a"
+    },
+    "b": {
+      "id": "CE1F3299-C2C4-479F-A607-05BD298DC322",
+      "origin": "moonpool://com.example.retirement.ios-retirement-repeat.b"
+    }
+  },
+  "weakReferencesCleared": {
+    "a1": true,
+    "a2": true
+  },
+  "writer": {
+    "completed": true,
+    "name": "mp_retirement",
+    "value": "fixture"
+  }
+}

@@ -1,0 +1,248 @@
+{
+  "bPolicy": {
+    "cookies": false,
+    "fixturePresent": false,
+    "policyDisallowed": true,
+    "records": false
+  },
+  "build": {
+    "artifactSha256": "4254d111d040d862925fa4eaac741305b22bf84b45db3cad32f8b246d436561b",
+    "sdk": "26.4",
+    "sources": {
+      "../../native-cookie-admission-probe/ios/AdmissionGate.swift": "8013c33dd3939f5ecb48299919795d808e73887e7471df0a329160ace0a71f22",
+      "../runner.py": "439ef65ae90e184e29e210e400fb8b92a0d5fc2a3daf141624772d72d2ab725c",
+      "../worker-admission/store.js": "7f374ec8bc46aa1fefbec1464e32af7e518a84514ffe6c15603e27d87109c69c",
+      "CookiePresence.swift": "65b80ffb1793f0ccfb0c911814bdba5313a8cb48b51c0417258719dd39149308",
+      "Probe.swift": "accc043fabdf69f2f4a312f8ef350db70f022a2a122bba30fdef7c803c60bd9c",
+      "check.py": "5e50d7d7df64e6b592bf4109564b9d993dbba2ee8251512b21d08e6944644df3",
+      "guest.js": "9e89ee4ddedacd6826477f3545e9cf54ea6f78433d65551acde8f9a04cc88c82",
+      "run_probe.py": "bac2b606ffe358a97d22395e845b6ca126211ad4c7e7f4af88536c0838f7e234"
+    },
+    "xcode": "Xcode 26.4.1\nBuild version 17E202"
+  },
+  "capturedUtc": "2026-11-24T05:36:45Z",
+  "complete": true,
+  "continuedB": {
+    "cookie": "",
+    "instance": "a76ca2d630904a775050b4cc58d379cd",
+    "marker": "ios-retirement-review-repeat-b",
+    "name": "b1",
+    "origin": "moonpool://com.example.retirement.ios-retirement-review-repeat.b",
+    "pulse": 2
+  },
+  "events": [
+    "a1:inspect",
+    "a1:empty",
+    "a1:load",
+    "a2:inspect",
+    "a2:empty",
+    "a2:load",
+    "b1:inspect",
+    "b1:empty",
+    "b1:load",
+    "a:write-complete",
+    "a3:inspect",
+    "a3:pending",
+    "a3:present",
+    "a1:release",
+    "a2:release",
+    "a3:refuse",
+    "a4:refuse"
+  ],
+  "initial": {
+    "a1": {
+      "document": {
+        "cookie": "",
+        "instance": "597d4509232f88111b84f64fcbe3560b",
+        "marker": "ios-retirement-review-repeat-a",
+        "name": "a1",
+        "origin": "moonpool://com.example.retirement.ios-retirement-review-repeat.a",
+        "pulse": 1
+      },
+      "state": {
+        "attached": true,
+        "groupInactiveAtRelease": false,
+        "live": true,
+        "loads": 1,
+        "released": false,
+        "retireCalls": 0
+      },
+      "store": "944494EA-381B-4EA8-B99D-341D7CA6BA1B"
+    },
+    "a2": {
+      "document": {
+        "cookie": "",
+        "instance": "d22d58b237314006fcdf0d78df19a2e0",
+        "marker": "ios-retirement-review-repeat-a",
+        "name": "a2",
+        "origin": "moonpool://com.example.retirement.ios-retirement-review-repeat.a",
+        "pulse": 1
+      },
+      "state": {
+        "attached": true,
+        "groupInactiveAtRelease": false,
+        "live": true,
+        "loads": 1,
+        "released": false,
+        "retireCalls": 0
+      },
+      "store": "944494EA-381B-4EA8-B99D-341D7CA6BA1B"
+    },
+    "b1": {
+      "document": {
+        "cookie": "",
+        "instance": "a76ca2d630904a775050b4cc58d379cd",
+        "marker": "ios-retirement-review-repeat-b",
+        "name": "b1",
+        "origin": "moonpool://com.example.retirement.ios-retirement-review-repeat.b",
+        "pulse": 1
+      },
+      "state": {
+        "attached": true,
+        "groupInactiveAtRelease": false,
+        "live": true,
+        "loads": 1,
+        "released": false,
+        "retireCalls": 0
+      },
+      "store": "633326ED-86FB-4AD0-91E1-F19A5D62C3F3"
+    }
+  },
+  "initializedWebKit": true,
+  "inspections": {
+    "a1": {
+      "cookies": false,
+      "fixturePresent": false,
+      "policyDisallowed": true,
+      "records": false
+    },
+    "a2": {
+      "cookies": false,
+      "fixturePresent": false,
+      "policyDisallowed": true,
+      "records": false
+    },
+    "a3": {
+      "cookies": true,
+      "fixturePresent": true,
+      "policyDisallowed": true,
+      "records": true
+    },
+    "b1": {
+      "cookies": false,
+      "fixturePresent": false,
+      "policyDisallowed": true,
+      "records": false
+    }
+  },
+  "installedArtifactSha256": "4254d111d040d862925fa4eaac741305b22bf84b45db3cad32f8b246d436561b",
+  "loader": ["a1", "a2", "b1"],
+  "pending": {
+    "a1": {
+      "attached": true,
+      "groupInactiveAtRelease": false,
+      "live": true,
+      "loads": 1,
+      "released": false,
+      "retireCalls": 0
+    },
+    "a2": {
+      "attached": true,
+      "groupInactiveAtRelease": false,
+      "live": true,
+      "loads": 1,
+      "released": false,
+      "retireCalls": 0
+    },
+    "a3": {
+      "attached": false,
+      "groupInactiveAtRelease": false,
+      "live": true,
+      "loads": 0,
+      "released": false,
+      "retireCalls": 0
+    }
+  },
+  "pid": 49398,
+  "platform": "ios",
+  "preservedA": {
+    "cookieState": {
+      "cookies": true,
+      "fixturePresent": true,
+      "policyDisallowed": true,
+      "records": true
+    },
+    "hostReceipts": 1,
+    "marker": "ios-retirement-review-repeat-a",
+    "nonceMatched": true,
+    "origin": "moonpool://com.example.retirement.ios-retirement-review-repeat.a",
+    "store": "944494EA-381B-4EA8-B99D-341D7CA6BA1B"
+  },
+  "release": "26.4.1",
+  "retiredAccess": {
+    "a1": false,
+    "a2": false
+  },
+  "run": "ios-retirement-review-repeat",
+  "states": {
+    "a1": {
+      "attached": false,
+      "groupInactiveAtRelease": true,
+      "live": false,
+      "loads": 1,
+      "released": true,
+      "retireCalls": 1
+    },
+    "a2": {
+      "attached": false,
+      "groupInactiveAtRelease": true,
+      "live": false,
+      "loads": 1,
+      "released": true,
+      "retireCalls": 1
+    },
+    "a3": {
+      "attached": false,
+      "groupInactiveAtRelease": false,
+      "live": false,
+      "loads": 0,
+      "released": false,
+      "retireCalls": 1
+    },
+    "a4": {
+      "attached": false,
+      "groupInactiveAtRelease": false,
+      "live": false,
+      "loads": 0,
+      "released": false,
+      "retireCalls": 1
+    },
+    "b1": {
+      "attached": true,
+      "groupInactiveAtRelease": false,
+      "live": true,
+      "loads": 1,
+      "released": false,
+      "retireCalls": 0
+    }
+  },
+  "stores": {
+    "a": {
+      "id": "944494EA-381B-4EA8-B99D-341D7CA6BA1B",
+      "origin": "moonpool://com.example.retirement.ios-retirement-review-repeat.a"
+    },
+    "b": {
+      "id": "633326ED-86FB-4AD0-91E1-F19A5D62C3F3",
+      "origin": "moonpool://com.example.retirement.ios-retirement-review-repeat.b"
+    }
+  },
+  "weakReferencesCleared": {
+    "a1": true,
+    "a2": true
+  },
+  "writer": {
+    "completed": true,
+    "name": "mp_retirement",
+    "value": "fixture"
+  }
+}

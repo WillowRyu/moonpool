@@ -1,0 +1,240 @@
+{
+  "bPolicy": {
+    "accept": false,
+    "present": false
+  },
+  "build": {
+    "artifactSha256": "bb979e8cdfaf826935bdc714ac7e9de78513b6f11843f003f10f7c7734999748",
+    "sources": {
+      "../../android-origin-probe/gradle/wrapper/gradle-wrapper.jar": "497c8c2a7e5031f6aa847f88104aa80a93532ec32ee17bdb8d1d2f67a194a9c7",
+      "../../android-origin-probe/gradle/wrapper/gradle-wrapper.properties": "6ca9e44c73e5ffc2656e8110780eed77b023934f5ceb57e9e55658604d3315fd",
+      "../../android-origin-probe/gradlew": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59",
+      "../../native-cookie-admission-probe/android/app/src/main/java/org/moonpool/cookieadmission/AdmissionGate.java": "42307cc7f1f9a51d6b4e485350037775e9ec9f61fe5d2a433a365b37aeab4e55",
+      "../runner.py": "439ef65ae90e184e29e210e400fb8b92a0d5fc2a3daf141624772d72d2ab725c",
+      "../worker-admission/store.js": "7f374ec8bc46aa1fefbec1464e32af7e518a84514ffe6c15603e27d87109c69c",
+      "android/app/build.gradle": "2c5bd0662ff1474d7ed2e6b424abea40a682795ec1b2ca2a6dbc1aead5bfbaf3",
+      "android/app/src/main/AndroidManifest.xml": "248e6b98067f3121162a230adc5840f8827d832f8edbd25dbef0269c8ca71b29",
+      "android/app/src/main/java/org/moonpool/cookieadmission/ProfileRetirementActivity.java": "64533df5cc9760c7aa4a8fb21c71a5323cb128927ea9f3aa21a5c8fda6345c5e",
+      "android/build.gradle": "6e94fd7d3deb45d681a1a2c33d78e47bfcabcfcfbbebc9edc156791d292006d9",
+      "android/gradle.properties": "67eefa02d084d8fd6e2698683ca4d007a344395ca89eed9012a79bac373ba359",
+      "android/settings.gradle": "32c4714ea602238512716364f36953c637c97f68196732268d8d9b6390d285e7",
+      "check.py": "0e19e873a965da4a53099e017cf63320a9b94b64ee3c4277d76987dd338425ec",
+      "run_probe.py": "d814a680f6beb8962a0013f3a9d501a554522e578147ed1bcd0fca4a71f1042b"
+    }
+  },
+  "capturedUtc": "2026-11-24T04:55:02Z",
+  "complete": true,
+  "continuedB": {
+    "cookie": "",
+    "instance": "68a2837f-6448-4356-931a-db87f68a2221",
+    "marker": "android-retirement-first-b",
+    "name": "b1",
+    "origin": "https://mp-android-retirement-first-b.invalid",
+    "pulse": 2
+  },
+  "events": [
+    "a1:inspect",
+    "a1:empty",
+    "a1:load",
+    "a2:inspect",
+    "a2:empty",
+    "a2:load",
+    "b1:inspect",
+    "b1:empty",
+    "b1:load",
+    "a:write-complete",
+    "a3:inspect",
+    "a3:pending",
+    "a3:present",
+    "a1:destroy",
+    "a2:destroy",
+    "a3:refuse",
+    "a4:refuse"
+  ],
+  "initial": {
+    "a1": {
+      "document": {
+        "cookie": "",
+        "instance": "1bee5600-8207-41a4-9ff6-6c9251c5e65a",
+        "marker": "android-retirement-first-a",
+        "name": "a1",
+        "origin": "https://mp-android-retirement-first-a.invalid",
+        "pulse": 1
+      },
+      "profile": "profile-retirement-android-retirement-first-a",
+      "state": {
+        "attached": true,
+        "destroyed": false,
+        "groupInactiveAtDestroy": false,
+        "live": true,
+        "loads": 1,
+        "retireCalls": 0
+      }
+    },
+    "a2": {
+      "document": {
+        "cookie": "",
+        "instance": "795cd247-94b7-4adb-8799-f4d83845bff1",
+        "marker": "android-retirement-first-a",
+        "name": "a2",
+        "origin": "https://mp-android-retirement-first-a.invalid",
+        "pulse": 1
+      },
+      "profile": "profile-retirement-android-retirement-first-a",
+      "state": {
+        "attached": true,
+        "destroyed": false,
+        "groupInactiveAtDestroy": false,
+        "live": true,
+        "loads": 1,
+        "retireCalls": 0
+      }
+    },
+    "b1": {
+      "document": {
+        "cookie": "",
+        "instance": "68a2837f-6448-4356-931a-db87f68a2221",
+        "marker": "android-retirement-first-b",
+        "name": "b1",
+        "origin": "https://mp-android-retirement-first-b.invalid",
+        "pulse": 1
+      },
+      "profile": "profile-retirement-android-retirement-first-b",
+      "state": {
+        "attached": true,
+        "destroyed": false,
+        "groupInactiveAtDestroy": false,
+        "live": true,
+        "loads": 1,
+        "retireCalls": 0
+      }
+    }
+  },
+  "inspections": {
+    "a1": {
+      "accept": false,
+      "present": false
+    },
+    "a2": {
+      "accept": false,
+      "present": false
+    },
+    "a3": {
+      "accept": false,
+      "present": true
+    },
+    "b1": {
+      "accept": false,
+      "present": false
+    }
+  },
+  "installedArtifactSha256": "bb979e8cdfaf826935bdc714ac7e9de78513b6f11843f003f10f7c7734999748",
+  "loader": ["a1", "a2", "b1"],
+  "pending": {
+    "a1": {
+      "attached": true,
+      "destroyed": false,
+      "groupInactiveAtDestroy": false,
+      "live": true,
+      "loads": 1,
+      "retireCalls": 0
+    },
+    "a2": {
+      "attached": true,
+      "destroyed": false,
+      "groupInactiveAtDestroy": false,
+      "live": true,
+      "loads": 1,
+      "retireCalls": 0
+    },
+    "a3": {
+      "attached": false,
+      "destroyed": false,
+      "groupInactiveAtDestroy": false,
+      "live": true,
+      "loads": 0,
+      "retireCalls": 0
+    }
+  },
+  "pid": 3265,
+  "preservedA": {
+    "cookie": "mp_retirement=fixture",
+    "marker": "android-retirement-first-a",
+    "nonceMatched": true,
+    "origin": "https://mp-android-retirement-first-a.invalid",
+    "profile": "profile-retirement-android-retirement-first-a",
+    "state": {
+      "accept": false,
+      "present": true
+    },
+    "unexpectedRequests": []
+  },
+  "profiles": {
+    "a": {
+      "name": "profile-retirement-android-retirement-first-a",
+      "origin": "https://mp-android-retirement-first-a.invalid"
+    },
+    "b": {
+      "name": "profile-retirement-android-retirement-first-b",
+      "origin": "https://mp-android-retirement-first-b.invalid"
+    }
+  },
+  "provider": "145.0.7632.218",
+  "release": "17",
+  "retiredAccess": {
+    "a1": false,
+    "a2": false
+  },
+  "run": "android-retirement-first",
+  "sdk": 37,
+  "states": {
+    "a1": {
+      "attached": false,
+      "destroyed": true,
+      "groupInactiveAtDestroy": true,
+      "live": false,
+      "loads": 1,
+      "retireCalls": 1
+    },
+    "a2": {
+      "attached": false,
+      "destroyed": true,
+      "groupInactiveAtDestroy": true,
+      "live": false,
+      "loads": 1,
+      "retireCalls": 1
+    },
+    "a3": {
+      "attached": false,
+      "destroyed": false,
+      "groupInactiveAtDestroy": false,
+      "live": false,
+      "loads": 0,
+      "retireCalls": 1
+    },
+    "a4": {
+      "attached": false,
+      "destroyed": false,
+      "groupInactiveAtDestroy": false,
+      "live": false,
+      "loads": 0,
+      "retireCalls": 1
+    },
+    "b1": {
+      "attached": true,
+      "destroyed": false,
+      "groupInactiveAtDestroy": false,
+      "live": true,
+      "loads": 1,
+      "retireCalls": 0
+    }
+  },
+  "writer": {
+    "callback": true,
+    "cookie": "mp_retirement=fixture",
+    "state": {
+      "accept": false,
+      "present": true
+    }
+  }
+}
