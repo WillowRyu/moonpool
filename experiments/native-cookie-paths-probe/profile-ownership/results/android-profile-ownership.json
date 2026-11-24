@@ -1,0 +1,123 @@
+{
+  "build": {
+    "artifactSha256": "b5d2f0e0d8174ab008a71185afe12e39a2ec4aa61d830a2e82d368c406ddde33",
+    "sources": {
+      "../../android-origin-probe/gradle/wrapper/gradle-wrapper.properties": "6ca9e44c73e5ffc2656e8110780eed77b023934f5ceb57e9e55658604d3315fd",
+      "../../android-origin-probe/gradlew": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59",
+      "../runner.py": "439ef65ae90e184e29e210e400fb8b92a0d5fc2a3daf141624772d72d2ab725c",
+      "android/app/build.gradle": "8952716d42e24ec42a2a385cbbfbf0326dedca6ed10ce3df644c37896d2a14db",
+      "android/app/src/main/AndroidManifest.xml": "5c8e4b7950cdd10207df734819a0ecec09ee7694c3b67cfb8a234dff8ecd7e85",
+      "android/app/src/main/java/org/moonpool/profileownership/ProfileOwnershipActivity.java": "1b2eaa169e3cc8b52d6a0c47188a3be85a5e3543a92125ceabe5f942d64ffa8a",
+      "android/build.gradle": "6e94fd7d3deb45d681a1a2c33d78e47bfcabcfcfbbebc9edc156791d292006d9",
+      "android/gradle.properties": "67eefa02d084d8fd6e2698683ca4d007a344395ca89eed9012a79bac373ba359",
+      "android/settings.gradle": "0b913ad7d4556e12d2444187f309cca3d7ddb98eb6e1b16f7dfc1b943e9b83ee",
+      "check.py": "bb44d03818053dd5e99c09d942dc48db5823f7d23923687228d23ee954aff632",
+      "run_probe.py": "12f465444e1b4f681c25c572f29f197a0702d2ea71e38557d5a2b92b8f139c3b"
+    }
+  },
+  "capturedUtc": "2026-11-24T03:04:52Z",
+  "cases": {
+    "control": {
+      "before": {
+        "accept": true,
+        "cookie": null,
+        "hasCookies": false
+      },
+      "created": true,
+      "final": {
+        "accept": true,
+        "cookie": "mp_fixture=control",
+        "hasCookies": true
+      },
+      "profile": "profile-ownership-android-ownership-first-control",
+      "write": {
+        "callback": true,
+        "owner": {
+          "accept": true,
+          "cookie": "mp_fixture=control",
+          "hasCookies": true
+        }
+      }
+    },
+    "direct": {
+      "before": {
+        "accept": false,
+        "cookie": null,
+        "hasCookies": false
+      },
+      "created": true,
+      "peer": {
+        "before": {
+          "accept": false,
+          "cookie": null,
+          "hasCookies": false
+        },
+        "listed": true,
+        "profile": "profile-ownership-android-ownership-first-direct"
+      },
+      "profile": "profile-ownership-android-ownership-first-direct",
+      "write": {
+        "callback": true,
+        "owner": {
+          "accept": false,
+          "cookie": "mp_fixture=direct",
+          "hasCookies": true
+        },
+        "peer": {
+          "accept": false,
+          "cookie": "mp_fixture=direct",
+          "hasCookies": true
+        }
+      }
+    },
+    "policy": {
+      "before": {
+        "accept": false,
+        "cookie": null,
+        "hasCookies": false
+      },
+      "created": true,
+      "ownerAfterPolicy": {
+        "accept": true,
+        "cookie": null,
+        "hasCookies": false
+      },
+      "peer": {
+        "before": {
+          "accept": false,
+          "cookie": null,
+          "hasCookies": false
+        },
+        "listed": true,
+        "profile": "profile-ownership-android-ownership-first-policy"
+      },
+      "profile": "profile-ownership-android-ownership-first-policy",
+      "restored": {
+        "accept": false,
+        "cookie": "mp_fixture=policy",
+        "hasCookies": true
+      },
+      "write": {
+        "callback": true,
+        "owner": {
+          "accept": true,
+          "cookie": "mp_fixture=policy",
+          "hasCookies": true
+        },
+        "peer": {
+          "accept": true,
+          "cookie": "mp_fixture=policy",
+          "hasCookies": true
+        }
+      }
+    }
+  },
+  "complete": true,
+  "installedArtifactSha256": "b5d2f0e0d8174ab008a71185afe12e39a2ec4aa61d830a2e82d368c406ddde33",
+  "pid": 2835,
+  "provider": "145.0.7632.218",
+  "release": "17",
+  "run": "android-ownership-first",
+  "sdk": 37,
+  "url": "https://mp-android-ownership-first.invalid/"
+}
