@@ -52,3 +52,29 @@ these probe configurations.
 The follow-up measures native redirect checking and a retained worker
 while keeping this baseline pair reproducible.
 [Follow-up probe](follow-up/README.md)
+
+The Android pre-admission probe compares host-injected and scripts-disabled
+contexts after a cold app restart.
+[Worker-admission probe](worker-admission/README.md)
+
+The Android worker-prevention probe tests an enforcing CSP from first use
+and reopens the same owned profile across app processes.
+[Worker-prevention probe](worker-prevention/README.md)
+
+The inherited document probe compares worker behavior in the entry,
+an initial about:blank iframe and a srcdoc iframe.
+[Inherited document probe](worker-contexts/README.md)
+
+The profile ownership probe compares two native lookups of the same
+Android profile with a distinct profile control.
+[Profile ownership probe](profile-ownership/README.md)
+
+The C10 retirement probe checks actual WebView cleanup and separate
+profile continuity after a shared profile refuses admission.
+[Android profile retirement probe](profile-retirement/README.md),
+[iOS store retirement probe](profile-retirement-ios/README.md)
+
+The writer-order probes check both orderings of the fixture's coordinated
+native writer and admission.
+[Android writer-order probe](admission-writer-order/README.md),
+[iOS writer-order probe](admission-writer-order-ios/README.md)

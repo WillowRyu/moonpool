@@ -111,6 +111,21 @@ correct in a new process on one emulator configuration, so this rule stays iOS-o
 not retain deny across a process restart, so step 3 must run before any web content in every
 process.
 
+The Android same-process profile probe shows that a second native lookup
+can write a cookie while the selected profile reports deny and can change
+the policy observed by the original handle. This confirms the need to
+coordinate same-app native writers under step 2.
+[Android ownership evidence](android-profile-ownership-verification.md)
+
+The Android order probe measures two operations routed through the same
+fixture owner. An admission holds the queued test writer through the
+first guest script. A native write started first holds admission until
+its callback and the follow-up inspection, which refuses the now
+cookie-bearing profile. The iOS fixture matches this order using its
+two native cookie sources.
+[Android admission and writer order evidence](android-admission-writer-order-verification.md),
+[iOS admission and writer order evidence](ios-admission-writer-order-verification.md)
+
 Existing admitted Portals may remain live during another check only if the proven
 policy prevents every engine-cookie writer throughout that interval. Otherwise
 they must be quiesced before checking, or the configuration is unsupported. This
@@ -125,6 +140,15 @@ This wider retirement is accepted because the failed resource is shared; ordinar
 closure of one healthy Portal remains independent. T31 must specify the resulting
 pending-call behavior. Accepted remote effects are not rolled back, and the
 separate native HTTP jar is not reset implicitly.
+
+The Android retirement probe exercises this reaction with two live
+WebViews and a third pending admission sharing one profile. A real
+present-cookie inspection retires both views before the next guest can
+load. A separate profile's original document continues running.
+The paired iOS fixture shows the same outcome after both native
+cookie sources report present on the shared store.
+[Android retirement evidence](android-profile-retirement-verification.md),
+[iOS retirement evidence](ios-profile-retirement-verification.md)
 
 An unverified result is not evidence that a leak occurred; it is loss of the basis
 for continued admission. Observers can report a breach but cannot guarantee

@@ -1,7 +1,7 @@
 # Android and iOS follow-up implementation plan
 
 Date: 2026-10-26
-Last updated: 2026-11-16
+Last updated: 2026-11-24
 
 T22–T27 are complete. T28 has bounded origin, suppression and admission
 evidence and an accepted admission baseline. Both isolated brokers passed
@@ -355,6 +355,53 @@ observes Android's retained worker serving cached HTML after network
 suppression. The tested iOS custom scheme lacks the worker API. Keep C09 open
 for trusted worker absence evidence and production loader integration.
 [Follow-up evidence](native-cookie-paths-follow-up-verification.md)
+
+The 2026-11-17 Android worker-admission probe finds no usable registration
+list from the tested host-supplied data and same-origin frame contexts.
+Ordinary navigation still receives a cached worker document with page
+scripts disabled. All five unresolved cases stay closed before guest load.
+Trusted eligibility evidence for an existing store is the next C09 decision.
+[Cold-process worker evidence](native-worker-admission-verification.md)
+
+The 2026-11-24 worker-prevention probe guards the entry and same-origin frame
+from first use of an owned Android profile. Two collections record eight
+enforcing CSP violations, both cold managed reopenings retaining data, and
+four refusals before guest load for profiles without the required record.
+Review policy coverage across executable documents and exclusive profile
+ownership before selecting a production C09 rule.
+[Worker-prevention evidence](native-worker-prevention-verification.md)
+
+The Android inherited-document follow-up observes enforcing worker CSP in
+the initial about:blank and srcdoc frames. Dedicated worker controls run in
+both contexts. Service-worker registration has a positive control in
+srcdoc and returns InvalidStateError even in the initial about:blank
+control. Continue at exclusive ownership and remaining document coverage.
+[Inherited document evidence](native-worker-contexts-verification.md)
+
+The Android ownership follow-up observes native writes under deny after
+a second caller retrieves the same named profile. The original handle
+also observes the peer's policy change, while the control profile retains
+its own policy and cookie. The SDK and host still need an enforceable
+coordination boundary for supported integrations.
+[Android ownership evidence](android-profile-ownership-verification.md)
+
+In the Android C10 retirement probe, a real inspection sees a test
+cookie in the shared profile. The gate invalidates and destroys
+A1/A2, refuses two new A admissions, preserves their data and leaves the
+same B document running. Two iOS runs match the event sequence with the
+Swift gate, the accepted dual-source cookie inspection and native
+WebView release. Writer exclusion and the other C10 controls stay open.
+[Android retirement evidence](android-profile-retirement-verification.md),
+[iOS retirement evidence](ios-profile-retirement-verification.md)
+
+The Android writer-order follow-up records both orderings of admission
+and a native cookie write coordinated by the fixture owner. Admission
+holds the write through the first guest script, and a write started first
+finishes before the inspection that refuses admission. The iOS fixture
+matches both orders using its two native cookie sources. Both platforms
+pass two retained collections. The production owner boundary remains open.
+[Android writer-order evidence](android-admission-writer-order-verification.md),
+[iOS writer-order evidence](ios-admission-writer-order-verification.md)
 
 The requested T25/T26/generation publication is confirmed through b4b7721 after
 four logical commits. The maintainer subsequently requested T27 publication:

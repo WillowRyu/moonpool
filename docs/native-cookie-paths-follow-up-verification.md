@@ -50,6 +50,7 @@ the tested `moonpool://` context. The Android observation concerns
 recreation within the same native process. A trusted way to establish
 worker absence for arbitrary existing stores and production loader
 integration remain C09 gates.
+[Android pre-admission follow-up](native-worker-admission-verification.md)
 
 ## Verification and cleanup
 

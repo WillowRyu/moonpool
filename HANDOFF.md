@@ -1,7 +1,7 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-11-16. The maintainer switched to agent-led implementation
+> Last updated: 2026-11-24. The maintainer switched to agent-led implementation
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
@@ -19,8 +19,35 @@
 > Same-host static redirects reached denied endpoints on both platforms.
 > C09 follow-up native loader blocked all forbidden redirect targets. The
 > Android retained worker served cached HTML with its network blocked.
-> C09 probe commits are 031c5ea and 910725b. Continue at trusted evidence
-> about retained workers before guest admission. T38/T39 track loader integration.
+> C09 probe commits are 031c5ea and 910725b. On 2026-11-17 the Android
+> host-data and srcdoc worker queries both returned InvalidStateError.
+> Known retained workers still served cached HTML with page scripts disabled.
+> All five cold checks refused guest execution with unknown evidence.
+> On 2026-11-24 the Android worker-prevention probe passed two collections.
+> Both controls activated root and subpath workers. Guarded pages blocked all
+> eight attempts. Two managed cold checks loaded; four unknown checks refused.
+> The original marker survived all six checks. The review fixes passed two
+> further collections with eight cold checks and a refusal of an old record.
+> The initial reports replay from the bundled source archive. Two inherited
+> context collections confirm worker-src on about:blank and srcdoc.
+> The initial about:blank service-worker call rejects even in the control.
+> Two Android ownership collections show a second same-app native lookup
+> can store a cookie under deny and change the shared policy. Their retained
+> checks now require stored and validate the archived source hashes.
+> Two Android C10 retirement runs destroy A1/A2 when A's recheck detects
+> a cookie. A3/A4 refuse before load, the original B document continues and
+> A's marker survives. Two paired iOS runs match this sequence using both
+> cookie sources and release the corresponding WKWebViews.
+> The iOS review fixes passed two further collections with weak-release
+> expectations, a tested Swift presence rule and page-generated tokens.
+> Two Android writer-order runs hold a coordinated writer through the
+> first guest script and hold admission until a preceding write completes.
+> Two paired iOS runs match both orders using the two native cookie sources.
+> The reviewed runs verify callback, readback and inspector entry separately
+> and re-read the exact Android marker after refusal.
+> Continue at production writer exclusion, other locality controls and remaining
+> document coverage. T38/T39 track loader integration.
+> Read docs/ios-profile-retirement-verification.md.
 > C09–C12 and final contract approval remain.
 > Native progress is 6/44. Both devices stopped.
 > Read docs/native-cookie-c04-broker-verification.md and ADR 0028.
@@ -140,6 +167,309 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-24 checkpoint — Regenerable local outputs moved to Trash
+
+The maintainer requested cleanup of generated local outputs. Moved 52
+ignored paths, about 136 MiB, to the macOS Trash folder
+`Moonpool Build Outputs 2026-11-24 154101`. This includes native probe
+builds and project Gradle caches, browser example dist directories,
+Python caches and the parser comparison's generated app and classes.
+The retained reports, raw observations and source archives passed
+checksum checks. The four reviewed writer-order reports and their four
+original reports replayed offline.
+
+Both dedicated devices were stopped during cleanup. Rebuild before
+a new native collection. The saved reports and source archives can
+be verified directly. Native progress remains 6/44.
+
+## 2026-11-24 checkpoint — Admission writer-order review fixes
+
+The maintainer requested the P2 and both P3 fixes from the paired
+writer-order review. Both traces now record the native callback,
+completed readback and inspection entry separately. The iOS inspector
+records entry before its asynchronous native read. Android also
+re-reads the exact fixture cookie after admission is refused.
+
+Two reviewed collections on each platform pass, with the same event
+sequence and zero writer-first guest loads. The original reports replay
+from their bundled source archives. The Android APK and signed iOS app
+builds passed, and the owned emulator and simulator stopped. This
+concerns SPEC §8 and §9. Production writer exclusion and the remaining
+locality and document controls stay open. Native progress is 6/44.
+Final root check passed 1,134 TypeScript tests, nine shared Python tests,
+both typechecks, lint and both builds. All seven paired probe host tests
+passed under Python optimization and all 181 study references resolve.
+[Android review follow-up](docs/android-admission-writer-order-verification.md#review-follow-up),
+[iOS review follow-up](docs/ios-admission-writer-order-verification.md#review-follow-up)
+
+## 2026-11-24 checkpoint — Paired iOS admission and native writer order
+
+The maintainer resumed the paired writer-order experiment. The iOS
+26.4.1 fixture uses one native owner queue per identified store, the
+established never-loaded initializer, and the Swift two-source
+presence rule. In both runs, admission first holds the test writer
+through the first guest script and refuses the queued write while the
+view is live. Writing first makes admission wait for the actual write
+callback, then both native sources report present under deny and the
+guest load count remains zero.
+
+Both retained reports pass. Event order, write outcomes and guest load
+counts match the paired Android results. The app build, signature check
+and both host tests pass. The app and owned simulator stopped. This
+concerns SPEC §8 and §9. Production writer exclusion and remaining
+locality and document controls stay open. Native progress is 6/44.
+
+Final root check passed 1,134 TypeScript tests, nine shared Python tests,
+both typechecks, lint and both builds. The paired host tests and all four
+retained reports pass under Python optimization, and all 181 study
+references resolve.
+[iOS writer-order results](docs/ios-admission-writer-order-verification.md)
+
+## 2026-11-24 checkpoint — Android admission and native writer order
+
+The maintainer resumed T28 at writer exclusion during admission. The
+Android fixture uses one native owner queue per test profile. Two
+collections on Android 17 and WebView 145.0.7632.218 pass. In the
+admission-first trial, a native empty verification holds the queued
+test write through the first guest observation. The fixture refuses the
+queued write while the admitted view is live. In the writer-first trial,
+admission waits for the real write callback, sees the retained cookie
+and refuses guest execution.
+
+Host tests cover owner completion, stale callbacks, closure and the
+admission window. Android assemble and lint and the retained verifiers
+pass. The probe app and owned emulator stopped. This concerns SPEC §8
+and §9. Continue at paired iOS ordering, the production writer ownership
+boundary and the remaining locality and document controls. Native
+progress remains 6/44.
+
+The final root check passes 1,134 TypeScript tests, nine shared Python
+tests, both typechecks, lint and both builds. Both new host tests pass
+with Python optimization and all 180 local study references resolve.
+[Android writer-order results](docs/android-admission-writer-order-verification.md),
+[Korean lesson](study/index.html#c10-admission-writer-order)
+
+## 2026-11-24 checkpoint — iOS retirement review fixes
+
+The maintainer requested all three 6.2 Astra High P3 fixes. Retained
+verification now requires both weak references to clear. Swift uses one
+presence classifier with host tests for absent and disagreeing cookie
+sources. The guest script generates its own per-execution token and
+the host JavaScript test observes separate tokens for identical inputs.
+
+Two reviewed iOS 26.4.1 runs pass the stricter check. The original B
+document continues with its page-generated token and the Android-paired
+event order is preserved. The original six fingerprinted files are
+bundled for replay of both original reports. The reviewed app was signed
+and the owned simulator was shut down. This concerns SPEC §8 and §9.
+Continue at writer exclusion during admission and the remaining C10
+controls. Native progress remains 6/44.
+
+The final root check passes 1,134 TypeScript tests, nine shared Python
+tests, both typechecks, lint and both builds. The four probe host tests,
+including nine Swift presence cases, and the JavaScript document-token
+test pass. Both original reports replay from the bundled archive and all
+179 local study references resolve.
+[iOS review follow-up](docs/ios-profile-retirement-verification.md#review-follow-up)
+
+## 2026-11-24 checkpoint — Paired iOS shared-store WebView retirement
+
+The maintainer authorized the iOS counterpart of the Android C10 probe.
+The dedicated iOS 26.4.1 simulator ran the same signed fixture twice.
+It used the never-loaded nonpersistent initializer and the existing Swift
+admission gate. A1/A2 use the same identified store and B1 a separate one.
+After a native test cookie write to A, the verified deny recheck finds
+cookies through both data records and the cookie list.
+
+Both A handles become inactive before view release. The two released
+views have cleared weak references by the end of each observation. A3/A4
+have zero loads, B1 continues in its original document, and the host
+witness observes A's original IndexedDB marker and fixture cookie.
+Both retained reports pass and their event sequence matches the paired
+Android results after normalizing release and destroy. The signed app
+build and both host tests pass. The owned simulator shut down.
+
+This concerns SPEC §8 and §9. Continue at native writer exclusion during
+admission and remaining C10 locality controls. T31 pending-call behavior
+and remaining C09 document coverage stay open. Native progress is 6/44.
+
+The final root check passes 1,134 TypeScript tests, nine shared Python
+tests, both typechecks, lint and both builds. Both iOS and both Android
+retirement reports pass, both host suites pass under Python optimization,
+and all 179 local study references resolve.
+[iOS retirement results](docs/ios-profile-retirement-verification.md),
+[Korean lesson](study/index.html#c10-profile-retirement)
+
+## 2026-11-24 checkpoint — Android shared-profile WebView retirement
+
+The maintainer authorized the C10 follow-up using actual WebViews. Each of
+two runs on the dedicated Android 17/WebView 145.0.7632.218 emulator opens
+A1 and A2 on one profile and B1 on a separate profile. After a native test
+cookie write to A under deny, the next inspection returns present.
+The existing admission gate invalidates A's handles before detaching and
+destroying A1/A2. The pending A3 and later A4 never load. The original B1
+document continues and the original A IndexedDB marker and cookie remain.
+
+Both retained reports pass. Android assemble and lint and the two host
+regression tests pass. The fixture app and owned emulator stopped.
+This concerns SPEC §8 and §9. Continue at writer exclusion, remaining
+C10 locality controls, paired iOS evidence and the T31 lifetime contract.
+Native progress remains 6/44.
+
+The final root check passed 1,134 TypeScript tests, nine shared Python tests,
+both typechecks, lint and both builds. Twelve probe host tests passed
+under Python optimization and all 178 local study index references resolve.
+[Android retirement results](docs/android-profile-retirement-verification.md),
+[Korean lesson](study/index.html#c10-profile-retirement)
+
+## 2026-11-24 checkpoint — Profile ownership review fixes
+
+The maintainer requested both ownership review fixes. The retained-report
+check now requires the observed direct write outcome to match its expected
+value. The exploratory collector still records either valid outcome.
+Current source fingerprints include the executed Gradle wrapper JAR and
+the declared probe inputs. The original 11 fingerprinted files were
+bundled with the original reports for replay. Both reports pass with
+`--expect-direct stored`. A refused substitute, a changed wrapper and
+machine-local files are covered by host regressions.
+
+The current Android build and lint pass, and the APK hash matches the
+installed artifact in both original reports. The evidence comes from the
+original owned device collections and host-only verification of the review
+fixes. This concerns SPEC §8 and §9. Continue at writer exclusion,
+retirement and remaining C09 document coverage. Native progress is 6/44.
+All four ownership host tests pass in ordinary and optimized Python,
+and the root check passes 1,134 TypeScript tests, nine shared Python
+tests, typechecks, lint and both builds.
+[Review follow-up](docs/android-profile-ownership-verification.md#review-follow-up)
+
+## 2026-11-24 checkpoint — Android same-process profile ownership
+
+The maintainer resumed C09 at exclusive profile ownership. Two fresh
+collections on the dedicated Android 17/WebView 145.0.7632.218 emulator
+use separate named profiles for a control, a native write under deny,
+and a policy change. A second native lookup by name writes under deny
+with a successful callback. The original handle still reports deny and
+reads the exact marker. A second lookup changes the policy visible to
+the original handle. Reinstalling deny in that trial preserves the
+stored marker. The independent control retains its own policy and cookie.
+
+Both retained reports, Android assemble and lint and the host test passed.
+The fixture app and owned emulator stopped. This concerns SPEC §8 and §9.
+The evidence supports requiring coordination of same-app native writers.
+Live Portal retirement, production writer exclusion and remaining
+allowed document paths stay open. C09–C12 and final T28 approval remain,
+with native progress at 6/44.
+
+The final root check passed 1,134 TypeScript tests, nine shared Python
+tests, both typechecks, lint and both example builds. Seven probe host
+tests passed under Python optimization, and all 177 study index
+references resolve.
+[Android ownership results](docs/android-profile-ownership-verification.md),
+[Korean lesson](study/index.html#c09-profile-ownership)
+
+## 2026-11-24 checkpoint — Initial report replay and inherited worker policy
+
+The maintainer requested the remaining review P3 and the next C09 check.
+The worker-prevention probe now bundles the 15 fingerprinted sources for
+both initial reports. A host test extracts the bundled archive in a fresh
+directory and uses isolated Python to verify both reports.
+
+The separate worker-contexts APK ran twice on the dedicated Android 17
+emulator with WebView 145.0.7632.218. On both runs all three dedicated worker
+controls ran and the guarded entry, initial about:blank and srcdoc reported
+enforcing worker-src events. Entry and srcdoc service-worker controls
+activated and the guarded copies reported corresponding CSP events.
+Initial about:blank service-worker registration rejected with InvalidStateError
+in both profiles. Both final verifiers pass and flag that missing control.
+The guarded loader received no worker script requests. Android assemble and
+lint passed and the owned emulator was shut down.
+
+Final root check passed 1,134 TypeScript tests, nine shared Python tests,
+both typechecks, lint and both builds. The six probe host tests and both
+new retained reports passed under Python optimization. All 176 local study
+index references resolve.
+
+This concerns SPEC §8 and §9. The C09 conditions for exclusive profile
+ownership and the remaining allowed document paths are open. Native
+progress remains 6/44.
+[Initial replay instructions](experiments/native-cookie-paths-probe/worker-prevention/README.md#verify-the-initial-reports),
+[Inherited worker-policy results](docs/native-worker-contexts-verification.md),
+[Korean lesson](study/index.html#c09-worker-contexts)
+
+## 2026-11-24 checkpoint — Worker-prevention review fixes
+
+The maintainer requested all three fixes from the 6.2 Astra High review.
+The native guard now requires both enforcing worker events before it writes
+a versioned record. The collector validates seed observations before any
+cold check. Explicit AVD, artifact and cold-process checks replace Python
+assertions. The verification table limits inventory and controller readback
+to the top-level document.
+
+The pre-fix negative fixture issued a record after withholding the frame
+event. Seed validation prevented cold checks in that run. The revised APK
+passed two collections on the dedicated WebView 145 emulator with eight cold
+checks, two managed loads, six refusals and all markers retained. The old
+unversioned record was refused in a separate check and kept with its marker.
+Build and lint passed, and the owned emulator stopped. The original reports
+and fingerprinted source snapshot were preserved. This concerns SPEC §8 and
+§9 and leaves C09 and the T28 contract open.
+
+All four probe host tests pass in ordinary and optimized Python. The final
+root check passes 1,134 TypeScript tests, nine shared Python tests, both
+typechecks, lint and both browser builds. All 175 study index links resolve.
+[Review follow-up results](docs/native-worker-prevention-verification.md#review-follow-up)
+
+## 2026-11-24 checkpoint — Android worker prevention on owned profiles
+
+The maintainer authorized the C09 worker-prevention experiment. The dedicated
+Android 17 emulator with WebView 145.0.7632.218 ran the final APK twice under
+fresh profile names. The control activated both root and subpath workers.
+The CSP-guarded entry and same-origin frame reported eight enforcing
+`worker-src` violations across first loads and cold reopenings. No guarded
+worker script reached the loader.
+
+The probe records the exact profile, origin, policy, Android API and WebView
+version after guarded provisioning. The two managed cold checks each load
+one fixture guest and read the previous IndexedDB marker. Each seeded-worker
+and missing-record case refuses before guest load and preserves its marker.
+Both retained verifiers pass. Android assemble and lint and both host tests
+pass. The probe app and owned emulator stopped. This concerns SPEC §8 and §9.
+
+The final root check passed 1,134 TypeScript tests, nine shared Python tests,
+both typechecks, lint and both example builds. The prior worker-admission
+report reverified. All 175 local study index references resolve.
+
+Continue C09 at policy coverage of all executable documents and verified
+exclusive ownership for production profiles. The accepted unknown-store
+refusal still applies to other existing profiles. C09–C12 and final T28
+approval remain open, with native progress at 6/44.
+[Worker-prevention results](docs/native-worker-prevention-verification.md),
+[Korean lesson](study/index.html#c09-worker-prevention)
+
+## 2026-11-17 checkpoint — Android worker evidence before guest load
+
+The maintainer resumed C09 worker evidence. In five separate check processes,
+native trusted HTML and its same-origin srcdoc frame could display the bound
+origin while their registration queries failed with InvalidStateError. The
+opaque control lacked a worker API. The three existing IndexedDB markers
+survived. Both seeded scopes returned cached worker HTML in a diagnostic
+navigation with page JavaScript and worker network disabled. A root
+native evaluation did not return the test nonce with page scripts disabled.
+
+All five inspections stayed unknown and guest loads totaled zero. The strict
+capability hypothesis failed. The expected-unavailable verifier passes the
+retained observation. Android assemble/lint and ten host tests pass. The
+dedicated Android emulator stopped after collection. This concerns SPEC §8
+and §9 and keeps native progress at 6/44.
+
+The tested methods cannot provide pre-admission worker absence evidence on
+this WebView configuration. Continue with trusted worker eligibility
+evidence and apply the accepted unknown-store refusal rule. Preserve the
+existing profile and data. Production integration remains T38/T39.
+[Worker-admission verification](docs/native-worker-admission-verification.md),
+[Korean lesson](study/index.html#c09-worker-admission)
 
 ## 2026-11-16 checkpoint — C09 publication
 

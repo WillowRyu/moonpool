@@ -329,6 +329,27 @@ selected Profile's manager. No unrelated app/profile or real host store is used.
 If the selected public API changes H/U behavior, stop and report unsupported;
 do not fix the experiment by deleting control cookies or weakening the oracle.
 
+The Android retirement fixture adds real-view evidence for the accepted
+shared partition rule. After a test write to A, the inspection invalidates
+and destroys A1/A2, refuses pending A3 and later A4, and preserves A's data.
+B's existing document continues without reloading. Other locality controls
+and production writer exclusion remain open.
+[Android retirement evidence](android-profile-retirement-verification.md)
+
+The paired iOS fixture confirms this retirement path with an identified
+shared store, a verified deny policy and agreement of both native cookie
+sources. A1/A2 release, A3/A4 refuse, B continues and A retains its data.
+[iOS retirement evidence](ios-profile-retirement-verification.md)
+
+The Android owner-order experiment serializes the coordinated test writer
+and admission. One trial holds the writer through the first guest
+observation. The other holds admission until the native write completes,
+then refuses the cookie-bearing store. The paired iOS runs match these
+outcomes with the accepted two-source inventory. Production writer
+exclusion remains open.
+[Android admission and writer order evidence](android-admission-writer-order-verification.md),
+[iOS admission and writer order evidence](ios-admission-writer-order-verification.md)
+
 ### C11 — Lifetime, unsupported states and failures
 
 Distinguish Portal reload/recreation, renderer loss and native host-process
@@ -394,3 +415,32 @@ block and refuses a candidate guest on the known retained store. iOS
 reports worker API availability for its actual custom-scheme page.
 Arbitrary-store worker evidence and production integration remain open.
 [Redirect and worker evidence](native-cookie-paths-follow-up-verification.md)
+
+The cold-process worker follow-up tried a native data document and its
+same-origin frame. Both return InvalidStateError for registration listing
+on the tested WebView. The known root and off-path workers still return
+cached HTML in a scripts-disabled diagnostic navigation. The gate refuses
+all five unknown results before guest load.
+[Android worker-admission evidence](native-worker-admission-verification.md)
+
+The Android worker-prevention probe applies the same loader to a guarded
+profile and an unguarded control. Both registrations activate in the control.
+`worker-src 'none'` blocks registration in the guarded entry and same-origin
+frame across first load and cold reopening. Profiles without a matching
+record stay closed and retain their data. C09 still requires coverage of
+other executable contexts and verification of production profile ownership.
+[Android worker-prevention evidence](native-worker-prevention-verification.md)
+
+The inherited-document probe observes enforcing worker CSP in the initial
+about:blank and srcdoc documents. The initial about:blank service-worker
+control returns InvalidStateError, so its service-worker refusal remains
+unattributed to CSP. The srcdoc control activates and its guarded copy
+reports the enforcement event.
+[Android inherited document evidence](native-worker-contexts-verification.md)
+
+The Android ownership probe reacquires a named profile from a second
+native caller in the same app process. Both lookups observe a native
+cookie written under deny and a policy change made by the second caller.
+A distinct profile retains its own marker and policy. Actual writer
+exclusion and production Portal retirement remain open.
+[Android ownership evidence](android-profile-ownership-verification.md)
