@@ -1,0 +1,225 @@
+{
+  "build": {
+    "artifactSha256": "13f0f22dffbb4c4c4e74043b00ff0c01953573f62a8323b08b5805d879fb5418",
+    "sources": {
+      "../../android-origin-probe/gradle/wrapper/gradle-wrapper.properties": "6ca9e44c73e5ffc2656e8110780eed77b023934f5ceb57e9e55658604d3315fd",
+      "../../android-origin-probe/gradlew": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59",
+      "../../native-cookie-admission-probe/android/app/src/main/java/org/moonpool/cookieadmission/AdmissionGate.java": "42307cc7f1f9a51d6b4e485350037775e9ec9f61fe5d2a433a365b37aeab4e55",
+      "../runner.py": "439ef65ae90e184e29e210e400fb8b92a0d5fc2a3daf141624772d72d2ab725c",
+      "../worker-admission/store.js": "7f374ec8bc46aa1fefbec1464e32af7e518a84514ffe6c15603e27d87109c69c",
+      "../worker-admission/worker.js": "207a7a0d7cbeec80d3618ed1ab0e6a8d987eac63319eb3b9beb1d450ac570216",
+      "android/app/build.gradle": "30313fdeedef8bf245e4130a40a92e1b3b090bcf0da966d68582392db9d7d438",
+      "android/app/src/main/AndroidManifest.xml": "a15e1d61ce42bd9b7d75809b42438a20718413d988bbe08c490b2cf9f8680731",
+      "android/app/src/main/java/org/moonpool/cookieadmission/WorkerPreventionActivity.java": "f2620cea167786066a6d610cada4a66cf83165c653e0bd3adf25f3c53361fdf7",
+      "android/build.gradle": "6e94fd7d3deb45d681a1a2c33d78e47bfcabcfcfbbebc9edc156791d292006d9",
+      "android/gradle.properties": "67eefa02d084d8fd6e2698683ca4d007a344395ca89eed9012a79bac373ba359",
+      "android/settings.gradle": "ded25647c3fbb365aa911a85a7931783e759dc97b4fd773cc315644410815196",
+      "check.py": "8498a5c865a4ce99051b63c364d8cdcc62c007f4b115b2b1c3702b3c441b2a16",
+      "register.js": "308e8b2b2c9d30cf8f4845159c85bf2b24eec660a78acb423baa4f4b2d427443",
+      "run_probe.py": "6b9c2f2c7ce798f99bca6c09c5ef7e12ad51a84013b476a006a24b128597e533"
+    }
+  },
+  "capturedUtc": "2026-11-24T01:59:49Z",
+  "checks": [
+    {
+      "case": "managed",
+      "complete": true,
+      "cookieDeny": true,
+      "cookiePresent": false,
+      "documentPolicies": {
+        "/child/frame": "worker-src 'none'",
+        "/entry": "worker-src 'none'"
+      },
+      "events": ["policy", "decision", "guest"],
+      "guest": {
+        "attempts": {
+          "frame": {
+            "error": "SecurityError",
+            "origin": "https://mp-android-csp-final-managed.invalid",
+            "outcome": "rejected",
+            "violation": {
+              "blockedURI": "https://mp-android-csp-final-managed.invalid/child/worker.js",
+              "directive": "worker-src",
+              "disposition": "enforce"
+            }
+          },
+          "main": {
+            "error": "SecurityError",
+            "origin": "https://mp-android-csp-final-managed.invalid",
+            "outcome": "rejected",
+            "violation": {
+              "blockedURI": "https://mp-android-csp-final-managed.invalid/worker.js",
+              "directive": "worker-src",
+              "disposition": "enforce"
+            }
+          }
+        },
+        "controller": null,
+        "entryScript": true,
+        "marker": "android-csp-final-managed",
+        "origin": "https://mp-android-csp-final-managed.invalid",
+        "scopes": []
+      },
+      "guestLoads": 1,
+      "marker": "android-csp-final-managed",
+      "markerOrigin": "https://mp-android-csp-final-managed.invalid",
+      "phase": "check",
+      "pid": 4867,
+      "profile": "worker-prevention-android-csp-final-managed",
+      "profilePresent": true,
+      "provenance": true,
+      "provider": "145.0.7632.218",
+      "release": "17",
+      "run": "android-csp-final",
+      "sdk": 37,
+      "verdict": "empty",
+      "workerRequests": []
+    },
+    {
+      "case": "retained",
+      "complete": true,
+      "cookieDeny": true,
+      "cookiePresent": false,
+      "documentPolicies": {},
+      "events": ["policy", "decision", "refuse"],
+      "guest": null,
+      "guestLoads": 0,
+      "marker": "android-csp-final-retained",
+      "markerOrigin": "https://mp-android-csp-final-retained.invalid",
+      "phase": "check",
+      "pid": 4998,
+      "profile": "worker-prevention-android-csp-final-retained",
+      "profilePresent": true,
+      "provenance": false,
+      "provider": "145.0.7632.218",
+      "release": "17",
+      "run": "android-csp-final",
+      "sdk": 37,
+      "verdict": "unknown",
+      "workerRequests": []
+    },
+    {
+      "case": "unknown",
+      "complete": true,
+      "cookieDeny": true,
+      "cookiePresent": false,
+      "documentPolicies": {},
+      "events": ["policy", "decision", "refuse"],
+      "guest": null,
+      "guestLoads": 0,
+      "marker": "android-csp-final-unknown",
+      "markerOrigin": "https://mp-android-csp-final-unknown.invalid",
+      "phase": "check",
+      "pid": 5130,
+      "profile": "worker-prevention-android-csp-final-unknown",
+      "profilePresent": true,
+      "provenance": false,
+      "provider": "145.0.7632.218",
+      "release": "17",
+      "run": "android-csp-final",
+      "sdk": 37,
+      "verdict": "unknown",
+      "workerRequests": []
+    }
+  ],
+  "installedArtifactSha256": "13f0f22dffbb4c4c4e74043b00ff0c01953573f62a8323b08b5805d879fb5418",
+  "run": "android-csp-final",
+  "seed": {
+    "complete": true,
+    "phase": "seed",
+    "pid": 4641,
+    "profiles": {
+      "managed": {
+        "cookieDeny": true,
+        "created": true,
+        "documentPolicies": {
+          "/child/frame": "worker-src 'none'",
+          "/entry": "worker-src 'none'"
+        },
+        "guest": {
+          "attempts": {
+            "frame": {
+              "error": "SecurityError",
+              "origin": "https://mp-android-csp-final-managed.invalid",
+              "outcome": "rejected",
+              "violation": {
+                "blockedURI": "https://mp-android-csp-final-managed.invalid/child/worker.js",
+                "directive": "worker-src",
+                "disposition": "enforce"
+              }
+            },
+            "main": {
+              "error": "SecurityError",
+              "origin": "https://mp-android-csp-final-managed.invalid",
+              "outcome": "rejected",
+              "violation": {
+                "blockedURI": "https://mp-android-csp-final-managed.invalid/worker.js",
+                "directive": "worker-src",
+                "disposition": "enforce"
+              }
+            }
+          },
+          "controller": null,
+          "entryScript": true,
+          "marker": "android-csp-final-managed",
+          "origin": "https://mp-android-csp-final-managed.invalid",
+          "scopes": []
+        },
+        "guestLoads": 1,
+        "marker": "android-csp-final-managed",
+        "markerOrigin": "https://mp-android-csp-final-managed.invalid",
+        "profile": "worker-prevention-android-csp-final-managed",
+        "provenance": true,
+        "workerRequests": []
+      },
+      "retained": {
+        "cookieDeny": true,
+        "created": true,
+        "documentPolicies": {
+          "/child/frame": "",
+          "/entry": ""
+        },
+        "guest": {
+          "attempts": {
+            "frame": {
+              "origin": "https://mp-android-csp-final-retained.invalid",
+              "outcome": "activated",
+              "scope": "https://mp-android-csp-final-retained.invalid/child/"
+            },
+            "main": {
+              "origin": "https://mp-android-csp-final-retained.invalid",
+              "outcome": "activated",
+              "scope": "https://mp-android-csp-final-retained.invalid/"
+            }
+          },
+          "controller": "https://mp-android-csp-final-retained.invalid/worker.js",
+          "entryScript": true,
+          "marker": "android-csp-final-retained",
+          "origin": "https://mp-android-csp-final-retained.invalid",
+          "scopes": [
+            "https://mp-android-csp-final-retained.invalid/",
+            "https://mp-android-csp-final-retained.invalid/child/"
+          ]
+        },
+        "guestLoads": 1,
+        "marker": "android-csp-final-retained",
+        "markerOrigin": "https://mp-android-csp-final-retained.invalid",
+        "profile": "worker-prevention-android-csp-final-retained",
+        "provenance": false,
+        "workerRequests": ["/worker.js", "/child/worker.js"]
+      },
+      "unknown": {
+        "cookieDeny": true,
+        "created": true,
+        "marker": "android-csp-final-unknown",
+        "markerOrigin": "https://mp-android-csp-final-unknown.invalid",
+        "profile": "worker-prevention-android-csp-final-unknown",
+        "provenance": false
+      }
+    },
+    "provider": "145.0.7632.218",
+    "release": "17",
+    "run": "android-csp-final",
+    "sdk": 37
+  }
+}
