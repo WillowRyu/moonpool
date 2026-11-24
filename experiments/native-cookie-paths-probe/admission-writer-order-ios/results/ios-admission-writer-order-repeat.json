@@ -1,0 +1,136 @@
+{
+  "build": {
+    "artifactSha256": "c94c06a44c2cb087763005fb3b7e2eefde5ff77615cab99b5e556aaa474c6969",
+    "sdk": "26.4",
+    "sources": {
+      "../../native-cookie-admission-probe/ios/AdmissionGate.swift": "8013c33dd3939f5ecb48299919795d808e73887e7471df0a329160ace0a71f22",
+      "../profile-retirement-ios/CookiePresence.swift": "65b80ffb1793f0ccfb0c911814bdba5313a8cb48b51c0417258719dd39149308",
+      "../runner.py": "439ef65ae90e184e29e210e400fb8b92a0d5fc2a3daf141624772d72d2ab725c",
+      "Probe.swift": "6223edda835479446d582498b70c64d4fd9ed05cbf66c0ca9c555d42e7d16632",
+      "StoreOperations.swift": "61dcf24fd4ee2292755de061b3889c38ae4890a43e46b00d61617ac61ea93f82",
+      "check.py": "adc87616eac4b0c3f49324feff0237eee82cae319def3becff322e64b548698d",
+      "run_probe.py": "17067c6d1f055ed858bed33593a6189ba0f87f0740f2ae39f0c00c9a5f6e691c"
+    },
+    "xcode": "Xcode 26.4.1\nBuild version 17E202"
+  },
+  "capturedUtc": "2026-11-24T06:00:46Z",
+  "cases": {
+    "admissionFirst": {
+      "after": {
+        "cookies": false,
+        "fixturePresent": false,
+        "policyDisallowed": true,
+        "records": false
+      },
+      "before": {
+        "cookies": false,
+        "fixturePresent": false,
+        "policyDisallowed": true,
+        "records": false
+      },
+      "events": [
+        "admission:request",
+        "inspection:empty",
+        "writer:request",
+        "admission:load",
+        "guest:observed",
+        "writer:refused-live"
+      ],
+      "guest": {
+        "cookie": "",
+        "marker": "ios-writer-order-repeat-admission",
+        "origin": "moonpool://com.example.writer-order.ios-writer-order-repeat.admission"
+      },
+      "guestLoads": 1,
+      "heldAfterRead": {
+        "cookie": {
+          "cookies": false,
+          "fixturePresent": false,
+          "policyDisallowed": true,
+          "records": false
+        },
+        "guestLoads": 0,
+        "writerResult": "pending",
+        "writerStarts": 0
+      },
+      "heldAtGuest": {
+        "cookie": {
+          "cookies": false,
+          "fixturePresent": false,
+          "policyDisallowed": true,
+          "records": false
+        },
+        "guestLoads": 1,
+        "writerResult": "pending",
+        "writerStarts": 0
+      },
+      "inspection": {
+        "cookies": false,
+        "fixturePresent": false,
+        "policyDisallowed": true,
+        "records": false
+      },
+      "loader": 1,
+      "origin": "moonpool://com.example.writer-order.ios-writer-order-repeat.admission",
+      "store": "608E42FB-1CA4-4903-909B-7D9028AE62E8",
+      "writerResult": "refused-live",
+      "writerStarts": 0
+    },
+    "writerFirst": {
+      "after": {
+        "cookies": true,
+        "fixturePresent": true,
+        "policyDisallowed": true,
+        "records": true
+      },
+      "before": {
+        "cookies": false,
+        "fixturePresent": false,
+        "policyDisallowed": true,
+        "records": false
+      },
+      "events": [
+        "writer:request",
+        "writer:start",
+        "admission:request",
+        "writer:complete",
+        "inspection:present",
+        "admission:refuse"
+      ],
+      "guestLoads": 0,
+      "heldWhileWriting": {
+        "guestLoads": 0,
+        "inspectionStarted": false,
+        "writerCallbackCompleted": false,
+        "writerStarts": 1
+      },
+      "inspection": {
+        "cookies": true,
+        "fixturePresent": true,
+        "policyDisallowed": true,
+        "records": true
+      },
+      "loader": 0,
+      "origin": "moonpool://com.example.writer-order.ios-writer-order-repeat.writer",
+      "store": "9492CF48-ADDE-4420-B443-CE376AC76083",
+      "write": {
+        "callbackCompleted": true,
+        "cookie": {
+          "cookies": true,
+          "fixturePresent": true,
+          "policyDisallowed": true,
+          "records": true
+        }
+      },
+      "writerResult": "stored",
+      "writerStarts": 1
+    }
+  },
+  "complete": true,
+  "initializedWebKit": true,
+  "installedArtifactSha256": "c94c06a44c2cb087763005fb3b7e2eefde5ff77615cab99b5e556aaa474c6969",
+  "pid": 1772,
+  "platform": "ios",
+  "release": "26.4.1",
+  "run": "ios-writer-order-repeat"
+}

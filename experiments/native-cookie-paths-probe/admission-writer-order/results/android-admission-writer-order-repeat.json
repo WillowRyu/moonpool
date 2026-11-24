@@ -1,0 +1,124 @@
+{
+  "build": {
+    "artifactSha256": "9ebd6d9290f2c91b79962f4f63189570b7b54d82c52be38fb2fea5ad82300f95",
+    "sources": {
+      "../../android-origin-probe/gradle/wrapper/gradle-wrapper.jar": "497c8c2a7e5031f6aa847f88104aa80a93532ec32ee17bdb8d1d2f67a194a9c7",
+      "../../android-origin-probe/gradle/wrapper/gradle-wrapper.properties": "6ca9e44c73e5ffc2656e8110780eed77b023934f5ceb57e9e55658604d3315fd",
+      "../../android-origin-probe/gradlew": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59",
+      "../../native-cookie-admission-probe/android/app/src/main/java/org/moonpool/cookieadmission/AdmissionGate.java": "42307cc7f1f9a51d6b4e485350037775e9ec9f61fe5d2a433a365b37aeab4e55",
+      "../runner.py": "439ef65ae90e184e29e210e400fb8b92a0d5fc2a3daf141624772d72d2ab725c",
+      "android/app/build.gradle": "28a061eb0d56a91666ca4ed8d2d799bda8f91a628feeecb0f7eabae2e984bcf1",
+      "android/app/src/main/AndroidManifest.xml": "75b806e267619b38c0de8bd6bf0ec4ede6b44e5af706593f27a0c5380b2984af",
+      "android/app/src/main/java/org/moonpool/cookieadmission/AdmissionWriterOrderActivity.java": "5eb9e4da02832ee0dc5fdd6b6dde3cc12a7243ba59e8abcff55abb59205971cb",
+      "android/app/src/main/java/org/moonpool/cookieadmission/StoreOperations.java": "233cc1b78a5712bf58ad1617439c7a8a8e5a5183e5df4978b044a416ac8314fb",
+      "android/build.gradle": "6e94fd7d3deb45d681a1a2c33d78e47bfcabcfcfbbebc9edc156791d292006d9",
+      "android/gradle.properties": "67eefa02d084d8fd6e2698683ca4d007a344395ca89eed9012a79bac373ba359",
+      "android/settings.gradle": "972d032e8316beb0848e2bc86dbfed93d0350f2aceba4430559cc739a5931a6a",
+      "check.py": "737a2b6b422f0c2fbc3b526dee32916fdcbcf7398c47d808d34db360197f858f",
+      "run_probe.py": "247f746638df65aa34febe9fa78b706a05ed14024e7502a4daa5cfa4ca308894"
+    }
+  },
+  "capturedUtc": "2026-11-24T05:47:14Z",
+  "cases": {
+    "admissionFirst": {
+      "after": {
+        "accept": false,
+        "present": false
+      },
+      "before": {
+        "accept": false,
+        "present": false
+      },
+      "events": [
+        "admission:request",
+        "inspection:empty",
+        "writer:request",
+        "admission:load",
+        "guest:observed",
+        "writer:refused-live"
+      ],
+      "guest": {
+        "cookie": "",
+        "marker": "android-writer-order-repeat-admission",
+        "origin": "https://mp-android-writer-order-repeat-admission.invalid"
+      },
+      "guestLoads": 1,
+      "heldAfterRead": {
+        "cookie": {
+          "accept": false,
+          "present": false
+        },
+        "guestLoads": 0,
+        "writerResult": "pending",
+        "writerStarts": 0
+      },
+      "heldAtGuest": {
+        "cookie": {
+          "accept": false,
+          "present": false
+        },
+        "guestLoads": 1,
+        "writerResult": "pending",
+        "writerStarts": 0
+      },
+      "inspection": {
+        "accept": false,
+        "present": false
+      },
+      "loader": 1,
+      "origin": "https://mp-android-writer-order-repeat-admission.invalid",
+      "profile": "admission-writer-order-android-writer-order-repeat-admission",
+      "writerResult": "refused-live",
+      "writerStarts": 0
+    },
+    "writerFirst": {
+      "after": {
+        "accept": false,
+        "present": true
+      },
+      "before": {
+        "accept": false,
+        "present": false
+      },
+      "events": [
+        "writer:request",
+        "writer:start",
+        "admission:request",
+        "writer:complete",
+        "inspection:present",
+        "admission:refuse"
+      ],
+      "guestLoads": 0,
+      "heldWhileWriting": {
+        "guestLoads": 0,
+        "inspectionStarted": false,
+        "writerCallback": null,
+        "writerStarts": 1
+      },
+      "inspection": {
+        "accept": false,
+        "present": true
+      },
+      "loader": 0,
+      "origin": "https://mp-android-writer-order-repeat-writer.invalid",
+      "profile": "admission-writer-order-android-writer-order-repeat-writer",
+      "write": {
+        "callback": true,
+        "cookie": "mp_admission_order=fixture",
+        "state": {
+          "accept": false,
+          "present": true
+        }
+      },
+      "writerResult": "stored",
+      "writerStarts": 1
+    }
+  },
+  "complete": true,
+  "installedArtifactSha256": "9ebd6d9290f2c91b79962f4f63189570b7b54d82c52be38fb2fea5ad82300f95",
+  "pid": 3430,
+  "provider": "145.0.7632.218",
+  "release": "17",
+  "run": "android-writer-order-repeat",
+  "sdk": 37
+}
