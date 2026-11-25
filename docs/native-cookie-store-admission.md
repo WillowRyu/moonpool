@@ -126,6 +126,10 @@ two native cookie sources.
 [Android admission and writer order evidence](android-admission-writer-order-verification.md),
 [iOS admission and writer order evidence](ios-admission-writer-order-verification.md)
 
+The [native writer ownership checkpoint](native-writer-ownership-verification.md)
+records the fixture boundary and the store, policy and mutation paths that
+must be accounted for in a host integration.
+
 Existing admitted Portals may remain live during another check only if the proven
 policy prevents every engine-cookie writer throughout that interval. Otherwise
 they must be quiesced before checking, or the configuration is unsupported. This
