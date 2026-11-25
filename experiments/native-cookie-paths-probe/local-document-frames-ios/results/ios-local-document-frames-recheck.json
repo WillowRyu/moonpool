@@ -1,0 +1,218 @@
+{
+  "build": {
+    "artifactSha256": "091f54cbc795d4c0dc2f9aa7f70d16132d6355b2652ef4ff9bad333494ec3d1b",
+    "sdk": "26.4",
+    "sources": {
+      "../../native-cookie-admission-probe/ios/AdmissionGate.swift": "8013c33dd3939f5ecb48299919795d808e73887e7471df0a329160ace0a71f22",
+      "../local-document-frames/assets/probe.js": "167bd00fe0a260ace8993afe68721927a4c79797a587599e461698fc66325da7",
+      "../local-document-frames/assets/worker.js": "8170a4ddcf1857727a91793cabaef3eb9bccf140e1c042801cbc569373cf4016",
+      "../profile-retirement-ios/CookiePresence.swift": "65b80ffb1793f0ccfb0c911814bdba5313a8cb48b51c0417258719dd39149308",
+      "../runner.py": "439ef65ae90e184e29e210e400fb8b92a0d5fc2a3daf141624772d72d2ab725c",
+      "Probe.swift": "0adb680d52cc87e0a3336629c47ff64982c1878c26fd0b7ea71c8133c6e58891",
+      "check.py": "2a789fbebdf0b04623c6e625b65fc16e7bcf7527115ea9db5b45f2cb789945a8",
+      "run_probe.py": "89917fb8036b96a036c7bd94f539942f044e9b034578ca63ff8e31490384a003"
+    },
+    "xcode": "Xcode 26.4.1\nBuild version 17E202"
+  },
+  "capturedUtc": "2026-11-25T04:42:53Z",
+  "complete": true,
+  "documentSet": "local",
+  "frameSource": "origin",
+  "initializedWebKit": true,
+  "installedArtifactSha256": "091f54cbc795d4c0dc2f9aa7f70d16132d6355b2652ef4ff9bad333494ec3d1b",
+  "pid": 74276,
+  "platform": "ios",
+  "release": "26.4.1",
+  "run": "ios-local-recheck",
+  "samples": {
+    "control": {
+      "cookies": {
+        "cookies": false,
+        "policyDisallowed": true,
+        "records": false
+      },
+      "frames": {
+        "blob": {
+          "page": {
+            "frameViolations": [],
+            "parentUrl": "moonpool://com.example.localframes.ios-local-recheck.control/entry/blob",
+            "starts": [
+              {
+                "messageOrigin": "moonpool://com.example.localframes.ios-local-recheck.control",
+                "name": "blob",
+                "origin": "moonpool://com.example.localframes.ios-local-recheck.control",
+                "protocol": "blob:"
+              }
+            ],
+            "trace": ["attach", "ready", "worker-result", "detach"],
+            "workerViolations": [],
+            "workers": [
+              {
+                "messageOrigin": "moonpool://com.example.localframes.ios-local-recheck.control",
+                "outcome": "message"
+              }
+            ]
+          },
+          "parentUrl": "moonpool://com.example.localframes.ios-local-recheck.control/entry/blob",
+          "policies": {
+            "/entry/blob": ""
+          },
+          "requests": ["/entry/blob", "/probe.js", "/worker.js"],
+          "store": "61C8D087-92B1-42B0-AD7E-DBEA66D48A0B"
+        },
+        "data": {
+          "page": {
+            "frameViolations": [],
+            "parentUrl": "moonpool://com.example.localframes.ios-local-recheck.control/entry/data",
+            "starts": [
+              {
+                "messageOrigin": "null",
+                "name": "data",
+                "origin": "null",
+                "protocol": "data:"
+              }
+            ],
+            "trace": ["attach", "ready", "detach"],
+            "workerViolations": [],
+            "workers": []
+          },
+          "parentUrl": "moonpool://com.example.localframes.ios-local-recheck.control/entry/data",
+          "policies": {
+            "/entry/data": ""
+          },
+          "requests": ["/entry/data", "/probe.js"],
+          "store": "61C8D087-92B1-42B0-AD7E-DBEA66D48A0B"
+        },
+        "same": {
+          "page": {
+            "frameViolations": [],
+            "parentUrl": "moonpool://com.example.localframes.ios-local-recheck.control/entry/same",
+            "starts": [
+              {
+                "messageOrigin": "moonpool://com.example.localframes.ios-local-recheck.control",
+                "name": "same",
+                "origin": "moonpool://com.example.localframes.ios-local-recheck.control",
+                "protocol": "moonpool:"
+              }
+            ],
+            "trace": ["attach", "ready", "worker-result", "detach"],
+            "workerViolations": [],
+            "workers": [
+              {
+                "messageOrigin": "moonpool://com.example.localframes.ios-local-recheck.control",
+                "outcome": "message"
+              }
+            ]
+          },
+          "parentUrl": "moonpool://com.example.localframes.ios-local-recheck.control/entry/same",
+          "policies": {
+            "/entry/same": "",
+            "/same-frame": ""
+          },
+          "requests": ["/entry/same", "/probe.js", "/same-frame", "/probe.js", "/worker.js"],
+          "store": "61C8D087-92B1-42B0-AD7E-DBEA66D48A0B"
+        }
+      },
+      "persistent": true,
+      "store": "61C8D087-92B1-42B0-AD7E-DBEA66D48A0B"
+    },
+    "guarded": {
+      "cookies": {
+        "cookies": false,
+        "policyDisallowed": true,
+        "records": false
+      },
+      "frames": {
+        "blob": {
+          "page": {
+            "frameViolations": [
+              {
+                "directive": "frame-src",
+                "disposition": "enforce",
+                "scheme": "blob",
+                "trusted": true
+              }
+            ],
+            "parentUrl": "moonpool://com.example.localframes.ios-local-recheck.guarded/entry/blob",
+            "starts": [],
+            "trace": ["attach", "frame-violation", "detach"],
+            "workerViolations": [],
+            "workers": []
+          },
+          "parentUrl": "moonpool://com.example.localframes.ios-local-recheck.guarded/entry/blob",
+          "policies": {
+            "/entry/blob": "default-src 'none'; script-src 'self' 'unsafe-inline'; frame-src moonpool://com.example.localframes.ios-local-recheck.guarded; worker-src 'none'; base-uri 'none'"
+          },
+          "requests": ["/entry/blob", "/probe.js"],
+          "store": "F7ECD922-A9DE-4F1B-A7B7-ED715AD90DC9"
+        },
+        "data": {
+          "page": {
+            "frameViolations": [
+              {
+                "directive": "frame-src",
+                "disposition": "enforce",
+                "scheme": "data",
+                "trusted": true
+              }
+            ],
+            "parentUrl": "moonpool://com.example.localframes.ios-local-recheck.guarded/entry/data",
+            "starts": [],
+            "trace": ["attach", "frame-violation", "detach"],
+            "workerViolations": [],
+            "workers": []
+          },
+          "parentUrl": "moonpool://com.example.localframes.ios-local-recheck.guarded/entry/data",
+          "policies": {
+            "/entry/data": "default-src 'none'; script-src 'self' 'unsafe-inline'; frame-src moonpool://com.example.localframes.ios-local-recheck.guarded; worker-src 'none'; base-uri 'none'"
+          },
+          "requests": ["/entry/data", "/probe.js"],
+          "store": "F7ECD922-A9DE-4F1B-A7B7-ED715AD90DC9"
+        },
+        "same": {
+          "page": {
+            "frameViolations": [],
+            "parentUrl": "moonpool://com.example.localframes.ios-local-recheck.guarded/entry/same",
+            "starts": [
+              {
+                "messageOrigin": "moonpool://com.example.localframes.ios-local-recheck.guarded",
+                "name": "same",
+                "origin": "moonpool://com.example.localframes.ios-local-recheck.guarded",
+                "protocol": "moonpool:"
+              }
+            ],
+            "trace": ["attach", "ready", "worker-violation", "worker-result", "detach"],
+            "workerViolations": [
+              {
+                "blockedURI": "moonpool://com.example.localframes.ios-local-recheck.guarded/worker.js",
+                "directive": "worker-src",
+                "disposition": "enforce",
+                "messageOrigin": "moonpool://com.example.localframes.ios-local-recheck.guarded",
+                "trusted": true
+              }
+            ],
+            "workers": [
+              {
+                "messageOrigin": "moonpool://com.example.localframes.ios-local-recheck.guarded",
+                "outcome": "rejected"
+              }
+            ]
+          },
+          "parentUrl": "moonpool://com.example.localframes.ios-local-recheck.guarded/entry/same",
+          "policies": {
+            "/entry/same": "default-src 'none'; script-src 'self' 'unsafe-inline'; frame-src moonpool://com.example.localframes.ios-local-recheck.guarded; worker-src 'none'; base-uri 'none'",
+            "/same-frame": "default-src 'none'; script-src 'self' 'unsafe-inline'; frame-src moonpool://com.example.localframes.ios-local-recheck.guarded; worker-src 'none'; base-uri 'none'"
+          },
+          "requests": ["/entry/same", "/probe.js", "/same-frame", "/probe.js"],
+          "store": "F7ECD922-A9DE-4F1B-A7B7-ED715AD90DC9"
+        }
+      },
+      "persistent": true,
+      "store": "F7ECD922-A9DE-4F1B-A7B7-ED715AD90DC9"
+    }
+  },
+  "simulator": {
+    "deviceType": "com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro",
+    "runtime": "com.apple.CoreSimulator.SimRuntime.iOS-26-4"
+  }
+}

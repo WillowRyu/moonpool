@@ -1,0 +1,27 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'org.moonpool.localdocumentframes'
+    compileSdk 37
+    buildToolsVersion '37.0.0'
+
+    defaultConfig {
+        applicationId 'org.moonpool.localdocumentframes'
+        minSdk 31
+        targetSdk 36
+        versionCode 1
+        versionName '0.0.1-probe'
+    }
+
+    sourceSets.main.assets.srcDirs += '../../assets'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation 'androidx.webkit:webkit:1.14.0'
+}

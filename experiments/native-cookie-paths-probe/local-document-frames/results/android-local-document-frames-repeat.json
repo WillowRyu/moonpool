@@ -1,0 +1,138 @@
+{
+  "build": {
+    "artifactSha256": "d5ac047a9fc8cfa99f9932f6723096c52874bdb613c3f7e4657c95346616d7c0",
+    "sources": {
+      "../../android-origin-probe/gradle/wrapper/gradle-wrapper.jar": "497c8c2a7e5031f6aa847f88104aa80a93532ec32ee17bdb8d1d2f67a194a9c7",
+      "../../android-origin-probe/gradle/wrapper/gradle-wrapper.properties": "6ca9e44c73e5ffc2656e8110780eed77b023934f5ceb57e9e55658604d3315fd",
+      "../../android-origin-probe/gradlew": "a5a5c199ba02189ae8c46a334223371a20599d9c298ef65e7540ede4a3f72d59",
+      "../runner.py": "439ef65ae90e184e29e210e400fb8b92a0d5fc2a3daf141624772d72d2ab725c",
+      "android/app/build.gradle": "205437f3ee01d70012ac3a3b425c52957609ea12d54389b7eb5135e3977debd3",
+      "android/app/src/main/AndroidManifest.xml": "614bad937dead06f45d81b2e9945321f604a645fea7e222463b4700475922c92",
+      "android/app/src/main/java/org/moonpool/localdocumentframes/LocalDocumentFramesActivity.java": "663eeaca98715c4c0860dfdd778f0463637f906a1a934b4fd4421df0c7620225",
+      "android/build.gradle": "6e94fd7d3deb45d681a1a2c33d78e47bfcabcfcfbbebc9edc156791d292006d9",
+      "android/gradle.properties": "67eefa02d084d8fd6e2698683ca4d007a344395ca89eed9012a79bac373ba359",
+      "android/settings.gradle": "e0a2ca7ed349d62af64522f6abf1b2363565bd9a69f0d17cf3c12ddb0ea4f71b",
+      "assets/probe.js": "99e30937aea8389b60c81481fd0cbbe9e0e313c6038ee952aa21114146b28cdc",
+      "assets/worker.js": "8170a4ddcf1857727a91793cabaef3eb9bccf140e1c042801cbc569373cf4016",
+      "check.py": "6b6c0809a90f840676ab223061cdd6855e71fc2400908aea66c72d45e7e7acef",
+      "run_probe.py": "3eaecbef59f75633a750eeeaa75817709cd9aa515fa33032135a0ac43359d090"
+    }
+  },
+  "capturedUtc": "2026-11-24T07:24:07Z",
+  "complete": true,
+  "installedArtifactSha256": "d5ac047a9fc8cfa99f9932f6723096c52874bdb613c3f7e4657c95346616d7c0",
+  "pid": 3866,
+  "provider": "145.0.7632.218",
+  "release": "17",
+  "run": "android-local-frames-b",
+  "samples": {
+    "control": {
+      "cookieDeny": true,
+      "created": true,
+      "page": {
+        "frames": {
+          "blob": {
+            "document": {
+              "messageOrigin": "https://mp-android-local-frames-b-control.invalid",
+              "name": "blob",
+              "origin": "https://mp-android-local-frames-b-control.invalid",
+              "protocol": "blob:",
+              "worker": {
+                "outcome": "message",
+                "violation": null
+              }
+            },
+            "frameViolation": null
+          },
+          "data": {
+            "document": {
+              "messageOrigin": "null",
+              "name": "data",
+              "origin": "null",
+              "protocol": "data:",
+              "worker": null
+            },
+            "frameViolation": null
+          },
+          "same": {
+            "document": {
+              "messageOrigin": "https://mp-android-local-frames-b-control.invalid",
+              "name": "same",
+              "origin": "https://mp-android-local-frames-b-control.invalid",
+              "protocol": "https:",
+              "worker": {
+                "outcome": "message",
+                "violation": null
+              }
+            },
+            "frameViolation": null
+          }
+        },
+        "trace": [
+          "same:attach",
+          "same:detach",
+          "blob:attach",
+          "blob:detach",
+          "data:attach",
+          "data:detach"
+        ]
+      },
+      "policy": "",
+      "profile": "local-document-frames-android-local-frames-b-control",
+      "requests": ["/entry", "/probe.js", "/same-frame", "/probe.js", "/worker.js", "/worker.js"]
+    },
+    "guarded": {
+      "cookieDeny": true,
+      "created": true,
+      "page": {
+        "frames": {
+          "blob": {
+            "document": null,
+            "frameViolation": {
+              "directive": "frame-src",
+              "disposition": "enforce",
+              "scheme": "blob"
+            }
+          },
+          "data": {
+            "document": null,
+            "frameViolation": {
+              "directive": "frame-src",
+              "disposition": "enforce",
+              "scheme": null
+            }
+          },
+          "same": {
+            "document": {
+              "messageOrigin": "https://mp-android-local-frames-b-guarded.invalid",
+              "name": "same",
+              "origin": "https://mp-android-local-frames-b-guarded.invalid",
+              "protocol": "https:",
+              "worker": {
+                "outcome": "rejected",
+                "violation": {
+                  "blockedURI": "https://mp-android-local-frames-b-guarded.invalid/worker.js",
+                  "directive": "worker-src",
+                  "disposition": "enforce"
+                }
+              }
+            },
+            "frameViolation": null
+          }
+        },
+        "trace": [
+          "same:attach",
+          "same:detach",
+          "blob:attach",
+          "blob:detach",
+          "data:attach",
+          "data:detach"
+        ]
+      },
+      "policy": "default-src 'none'; script-src 'self' 'unsafe-inline'; frame-src 'self'; worker-src 'none'; base-uri 'none'",
+      "profile": "local-document-frames-android-local-frames-b-guarded",
+      "requests": ["/entry", "/probe.js", "/same-frame", "/probe.js"]
+    }
+  },
+  "sdk": 37
+}

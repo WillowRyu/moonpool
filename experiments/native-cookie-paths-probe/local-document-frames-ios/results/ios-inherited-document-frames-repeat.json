@@ -1,0 +1,195 @@
+{
+  "build": {
+    "artifactSha256": "091f54cbc795d4c0dc2f9aa7f70d16132d6355b2652ef4ff9bad333494ec3d1b",
+    "sdk": "26.4",
+    "sources": {
+      "../../native-cookie-admission-probe/ios/AdmissionGate.swift": "8013c33dd3939f5ecb48299919795d808e73887e7471df0a329160ace0a71f22",
+      "../local-document-frames/assets/probe.js": "167bd00fe0a260ace8993afe68721927a4c79797a587599e461698fc66325da7",
+      "../local-document-frames/assets/worker.js": "8170a4ddcf1857727a91793cabaef3eb9bccf140e1c042801cbc569373cf4016",
+      "../profile-retirement-ios/CookiePresence.swift": "65b80ffb1793f0ccfb0c911814bdba5313a8cb48b51c0417258719dd39149308",
+      "../runner.py": "439ef65ae90e184e29e210e400fb8b92a0d5fc2a3daf141624772d72d2ab725c",
+      "Probe.swift": "0adb680d52cc87e0a3336629c47ff64982c1878c26fd0b7ea71c8133c6e58891",
+      "check.py": "2a789fbebdf0b04623c6e625b65fc16e7bcf7527115ea9db5b45f2cb789945a8",
+      "run_probe.py": "89917fb8036b96a036c7bd94f539942f044e9b034578ca63ff8e31490384a003"
+    },
+    "xcode": "Xcode 26.4.1\nBuild version 17E202"
+  },
+  "capturedUtc": "2026-11-25T04:42:05Z",
+  "complete": true,
+  "documentSet": "inherited",
+  "frameSource": "origin",
+  "initializedWebKit": true,
+  "installedArtifactSha256": "091f54cbc795d4c0dc2f9aa7f70d16132d6355b2652ef4ff9bad333494ec3d1b",
+  "pid": 73984,
+  "platform": "ios",
+  "release": "26.4.1",
+  "run": "ios-inherited-b",
+  "samples": {
+    "control": {
+      "cookies": {
+        "cookies": false,
+        "policyDisallowed": true,
+        "records": false
+      },
+      "frames": {
+        "blank": {
+          "page": {
+            "frameViolations": [],
+            "parentUrl": "moonpool://com.example.localframes.ios-inherited-b.control/entry/blank",
+            "starts": [
+              {
+                "messageOrigin": "moonpool://com.example.localframes.ios-inherited-b.control",
+                "name": "blank",
+                "origin": "moonpool://com.example.localframes.ios-inherited-b.control",
+                "protocol": "about:",
+                "secureContext": true,
+                "serviceWorkerRegistration": false,
+                "url": "about:blank"
+              }
+            ],
+            "trace": ["attach", "ready", "worker-result", "detach"],
+            "workerViolations": [],
+            "workers": [
+              {
+                "messageOrigin": "moonpool://com.example.localframes.ios-inherited-b.control",
+                "outcome": "message"
+              }
+            ]
+          },
+          "parentUrl": "moonpool://com.example.localframes.ios-inherited-b.control/entry/blank",
+          "policies": {
+            "/entry/blank": ""
+          },
+          "requests": ["/entry/blank", "/probe.js", "/worker.js"],
+          "store": "E0E4C220-82AC-4A04-9A05-F0AD091EEA2B"
+        },
+        "srcdoc": {
+          "page": {
+            "frameViolations": [],
+            "parentUrl": "moonpool://com.example.localframes.ios-inherited-b.control/entry/srcdoc",
+            "starts": [
+              {
+                "messageOrigin": "moonpool://com.example.localframes.ios-inherited-b.control",
+                "name": "srcdoc",
+                "origin": "moonpool://com.example.localframes.ios-inherited-b.control",
+                "protocol": "about:",
+                "secureContext": true,
+                "serviceWorkerRegistration": false,
+                "url": "about:srcdoc"
+              }
+            ],
+            "trace": ["attach", "ready", "worker-result", "detach"],
+            "workerViolations": [],
+            "workers": [
+              {
+                "messageOrigin": "moonpool://com.example.localframes.ios-inherited-b.control",
+                "outcome": "message"
+              }
+            ]
+          },
+          "parentUrl": "moonpool://com.example.localframes.ios-inherited-b.control/entry/srcdoc",
+          "policies": {
+            "/entry/srcdoc": ""
+          },
+          "requests": ["/entry/srcdoc", "/probe.js", "/worker.js"],
+          "store": "E0E4C220-82AC-4A04-9A05-F0AD091EEA2B"
+        }
+      },
+      "persistent": true,
+      "store": "E0E4C220-82AC-4A04-9A05-F0AD091EEA2B"
+    },
+    "guarded": {
+      "cookies": {
+        "cookies": false,
+        "policyDisallowed": true,
+        "records": false
+      },
+      "frames": {
+        "blank": {
+          "page": {
+            "frameViolations": [],
+            "parentUrl": "moonpool://com.example.localframes.ios-inherited-b.guarded/entry/blank",
+            "starts": [
+              {
+                "messageOrigin": "moonpool://com.example.localframes.ios-inherited-b.guarded",
+                "name": "blank",
+                "origin": "moonpool://com.example.localframes.ios-inherited-b.guarded",
+                "protocol": "about:",
+                "secureContext": true,
+                "serviceWorkerRegistration": false,
+                "url": "about:blank"
+              }
+            ],
+            "trace": ["attach", "ready", "worker-violation", "worker-result", "detach"],
+            "workerViolations": [
+              {
+                "blockedURI": "moonpool://com.example.localframes.ios-inherited-b.guarded/worker.js",
+                "directive": "worker-src",
+                "disposition": "enforce",
+                "messageOrigin": "moonpool://com.example.localframes.ios-inherited-b.guarded",
+                "trusted": true
+              }
+            ],
+            "workers": [
+              {
+                "messageOrigin": "moonpool://com.example.localframes.ios-inherited-b.guarded",
+                "outcome": "rejected"
+              }
+            ]
+          },
+          "parentUrl": "moonpool://com.example.localframes.ios-inherited-b.guarded/entry/blank",
+          "policies": {
+            "/entry/blank": "default-src 'none'; script-src 'self' 'unsafe-inline'; frame-src moonpool://com.example.localframes.ios-inherited-b.guarded; worker-src 'none'; base-uri 'none'"
+          },
+          "requests": ["/entry/blank", "/probe.js"],
+          "store": "98DD608C-BCF7-4586-90E1-0E7382DF67DF"
+        },
+        "srcdoc": {
+          "page": {
+            "frameViolations": [],
+            "parentUrl": "moonpool://com.example.localframes.ios-inherited-b.guarded/entry/srcdoc",
+            "starts": [
+              {
+                "messageOrigin": "moonpool://com.example.localframes.ios-inherited-b.guarded",
+                "name": "srcdoc",
+                "origin": "moonpool://com.example.localframes.ios-inherited-b.guarded",
+                "protocol": "about:",
+                "secureContext": true,
+                "serviceWorkerRegistration": false,
+                "url": "about:srcdoc"
+              }
+            ],
+            "trace": ["attach", "ready", "worker-violation", "worker-result", "detach"],
+            "workerViolations": [
+              {
+                "blockedURI": "moonpool://com.example.localframes.ios-inherited-b.guarded/worker.js",
+                "directive": "worker-src",
+                "disposition": "enforce",
+                "messageOrigin": "moonpool://com.example.localframes.ios-inherited-b.guarded",
+                "trusted": true
+              }
+            ],
+            "workers": [
+              {
+                "messageOrigin": "moonpool://com.example.localframes.ios-inherited-b.guarded",
+                "outcome": "rejected"
+              }
+            ]
+          },
+          "parentUrl": "moonpool://com.example.localframes.ios-inherited-b.guarded/entry/srcdoc",
+          "policies": {
+            "/entry/srcdoc": "default-src 'none'; script-src 'self' 'unsafe-inline'; frame-src moonpool://com.example.localframes.ios-inherited-b.guarded; worker-src 'none'; base-uri 'none'"
+          },
+          "requests": ["/entry/srcdoc", "/probe.js"],
+          "store": "98DD608C-BCF7-4586-90E1-0E7382DF67DF"
+        }
+      },
+      "persistent": true,
+      "store": "98DD608C-BCF7-4586-90E1-0E7382DF67DF"
+    }
+  },
+  "simulator": {
+    "deviceType": "com.apple.CoreSimulator.SimDeviceType.iPhone-17-Pro",
+    "runtime": "com.apple.CoreSimulator.SimRuntime.iOS-26-4"
+  }
+}
