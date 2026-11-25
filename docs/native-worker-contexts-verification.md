@@ -51,3 +51,7 @@ have to establish which native components can use it. C09 remains open.
 [AndroidX WebViewCompat](https://developer.android.com/reference/androidx/webkit/WebViewCompat),
 [Earlier admission evidence](native-worker-prevention-verification.md),
 [Android ownership follow-up](android-profile-ownership-verification.md)
+
+The paired follow-up measures dedicated workers in both inherited frames
+on Android and iOS with the explicit frame source and separate parents.
+[Paired inherited frame evidence](native-inherited-frames-verification.md)

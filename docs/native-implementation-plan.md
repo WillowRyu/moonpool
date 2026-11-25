@@ -352,8 +352,9 @@ within its host. Redirect policy and retained service workers remain open.
 
 The C09 follow-up proves native checks of all tested redirect hops and
 observes Android's retained worker serving cached HTML after network
-suppression. The tested iOS custom scheme lacks the worker API. Keep C09 open
-for trusted worker absence evidence and production loader integration.
+suppression. The service-worker API is unavailable at the tested iOS
+custom origin. C09 remains open for trusted worker absence evidence and
+production loader integration.
 [Follow-up evidence](native-cookie-paths-follow-up-verification.md)
 
 The 2026-11-17 Android worker-admission probe finds no usable registration
@@ -402,6 +403,43 @@ matches both orders using its two native cookie sources. Both platforms
 pass two retained collections. The production owner boundary remains open.
 [Android writer-order evidence](android-admission-writer-order-verification.md),
 [iOS writer-order evidence](ios-admission-writer-order-verification.md)
+
+The ownership audit at `68a5bc8` finds the tracked native code in the
+experimental tree. It records the store bindings, writer entry points
+and control evidence to obtain once T38/T39 and T56 supply the loader
+adapters and actual host integration.
+[Native writer ownership checkpoint](native-writer-ownership-verification.md)
+
+The Android C09 generated-frame follow-up compares real WebView control
+and guarded pages. The ordinary same-origin frame still executes under
+the candidate header, with its worker blocked. Blob and data frames
+execute in the control and receive frame-policy refusals in the guarded
+case. The paired iOS `moonpool://` fixture also refuses the guarded data
+frame. Its guarded blob frame starts with the parent origin and reports
+an enforcing worker refusal. Two collections per configuration pin these
+outcomes. A common generated-document policy and the remaining C09
+browser paths stay open.
+[Android generated-frame evidence](android-local-document-frames-verification.md),
+[iOS generated-frame evidence](ios-local-document-frames-verification.md)
+
+The explicit frame source follow-up uses each fixture's literal app
+origin and observes matching frame outcomes on both platforms. The
+guarded `blob:` and `data:` frames are refused, and the guarded ordinary
+frame starts with its worker blocked. A same-artifact iOS comparison
+with `'self'` still starts the `blob:` frame. These collections cover the
+listed frame cases in the fixture configurations.
+[Explicit frame source evidence](ios-local-document-frames-verification.md#explicit-frame-source-follow-up)
+
+The paired inherited-frame follow-up uses that candidate for initial
+`about:blank` and `srcdoc` documents. Both children start with the
+parent origin while their dedicated workers receive enforcing CSP
+refusals. Both control workers run with independent script receipts.
+[Inherited frame evidence](native-inherited-frames-verification.md)
+
+The later `about:blank` follow-up verifies an actual document replacement
+after an ordinary same-origin load. The replacement starts at the parent
+origin on both platforms and reports the inherited worker refusal.
+[Later navigation evidence](native-inherited-frames-verification.md#later-navigation-to-aboutblank)
 
 The requested T25/T26/generation publication is confirmed through b4b7721 after
 four logical commits. The maintainer subsequently requested T27 publication:

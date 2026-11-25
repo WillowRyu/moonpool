@@ -65,6 +65,14 @@ The inherited document probe compares worker behavior in the entry,
 an initial about:blank iframe and a srcdoc iframe.
 [Inherited document probe](worker-contexts/README.md)
 
+The paired generated-frame probes compare regular same-origin, blob and
+data frames under the candidate frame policy. The inherited document set
+adds separate initial `about:blank` and `srcdoc` trials on both engines.
+The iOS app packages the reviewed Android scripts and serves them from
+`moonpool://`.
+[Android generated-frame probe](local-document-frames/README.md),
+[iOS generated-frame probe](local-document-frames-ios/README.md)
+
 The profile ownership probe compares two native lookups of the same
 Android profile with a distinct profile control.
 [Profile ownership probe](profile-ownership/README.md)

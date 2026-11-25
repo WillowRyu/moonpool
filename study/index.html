@@ -216,6 +216,24 @@ Set-Cookie  sid=1; Domain=github.io.; Path=/
 <p>호스트는 첫 HTML에만 <code>worker-src 'none'</code> 응답 헤더를 붙였습니다. 페이지 안에서 만든 초기 <code>about:blank</code>와 <code>srcdoc</code> 프레임은 각자의 실행 문맥에서 워커를 시작해 봤습니다. 헤더 없는 대조군에서는 두 곳에서 일반 Web Worker가 실행됐고, 보호된 문서에서는 차단 이벤트가 확인됐습니다.</p>
 <p><code>srcdoc</code>의 서비스워커도 대조군에서는 활성화됐고, 보호된 문서에서는 CSP가 막았습니다. <code>about:blank</code>의 서비스워커는 두 조건 모두 <code>InvalidStateError</code>였습니다. 이 경우 CSP의 효과를 직접 보여 주는 관찰은 일반 Web Worker의 차단 이벤트입니다.</p>
 <p>두 번의 반복에서 같은 결과가 나왔습니다. 실제 로더가 허용할 나머지 문서 경로와 네이티브 프로필 소유권은 검증이 남아 있습니다. <a href="../docs/native-worker-contexts-verification.md">Android 검증 기록</a></p>
+<p>이후 Android와 iOS에서 <code>frame-src</code>에 앱 출처를 명시한 구성으로 다시 확인했습니다. 초기 <code>about:blank</code>에는 생성된 자식 문서에 바로 스크립트를 넣고, <code>srcdoc</code>은 속성으로 문서를 만들었습니다. 두 문서 모두 부모와 같은 출처로 시작했고, 보호군에서는 상속된 <code>worker-src 'none'</code>이 전용 워커를 막아 로더에 요청이 0건이었습니다. <a href="../docs/native-inherited-frames-verification.md">양쪽 실험 기록</a></p>
+<p>리뷰 뒤에는 Android 리포트 두 건을 같이 검사해 별도 실행인지, 같은 APK와 실행 환경을 사용했는지 확인합니다. 양쪽 보존본은 안전한 컨텍스트 여부와 서비스워커 등록 메서드 노출 여부도 당시 관측값과 대조합니다. <a href="../docs/native-inherited-frames-verification.md#measured-results">반복 검증 기록</a></p>
+<p>후속 실험에서는 같은 출처의 일반 HTML을 먼저 연 뒤, 부모가 그 프레임을 <code>about:blank</code>로 탐색시켰습니다. URL과 <code>Document</code> 객체가 모두 바뀐 뒤에 워커를 실행해 봤습니다. iOS와 Android 모두 새 문서가 부모와 같은 출처로 시작했고 보호군에서는 <code>worker-src</code>가 워커를 차단했습니다. <a href="../docs/native-inherited-frames-verification.md#later-navigation-to-aboutblank">재탐색 실험 기록</a></p>
+<p>리뷰 뒤에는 문서 교체를 기다리는 시간과 교체 후 워커를 관찰하는 시간을 분리했습니다. 문서 교체에 2.5초, 워커 응답에 4.2초가 걸려도 두 번째 창 안에서 응답을 받습니다. 로더 리포트에서도 이전 문서 요청에 이어서 워커 요청이 기록됐는지 확인합니다. <a href="../docs/native-inherited-frames-verification.md#navigation-review-fixes">리뷰 후속 검증</a></p>
+</section>
+<section class="section" id="c09-local-document-frames">
+<h2>Android에서 blob과 data 프레임의 실행을 확인했습니다</h2>
+<p>정책이 없는 대조군에서는 일반 동일 출처 프레임과 <code>blob:</code>, <code>data:</code>가 모두 실행됐습니다. <code>blob:</code>의 메시지는 부모와 같은 출처였고 <code>data:</code>의 메시지에는 불투명한 출처가 표시됐습니다.</p>
+<p>보호군에서는 <code>frame-src 'self'</code>가 <code>blob:</code>과 <code>data:</code>의 프레임 로드를 막았습니다. 일반 동일 출처 프레임은 계속 열렸고, 그 안에선 <code>worker-src 'none'</code>이 워커를 막아 로더에 워커 요청이 도달하지 않았습니다.</p>
+<p>초기 실험에서 <code>data:</code> 프레임을 열던 중 URL 스킴이 가려진 이벤트가 관찰됐습니다. 리뷰 뒤에는 프레임마다 별도의 부모 문서를 열어 그 안에서 한 번만 탐색했습니다. 자식은 스크립트가 시작하자마자 부모에 신호를 보내고, 워커 결과는 따로 보냅니다. 부모가 읽는 출처는 DOM의 <code>MessageEvent.origin</code>입니다. <a href="../docs/android-local-document-frames-verification.md">Android 검증 기록</a></p>
+</section>
+<section class="section" id="c09-local-document-frames-ios">
+<h2>iOS에서 blob 프레임은 실행됐고 그 안의 워커는 차단됐습니다</h2>
+<p>같은 자바스크립트를 iOS의 <code>moonpool://</code> 로더로 제공했습니다. 두 번 모두 보호군에서 <code>data:</code> 프레임에 <code>frame-src</code> 차단 이벤트가 발생했고 자식 스크립트는 시작하지 않았습니다. <code>blob:</code> 프레임은 부모와 같은 출처로 실행됐습니다.</p>
+<p>보호군의 일반 프레임과 <code>blob:</code>에서 <code>worker-src</code> 차단 이벤트가 발생했고, 로더에 워커 스크립트 요청은 도착하지 않았습니다. 두 프레임 모두 대조군에서는 워커가 응답했고 로더에도 각각 요청 한 건이 기록됐습니다.</p>
+<p>부모가 받은 첫 신호는 프레임 스크립트의 실행을 확인해 줍니다. 이후 도착한 워커 결과를 따로 확인하면 문서가 열린 상태에서도 워커에 적용된 정책을 판단할 수 있습니다. 이번에 시험한 Android HTTPS 구성과 iOS <code>moonpool://</code> 구성에서 <code>blob:</code> 결과가 달랐으므로, 두 플랫폼에서 생성 문서를 어떻게 다룰지는 C09에 남았습니다. <a href="../docs/ios-local-document-frames-verification.md">iOS 검증 기록</a></p>
+<p>리뷰 뒤에는 워커의 실행 결과와 CSP 이벤트를 각각 보냅니다. 워커 거부를 먼저 받은 뒤 350ms에 차단 이벤트가 들어오는 테스트에서도 부모가 관찰을 마칠 때까지 두 기록이 모두 남습니다. iOS 리포트는 두 건을 같이 읽어 실행 태그와 스토어가 서로 다르고, 같은 앱과 실행 환경을 사용했는지도 확인합니다. <a href="../docs/ios-local-document-frames-verification.md#review-follow-up">리뷰 후속 검증</a></p>
+<p>후속 실험에서는 <code>frame-src</code>에 앱 출처를 직접 넣었습니다. iOS와 Android 모두 일반 동일 출처 프레임은 열렸고, <code>blob:</code>과 <code>data:</code>는 프레임 차단 이벤트를 남겼습니다. 보존 리포트의 신뢰 플래그는 불리언 <code>true</code>일 때만 인정합니다. <a href="../docs/ios-local-document-frames-verification.md#explicit-frame-source-follow-up">출처를 명시한 실험 기록</a></p>
 </section>
 <section class="section" id="c09-profile-ownership">
 <h2>같은 이름의 Android 프로필을 두 네이티브 경로에서 열었습니다</h2>
@@ -242,6 +260,7 @@ Set-Cookie  sid=1; Domain=github.io.; Path=/
 <p>두 번 모두 같은 결과가 나왔습니다. 첫 경우에는 게스트가 열린 뒤 실험 코드가 쓰기를 거부했습니다. 두 번째 경우에는 입장 검사가 쿠키를 발견해 화면을 열지 않았습니다. 이 결과는 이 큐를 거치는 네이티브 경로의 순서를 확인한 것입니다. <a href="../docs/android-admission-writer-order-verification.md">Android 검증 기록</a></p>
 <p>iOS에서도 두 번 반복해 같은 순서를 확인했습니다. 첫 경우에는 저장소 기록과 쿠키 목록이 모두 비어 있었고, 두 번째 경우에는 쓰기 완료 콜백 뒤 두 조회가 모두 쿠키를 확인했습니다. 이제 실제 호스트가 허용하는 네이티브 쓰기 경로가 이 큐를 거치는지 검증해야 합니다. <a href="../docs/ios-admission-writer-order-verification.md">iOS 검증 기록</a></p>
 <p>리뷰 뒤에는 콜백 도착, 쿠키 재조회 완료, 입장 검사 시작을 각각 기록하도록 바꿨습니다. 검사 결과 시점과 검사 시작 시점을 구분할 수 있고, Android에서는 입장 거부 뒤에도 같은 테스트 쿠키 값이 남았는지 다시 읽었습니다.</p>
+<p>현재 저장소에서 이 네이티브 코드는 실험과 참조 구현에 있습니다. 실제 앱을 연결할 때는 프로필을 고르는 코드, 차단 정책을 바꾸는 코드, 쿠키를 쓰는 코드를 찾아 같은 관리 경계를 지키는지 확인해야 합니다. 이 조건을 확인할 수 없는 저장소는 게스트를 열기 전에 거부합니다. <a href="../docs/native-writer-ownership-verification.md">호스트 소유권 점검 기록</a></p>
 </section>
 <section class="section" id="http-first-response"><div class="eyebrow">T28 evidence · First response</div><h2>이제 두 OS의 쿠키 보관함이 같아졌습니다</h2>
 <p>iOS 브로커가 인증 콜백에서 첫 401의 쿠키를 커밋하도록 바꿨습니다. 63개 사례가 양쪽 OS 4회 수집에서 모두 통과했고, 서버가 시도마다 다른 쿠키를 줘도 보관함 값이 같습니다.</p>

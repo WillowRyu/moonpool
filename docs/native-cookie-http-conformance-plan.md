@@ -316,6 +316,37 @@ trust even though its resource request receives no broker cookie. Test initial
 execution and an existing owned store; an empty fresh store alone cannot pass.
 Unavailable features are labeled unsupported, not silently marked tested.
 
+In the Android generated-frame follow-up, the control executes both
+`blob:` and opaque `data:` documents. The guarded loader's
+`frame-src 'self'` blocks both. The regular same-origin frame still
+executes and its worker is blocked. In the paired iOS configuration the
+guarded `data:` document is refused, the `blob:` document starts with
+the parent origin, and `worker-src 'none'` blocks dedicated workers in
+the regular and `blob:` frames. The two configurations use synthetic
+HTTPS on Android and the local `moonpool://` scheme on iOS. The common
+generated-document policy remains open.
+[Android generated-frame follow-up](android-local-document-frames-verification.md),
+[iOS generated-frame follow-up](ios-local-document-frames-verification.md)
+
+The explicit frame source follow-up uses each app's literal local
+origin in `frame-src`. Both tested configurations permit the guarded
+ordinary same-origin frame and refuse `blob:` and `data:` frames. The
+ordinary guarded frame still reports an enforcing worker refusal. This
+adds evidence for the candidate policy on these three frame paths.
+[Paired explicit source evidence](ios-local-document-frames-verification.md#explicit-frame-source-follow-up)
+
+Under that candidate, the initial `about:blank` and `srcdoc` children
+start at the parent origin on both platforms. Each guarded child reports
+an enforcing `worker-src` refusal and the native loader records zero
+worker script receipts. Both corresponding control workers run.
+[Paired inherited frame evidence](native-inherited-frames-verification.md)
+
+The later `about:blank` case starts from a served same-origin child and
+has the parent navigate the iframe. Both platforms confirm a different
+document object and the parent's origin. The guarded replacement reports
+an enforcing worker refusal with zero worker script receipts.
+[Later navigation evidence](native-inherited-frames-verification.md#later-navigation-to-aboutblank)
+
 ### C10 — Suppression locality
 
 First prove H and U can set, read and send their cookies. Install the candidate

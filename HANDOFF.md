@@ -1,7 +1,7 @@
 # Session handoff
 
 > Read this at the start of a session; update it whenever a step completes.
-> Last updated: 2026-11-24. The maintainer switched to agent-led implementation
+> Last updated: 2026-11-25. The maintainer switched to agent-led implementation
 > and requested small tasks with an easy Korean explanation after each task.
 > The agent now writes tests and implementation; manual typing and learning
 > review are no longer prerequisites. Local study mode is off.
@@ -45,8 +45,33 @@
 > Two paired iOS runs match both orders using the two native cookie sources.
 > The reviewed runs verify callback, readback and inspector entry separately
 > and re-read the exact Android marker after refusal.
-> Continue at production writer exclusion, other locality controls and remaining
-> document coverage. T38/T39 track loader integration.
+> Earlier C09/C10 reports, probes and notes were published through 68a5bc8 on master.
+> The writer audit and paired C09 frame evidence are recorded in 8b688c9 and 5c13aa3.
+> The repository writer audit records the evidence required at T38/T39 and T56.
+> Two Android C09 generated-frame runs block blob/data frames with
+> frame-src while the same-origin control frame still executes.
+> The reviewed Android runs use separate parent documents, distinct
+> script-start and worker evidence, and retained outcome expectations.
+> Two paired iOS C09 runs refuse data frames and allow the same-origin blob
+> frame under the candidate header. The worker policy blocks workers in the
+> ordinary and blob frames. Read docs/ios-local-document-frames-verification.md.
+> The iOS review follow-up collects worker results and CSP events independently
+> in both probes. Two new runs per platform pass. iOS pair verification checks
+> independent stores and tags, matching build and runtime, and the data scheme.
+> The Android verifier requires a boolean CSP trust flag. Two explicit-origin
+> collections per platform refuse blob/data frames and allow the ordinary frame.
+> A same-app iOS self comparison preserves the observed blob start.
+> Paired inherited-frame runs show that initial about:blank and srcdoc start
+> with the parent origin and receive enforcing worker-src refusals on both
+> platforms. Read docs/native-inherited-frames-verification.md.
+> The inherited-frame review fixes verify Android's two runs together and
+> pin the retained child capability observations on both platforms.
+> Two later about:blank runs per platform prove replacement of a served
+> same-origin child and observe the inherited worker policy after navigation.
+> The later-navigation review fixes give the replacement and worker probe
+> separate deadlines and verify the order of the two control loader receipts.
+> Continue at the remaining document and locality controls, the common policy
+> decision and production writer ownership. T38/T39 track loader integration.
 > Read docs/ios-profile-retirement-verification.md.
 > C09–C12 and final contract approval remain.
 > Native progress is 6/44. Both devices stopped.
@@ -167,6 +192,265 @@
 > Name length is approved: 1–40 Unicode code points. Do not ask again.
 > The browser mini app now displays Moonpool Explorer after profile.get.
 > Preserve prior lessons and explain each task in simple Korean with code.
+
+## 2026-11-25 checkpoint — C09 frame evidence publication
+
+The maintainer requested a task-grouped publication to `master`.
+`8b688c9` records the native writer ownership audit and its integration
+evidence requirements. `5c13aa3` records the Android and iOS frame
+experiments, their retained reports, and the source archives for earlier
+builds. This documentation checkpoint records the conformance plan and
+Korean study updates.
+
+The publication check passed all 44 frame fixture tests and
+`pnpm run check`. Thirty-five retained reports replayed successfully,
+and the two Android diagnostic reports reproduced their recorded
+refusals. The regenerated example builds went to the Trash. The native
+artifacts and local capture directories remain outside version control.
+
+C09 broader document paths and existing-store admission, the C10
+locality controls, and the production writer ownership boundary remain
+open. Native progress is 6/44.
+[Frame evidence](docs/native-inherited-frames-verification.md),
+[Writer ownership checkpoint](docs/native-writer-ownership-verification.md)
+
+## 2026-11-25 checkpoint — C09 later navigation review fixes
+
+The navigation fixture allows up to 6.5 seconds for the earlier child
+and its replacement. It then observes the worker and CSP messages for a
+separate 6.5 seconds after inserting the probe in the new document. The
+virtual-clock regression retains a worker marker at 6.7 seconds after
+attachment. A second case verifies cleanup at the navigation deadline.
+
+Both verifiers require the control worker receipt to follow the earlier
+document receipt. Reversing the two requests in copies of the original
+reports fails while the original reports pass with their source archive.
+Two new runs on each platform pass the navigation and worker checks, and
+both artifacts pass the inherited-frame recheck. The retained reports
+use the final linted assets. The earlier collection and its build source
+snapshot are preserved in local results.
+
+This is an experiment and evidence verification follow-up for SPEC §8
+and §9. Both native builds, Android lint, 44 fixture tests and
+`pnpm run check` passed. The owned devices stopped and six generated
+directories went to the Trash. Thirty-five passing retained reports and
+two expected diagnostic refusals replayed after cleanup.
+[Navigation review evidence](docs/native-inherited-frames-verification.md#navigation-review-fixes),
+[Korean lesson](study/index.html#c09-worker-contexts)
+
+## 2026-11-25 checkpoint — C09 later navigation to about:blank
+
+The `navigation` document set first loads a marked same-origin child and
+records the absence of a CSP header on that response. The parent assigns
+`about:blank` to the iframe and verifies the replacement URL and a
+different `Document` object before starting the child probe.
+
+Two runs per platform show the replacement starting with the parent
+origin. Each control returns its worker marker and records one native
+script receipt. Each guarded replacement reports worker rejection and an
+enforcing `worker-src` event with zero worker script receipts. The pair
+verifiers check distinct runs as well as matching artifact, mode and
+runtime evidence.
+Both artifacts also pass a recheck of initial `about:blank` and `srcdoc`.
+
+This concerns SPEC §8 and §9. Other document paths, existing-store
+admission, locality controls and the final native contract remain open.
+Native progress is 6/44. Both native builds, Android lint, all 41 fixture
+tests and `pnpm run check` passed. The owned devices stopped and six
+generated directories went to the Trash. Twenty-nine passing reports
+and two expected diagnostic refusals replayed after cleanup.
+[Later navigation evidence](docs/native-inherited-frames-verification.md#later-navigation-to-aboutblank),
+[Korean lesson](study/index.html#c09-worker-contexts)
+
+## 2026-11-25 checkpoint — C09 inherited-frame review fixes
+
+The Android retained replay checks two runs together. It requires
+distinct run tags and four profile names, valid matching installed APK
+digests, matching SDK, OS and WebView versions, and the same frame source
+and document set.
+
+Retained replay on both platforms checks the secure-context and
+service-worker registration method observations for each inherited
+child. Exploratory collection records the observed capability values.
+The original reports replay through the updated verifiers using their
+shared native build source archive.
+
+This is an offline evidence verification follow-up for SPEC §8 and §9.
+The 38 fixture tests and `pnpm run check` passed. The two example build
+directories went to the Trash. Twenty-three passing reports and two
+expected diagnostic failures replayed after cleanup.
+[Paired inherited frame evidence](docs/native-inherited-frames-verification.md),
+[Korean lesson](study/index.html#c09-worker-contexts)
+
+## 2026-11-25 checkpoint — C09 inherited frames under the explicit source
+
+The paired frame probes reuse their worker evidence collector for an
+initial `about:blank` child and a `srcdoc` child. Each has its own parent
+WebView. The guarded loader uses the app's literal origin in `frame-src`
+and delivers `worker-src 'none'` on the parent response.
+
+Two retained runs per platform show that both children start with the
+parent origin. Each control worker returns its marker with one loader
+receipt. The guarded workers report rejection and a trusted enforcing
+event with zero worker script receipts. Both child types report a secure
+context. The service-worker registration method is available in Android
+and unavailable at the tested iOS custom origin.
+
+One Android collection records a rejected blank control worker after
+its script receipt. The strict verifier rejects the diagnostic and a
+new run of the same APK passes. Both artifacts also pass a fresh check
+of the default document set. The six preceding explicit-origin reports
+retain their build source archive.
+
+This concerns SPEC §8 and §9. Broader C09 paths and existing-store
+admission, locality controls and the final native contract remain open.
+Native progress is 6/44. Both builds, Android lint, 29 fixture tests and
+`pnpm run check` passed. The owned devices stopped and six generated
+directories went to the Trash. Twenty-three passing reports and two
+expected diagnostic failures replayed after cleanup.
+[Paired inherited frame evidence](docs/native-inherited-frames-verification.md),
+[Korean lesson](study/index.html#c09-worker-contexts)
+
+## 2026-11-25 checkpoint — C09 explicit frame source and trust flag
+
+The Android review follow-up requires a JSON boolean `true` on both
+enforcing CSP event types. The hardened checker replays the prior Android
+worker event reports with their archived build inputs. Changing either
+trust flag to numeric `1` makes the current verifier fail.
+
+The next C09 fixture test uses the literal app origin in `frame-src`.
+Two collections per platform retain the ordinary guarded frame, its
+worker refusal, and enforcing refusals for the guarded blob and data
+frames. Both control workers return markers with loader receipts. On iOS
+the same signed app with `frame-src 'self'` starts the blob frame under
+the guarded policy. The initial Android run's blob control reports a
+worker rejection despite a script receipt. The verifier rejects it and
+both later runs of the same APK pass.
+
+This covers the tested local frame paths in SPEC §8 and §9. The broader
+generated-document policy, remaining C09 and C10 cases and production
+writer ownership stay open. Native progress is 6/44.
+Both native builds, Android lint, 23 fixture tests and `pnpm run check`
+passed. The owned devices stopped and six generated directories went to
+the Trash. Fifteen passing reports and the expected Android diagnostic
+failure replayed after cleanup.
+[Explicit frame source results](docs/ios-local-document-frames-verification.md#explicit-frame-source-follow-up),
+[Android trust flag and report replay](docs/android-local-document-frames-verification.md#boolean-trust-and-explicit-frame-source)
+
+## 2026-11-25 checkpoint — C09 iOS review fixes
+
+The iOS review found four issues in the frame experiment. The shared
+script now sends worker results and enforcement events separately and
+collects both until the parent detaches its frame. A JavaScript check
+delivers the CSP event after the result to verify the late event is kept.
+The iOS checker verifies both retained runs as a pair and pins the `data`
+scheme on the enforcing event. Host tests exercise parent, store, child
+start and worker evidence independently.
+
+Two runs on each owned device repeat the frame outcomes with separate
+worker entries. The runs use iOS 26.4.1 and Android 17 with WebView
+145.0.7632.218. The iOS pair passes its same-app, same-environment and
+distinct-store checks. The earlier iOS and reviewed Android inputs share
+a source archive. The initial Android archive also replays.
+
+This concerns SPEC §8 and §9. The common generated-document policy and
+the remaining C09 and C10 controls stay open. Native progress is 6/44.
+The iOS build, Android assemble and lint, 19 fixture tests, and the root
+`pnpm run check` passed. Both owned devices stopped. Six generated output
+directories went to the Trash, and all ten reports replayed after cleanup.
+[iOS review follow-up](docs/ios-local-document-frames-verification.md#review-follow-up),
+[Android shared worker event follow-up](docs/android-local-document-frames-verification.md#shared-worker-event-follow-up)
+
+## 2026-11-25 checkpoint — Paired iOS generated document frames
+
+The iOS fixture serves the reviewed Android scripts through a local
+`moonpool://` scheme handler. It uses a fresh identified cookie-denied
+store per mode and a separate parent WebView per frame. Both native
+cookie sources confirm an empty store before the corresponding load.
+
+In both retained collections the guarded data frame reports an enforcing
+frame refusal. The guarded regular and blob frames start with the parent
+origin and report an enforcing worker refusal without a loader receipt.
+Their control workers each return the fixture marker after one loader
+receipt. The tested Android configuration also blocks the blob frame at
+the frame-policy step. The strict retained checks and four host tests pin
+the iOS observations.
+
+This covers the dedicated iOS 26.4.1 simulator and concerns SPEC §8 and
+§9. The common generated-document policy, remaining C09 and C10 controls,
+and production writer ownership remain open. Native progress is 6/44.
+The root check passed 1,134 TypeScript tests and nine shared Python tests,
+typechecks, lint and both example builds. The owned simulator shut down.
+The Simulator build and both example outputs went to the Trash. The iOS
+and reviewed Android reports replayed after cleanup.
+[iOS generated-frame results](docs/ios-local-document-frames-verification.md),
+[Korean lesson](study/index.html#c09-local-document-frames-ios)
+
+## 2026-11-24 checkpoint — Generated frame review fixes
+
+The maintainer requested all three P2 fixes and the P3 documentation
+fix. Each generated-frame trial now uses its own parent WebView and
+entry document. The fixture records every frame-src event in the
+bounded window and reports actual child script starts before worker
+results. The documentation identifies DOM MessageEvent.origin as the
+source of the observed message origin.
+
+Both reviewed Android WebView collections pass strict retained
+verification. Blob and data report enforced frame policy events and no
+child starts. The regular same-origin frame continues to execute and
+reports its worker denial separately. Each of the two worker controls
+has its own script receipt. The original reports replay from the
+bundled exact-source archive.
+
+Android assemble and lint, all five host tests and the final root check
+pass. The emulator stopped after collection. This concerns SPEC §8 and
+§9. Paired iOS generated-frame evidence and the remaining C09/C10
+controls stay open. Native progress remains 6/44.
+Five generated build and cache directories went to the Trash, and all
+four reports replayed after cleanup.
+[Generated-frame review follow-up](docs/android-local-document-frames-verification.md#review-follow-up)
+
+## 2026-11-24 checkpoint — Android generated document frames
+
+The maintainer resumed the remaining C09 document checks. The Android
+fixture compares a regular same-origin iframe with generated blob and
+data documents in fresh control and guarded profiles. Android 17/API
+37 and WebView 145.0.7632.218 run the final artifact twice. The controls
+execute all three frames. The guarded frame-src policy blocks both
+generated documents; the ordinary same-origin frame executes and its
+worker is blocked before the loader receives the script request.
+
+The initial parallel diagnostic could not assign the redacted data
+frame violation. The final fixture attaches and detaches each frame
+separately and captures the enforcing event in the data-frame window.
+Both retained verifiers and Android assemble and lint pass. The app
+stopped and the owned emulator shut down. This concerns SPEC §8 and §9.
+Continue at paired iOS frame evidence, the remaining locality and document
+controls, and production writer ownership. Native progress remains 6/44.
+The final root check passes 1,134 TypeScript tests, nine shared Python
+tests, typechecks, lint and both builds. Three new host tests pass under
+Python optimization. Five generated output directories went to Trash
+and both retained reports were reverified after cleanup.
+[Android generated-frame results](docs/android-local-document-frames-verification.md),
+[Korean lesson](study/index.html#c09-local-document-frames)
+
+## 2026-11-24 checkpoint — C09/C10 publication and host ownership audit
+
+The maintainer requested logical commits, publication to master and the
+next ownership step. Seven commits cover the Android worker admission,
+worker prevention, inherited documents, Android profile ownership,
+paired retirement, paired writer-order probes and shared documentation.
+The remote master tip was verified at `68a5bc8`. The root check, all
+33 probe host tests, the JavaScript token test and 23 retained reports
+passed. The two generated browser dist directories went to the Trash.
+
+The next repository audit at that tip finds all 76 tracked native-language
+files under experiments. The new ownership note records which store
+selection, policy and cookie mutation paths must be accounted for in
+the actual host. This applies the existing unsupported-configuration
+rule and keeps production writer exclusion pending T38/T39 and T56.
+This concerns SPEC §8 and §9. Native progress remains 6/44.
+[Native writer ownership checkpoint](docs/native-writer-ownership-verification.md)
 
 ## 2026-11-24 checkpoint — Regenerable local outputs moved to Trash
 
